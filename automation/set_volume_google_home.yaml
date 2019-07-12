@@ -1,0 +1,59 @@
+- id: set_google_home_volume_early_evening
+  alias: 'Volume: Set Google Home early evening'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '19:00:00'
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.living_room_home
+        volume_level: 0.4
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.google_home_mini
+        volume_level: 0.4
+
+- id: set_google_home_volume_late_evening
+  alias: 'Volume: Set Google Home late evening'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '20:30:00'
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.living_room_home
+        volume_level: 0.2
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.google_home_mini
+        volume_level: 0.2
+
+- id: set_google_home_volume_early_morning
+  alias: 'Volume: Set Google Home AM'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '07:00:00'
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.living_room_home
+        volume_level: 0.6
+
+- id: set_google_home_volume_early_morning
+  alias: 'Volume: Set Google Home Mini AM'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '09:00:00'
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.google_home_mini
+        volume_level: 0.5

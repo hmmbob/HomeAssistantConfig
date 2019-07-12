@@ -1,0 +1,69 @@
+project_id: !secret google_assistant_project_id
+api_key: !secret google_assistant_api_key
+expose_by_default: false
+exposed_domains:
+  - climate
+entity_config:
+## Living Room
+  climate.woonkamer:
+    name: "Toon"
+    expose: true
+    room: "Living Room"
+  switch.staande_lamp:
+    name: "Standing light"
+    expose: true
+    room: "Living Room"
+  switch.grijze_lamp:
+    name: "Gray lamp"
+    expose: true
+    room: "Living Room"
+    aliases:
+      - "Gray light"
+      - "TV Light"
+      - "Grey light"
+      - "Grey lamp"
+  switch.blauwe_lamp:
+    name: "Blue lamp"
+    expose: true
+    room: "Living Room"
+    aliases:
+      - "Blue light"
+      - "Stool Light"
+  light.window_level:
+    name: "Window light"
+    expose: true
+    room: "Living Room"
+  scene.avond:
+    name: "Cosy lights"
+    expose: true
+    room: "Living Room"
+##Dining Room
+  light.eetkamer_level:
+    name: "Dining room"
+    expose: true
+    room: "Dining Room"
+  scene.etenstijd:
+    name: "Dinner time"
+    expose: true
+    room: "Dining Room"
+##Attic
+  cover.zolder:
+    name: "Attic"
+    expose: true
+    room: "Attic"
+    aliases:
+      - "Cover"
+## Others 
+#  switch.aquarium:
+#    name: "Aquarium"
+#    expose: true
+  switch.schuur_1:
+    name: "Garden"
+    expose: true
+    room: "Garden"
+#  switch.kerstboom:
+#    name: "Christmas lights"
+#    expose: true
+#    aliases:
+#      - "Christmas tree"
+#      - "Tree"

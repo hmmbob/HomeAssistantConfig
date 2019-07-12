@@ -1,0 +1,33 @@
+expose_by_default: true
+exposed_domains:
+ - light
+ - switch
+entities:
+  switch.staande_lamp:
+    name: "Staande lamp"
+    hidden: false
+  switch.grijze_lamp:
+    name: "Grijze lamp"
+    hidden: false
+  switch.blauwe_lamp:
+    name: "Blauwe lamp"
+    hidden: false
+#  switch.aquarium:
+#    name: "Aquarium"
+#    hidden: false
+  light.window_level:
+    name: "Vensterbank"
+    hidden: false
+  light.eetkamer_level:
+    name: "Eetkamer"
+    hidden: false
+  switch.eetkamer_switch:
+    hidden: true
+  switch.schuur_all:
+    hidden: true
+  switch.schuur_1:
+    hidden: true
+  switch.schuur_2:
+    hidden: true
+  switch.window:
+    hidden: true

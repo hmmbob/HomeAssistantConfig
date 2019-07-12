@@ -1,0 +1,58 @@
+##########################
+## Trash
+##########################
+- alias: 'Afval: Melding vandaag'
+  id: melding_afval_vandaag
+  initial_state: true
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '05:00:00'
+  condition:
+    - condition: state
+      entity_id: input_boolean.notify_trash
+      state: 'on'
+    - condition: template
+      value_template: "{{ states('sensor.trash_today') != 'Geen' }}"
+    - condition: template
+      value_template: "{{ states.sensor.trash_today.state | trim != '' }}"
+  action:
+    - service: notify.google
+      data_template:
+        title: 'Afvalinzameling'
+        message: 'Vandaag wordt het {{ states.sensor.trash_today.state }} opgehaald.'
+      data:
+        data:
+          tag: 'notification-trash'
+
+- alias: 'Afval: Melding morgen'
+  id: melding_afval_vandaag
+  initial_state: true
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '19:30:00'
+  condition:
+    - condition: state
+      entity_id: input_boolean.notify_trash
+      state: 'on'
+    - condition: template
+      value_template: "{{ states('sensor.trash_tomorrow') != 'Geen' }}"
+    - condition: template
+      value_template: "{{ states.sensor.trash_tomorrow.state | trim != '' }}"
+  action:
+    - service: notify.google
+      data_template:
+        title: 'Afvalinzameling'
+        message: 'Morgen wordt het {{ states.sensor.trash_tomorrow.state }} opgehaald.'
+      data:
+        data:
+          tag: 'notification-trash'
+    - condition: state
+      entity_id: input_boolean.notify_trash_voice
+      state: 'on' 
+    - service: tts.google_say
+      entity_id: media_player.living_room_home
+      data_template:
+        message: 'Morgen wordt het {{ states.sensor.trash_tomorrow.state }} opgehaald.'
+        language: 'nl'

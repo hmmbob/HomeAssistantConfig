@@ -1,0 +1,376 @@
+resources:
+  - url: /local/mini-media-player.js?v=1.1.3
+    type: module
+  - url: /local/slider-entity-row.js?v=46be70e
+    type: js
+  - url: /local/monster-card.js?v=74fb4dc
+    type: js
+  - url: /local/weather-card.js
+    type: module
+  - url: https://unpkg.com/moment@2.24.0/moment.js
+    type: js
+  - url: /local/postnl-card.js?v=0.9.5
+    type: module
+
+title: Home sweet home
+views:
+####################
+# Frontpage        #
+#################### 
+  - path: home
+    title: Home
+    cards:
+      - id: 8ad5b7f112346578bccee468106c7e7  # Automatically created id
+        type: custom:weather-card
+        entity: weather.dark_sky
+        icons: "/local/icons/weather_icons/animated/"
+    
+      - id: 62c63037e3954e7291db6acad7199277  # Automatically created id
+        type: glance
+        title: Huishoudelijk
+        show_name: true
+        show_state: true
+        column_width: calc(100% / 3)
+        entities:
+          - entity: sensor.trash_today
+          - entity: sensor.trash_tomorrow
+
+      - id: 619239c00d7247e7bb0659ec0799de51  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: picture-entity
+                entity: switch.staande_lamp
+                tap_action: 
+                  action: toggle
+                image: /local/icons/staandelamp.jpg
+                state_image:
+                  on: /local/icons/staandelamp.jpg
+                state_filter:
+                  on: drop-shadow(-5px 0 10px gold)
+                  off: brightness(80%) saturate(0.8)
+              - type: vertical-stack
+                cards:
+                  - type: picture-entity
+                    entity: switch.grijze_lamp
+                    tap_action: 
+                      action: toggle
+                    image: /local/icons/tvmeubel.jpg
+                    state_image:
+                      "on": /local/icons/tvmeubel.jpg
+                    state_filter:
+                      "on": drop-shadow(-5px 0 10px gold)
+                      "off": brightness(80%) saturate(0.8)
+#                  - type: picture-entity
+#                    entity: switch.aquarium
+#                    tap_action: 
+#                      action: toggle
+#                    image: /local/icons/aquarium1.jpg
+#                    state_image:
+#                      on: /local/icons/aquarium1.jpg
+#                    state_filter:
+#                      on: drop-shadow(-5px 0 10px gold)
+#                      off: brightness(80%) saturate(0.8)
+      - id: 619239c00d724123456659ec0799de51  # Automatically created id
+        type: glance
+        show_name: true
+        show_state: false
+        column_width: calc(100% / 4)
+        entities:
+          - entity: scene.etenstijd
+            tap_action: 
+              action: call-service
+              service: scene.turn_on
+              service_data: 
+                entity_id: scene.etenstijd
+          - entity: scene.avond
+            tap_action: 
+              action: call-service
+              service: scene.turn_on
+              service_data: 
+                entity_id: scene.avond
+          - entity: scene.alles_uit
+            tap_action: 
+              action: call-service
+              service: scene.turn_on
+              service_data: 
+                entity_id: scene.alles_uit
+          - entity: switch.blauwe_lamp
+            tap_action: 
+              action: toggle
+
+      - id: 619239c00d123453456659ec0799de51  # Automatically created id
+        type: entities
+        entities:
+          - entity: light.eetkamer_level
+            name: Eetkamer
+            type: custom:slider-entity-row
+          - entity: light.window_level
+            name: Voorraam
+            type: custom:slider-entity-row
+
+      - type: thermostat
+        entity: climate.woonkamer
+
+      - type: sensor
+        entity: sensor.toon_room_temp
+        name: Kamertemperatuur
+        graph: line
+        detail: 1
+
+      - id: 2ad3bc539cf545968700666666423a79  # Automatically created id
+        type: entities
+        title: Zolder
+        show_header_toggle: false
+        entities:
+          - cover.zolder
+
+      - type: "custom:postnl-card"
+        delivery: sensor.postnl_delivery
+        distribution: sensor.postnl_distribution
+        letters: sensor.postnl_letters
+        hide:
+          delivered: false
+          first_letter: false
+          header: false
+        date_format: "DD MMM YYYY"
+        time_format: "HH:mm"
+        past_days: 1
+
+####################
+# Locatie          #
+#################### 
+  - path: locatie
+    title: Locatie
+    icon: mdi:crosshairs-gps
+    cards:
+      - id: e6e3daf3b22243d4a19300690b44436f  # Automatically created id
+        type: glance
+        title: Device Trackers
+        show_header_toggle: false
+        entities:
+          - device_tracker.birgit_bt
+          - device_tracker.bob_bt
+          - device_tracker.bob_s9
+          - person.bob
+
+      - id: e6e3daf3b33343d4a19300690b44436f  # Automatically created id
+        type: glance
+        title: Reistijden
+        show_header_toggle: false
+        entities:
+          - entity: sensor.reistijd_bob_naar_huis
+            name: Bob naar huis
+          - entity: sensor.reistijd_thuis_werk
+            name: Thuis-Werk
+          - entity: sensor.reistijd_werk_thuis
+            name: Werk-Thuis
+
+      - id: e6e3daf3b44443d4a19300690b44436f  # Automatically created id
+        type: glance
+        title: Brandstoffen
+        show_header_toggle: false
+        entities:
+          - entity: sensor.benzine_z
+            icon: mdi:gas-station
+          - entity: sensor.benzine_u
+            icon: mdi:gas-station
+          - entity: sensor.diesel_z
+            icon: mdi:gas-station
+          - entity: sensor.diesel_u
+            icon: mdi:gas-station
+
+      - id: 292ef19cf20b459ca143f74463b7712c  # Automatically created id
+        type: picture-entity
+        title: Hmmbob
+        entity: camera.hmmbob
+        camera_image: camera.hmmbob
+        show_info: true
+        show_state: false
+        tap_action: 
+          action: more-info
+
+####################
+# Media            #
+#################### 
+  - path: media
+    title: Media
+    cards:
+      - id: 44e4220aba86438dbfa28c1cd8596265  # Automatically created id
+        type: custom:mini-media-player
+        entity: media_player.everywhere
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - id: bf273161ddb548b6945b270309dffdb5  # Automatically created id
+        type: custom:mini-media-player
+        entity: media_player.google_home_mini
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - id: f28f58c2e75548b289094031de93e872  # Automatically created id
+        type: custom:mini-media-player
+        entity: media_player.living_room_home
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - id: 1adcf5fd56964652981655b75c932632  # Automatically created id
+        type: custom:mini-media-player
+        entity: media_player.tv
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - id: 9a34bfa36b1a41a3971c0439a08774db  # Automatically created id
+        type: custom:mini-media-player
+        entity: media_player.soundbar
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+#      - type: custom:mini-media-player
+#        entity: media_player.spotify
+#        icon: 'mdi:spotify'
+#        artwork: cover
+#        artwork_border: true
+#        power_color: true
+#        scroll_info: true
+#        show_source: true
+
+#      - type: custom:mini-media-player
+#        entity: media_player.spotify_2
+#        icon: 'mdi:spotify'
+#        artwork: cover
+#        artwork_border: true
+#        power_color: true
+#        scroll_info: true
+#        show_source: true
+
+####################
+# Config           #
+####################      
+  - path: config
+    title: Config
+    icon: mdi:settings
+    cards:
+      - id: 069aeb9203024ec7b1d3154ae2f6e1e8  # Automatically created id
+        type: custom:monster-card
+        card:
+          type: entities
+          title: All automations
+          show_header_toggle: true
+        filter:
+          include:
+            - entity_id: automation.*
+
+      - id: fd2fe96669a54eaeaf30a50d09abc5bb  # Automatically created id
+        type: glance
+        title: Meldingen
+        show_header_toggle: true
+        entities:
+          - entity: input_boolean.notify_trash
+            tap_action: 
+              action: toggle
+            name: Afval push
+          - entity: input_boolean.notify_trash_voice
+            tap_action: 
+              action: toggle
+            name: Afval Voice
+          - entity: input_boolean.vacation_mode_home
+            tap_action: 
+              action: toggle
+            name: Vakantie thuis
+          - entity: input_boolean.vacation_mode_away
+            tap_action: 
+              action: toggle
+            name: Vakantie weg
+
+      - id: 0cfd8a64c9394cc699656da201bb9504  # Automatically created id
+        type: entities
+        title: Systeem
+        show_header_toggle: false
+        entities:
+          - sensor.ha_currently_installed
+          - sensor.eetkamer_power
+
+      - id: e0571d1974a74ebb853a1a8fb849cec0  # Automatically created id
+        type: custom:monster-card
+        card:
+          type: entities
+          title: Things that might be broken
+          show_header_toggle: false
+        filter:
+          include:
+            - state: unknown
+          exclude:
+            - entity_id: group.*
+
+      - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
+        type: entities
+        title: PIR
+        show_header_toggle: false
+        entities:
+          - binary_sensor.pir_sensor_motion
+          - sensor.pir_sensor_luminance
+          - sensor.batterij_pir
+          - input_boolean.eetkamer_on_movement
+          - input_boolean.woonkamer_on_movement
+
+      - id: c78f07f54176407b123456923a45f10a  # Automatically created id
+        type: entities
+        title: Statussen
+        show_header_toggle: false
+        entities:
+          - binary_sensor.blauwe_lamp_status
+          - binary_sensor.grijze_lamp_status
+          - binary_sensor.staande_lamp_status
+          - binary_sensor.bt_boven
+          - binary_sensor.bt_beneden
+
+      - id: 2ad3bc539cf545968700195625423a79  # Automatically created id
+        type: entities
+        title: Tuin
+        show_header_toggle: false
+        entities:
+          - switch.schuur_1
+          - sensor.schuur_power_1
+          - sensor.schuur_energy_1
+
+      - id: e0571d19712345bb853a1a8fb8412345  # Automatically created id
+        type: custom:monster-card
+        card:
+          type: entities
+          title: Smartmeter
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: sensor.toon_p1_*
+
+      - id: e0571d19712345bb853a1a8fb849cec0  # Automatically created id
+        type: custom:monster-card
+        card:
+          type: entities
+          title: All Input Booleans
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: input_boolean.*

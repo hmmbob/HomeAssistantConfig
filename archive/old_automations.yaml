@@ -1,0 +1,209 @@
+##########################
+## Aquarium lights
+##########################
+- id: aquarium_turn_on_time
+  alias: 'Lights: Aquarium turn on'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '14:00:00'
+  action:
+    - delay: '00:{{ range(01,45) | random | int }}:00'
+    - service: homeassistant.turn_on 
+      entity_id: switch.aquarium
+    
+- id: aquarium_turn_off_time
+  alias: 'Lights: Aquarium turn off'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '22:30:00'
+  action:
+    - delay: '00:{{ range(01,29) | random | int }}:00'
+    - service: homeassistant.turn_off 
+      entity_id: switch.aquarium
+
+- id: turn_on_kerstverlichting
+  alias: "Lights: Kerstverlichting turn on"
+  initial_state: 'on'
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:30:00"
+  action:
+  - service: homeassistant.turn_on
+    entity_id: switch.kerstboom
+
+- id: turn_off_kerstverlichting
+  alias: "Lights: Kerstverlichting turn off"
+  initial_state: 'on'
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "01:00:00"
+  action:
+  - service: homeassistant.turn_off
+    entity_id: switch.kerstboom
+
+##########################
+## Kerstboom aan bij thuiskomst
+##########################
+- id: kerstboom_bij_thuiskomst
+  alias: 'Lights: Kerstboom aan bij thuiskomst'
+  initial_state: off
+  trigger:
+    - platform: state
+      entity_id: group.all_devices
+      to: 'home'
+      from: 'not_home'
+  condition:
+    - condition: time
+      after: '06:45:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: switch.kerstboom
+      state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kerstboom
+
+##########################
+## Kerstboom uit bij vertrek
+##########################
+- id: kerstboom_bij_vertrek
+  alias: 'Lights: Kerstboom uit bij vertrek'
+  initial_state: off
+  trigger:
+    - platform: state
+      entity_id: group.all_devices
+      to: 'not_home'
+      from: 'home'
+  condition:
+    - condition: time
+      after: '06:45:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: switch.kerstboom
+      state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.kerstboom
+
+
+##########################
+## Treininformatie
+##########################
+- id: Notification_trein_naar_Breda
+  alias: "Trein: Notificatie vertrektijd Oss naar Breda"
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.bob_s9
+    event: enter
+    zone: zone.stationoss
+  condition:
+  - condition: state
+    entity_id: input_boolean.notify_train
+    state: 'on'
+  - condition: time
+    after: 06:15:00
+    before: 08:30:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+#  - data_template:
+#      message: Vertrektijd {{ states.sensor.ossbreda.attributes.departure_time_actual
+#        }} vanaf spoor {{ states.sensor.ossbreda.attributes.departure_platform
+#        }}, aankomst om {{ states.sensor.ossbreda.attributes.arrival_time_actual
+#        }}. Volgende trein vertrekt om {{ states.sensor.ossbreda.attributes.next
+#        }}.
+#      title: 'Trein naar Breda: {{ states.sensor.ossbreda.attributes.status
+#        }}.'
+#    service: notify.pushbullet
+  - service: notify.google
+    data_template:
+      message: Vertrektijd {{ states.sensor.ossbreda.attributes.departure_time_actual
+        }} vanaf spoor {{ states.sensor.ossbreda.attributes.departure_platform
+        }}, aankomst om {{ states.sensor.ossbreda.attributes.arrival_time_actual
+        }}. Volgende trein vertrekt om {{ states.sensor.ossbreda.attributes.next
+        }}.
+      title: 'Trein naar Breda: {{ states.sensor.ossbreda.attributes.status
+        }}.'
+    data:
+      data:
+        tag: 'notification-trein-naar-breda'
+
+- id: Notification_vertrek_naar_Oss
+  alias: "Trein: Notificatie vertrektijd Breda naar Oss"
+  trigger:
+  - entity_id: sensor.bredaoss
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_boolean.notify_train
+    state: 'on'
+  - condition: and
+    conditions:
+    - after: '15:00:00'
+      before: '16:30:00'
+      condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    - condition: state
+      entity_id: device_tracker.bob_s9
+      state: work
+  action:
+#  - data:
+#      message: Vertrektijd {{ states.sensor.bredaoss.attributes.departure_time_actual
+#        }} vanaf spoor {{ states.sensor.bredaoss.attributes.departure_platform
+#        }}, aankomst om {{ states.sensor.bredaoss.attributes.arrival_time_actual
+#        }} op spoor {{ states.sensor.bredaoss.attributes.arrival_platform }}.
+#        Volgende trein vertrekt om {{ states.sensor.bredaoss.attributes.next
+#        }}.
+#      title: 'Trein naar Den Bosch: {{ states.sensor.bredaoss.attributes.status
+#        }}.'
+#    service: notify.pushbullet
+  - service: notify.google
+    data_template:
+      message: Vertrektijd {{ states.sensor.bredaoss.attributes.departure_time_actual
+        }} vanaf spoor {{ states.sensor.bredaoss.attributes.departure_platform
+        }}, aankomst om {{ states.sensor.bredaoss.attributes.arrival_time_actual
+        }} op spoor {{ states.sensor.bredaoss.attributes.arrival_platform }}.
+        Volgende trein vertrekt om {{ states.sensor.bredaoss.attributes.next
+        }}.
+      title: 'Trein naar Oss: {{ states.sensor.bredaoss.attributes.status
+        }}.'
+    data:
+      data:
+        tag: 'notification-trein-naar-oss'
+
+##########################
+## Update Home Assistant
+##########################
+- id: Update_notifications
+  alias: 'System: Update notifications'
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: updater.updater
+  action:
+  - service: persistent_notification.create
+    data_template:
+      message: Home Assistant  {{ states.updater.updater.state }}  is now available.
+        You have {{states.sensor.ha_currently_installed.state }} installed.
+      title: Update available
+  - service: notify.google
+    data_template:
+      message: Home Assistant  {{ states.updater.updater.state }}  is now available.
+        You have {{states.sensor.ha_currently_installed.state }} installed.
+      title: Update available
+

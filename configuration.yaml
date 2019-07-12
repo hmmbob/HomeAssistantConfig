@@ -1,0 +1,187 @@
+#################################################################
+## Home Assistant Core
+#################################################################
+homeassistant:
+  name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: 19
+  unit_system: metric
+  time_zone: Europe/Amsterdam
+  customize: !include customize.yaml
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - 127.0.0.1
+        - 192.168.88.0/24
+    - type: legacy_api_password
+      api_password: !secret http_api_password
+
+logger:
+  default: warn
+
+lovelace:
+  mode: yaml
+
+mqtt:
+  broker: !secret mqtt_broker
+  port: !secret mqtt_port
+  client_id: home-assistant
+  username: !secret mqtt_user
+  password: !secret mqtt_password
+
+zwave:
+  usb_path: /dev/ttyACM0
+
+config:
+default_config:
+map:
+person:
+sun:
+system_health:
+
+#################################################################
+## Includes
+#################################################################  
+automation: !include_dir_merge_list automation/
+binary_sensor: !include binary_sensor.yaml
+device_tracker: !include device_tracker.yaml
+emulated_hue: !include emulated_hue.yaml
+google_assistant: !include googleassistant.yaml
+group: !include groups.yaml
+input_boolean: !include input_boolean.yaml
+rss_feed_template: !include rss.yaml
+scene: !include scenes.yaml
+sensor: !include sensors.yaml  
+switch: !include switch.yaml
+zone: !include zones.yaml
+
+#################################################################
+## Frontend
+#################################################################  
+http:
+#  ssl_certificate: !secret http_ssl_certificate
+#  ssl_key: !secret http_ssl_key
+#  base_url: !secret http_base_url
+#  ip_ban_enabled: True
+#  login_attempts_threshold: 3
+  server_port: !secret http_server_port
+
+frontend:
+
+#panel_iframe:
+#  tasmota:
+#    title: 'TasmoAdmin'
+#    url: !secret iframe_url
+#    icon: mdi:lightbulb
+
+logbook:
+  exclude:
+    entities:
+      - binary_sensor.pir_sensor_motion
+
+recorder:
+  purge_interval: 1
+  purge_keep_days: 10
+  include:
+    domains:
+      - light
+      - switch
+      - device_tracker
+      - climate
+    entities:
+      - binary_sensor.pir_sensor_motion
+      - sensor.pir_sensor_luminance
+      - sensor.reistijd_thuis_werk
+      - sensor.reistijd_werk_thuis
+      - sensor.benzine_z
+      - sensor.diesel_z
+      - sensor.benzine_u
+      - sensor.diesel_u
+      - sensor.toon_room_temp
+  exclude:
+    entities:
+      - switch.schuur_2
+      - switch.schuur_all
+      - switch.eetkamer_switch
+
+history:
+  include:
+    domains:
+      - light
+      - switch
+      - device_tracker
+      - climate
+    entities:
+      - binary_sensor.pir_sensor_motion
+      - sensor.pir_sensor_luminance
+      - sensor.reistijd_thuis_werk
+      - sensor.reistijd_werk_thuis
+      - sensor.benzine_z
+      - sensor.diesel_z
+      - sensor.benzine_u
+      - sensor.diesel_u
+      - sensor.toon_room_temp
+  exclude:
+    entities:
+      - switch.schuur_2
+      - switch.schuur_all
+      - switch.eetkamer_switch
+
+#################################################################
+## Components
+#################################################################  
+camera:
+  name: Hmmbob
+  platform: generic
+  still_image_url: !secret google_maps_url
+  limit_refetch_to_url_change: true
+
+cast:
+  media_player:
+    - host: 192.168.88.11 #CC
+    - host: 192.168.88.12 #GH
+    - host: 192.168.88.13 #HM
+    - host: 192.168.88.14 #SB
+
+climate:
+  platform: toon_hmmbob
+  name: Woonkamer
+  host: !secret toon_host
+  port: !secret toon_port
+  scan_interval: 10
+
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_token
+
+#google:
+#  client_id: !secret google_calendar_client_id
+#  client_secret: !secret google_calendar_client_secret
+
+#media_player:
+#  - platform: spotify
+#    client_id: !secret spotify_client_id
+#    client_secret: !secret spotify_client_secret
+
+notify:
+  - name: Google
+    platform: html5
+    vapid_pub_key: !secret gcm-vapid-public-key
+    vapid_prv_key: !secret gcm-vapid-private-key
+    vapid_email: !secret gcm-vapid-email
+
+owntracks:
+  max_gps_accuracy: 250
+  waypoints: false
+
+tts:
+  - platform: google_translate
+    service_name: google_say
+    language: 'nl'
+    
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api
+    mode: daily

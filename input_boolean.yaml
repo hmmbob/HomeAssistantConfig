@@ -1,0 +1,40 @@
+bob_werk_verlaten:
+  name: Bob werk verlaten
+  initial: off
+  icon: mdi:airplane-takeoff
+notify_trash:
+  name: 'Push-meldingen over afval'
+  initial: 'on'
+  icon: mdi:message-bulleted
+notify_trash_voice:
+  name: 'Voice-meldingen over afval'
+  initial: 'on'
+  icon: mdi:google-home
+#notify_train:
+#  name: 'Meldingen over treinen'
+#  initial: 'on'
+#  icon: mdi:bell-ring
+#sunset_lights:
+#  name: Activate Sunset lights
+#  initial: off
+#  icon: mdi:weather-sunset-down
+eetkamer_on_movement:
+  name: 'Eetkamer aan via PIR'
+  initial: 'off'
+  icon: mdi:ceiling-light
+vacation_mode_home:
+  name: 'Vakantie (thuis)'
+#  initial: 'off'
+  icon: mdi:home-map-marker
+vacation_mode_away:
+  name: 'Vakantie (weg)'
+#  initial: 'off'
+  icon: mdi:home-lock
+woonkamer_on_movement:
+  name: 'Woonkamer aan via PIR'
+  initial: 'off'
+  icon: mdi:lightbulb-on-outline
+toon_on_movement:
+  name: 'Toon aan via PIR'
+  initial: 'off'
+  icon: mdi:thermostat

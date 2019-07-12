@@ -1,0 +1,75 @@
+device_tracker.birgit_bt:
+  friendly_name: Birgit (BT)
+  icon: mdi:bluetooth
+device_tracker.bob_moto:
+  friendly_name: Bob
+  icon: mdi:human-male
+device_tracker.bob_s9:
+  friendly_name: Bob
+  icon: mdi:human-male
+device_tracker.bob_bt:
+  friendly_name: Bob (BT)
+  icon: mdi:bluetooth
+group.all_automations:
+  hidden: false
+  friendly_name: Automations
+group.all_devices:
+  hidden: false
+  friendly_name: People
+media_player.tv:
+  friendly_name: Chromecast TV
+#switch.aquarium:
+#  icon: mdi:lightbulb-outline
+switch.staande_lamp:
+  icon: mdi:lightbulb-outline
+switch.tv_meubel:
+  icon: mdi:lamp
+light.eetkamer_level:
+  friendly_name: Eetkamertafel
+  icon: mdi:ceiling-light
+sensor.eetkamer_power:
+  friendly_name: Eetkamer Power
+  icon: mdi:power-plug
+switch.eetkamer_switch:
+  friendly_name: Eetkamer schakelaar
+  icon: mdi:lightbulb
+input_number.brightness_eetkamer:
+  friendly_name: Eetkamertafel brightness
+  icon: mdi:ceiling-light
+sensor.eetkamer_alarm_level:
+  hidden: true
+sensor.eetkamer_alarm_type:
+  hidden: true
+sensor.eetkamer_energy:
+  hidden: true
+sensor.eetkamer_exporting:
+  hidden: true
+sensor.eetkamer_power_management:
+  hidden: true
+sensor.eetkamer_sourcenodeid:
+  hidden: true
+sensor.schuur_power_1:
+  friendly_name: Schuur Power
+  icon: mdi:power-plug
+switch.schuur_1:
+  icon: mdi:gate
+scene.etenstijd:
+  icon: mdi:silverware-variant
+scene.avond:
+  icon: mdi:lightbulb-on-outline
+scene.alles_uit:
+  icon: mdi:lightbulb
+sensor.ha_currently_installed:
+  icon: mdi:home-assistant
+sensor.sunrise_time:
+  icon: mdi:weather-sunset-up
+sensor.sunset_time:
+  icon: mdi:weather-sunset-down
+sensor.trash_today:
+  friendly_name: Vandaag
+  icon: mdi:delete
+sensor.trash_tomorrow:
+  friendly_name: Morgen
+  icon: mdi:delete
+switch.kerstboom:
+  icon: mdi:pine-tree

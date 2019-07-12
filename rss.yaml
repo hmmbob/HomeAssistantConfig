@@ -1,0 +1,12 @@
+# Accessible on <Home Assistant url>/api/rss_template/sensors
+# Example: https://localhost:8123/api/rss_template/sensors
+sensors:
+  requires_api_password: false
+  title: "Sensors {{ as_timestamp(now())|timestamp_custom('%H:%M', True) }}"
+  items:
+  - title: "Bob is {% if is_state('person.bob','home') %}thuis.{% elif is_state('person.bob','work') %}op het werk.{% else %}ergens onderweg ( {{states.sensor.reistijd_bob_naar_huis.state}} min, {{states.sensor.reistijd_bob_naar_huis.attributes.distance| round(1)}} km.)){% endif %}"
+    description: "Bob is {% if is_state('person.bob','home') %}thuis. Waarom kijk je dan hier ;-) ?{% elif is_state('person.bob','work') %}op het werk.{% else %}ergens onderweg ( {{states.sensor.reistijd_bob_naar_huis.state}} min over {{states.sensor.reistijd_bob_naar_huis.attributes.distance| round(1)}} kilometer.){% endif %}"
+  - title: "TINQ Benzine: (U) €{{states.sensor.benzine_u.state|round(2)}}, (Z) €{{states.sensor.benzine_z.state|round(2)}}"
+    description: "De TINQ benzine prijzen zijn voor (U) €{{states.sensor.benzine_u.state|round(2)}}, voor (Z) €{{states.sensor.benzine_z.state|round(2)}}.\n\n De TINQ diesel prijzen zijn voor (U) €{{states.sensor.diesel_u.state|round(2)}}, en voor (Z) €{{states.sensor.diesel_z.state|round(2)}}."
+  - title: "TINQ Diesel: (U) €{{states.sensor.diesel_u.state|round(2)}}, (Z) €{{states.sensor.diesel_z.state|round(2)}}."
+    description: "De TINQ diesel prijzen zijn voor (U) €{{states.sensor.diesel_u.state|round(2)}}, voor (Z) €{{states.sensor.diesel_z.state|round(2)}}.\n\n De TINQ benzine prijzen zijn voor (U) €{{states.sensor.benzine_u.state|round(2)}}, en voor (Z) €{{states.sensor.benzine_z.state|round(2)}}."

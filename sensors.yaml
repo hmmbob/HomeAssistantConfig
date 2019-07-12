@@ -1,0 +1,226 @@
+##########################
+## Systeem sensoren
+##########################
+- platform: version
+  name: HA Currently Installed
+
+#- platform: cert_expiry
+#  host: !secret cert_expiry_host
+#  port: !secret http_server_port
+
+##########################
+## Utility sensoren
+##########################
+
+- platform: template
+  sensors:
+    batterij_pir:
+      entity_id: zwave.pir
+      friendly_name: 'PIR Batterij' 
+      value_template: >
+          {%- if states.zwave.pir.attributes.battery_level is defined %}
+              {{ states.zwave.pir.attributes.battery_level|round }}
+          {% else %}
+              0
+          {%- endif %}
+      unit_of_measurement: '%'
+      icon_template: >
+          {%- if states.zwave.pir.attributes.battery_level is defined %}
+             {% set battery_level = states.zwave.pir.attributes.battery_level|int %}
+             {% set battery_round = (battery_level / 10) |int * 10 %}
+             {% if battery_round >= 100 %}
+               mdi:battery
+             {% elif battery_round > 0 %}
+               mdi:battery-{{ battery_round }}
+             {% else %}
+              mdi:battery-alert
+             {% endif %}
+          {% else %}
+              mdi:battery-alert
+          {% endif %}
+
+##########################
+## PostNL
+##########################
+
+- platform: postnl
+  name: PostNL
+  username: !secret postnl_username
+  password: !secret postnl_password
+  scan_interval: 3600
+
+##########################
+## Toon sensoren
+##########################
+
+- platform: toon_boilerstatus
+  host: !secret toon_host
+  port: !secret toon_port
+  scan_interval: 60
+  resources:
+#    - boilersetpoint
+#    - boilerintemp
+#    - boilerouttemp
+#    - boilerpressure
+#    - boilermodulationlevel
+    - roomtemp
+#    - roomtempsetpoint
+
+- platform: toon_smartmeter
+  host: !secret toon_host
+  port: !secret toon_port
+  scan_interval: 15
+  resources:
+#    - gasused
+#    - gasusedcnt
+    - elecusageflowlow
+    - elecusagecntlow
+    - elecusageflowhigh
+    - elecusagecnthigh
+
+##########################
+## Waze sensoren
+##########################
+
+- platform: waze_travel_time
+  name: Reistijd Bob naar huis
+  origin: device_tracker.bob_s9
+  destination: zone.home
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Reistijd Thuis-Werk
+  origin: zone.home
+  destination: zone.work
+  region: 'EU'
+  scan_interval: 1800
+
+- platform: waze_travel_time
+  name: Reistijd Werk-Thuis
+  origin: zone.work
+  destination: zone.home
+  region: 'EU'
+  scan_interval: 1800
+
+##########################
+## Tinq sensoren
+##########################
+
+- platform: scrape
+  resource: !secret scrape_url_z
+  name: 'Diesel Z'
+  select: 'tr:nth-of-type(2) td:nth-of-type(2)'
+  value_template: '{{ value[2:] | replace (",", ".") }}'
+  unit_of_measurement: €
+  scan_interval: 10800
+
+- platform: scrape
+  resource: !secret scrape_url_z
+  name: 'Benzine Z'
+  select: 'tr:nth-of-type(3) td:nth-of-type(2)'
+  value_template: '{{ value[2:] | replace (",", ".") }}'
+  unit_of_measurement: €
+  scan_interval: 10800
+
+- platform: scrape
+  resource: !secret scrape_url_u
+  name: 'Diesel U'
+  select: 'tr:nth-of-type(2) td:nth-of-type(2)'
+  value_template: '{{ value[2:] | replace (",", ".") }}'
+  unit_of_measurement: €
+  scan_interval: 10800
+
+- platform: scrape
+  resource: !secret scrape_url_u
+  name: 'Benzine U'
+  select: 'tr:nth-of-type(3) td:nth-of-type(2)'
+  value_template: '{{ value[2:] | replace (",", ".") }}'
+  unit_of_measurement: €
+  scan_interval: 10800
+
+##########################
+## Afval
+##########################
+- platform: rest
+  resource: !secret scrape_url_afval
+  name: Trash_Today
+  scan_interval: 3600
+  value_template: >
+    {% set now = as_timestamp(now()) %}
+    {% set today = now | timestamp_custom("%d/%m/%Y") %}
+    {% set containerType = value_json.days[ today ] %}
+    {% if containerType | trim != "" %}
+      {% set trash = value_json.legend[ containerType ] %}
+      {{ trash }}
+    {% else %}
+      Geen
+    {% endif %}
+- platform: rest
+  resource: !secret scrape_url_afval
+  name: Trash_Tomorrow
+  scan_interval: 3600
+  value_template: >
+    {% set now = as_timestamp(now()) %}
+    {% set oneDay = 86400 %}
+    {% set nextDay = now + oneDay %}
+    {% set tomorrow = nextDay | timestamp_custom("%d/%m/%Y") %}
+    {% set containerType = value_json.days[ tomorrow ] %}
+    {% if containerType | trim != "" %}
+      {% set trash = value_json.legend[ containerType ] %}
+      {{ trash }}
+    {% else %}
+      Geen
+    {% endif %}
+
+##########################
+## BT Detection
+##########################
+
+### Bob ###    
+- platform: mqtt
+  name: 'BT Beneden Bob'
+  state_topic: 'location/beneden/hmmbob'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  json_attributes_topic: 'location/beneden/hmmbob'
+
+- platform: mqtt
+  name: 'BT Boven Bob'
+#  state_topic: 'location/boven/8C:83:E1:AB:D5:3B'
+  state_topic: 'location/boven/hmmbob'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  json_attributes_topic: 'location/boven/hmmbob'
+
+- platform: min_max
+  name: "BT max Bob"
+  type: max
+  round_digits: 0
+  entity_ids:
+    - sensor.bt_boven_bob
+    - sensor.bt_beneden_bob
+
+### Birgit ###
+- platform: mqtt
+#  state_topic: 'location/beneden/04:F1:28:30:07:96'
+#  state_topic: 'location/beneden/88:B4:A6:7B:1F:31'
+  state_topic: 'location/beneden/bridget_jones_moto'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'BT Beneden Birgit'
+  json_attributes_topic: 'location/beneden/bridget_jones_moto'
+
+- platform: mqtt
+  state_topic: 'location/boven/bridget_jones_moto'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'BT Boven Birgit'
+  json_attributes_topic: 'location/boven/bridget_jones_moto'
+
+- platform: min_max
+  name: "BT max Birgit"
+  type: max
+  round_digits: 0
+  entity_ids:
+    - sensor.bt_boven_birgit
+    - sensor.bt_beneden_birgit

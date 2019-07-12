@@ -1,0 +1,28 @@
+- id: morning_briefing
+  alias: 'System: Morning briefing'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    platform: time
+    at: '05:20:00'
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+  - condition: state
+    entity_id: device_tracker.bob_s9
+    state: home
+  action:
+  - service: notify.google
+    data_template:
+      message: |
+        Vandaag komt de zon op om {{ as_timestamp(states.sun.sun.attributes.next_rising)  | timestamp_custom("%H:%M") }}. 
+        Momenteel: {{ states.sensor.dark_sky_summary.state }} en {{ states.sensor.dark_sky_temperature.state | int }}C. 
+        Vandaag: {{ states.sensor.dark_sky_summary_0.state }} Max temp {{ states.sensor.dark_sky_daytime_high_temperature_0.state | int }}C.
+      title: Morning Briefing
+    data:
+      data:
+        tag: 'morning-brief'

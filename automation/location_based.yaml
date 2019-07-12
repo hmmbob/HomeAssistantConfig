@@ -1,0 +1,238 @@
+##########################
+## BT Device tracker 
+##########################
+
+### Bob ###
+- alias: "Location: Bob BT Aanwezig"
+  id: "bob_bt_aanwezig"
+  initial_state: 'on'
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.bt_max_bob
+      above: 50
+  condition:  
+    condition: state
+    entity_id: device_tracker.bob_bt
+    state: not_home
+  action:
+    service: mqtt.publish
+    data:
+      topic: location/bob_bt
+      payload: "home"
+      retain: true
+
+- alias: "Location: Bob BT Afwezig"
+  id: "bob_bt_afwezig"
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.bt_max_bob
+    below: 15
+  condition:  
+    condition: state
+    entity_id: device_tracker.bob_bt
+    state: home
+  action:
+    service: mqtt.publish
+    data:
+      topic: location/bob_bt
+      payload: "not_home"
+      retain: true
+      
+- alias: "Location: Trigger BT to Away"
+  id: "bob_bt_trigger_away"
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: device_tracker.bob_s9
+    from: home
+    to: not_home
+  condition:  
+    condition: state
+    entity_id: device_tracker.bob_bt
+    state: home
+  action:
+    service: mqtt.publish
+    data:
+      topic: location/scan/depart
+      payload: '{"Reason":"Owntracks considers Hmmbob away"}'
+
+- alias: "Location: Trigger BT to Home"
+  id: "bob_bt_trigger_home"
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.bob_s9
+      from: not_home
+      to: home
+  condition:  
+    condition: state
+    entity_id: device_tracker.bob_bt
+    state: not_home
+  action:
+    service: mqtt.publish
+    data:
+      topic: location/scan/arrive
+      payload: '{"Reason":"Owntracks considers Hmmbob home"}'
+
+### Birgit ###
+- alias: "Location: Birgit BT Aanwezig"
+  id: "birgit_bt_aanwezig"
+  initial_state: 'on'
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.bt_max_birgit
+      above: 50
+  condition:  
+    condition: state
+    entity_id: device_tracker.birgit_bt
+    state: not_home
+  action:
+    service: mqtt.publish
+    data:
+      topic: location/birgit_bt
+      payload: "home"
+      retain: true
+
+- alias: "Location: Birgit BT Afwezig"
+  id: "birgit_bt_afwezig"
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.bt_max_birgit
+    below: 15
+  condition:  
+    condition: state
+    entity_id: device_tracker.birgit_bt
+    state: home
+  action:
+    service: mqtt.publish
+    data:
+      topic: location/birgit_bt
+      payload: "not_home"
+      retain: true
+
+### PiZero ###
+#- alias: 'Location: Is PiZero alive'
+#  initial_state: 'off'
+#  id: pizero_alive
+#  trigger:
+#    - platform: time_pattern
+#      minutes: '/5'
+#      seconds: 00
+#  condition:
+#    condition: template
+#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.sensor.heartbeat.last_updated) | int > 540 }}'
+#  action:
+#  - service: notify.google
+#    data_template:
+#      message: PiZero stuurde al een tijdje geen update. De tijd is nu {{ utcnow().strftime("%H:%M:%S") }} UTC, de Zero stuurde zijn laatste bericht om {{ states.sensor.heartbeat.last_updated.strftime("%H:%M:%S") }} UTC.
+#      title: PiZero
+#    data:
+#      data:
+#        tag: 'notification-pizero_alive'
+
+- alias: 'Location: Update on startup'
+  id: restart_monitor_on_startup
+  initial_state: 'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "location/scan/restart"
+
+- alias: 'Location: Restart monitor daily'
+  id: restart_monitor_daily
+  initial_state: 'on'
+  trigger:
+    - platform: time
+      at: '10:00:00'
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "location/scan/restart"
+
+##########################
+## Device tracker notifications
+##########################
+- id: Set_notification_Bob_Home_owntrak_mqtt
+  alias: "Location: notificatie dat Bob thuis is"
+  initial_state: 'off'
+  trigger:
+  - entity_id: device_tracker.bob_s9
+    from: not_home
+    platform: state
+    to: home
+  action:
+  - service: notify.google
+    data_template:
+      message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} thuis!
+      title: Bob is thuis!
+
+- id: Set_notification_Bob_arrive_work_owntrak_mqtt
+  alias: "Location: Notificatie dat Bob op het werk arriveert"
+  initial_state: 'off'
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.bob_s9
+    event: enter
+    zone: zone.Work
+  action:
+  - service: notify.google
+    data_template:
+      message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} op het werk.
+      title: Bob is op het werk!
+
+- id: Set_notification_Bob_leave_work_owntrak_mqtt
+  alias: "Location: Notificatie dat Bob van het werk vertrekt"
+  initial_state: 'off'
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.bob_s9
+    event: leave
+    zone: zone.Work
+  action:
+  - service: notify.google
+    data_template:
+      message: Bob verliet om {{now().strftime("%H:%M:%S %d-%m-%Y")}} het werk.
+      title: Bob is op weg naar huis!
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.bob_werk_verlaten
+
+- id: TTS_notification_Bob_Home_owntrak_mqtt
+  alias: "Location: TTS Notificatie dat Bob thuis is"
+  initial_state: 'off'
+  trigger:
+  - entity_id: device_tracker.bob_s9
+    from: not_home
+    platform: state
+    to: home
+  condition:
+  - condition: time
+    after: '15:00:00'
+    before: '19:00:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: state
+    entity_id: input_boolean.bob_werk_verlaten
+    state: 'on'
+  action:
+# - service: media_player.volume_set
+#   data:
+#     entity_id: media_player.living_room_home
+#     volume_level: 0.6
+  - service: tts.google_say
+    entity_id: media_player.living_room_home
+    data:
+      message: Papa is thuis
+      language: nl
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.bob_werk_verlaten

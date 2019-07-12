@@ -1,0 +1,8 @@
+lampen_woonkamer:
+  name: Verlichting Woonkamer
+  entities:
+  - switch.grijze_lamp
+  - switch.blauwe_lamp
+  - switch.staande_lamp
+  - light.eetkamer_level
+  - light.window_level
