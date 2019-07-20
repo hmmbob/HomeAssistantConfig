@@ -1,0 +1,38 @@
+####################
+# Zolder        #
+#################### 
+path: zolder
+title: Zolder
+icon: mdi:home-floor-2
+cards:
+  - id: 2ad3bc539cf545968700666666423a79  # Automatically created id
+    type: entities
+    title: Rolluik zolder
+    show_header_toggle: false
+    entities:
+      - cover.zolder
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.temp1_humidity
+        line_color: blue
+        line_width: 8
+        font_size: 75
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.temp1_temperature
+        line_color: var(--accent-color)
+        line_width: 8
+        font_size: 75
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.outside_temperature
+        line_color: var(--accent-color)
+        line_width: 8
+        font_size: 75
+
+
+
+

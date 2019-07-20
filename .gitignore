@@ -12,6 +12,11 @@
 !custom_components/**
 !archive/
 !archive/*
+!lovelace/
+!lovelace/*
+!themes/
+!themes/*
+
 
 # Ignore folders.
 .storage

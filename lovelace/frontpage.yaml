@@ -1,0 +1,139 @@
+####################
+# Frontpage        #
+#################### 
+path: home
+title: Home
+cards:
+  - id: 8ad5b7f112346578bccee468106c7e7  # Automatically created id
+    type: custom:weather-card
+    entity: weather.dark_sky
+    icons: "/local/icons/weather_icons/animated/"
+
+  - id: 62c63037e3954e7291db6acad7199277  # Automatically created id
+    type: glance
+    title: Huishoudelijk
+    show_name: true
+    show_state: true
+    column_width: calc(100% / 3)
+    entities:
+      - entity: sensor.trash_today
+      - entity: sensor.trash_tomorrow
+
+  - id: 619239c00d7247e7bb0659ec0799de51  # Automatically created id
+    type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: picture-entity
+            entity: switch.staande_lamp
+            tap_action: 
+              action: toggle
+            image: /local/icons/staandelamp.jpg
+            state_image:
+              on: /local/icons/staandelamp.jpg
+            state_filter:
+              on: drop-shadow(-5px 0 10px gold)
+              off: brightness(80%) saturate(0.8)
+          - type: vertical-stack
+            cards:
+              - type: picture-entity
+                entity: switch.grijze_lamp
+                tap_action: 
+                  action: toggle
+                image: /local/icons/tvmeubel.jpg
+                state_image:
+                  "on": /local/icons/tvmeubel.jpg
+                state_filter:
+                  "on": drop-shadow(-5px 0 10px gold)
+                  "off": brightness(80%) saturate(0.8)
+
+  - id: 619239c00d724123456659ec0799de51  # Automatically created id
+    type: glance
+    show_name: true
+    show_state: false
+    column_width: calc(100% / 4)
+    entities:
+      - entity: scene.etenstijd
+        tap_action: 
+          action: call-service
+          service: scene.turn_on
+          service_data: 
+            entity_id: scene.etenstijd
+      - entity: scene.avond
+        tap_action: 
+          action: call-service
+          service: scene.turn_on
+          service_data: 
+            entity_id: scene.avond
+      - entity: scene.alles_uit
+        tap_action: 
+          action: call-service
+          service: scene.turn_on
+          service_data: 
+            entity_id: scene.alles_uit
+      - entity: switch.blauwe_lamp
+        tap_action: 
+          action: toggle
+
+  - id: 619239c00d123453456659ec0799de51  # Automatically created id
+    type: entities
+    entities:
+      - entity: light.eetkamer_level
+        name: Eetkamer
+        type: custom:slider-entity-row
+      - entity: light.window_level
+        name: Voorraam
+        type: custom:slider-entity-row
+
+  - type: thermostat
+    entity: climate.woonkamer
+
+  - type: sensor
+    entity: sensor.toon_room_temp
+    name: Kamertemperatuur
+    graph: line
+    detail: 1
+
+  - type: sensor
+    entity: sensor.temp2_temperature
+    name: Temp2 temperatuur
+    graph: line
+    detail: 1
+
+  - type: sensor
+    entity: sensor.temp2_humidity
+    name: Temp2 humidity
+    graph: line
+    detail: 1
+
+  - type: custom:mini-graph-card
+    name: Temperature
+    icon: mdi:thermometer-lines
+    align_state: right
+    show:
+        fill: false
+        icon: false
+        name: false
+        labels: true
+        points: hover
+    hours_to_show: 12
+    points_per_hour: 2
+    entities:
+      - entity: sensor.toon_room_temp
+        name: Kamertemperatuur
+      - entity: sensor.temp1_temperature
+        name: Temp1
+      - entity: sensor.temp2_temperature
+        name: Temp2
+
+  - type: "custom:postnl-card"
+    delivery: sensor.postnl_delivery
+    distribution: sensor.postnl_distribution
+    letters: sensor.postnl_letters
+    hide:
+      delivered: false
+      first_letter: false
+      header: false
+    date_format: "DD MMM YYYY"
+    time_format: "HH:mm"
+    past_days: 1

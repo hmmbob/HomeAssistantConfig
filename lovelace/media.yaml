@@ -1,0 +1,74 @@
+####################
+# Media            #
+#################### 
+path: media
+title: Media
+icon: mdi:library-music
+cards:
+  - id: 44e4220aba86438dbfa28c1cd8596265  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.everywhere
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+  - id: bf273161ddb548b6945b270309dffdb5  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.google_home_mini
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+  - id: f28f58c2e75548b289094031de93e872  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.living_room_home
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+  - id: 1adcf5fd56964652981655b75c932632  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.tv
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+  - id: 9a34bfa36b1a41a3971c0439a08774db  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.soundbar
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+#  - type: custom:mini-media-player
+#    entity: media_player.spotify
+#    icon: 'mdi:spotify'
+#    artwork: cover
+#    artwork_border: true
+#    power_color: true
+#    scroll_info: true
+#    show_source: true
+
+#  - type: custom:mini-media-player
+#    entity: media_player.spotify_2
+#    icon: 'mdi:spotify'
+#    artwork: cover
+#    artwork_border: true
+#    power_color: true
+#    scroll_info: true
+#    show_source: true
