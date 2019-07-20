@@ -38,6 +38,15 @@
           {% else %}
               mdi:battery-alert
           {% endif %}
+    outside_temperature:
+      entity_id: weather.dark_sky
+      friendly_name: 'Buitentemperatuur'
+      value_template: >
+          {%- if states.weather.dark_sky.attributes.temperature is defined %}
+              {{ states.weather.dark_sky.attributes.temperature }}
+          {% else %}
+              0
+          {%- endif %}
 
 ##########################
 ## PostNL
@@ -186,7 +195,6 @@
 
 - platform: mqtt
   name: 'BT Boven Bob'
-#  state_topic: 'location/boven/8C:83:E1:AB:D5:3B'
   state_topic: 'location/boven/hmmbob'
   value_template: '{{ value_json.confidence }}'
   unit_of_measurement: '%'
@@ -202,8 +210,6 @@
 
 ### Birgit ###
 - platform: mqtt
-#  state_topic: 'location/beneden/04:F1:28:30:07:96'
-#  state_topic: 'location/beneden/88:B4:A6:7B:1F:31'
   state_topic: 'location/beneden/bridget_jones_moto'
   value_template: '{{ value_json.confidence }}'
   unit_of_measurement: '%'

@@ -1,47 +1,7 @@
-#- platform: mqtt
-#  name: "Staande lamp"
-#  state_topic: "stat/sonoff_staand/POWER"
-#  command_topic: "cmnd/sonoff_staand/POWER"
-#  availability_topic: "tele/sonoff_staand/LWT"
-#  qos: 1
-#  payload_on: "ON"
-#  payload_off: "OFF"
-#  payload_available: "Online"
-#  payload_not_available: "Offline"
-#  retain: true
-
-#- platform: mqtt
-#  name: "Grijze lamp"
-#  state_topic: "stat/sonoff_grijs/POWER"
-#  command_topic: "cmnd/sonoff_grijs/POWER"
-#  availability_topic: "tele/sonoff_grijs/LWT"
-#  qos: 1
-#  payload_on: "ON"
-#  payload_off: "OFF"
-#  payload_available: "Online"
-#  payload_not_available: "Offline"
-#  retain: true
-
-#- platform: mqtt
-#  name: "Blauwe Lamp"
-#  state_topic: "stat/sonoff_blauw/POWER"
-#  command_topic: "cmnd/sonoff_blauw/POWER"
-#  availability_topic: "tele/sonoff_blauw/LWT"
-#  qos: 1
-#  payload_on: "ON"
-#  payload_off: "OFF"
-#  payload_available: "Online"
-#  payload_not_available: "Offline"
-#  retain: false
-
-#- platform: mqtt
-#  name: "Aquarium"
-#  state_topic: "stat/sonoff_aquarium/POWER"
-#  command_topic: "cmnd/sonoff_aquarium/POWER"
-#  availability_topic: "tele/sonoff_aquarium/LWT"
-#  qos: 1
-#  payload_on: "ON"
-#  payload_off: "OFF"
-#  payload_available: "Online"
-#  payload_not_available: "Offline"
-#  retain: true
+# Switch for enabling joining Zigbee2mqtt
+- platform: mqtt
+  name: "Zigbee2mqtt Main join"
+  state_topic: "zigbee2mqtt/bridge/config/permit_join"
+  command_topic: "zigbee2mqtt/bridge/config/permit_join"
+  payload_on: "true"
+  payload_off: "false"

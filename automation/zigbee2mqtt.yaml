@@ -1,0 +1,70 @@
+- id: zigbee2mqtt_log_level
+  alias: "Zigbee: Zigbee2mqtt Log Level"
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: input_select.zigbee2mqtt_log_level
+      to: debug
+    - platform: state
+      entity_id: input_select.zigbee2mqtt_log_level
+      to: warn
+    - platform: state
+      entity_id: input_select.zigbee2mqtt_log_level
+      to: error
+    - platform: state
+      entity_id: input_select.zigbee2mqtt_log_level
+      to: info
+  action:
+    - service: mqtt.publish
+      data:
+        payload_template: '{{ states(''input_select.zigbee2mqtt_log_level'') }}'
+        topic: zigbee2mqtt/bridge/config/log_level
+
+- id: enable_zigbee_join
+  alias: "Zigbee: Enable Zigbee joining"
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: input_boolean.zigbee_permit_join
+    to: 'on'
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'true'
+  - service: timer.start
+    data:
+      entity_id: timer.zigbee_permit_join
+
+- id: disable_zigbee_join
+  alias: "Zigbee: Disable Zigbee joining"
+  hide_entity: true
+  trigger:
+  - entity_id: input_boolean.zigbee_permit_join
+    platform: state
+    to: 'off'
+  action:
+  - data:
+      payload: 'false'
+      topic: zigbee2mqtt/bridge/config/permit_join
+    service: mqtt.publish
+  - data:
+      entity_id: timer.zigbee_permit_join
+    service: timer.cancel
+
+- id: disable_zigbee_join_timer
+  alias: "Zigbee: Disable Zigbee joining by timer"
+  hide_entity: true
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.zigbee_permit_join
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'false'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.zigbee_permit_join

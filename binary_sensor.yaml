@@ -1,3 +1,6 @@
+##########################
+## BT Monitor service
+##########################
 - platform: mqtt
   name: "BT beneden"
   state_topic: "location/beneden/status"
@@ -18,4 +21,17 @@
   payload_not_available: "offline"
   device_class: connectivity
 
+##########################
+## Zigbee2mqtt
+##########################
+# Sensor for monitoring the bridge state
+- platform: mqtt
+  name: Zigbee2mqtt Bridge
+  state_topic: "zigbee2mqtt/bridge/state"
+  payload_on: "online"
+  payload_off: "offline"
+  availability_topic: "zigbee2mqtt/bridge/state"
+  payload_available: "online"
+  payload_not_available: "offline"
+  device_class: connectivity
 

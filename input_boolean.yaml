@@ -38,3 +38,9 @@ toon_on_movement:
   name: 'Toon aan via PIR'
   initial: 'off'
   icon: mdi:thermostat
+
+# Input boolean for enabling/disabling joining
+zigbee_permit_join:
+  name: Allow devices to join
+  initial: off
+  icon: mdi:cellphone-wireless

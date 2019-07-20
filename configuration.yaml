@@ -11,12 +11,13 @@ homeassistant:
   customize: !include customize.yaml
   auth_providers:
     - type: homeassistant
-    - type: trusted_networks
-      trusted_networks:
-        - 127.0.0.1
-        - 192.168.88.0/24
     - type: legacy_api_password
       api_password: !secret http_api_password
+  auth_mfa_modules:
+    - type: totp
+      name: Authenticator app
+    - type: notify
+      message: 'I almost forget, to get into my clubhouse, you need to say {}'
 
 logger:
   default: warn
@@ -30,6 +31,13 @@ mqtt:
   client_id: home-assistant
   username: !secret mqtt_user
   password: !secret mqtt_password
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
+  discovery: true
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -51,30 +59,25 @@ emulated_hue: !include emulated_hue.yaml
 google_assistant: !include googleassistant.yaml
 group: !include groups.yaml
 input_boolean: !include input_boolean.yaml
+input_select: !include input_select.yaml
 rss_feed_template: !include rss.yaml
 scene: !include scenes.yaml
 sensor: !include sensors.yaml  
 switch: !include switch.yaml
+timer: !include timer.yaml
 zone: !include zones.yaml
 
 #################################################################
 ## Frontend
 #################################################################  
 http:
-#  ssl_certificate: !secret http_ssl_certificate
-#  ssl_key: !secret http_ssl_key
 #  base_url: !secret http_base_url
 #  ip_ban_enabled: True
 #  login_attempts_threshold: 3
   server_port: !secret http_server_port
 
 frontend:
-
-#panel_iframe:
-#  tasmota:
-#    title: 'TasmoAdmin'
-#    url: !secret iframe_url
-#    icon: mdi:lightbulb
+  themes: !include_dir_named themes
 
 logbook:
   exclude:
@@ -86,12 +89,12 @@ recorder:
   purge_keep_days: 10
   include:
     domains:
-      - light
-      - switch
       - device_tracker
       - climate
     entities:
       - binary_sensor.pir_sensor_motion
+      - light.eetkamer_level
+      - light.window_level
       - sensor.pir_sensor_luminance
       - sensor.reistijd_thuis_werk
       - sensor.reistijd_werk_thuis
@@ -100,21 +103,24 @@ recorder:
       - sensor.benzine_u
       - sensor.diesel_u
       - sensor.toon_room_temp
-  exclude:
-    entities:
-      - switch.schuur_2
-      - switch.schuur_all
-      - switch.eetkamer_switch
+      - sensor.temp1_temperature
+      - sensor.temp1_humidity
+      - sensor.temp2_temperature
+      - sensor.temp2_humidity
+      - switch.blauwe_lamp
+      - switch.grijze_lamp
+      - switch.staande_lamp
+      - switch.schuur_1
 
 history:
   include:
     domains:
-      - light
-      - switch
       - device_tracker
       - climate
     entities:
       - binary_sensor.pir_sensor_motion
+      - light.eetkamer_level
+      - light.window_level
       - sensor.pir_sensor_luminance
       - sensor.reistijd_thuis_werk
       - sensor.reistijd_werk_thuis
@@ -123,11 +129,14 @@ history:
       - sensor.benzine_u
       - sensor.diesel_u
       - sensor.toon_room_temp
-  exclude:
-    entities:
-      - switch.schuur_2
-      - switch.schuur_all
-      - switch.eetkamer_switch
+      - sensor.temp1_temperature
+      - sensor.temp1_humidity
+      - sensor.temp2_temperature
+      - sensor.temp2_humidity
+      - switch.blauwe_lamp
+      - switch.grijze_lamp
+      - switch.staande_lamp
+      - switch.schuur_1
 
 #################################################################
 ## Components
@@ -140,10 +149,10 @@ camera:
 
 cast:
   media_player:
-    - host: 192.168.88.11 #CC
-    - host: 192.168.88.12 #GH
-    - host: 192.168.88.13 #HM
-    - host: 192.168.88.14 #SB
+    - host: !secret cast_ip_cc
+    - host: !secret cast_ip_gh
+    - host: !secret cast_ip_hm
+    - host: !secret cast_ip_sb
 
 climate:
   platform: toon_hmmbob
@@ -159,6 +168,9 @@ duckdns:
 #google:
 #  client_id: !secret google_calendar_client_id
 #  client_secret: !secret google_calendar_client_secret
+
+hacs:
+  token: !secret hacs_token
 
 #media_player:
 #  - platform: spotify
