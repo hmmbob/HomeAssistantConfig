@@ -4,9 +4,9 @@
 - platform: version
   name: HA Currently Installed
 
-#- platform: cert_expiry
-#  host: !secret cert_expiry_host
-#  port: !secret http_server_port
+- platform: cert_expiry
+  host: !secret cert_expiry_host
+  port: !secret http_server_port
 
 ##########################
 ## Utility sensoren
@@ -41,9 +41,20 @@
     outside_temperature:
       entity_id: weather.dark_sky
       friendly_name: 'Buitentemperatuur'
+      unit_of_measurement: '°C'
       value_template: >
           {%- if states.weather.dark_sky.attributes.temperature is defined %}
               {{ states.weather.dark_sky.attributes.temperature }}
+          {% else %}
+              0
+          {%- endif %}
+    room_temperature:
+      entity_id: climate.woonkamer
+      friendly_name: 'Kamertemperatuur'
+      unit_of_measurement: '°C'
+      value_template: >
+          {%- if states.climate.woonkamer.attributes.current_temperature is defined %}
+              {{ states.climate.woonkamer.attributes.current_temperature }}
           {% else %}
               0
           {%- endif %}
@@ -62,18 +73,18 @@
 ## Toon sensoren
 ##########################
 
-- platform: toon_boilerstatus
-  host: !secret toon_host
-  port: !secret toon_port
-  scan_interval: 60
-  resources:
-#    - boilersetpoint
-#    - boilerintemp
-#    - boilerouttemp
-#    - boilerpressure
-#    - boilermodulationlevel
-    - roomtemp
-#    - roomtempsetpoint
+#- platform: toon_boilerstatus
+#  host: !secret toon_host
+#  port: !secret toon_port
+#  scan_interval: 60
+#  resources:
+##    - boilersetpoint
+##    - boilerintemp
+##    - boilerouttemp
+##    - boilerpressure
+##    - boilermodulationlevel
+#    - roomtemp
+##    - roomtempsetpoint
 
 - platform: toon_smartmeter
   host: !secret toon_host

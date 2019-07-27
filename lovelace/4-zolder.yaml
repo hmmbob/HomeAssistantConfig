@@ -11,6 +11,7 @@ cards:
     show_header_toggle: false
     entities:
       - cover.zolder
+      - input_boolean.enable_cover
 
   - type: horizontal-stack
     cards:

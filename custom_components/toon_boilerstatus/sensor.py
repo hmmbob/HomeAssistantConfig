@@ -178,7 +178,7 @@ class ToonBoilerStatusSensor(Entity):
   
           elif self.type == 'roomtemp':
               if 'roomTemp' in boilerstatus:
-                  self._state = float(boilerstatus["roomTemp"])
+                  self._state = round(float(boilerstatus["roomTemp"]), 1)
   
           elif self.type == 'roomtempsetpoint':
               if 'roomTempSetpoint' in boilerstatus:

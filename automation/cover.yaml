@@ -8,6 +8,10 @@
   trigger:
     platform: time
     at: '19:30:00'
+  condition:
+    - condition: state
+      entity_id: input_boolean.enable_cover
+      state: 'on'
   action:
     - service: cover.close_cover 
       entity_id: cover.zolder
@@ -19,6 +23,10 @@
   trigger:
     platform: time
     at: '08:00:00'
+  condition:
+    - condition: state
+      entity_id: input_boolean.enable_cover
+      state: 'on'
   action:
     - service: cover.open_cover 
       entity_id: cover.zolder

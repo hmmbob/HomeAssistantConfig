@@ -14,13 +14,13 @@
       after: '06:45:00'
       before: '08:30:00'
     - condition: numeric_state
-      entity_id: sensor.toon_room_temp
+      entity_id: sensor.room_temperature
       below: 18.5
   action:
-  - service: climate.set_operation_mode
+  - service: climate.set_preset_mode
     data:
       entity_id: climate.woonkamer
-      operation_mode: heat
+      preset_mode: home
   - service: homeassistant.turn_on
     entity_id: 
       - input_boolean.toon_on_movement
@@ -47,10 +47,10 @@
         - thu
         - fri
   action:
-  - service: climate.set_operation_mode
+  - service: climate.set_preset_mode
     data:
       entity_id: climate.woonkamer
-      operation_mode: cool
+      preset_mode: away
   - service: homeassistant.turn_off
     entity_id: 
       - input_boolean.toon_on_movement

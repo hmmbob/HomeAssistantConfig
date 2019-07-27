@@ -1,0 +1,9 @@
+{
+  "domain": "toon_climate",
+  "name": "Toon Climate",
+  "documentation": "https://github.com/ualex73",
+  "requirements": [
+  ],
+  "dependencies": [],
+  "codeowners": []
+}

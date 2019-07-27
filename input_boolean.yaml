@@ -39,8 +39,13 @@ toon_on_movement:
   initial: 'off'
   icon: mdi:thermostat
 
-# Input boolean for enabling/disabling joining
+# Input boolean for enabling/disabling zigbee joining
 zigbee_permit_join:
   name: Allow devices to join
   initial: off
   icon: mdi:cellphone-wireless
+
+enable_cover:
+  name: Rolluik automatisering
+  initial: off
+  icon: mdi:garage

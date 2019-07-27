@@ -14,14 +14,26 @@ resources:
   - url: /community_plugin/mini-graph-card/mini-graph-card.js
     type: module
   - url: /community_plugin/lovelace-battery-entity/battery-entity.js
-    type: module   
+    type: module
+  - url: /community_plugin/compact-custom-header/compact-custom-header.js
+    type: module
+
+cch:
+  menu: overflow
+  voice: clock
+  clock_format: 24
+  swipe: true
+  swipe_animate: swipe
 
 title: Home sweet home
 views:
-  - !include lovelace/frontpage.yaml
-  - !include lovelace/location.yaml
-  - !include lovelace/media.yaml
-  - !include lovelace/config.yaml
-  - !include lovelace/zolder.yaml
-  - !include lovelace/power.yaml
-  - !include lovelace/overviews.yaml
+  - !include lovelace/1-frontpage.yaml
+  - !include lovelace/2-beneden.yaml
+  - !include lovelace/3-boven.yaml
+  - !include lovelace/4-zolder.yaml
+  - !include lovelace/5-location.yaml
+  - !include lovelace/6-media.yaml
+  - !include lovelace/7-power.yaml
+  - !include lovelace/8-config.yaml
+  - !include lovelace/9-overviews.yaml
+  - !include lovelace/10-docker.yaml

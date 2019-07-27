@@ -1,0 +1,72 @@
+####################
+# Docker         #
+####################
+path: docker
+title: Docker
+icon: mdi:docker
+cards:
+  - id: 069aeb9203024ec7b1d315412346e1e8  # Automatically created id
+    type: custom:monster-card
+    card:
+      type: entities
+      title: Docker Duplicati
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: switch.docker_duplicati
+        - entity_id: sensor.docker_duplicati_*
+
+  - id: 069aeb9203024ec7b1d315412346e1e1  # Automatically created id
+    type: custom:monster-card
+    card:
+      type: entities
+      title: Docker Traefik
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: switch.docker_traefik
+        - entity_id: sensor.docker_traefik_*
+
+  - id: 069aeb9203024ec7b1d315412346e1e2  # Automatically created id
+    type: custom:monster-card
+    card:
+      type: entities
+      title: Docker Home Assistant
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: switch.docker_homeassistant
+        - entity_id: sensor.docker_homeassistant_*
+
+  - id: 069aeb9203024ec7b1d315412346e1e3  # Automatically created id
+    type: custom:monster-card
+    card:
+      type: entities
+      title: Docker Zigbee2mqtt
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: switch.docker_zigbee2mqtt
+        - entity_id: sensor.docker_zigbee2mqtt_*
+
+  - id: 069aeb9203024ec7b1d315412346e1e4  # Automatically created id
+    type: custom:monster-card
+    card:
+      type: entities
+      title: Docker MQTT
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: switch.docker_mqtt
+        - entity_id: sensor.docker_mqtt_*
+
+  - id: 069aeb9203024ec7b1d315412346e1e5  # Automatically created id
+    type: custom:monster-card
+    card:
+      type: entities
+      title: Docker ESPhome
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: switch.docker_esphome
+        - entity_id: sensor.docker_esphome_*

@@ -46,6 +46,7 @@ cards:
       - entity: sensor.temp2_battery
         type: custom:battery-entity
       - sensor.ha_currently_installed
+      - sensor.docker_version
 
   - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
     type: entities
@@ -64,6 +65,12 @@ cards:
     entities:
       - input_boolean.zigbee_permit_join
       - timer.zigbee_permit_join
-      - switch.zigbee2mqtt_main_join
       - input_select.zigbee2mqtt_log_level
+      - entity: script.update_zigbee_network_map
+        name: Zigbee2Mqtt NetworkMap Update
+        icon: 'mdi:graphql'
+      - type: weblink
+        name: Open Zigbee2Mqtt NetworkMap
+        icon: 'mdi:graphql'
+        url: /local/community/zigbee2mqtt_networkmap/map.html
 

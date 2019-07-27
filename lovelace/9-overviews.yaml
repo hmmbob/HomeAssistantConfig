@@ -22,7 +22,7 @@ cards:
     card:
       type: entities
       title: All automations
-      show_header_toggle: true
+      show_header_toggle: false
     filter:
       include:
         - entity_id: automation.*

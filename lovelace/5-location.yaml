@@ -50,3 +50,10 @@ cards:
     show_state: false
     tap_action: 
       action: more-info
+
+  - type: map
+    aspect_ratio: 16:9
+    default_zoom: 13
+    entities:
+      - device_tracker.bob_s9
+#      - zone.home

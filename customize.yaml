@@ -1,3 +1,5 @@
+cover.zolder:
+  icon: mdi:garage
 device_tracker.birgit_bt:
   friendly_name: Birgit (BT)
   icon: mdi:bluetooth
