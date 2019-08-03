@@ -1,5 +1,5 @@
 ##########################
-## Systeem sensoren
+## System sensors
 ##########################
 - platform: version
   name: HA Currently Installed
@@ -9,7 +9,7 @@
   port: !secret http_server_port
 
 ##########################
-## Utility sensoren
+## Utility sensors
 ##########################
 
 - platform: template
@@ -60,7 +60,7 @@
           {%- endif %}
 
 ##########################
-## PostNL
+## PostNL Custom Component!
 ##########################
 
 - platform: postnl
@@ -70,22 +70,8 @@
   scan_interval: 3600
 
 ##########################
-## Toon sensoren
+## Toon sensors
 ##########################
-
-#- platform: toon_boilerstatus
-#  host: !secret toon_host
-#  port: !secret toon_port
-#  scan_interval: 60
-#  resources:
-##    - boilersetpoint
-##    - boilerintemp
-##    - boilerouttemp
-##    - boilerpressure
-##    - boilermodulationlevel
-#    - roomtemp
-##    - roomtempsetpoint
-
 - platform: toon_smartmeter
   host: !secret toon_host
   port: !secret toon_port
@@ -99,9 +85,8 @@
     - elecusagecnthigh
 
 ##########################
-## Waze sensoren
+## Waze sensors
 ##########################
-
 - platform: waze_travel_time
   name: Reistijd Bob naar huis
   origin: device_tracker.bob_s9
@@ -123,9 +108,8 @@
   scan_interval: 1800
 
 ##########################
-## Tinq sensoren
+## Gas prices sensors
 ##########################
-
 - platform: scrape
   resource: !secret scrape_url_z
   name: 'Diesel Z'
@@ -159,7 +143,7 @@
   scan_interval: 10800
 
 ##########################
-## Afval
+## Trash sensors
 ##########################
 - platform: rest
   resource: !secret scrape_url_afval
