@@ -37,17 +37,19 @@ My vision is that my Home Automation should always work, even when the internet 
  
 ### Zigbee sensors
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
- - 2x [Xiaomi door Window Sensor](https://www.aliexpress.com/item/32714904459.html) (still on order), 1 meant for the freezer upstairs because the kids tend to leave it not fully closed. The other no purpose for yet.
+ - 2x [Xiaomi door Window Sensor](https://www.aliexpress.com/item/32714904459.html) (still on order), 1 is meant for the freezer upstairs because the kids tend to leave it not fully closed. For the other I have no purpose yet.
  
 ### Thermostat
  - Rooted Toon thermostat
-   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco
+   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_hmmbob).
    - Connecting to emulated Hue on Home Assistant for light switches.
+ - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_smartmeter) to work.
  
 ### Cast & Voice Control
 - Google Home in the living room
 - Google Home Mini upstairs
 - LG SH-8 Soundbar in the living room
+- Google Chromecast in my TV (currently not used in Home Assistant, but hey - it could)
 
 # My Home Assistant Configuration
 ## Presence detection
