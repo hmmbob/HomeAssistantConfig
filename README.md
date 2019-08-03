@@ -1,4 +1,4 @@
-This repo contains my Home Assistant configuration. Home Assistant is 🏡 open source home automation that puts local control and privacy first. More information can be found at their website, https://www.home-assistant.io.
+This repo contains my Home Assistant configuration. Home Assistant is open source home automation that puts local control and privacy first. More information can be found at their website, https://www.home-assistant.io.
 
 I started with Home Assistant back in 2018 somewhere, running it in a VENV environment directly at a Raspbian installation. I ran into all kind of compatibility issues in the long run, so I decided to switch to a Docker based setup in July 2019. Ever since starting with my home automation project, I've been making changes weekly and sometimes daily. However, I don't always commit directly to Github (sorry...) so changes may flow in slowly.
 
