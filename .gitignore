@@ -12,6 +12,8 @@
 !custom_components/**
 !archive/
 !archive/*
+!includes/
+!includes/*
 !lovelace/
 !lovelace/*
 !themes/

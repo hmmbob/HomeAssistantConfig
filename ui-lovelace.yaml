@@ -36,4 +36,3 @@ views:
   - !include lovelace/7-power.yaml
   - !include lovelace/8-config.yaml
   - !include lovelace/9-overviews.yaml
-  - !include lovelace/10-docker.yaml

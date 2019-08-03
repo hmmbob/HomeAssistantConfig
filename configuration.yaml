@@ -53,20 +53,20 @@ system_health:
 ## Includes
 #################################################################  
 automation: !include_dir_merge_list automation/
-binary_sensor: !include binary_sensor.yaml
-device_tracker: !include device_tracker.yaml
-emulated_hue: !include emulated_hue.yaml
-google_assistant: !include googleassistant.yaml
-group: !include groups.yaml
-input_boolean: !include input_boolean.yaml
-input_select: !include input_select.yaml
-rss_feed_template: !include rss.yaml
-scene: !include scenes.yaml
-script: !include scripts.yaml
-sensor: !include sensors.yaml  
-switch: !include switch.yaml
-timer: !include timer.yaml
-zone: !include zones.yaml
+binary_sensor: !include includes/binary_sensor.yaml
+device_tracker: !include includes/device_tracker.yaml
+emulated_hue: !include includes/emulated_hue.yaml
+google_assistant: !include includes/googleassistant.yaml
+group: !include includes/groups.yaml
+input_boolean: !include includes/input_boolean.yaml
+input_select: !include includes/input_select.yaml
+rss_feed_template: !include includes/rss.yaml
+scene: !include includes/scenes.yaml
+script: !include includes/scripts.yaml
+sensor: !include includes/sensors.yaml  
+switch: !include includes/switch.yaml
+timer: !include includes/timer.yaml
+zone: !include includes/zones.yaml
 
 #################################################################
 ## Frontend
@@ -165,22 +165,6 @@ climate:
   host: !secret toon_host
   port: !secret toon_port
   scan_interval: 10
-
-docker_monitor:
-  containers:
-    - !secret container_1
-    - !secret container_2
-    - !secret container_3
-    - !secret container_4
-    - !secret container_5
-    - !secret container_6
-  monitored_conditions:
-    - utilization_version
-    - container_status
-    - container_uptime
-    - container_memory_usage
-    - container_memory_percentage_usage
-    - container_cpu_percentage_usage
 
 duckdns:
   domain: !secret duckdns_domain
