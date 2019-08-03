@@ -72,3 +72,5 @@ My vision is that my Home Automation should always work, even when the internet 
 
 Both the main hub and the Zero run [Monitor](https://github.com/andrewjfreyer/monitor) for BT presence detection. In Home Assistant I use a MAX-sensor, as I only need to know if any of these two Pi's sees the BT device we like to track. So if one of them has a "confidence" >0, that device is considered "home". See the monitor github page for more information.
 
+
+(work in progress, I'll describe more on my setup later).
