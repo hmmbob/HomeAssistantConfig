@@ -3,7 +3,7 @@ This repo contains my Home Assistant configuration. Home Assistant is 🏡 open 
 I started with Home Assistant back in 2018 somewhere, running it in a VENV environment directly at a Raspbian installation. I ran into all kind of compatibility issues in the long run, so I decided to switch to a Docker based setup in July 2019. Ever since starting with my home automation project, I've been making changes weekly and sometimes daily. However, I don't always commit directly to Github (sorry...) so changes may flow in slowly.
 
 # My Home Automation Vision
-My vision is that my Home Automation should always work, even when the internet is down and always should have a manual backup. The house should still be fully functional for me, the others living with me but also my non-tech grandma. That results into choosing solutions that don't use cloud services if not necesarry and that all lights still can always be switched manually. Therefore I use Qubino Zwave modules, enabling me to switch lights manually and 'smart', and some Sonoff modules, which also come with a push button to switch the relays. A notable exception to this is the Google Assistant integration, which obviously requires a connection to Google.
+My vision is that my Home Automation should always work, even when the internet is down and always should have a manual backup. The house should still be fully functional for me, the others living with me but also my non-tech grandma. That results into choosing solutions that don't use cloud services if not necesarry and that all lights still can always be switched manually. Therefore I use Qubino Zwave modules, enabling me to switch lights manually and 'smart', and some ESPhome flashed Sonoff modules, which also come with a push button to switch the relays. A notable exception to this is the Google Assistant integration, which obviously requires a connection to Google.
 
 # My Home Assistant Infrastructure
 ## Main Hub
@@ -40,8 +40,8 @@ My vision is that my Home Automation should always work, even when the internet 
  - 1x [Qubino Flush Shutter](https://tweakers.net/pricewatch/563345/qubino-flush-shutter-(zmnhcd1)/specificaties/) to control the cover on the attic windows
  
 ### Wifi Switches
- - 2x [Sonoff basic](https://www.aliexpress.com/item/32831445550.html) switches running ESPhome
- - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches running ESPhome, 1 in use, 1 in spare.
+ - 2x [Sonoff basic](https://www.aliexpress.com/item/32831445550.html) switches running ESPhome (so no connection with China!)
+ - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare.
  
 ### Zigbee sensors
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
@@ -50,20 +50,20 @@ My vision is that my Home Automation should always work, even when the internet 
 ### Thermostat
  - Rooted Toon thermostat
    - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_hmmbob).
-   - Connecting to emulated Hue on Home Assistant for light switches.
+   - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/emulated_hue.yaml) for light switches.
  - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_smartmeter) to work.
  
 ### Cast & Voice Control
 - Google Home in the living room
 - Google Home Mini upstairs
 - LG SH-8 Soundbar in the living room
-- Google Chromecast in my TV (currently not used in Home Assistant, but hey - it could)
+- Google Chromecast in my TV (currently not used in Home Assistant, but hey - it could be)
 </details>
 
 # My actual Home Assistant configuration choices
 ## Presence detection
 ### Owntracks 
- - Installed on my phone, reporting via the Home Assistant webhooks
+ - [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location. 
 
 ### Bluetooth
  - Raspberry W Zero
