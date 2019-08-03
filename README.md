@@ -7,6 +7,9 @@ My vision is that my Home Automation should always work, even when the internet 
 
 # My Home Assistant Infrastructure
 ## Main Hub
+<details>
+  <summary>Hardware & Software</summary>
+  
 ### Hardware
 - Raspberry Pi3B+
 - [Z-Wave.Me ZME_UZB1 USB Stick](https://tweakers.net/pricewatch/434681/z-wave-punt-me-usb-stick-met-z-wave-plus/specificaties/)
@@ -23,8 +26,13 @@ My vision is that my Home Automation should always work, even when the internet 
   - [zigbee2mqtt](https://hub.docker.com/r/koenkk/zigbee2mqtt) running my zigbee network
   - [Duplicati](https://hub.docker.com/r/duplicati/duplicati) for encrypted backups of my config files to the cloud
   - [nginx](https://hub.docker.com/r/linuxserver/nginx) for some static file hosting.
+</details>
+
 
 ## Connected devices
+<details>
+  <summary>Connected devices</summary>
+  
 ### Z-Wave
  - 2x [Qubino Flush Dimmer](https://tweakers.net/pricewatch/467913/qubino-flush-dimmer-z-wave+/specificaties/) 1 for dining room, 1 for window light in living room
  - 1x [NEO COOLCAM NAS-PD02Z Z-wave Plus PIR Motion Sensor](https://www.aliexpress.com/item/32796863408.html) in the living room - links to a V2 but I use the V1 which lacks temperature support
@@ -50,8 +58,9 @@ My vision is that my Home Automation should always work, even when the internet 
 - Google Home Mini upstairs
 - LG SH-8 Soundbar in the living room
 - Google Chromecast in my TV (currently not used in Home Assistant, but hey - it could)
+</details>
 
-# My Home Assistant Configuration
+# My actual Home Assistant configuration choices
 ## Presence detection
 ### Owntracks 
  - Installed on my phone, reporting via the Home Assistant webhooks
