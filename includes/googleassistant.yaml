@@ -54,9 +54,6 @@ entity_config:
     aliases:
       - "Cover"
 ## Others 
-#  switch.aquarium:
-#    name: "Aquarium"
-#    expose: true
   switch.schuur_1:
     name: "Garden"
     expose: true
