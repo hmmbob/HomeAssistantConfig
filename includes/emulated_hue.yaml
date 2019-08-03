@@ -12,9 +12,6 @@ entities:
   switch.blauwe_lamp:
     name: "Blauwe lamp"
     hidden: false
-#  switch.aquarium:
-#    name: "Aquarium"
-#    hidden: false
   light.window_level:
     name: "Vensterbank"
     hidden: false
