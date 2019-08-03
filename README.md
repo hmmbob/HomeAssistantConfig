@@ -42,7 +42,7 @@ My vision is that my Home Automation should always work, even when the internet 
 ### Thermostat
  - Rooted Toon thermostat
    - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_hmmbob).
-   - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/emulated_hue.yaml) for light switches.
+   - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/includes/emulated_hue.yaml) for light switches.
  - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_smartmeter) to work.
  
 ### Cast & Voice Control
@@ -54,7 +54,7 @@ My vision is that my Home Automation should always work, even when the internet 
 # My actual Home Assistant configuration choices
 ## Presence detection
 ### Owntracks 
- - [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location. 
+ - [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location. My wife doesn't like the idea of a GPS logger on her phone (even though it logs directly to our server), so I just check if she's at home with Bluetooth presence detection.
 
 ### Bluetooth
  - Raspberry W Zero
