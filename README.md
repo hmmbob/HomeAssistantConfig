@@ -1,16 +1,16 @@
 This repo contains my Home Assistant configuration. Home Assistant is open source home automation that puts local control and privacy first. More information can be found at their website, https://www.home-assistant.io.
 
-I started with Home Assistant back in 2018 somewhere, running it in a VENV environment directly at a Raspbian installation. I ran into all kind of compatibility issues in the long run, so I decided to switch to a Docker based setup in July 2019. Ever since starting with my home automation project, I've been making changes weekly and sometimes daily. However, I don't always commit directly to Github (sorry...) so changes may flow in slowly.
+I started with Home Assistant back in 2018 somewhere, running it in a [Python venv](https://www.home-assistant.io/docs/installation/virtualenv/) directly at a Raspbian installation. I ran into all kind of compatibility issues in the long run, so I decided to switch to a [Docker based setup](https://www.home-assistant.io/docs/installation/docker/) in July 2019. Ever since starting with my home automation project, I've been making changes weekly and sometimes daily. However, I don't always commit directly to Github (sorry...) so changes may flow in a bit slower.
 
 # My Home Automation Vision
-My vision is that my Home Automation should always work, even when the internet is down and always should have a manual backup. The house should still be fully functional for me, the others living with me but also my non-tech grandma. That results into choosing solutions that don't use cloud services if not necesarry and that all lights still can always be switched manually. Therefore I use Qubino Zwave modules, enabling me to switch lights manually and 'smart', and some ESPhome flashed Sonoff modules, which also come with a push button to switch the relays. A notable exception to this is the Google Assistant integration, which obviously requires a connection to Google.
+My vision is that my Home Automation should always work, even when the internet is down and always should have a manual backup. The house should still be fully functional for me, the others living with me but also my non-tech grandma. That results into choosing solutions that don't use cloud services if not necesarry and that all lights still can always be switched manually. Therefore I use [Qubino Zwave modules](https://qubino.com/), enabling me to switch lights manually and 'smart', and some [ESPhome](https://esphome.io/) flashed [Sonoff modules](https://sonoff.itead.cc/en), which also come with a push button to switch the relays. A notable exception to this is the [Google Assistant integration](https://www.home-assistant.io/components/google_assistant/), which obviously requires a connection to Google.
 
 # My Home Assistant Infrastructure
 ## Main Hub
 ### Hardware
 - Raspberry Pi3B+
 - [Z-Wave.Me ZME_UZB1 USB Stick](https://tweakers.net/pricewatch/434681/z-wave-punt-me-usb-stick-met-z-wave-plus/specificaties/)
-- CC2531 Zigbee stick with [zigbee2mqtt](https://www.zigbee2mqtt.io/)
+- [CC2531 Zigbee stick](https://tweakers.net/aanbod/1992398/cc2531-zigbee-zigbee2mqtt-usb-stick.html) with [zigbee2mqtt](https://www.zigbee2mqtt.io/)
 
 ### Software
 - [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Stretch
@@ -33,7 +33,7 @@ My vision is that my Home Automation should always work, even when the internet 
  
 ### Wifi Switches
  - 2x [Sonoff basic](https://www.aliexpress.com/item/32831445550.html) switches running ESPhome (so no connection with China!)
- - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare.
+ - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare for the Chritsmas lights.
  
 ### Zigbee sensors
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
