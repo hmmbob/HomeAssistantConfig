@@ -7,9 +7,6 @@ My vision is that my Home Automation should always work, even when the internet 
 
 # My Home Assistant Infrastructure
 ## Main Hub
-<details>
-  <summary>Open to see information on the Hardware & Software I use</summary>
-  
 ### Hardware
 - Raspberry Pi3B+
 - [Z-Wave.Me ZME_UZB1 USB Stick](https://tweakers.net/pricewatch/434681/z-wave-punt-me-usb-stick-met-z-wave-plus/specificaties/)
@@ -26,13 +23,8 @@ My vision is that my Home Automation should always work, even when the internet 
   - [zigbee2mqtt](https://hub.docker.com/r/koenkk/zigbee2mqtt) running my zigbee network
   - [Duplicati](https://hub.docker.com/r/duplicati/duplicati) for encrypted backups of my config files to the cloud
   - [nginx](https://hub.docker.com/r/linuxserver/nginx) for some static file hosting.
-</details>
-
 
 ## Connected devices
-<details>
-  <summary>Open to see the connected devices I use</summary>
-  
 ### Z-Wave
  - 2x [Qubino Flush Dimmer](https://tweakers.net/pricewatch/467913/qubino-flush-dimmer-z-wave+/specificaties/) 1 for dining room, 1 for window light in living room
  - 1x [NEO COOLCAM NAS-PD02Z Z-wave Plus PIR Motion Sensor](https://www.aliexpress.com/item/32796863408.html) in the living room - links to a V2 but I use the V1 which lacks temperature support
@@ -58,13 +50,9 @@ My vision is that my Home Automation should always work, even when the internet 
 - Google Home Mini upstairs
 - LG SH-8 Soundbar in the living room
 - Google Chromecast in my TV (currently not used in Home Assistant, but hey - it could be)
-</details>
 
 # My actual Home Assistant configuration choices
 ## Presence detection
-<details>
-  <summary>Open to see the presence detection options I use</summary>
-  
 ### Owntracks 
  - [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location. 
 
@@ -74,6 +62,10 @@ My vision is that my Home Automation should always work, even when the internet 
    - [Monitor](https://github.com/andrewjfreyer/monitor), a distributed advertisement-based BTLE presence detection reported via mqtt
 
 Both the main hub and the Zero run [Monitor](https://github.com/andrewjfreyer/monitor) for BT presence detection. In Home Assistant I use a MAX-sensor, as I only need to know if any of these two Pi's sees the BT device we like to track. So if one of them has a "confidence" >0, that device is considered "home". See the monitor github page for more information.
-</details>
 
-(work in progress, I'll describe more on my setup later).
+
+
+
+
+
+(readme is work in progress, I'll describe more on my setup later).
