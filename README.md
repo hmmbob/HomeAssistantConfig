@@ -8,7 +8,7 @@ My vision is that my Home Automation should always work, even when the internet 
 # My Home Assistant Infrastructure
 ## Main Hub
 <details>
-  <summary>Click to see Hardware & Software information</summary>
+  <summary>Open to see information on the Hardware & Software I use</summary>
   
 ### Hardware
 - Raspberry Pi3B+
@@ -31,7 +31,7 @@ My vision is that my Home Automation should always work, even when the internet 
 
 ## Connected devices
 <details>
-  <summary>Click to see my connected devices</summary>
+  <summary>Open to see the connected devices I use</summary>
   
 ### Z-Wave
  - 2x [Qubino Flush Dimmer](https://tweakers.net/pricewatch/467913/qubino-flush-dimmer-z-wave+/specificaties/) 1 for dining room, 1 for window light in living room
