@@ -62,6 +62,9 @@ My vision is that my Home Automation should always work, even when the internet 
 
 # My actual Home Assistant configuration choices
 ## Presence detection
+<details>
+  <summary>Open to see the presence detection options I use</summary>
+  
 ### Owntracks 
  - [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location. 
 
@@ -69,6 +72,7 @@ My vision is that my Home Automation should always work, even when the internet 
  - Raspberry W Zero
    - [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Stretch
    - [Monitor](https://github.com/andrewjfreyer/monitor), a distributed advertisement-based BTLE presence detection reported via mqtt
+</details>
 
 Both the main hub and the Zero run [Monitor](https://github.com/andrewjfreyer/monitor) for BT presence detection. In Home Assistant I use a MAX-sensor, as I only need to know if any of these two Pi's sees the BT device we like to track. So if one of them has a "confidence" >0, that device is considered "home". See the monitor github page for more information.
 
