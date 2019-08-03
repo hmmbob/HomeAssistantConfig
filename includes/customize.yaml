@@ -20,8 +20,6 @@ group.all_devices:
   friendly_name: People
 media_player.tv:
   friendly_name: Chromecast TV
-#switch.aquarium:
-#  icon: mdi:lightbulb-outline
 switch.staande_lamp:
   icon: mdi:lightbulb-outline
 switch.tv_meubel:
