@@ -4,10 +4,6 @@
 - platform: version
   name: HA Currently Installed
 
-- platform: cert_expiry
-  host: !secret cert_expiry_host
-  port: !secret http_server_port
-
 ##########################
 ## Utility sensors
 ##########################

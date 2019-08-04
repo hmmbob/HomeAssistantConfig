@@ -75,6 +75,8 @@ http:
   server_port: !secret http_server_port
   ip_ban_enabled: True
   login_attempts_threshold: 2
+  use_x_forwarded_for: true
+  trusted_proxies: !secret http_trusted_proxies
 
 frontend:
   themes: !include_dir_named themes/
