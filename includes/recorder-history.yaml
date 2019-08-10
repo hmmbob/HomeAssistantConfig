@@ -1,3 +1,4 @@
+ ##Leave this line
     domains:
       - device_tracker
       - climate
@@ -23,3 +24,4 @@
       - switch.staande_lamp
       - switch.schuur_1
       - binary_sensor.door_contact_1
+      - binary_sensor.door_contact_2

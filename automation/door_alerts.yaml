@@ -21,7 +21,6 @@
 
 - id: freezer_door_left_open_timer
   alias: "Doors: Freezer door timer"
-  hide_entity: true
   trigger:
   - platform: event
     event_type: timer.finished
@@ -65,7 +64,6 @@
 
 - id: front_door_left_open_timer
   alias: "Doors: Front door timer"
-  hide_entity: true
   trigger:
   - platform: event
     event_type: timer.finished

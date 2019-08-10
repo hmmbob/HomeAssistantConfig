@@ -11,5 +11,9 @@ notify_door_open:
         language: nl
     - service: notify.google
       data_template:
-        message: "{{ message }}"
+        message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         title: "{{ title }}"
+    - service: logbook.log
+      data_template:
+        name: "{{ title }}: " 
+        message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."

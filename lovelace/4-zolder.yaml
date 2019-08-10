@@ -39,7 +39,3 @@ cards:
     show_header_toggle: false
     entities:
       - binary_sensor.door_contact_1
-
-
-
-
