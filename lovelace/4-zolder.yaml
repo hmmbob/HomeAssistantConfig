@@ -34,6 +34,12 @@ cards:
         line_width: 8
         font_size: 75
 
+  - type: entities
+    title: Vriezer
+    show_header_toggle: false
+    entities:
+      - binary_sensor.door_contact_1
+
 
 
 

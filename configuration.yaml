@@ -116,6 +116,7 @@ recorder:
       - switch.grijze_lamp
       - switch.staande_lamp
       - switch.schuur_1
+      - binary_sensor.door_contact_1
 
 history:
   include:
@@ -143,6 +144,7 @@ history:
       - switch.grijze_lamp
       - switch.staande_lamp
       - switch.schuur_1
+      - binary_sensor.door_contact_1
 
 #################################################################
 ## Components

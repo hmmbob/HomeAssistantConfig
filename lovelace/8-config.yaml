@@ -45,8 +45,9 @@ cards:
         name: "Batterij zolder"
       - entity: sensor.temp2_battery
         type: custom:battery-entity
+      - entity: sensor.door_contact_1_battery
+        type: custom:battery-entity
       - sensor.ha_currently_installed
-      - sensor.docker_version
 
   - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
     type: entities

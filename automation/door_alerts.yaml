@@ -1,0 +1,37 @@
+##########################
+## Freezer door alert
+##########################
+- id: freezer_door_left_open
+  alias: "Doors: Freezer door left open"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.door_contact_1
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 2
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_freezer_door_open
+  - service: timer.start #2min timer to reannounce that door is open
+    data:
+      entity_id: timer.freezer_door_open
+
+- id: freezer_door_left_open_timer
+  alias: "Doors: Freezer door timer"
+  hide_entity: true
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.freezer_door_open
+  condition:
+  - condition: state  #Stop if door has been closed
+    entity_id: binary_sensor.door_contact_1
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_freezer_door_open
+  - service: timer.start #Start timer all over again
+    data:
+      entity_id: timer.freezer_door_open

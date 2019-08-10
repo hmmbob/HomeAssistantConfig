@@ -228,7 +228,7 @@
 #   data:
 #     entity_id: media_player.living_room_home
 #     volume_level: 0.6
-  - service: tts.google_say
+  - service: tts.google_translate_say
     entity_id: media_player.living_room_home
     data:
       message: Papa is thuis

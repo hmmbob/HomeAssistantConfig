@@ -2,3 +2,8 @@
 zigbee_permit_join:
   name: Time remaining
   duration: 120
+
+# Timer freezer door open (120 sec = 2 min)
+freezer_door_open:
+  name: Freezer timer
+  duration: 120

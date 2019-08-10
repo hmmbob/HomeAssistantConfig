@@ -1,0 +1,25 @@
+    domains:
+      - device_tracker
+      - climate
+    entities:
+      - binary_sensor.pir_sensor_motion
+      - light.eetkamer_level
+      - light.window_level
+      - sensor.pir_sensor_luminance
+      - sensor.reistijd_thuis_werk
+      - sensor.reistijd_werk_thuis
+      - sensor.benzine_z
+      - sensor.diesel_z
+      - sensor.benzine_u
+      - sensor.diesel_u
+      - sensor.temp1_temperature
+      - sensor.temp1_humidity
+      - sensor.temp2_temperature
+      - sensor.temp2_humidity
+      - sensor.outside_temperature
+      - sensor.room_temperature
+      - switch.blauwe_lamp
+      - switch.grijze_lamp
+      - switch.staande_lamp
+      - switch.schuur_1
+      - binary_sensor.door_contact_1
