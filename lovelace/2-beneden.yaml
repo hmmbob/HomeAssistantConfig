@@ -89,3 +89,9 @@ cards:
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75
+
+  - type: entities
+    title: Voordeur
+    show_header_toggle: false
+    entities:
+      - binary_sensor.door_contact_2

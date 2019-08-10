@@ -2,14 +2,14 @@ update_zigbee_network_map:
   sequence:
     - service: zigbee2mqtt_networkmap.update
 
-notify_freezer_door_open:
+notify_door_open:
   sequence:
     - service: tts.google_translate_say
       entity_id: media_player.living_room_home
-      data:
-        message: "Let op: de vriezer is nog open!"
+      data_template:
+        message: "{{ message }}"
         language: nl
     - service: notify.google
       data_template:
-        message: "Let op: de vriezer is nog open!"
-        title: Vriezer
+        message: "{{ message }}"
+        title: "{{ title }}"

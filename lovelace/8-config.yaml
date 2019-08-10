@@ -45,8 +45,13 @@ cards:
         name: "Batterij zolder"
       - entity: sensor.temp2_battery
         type: custom:battery-entity
+        name: "Batterij 1e verdieping"
       - entity: sensor.door_contact_1_battery
         type: custom:battery-entity
+        name: "Batterij vriezer"
+      - entity: sensor.door_contact_2_battery
+        type: custom:battery-entity
+        name: "Batterij voordeur"
       - sensor.ha_currently_installed
 
   - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
