@@ -17,7 +17,9 @@ resources:
     type: module
   - url: /community_plugin/compact-custom-header/compact-custom-header.js
     type: module
-
+  - url: /community_plugin/button-card/button-card.js
+    type: module
+ 
 cch:
   menu: overflow
   voice: clock

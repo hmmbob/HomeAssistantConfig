@@ -19,7 +19,7 @@
       entity_id: sensor.reistijd_bob_naar_huis
 
 ##########################
-## Update Waze sensors tijdens commute
+## Update Waze sensors during commute
 ##########################
 - id: waze_update_morning_commute
   alias: 'Waze: update morning commute'
@@ -31,8 +31,8 @@
       seconds: 00
   condition: 
   - condition: time
-    after: '05:00:00'
-    before: '09:00:00'
+    after: '05:30:00'
+    before: '08:00:00'
     weekday:
       - mon
       - tue
@@ -53,7 +53,7 @@
       seconds: 00
   condition: 
   - condition: time
-    after: '14:00:00'
+    after: '15:00:00'
     before: '19:00:00'
     weekday:
       - mon
@@ -65,3 +65,18 @@
     - service: homeassistant.update_entity
       entity_id: sensor.reistijd_werk_thuis
 
+- id: waze_update_to_home
+  alias: 'Waze: update to home'
+  initial_state: on
+  hide_entity: false
+  trigger:
+    - platform: time_pattern
+      minutes: '/5'
+      seconds: 00
+  condition:  
+    condition: state
+    entity_id: device_tracker.bob_bt
+    state: not_home
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.reistijd_bob_naar_huis

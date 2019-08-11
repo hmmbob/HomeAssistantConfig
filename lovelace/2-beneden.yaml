@@ -5,8 +5,7 @@ path: beneden
 title: Beneden
 icon: mdi:home-floor-g
 cards:
-  - id: 619239c00d7247e7bb0659ec0799de51  # Automatically created id
-    type: vertical-stack
+  - type: vertical-stack
     cards:
       - type: horizontal-stack
         cards:
@@ -32,7 +31,6 @@ cards:
                 state_filter:
                   "on": drop-shadow(-5px 0 10px gold)
                   "off": brightness(80%) saturate(0.8)
-
 
   - id: 619239c00d724123456659ec0799de51  # Automatically created id
     type: glance

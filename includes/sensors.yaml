@@ -88,6 +88,7 @@
   origin: device_tracker.bob_s9
   destination: zone.home
   region: 'EU'
+  scan_interval: 1800
 
 - platform: waze_travel_time
   name: Reistijd Thuis-Werk

@@ -198,7 +198,7 @@
   alias: "Lights: Sunset: set sunset lights"
   initial_state: 'on'
   trigger:
-    platform: event
+  - platform: event
     event_type: html5_notification.clicked
     event_data:
       action: turn_on_sunset_lights
