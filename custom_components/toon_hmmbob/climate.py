@@ -1,49 +1,65 @@
 """
-Support for Eneco's Toon thermostats.
+Support for TOON thermostat.
 Only the rooted version.
 
 configuration.yaml
 
 climate:
   - platform: toon_climate
-    name: Toon Thermostat
-    host: IP_ADDRESS
+    name: TOON Thermostat
+    host: <IP_ADDRESS>
     port: 10080
     scan_interval: 10
 """
 import logging
 import json
+import requests
 import voluptuous as vol
+from typing import Any, Dict, List, Optional
 
 from homeassistant.components.climate import (ClimateDevice, PLATFORM_SCHEMA)
 from homeassistant.components.climate.const import (
-    SUPPORT_TARGET_TEMPERATURE, HVAC_MODE_HEAT, SUPPORT_PRESET_MODE,
-    PRESET_AWAY, PRESET_COMFORT, PRESET_HOME, PRESET_SLEEP)
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_PORT,
-                                 TEMP_CELSIUS, ATTR_TEMPERATURE)
+    HVAC_MODE_HEAT,
+    HVAC_MODE_OFF,
+    PRESET_AWAY,
+    PRESET_COMFORT,
+    PRESET_HOME,
+    PRESET_SLEEP,
+    SUPPORT_PRESET_MODE,
+    SUPPORT_TARGET_TEMPERATURE,
+    CURRENT_HVAC_HEAT,
+    CURRENT_HVAC_IDLE,
+    CURRENT_HVAC_OFF,
+)
+
+from homeassistant.const import (
+    CONF_NAME,
+    CONF_HOST,
+    CONF_PORT,
+    TEMP_CELSIUS,
+    ATTR_TEMPERATURE,
+)
+
+from homeassistant.helpers.typing import HomeAssistantType
 import homeassistant.helpers.config_validation as cv
-
-import requests
-
-SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
-SUPPORT_PRESET = [PRESET_COMFORT, PRESET_HOME, PRESET_SLEEP, PRESET_AWAY, 'Holiday']
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_NAME = 'Toon Thermostat'
-DEFAULT_TIMEOUT = 5
-BASE_URL = 'http://{0}:{1}{2}'
+SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
+SUPPORT_PRESETS = [PRESET_AWAY, PRESET_COMFORT, PRESET_HOME, PRESET_SLEEP]
+SUPPORT_MODES = [HVAC_MODE_HEAT, HVAC_MODE_OFF]
 
-ATTR_MODE = 'mode'
-STATE_MANUAL = 'manual'
-STATE_UNKNOWN = 'unknown'
+DEFAULT_NAME = 'TOON Thermostat'
+DEFAULT_TIMEOUT = 5
+DEFAULT_MAX_TEMP = 30.0
+DEFAULT_MIN_TEMP = 6.0
+BASE_URL = 'http://{0}:{1}{2}'
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
     vol.Required(CONF_HOST): cv.string,
     vol.Optional(CONF_PORT, default=10800): cv.positive_int,
 })
-
 
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
@@ -54,32 +70,36 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 # pylint: disable=abstract-method
 # pylint: disable=too-many-instance-attributes
 class ThermostatDevice(ClimateDevice):
-    """Representation of a Toon thermostat."""
+    """Representation of a TOON climate device."""
 
-    def __init__(self, name, host, port):
-        """Initialize the thermostat."""
+    def __init__(self, name, host, port) -> None:
+        """Initialize the TOON climate device."""
         self._data = None
         self._name = name
         self._host = host
         self._port = port
-        self._current_temp = None
-        self._current_setpoint = None
-        self._current_state = -1
-        self._current_operation = ''
-        self._set_state = None
-        _LOGGER.debug("Init called")
+
+        self._current_temperature = None
+        self._target_temperature = None
+        self._heating = False
+        self._burner_info = None
+        self._modulation_level = None
+        self._program_state = None
+        self._hvac_mode = HVAC_MODE_HEAT
+        self._preset = None
         self.update()
 
     @staticmethod
     def do_api_request(url):
         """Does an API request."""
         req = requests.get(url, timeout=DEFAULT_TIMEOUT)
+        _LOGGER.debug("API request %s", url)
         if req.status_code != requests.codes.ok:
-            _LOGGER.exception("Error doing API request")
+            _LOGGER.exception("API request returned error %d", req.status_code)
         else:
-            _LOGGER.debug("API request ok %d", req.status_code)
+            _LOGGER.debug("API request returned OK %d", req.status_code)
 
-        """Fixes invalid JSON output by TOON"""
+        """Fix invalid JSON output"""
         reqinvalid = req.text
         reqvalid = reqinvalid.replace('",}', '"}')
 
@@ -88,112 +108,160 @@ class ThermostatDevice(ClimateDevice):
     @property
     def should_poll(self):
         """Polling needed for thermostat."""
-        _LOGGER.debug("Should_Poll called")
         return True
 
-    def update(self):
-        """Update the data from the thermostat."""
+    def update(self) -> None:
+        """Update local data with thermostat data."""
+        _LOGGER.debug("Update called")
         self._data = self.do_api_request(BASE_URL.format(
             self._host,
             self._port,
             '/happ_thermstat?action=getThermostatInfo'))
-        self._current_setpoint = int(self._data['currentSetpoint'])/100
-        self._current_temp = int(self._data['currentTemp'])/100
-        self._current_state = int(self._data['activeState'])
-        _LOGGER.debug("Update called")
+        self._current_temperature = int(self._data['currentTemp'])/100
+        self._target_temperature = int(self._data['currentSetpoint'])/100
+        self._program_state = int(self._data['programState'])
+        self._burner_info = int(self._data['burnerInfo'])
+        self._modulation_level = int(self._data['currentModulationLevel'])
+
+        state = int(self._data['activeState'])
+        if state == 0:
+            self._preset = PRESET_COMFORT
+        elif state == 1:
+            self._preset = PRESET_HOME
+        elif state == 2:
+            self._preset = PRESET_SLEEP
+        elif state == 3:
+            self._preset = PRESET_AWAY
+        else:
+            self._preset = None
+
+        self._heating = self._burner_info == 1
 
     @property
-    def supported_features(self):
+    def supported_features(self) -> int:
         """Return the list of supported features."""
         return SUPPORT_FLAGS
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Return the name of the thermostat."""
         return self._name
 
     @property
-    def device_state_attributes(self):
-        """Return the device specific state attributes."""
-        return {
-            ATTR_MODE: self._current_state
-        }
+    def device_state_attributes(self) -> Dict[str, Any]:
+        """Return the current state of the burner."""
+        return {"burner_info": self._burner_info, "modulation_level": self._modulation_level}
 
     @property
-    def temperature_unit(self):
+    def temperature_unit(self) -> str:
         """Return the unit of measurement."""
         return TEMP_CELSIUS
 
     @property
-    def current_temperature(self):
+    def current_temperature(self) -> Optional[float]:
         """Return the current temperature."""
-        return self._current_temp
+        return self._current_temperature
 
     @property
-    def target_temperature(self):
+    def target_temperature(self) -> Optional[float]:
         """Return the temperature we try to reach."""
-        return self._current_setpoint
+        return self._target_temperature
 
     @property
-    def hvac_mode(self):
-        """Return the current state of the thermostat."""
-        return HVAC_MODE_HEAT
+    def min_temp(self) -> float:
+        """Return the minimum temperature."""
+        return DEFAULT_MIN_TEMP
 
     @property
-    def hvac_modes(self):
-        return [HVAC_MODE_HEAT]
+    def max_temp(self) -> float:
+        """Return the maximum temperature."""
+        return DEFAULT_MAX_TEMP
 
-    @property
-    def preset_mode(self):
-        """Return the current state of the thermostat."""
-        state = self._current_state
-        if state in (0, 1, 2, 3, 4):
-            return SUPPORT_PRESET[state]
-        elif state == -1:
-            return STATE_MANUAL
+    def set_preset_mode(self, preset_mode) -> None:
+        """Set HVAC mode (comfort, home, sleep, away)."""
+        if preset_mode == "comfort":
+            state = 0
+        elif preset_mode == "home":
+            state = 1
+        elif preset_mode == "sleep":
+            state = 2
+        elif preset_mode == "away":
+            state = 3
         else:
-            return STATE_UNKNOWN
-
-    @property
-    def preset_modes(self):
-        """List of available operation modes."""
-        return SUPPORT_PRESET
-
-    def set_preset_mode(self, operation_mode):
-        """Set preset mode (comfort, home, sleep, away, holiday)."""
-        mode = None
-        if operation_mode == PRESET_COMFORT:
-            mode = 0
-        elif operation_mode == PRESET_HOME:
-            mode = 1
-        elif operation_mode == PRESET_SLEEP:
-            mode = 2
-        elif operation_mode == PRESET_AWAY:
-            mode = 3
-        elif operation_mode == "Holiday":
-            mode = 4
-
-        if mode is None:
-            _LOGGER.info("Skipped set present mode, because it is None")
-            return
+            state = -1
 
         self._data = self.do_api_request(BASE_URL.format(
             self._host,
             self._port,
             '/happ_thermstat?action=changeSchemeState'
-            '&state=2&temperatureState='+str(mode)))
-        _LOGGER.debug("Set operation mode=%s(%s)", str(operation_mode),
-                      str(mode))
+            '&state=2&temperatureState='+str(state)))
+        _LOGGER.debug("Set TOON preset mode to %s (value %s)", str(preset_mode),
+                      str(state))
+        self._preset = preset_mode
+        
 
-    def set_temperature(self, **kwargs):
-        """Set new target temperature."""
-        temperature = kwargs.get(ATTR_TEMPERATURE)*100
-        if temperature is None:
+    def set_temperature(self, **kwargs) -> None:
+        """Set target temperature."""
+        target_temperature = kwargs.get(ATTR_TEMPERATURE)
+        if target_temperature  is None:
             return
         else:
+            value = target_temperature*100
             self._data = self.do_api_request(BASE_URL.format(
                 self._host,
                 self._port,
-                '/happ_thermstat?action=setSetpoint'
-                '&Setpoint='+str(temperature)))
-            _LOGGER.debug("Set temperature=%s", str(temperature))
+                '/happ_thermstat?action=setSetpoint&Setpoint='+str(value)))
+            _LOGGER.debug("Set TOON target temp to %s°C (value %s)", str(target_temperature), str(value))
+        self._target_temperature = target_temperature
+
+    @property
+    def hvac_mode(self) -> str:
+        """Return the current operation mode."""
+        return self._hvac_mode
+
+    @property
+    def hvac_modes(self) -> List[str]:
+        """Return the list of available hvac operation modes."""
+        return SUPPORT_MODES
+
+    @property
+    def hvac_action(self) -> Optional[str]:
+        """Return the current running hvac operation."""
+        if self._heating:
+            return CURRENT_HVAC_HEAT
+        if self._program_state == 0:
+            return CURRENT_HVAC_OFF
+        else:
+            return CURRENT_HVAC_IDLE
+
+    @property
+    def preset_mode(self) -> Optional[str]:
+        """Return the current preset mode, e.g., home, away, temp."""
+        if self._preset is not None:
+            return self._preset.lower()
+        return None
+
+    @property
+    def preset_modes(self) -> List[str]:
+        """List of available preset modes."""
+        return SUPPORT_PRESETS
+
+    def set_hvac_mode(self, hvac_mode: str) -> None:
+        """Set new target hvac mode."""
+        _LOGGER.debug("Set TOON hvac mode to %s", str(hvac_mode))
+
+        """Turn off/on TOON heating program."""
+        if hvac_mode == 'off':
+            self._data = self.do_api_request(BASE_URL.format(
+                self._host,
+                self._port,
+                '/happ_thermstat?action=changeSchemeState'
+                '&state=0'))
+            self._hvac_mode = HVAC_MODE_OFF
+        elif hvac_mode == 'heat':
+            self._data = self.do_api_request(BASE_URL.format(
+                self._host,
+                self._port,
+                '/happ_thermstat?action=changeSchemeState'
+                '&state=1'))
+            self._hvac_mode = HVAC_MODE_HEAT

@@ -19,11 +19,24 @@ homeassistant:
     - type: notify
       message: 'I almost forget, to get into my clubhouse, you need to say {}'
 
+recorder:
+  db_url: !secret recorder_url
+  purge_interval: 1
+  purge_keep_days: 31
+  include: !include includes/recorder-history.yaml
+
+history:
+  include: !include includes/recorder-history.yaml
+
 logger:
   default: warn
 
-lovelace:
-  mode: yaml
+logbook:
+  exclude:
+    entities:
+      - binary_sensor.pir_sensor_motion
+      - sensor.outside_temperature
+      - sensor.room_temperature
 
 mqtt:
   broker: !secret mqtt_broker
@@ -50,6 +63,22 @@ sun:
 system_health:
 
 #################################################################
+## Frontend
+#################################################################  
+http:
+  server_port: !secret http_server_port
+  ip_ban_enabled: True
+  login_attempts_threshold: 2
+  use_x_forwarded_for: true
+  trusted_proxies: !secret http_trusted_proxies
+
+lovelace:
+  mode: yaml
+
+frontend:
+  themes: !include_dir_named themes/
+
+#################################################################
 ## Includes
 #################################################################  
 automation: !include_dir_merge_list automation/
@@ -67,34 +96,6 @@ sensor: !include includes/sensors.yaml
 switch: !include includes/switch.yaml
 timer: !include includes/timer.yaml
 zone: !include includes/zones.yaml
-
-#################################################################
-## Frontend
-#################################################################  
-http:
-  server_port: !secret http_server_port
-  ip_ban_enabled: True
-  login_attempts_threshold: 2
-  use_x_forwarded_for: true
-  trusted_proxies: !secret http_trusted_proxies
-
-frontend:
-  themes: !include_dir_named themes/
-
-logbook:
-  exclude:
-    entities:
-      - binary_sensor.pir_sensor_motion
-      - sensor.outside_temperature
-      - sensor.room_temperature
-
-recorder:
-  purge_interval: 1
-  purge_keep_days: 10
-  include: !include includes/recorder-history.yaml
-
-history:
-  include: !include includes/recorder-history.yaml
 
 #################################################################
 ## Components
@@ -155,5 +156,3 @@ weather:
   - platform: darksky
     api_key: !secret darksky_api
     mode: daily
-
-zigbee2mqtt_networkmap:

@@ -29,6 +29,11 @@ toon_on_movement:
   initial: 'off'
   icon: mdi:thermostat
 
+notify_door_alert:
+  name: 'Deur alarm'
+  initial: 'on'
+  icon: mdi:google-home
+
 # Input boolean for enabling/disabling zigbee joining
 zigbee_permit_join:
   name: Allow devices to join

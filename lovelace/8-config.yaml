@@ -18,14 +18,18 @@ cards:
         tap_action: 
           action: toggle
         name: Afval Voice
-      - entity: input_boolean.vacation_mode_home
-        tap_action: 
-          action: toggle
-        name: Vakantie thuis
+#      - entity: input_boolean.vacation_mode_home
+#        tap_action: 
+#          action: toggle
+#        name: Vakantie thuis
       - entity: input_boolean.vacation_mode_away
         tap_action: 
           action: toggle
         name: Vakantie weg
+      - entity: input_boolean.notify_door_alert
+        tap_action: 
+          action: toggle
+        name: Deur alarm mute
 
   - id: c78f07f54176407b123456923a45f10a  # Automatically created id
     type: entities
@@ -53,6 +57,8 @@ cards:
         type: custom:battery-entity
         name: "Batterij voordeur"
       - sensor.ha_currently_installed
+      - entity: sensor.hacs
+        name: "HACS Updates"
 
   - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
     type: entities
@@ -72,11 +78,11 @@ cards:
       - input_boolean.zigbee_permit_join
       - timer.zigbee_permit_join
       - input_select.zigbee2mqtt_log_level
-      - entity: script.update_zigbee_network_map
-        name: Zigbee2Mqtt NetworkMap Update
-        icon: 'mdi:graphql'
-      - type: weblink
-        name: Open Zigbee2Mqtt NetworkMap
-        icon: 'mdi:graphql'
-        url: /local/community/zigbee2mqtt_networkmap/map.html
+#      - entity: script.update_zigbee_network_map
+#        name: Zigbee2Mqtt NetworkMap Update
+#        icon: 'mdi:graphql'
+#      - type: weblink
+#        name: Open Zigbee2Mqtt NetworkMap
+#        icon: 'mdi:graphql'
+#        url: /local/community/zigbee2mqtt_networkmap/map.html
 

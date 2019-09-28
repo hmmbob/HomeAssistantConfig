@@ -10,6 +10,10 @@
     to: 'on'
     for:
       minutes: 2
+  condition:
+  - condition: state  #Only alert when wanted
+    entity_id: input_boolean.notify_door_alert
+    state: 'on'
   action:
   - service: script.notify_door_open
     data:
@@ -27,9 +31,14 @@
     event_data:
       entity_id: timer.freezer_door_open
   condition:
-  - condition: state  #Stop if door has been closed
-    entity_id: binary_sensor.door_contact_1
-    state: 'on'
+  - condition: and
+    conditions:
+    - condition: state  #Stop if door has been closed
+      entity_id: binary_sensor.door_contact_1
+      state: 'on'
+    - condition: state  #No alert if alerts muted
+      entity_id: input_boolean.notify_door_alert
+      state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_door_open
@@ -52,7 +61,11 @@
     from: 'off'
     to: 'on'
     for:
-      minutes: 2
+      minutes: 5
+  condition:
+  - condition: state  #No alert if alerts muted
+    entity_id: input_boolean.notify_door_alert
+    state: 'on'
   action:
   - service: script.notify_door_open
     data:
@@ -70,9 +83,14 @@
     event_data:
       entity_id: timer.front_door_open
   condition:
-  - condition: state  
-    entity_id: binary_sensor.door_contact_2
-    state: 'on'
+  - condition: and
+    conditions:
+    - condition: state  
+      entity_id: binary_sensor.door_contact_2
+      state: 'on'
+    - condition: state  #No alert if alerts muted
+      entity_id: input_boolean.notify_door_alert
+      state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_door_open
@@ -83,3 +101,44 @@
   - service: timer.start 
     data:
       entity_id: timer.front_door_open
+
+##########################
+## Mute door alert
+##########################
+
+- id: notify_door_alert
+  alias: "Doors: mute alerts"
+  initial_state: 'on'
+  trigger:
+  - platform: event
+    event_type: html5_notification.clicked
+    event_data:
+      action: notify_door_alert
+  action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.notify_door_alert
+  - service: notify.google
+    data_template:
+      message: "Waarschuwingen voor 10 min gedempt."
+      title: Deur waarschuwingen
+    data:
+      data:
+        tag: 'open_door'
+  - service: logbook.log
+    data_template:
+      name: "Deur waarschuwingen: " 
+      message: "Deur waarschuwingen gemute ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
+  - delay: 00:10:00
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.notify_door_alert
+  - service: notify.google
+    data_template:
+      message: "Waarschuwingen weer actief."
+      title: Deur waarschuwingen
+    data:
+      data:
+        tag: 'open_door'
+  - service: logbook.log
+    data_template:
+      name: "Deur waarschuwingen: " 
+      message: "Deur waarschuwingen weer actief ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."

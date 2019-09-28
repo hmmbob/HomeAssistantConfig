@@ -1,5 +1,5 @@
 resources:
-  - url: /community_plugin/mini-media-player/mini-media-player.js
+  - url: /community_plugin/mini-media-player/mini-media-player-bundle.js
     type: module
   - url: /community_plugin/lovelace-slider-entity-row/slider-entity-row.js
     type: js
@@ -11,7 +11,7 @@ resources:
     type: js
   - url: /community_plugin/lovelace-postnl-card/postnl-card.js
     type: module
-  - url: /community_plugin/mini-graph-card/mini-graph-card.js
+  - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
     type: module
   - url: /community_plugin/lovelace-battery-entity/battery-entity.js
     type: module

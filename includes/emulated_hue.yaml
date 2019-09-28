@@ -1,7 +1,7 @@
-expose_by_default: true
-exposed_domains:
- - light
- - switch
+expose_by_default: false
+#exposed_domains:
+# - light
+# - switch
 entities:
   switch.staande_lamp:
     name: "Staande lamp"
@@ -28,3 +28,19 @@ entities:
     hidden: true
   switch.window:
     hidden: true
+  switch.zigbee2mqtt_main_join:
+    hidden: true
+  light.blauwe_lamp_green_led:
+    hidden: true
+  light.grijze_lamp_green_led:
+    hidden: true
+  input_boolean.notify_door_alert:
+    name: "z. Deur alarmen"
+    hidden: false
+  input_boolean.enable_cover:
+    name: "z. Rolluik automatisering"
+    hidden: false
+  input_boolean.notify_trash_voice:
+    name: "z. Meldingen Afval"
+    hidden: false
+

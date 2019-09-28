@@ -13,6 +13,12 @@ notify_door_open:
       data_template:
         message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         title: "{{ title }}"
+      data:
+        data:
+          tag: 'open_door'
+          actions:
+          - action: notify_door_alert
+            title: "10 min dempen"
     - service: logbook.log
       data_template:
         name: "{{ title }}: " 
