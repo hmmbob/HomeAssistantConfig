@@ -55,6 +55,17 @@ cards:
     scroll_info: true
     show_source: true
 
+  - id: 9a34bfa36b1axyz3971c0439a08774db  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.tv_beneden
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+
 #  - type: custom:mini-media-player
 #    entity: media_player.spotify
 #    icon: 'mdi:spotify'

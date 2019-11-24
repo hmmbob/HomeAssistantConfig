@@ -6,7 +6,7 @@ title: Power
 icon: mdi:flash
 cards:
   - id: e0571d19712345bb853a1a8fb8412345  # Automatically created id
-    type: custom:monster-card
+    type: custom:auto-entities
     card:
       type: entities
       title: Smartmeter meterstanden

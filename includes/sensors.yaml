@@ -105,6 +105,15 @@
   scan_interval: 1800
 
 ##########################
+## Geocode
+##########################
+- platform: google_geocode
+  origin: device_tracker.bob_s9
+  options: street, city
+  display_zone: show
+  api_key: !secret google_maps_api_key
+
+##########################
 ## Gas prices sensors
 ##########################
 - platform: scrape

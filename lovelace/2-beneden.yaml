@@ -7,68 +7,121 @@ icon: mdi:home-floor-g
 cards:
   - type: vertical-stack
     cards:
-      - type: horizontal-stack
-        cards:
-          - type: picture-entity
-            entity: switch.staande_lamp
-            tap_action: 
-              action: toggle
-            image: /local/icons/staandelamp.jpg
-            state_image:
-              on: /local/icons/staandelamp.jpg
-            state_filter:
-              on: drop-shadow(-5px 0 10px gold)
-              off: brightness(80%) saturate(0.8)
-          - type: vertical-stack
-            cards:
-              - type: picture-entity
-                entity: switch.grijze_lamp
-                tap_action: 
-                  action: toggle
-                image: /local/icons/tvmeubel.jpg
-                state_image:
-                  "on": /local/icons/tvmeubel.jpg
-                state_filter:
-                  "on": drop-shadow(-5px 0 10px gold)
-                  "off": brightness(80%) saturate(0.8)
-
-  - id: 619239c00d724123456659ec0799de51  # Automatically created id
-    type: glance
-    show_name: true
-    show_state: false
-    column_width: calc(100% / 4)
-    entities:
-      - entity: scene.etenstijd
+    - type: horizontal-stack ### 1st row
+      cards:
+      - type: custom:button-card
+        entity: switch.staande_lamp
+        name: Staande lamp
+        icon: mdi:floor-lamp
+        show_state: false
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 14px
+        state:
+          - value: 'off'
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - filter: grayscale(100%)
+      - type: custom:button-card
+        entity: switch.grijze_lamp
+        name: Grijze lamp
+        icon: mdi:lamp
+        show_state: false
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 14px
+        state:
+          - value: 'off'
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - filter: grayscale(100%)
+      - type: custom:button-card
+        entity: switch.blauwe_lamp
+        name: Blauwe lamp
+        icon: mdi:lamp
+        show_state: false
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 14px
+        state:
+          - value: 'off'
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - filter: grayscale(100%)
+    - type: horizontal-stack #### 2nd row
+      cards:
+      - type: custom:button-card
+        entity: scene.etenstijd
         tap_action: 
           action: call-service
           service: scene.turn_on
           service_data: 
             entity_id: scene.etenstijd
-      - entity: scene.avond
+        name: Etenstijd
+        icon: mdi:silverware-variant
+        show_state: false
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 14px
+      - type: custom:button-card
+        entity: scene.avond
         tap_action: 
           action: call-service
           service: scene.turn_on
           service_data: 
             entity_id: scene.avond
-      - entity: scene.alles_uit
+        name: Avond
+        icon: mdi:lightbulb-on-outline
+        show_state: false
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 14px
+      - type: custom:button-card
+        entity: scene.alles_uit
         tap_action: 
           action: call-service
           service: scene.turn_on
           service_data: 
             entity_id: scene.alles_uit
-      - entity: switch.blauwe_lamp
-        tap_action: 
-          action: toggle
+        name: Alles uit
+        icon: mdi:lightbulb
+        show_state: false
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 14px
 
-  - id: 619239c00d123453456659ec0799de51  # Automatically created id
-    type: entities
-    entities:
-      - entity: light.eetkamer_level
+  - type: horizontal-stack
+    cards:
+      - type: light
+        entity: light.eetkamer_level
         name: Eetkamer
-        type: custom:slider-entity-row
-      - entity: light.window_level
+      - type: light
+        entity: light.window_level
         name: Voorraam
-        type: custom:slider-entity-row
 
   - type: thermostat
     entity: climate.woonkamer

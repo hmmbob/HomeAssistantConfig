@@ -71,6 +71,7 @@ http:
   login_attempts_threshold: 2
   use_x_forwarded_for: true
   trusted_proxies: !secret http_trusted_proxies
+  base_url: !secret http_base_url
 
 lovelace:
   mode: yaml
@@ -112,6 +113,7 @@ cast:
     - host: !secret cast_ip_gh
     - host: !secret cast_ip_hm
     - host: !secret cast_ip_sb
+    - host: !secret androidtv
 
 climate:
   platform: toon_hmmbob
@@ -142,6 +144,9 @@ notify:
     vapid_pub_key: !secret gcm-vapid-public-key
     vapid_prv_key: !secret gcm-vapid-private-key
     vapid_email: !secret gcm-vapid-email
+  - platform: nfandroidtv
+    name: TV
+    host: !secret androidtv
 
 owntracks:
   max_gps_accuracy: 250
@@ -151,7 +156,7 @@ tts:
   - platform: google_translate
     base_url: !secret tts_base_url
     time_memory: 60
-    
+
 weather:
   - platform: darksky
     api_key: !secret darksky_api

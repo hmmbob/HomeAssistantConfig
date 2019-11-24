@@ -112,10 +112,10 @@
     for:
       minutes: 30
   - platform: time
-    at: '08:35:00'
-  - platform: sun
-    event: sunrise
-    offset: "00:25:00"
+    at: '08:36:00'
+#  - platform: sun
+#    event: sunrise
+#    offset: "00:25:00"
   condition: 
   - condition: and
     conditions:

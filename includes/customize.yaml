@@ -53,12 +53,6 @@ sensor.schuur_power_1:
   icon: mdi:power-plug
 switch.schuur_1:
   icon: mdi:gate
-scene.etenstijd:
-  icon: mdi:silverware-variant
-scene.avond:
-  icon: mdi:lightbulb-on-outline
-scene.alles_uit:
-  icon: mdi:lightbulb
 sensor.ha_currently_installed:
   icon: mdi:home-assistant
 sensor.sunrise_time:

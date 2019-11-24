@@ -1,10 +1,8 @@
 resources:
   - url: /community_plugin/mini-media-player/mini-media-player-bundle.js
     type: module
-  - url: /community_plugin/lovelace-slider-entity-row/slider-entity-row.js
-    type: js
-  - url: /community_plugin/monster-card/monster-card.js
-    type: js
+  - url: /community_plugin/lovelace-auto-entities/auto-entities.js
+    type: module
   - url: /community_plugin/weather-card/weather-card.js
     type: module
   - url: https://unpkg.com/moment@2.24.0/moment.js
@@ -20,12 +18,12 @@ resources:
   - url: /community_plugin/button-card/button-card.js
     type: module
  
-cch:
-  menu: overflow
-  voice: clock
-  clock_format: 24
-  swipe: true
-  swipe_animate: swipe
+#cch:
+#  menu: overflow
+#  voice: clock
+#  clock_format: 24
+#  swipe: true
+#  swipe_animate: swipe 
 
 title: Home sweet home
 views:

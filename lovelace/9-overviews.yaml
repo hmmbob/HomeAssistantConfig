@@ -6,7 +6,7 @@ title: Overview
 icon: mdi:magnify
 cards:
   - id: e0571d1974a74ebb853a1a8fb849cec0  # Automatically created id
-    type: custom:monster-card
+    type: custom:auto-entities
     card:
       type: entities
       title: Things that might be broken
@@ -18,7 +18,7 @@ cards:
         - entity_id: group.*
 
   - id: 069aeb9203024ec7b1d3154ae2f6e1e8  # Automatically created id
-    type: custom:monster-card
+    type: custom:auto-entities
     card:
       type: entities
       title: All automations
@@ -28,7 +28,7 @@ cards:
         - entity_id: automation.*
 
   - id: e0571d19712345bb853a1a8fb849cec0  # Automatically created id
-    type: custom:monster-card
+    type: custom:auto-entities
     card:
       type: entities
       title: All Input Booleans
