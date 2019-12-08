@@ -18,7 +18,7 @@ resources:
   - url: /community_plugin/button-card/button-card.js
     type: module
  
-#cch:
+#cch: 
 #  menu: overflow
 #  voice: clock
 #  clock_format: 24

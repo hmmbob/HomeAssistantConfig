@@ -59,11 +59,11 @@
 ## PostNL Custom Component!
 ##########################
 
-- platform: postnl
-  name: PostNL
-  username: !secret postnl_username
-  password: !secret postnl_password
-  scan_interval: 3600
+#- platform: postnl
+#  name: PostNL                         # Disabled due to API errors
+#  username: !secret postnl_username
+#  password: !secret postnl_password
+#  scan_interval: 3600
 
 ##########################
 ## Toon sensors
@@ -112,6 +112,7 @@
   options: street, city
   display_zone: show
   api_key: !secret google_maps_api_key
+  scan_interval: 300
 
 ##########################
 ## Gas prices sensors

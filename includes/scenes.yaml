@@ -7,13 +7,13 @@
 - name: Avond
   id: avond
   entities:
-#    light.eetkamer_level:
-#      state: on
-#      brightness: 10
     switch.grijze_lamp: on
     switch.blauwe_lamp: on
     switch.staande_lamp: on
-    switch.window: on
+    light.window_level:
+      state: on
+      brightness: 40
+    switch.kerstboom: on
 - name: "Alles uit"
   id: allesuit
   entities:
@@ -21,4 +21,5 @@
     switch.blauwe_lamp: off
     switch.grijze_lamp: off
     switch.staande_lamp: off
-    switch.window: off
+    light.window_level: off
+    switch.kerstboom: off

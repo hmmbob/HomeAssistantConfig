@@ -58,9 +58,9 @@ entity_config:
     name: "Garden"
     expose: true
     room: "Garden"
-#  switch.kerstboom:
-#    name: "Christmas lights"
-#    expose: true
-#    aliases:
-#      - "Christmas tree"
-#      - "Tree"
+  switch.kerstboom:
+    name: "Christmas lights"
+    expose: true
+    aliases:
+      - "Christmas tree"
+      - "Tree"
