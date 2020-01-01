@@ -41,20 +41,25 @@ My vision is that my Home Automation should always work, even when the internet 
  
 ### Thermostat
  - Rooted Toon thermostat
-   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_hmmbob).
+   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_climate).
    - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/includes/emulated_hue.yaml) for light switches.
  - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_smartmeter) to work.
  
 ### Cast & Voice Control
-- Google Home in the living room
-- Google Home Mini upstairs
-- LG SH-8 Soundbar in the living room
-- Google Chromecast in my TV (currently not used in Home Assistant, but hey - it could be)
+- Google Home Hub in the living room
+- AndroidTV platform in the living room TV
+- LG SH-8 Soundbar with built-in cast in the living room
+- Google Home in the study room
+- 2x Google Home Mini upstairs
+- Google Chromecast in my bedroom TV
 
 # My actual Home Assistant configuration choices
 ## Presence detection
 ### Owntracks 
- - [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location. My wife doesn't like the idea of a GPS logger on her phone (even though it logs directly to our server), so I just check if she's at home with Bluetooth presence detection.
+~~- [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location.~~ My wife doesn't like the idea of a GPS logger on her phone (even though it logs directly to our server), so I just check if she's at home with Bluetooth presence detection.
+ 
+### Home Assistant Android App
+ - I stepped away from using Owntracks in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android). This has been working flawlessly so far! 
 
 ### Bluetooth
  - Raspberry W Zero
