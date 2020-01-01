@@ -85,7 +85,7 @@
 ##########################
 - platform: waze_travel_time
   name: Reistijd Bob naar huis
-  origin: device_tracker.bob_s9
+  origin: device_tracker.bob_a50
   destination: zone.home
   region: 'EU'
   scan_interval: 1800
@@ -108,7 +108,7 @@
 ## Geocode
 ##########################
 - platform: google_geocode
-  origin: device_tracker.bob_s9
+  origin: device_tracker.bob_a50
   options: street, city
   display_zone: show
   api_key: !secret google_maps_api_key
@@ -120,34 +120,34 @@
 - platform: scrape
   resource: !secret scrape_url_z
   name: 'Diesel Z'
-  select: 'tr:nth-of-type(2) td:nth-of-type(2)'
-  value_template: '{{ value[2:] | replace (",", ".") }}'
+  select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
+  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
-  scan_interval: 10800
+  scan_interval: 3600
 
 - platform: scrape
   resource: !secret scrape_url_z
   name: 'Benzine Z'
-  select: 'tr:nth-of-type(3) td:nth-of-type(2)'
-  value_template: '{{ value[2:] | replace (",", ".") }}'
+  select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
+  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
-  scan_interval: 10800
+  scan_interval: 3600
 
 - platform: scrape
   resource: !secret scrape_url_u
   name: 'Diesel U'
-  select: 'tr:nth-of-type(2) td:nth-of-type(2)'
-  value_template: '{{ value[2:] | replace (",", ".") }}'
+  select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
+  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
-  scan_interval: 10800
+  scan_interval: 3600
 
 - platform: scrape
   resource: !secret scrape_url_u
   name: 'Benzine U'
-  select: 'tr:nth-of-type(3) td:nth-of-type(2)'
-  value_template: '{{ value[2:] | replace (",", ".") }}'
+  select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
+  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
-  scan_interval: 10800
+  scan_interval: 3600
 
 ##########################
 ## Trash sensors

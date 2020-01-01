@@ -22,7 +22,6 @@ class HACSSensor(Entity):
         """Initialize."""
         self._state = None
         self.logger = Logger("hacs.sensor")
-        self.has_update = []
         self.repositories = []
 
     async def async_update(self):
@@ -33,7 +32,10 @@ class HACSSensor(Entity):
         self.repositories = []
 
         for repository in hacs.repositories:
-            if repository.pending_upgrade:
+            if (
+                repository.pending_upgrade
+                and repository.category in hacs.common.categories
+            ):
                 self.repositories.append(repository)
         self._state = len(self.repositories)
 

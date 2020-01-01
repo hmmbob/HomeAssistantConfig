@@ -142,7 +142,7 @@
   initial_state: on
   trigger:
     - platform: state
-      entity_id: group.all_devices
+      entity_id: group.all_persons
       from: 'not_home'
       to: 'home'
   condition:
@@ -171,13 +171,13 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: device_tracker.bob_s9
+      entity_id: device_tracker.bob_a50
       state: home
     - condition: state
       entity_id: group.lampen_woonkamer
       state: 'off'
   action:
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: Het wordt bijna donker. Wil je de lampen aan?  
       title: Magic lights
@@ -214,7 +214,7 @@
     entity_id: light.window_level
     data:
       brightness: 100
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: I turned your lights on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}. 
       title: Magic lights
@@ -276,7 +276,7 @@
       data_template:
         name: Vacation 
         message: lights turned on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}. 
-    - service: notify.google
+    - service: notify.mobile_app_sm_a505fn
       data_template:
         message: I turned your vacation lights on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.
         title: Vacation lights
@@ -304,7 +304,7 @@
       data_template:
         name: Vacation 
         message: lights turned off at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.  
-    - service: notify.google
+    - service: notify.mobile_app_sm_a505fn
       data_template:
         message: I turned your lights off at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.  
         title: Vacation lights

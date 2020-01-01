@@ -4,63 +4,66 @@ expose_by_default: false
 exposed_domains:
   - climate
 entity_config:
-## Living Room
+## Woonkamer
   climate.woonkamer:
     name: "Toon"
     expose: true
-    room: "Living Room"
+    room: "Woonkamer"
   switch.staande_lamp:
-    name: "Standing light"
+    name: "Staande lamp"
     expose: true
-    room: "Living Room"
+    room: "Woonkamer"
   switch.grijze_lamp:
-    name: "Gray lamp"
+    name: "Grijze lamp"
     expose: true
-    room: "Living Room"
+    room: "Woonkamer"
     aliases:
-      - "Gray light"
-      - "TV Light"
-      - "Grey light"
-      - "Grey lamp"
+      - "TV Lamp"
   switch.blauwe_lamp:
-    name: "Blue lamp"
+    name: "Blauwe lamp"
     expose: true
-    room: "Living Room"
-    aliases:
-      - "Blue light"
-      - "Stool Light"
+    room: "Woonkamer"
   light.window_level:
-    name: "Window light"
+    name: "Raam lamp"
     expose: true
-    room: "Living Room"
+    room: "Woonkamer"
   scene.avond:
-    name: "Cosy lights"
+    name: "Avond"
     expose: true
-    room: "Living Room"
-##Dining Room
+    room: "Woonkamer"
+##Eetkamer
   light.eetkamer_level:
-    name: "Dining room"
+    name: "Eetkamer"
     expose: true
-    room: "Dining Room"
+    room: "Eetkamer"
   scene.etenstijd:
-    name: "Dinner time"
+    name: "Diner"
     expose: true
-    room: "Dining Room"
-##Attic
+    room: "Eetkamer"
+##Zolder
   cover.zolder:
-    name: "Attic"
+    name: "Zolder"
     expose: true
-    room: "Attic"
+    room: "Zolder"
     aliases:
-      - "Cover"
-## Others 
+      - "Rolluik"
+  sensor.temp1_temperature:
+    name: "Temperatuur zolder"
+    expose: true
+    room: "Zolder"
+##Slaapkamer
+  sensor.temp2_temperature:
+    name: "Temperatuur slaapkamer"
+    expose: true
+    room: "Slaapkamer"
+##Others 
   switch.schuur_1:
-    name: "Garden"
+    name: "Schuur"
     expose: true
-    room: "Garden"
+    room: "Tuin"
   switch.kerstboom:
-    name: "Christmas lights"
+    name: "Kerstboom"
     expose: true
     aliases:
-      - "Christmas tree"
-      - "Tree"
+      - "Kerstverlichting"
+      - "Boom"

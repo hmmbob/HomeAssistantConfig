@@ -5,11 +5,11 @@ update_zigbee_network_map:
 notify_door_open:
   sequence:
     - service: tts.google_translate_say
-      entity_id: media_player.living_room_home
+      entity_id: media_player.woonkamer
       data_template:
         message: "{{ message }}"
         language: nl
-    - service: notify.google
+    - service: notify.mobile_app_sm_a505fn
       data_template:
         message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         title: "{{ title }}"

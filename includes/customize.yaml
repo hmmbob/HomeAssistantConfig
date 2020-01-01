@@ -67,3 +67,7 @@ sensor.trash_tomorrow:
   icon: mdi:delete
 switch.kerstboom:
   icon: mdi:pine-tree
+sensor.temp1_temperature:
+  device_class: temperature
+sensor.temp2_temperature:
+  device_class: temperature

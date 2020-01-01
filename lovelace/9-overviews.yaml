@@ -16,6 +16,8 @@ cards:
         - state: unknown
       exclude:
         - entity_id: group.*
+    sort:
+      method: name
 
   - id: 069aeb9203024ec7b1d3154ae2f6e1e8  # Automatically created id
     type: custom:auto-entities
@@ -26,6 +28,8 @@ cards:
     filter:
       include:
         - entity_id: automation.*
+    sort:
+      method: name
 
   - id: e0571d19712345bb853a1a8fb849cec0  # Automatically created id
     type: custom:auto-entities
@@ -36,3 +40,5 @@ cards:
     filter:
       include:
         - entity_id: input_boolean.*
+    sort:
+      method: name

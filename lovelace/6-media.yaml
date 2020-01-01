@@ -5,19 +5,9 @@ path: media
 title: Media
 icon: mdi:library-music
 cards:
-  - id: 44e4220aba86438dbfa28c1cd8596265  # Automatically created id
-    type: custom:mini-media-player
-    entity: media_player.everywhere
-    icon: mdi:cast
-    artwork: cover
-    artwork_border: true
-    power_color: true
-    scroll_info: true
-    show_source: true
-
   - id: bf273161ddb548b6945b270309dffdb5  # Automatically created id
     type: custom:mini-media-player
-    entity: media_player.google_home_mini
+    entity: media_player.woonkamer
     icon: mdi:cast
     artwork: cover
     artwork_border: true
@@ -27,7 +17,27 @@ cards:
 
   - id: f28f58c2e75548b289094031de93e872  # Automatically created id
     type: custom:mini-media-player
-    entity: media_player.living_room_home
+    entity: media_player.studeerkamer
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+  - id: f28f58c2e75548b285678031de93e872  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.hmt
+    icon: mdi:cast
+    artwork: cover
+    artwork_border: true
+    power_color: true
+    scroll_info: true
+    show_source: true
+
+  - id: f28f58c2e75548b2890940312343e872  # Automatically created id
+    type: custom:mini-media-player
+    entity: media_player.zolder
     icon: mdi:cast
     artwork: cover
     artwork_border: true
@@ -37,7 +47,7 @@ cards:
 
   - id: 1adcf5fd56964652981655b75c932632  # Automatically created id
     type: custom:mini-media-player
-    entity: media_player.tv
+    entity: media_player.tv_slaapkamer
     icon: mdi:cast
     artwork: cover
     artwork_border: true

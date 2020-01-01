@@ -19,6 +19,8 @@ homeassistant:
     - type: notify
       message: 'Access token: {}'
 
+default_config:
+
 recorder:
   db_url: !secret recorder_url
   purge_interval: 1
@@ -54,13 +56,6 @@ mqtt:
 
 zwave:
   usb_path: /dev/ttyACM0
-
-config:
-default_config:
-map:
-person:
-sun:
-system_health:
 
 #################################################################
 ## Frontend
@@ -111,16 +106,25 @@ cast:
   media_player:
     - host: !secret cast_ip_cc
     - host: !secret cast_ip_gh
-    - host: !secret cast_ip_hm
+    - host: !secret cast_ip_hmt
+    - host: !secret cast_ip_hmz
     - host: !secret cast_ip_sb
-    - host: !secret androidtv
+    - host: !secret cast_ip_androidtv
+    - host: !secret cast_ip_hub
+
+#climate:
+#  platform: toon_hmmbob
+#  name: Woonkamer
+#  host: !secret toon_host
+#  port: !secret toon_port
+#  scan_interval: 10
 
 climate:
-  platform: toon_hmmbob
+  platform: toon_climate
   name: Woonkamer
   host: !secret toon_host
   port: !secret toon_port
-  scan_interval: 10
+  scan_interval: 15
 
 duckdns:
   domain: !secret duckdns_domain
@@ -146,11 +150,11 @@ notify:
     vapid_email: !secret gcm-vapid-email
   - platform: nfandroidtv
     name: TV
-    host: !secret androidtv
+    host: !secret cast_ip_androidtv
 
-owntracks:
-  max_gps_accuracy: 250
-  waypoints: false
+#owntracks:
+#  max_gps_accuracy: 250
+#  waypoints: false
 
 tts:
   - platform: google_translate

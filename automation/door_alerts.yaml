@@ -117,7 +117,7 @@
   action:
   - service: homeassistant.turn_off
     entity_id: input_boolean.notify_door_alert
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: "Waarschuwingen voor 10 min gedempt."
       title: Deur waarschuwingen
@@ -131,7 +131,7 @@
   - delay: 00:10:00
   - service: homeassistant.turn_on
     entity_id: input_boolean.notify_door_alert
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: "Waarschuwingen weer actief."
       title: Deur waarschuwingen

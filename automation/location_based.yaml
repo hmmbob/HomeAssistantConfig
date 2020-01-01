@@ -44,7 +44,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: device_tracker.bob_s9
+    entity_id: device_tracker.bob_a50
     from: home
     to: not_home
   condition:  
@@ -62,7 +62,7 @@
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: device_tracker.bob_s9
+      entity_id: device_tracker.bob_a50
       from: not_home
       to: home
   condition:  
@@ -124,7 +124,7 @@
 #    condition: template
 #    value_template: '{{ as_timestamp(now()) - as_timestamp(states.sensor.heartbeat.last_updated) | int > 540 }}'
 #  action:
-#  - service: notify.google
+#  - service: notify.mobile_app_sm_a505fn
 #    data_template:
 #      message: PiZero stuurde al een tijdje geen update. De tijd is nu {{ utcnow().strftime("%H:%M:%S") }} UTC, de Zero stuurde zijn laatste bericht om {{ states.sensor.heartbeat.last_updated.strftime("%H:%M:%S") }} UTC.
 #      title: PiZero
@@ -161,12 +161,12 @@
   alias: "Location: notificatie dat Bob thuis is"
   initial_state: 'off'
   trigger:
-  - entity_id: device_tracker.bob_s9
+  - entity_id: device_tracker.bob_a50
     from: not_home
     platform: state
     to: home
   action:
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} thuis!
       title: Bob is thuis!
@@ -176,11 +176,11 @@
   initial_state: 'off'
   trigger:
   - platform: zone
-    entity_id: device_tracker.bob_s9
+    entity_id: device_tracker.bob_a50
     event: enter
     zone: zone.Work
   action:
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} op het werk.
       title: Bob is op het werk!
@@ -190,11 +190,11 @@
   initial_state: 'off'
   trigger:
   - platform: zone
-    entity_id: device_tracker.bob_s9
+    entity_id: device_tracker.bob_a50
     event: leave
     zone: zone.Work
   action:
-  - service: notify.google
+  - service: notify.mobile_app_sm_a505fn
     data_template:
       message: Bob verliet om {{now().strftime("%H:%M:%S %d-%m-%Y")}} het werk.
       title: Bob is op weg naar huis!
@@ -206,7 +206,7 @@
   alias: "Location: TTS Notificatie dat Bob thuis is"
   initial_state: 'off'
   trigger:
-  - entity_id: device_tracker.bob_s9
+  - entity_id: device_tracker.bob_a50
     from: not_home
     platform: state
     to: home
@@ -226,10 +226,10 @@
   action:
 # - service: media_player.volume_set
 #   data:
-#     entity_id: media_player.living_room_home
+#     entity_id: media_player.woonkamer
 #     volume_level: 0.6
   - service: tts.google_translate_say
-    entity_id: media_player.living_room_home
+    entity_id: media_player.woonkamer
     data:
       message: Papa is thuis
       language: nl

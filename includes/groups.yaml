@@ -6,3 +6,8 @@ lampen_woonkamer:
   - switch.staande_lamp
   - light.eetkamer_level
   - light.window_level
+all_persons:
+  name: personen
+  entities:
+  - person.bob
+  - person.birgit

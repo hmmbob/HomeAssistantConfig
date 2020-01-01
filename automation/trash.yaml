@@ -17,7 +17,7 @@
     - condition: template
       value_template: "{{ states.sensor.trash_today.state | trim != '' }}"
   action:
-    - service: notify.google
+    - service: notify.mobile_app_sm_a505fn
       data_template:
         title: 'Afvalinzameling'
         message: 'Vandaag wordt het {{ states.sensor.trash_today.state }} opgehaald.'
@@ -41,7 +41,7 @@
     - condition: template
       value_template: "{{ states.sensor.trash_tomorrow.state | trim != '' }}"
   action:
-    - service: notify.google
+    - service: notify.mobile_app_sm_a505fn
       data_template:
         title: 'Afvalinzameling'
         message: 'Morgen wordt het {{ states.sensor.trash_tomorrow.state }} opgehaald.'
@@ -52,7 +52,7 @@
       entity_id: input_boolean.notify_trash_voice
       state: 'on' 
     - service: tts.google_translate_say
-      entity_id: media_player.living_room_home
+      entity_id: media_player.woonkamer
       data_template:
         message: 'Morgen wordt het {{ states.sensor.trash_tomorrow.state }} opgehaald.'
         language: 'nl'

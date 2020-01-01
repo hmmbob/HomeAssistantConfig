@@ -65,26 +65,15 @@ cards:
                 - filter: grayscale(100%)
     - type: horizontal-stack #### 2nd row
       cards:
-#      - type: custom:button-card
-#        entity: scene.etenstijd
-#        tap_action: 
-#          action: call-service
-#          service: scene.turn_on
-#          service_data: 
-#            entity_id: scene.etenstijd
-#        name: Etenstijd
-#        icon: mdi:silverware-variant
-#        show_state: false
-#        styles:
-#          card:
-#            - width: 110px
-#            - height: 110px
-#          name:
-#            - font-size: 14px
       - type: custom:button-card
-        entity: switch.kerstboom
-        name: Kerstboom
-        icon: mdi:pine-tree
+        entity: scene.etenstijd
+        tap_action: 
+          action: call-service
+          service: scene.turn_on
+          service_data: 
+            entity_id: scene.etenstijd
+        name: Etenstijd
+        icon: mdi:silverware-variant
         show_state: false
         styles:
           card:
@@ -92,13 +81,24 @@ cards:
             - height: 110px
           name:
             - font-size: 14px
-        state:
-          - value: 'off'
-            styles:
-              card:
-                - filter: opacity(50%)
-              icon:
-                - filter: grayscale(100%)
+#      - type: custom:button-card
+#        entity: switch.kerstboom
+#        name: Kerstboom
+#        icon: mdi:pine-tree
+#        show_state: false
+#        styles:
+#          card:
+#            - width: 110px
+#            - height: 110px
+#          name:
+#            - font-size: 14px
+#        state:
+#          - value: 'off'
+#            styles:
+#              card:
+#                - filter: opacity(50%)
+#              icon:
+#                - filter: grayscale(100%)
       - type: custom:button-card
         entity: scene.avond
         tap_action: 
@@ -141,8 +141,27 @@ cards:
         entity: light.window_level
         name: Voorraam
 
-  - type: thermostat
+#  - type: thermostat
+#    entity: climate.woonkamer
+
+  - type: 'custom:simple-thermostat'
     entity: climate.woonkamer
+    control:
+      preset:
+        sleep:
+          icon: mdi:sleep
+        away:
+          icon: mdi:leaf
+        comfort:
+          icon: mdi:fire
+        home:
+          icon: mdi:home-thermometer
+    sensors:
+      - entity: sensor.outside_temperature
+        name: Buiten
+      - attribute: modulation_level
+        name: Brander
+        unit: '%' 
 
   - type: horizontal-stack
     cards:

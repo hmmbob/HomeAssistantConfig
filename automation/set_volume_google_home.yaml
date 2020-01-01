@@ -8,15 +8,23 @@
   action:
     - service: media_player.volume_set
       data:
-        entity_id: media_player.living_room_home
+        entity_id: media_player.woonkamer
         volume_level: 0.4
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_home_mini
-        volume_level: 0.4
+        entity_id: media_player.studeerkamer
+        volume_level: 0.2
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.hmt
+        volume_level: 0.1
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.zolder
+        volume_level: 0.1
 
 - id: set_google_home_volume_late_evening
-  alias: 'Volume: Set Google Home late evening'
+  alias: 'Volume: Set Google Homes late evening'
   initial_state: on
   hide_entity: false
   trigger:
@@ -25,15 +33,15 @@
   action:
     - service: media_player.volume_set
       data:
-        entity_id: media_player.living_room_home
+        entity_id: media_player.woonkamer
         volume_level: 0.2
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_home_mini
-        volume_level: 0.2
+        entity_id: media_player.studeerkamer
+        volume_level: 0.1
 
 - id: set_google_home_volume_early_morning
-  alias: 'Volume: Set Google Home AM'
+  alias: 'Volume: Set Google Homes AM'
   initial_state: on
   hide_entity: false
   trigger:
@@ -42,11 +50,15 @@
   action:
     - service: media_player.volume_set
       data:
-        entity_id: media_player.living_room_home
-        volume_level: 0.6
+        entity_id: media_player.woonkamer
+        volume_level: 0.5
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.studeerkamer
+        volume_level: 0.4
 
 - id: set_google_home_volume_early_morning
-  alias: 'Volume: Set Google Home Mini AM'
+  alias: 'Volume: Set Google Home Minis AM'
   initial_state: on
   hide_entity: false
   trigger:
@@ -55,5 +67,9 @@
   action:
     - service: media_player.volume_set
       data:
-        entity_id: media_player.google_home_mini
+        entity_id: media_player.hmt
+        volume_level: 0.5
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.zolder
         volume_level: 0.5

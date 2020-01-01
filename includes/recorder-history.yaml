@@ -25,4 +25,3 @@
       - switch.schuur_1
       - binary_sensor.door_contact_1
       - binary_sensor.door_contact_2
-      - switch.kerstboom

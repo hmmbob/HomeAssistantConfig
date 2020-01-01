@@ -13,7 +13,6 @@
     light.window_level:
       state: on
       brightness: 40
-    switch.kerstboom: on
 - name: "Alles uit"
   id: allesuit
   entities:
@@ -22,4 +21,3 @@
     switch.grijze_lamp: off
     switch.staande_lamp: off
     light.window_level: off
-    switch.kerstboom: off

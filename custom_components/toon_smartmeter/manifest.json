@@ -1,0 +1,8 @@
+{
+  "domain": "toon_smartmeter",
+  "name": "TOON Smart Meter",
+  "documentation": "https://github.com/cyberjunky/home-assistant-toon_smartmeter",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@cyberjunky"]
+}
