@@ -55,13 +55,12 @@ My vision is that my Home Automation should always work, even when the internet 
 
 # My actual Home Assistant configuration choices
 ## Presence detection
-### Owntracks 
-~~- [Owntracks](https://www.home-assistant.io/components/owntracks/) is installed on my phone, reporting via the Home Assistant webhooks integration on my location.~~ My wife doesn't like the idea of a GPS logger on her phone (even though it logs directly to our server), so I just check if she's at home with Bluetooth presence detection.
- 
 ### Home Assistant Android App
- - I stepped away from using Owntracks in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android). This has been working flawlessly so far! 
+ - I stepped away from using Owntracks in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android). This has been working flawlessly so far! It connect directly to my own server, no cloud integration needed.
 
 ### Bluetooth
+My wife doesn't like the idea of a GPS logger on her phone (even though it logs directly to our server), so I just check if she's at home with Bluetooth presence detection. I also use this for my phone - combining this device_tracker with the app device tracker (see above) into a [person](https://www.home-assistant.io/integrations/person/) 
+
  - Raspberry W Zero
    - [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Stretch
    - [Monitor](https://github.com/andrewjfreyer/monitor), a distributed advertisement-based BTLE presence detection reported via mqtt
