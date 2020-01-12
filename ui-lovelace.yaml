@@ -7,8 +7,8 @@ resources:
     type: module
   - url: https://unpkg.com/moment@2.24.0/moment.js
     type: js
-  - url: /community_plugin/lovelace-postnl-card/postnl-card.js
-    type: module
+#  - url: /community_plugin/lovelace-postnl-card/postnl-card.js
+#    type: module
   - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
     type: module
   - url: /community_plugin/lovelace-battery-entity/battery-entity.js
@@ -17,15 +17,33 @@ resources:
     type: module
   - url: /community_plugin/simple-thermostat/simple-thermostat.js
     type: module
- 
-title: Home sweet home  
+  - url: /community_plugin/lovelace-swipe-navigation/swipe-navigation.js
+    type: js
+  - url: /community_plugin/custom-header/custom-header.js
+    type: module
+
+custom_header:
+  compact_mode: true
+  options_hide: true
+  chevrons: false
+  exceptions:
+    - conditions:
+        user: Birgit
+      config:
+        hide_tabs: 'overview, media, power'
+
+swipe_nav:
+  animate: swipe
+
+title: Home sweet home
 views:
   - !include lovelace/1-beneden.yaml
   - !include lovelace/2-boven.yaml
   - !include lovelace/3-zolder.yaml
-  - !include lovelace/4-infopage.yaml
+  - !include lovelace/8-config.yaml
+#  - !include lovelace/4-infopage.yaml
   - !include lovelace/5-location.yaml
   - !include lovelace/6-media.yaml
   - !include lovelace/7-power.yaml
-  - !include lovelace/8-config.yaml
   - !include lovelace/9-overviews.yaml
+

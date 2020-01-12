@@ -18,18 +18,21 @@ cards:
       - type: custom:mini-graph-card
         entities:
           - sensor.temp1_humidity
+        points_per_hour: 1
         line_color: blue
         line_width: 8
         font_size: 75
       - type: custom:mini-graph-card
         entities:
           - sensor.temp1_temperature
+        points_per_hour: 1
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75
       - type: custom:mini-graph-card
         entities:
           - sensor.outside_temperature
+        points_per_hour: 1
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75

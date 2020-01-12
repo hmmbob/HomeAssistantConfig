@@ -51,9 +51,9 @@ cards:
     tap_action: 
       action: more-info
 
-  - type: map
-    aspect_ratio: 16:9
-    default_zoom: 13
-    entities:
-      - device_tracker.bob_a50
+#  - type: map
+#    aspect_ratio: 16:9
+#    default_zoom: 13
+#    entities:
+#      - device_tracker.bob_a50
 #      - zone.home

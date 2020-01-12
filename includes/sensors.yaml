@@ -14,10 +14,10 @@
       entity_id: zwave.pir
       friendly_name: 'PIR Batterij' 
       value_template: >
-          {%- if states.zwave.pir.attributes.battery_level is defined %}
-              {{ states.zwave.pir.attributes.battery_level|round }}
+          {%- if states.zwave.pir.attributes.battery_level %}
+              {{ state_attr('zwave.pir', 'battery_level') | round }}
           {% else %}
-              0
+              "0"
           {%- endif %}
       unit_of_measurement: '%'
       icon_template: >

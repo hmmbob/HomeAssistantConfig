@@ -2,6 +2,7 @@ bob_werk_verlaten:
   name: Bob werk verlaten
   initial: off
   icon: mdi:airplane-takeoff
+
 notify_trash:
   name: 'Push-meldingen over afval'
   initial: 'on'
@@ -10,29 +11,39 @@ notify_trash_voice:
   name: 'Voice-meldingen over afval'
   initial: 'on'
   icon: mdi:google-home
+
+enable_pir:
+  name: 'Verlichting aan op beweging'
+  initial: 'on'
+  icon: mdi:motion-sensor
+toon_on_movement:
+  name: 'Toon aan via PIR'
+  initial: 'off'
+  icon: mdi:thermostat
 eetkamer_on_movement:
   name: 'Eetkamer aan via PIR'
   initial: 'off'
   icon: mdi:ceiling-light
+woonkamer_on_movement:
+  name: 'Woonkamer aan via PIR'
+  initial: 'off'
+  icon: mdi:lightbulb-on-outline
+
 vacation_mode_home:
   name: 'Vakantie (thuis)'
   icon: mdi:home-map-marker
 vacation_mode_away:
   name: 'Vakantie (weg)'
   icon: mdi:home-lock
-woonkamer_on_movement:
-  name: 'Woonkamer aan via PIR'
-  initial: 'off'
-  icon: mdi:lightbulb-on-outline
-toon_on_movement:
-  name: 'Toon aan via PIR'
-  initial: 'off'
-  icon: mdi:thermostat
 
+enable_doorbell:
+  name: 'Deurbel'
+  initial: 'on'
+  icon: mdi:doorbell
 notify_door_alert:
   name: 'Deur alarm'
   initial: 'on'
-  icon: mdi:google-home
+  icon: mdi:door-open
 
 # Input boolean for enabling/disabling zigbee joining
 zigbee_permit_join:

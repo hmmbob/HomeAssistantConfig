@@ -28,9 +28,12 @@
   condition: 
   - condition: and
     conditions:
+    - condition: state
+      entity_id: input_boolean.enable_pir
+      state: 'on'
     - condition: time
       after: '05:15:00'
-      before: '06:30:00'
+      before: '06:58:00'
     - condition: state
       entity_id: group.lampen_woonkamer
       state: 'off'
@@ -75,8 +78,11 @@
   condition: 
   - condition: and
     conditions:
+    - condition: state
+      entity_id: input_boolean.enable_pir
+      state: 'on'
     - condition: time
-      after: '06:45:00'
+      after: '06:59:00'
       before: '08:30:00'
     - condition: state
       entity_id: group.lampen_woonkamer

@@ -1,8 +1,0 @@
-{
-  "domain": "toon_climate",
-  "name": "TOON Climate",
-  "documentation": "https://github.com/cyberjunky/home-assistant-toon_climate",
-  "requirements": [],
-  "dependencies": [],
-  "codeowners": ["@cyberjunky"]
-}

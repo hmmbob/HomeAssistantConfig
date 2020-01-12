@@ -81,24 +81,6 @@ cards:
             - height: 110px
           name:
             - font-size: 14px
-#      - type: custom:button-card
-#        entity: switch.kerstboom
-#        name: Kerstboom
-#        icon: mdi:pine-tree
-#        show_state: false
-#        styles:
-#          card:
-#            - width: 110px
-#            - height: 110px
-#          name:
-#            - font-size: 14px
-#        state:
-#          - value: 'off'
-#            styles:
-#              card:
-#                - filter: opacity(50%)
-#              icon:
-#                - filter: grayscale(100%)
       - type: custom:button-card
         entity: scene.avond
         tap_action: 
@@ -141,9 +123,6 @@ cards:
         entity: light.window_level
         name: Voorraam
 
-#  - type: thermostat
-#    entity: climate.woonkamer
-
   - type: 'custom:simple-thermostat'
     entity: climate.woonkamer
     control:
@@ -168,18 +147,26 @@ cards:
       - type: custom:mini-graph-card
         entities:
           - sensor.room_temperature
+        points_per_hour: 1
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75
       - type: custom:mini-graph-card
         entities:
           - sensor.outside_temperature
+        points_per_hour: 1
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75
 
-  - type: entities
-    title: Voordeur
-    show_header_toggle: false
+  - id: 62c63037e3954e7291db6acad7199276  # Automatically created id
+    type: glance
+    title: Huishoudelijk
+    show_name: true
+    show_state: true
+    column_width: calc(100% / 3)
     entities:
-      - binary_sensor.door_contact_2
+      - entity: sensor.trash_today
+      - entity: sensor.trash_tomorrow
+      - entity: binary_sensor.door_contact_2
+        show-last-changed: true

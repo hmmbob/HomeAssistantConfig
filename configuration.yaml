@@ -55,7 +55,7 @@ mqtt:
   discovery: true
 
 zwave:
-  usb_path: /dev/ttyACM0
+  usb_path: /dev/ttyACM1
 
 #################################################################
 ## Frontend

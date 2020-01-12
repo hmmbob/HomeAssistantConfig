@@ -7,5 +7,5 @@
 - name: work
   latitude: !secret work_latitude
   longitude: !secret work_longitude
-  radius: 200
+  radius: 400
   icon: mdi:briefcase

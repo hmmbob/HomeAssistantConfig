@@ -1,0 +1,72 @@
+##########################
+## Doorbell
+##########################
+
+### Set doorbell speakers by time
+#- alias: "Deurbel: aan beneden"
+#  initial_state: true
+#  trigger:
+#  - platform: time
+#    at: '07:00:00'
+#  - platform: time
+#    at: '19:00:00'
+#  action:
+#    service: input_select.select_option
+#    data:
+#      entity_id: input_select.doorbell
+#      option: Beneden
+#- alias: "Deurbel: overal aan"
+#  initial_state: true
+#  trigger:
+#    platform: time
+#    at: '08:00:00'
+#  action:
+#    service: input_select.select_option
+#    data:
+#      entity_id: input_select.doorbell
+#      option: Overal
+#- alias: "Deurbel: uit"
+#  initial_state: true
+#  trigger:
+#    platform: time
+#    at: '22:00:00'
+#  action:
+#    service: input_select.select_option
+#    data:
+#      entity_id: input_select.doorbell
+#      option: Uit
+
+### Play doorbell alerts
+- alias: "Doorbell: Notify"
+  initial_state: on
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.doorbell
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.enable_doorbell
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: 
+      - script.ring_doorbell_downstairs
+      - script.ring_doorbell_upstairs
+      - script.show_doorbell_alert
+
+### Fix rp_gpio wrong states
+### Sometimes HA keeps showing the doorbell as 'on', even though the button is no longer pressed.
+### The RPi does have the correct state, so this just pulls the state directly from the PI
+- alias: "Doorbell: Fix state"
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.doorbell
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 5
+  action:
+    - service: homeassistant.update_entity
+      entity_id: binary_sensor.doorbell

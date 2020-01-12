@@ -35,3 +35,11 @@
   payload_not_available: "offline"
   device_class: connectivity
 
+##########################
+## GPIO on Raspberry Pi
+##########################
+- platform: rpi_gpio
+  ports:
+    17: Doorbell
+  pull_mode: "UP"
+  invert_logic: true

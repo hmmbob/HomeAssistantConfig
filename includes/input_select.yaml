@@ -7,3 +7,12 @@ zigbee2mqtt_log_level:
    - error
   initial: info
   icon: mdi:format-list-bulleted
+
+#doorbell:
+#  name: Deurbel
+#  options:
+#    - Overal
+#    - Beneden
+#    - Uit
+#  initial: Beneden
+#  icon: mdi:bell-ring
