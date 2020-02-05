@@ -55,7 +55,7 @@
     service: mqtt.publish
     data:
       topic: location/scan/depart
-      payload: '{"Reason":"Owntracks considers Hmmbob away"}'
+      payload: '{"Reason":"HA App considers Hmmbob away"}'
 
 - alias: "Location: Trigger BT to Home"
   id: "bob_bt_trigger_home"
@@ -73,7 +73,7 @@
     service: mqtt.publish
     data:
       topic: location/scan/arrive
-      payload: '{"Reason":"Owntracks considers Hmmbob home"}'
+      payload: '{"Reason":"HA App considers Hmmbob home"}'
 
 ### Birgit ###
 - alias: "Location: Birgit BT Aanwezig"
@@ -132,21 +132,12 @@
 #      data:
 #        tag: 'notification-pizero_alive'
 
-- alias: 'Location: Update on startup'
-  id: restart_monitor_on_startup
+- alias: 'Location: Restart monitor daily and on startup'
+  id: restart_monitor_daily_and_on_startup
   initial_state: 'on'
   trigger:
     - platform: homeassistant
       event: start
-  action:
-    - service: mqtt.publish
-      data:
-        topic: "location/scan/restart"
-
-- alias: 'Location: Restart monitor daily'
-  id: restart_monitor_daily
-  initial_state: 'on'
-  trigger:
     - platform: time
       at: '10:00:00'
   action:

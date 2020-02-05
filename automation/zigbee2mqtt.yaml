@@ -22,7 +22,6 @@
 
 - id: enable_zigbee_join
   alias: "Zigbee: Enable Zigbee joining"
-  hide_entity: true
   trigger:
     platform: state
     entity_id: input_boolean.zigbee_permit_join
@@ -38,7 +37,6 @@
 
 - id: disable_zigbee_join
   alias: "Zigbee: Disable Zigbee joining"
-  hide_entity: true
   trigger:
   - entity_id: input_boolean.zigbee_permit_join
     platform: state
@@ -54,7 +52,6 @@
 
 - id: disable_zigbee_join_timer
   alias: "Zigbee: Disable Zigbee joining by timer"
-  hide_entity: true
   trigger:
   - platform: event
     event_type: timer.finished

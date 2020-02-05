@@ -48,8 +48,8 @@
 ##########################
 ## Eetkamer uit voor Bob
 ##########################
-- id: turn_off_eetkamer_10min_after_movement
-  alias: "Lights: Eetkamer uit na 10min"
+- id: turn_off_eetkamer_5min_after_movement
+  alias: "Lights: Eetkamer uit na 5min"
   trigger:
     platform: state
     entity_id: binary_sensor.pir_sensor_motion 
@@ -152,10 +152,14 @@
       from: 'not_home'
       to: 'home'
   condition:
-    - condition: sun
-      after: sunset
-    - condition: sun
-      before: sunrise
+  - condition: and
+    conditions:
+    - condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: sun
+        before: sunrise
     - condition: state
       entity_id: group.lampen_woonkamer
       state: 'off'
@@ -259,7 +263,6 @@
 - id: vacation_turn_on_time
   alias: 'Lights: Vacation turn on'
   initial_state: on
-  hide_entity: false
   trigger:
     platform: time
     at: '20:45:00'
@@ -290,7 +293,6 @@
 - id: vacation_turn_off_time
   alias: 'Lights: Vacation turn off'
   initial_state: on
-  hide_entity: false
   trigger:
     platform: time
     at: '22:30:00'

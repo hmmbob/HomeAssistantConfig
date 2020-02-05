@@ -112,13 +112,6 @@ cast:
     - host: !secret cast_ip_androidtv
     - host: !secret cast_ip_hub
 
-#climate:
-#  platform: toon_hmmbob
-#  name: Woonkamer
-#  host: !secret toon_host
-#  port: !secret toon_port
-#  scan_interval: 10
-
 climate:
   platform: toon_climate
   name: Woonkamer
@@ -152,10 +145,6 @@ notify:
     name: TV
     host: !secret cast_ip_androidtv
 
-#owntracks:
-#  max_gps_accuracy: 250
-#  waypoints: false
-
 tts:
   - platform: google_translate
     base_url: !secret tts_base_url
@@ -165,3 +154,12 @@ weather:
   - platform: darksky
     api_key: !secret darksky_api
     mode: daily
+
+webhook:
+
+zigbee2mqtt_networkmap:
+panel_iframe:
+  networkmap:
+    title: 'Zigbee Map'
+    url: '/local/community/zigbee2mqtt_networkmap/map.html'
+    icon: 'mdi:graphql'

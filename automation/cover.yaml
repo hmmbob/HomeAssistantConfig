@@ -4,7 +4,6 @@
 - id: cover_close_on_time
   alias: "Rolluik: dicht om 19.30"
   initial_state: on
-  hide_entity: false
   trigger:
     platform: time
     at: '19:30:00'
@@ -19,7 +18,6 @@
 - id: cover_open_on_time
   alias: "Rolluik: open om 08.00"
   initial_state: on
-  hide_entity: false
   trigger:
     platform: time
     at: '08:00:00'

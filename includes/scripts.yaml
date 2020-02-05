@@ -80,8 +80,4 @@ show_doorbell_alert:
         transparency: "50%"
         color: "grey"
 
-update_zigbee_network_map:
-  sequence:
-    - service: zigbee2mqtt_networkmap.update
-
 

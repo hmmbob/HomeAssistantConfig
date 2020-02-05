@@ -24,7 +24,6 @@
 - id: waze_update_morning_commute
   alias: 'Waze: update morning commute'
   initial_state: on
-  hide_entity: false
   trigger:
     - platform: time_pattern
       minutes: '/5'
@@ -46,7 +45,6 @@
 - id: waze_update_evening_commute
   alias: 'Waze: update evening commute'
   initial_state: on
-  hide_entity: false
   trigger:
     - platform: time_pattern
       minutes: '/5'
@@ -68,7 +66,6 @@
 - id: waze_update_to_home
   alias: 'Waze: update to home'
   initial_state: on
-  hide_entity: false
   trigger:
     - platform: time_pattern
       minutes: '/5'

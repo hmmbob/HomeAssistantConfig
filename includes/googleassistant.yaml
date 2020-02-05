@@ -1,6 +1,8 @@
 project_id: !secret google_assistant_project_id
-api_key: !secret google_assistant_api_key
+#api_key: !secret google_assistant_api_key
+service_account: !include googleassistant_serviceaccount.json
 expose_by_default: false
+report_state: true
 exposed_domains:
   - climate
 entity_config:

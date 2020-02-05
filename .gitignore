@@ -31,6 +31,9 @@ custom_components/*
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+googleassistant_serviceaccount.json
+includes/googleassistant_serviceaccount.json
+
 
 # Ignore Python cache files 
 __pycache__/

@@ -1,7 +1,6 @@
 - id: morning_briefing
   alias: 'System: Morning briefing'
   initial_state: on
-  hide_entity: false
   trigger:
     platform: time
     at: '05:20:00'
