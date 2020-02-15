@@ -1,6 +1,6 @@
-##########################
-## Freezer door alert
-##########################
+#############################
+## Freezer door alert       #
+#############################
 - id: freezer_door_left_open
   alias: "Doors: Freezer door left open"
   trigger:
@@ -15,10 +15,12 @@
     entity_id: input_boolean.notify_door_alert
     state: 'on'
   action:
-  - service: script.notify_door_open
+  - service: script.turn_on
+    entity_id: script.notify_door_open
     data:
-      title: 'Vriezer'
-      message: 'Let op: de vriezer is nog open!'
+      variables:
+        title: "Vriezer"
+        message: "Let op: de vriezer is nog open!"
   - service: timer.start #2min timer to reannounce that door is open
     data:
       entity_id: timer.freezer_door_open
@@ -50,9 +52,9 @@
     data:
       entity_id: timer.freezer_door_open
 
-##########################
-## Front door alert
-##########################
+#############################
+## Front door alert         #
+#############################
 - id: front_door_left_open
   alias: "Doors: Front door left open"
   trigger:
@@ -67,10 +69,12 @@
     entity_id: input_boolean.notify_door_alert
     state: 'on'
   action:
-  - service: script.notify_door_open
+  - service: script.turn_on
+    entity_id: script.notify_door_open
     data:
-      title: 'Voordeur'
-      message: 'Let op: de voordeur is nog open!'
+      variables:
+        title: "Voordeur"
+        message: "Let op: de voordeur is nog open!"
   - service: timer.start 
     data:
       entity_id: timer.front_door_open
@@ -102,28 +106,24 @@
     data:
       entity_id: timer.front_door_open
 
-##########################
-## Mute door alert
-##########################
-
+#############################
+## Mute door alert          #
+#############################
 - id: notify_door_alert
   alias: "Doors: mute alerts"
   initial_state: 'on'
   trigger:
   - platform: event
-    event_type: html5_notification.clicked
+    event_type: mobile_app_notification_action
     event_data:
-      action: notify_door_alert
+      action: 'notify_door_alert'
   action:
   - service: homeassistant.turn_off
     entity_id: input_boolean.notify_door_alert
   - service: notify.mobile_app_sm_a505fn
-    data_template:
+    data:
       message: "Waarschuwingen voor 10 min gedempt."
       title: Deur waarschuwingen
-    data:
-      data:
-        tag: 'open_door'
   - service: logbook.log
     data_template:
       name: "Deur waarschuwingen: " 
@@ -132,12 +132,9 @@
   - service: homeassistant.turn_on
     entity_id: input_boolean.notify_door_alert
   - service: notify.mobile_app_sm_a505fn
-    data_template:
+    data:
       message: "Waarschuwingen weer actief."
       title: Deur waarschuwingen
-    data:
-      data:
-        tag: 'open_door'
   - service: logbook.log
     data_template:
       name: "Deur waarschuwingen: " 

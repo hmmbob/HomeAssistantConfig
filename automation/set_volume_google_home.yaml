@@ -54,7 +54,7 @@
         entity_id: media_player.studeerkamer
         volume_level: 0.4
 
-- id: set_google_home_volume_early_morning
+- id: set_google_home_mini_volume_early_morning
   alias: 'Volume: Set Google Home Minis AM'
   initial_state: on
   trigger:

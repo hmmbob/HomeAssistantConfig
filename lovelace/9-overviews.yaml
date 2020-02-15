@@ -41,12 +41,6 @@ cards:
         icon: mdi:bell-ring
         name: Deurbel
 
-  - type: entities
-    entities:
-      - type: cast
-        title: Cast
-        view: locatie
-
   - id: c78f01234176407b123456923a45f10a  # Automatically created id
     type: entities
     title: Zigbee2mqtt

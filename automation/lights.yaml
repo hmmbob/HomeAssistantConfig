@@ -164,8 +164,13 @@
       entity_id: group.lampen_woonkamer
       state: 'off'
   action:
-    - service: homeassistant.turn_on
-      entity_id: group.lampen_woonkamer
+  - service: homeassistant.turn_on
+    entity_id: light.eetkamer_level
+    data:
+      brightness: 11
+  - delay: '00:03:00'
+  - service: homeassistant.turn_off
+    entity_id: light.eetkamer_level
 
 ##########################
 ## Sunset lights woonkamer
@@ -181,33 +186,33 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: device_tracker.bob_a50
+      entity_id: device_tracker.sm_a505fn
       state: home
     - condition: state
       entity_id: group.lampen_woonkamer
       state: 'off'
   action:
   - service: notify.mobile_app_sm_a505fn
-    data_template:
-      message: Het wordt bijna donker. Wil je de lampen aan?  
-      title: Magic lights
     data:
+      message: 'Het wordt bijna donker. Wil je de lampen aan?'
+      title: 'Magic lights'
       data:
-        tag: 'set_sunset_lights'
         actions:
-        - action: turn_on_sunset_lights
-          title: Ja, graag!
-        - action: nee
-          title: Nee, dank je!
+          - action: 'turn_on_sunset_lights'
+            title: 'Ja, graag!'
+          - action: 'nee'
+            title: 'Nee, dank je!'
+        ttl: 0
+        priority: high
 
 - id: set_lights_before_sunset
   alias: "Lights: Sunset: set sunset lights"
   initial_state: 'on'
   trigger:
   - platform: event
-    event_type: html5_notification.clicked
+    event_type: mobile_app_notification_action
     event_data:
-      action: turn_on_sunset_lights
+      action: 'turn_on_sunset_lights'
   action:
 #  - service: light.turn_on
 #    entity_id: light.eetkamer_level
@@ -228,13 +233,10 @@
     data_template:
       message: I turned your lights on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}. 
       title: Magic lights
-    data:
-      data:
-        tag: 'set_sunset_lights'
 
-##########################
-## Sunset lights garden
-##########################
+#############################
+## Sunset lights garden     #
+#############################
 - id: turn_on_garden
   alias: "Lights: Garden turn on"
   initial_state: 'on'
@@ -257,9 +259,9 @@
   - service: homeassistant.turn_off
     entity_id: switch.schuur_1
 
-##########################
-## Vacation lights
-##########################
+#############################
+## Vacation lights          #
+#############################
 - id: vacation_turn_on_time
   alias: 'Lights: Vacation turn on'
   initial_state: on

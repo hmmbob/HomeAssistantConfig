@@ -1,3 +1,6 @@
+#############################
+## Door alert notifications #
+#############################
 notify_door_open:
   sequence:
     - service: tts.google_translate_say
@@ -7,19 +10,24 @@ notify_door_open:
         language: nl
     - service: notify.mobile_app_sm_a505fn
       data_template:
-        message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         title: "{{ title }}"
-      data:
+        message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         data:
-          tag: 'open_door'
           actions:
-          - action: notify_door_alert
-            title: "10 min dempen"
+            - action: 'notify_door_alert'
+              title: '10 min dempen'
+            - action: 'notify_door_alert'
+              title: '20 min dempen'
+          ttl: 0
+          priority: high
     - service: logbook.log
       data_template:
         name: "{{ title }}: " 
         message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
 
+#############################
+## Doorbell notifications   #
+#############################
 ring_doorbell_downstairs:
   sequence:
   - condition: time
@@ -34,7 +42,7 @@ ring_doorbell_downstairs:
       entity_id: media_player.woonkamer
       media_content_id: !secret doorbell_url
       media_content_type: music
-  - delay: '00:00:02'
+  - delay: '00:00:04'
   - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
   - service: media_player.volume_set
     data:

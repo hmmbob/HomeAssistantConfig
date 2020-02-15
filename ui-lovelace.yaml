@@ -1,27 +1,23 @@
 resources:
+  - url: /community_plugin/custom-header/custom-header.js
+    type: module
+  - url: /community_plugin/lovelace-swipe-navigation/swipe-navigation.js
+    type: js
+  - url: /community_plugin/button-card/button-card.js
+    type: module
+  - url: /community_plugin/weather-card/weather-card.js
+    type: module
+  - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
+    type: module
   - url: /community_plugin/mini-media-player/mini-media-player-bundle.js
     type: module
   - url: /community_plugin/lovelace-auto-entities/auto-entities.js
     type: module
-  - url: /community_plugin/weather-card/weather-card.js
-    type: module
-  - url: https://unpkg.com/moment@2.24.0/moment.js
-    type: js
-#  - url: /community_plugin/lovelace-postnl-card/postnl-card.js
-#    type: module
-  - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
-    type: module
   - url: /community_plugin/lovelace-battery-entity/battery-entity.js
     type: module
-  - url: /community_plugin/button-card/button-card.js
-    type: module
   - url: /community_plugin/simple-thermostat/simple-thermostat.js
-    type: module
-  - url: /community_plugin/lovelace-swipe-navigation/swipe-navigation.js
-    type: js
-  - url: /community_plugin/custom-header/custom-header.js
-    type: module  
-
+    type: module       
+  
 custom_header:
   compact_mode: true
   options_hide: true
@@ -46,4 +42,5 @@ views:
   - !include lovelace/6-media.yaml
   - !include lovelace/7-power.yaml
   - !include lovelace/9-overviews.yaml
+  - !include lovelace/10-ha_cast.yaml  
 

@@ -160,18 +160,28 @@ cards:
     title: Statussen
     show_header_toggle: false
     entities:
-      - binary_sensor.blauwe_lamp_status
-      - binary_sensor.grijze_lamp_status
-      - binary_sensor.staande_lamp_status
-      - binary_sensor.bt_boven
-      - binary_sensor.bt_beneden
-      - binary_sensor.zigbee2mqtt_bridge
+      - entity: binary_sensor.blauwe_lamp_status
+        state_color: true
+      - entity: binary_sensor.grijze_lamp_status
+        state_color: true
+      - entity: binary_sensor.staande_lamp_status
+        state_color: true
+      - entity: binary_sensor.bt_boven
+        state_color: true
+      - entity: binary_sensor.bt_beneden
+        state_color: true
+      - entity: binary_sensor.zigbee2mqtt_bridge
+        state_color: true
 
   - id: c78f07f54176407b123456923a45f11a  # Automatically created id
     type: entities
     title: Updates
     show_header_toggle: false
     entities:
-      - sensor.ha_currently_installed
+      - entity: sensor.current_version
+        name: "Docker image installed"
+      - entity: sensor.latest_version
+        name: "Latest Docker image"
       - entity: sensor.hacs
         name: "HACS Updates"
+        state_color: true

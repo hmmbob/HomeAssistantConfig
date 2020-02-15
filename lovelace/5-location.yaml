@@ -12,7 +12,7 @@ cards:
     entities:
       - device_tracker.birgit_bt
       - device_tracker.bob_bt
-      - device_tracker.bob_a50
+      - device_tracker.sm_a505fn
       - person.bob
 
   - id: e6e3daf3b33343d4a19300690b44436f  # Automatically created id
@@ -51,9 +51,9 @@ cards:
     tap_action: 
       action: more-info
 
-#  - type: map
-#    aspect_ratio: 16:9
-#    default_zoom: 13
-#    entities:
-#      - device_tracker.bob_a50
-#      - zone.home
+  - type: map
+    aspect_ratio: 16:9
+    default_zoom: 13
+    entities:
+      - device_tracker.sm_a505fn
+      - zone.home

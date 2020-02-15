@@ -12,7 +12,7 @@
     - wed
     - thu
   - condition: state
-    entity_id: device_tracker.bob_a50
+    entity_id: device_tracker.sm_a505fn
     state: home
   action:
   - service: notify.mobile_app_sm_a505fn

@@ -44,7 +44,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: device_tracker.bob_a50
+    entity_id: device_tracker.sm_a505fn
     from: home
     to: not_home
   condition:  
@@ -62,7 +62,7 @@
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: device_tracker.bob_a50
+      entity_id: device_tracker.sm_a505fn
       from: not_home
       to: home
   condition:  
@@ -74,6 +74,40 @@
     data:
       topic: location/scan/arrive
       payload: '{"Reason":"HA App considers Hmmbob home"}'
+
+- alias: "Location: Trigger App to Away"
+  id: "bob_app_trigger_away"
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: device_tracker.bob_bt
+    from: home
+    to: not_home
+  condition:  
+    condition: state
+    entity_id: device_tracker.sm_a505fn
+    state: home
+  action:
+  - service: notify.mobile_app_sm_a505fn
+    data:
+      message: "request_location_update"
+
+- alias: "Location: Trigger App to Home"
+  id: "bob_app_trigger_home"
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.bob_bt
+      from: not_home
+      to: home
+  condition:  
+    condition: state
+    entity_id: device_tracker.sm_a505fn
+    state: not_home
+  action:
+  - service: notify.mobile_app_sm_a505fn
+    data:
+      message: "request_location_update" 
 
 ### Birgit ###
 - alias: "Location: Birgit BT Aanwezig"
@@ -112,26 +146,9 @@
       payload: "not_home"
       retain: true
 
-### PiZero ###
-#- alias: 'Location: Is PiZero alive'
-#  initial_state: 'off'
-#  id: pizero_alive
-#  trigger:
-#    - platform: time_pattern
-#      minutes: '/5'
-#      seconds: 00
-#  condition:
-#    condition: template
-#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.sensor.heartbeat.last_updated) | int > 540 }}'
-#  action:
-#  - service: notify.mobile_app_sm_a505fn
-#    data_template:
-#      message: PiZero stuurde al een tijdje geen update. De tijd is nu {{ utcnow().strftime("%H:%M:%S") }} UTC, de Zero stuurde zijn laatste bericht om {{ states.sensor.heartbeat.last_updated.strftime("%H:%M:%S") }} UTC.
-#      title: PiZero
-#    data:
-#      data:
-#        tag: 'notification-pizero_alive'
-
+##########################
+## Monitor automations
+##########################
 - alias: 'Location: Restart monitor daily and on startup'
   id: restart_monitor_daily_and_on_startup
   initial_state: 'on'
@@ -145,6 +162,43 @@
       data:
         topic: "location/scan/restart"
 
+- alias: "Location: Trigger arrive scan"
+  id: "location_trigger_arrive_scan"
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.door_contact_2
+    from: 'off'
+    to: 'on'
+  condition:  
+    condition: state
+    entity_id: device_tracker.birgit_bt
+    state: not_home
+  action:
+  - service: mqtt.publish
+    data:
+      topic: "location/scan/arrive"
+      payload: '{"Reason":"Front door openened and Birgit was away"}'
+
+- alias: "Location: Trigger depart scan"
+  id: "location_trigger_depart_scan"
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.door_contact_2
+    from: 'off'
+    to: 'on'
+  condition:  
+    condition: state
+    entity_id: device_tracker.birgit_bt
+    state: home
+  action:
+  - delay: '00:00:15'
+  - service: mqtt.publish
+    data:
+      topic: "location/scan/depart"
+      payload: '{"Reason":"Front door openened and Birgit was home"}'
+
 ##########################
 ## Device tracker notifications
 ##########################
@@ -152,7 +206,7 @@
   alias: "Location: notificatie dat Bob thuis is"
   initial_state: 'off'
   trigger:
-  - entity_id: device_tracker.bob_a50
+  - entity_id: device_tracker.sm_a505fn
     from: not_home
     platform: state
     to: home
@@ -167,7 +221,7 @@
   initial_state: 'off'
   trigger:
   - platform: zone
-    entity_id: device_tracker.bob_a50
+    entity_id: device_tracker.sm_a505fn
     event: enter
     zone: zone.Work
   action:
@@ -181,7 +235,7 @@
   initial_state: 'off'
   trigger:
   - platform: zone
-    entity_id: device_tracker.bob_a50
+    entity_id: device_tracker.sm_a505fn
     event: leave
     zone: zone.Work
   action:
@@ -197,7 +251,7 @@
   alias: "Location: TTS Notificatie dat Bob thuis is"
   initial_state: 'off'
   trigger:
-  - entity_id: device_tracker.bob_a50
+  - entity_id: device_tracker.sm_a505fn
     from: not_home
     platform: state
     to: home

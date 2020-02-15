@@ -2,12 +2,13 @@
 ## System sensors
 ##########################
 - platform: version
-  name: HA Currently Installed
+- platform: version
+  source: docker
+  image: raspberrypi3
 
 ##########################
 ## Utility sensors
 ##########################
-
 - platform: template
   sensors:
     batterij_pir:
@@ -20,27 +21,13 @@
               "0"
           {%- endif %}
       unit_of_measurement: '%'
-      icon_template: >
-          {%- if states.zwave.pir.attributes.battery_level is defined %}
-             {% set battery_level = states.zwave.pir.attributes.battery_level|int %}
-             {% set battery_round = (battery_level / 10) |int * 10 %}
-             {% if battery_round >= 100 %}
-               mdi:battery
-             {% elif battery_round > 0 %}
-               mdi:battery-{{ battery_round }}
-             {% else %}
-              mdi:battery-alert
-             {% endif %}
-          {% else %}
-              mdi:battery-alert
-          {% endif %}
     outside_temperature:
       entity_id: weather.dark_sky
       friendly_name: 'Buitentemperatuur'
       unit_of_measurement: '°C'
       value_template: >
           {%- if states.weather.dark_sky.attributes.temperature is defined %}
-              {{ states.weather.dark_sky.attributes.temperature }}
+              {{ state_attr('weather.dark_sky', 'temperature') }}
           {% else %}
               0
           {%- endif %}
@@ -50,7 +37,7 @@
       unit_of_measurement: '°C'
       value_template: >
           {%- if states.climate.woonkamer.attributes.current_temperature is defined %}
-              {{ states.climate.woonkamer.attributes.current_temperature }}
+              {{ state_attr('climate.woonkamer', 'current_temperature') }}
           {% else %}
               0
           {%- endif %}
@@ -75,7 +62,7 @@
 ##########################
 - platform: waze_travel_time
   name: Reistijd Bob naar huis
-  origin: device_tracker.bob_a50
+  origin: device_tracker.sm_a505fn
   destination: zone.home
   region: 'EU'
   scan_interval: 1800
@@ -98,7 +85,7 @@
 ## Geocode
 ##########################
 - platform: google_geocode
-  origin: device_tracker.bob_a50
+  origin: device_tracker.sm_a505fn
   options: street, city
   display_zone: show
   api_key: !secret google_maps_api_key

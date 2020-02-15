@@ -91,7 +91,7 @@ script: !include includes/scripts.yaml
 sensor: !include includes/sensors.yaml  
 switch: !include includes/switch.yaml
 timer: !include includes/timer.yaml
-zone: !include includes/zones.yaml
+#zone: !include includes/zones.yaml
 
 #################################################################
 ## Components

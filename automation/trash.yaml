@@ -25,7 +25,7 @@
           tag: 'notification-trash'
 
 - alias: 'Afval: Melding morgen'
-  id: melding_afval_vandaag
+  id: melding_afval_morgen
   initial_state: true
   trigger:
     platform: time
