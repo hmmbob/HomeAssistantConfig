@@ -4,23 +4,12 @@
 - platform: version
 - platform: version
   source: docker
-  image: raspberrypi3
 
 ##########################
 ## Utility sensors
 ##########################
 - platform: template
   sensors:
-    batterij_pir:
-      entity_id: zwave.pir
-      friendly_name: 'PIR Batterij' 
-      value_template: >
-          {%- if states.zwave.pir.attributes.battery_level %}
-              {{ state_attr('zwave.pir', 'battery_level') | round }}
-          {% else %}
-              "0"
-          {%- endif %}
-      unit_of_measurement: '%'
     outside_temperature:
       entity_id: weather.dark_sky
       friendly_name: 'Buitentemperatuur'
@@ -80,16 +69,6 @@
   destination: zone.home
   region: 'EU'
   scan_interval: 1800
-
-##########################
-## Geocode
-##########################
-- platform: google_geocode
-  origin: device_tracker.sm_a505fn
-  options: street, city
-  display_zone: show
-  api_key: !secret google_maps_api_key
-  scan_interval: 300
 
 ##########################
 ## Gas prices sensors

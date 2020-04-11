@@ -4,6 +4,7 @@
 
 ### Play doorbell alerts
 - alias: "Doorbell: Notify"
+  id: doorbell_notify
   initial_state: on
   trigger:
   - platform: state
@@ -25,6 +26,7 @@
 ### Sometimes HA keeps showing the doorbell as 'on', even though the button is no longer pressed.
 ### The RPi does have the correct state, so this just pulls the state directly from the PI
 - alias: "Doorbell: Fix state"
+  id: doorbell_fix_state
   initial_state: on
   trigger:
     platform: state

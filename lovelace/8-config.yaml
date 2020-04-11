@@ -10,14 +10,36 @@ cards:
     - type: horizontal-stack ### 1st row
       cards:
       - type: custom:button-card
-        entity: input_boolean.enable_pir
+        entity: input_boolean.enable_pir_woonkamer
         tap_action: 
           action: toggle
-        name: Bewegingssensor
+        name: Woonkamer
         icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
         show_state: false
         confirmation:
-          text: '[[[ return `Weet je zeker dat je de status van de bewegingssensor wil wijzigen?` ]]]'
+          text: '[[[ return `Weet je zeker dat je de status van de bewegingssensor in de woonkamer wil wijzigen?` ]]]'
+        styles:
+          card:
+            - width: 110px
+            - height: 110px
+          name:
+            - font-size: 12px
+        state:
+          - value: 'off'
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - filter: grayscale(100%)
+      - type: custom:button-card
+        entity: input_boolean.enable_pir_gang
+        tap_action: 
+          action: toggle
+        name: Gang
+        icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
+        show_state: false
+        confirmation:
+          text: '[[[ return `Weet je zeker dat je de status van de bewegingssensor in de gang wil wijzigen?` ]]]'
         styles:
           card:
             - width: 110px
@@ -53,6 +75,8 @@ cards:
                 - filter: opacity(50%)
               icon:
                 - filter: grayscale(100%)
+    - type: horizontal-stack #### 2nd row
+      cards:
       - type: custom:button-card
         entity: input_boolean.enable_doorbell
         icon: '[[[ if (entity.state == "on") return "mdi:bell-ring-outline"; else return "mdi:bell-off-outline"; ]]]'
@@ -75,8 +99,6 @@ cards:
                 - filter: opacity(50%)
               icon:
                 - filter: grayscale(100%)
-    - type: horizontal-stack #### 2nd row
-      cards:
       - type: custom:button-card
         entity: input_boolean.notify_trash
         name: Afval push
@@ -117,40 +139,42 @@ cards:
                 - filter: opacity(50%)
               icon:
                 - filter: grayscale(100%)
-      - type: custom:button-card
-        entity: input_boolean.vacation_mode_away
-        name: Vakantie weg
-        show_state: false
-        styles:
-          card:
-            - width: 110px
-            - height: 110px
-          name:
-            - font-size: 12px
-        state:
-          - value: 'off'
-            styles:
-              card:
-                - filter: opacity(50%)
-              icon:
-                - filter: grayscale(100%)
+#      - type: custom:button-card
+#        entity: input_boolean.vacation_mode_away
+#        name: Vakantie weg
+#        show_state: false
+#        styles:
+#          card:
+#            - width: 110px
+#            - height: 110px
+#          name:
+#            - font-size: 12px
+#        state:
+#          - value: 'off'
+#            styles:
+#              card:
+#                - filter: opacity(50%)
+#              icon:
+#                - filter: grayscale(100%)
 
   - id: c78f07f54176407b123456923a45f12a  # Automatically created id
     type: entities
     title: Batterijen
     show_header_toggle: false
     entities:
-      - entity: sensor.batterij_pir
+      - entity: sensor.pir_woonkamer_battery_level
+        type: custom:battery-entity
+      - entity: sensor.pir_gang_battery_level
         type: custom:battery-entity
       - entity: sensor.temp1_battery
         type: custom:battery-entity
-        name: "Batterij zolder"
+        name: "Batterij temp zolder"
       - entity: sensor.temp2_battery
         type: custom:battery-entity
-        name: "Batterij 1e verdieping"
+        name: "Batterij temp 1e verdieping"
       - entity: sensor.door_contact_1_battery
         type: custom:battery-entity
-        name: "Batterij vriezer"
+        name: "Batterij deur vriezer"
       - entity: sensor.door_contact_2_battery
         type: custom:battery-entity
         name: "Batterij voordeur"
@@ -159,19 +183,14 @@ cards:
     type: entities
     title: Statussen
     show_header_toggle: false
+    state_color: true
     entities:
-      - entity: binary_sensor.blauwe_lamp_status
-        state_color: true
-      - entity: binary_sensor.grijze_lamp_status
-        state_color: true
-      - entity: binary_sensor.staande_lamp_status
-        state_color: true
-      - entity: binary_sensor.bt_boven
-        state_color: true
-      - entity: binary_sensor.bt_beneden
-        state_color: true
-      - entity: binary_sensor.zigbee2mqtt_bridge
-        state_color: true
+      - binary_sensor.blauwe_lamp_status
+      - binary_sensor.grijze_lamp_status
+      - binary_sensor.staande_lamp_status
+      - binary_sensor.bt_boven
+      - binary_sensor.bt_beneden
+      - binary_sensor.zigbee2mqtt_bridge
 
   - id: c78f07f54176407b123456923a45f11a  # Automatically created id
     type: entities

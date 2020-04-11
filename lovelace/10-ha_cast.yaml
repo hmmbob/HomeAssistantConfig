@@ -29,7 +29,19 @@ cards:
         name:
           - font-size: 12px
 
-  - id: c78f07f54176407b123451113a45f12a
-    type: iframe
-    url: https://embed.waze.com/iframe?zoom=11&lat=51.604745&lon=5.569382&ct=livemap
-    aspect_ratio: 100%
+#  - id: c78f07f54176407b123451113a45f12a
+#    type: iframe
+#    url: https://embed.waze.com/iframe?zoom=11&lat=51.604745&lon=5.569382&ct=livemap
+#    aspect_ratio: 100%
+
+  - id: numbercard_traveltime
+    type: gauge
+    name: Traveltime
+    unit: 'min'
+    entity: sensor.reistijd_thuis_werk
+    min: 30
+    max: 60
+    severity:
+      green: 0
+      yellow: 40
+      red: 50

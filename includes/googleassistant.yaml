@@ -42,6 +42,15 @@ entity_config:
     name: "Diner"
     expose: true
     room: "Eetkamer"
+##Gang
+  light.gang_dimmer_level:
+    name: "Gang"
+    expose: true
+    room: "Gang"
+  binary_sensor.door_contact_2:
+    name: "Voordeur"
+    expose: true
+    room: "Gang"
 ##Zolder
   cover.zolder:
     name: "Zolder"
@@ -51,6 +60,10 @@ entity_config:
       - "Rolluik"
   sensor.temp1_temperature:
     name: "Temperatuur zolder"
+    expose: true
+    room: "Zolder"
+  binary_sensor.door_contact_1:
+    name: "Vriezer"
     expose: true
     room: "Zolder"
 ##Slaapkamer
@@ -63,9 +76,3 @@ entity_config:
     name: "Schuur"
     expose: true
     room: "Tuin"
-  switch.kerstboom:
-    name: "Kerstboom"
-    expose: true
-    aliases:
-      - "Kerstverlichting"
-      - "Boom"

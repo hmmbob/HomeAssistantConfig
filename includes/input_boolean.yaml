@@ -12,8 +12,12 @@ notify_trash_voice:
   initial: 'on'
   icon: mdi:google-home
 
-enable_pir:
-  name: 'Verlichting aan op beweging'
+enable_pir_woonkamer:
+  name: 'Verlichting woonkamer aan op beweging'
+  initial: 'on'
+  icon: mdi:motion-sensor
+enable_pir_gang:
+  name: 'Verlichting gang aan op beweging'
   initial: 'on'
   icon: mdi:motion-sensor
 toon_on_movement:

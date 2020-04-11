@@ -1,25 +1,5 @@
 cover.zolder:
   icon: mdi:garage
-device_tracker.birgit_bt:
-  friendly_name: Birgit (BT)
-  icon: mdi:bluetooth
-device_tracker.bob_moto:
-  friendly_name: Bob
-  icon: mdi:human-male
-device_tracker.bob_s9:
-  friendly_name: Bob
-  icon: mdi:human-male
-device_tracker.bob_bt:
-  friendly_name: Bob (BT)
-  icon: mdi:bluetooth
-group.all_automations:
-  hidden: false
-  friendly_name: Automations
-group.all_devices:
-  hidden: false
-  friendly_name: People
-media_player.tv:
-  friendly_name: Chromecast TV
 switch.staande_lamp:
   icon: mdi:lightbulb-outline
 switch.tv_meubel:
@@ -36,23 +16,14 @@ switch.eetkamer_switch:
 input_number.brightness_eetkamer:
   friendly_name: Eetkamertafel brightness
   icon: mdi:ceiling-light
-sensor.eetkamer_alarm_level:
-  hidden: true
-sensor.eetkamer_alarm_type:
-  hidden: true
-sensor.eetkamer_energy:
-  hidden: true
-sensor.eetkamer_exporting:
-  hidden: true
-sensor.eetkamer_power_management:
-  hidden: true
-sensor.eetkamer_sourcenodeid:
-  hidden: true
 sensor.schuur_power_1:
   friendly_name: Schuur Power
   icon: mdi:power-plug
 switch.schuur_1:
   icon: mdi:gate
+sensor.gang_dimmer_power:
+  friendly_name: Gang Power
+  icon: mdi:power-plug
 sensor.ha_currently_installed:
   icon: mdi:home-assistant
 sensor.sunrise_time:
@@ -65,8 +36,6 @@ sensor.trash_today:
 sensor.trash_tomorrow:
   friendly_name: Morgen
   icon: mdi:delete
-switch.kerstboom:
-  icon: mdi:pine-tree
 sensor.temp1_temperature:
   device_class: temperature
 sensor.temp2_temperature:

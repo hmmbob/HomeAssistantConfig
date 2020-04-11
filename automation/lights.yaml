@@ -23,13 +23,13 @@
   alias: "Lights: Eetkamer aan op beweging"
   trigger:
     platform: state
-    entity_id: binary_sensor.pir_sensor_motion
+    entity_id: binary_sensor.pir_woonkamer_motion
     to: 'on'
   condition: 
   - condition: and
     conditions:
     - condition: state
-      entity_id: input_boolean.enable_pir
+      entity_id: input_boolean.enable_pir_woonkamer
       state: 'on'
     - condition: time
       after: '05:15:00'
@@ -44,6 +44,10 @@
       brightness: 11
   - service: homeassistant.turn_on
     entity_id: input_boolean.eetkamer_on_movement
+#  - service: cast.show_lovelace_view
+#    data:
+#      entity_id: media_player.woonkamer
+#      view_path: cast
 
 ##########################
 ## Eetkamer uit voor Bob
@@ -52,7 +56,7 @@
   alias: "Lights: Eetkamer uit na 5min"
   trigger:
     platform: state
-    entity_id: binary_sensor.pir_sensor_motion 
+    entity_id: binary_sensor.pir_woonkamer_motion 
     to: 'off'
     for:
       minutes: 5
@@ -65,7 +69,10 @@
     entity_id: 
       - light.eetkamer_level
       - input_boolean.eetkamer_on_movement
-  
+#  - service: media_player.turn_off
+#    entity_id: 
+#      - media_player.woonkamer
+
 ##########################
 ## Woonkamer aan op beweging
 ##########################
@@ -73,13 +80,13 @@
   alias: "Lights: Woonkamer aan op beweging"
   trigger:
     platform: state
-    entity_id: binary_sensor.pir_sensor_motion
+    entity_id: binary_sensor.pir_woonkamer_motion
     to: 'on'
   condition: 
   - condition: and
     conditions:
     - condition: state
-      entity_id: input_boolean.enable_pir
+      entity_id: input_boolean.enable_pir_woonkamer
       state: 'on'
     - condition: time
       after: '06:59:00'
@@ -87,9 +94,8 @@
     - condition: state
       entity_id: group.lampen_woonkamer
       state: 'off'
-    - condition: state
-      entity_id: sun.sun
-      state: below_horizon 
+    - condition: template
+      value_template: '{{ state_attr("sun.sun", "elevation") < 8 }}'
   action:
   - service: homeassistant.turn_on
     entity_id: light.window_level
@@ -109,7 +115,7 @@
   alias: "Lights: Woonkamer uit na 30min"
   trigger:
   - platform: state
-    entity_id: binary_sensor.pir_sensor_motion 
+    entity_id: binary_sensor.pir_woonkamer_motion 
     to: 'off'
     for:
       minutes: 30
@@ -318,3 +324,45 @@
       data_template:
         message: I turned your lights off at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.  
         title: Vacation lights
+
+##########################
+## Gang
+##########################
+- id: turn_off_gang
+  alias: "Lights: Turn off gang"
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_gang_sensor
+    to: 'off'
+    for:
+      seconds: 30
+  condition:
+    - condition: state
+      entity_id: input_boolean.enable_pir_gang
+      state: 'on'
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.gang_dimmer_level
+
+- id: turn_on_gang_on_movement
+  alias: "Lights: Gang aan op beweging"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_gang_sensor
+    to: 'on'
+  condition: 
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.enable_pir_gang
+      state: 'on'
+    - condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: sun
+        before: sunrise
+  action:
+  - service: homeassistant.turn_on
+    entity_id: light.gang_dimmer_level

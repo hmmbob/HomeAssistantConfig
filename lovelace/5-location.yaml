@@ -41,6 +41,7 @@ cards:
       - entity: sensor.diesel_u
         icon: mdi:gas-station
 
+
   - id: 292ef19cf20b459ca143f74463b7712c  # Automatically created id
     type: picture-entity
     title: Hmmbob

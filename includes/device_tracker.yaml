@@ -2,3 +2,4 @@
   devices:
     bob_bt: 'location/bob_bt'
     birgit_bt: 'location/birgit_bt'
+  source_type: bluetooth

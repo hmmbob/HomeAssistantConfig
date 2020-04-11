@@ -36,7 +36,7 @@ logger:
 logbook:
   exclude:
     entities:
-      - binary_sensor.pir_sensor_motion
+      - binary_sensor.pir_woonkamer_motion
       - sensor.outside_temperature
       - sensor.room_temperature
 
@@ -70,6 +70,25 @@ http:
 
 lovelace:
   mode: yaml
+  resources:
+    - url: /hacsfiles/custom-header/custom-header.js
+      type: module
+    - url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js
+      type: module
+    - url: /hacsfiles/button-card/button-card.js
+      type: module
+    - url: /hacsfiles/weather-card/weather-card.js
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
+    - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
+      type: module
+    - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+      type: module
+    - url: /hacsfiles/lovelace-battery-entity/battery-entity.js
+      type: module
+    - url: /hacsfiles/simple-thermostat/simple-thermostat.js
+      type: module
 
 frontend:
   themes: !include_dir_named themes/

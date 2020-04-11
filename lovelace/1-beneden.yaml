@@ -27,6 +27,13 @@ cards:
                 - filter: opacity(50%)
               icon:
                 - filter: grayscale(100%)
+          - value: 'unavailable'
+            icon: mdi:flash-alert-outline
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - color: red
       - type: custom:button-card
         entity: switch.grijze_lamp
         name: Grijze lamp
@@ -45,6 +52,13 @@ cards:
                 - filter: opacity(50%)
               icon:
                 - filter: grayscale(100%)
+          - value: 'unavailable'
+            icon: mdi:flash-alert-outline
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - color: red
       - type: custom:button-card
         entity: switch.blauwe_lamp
         name: Blauwe lamp
@@ -63,17 +77,35 @@ cards:
                 - filter: opacity(50%)
               icon:
                 - filter: grayscale(100%)
+          - value: 'unavailable'
+            icon: mdi:flash-alert-outline
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - color: red
     - type: horizontal-stack #### 2nd row
       cards:
+#      - type: custom:button-card
+#        entity: scene.etenstijd
+#        tap_action: 
+#          action: call-service
+#          service: scene.turn_on
+#          service_data: 
+#            entity_id: scene.etenstijd
+#        name: Etenstijd
+#        icon: mdi:silverware-variant
+#        show_state: false
+#        styles:
+#          card:
+#            - width: 110px
+#            - height: 110px
+#          name:
+#            - font-size: 14px
       - type: custom:button-card
-        entity: scene.etenstijd
-        tap_action: 
-          action: call-service
-          service: scene.turn_on
-          service_data: 
-            entity_id: scene.etenstijd
-        name: Etenstijd
-        icon: mdi:silverware-variant
+        entity: light.gang_dimmer_level
+        name: Gang
+        icon: mdi:ceiling-light
         show_state: false
         styles:
           card:
@@ -81,6 +113,20 @@ cards:
             - height: 110px
           name:
             - font-size: 14px
+        state:
+          - value: 'off'
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - filter: grayscale(100%)
+          - value: 'unavailable'
+            icon: mdi:flash-alert-outline
+            styles:
+              card:
+                - filter: opacity(50%)
+              icon:
+                - color: red
       - type: custom:button-card
         entity: scene.avond
         tap_action: 
@@ -148,6 +194,11 @@ cards:
         entities:
           - sensor.room_temperature
         points_per_hour: 1
+        hour24: true
+        show:
+          extrema: true
+        align_header: left
+        align_icon: left
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75
@@ -155,6 +206,11 @@ cards:
         entities:
           - sensor.outside_temperature
         points_per_hour: 1
+        hour24: true
+        show:
+          extrema: true
+        align_header: left
+        align_icon: left
         line_color: var(--accent-color)
         line_width: 8
         font_size: 75
@@ -170,3 +226,4 @@ cards:
       - entity: sensor.trash_tomorrow
       - entity: binary_sensor.door_contact_2
         show-last-changed: true
+    state_color: true

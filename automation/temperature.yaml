@@ -5,7 +5,7 @@
   alias: "Temp: Toon aan op beweging"
   trigger:
     platform: state
-    entity_id: binary_sensor.pir_sensor_motion
+    entity_id: binary_sensor.pir_woonkamer_motion
     to: 'on'
   condition: 
   - condition: and
@@ -15,7 +15,7 @@
       before: '08:30:00'
     - condition: numeric_state
       entity_id: sensor.room_temperature
-      below: 18.5
+      below: 19.5
   action:
   - service: climate.set_preset_mode
     data:

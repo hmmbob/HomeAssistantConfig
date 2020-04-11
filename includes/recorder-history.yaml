@@ -3,13 +3,14 @@
       - device_tracker
       - climate
     entities:
-      - binary_sensor.pir_sensor_motion
+      - binary_sensor.pir_woonkamer_motion
+      - binary_sensor.pir_gang_sensor
       - binary_sensor.door_contact_1
       - binary_sensor.door_contact_2
       - binary_sensor.doorbell
       - light.eetkamer_level
       - light.window_level
-      - sensor.pir_sensor_luminance
+      - sensor.pir_woonkamer_sensor_luminance
       - sensor.reistijd_thuis_werk
       - sensor.reistijd_werk_thuis
       - sensor.benzine_z
