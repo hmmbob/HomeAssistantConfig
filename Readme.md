@@ -15,7 +15,7 @@ My vision is that my Home Automation should always work, even when the internet 
 ### Software
 - [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Buster
 - [Docker](https://www.docker.com/)
-  - [Home Assistant](https://hub.docker.com/r/homeassistant/raspberrypi3-homeassistant) as core
+  - [Home Assistant Core](https://hub.docker.com/r/homeassistant/home-assistant) as core
   - [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto) as local MQTT server
   - [Traefik](https://hub.docker.com/_/traefik) as transparant reverse proxy, handling traffic to all containers and SSL termination
   - [ESPhome](https://hub.docker.com/r/esphome/esphome) to program my sonoff devices
@@ -62,7 +62,7 @@ As added benefit of using the official Home Assistant app, I can easily push (ac
 
 # My Lovelace setup
 ## Mobile, or not?
-We are using Home Assistant mostly from our phones, so in April 2020 I decided to redo my frontend to a mobile only view. This allows me to just focus on making this view look and work good. My Lovelace setup is *heavily* inspired by [jmart518](https://twitter.com/jmart518): I got triggerd by this [tweet](https://twitter.com/jmart518/status/1242464036454674432) of him.
+We are using Home Assistant mostly from our phones, so in April 2020 I decided to redo my frontend to a mobile only view. This allows me to just focus on making this view look and work good. After all, when using a desktop I am mostly tweaking my setup anyway and thus mostly using the developer tools. My Lovelace setup is *heavily* inspired by [jmart518](https://twitter.com/jmart518): I got triggerd by this [tweet](https://twitter.com/jmart518/status/1242464036454674432) of him.
 
 ## Resources
 I've extended the possibilities of the standard Lovelace interface through multiple plugins installed through [HACS](https://hacs.xyz/). In my configuration I am using the following plugins:
