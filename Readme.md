@@ -98,7 +98,7 @@ In the [temperature pane](https://github.com/hmmbob/HomeAssistantConfig/blob/mas
 ### Location pane
 ![Location pane](images/location.gif)
 
-The [location pane](https://github.com/hmmbob/HomeAssistantConfig/blob/master/lovelace/3-locations.yaml] also uses a "fold-entity-row" element to display if we are at home and to display some diesel/gas prices around our area. It also displays the geocoded location of my phone - both as text and a map image - so my wife knows when to start cooking when I return home :wink:. Oh, by the way: Fake GPS brought me to the stadium of the best soccer club in the Netherlands. Just so you know.
+The [location pane](https://github.com/hmmbob/HomeAssistantConfig/blob/master/lovelace/3-locations.yaml) also uses a "fold-entity-row" element to display if we are at home and to display some diesel/gas prices around our area. It also displays the geocoded location of my phone - both as text and a map image - so my wife knows when to start cooking when I return home :wink:. Oh, by the way: Fake GPS brought me to the stadium of the best soccer club in the Netherlands. Just so you know.
 
 ### Settings pane
 ![Settings pane](images/settings.gif)
