@@ -81,8 +81,9 @@ I've extended the possibilities of the standard Lovelace interface through multi
 - [Auto Entities](https://github.com/thomasloven/lovelace-auto-entities) A legacy plugin that I've used in my previous setup, but it is still handy to use in some occasions.
 
 ## Ok, enough talking - show me your setup!
-![Swiping through the screens](images/swipe.gif)
+Ready, set..... go!
 
+![Swiping through the screens](images/swipe.gif)
 
 ### Home Screen
 ![Home Pane](images/home_pane.gif)
