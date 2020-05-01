@@ -81,17 +81,28 @@ I've extended the possibilities of the standard Lovelace interface through multi
 - [Auto Entities](https://github.com/thomasloven/lovelace-auto-entities) A legacy plugin that I've used in my previous setup, but it is still handy to use in some occasions.
 
 ## Ok, enough talking - show me your setup!
+![Swiping through the screens](images/swipe.gif)
+
+
 ### Home Screen
+![Home Pane](images/home_pane.gif)
+
 The Home Screen contains some information that is always displayed, it also contains _a lot_ of conditional cards. For instance, a reminder which trash should be put out will only be displayed on the day it will be collected. Media player controls will only appear when one of the media players is actually playing some media and remain hidden when in stand-by. Light controls for the lights part of the group "living room" are hidden with a "fold-entity-row" element. This greatly compacts the screen estate needed while still being able to toggle individual lights if we want to.
 
 ### Temperature pane
-In the temperature pane I have the controls for the thermostat and the different temperature graphs for the house.
+In the temperature pane I have the controls for the thermostat and the different temperature graphs for the house. See the swiping image.
 
 ### Location pane
+![Location pane](images/location.gif)
+
 The location pane also uses a "fold-entity-row" element to display if we are at home and to display some diesel/gas prices around our area. It also displays the geocoded location of my phone - both as text and a map image - so my wife knows when to start cooking when I return home ;-)
 
 ### Settings pane
+![Settings pane](images/settings.gif)
+
 The settings pane contains 9 custom:button-cards to toggle some input-booleans that enable/disable certain functions in the house. Think of light automations based on movement and the ability of disabling the front door bell or the automations of the cover in the attic.
 
 ### Status pane 
+![Status pane](images/status.gif)
+
 The status pane is only displayed to me and shows some diagnostics of the system. It tells me the battery levels of the different wireless sensors in the house and if certain devices are still online. It will also list the current installed and latest available docker images and if HACS has any updates pending. It also shows the smartmeter power usage - using a state switch card it either displays the normal or low tariff sensor as header of the entity fold.
