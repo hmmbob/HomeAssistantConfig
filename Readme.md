@@ -83,7 +83,7 @@ I've extended the possibilities of the standard Lovelace interface through multi
 ## Ok, enough talking - show me your setup!
 Ready, set..... go!
 
-![Swiping through the screens](images/swipe.gif)
+![Swiping through the screens](images/swiping.gif)
 
 ### Home Screen
 ![Home Pane](images/home_pane.gif)
