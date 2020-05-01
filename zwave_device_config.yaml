@@ -1,9 +1,0 @@
-sensor.pir_gang_burglar:
-  ignored: true
-  polling_intensity: 0
-sensor.pir_gang_alarm_level:
-  ignored: true
-  polling_intensity: 0
-sensor.pir_gang_sourcenodeid:
-  ignored: true
-  polling_intensity: 0
