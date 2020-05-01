@@ -13,8 +13,7 @@ My vision is that my Home Automation should always work, even when the internet 
 - [CC2531 Zigbee stick](https://tweakers.net/aanbod/1992398/cc2531-zigbee-zigbee2mqtt-usb-stick.html) with [zigbee2mqtt](https://www.zigbee2mqtt.io/)
 
 ### Software
-- [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Stretch
-- [Monitor](https://github.com/andrewjfreyer/monitor), a distributed advertisement-based BTLE presence detection reported via mqtt
+- [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Buster
 - [Docker](https://www.docker.com/)
   - [Home Assistant](https://hub.docker.com/r/homeassistant/raspberrypi3-homeassistant) as core
   - [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto) as local MQTT server
@@ -33,7 +32,7 @@ My vision is that my Home Automation should always work, even when the internet 
  
 ### Wifi Switches
  - 2x [Sonoff basic](https://www.aliexpress.com/item/32831445550.html) switches running ESPhome (so no connection with China!)
- - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare for the Chritsmas lights.
+ - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare for the Christmas lights.
  
 ### Zigbee sensors
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
@@ -41,9 +40,9 @@ My vision is that my Home Automation should always work, even when the internet 
  
 ### Thermostat
  - Rooted Toon thermostat
-   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_climate).
+   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/cyberjunky/home-assistant-toon_climate) (installed through [HACS](https://hacs.xyz/)).
    - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/includes/emulated_hue.yaml) for light switches.
- - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/hmmbob/HomeAssistantConfig/tree/master/custom_components/toon_smartmeter) to work.
+ - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/cyberjunky/home-assistant-toon_smartmeter) to work (also easily installed through [HACS](https://hacs.xyz/)).
  
 ### Cast & Voice Control
 - Google Home Hub in the living room
@@ -56,19 +55,7 @@ My vision is that my Home Automation should always work, even when the internet 
 # My actual Home Assistant configuration choices
 ## Presence detection
 ### Home Assistant Android App
-I stepped away from using Owntracks in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android). This has been working flawlessly so far! It connect directly to my own server, no cloud integration needed.
-
-### Bluetooth
-My wife doesn't like the idea of a GPS logger on her phone (even though it logs directly to our server), so I just check if she's at home with Bluetooth presence detection. I also use this for my phone - combining this device_tracker with the app device tracker (see above) into a [person](https://www.home-assistant.io/integrations/person/). 
-
- - Raspberry W Zero
-   - [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Stretch
-   - [Monitor](https://github.com/andrewjfreyer/monitor), a distributed advertisement-based BTLE presence detection reported via mqtt
-
-Both the main hub and the Zero run [Monitor](https://github.com/andrewjfreyer/monitor) for BT presence detection. In Home Assistant I use a MAX-sensor, as I only need to know if any of these two Pi's sees the BT device we like to track. So if one of them has a "confidence" >0, that device is considered "home". See the monitor github page for more information.
-
-
-
+I stepped away from using Owntracks in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android) for myself and my wife. This has been working flawlessly so far! It connect directly to my own server, no cloud integration needed.
 
 
 
