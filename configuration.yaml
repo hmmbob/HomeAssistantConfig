@@ -23,12 +23,12 @@ default_config:
 
 recorder:
   db_url: !secret recorder_url
-  purge_interval: 1
   purge_keep_days: 31
   include: !include includes/recorder-history.yaml
 
 history:
   include: !include includes/recorder-history.yaml
+  require_admin: true
 
 logger:
   default: warn
@@ -37,8 +37,10 @@ logbook:
   exclude:
     entities:
       - binary_sensor.pir_woonkamer_motion
+      - binary_sensor.pir_gang_sensor
       - sensor.outside_temperature
       - sensor.room_temperature
+  require_admin: true
 
 mqtt:
   broker: !secret mqtt_broker
@@ -70,35 +72,19 @@ http:
 
 lovelace:
   mode: yaml
-  resources:
-    - url: /hacsfiles/custom-header/custom-header.js
-      type: module
-    - url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js
-      type: module
-    - url: /hacsfiles/button-card/button-card.js
-      type: module
-    - url: /hacsfiles/weather-card/weather-card.js
-      type: module
-    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-      type: module
-    - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
-      type: module
-    - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
-      type: module
-    - url: /hacsfiles/lovelace-battery-entity/battery-entity.js
-      type: module
-    - url: /hacsfiles/simple-thermostat/simple-thermostat.js
-      type: module
+  resources: !include lovelace/resources.yaml
 
 frontend:
-  themes: !include_dir_named themes/
+  themes: !include_dir_merge_named themes/
+
+map:
+  require_admin: true
 
 #################################################################
 ## Includes
 #################################################################  
 automation: !include_dir_merge_list automation/
 binary_sensor: !include includes/binary_sensor.yaml
-device_tracker: !include includes/device_tracker.yaml
 emulated_hue: !include includes/emulated_hue.yaml
 google_assistant: !include includes/googleassistant.yaml
 group: !include includes/groups.yaml
@@ -110,7 +96,6 @@ script: !include includes/scripts.yaml
 sensor: !include includes/sensors.yaml  
 switch: !include includes/switch.yaml
 timer: !include includes/timer.yaml
-#zone: !include includes/zones.yaml
 
 #################################################################
 ## Components
@@ -135,7 +120,6 @@ climate:
   platform: toon_climate
   name: Woonkamer
   host: !secret toon_host
-  port: !secret toon_port
   scan_interval: 15
 
 duckdns:
@@ -155,11 +139,6 @@ hacs:
 #    client_secret: !secret spotify_client_secret
 
 notify:
-  - name: Google
-    platform: html5
-    vapid_pub_key: !secret gcm-vapid-public-key
-    vapid_prv_key: !secret gcm-vapid-private-key
-    vapid_email: !secret gcm-vapid-email
   - platform: nfandroidtv
     name: TV
     host: !secret cast_ip_androidtv
@@ -167,7 +146,6 @@ notify:
 tts:
   - platform: google_translate
     base_url: !secret tts_base_url
-    time_memory: 60
 
 weather:
   - platform: darksky
@@ -182,3 +160,4 @@ panel_iframe:
     title: 'Zigbee Map'
     url: '/local/community/zigbee2mqtt_networkmap/map.html'
     icon: 'mdi:graphql'
+    require_admin: true

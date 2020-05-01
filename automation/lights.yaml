@@ -206,8 +206,8 @@
         actions:
           - action: 'turn_on_sunset_lights'
             title: 'Ja, graag!'
-          - action: 'nee'
-            title: 'Nee, dank je!'
+          - action: 'turn_on_sunset_lights_in_20_min'
+            title: 'Over 20 minuten'
         ttl: 0
         priority: high
 
@@ -220,12 +220,6 @@
     event_data:
       action: 'turn_on_sunset_lights'
   action:
-#  - service: light.turn_on
-#    entity_id: light.eetkamer_level
-#    data_template:
-#      brightness: 100
-#      transition: 3
-#  - delay: 00:00:01
   - service: homeassistant.turn_on
     entity_id: 
       - switch.grijze_lamp
@@ -235,10 +229,26 @@
     entity_id: light.window_level
     data:
       brightness: 100
-  - service: notify.mobile_app_sm_a505fn
-    data_template:
-      message: I turned your lights on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}. 
-      title: Magic lights
+
+- id: set_lights_before_sunset_in_20
+  alias: "Lights: Sunset: set sunset lights in 20 min"
+  initial_state: 'on'
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: 'turn_on_sunset_lights_in_20_min'
+  action:
+  - delay: 00:20:00
+  - service: homeassistant.turn_on
+    entity_id: 
+      - switch.grijze_lamp
+      - switch.blauwe_lamp
+      - switch.staande_lamp
+  - service: homeassistant.turn_on
+    entity_id: light.window_level
+    data:
+      brightness: 100
 
 #############################
 ## Sunset lights garden     #

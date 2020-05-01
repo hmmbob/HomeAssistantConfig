@@ -1,19 +1,22 @@
 ##########################
-## Update initial sensors
+## Set theme on restart, update initial sensors
 ##########################
 - id: update_sensors_initial
-  alias: 'System: Update Sensors on startup'
+  alias: 'System: Set theme & update Sensors on startup'
   initial_state: 'on'
   trigger:
     - platform: homeassistant
       event: start
   action:
-    - delay: '00:00:15'
-    - service: homeassistant.update_entity
-      entity_id: sensor.reistijd_thuis_werk
-    - delay: '00:00:10'
-    - service: homeassistant.update_entity
-      entity_id: sensor.reistijd_werk_thuis
+    - service: frontend.set_theme
+      data:
+        name: "Google Light Theme"
+#    - delay: '00:00:15'
+#    - service: homeassistant.update_entity
+#      entity_id: sensor.reistijd_thuis_werk
+#    - delay: '00:00:10'
+#    - service: homeassistant.update_entity
+#      entity_id: sensor.reistijd_werk_thuis
     - delay: '00:00:10'
     - service: zigbee2mqtt_networkmap.update
 
@@ -22,7 +25,7 @@
 ##########################
 - id: waze_update_morning_commute
   alias: 'Waze: update morning commute'
-  initial_state: on
+  initial_state: off                    #Off during corona
   trigger:
     - platform: time_pattern
       minutes: '/5'
@@ -43,7 +46,7 @@
 
 - id: waze_update_evening_commute
   alias: 'Waze: update evening commute'
-  initial_state: on
+  initial_state: off                    #Off during corona
   trigger:
     - platform: time_pattern
       minutes: '/5'
@@ -71,7 +74,7 @@
       seconds: 00
   condition:  
     condition: state
-    entity_id: device_tracker.bob_bt
+    entity_id: person.bob
     state: not_home
   action:
     - service: homeassistant.update_entity

@@ -1,0 +1,309 @@
+####################
+# Start            #
+####################
+path: start
+title: Start
+icon: mdi:home-assistant
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:state-switch
+        entity: user
+        states:
+          Bob:
+            type: horizontal-stack
+            cards:
+              - type: markdown
+                style: |
+                 ha-card {
+                    margin: 5px 14px -5px 10px;
+                    box-shadow: none;
+                    --paper-card-background-color: rgba(0, 0, 0, 0.0)
+                  }
+                  h2 {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: var(--app-header-text-color);
+                  }
+                content: |
+                   {% if now().hour < 5 %}
+                    ## Goede nacht, Bob!
+                    {% elif now().hour < 12 %}
+                    ## Goede morgen, Bob!
+                    {% elif now().hour < 18 %}
+                    ## Goede middag, Bob!
+                    {% else %}
+                    ## Fijne avond, Bob!
+                    {% endif %}
+          Birgit:
+            type: horizontal-stack
+            cards:
+              - type: markdown
+                style: |
+                 ha-card {
+                    margin: 5px 14px -5px 10px;
+                    box-shadow: none;
+                    --paper-card-background-color: rgba(0, 0, 0, 0.0)
+                  }
+                  h2 {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: var(--app-header-text-color);
+                  }
+                content: |
+                   {% if now().hour < 5 %}
+                    ## Goede nacht, Birgit!
+                    {% elif now().hour < 12 %}
+                    ## Goede morgen, Birgit!
+                    {% elif now().hour < 18 %}
+                    ## Goede middag, Birgit!
+                    {% else %}
+                    ## Fijne avond, Birgit!
+                    {% endif %}
+      - type: markdown                  ## Date
+        content: |
+         {% if now().month in (1,) %}
+          ## {{ now().day }} januari 
+          {% elif now().month in (2,) %}
+          ## {{ now().day }} februari 
+          {% elif now().month in (3,) %}
+          ## {{ now().day }} maart 
+          {% elif now().month in (4,) %}
+          ## {{ now().day }} april 
+          {% elif now().month in (5,) %}
+          ## {{ now().day }} mei 
+          {% elif now().month in (6,) %}
+          ## {{ now().day }} juni 
+          {% elif now().month in (7,) %}
+          ## {{ now().day }} juli 
+          {% elif now().month in (8,) %}
+          ## {{ now().day }} augustus 
+          {% elif now().month in (9,) %}
+          ## {{ now().day }} september
+          {% elif now().month in (10,) %}
+          ## {{ now().day }} Oktober 
+          {% elif now().month in (11,) %}
+          ## {{ now().day }} november 
+          {% elif now().month in (12,) %}
+          ## {{ now().day }} december 
+          {% endif %}
+        style: |
+         ha-card {
+            margin: 12px 14px -5px 14px;
+            box-shadow: none;
+            --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: custom:state-switch       ## Weather
+        entity: weather.dark_sky
+        default: default
+        states:
+          sunny:
+            type: custom:simple-weather-card
+            style: |
+             ha-card {
+                box-shadow: var(--card-box-shadow);
+                margin: 0px 14px 0px 14px;
+              }
+            entity: weather.dark_sky
+            name: "thuis"
+            secondary_info: precipitation
+            tap_action:
+              action: more-info
+              cards:
+            backdrop:
+              day: 'rgba(249, 233, 181)'
+              text: var(--app-header-text-color)
+              night: 'rgba(76, 87, 110)'
+              fade: true
+          default:
+            type: custom:simple-weather-card
+            style: |
+             ha-card {
+                box-shadow: var(--card-box-shadow);
+                margin: 0px 14px 0px 14px;
+              }
+            entity: weather.dark_sky
+            name: "thuis"
+            secondary_info: precipitation
+            tap_action:
+              action: more-info
+              cards:
+            backdrop:
+              day: 'rgba(159, 193, 249)'
+              text: var(--app-header-text-color)
+              night: 'rgba(76, 87, 110)'
+              fade: true
+      - type: custom:state-switch       ## Trash
+        entity: sensor.trash_today
+        states:
+          Restafval:
+            type: entities
+            style: |
+             ha-card {
+              margin: 0px 14px -5px 14px;
+              background: rgba(201, 201, 201, 0.3);
+              }
+            entities:
+              - entity: sensor.trash_today
+                name: "Afvalinzameling  "
+          GFT:
+            type: entities
+            style: |
+             ha-card {
+              margin: 0px 14px -5px 14px;
+              background: rgba(0, 168, 39, 0.1);
+              }
+            entities:
+              - entity: sensor.trash_today
+                name: "Afvalinzameling  "
+          Plastic:
+            type: entities
+            style: |
+             ha-card {
+              margin: 0px 14px -5px 14px;
+              background: rgba(255, 136, 0, 0.25);
+              }
+            entities:
+              - entity: sensor.trash_today
+                name: "Afvalinzameling  "
+          Plastic en Oud Papier:
+            type: entities
+            style: |
+             ha-card {
+              margin: 0px 14px -5px 14px;
+              background: linear-gradient(45deg, rgba(255, 136, 0, 0.25),rgba(0, 106, 255, 0.25));
+              }
+            entities:
+              - entity: sensor.trash_today
+                name: "Afvalinzameling  "
+          Oud Papier:
+            type: entities
+            style: |
+             ha-card {
+              margin: 0px 14px -5px 14px;
+              background: rgba(0, 106, 255, 0.25);
+              }
+            entities:
+              - entity: sensor.trash_today
+                name: "Afvalinzameling  "
+
+      - type: markdown                  ## Oogopslag header
+        content: |
+         ## In een oogopslag...
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: entities                  ## Oogopslag overview
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+        entities:
+          - type: custom:fold-entity-row
+            head: group.lampen_woonkamer
+          - light.eetkamer_level
+          - binary_sensor.door_contact_2
+          - binary_sensor.door_contact_1
+          - cover.zolder
+      - type: conditional               ## Conditional media_players
+        conditions:
+          - entity: media_player.soundbar
+            state_not: "off"
+        card:
+          type: custom:mini-media-player
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.soundbar
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.woonkamer
+            state_not: "off"
+        card:
+          type: custom:mini-media-player
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.woonkamer
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.studeerkamer
+            state_not: "off"
+        card:
+          type: custom:mini-media-player
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.studeerkamer
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.tijmen
+            state_not: "off"
+        card:
+          type: custom:mini-media-player
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.tijmen
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.zolder
+            state_not: "off"
+        card:
+          type: custom:mini-media-player
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.zolder
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+
+

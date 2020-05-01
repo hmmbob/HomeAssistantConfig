@@ -1,4 +1,4 @@
- ##Leave this line
+ ##Leave this line including first space
     domains:
       - device_tracker
       - climate

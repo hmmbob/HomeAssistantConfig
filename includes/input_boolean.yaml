@@ -1,8 +1,3 @@
-bob_werk_verlaten:
-  name: Bob werk verlaten
-  initial: off
-  icon: mdi:airplane-takeoff
-
 notify_trash:
   name: 'Push-meldingen over afval'
   initial: 'on'

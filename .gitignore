@@ -21,7 +21,6 @@ custom_components/*
 !themes/
 !themes/*
 
-
 # Ignore folders.
 .storage
 .cloud
@@ -34,6 +33,8 @@ known_devices.yaml
 googleassistant_serviceaccount.json
 includes/googleassistant_serviceaccount.json
 
-
 # Ignore Python cache files 
 __pycache__/
+
+# Ignore various others
+zwave_device_config.yaml

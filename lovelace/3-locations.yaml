@@ -1,0 +1,56 @@
+####################
+# Locations        #
+####################
+path: locations
+title: Locatie
+icon: mdi:crosshairs-gps
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown                  ## Location header
+        content: |
+         ## Location
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+
+      - type: entities                  ## Oogopslag overview
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+        entities:
+          - type: custom:fold-entity-row
+            head: group.all_persons
+          - entity: sensor.sm_a505fn_geocoded_location
+            name: Bob
+          - sensor.reistijd_bob_naar_huis
+          - type: custom:fold-entity-row
+            head: sensor.diesel_u
+            entities:
+            - sensor.diesel_u
+            - sensor.diesel_z
+            - sensor.benzine_u
+            - sensor.benzine_z
+
+      - type: picture-entity
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+        title: Hmmbob
+        entity: camera.hmmbob
+        camera_image: camera.hmmbob
+        show_info: true
+        show_state: false
+        tap_action: 
+          action: more-info

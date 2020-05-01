@@ -1,24 +1,15 @@
-cover.zolder:
-  icon: mdi:garage
-switch.staande_lamp:
-  icon: mdi:lightbulb-outline
-switch.tv_meubel:
-  icon: mdi:lamp
-light.eetkamer_level:
-  friendly_name: Eetkamertafel
-  icon: mdi:ceiling-light
 sensor.eetkamer_power:
   friendly_name: Eetkamer Power
   icon: mdi:power-plug
-switch.eetkamer_switch:
-  friendly_name: Eetkamer schakelaar
-  icon: mdi:lightbulb
 input_number.brightness_eetkamer:
   friendly_name: Eetkamertafel brightness
   icon: mdi:ceiling-light
 sensor.schuur_power_1:
   friendly_name: Schuur Power
   icon: mdi:power-plug
+switch.eetkamer_switch:
+  friendly_name: Eetkamer schakelaar
+  icon: mdi:lightbulb
 switch.schuur_1:
   icon: mdi:gate
 sensor.gang_dimmer_power:
@@ -40,3 +31,23 @@ sensor.temp1_temperature:
   device_class: temperature
 sensor.temp2_temperature:
   device_class: temperature
+sensor.diesel_u:
+  icon: mdi:gas-station
+sensor.diesel_z:
+  icon: mdi:gas-station
+sensor.benzine_u:
+  icon: mdi:gas-station-outline
+sensor.benzine_z:
+  icon: mdi:gas-station-outline
+sensor.toon_p1_power_use_high:
+  friendly_name: Huidig verbruik (hoog tarief)
+  icon: mdi:current-ac
+sensor.toon_p1_power_use_low:
+  friendly_name: Huidig verbruik (laag tarief)
+  icon: mdi:current-ac
+sensor.toon_p1_power_use_cnt_high:
+  friendly_name: Totaal verbruik (hoog tarief)
+  icon: mdi:gauge-full
+sensor.toon_p1_power_use_cnt_low:
+  friendly_name: Totaal verbruik (laag tarief)
+  icon: mdi:gauge-empty

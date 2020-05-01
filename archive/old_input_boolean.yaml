@@ -1,0 +1,4 @@
+bob_werk_verlaten:
+  name: Bob werk verlaten
+  initial: off
+  icon: mdi:airplane-takeoff

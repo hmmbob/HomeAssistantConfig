@@ -43,3 +43,53 @@
     entity_id: sun.sun
     friendly_name: 'Sunrise:'
     value_template: '{{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%H:%M") }}'
+
+##########################
+## BT Detection
+##########################
+
+### Bob ###    
+- platform: mqtt
+  name: 'BT Beneden Bob'
+  state_topic: 'location/beneden/hmmbob'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  json_attributes_topic: 'location/beneden/hmmbob'
+
+- platform: mqtt
+  name: 'BT Boven Bob'
+  state_topic: 'location/boven/hmmbob'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  json_attributes_topic: 'location/boven/hmmbob'
+
+- platform: min_max
+  name: "BT max Bob"
+  type: max
+  round_digits: 0
+  entity_ids:
+    - sensor.bt_boven_bob
+    - sensor.bt_beneden_bob
+
+### Birgit ###
+- platform: mqtt
+  state_topic: 'location/beneden/bridget_jones_moto'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'BT Beneden Birgit'
+  json_attributes_topic: 'location/beneden/bridget_jones_moto'
+
+- platform: mqtt
+  state_topic: 'location/boven/bridget_jones_moto'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'BT Boven Birgit'
+  json_attributes_topic: 'location/boven/bridget_jones_moto'
+
+- platform: min_max
+  name: "BT max Birgit"
+  type: max
+  round_digits: 0
+  entity_ids:
+    - sensor.bt_boven_birgit
+    - sensor.bt_beneden_birgit

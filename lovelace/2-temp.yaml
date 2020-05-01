@@ -1,0 +1,172 @@
+####################
+# Temp             #
+####################
+path: temp
+title: Temperaturen
+icon: mdi:home-thermometer-outline
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown                  ## Temperatuur header
+        content: |
+         ## Thermostaat
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: 'custom:simple-thermostat'
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+         --st-font-size-title: 18px;
+         --st-font-size-xl: 
+          }
+        entity: climate.woonkamer
+        label:
+          temperature: Temperatuur
+          state: Programma
+        control:
+          preset:
+            sleep:
+              icon: mdi:sleep
+            away:
+              icon: mdi:leaf
+            comfort:
+              icon: mdi:fire
+            home:
+              icon: mdi:home-thermometer
+        sensors:
+          - entity: sensor.outside_temperature
+            name: Buiten
+          - attribute: modulation_level
+            name: Brander
+            unit: '%' 
+      - type: markdown                  ## Temperatuur header
+        content: |
+         ## Temperaturen
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card ## Woonkamer
+            style: |
+             ha-card {
+                box-shadow: var(--card-box-shadow);
+                margin: 0px 0px 0px 14px;
+              }
+            entities:
+              - entity: sensor.room_temperature
+                name: Woonkamer
+            points_per_hour: 1
+            hour24: true
+            show:
+              extrema: true
+            align_header: left
+            align_icon: left
+            line_color: var(--accent-color)
+            line_width: 8
+            font_size: 75
+            color_thresholds:
+              - value: 0
+                color: "#5f9bea"
+              - value: 19.5
+                color: var(--accent-color)
+          - type: custom:mini-graph-card ## Buiten
+            style: |
+             ha-card {
+                box-shadow: var(--card-box-shadow);
+                margin: 0px 14px 0px 0px;
+              }
+            entities:
+              - entity: sensor.outside_temperature
+                name: Buiten
+            points_per_hour: 1
+            hour24: true
+            show:
+              extrema: true
+            align_header: left
+            align_icon: left
+            line_color: var(--accent-color)
+            line_width: 8
+            font_size: 75
+            color_thresholds:
+              - value: 8
+                color: "#5f9bea"
+              - value: 18
+                color: "#e5ff00"
+              - value: 28
+                color: "#d35400"
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card ## Slaapkamer
+            style: |
+             ha-card {
+                box-shadow: var(--card-box-shadow);
+                margin: 0px 0px 0px 14px;
+              }
+            entities:
+              - entity: sensor.temp2_temperature
+                name: Slaapkamer
+              - entity: sensor.temp2_humidity
+                show_graph: false
+                show_state: true
+            points_per_hour: 1
+            hour24: true
+            show:
+              extrema: true
+            align_header: left
+            align_icon: left
+            line_color: var(--accent-color)
+            line_width: 8
+            font_size: 75
+            color_thresholds:
+              - value: 8
+                color: "#5f9bea"
+              - value: 15
+                color: "#e5ff00"
+              - value: 21
+                color: "#d35400"
+          - type: custom:mini-graph-card ## Zolder
+            style: |
+             ha-card {
+                box-shadow: var(--card-box-shadow);
+                margin: 0px 14px 0px 0px;
+              }
+            entities:
+              - entity: sensor.temp1_temperature
+                name: Zolder
+              - entity: sensor.temp1_humidity
+                show_graph: false
+                show_state: true
+            points_per_hour: 1
+            hour24: true
+            show:
+              extrema: true
+            align_header: left
+            align_icon: left
+            line_color: var(--accent-color)
+            line_width: 8
+            font_size: 75
+            color_thresholds:
+              - value: 0
+                color: "#5f9bea"
+              - value: 20.5
+                color: var(--accent-color)

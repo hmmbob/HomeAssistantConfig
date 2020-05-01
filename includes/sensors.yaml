@@ -36,15 +36,14 @@
 ##########################
 - platform: toon_smartmeter
   host: !secret toon_host
-  port: !secret toon_port
   scan_interval: 15
   resources:
-#    - gasused
-#    - gasusedcnt
     - elecusageflowlow
     - elecusagecntlow
     - elecusageflowhigh
     - elecusagecnthigh
+#    - gasused
+#    - gasusedcnt
 
 ##########################
 ## Waze sensors
@@ -56,19 +55,19 @@
   region: 'EU'
   scan_interval: 1800
 
-- platform: waze_travel_time
-  name: Reistijd Thuis-Werk
-  origin: zone.home
-  destination: zone.work
-  region: 'EU'
-  scan_interval: 1800
-
-- platform: waze_travel_time
-  name: Reistijd Werk-Thuis
-  origin: zone.work
-  destination: zone.home
-  region: 'EU'
-  scan_interval: 1800
+#- platform: waze_travel_time      ## Not being used in Corona times, 
+#  name: Reistijd Thuis-Werk       ## commented out because I don't need the updates now
+#  origin: zone.home
+#  destination: zone.work
+#  region: 'EU'
+#  scan_interval: 1800
+#
+#- platform: waze_travel_time
+#  name: Reistijd Werk-Thuis
+#  origin: zone.work
+#  destination: zone.home
+#  region: 'EU'
+#  scan_interval: 1800
 
 ##########################
 ## Gas prices sensors
@@ -138,53 +137,3 @@
     {% else %}
       Geen
     {% endif %}
-
-##########################
-## BT Detection
-##########################
-
-### Bob ###    
-- platform: mqtt
-  name: 'BT Beneden Bob'
-  state_topic: 'location/beneden/hmmbob'
-  value_template: '{{ value_json.confidence }}'
-  unit_of_measurement: '%'
-  json_attributes_topic: 'location/beneden/hmmbob'
-
-- platform: mqtt
-  name: 'BT Boven Bob'
-  state_topic: 'location/boven/hmmbob'
-  value_template: '{{ value_json.confidence }}'
-  unit_of_measurement: '%'
-  json_attributes_topic: 'location/boven/hmmbob'
-
-- platform: min_max
-  name: "BT max Bob"
-  type: max
-  round_digits: 0
-  entity_ids:
-    - sensor.bt_boven_bob
-    - sensor.bt_beneden_bob
-
-### Birgit ###
-- platform: mqtt
-  state_topic: 'location/beneden/bridget_jones_moto'
-  value_template: '{{ value_json.confidence }}'
-  unit_of_measurement: '%'
-  name: 'BT Beneden Birgit'
-  json_attributes_topic: 'location/beneden/bridget_jones_moto'
-
-- platform: mqtt
-  state_topic: 'location/boven/bridget_jones_moto'
-  value_template: '{{ value_json.confidence }}'
-  unit_of_measurement: '%'
-  name: 'BT Boven Birgit'
-  json_attributes_topic: 'location/boven/bridget_jones_moto'
-
-- platform: min_max
-  name: "BT max Birgit"
-  type: max
-  round_digits: 0
-  entity_ids:
-    - sensor.bt_boven_birgit
-    - sensor.bt_beneden_birgit

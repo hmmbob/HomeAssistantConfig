@@ -1,0 +1,22 @@
+##########################
+## BT Monitor service
+##########################
+- platform: mqtt
+  name: "BT beneden"
+  state_topic: "location/beneden/status"
+  payload_on: "online"
+  payload_off: "offline"
+  availability_topic: "location/beneden/status"
+  payload_available: "online"
+  payload_not_available: "offline"
+  device_class: connectivity
+
+- platform: mqtt
+  name: "BT boven"
+  state_topic: "location/boven/status"
+  payload_on: "online"
+  payload_off: "offline"
+  availability_topic: "location/boven/status"
+  payload_available: "online"
+  payload_not_available: "offline"
+  device_class: connectivity

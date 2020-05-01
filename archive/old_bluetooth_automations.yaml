@@ -199,9 +199,9 @@
       topic: "location/scan/depart"
       payload: '{"Reason":"Front door openened and Birgit was home"}'
 
-##########################
-## Device tracker notifications
-##########################
+#########################
+# Device tracker notifications
+#########################
 - id: Set_notification_Bob_Home_owntrak_mqtt
   alias: "Location: notificatie dat Bob thuis is"
   initial_state: 'off'

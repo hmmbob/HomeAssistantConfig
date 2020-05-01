@@ -1,0 +1,148 @@
+####################
+# Status           #
+####################
+path: status
+title: Status
+icon: mdi:check-network-outline
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown                  ## Batterij niveaus header
+        content: |
+         ## Batterij niveaus
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: custom:battery-state-card
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+        name: " "
+        sort_by_level: "asc"
+        collapse: 2
+        entities:
+        - entity: sensor.pir_woonkamer_battery_level
+        - entity: sensor.pir_gang_battery_level
+        - entity: sensor.temp1_battery
+          name: "Batterij temp zolder"
+        - entity: sensor.temp2_battery
+          name: "Batterij temp 1e verdieping"
+        - entity: sensor.door_contact_1_battery
+          name: "Batterij deur vriezer"
+        - entity: sensor.door_contact_2_battery
+          name: "Batterij voordeur"
+      - type: markdown                  ## Statussen header
+        content: |
+         ## Statussen
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: entities
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+        show_header_toggle: false
+        state_color: true
+        entities:
+        - binary_sensor.blauwe_lamp_status
+        - binary_sensor.grijze_lamp_status
+        - binary_sensor.staande_lamp_status
+        - binary_sensor.zigbee2mqtt_bridge
+      - type: markdown                  ## Updates header
+        content: |
+         ## Updates
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: entities
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+        show_header_toggle: false
+        entities:
+        - entity: sensor.current_version
+          name: "Docker image installed"
+        - entity: sensor.latest_version
+          name: "Latest Docker image"
+        - entity: sensor.hacs
+          name: "HACS Updates"
+          state_color: true
+      - type: markdown                  ## Meterstanden header
+        content: |
+         ## Meterstanden
+        style: |
+         ha-card {
+          margin: 0px 14px -5px 14px;
+          box-shadow: none;
+          --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+      - type: conditional
+        conditions:
+          - entity: sensor.toon_p1_power_use_high
+            state_not: "0.00"
+        card:
+          type: entities
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entities:
+           - type: custom:fold-entity-row
+             head: sensor.toon_p1_power_use_high
+             entities:
+             - sensor.toon_p1_power_use_high
+             - sensor.toon_p1_power_use_cnt_high
+             - sensor.toon_p1_power_use_cnt_low
+      - type: conditional
+        conditions:
+          - entity: sensor.toon_p1_power_use_low
+            state_not: "0.00"
+        card:
+          type: entities
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entities:
+            - type: custom:fold-entity-row
+              head: sensor.toon_p1_power_use_low
+              entities:
+              - sensor.toon_p1_power_use_low
+              - sensor.toon_p1_power_use_cnt_high
+              - sensor.toon_p1_power_use_cnt_low

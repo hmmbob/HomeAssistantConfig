@@ -1,27 +1,27 @@
- 
+    
 custom_header:
+  footer_mode: true
   compact_mode: true
   options_hide: true
   chevrons: false
+  background: var(--app-header-background-color)
+  elements_color: var(--app-header-text-color)
+  active_tab_color: var(--state-icon-active-color)
+  tab_indicator_color: var(--state-icon-active-color)
   exceptions:
     - conditions:
         user: Birgit
       config:
-        hide_tabs: 'overview, media, power'
+        show_tabs: start, temp, locations, settings
 
 swipe_nav:
   animate: swipe
 
 title: Home sweet home
 views:
-  - !include lovelace/1-beneden.yaml
-  - !include lovelace/2-boven.yaml
-  - !include lovelace/3-zolder.yaml
-  - !include lovelace/8-config.yaml
-#  - !include lovelace/4-infopage.yaml
-  - !include lovelace/5-location.yaml
-  - !include lovelace/6-media.yaml
-  - !include lovelace/7-power.yaml
-  - !include lovelace/9-overviews.yaml
-  - !include lovelace/10-ha_cast.yaml  
-
+  - !include lovelace/1-start.yaml
+  - !include lovelace/2-temp.yaml
+  - !include lovelace/3-locations.yaml
+  - !include lovelace/4-settings.yaml 
+  - !include lovelace/5-status.yaml
+  - !include lovelace/old/9-overviews.yaml

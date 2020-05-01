@@ -158,25 +158,19 @@ cards:
 #                - filter: grayscale(100%)
 
   - id: c78f07f54176407b123456923a45f12a  # Automatically created id
-    type: entities
+    type: custom:battery-state-card
     title: Batterijen
     show_header_toggle: false
     entities:
       - entity: sensor.pir_woonkamer_battery_level
-        type: custom:battery-entity
       - entity: sensor.pir_gang_battery_level
-        type: custom:battery-entity
       - entity: sensor.temp1_battery
-        type: custom:battery-entity
         name: "Batterij temp zolder"
       - entity: sensor.temp2_battery
-        type: custom:battery-entity
         name: "Batterij temp 1e verdieping"
       - entity: sensor.door_contact_1_battery
-        type: custom:battery-entity
         name: "Batterij deur vriezer"
       - entity: sensor.door_contact_2_battery
-        type: custom:battery-entity
         name: "Batterij voordeur"
 
   - id: c78f07f54176407b123456923a45f10a  # Automatically created id
