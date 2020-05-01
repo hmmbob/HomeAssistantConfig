@@ -90,7 +90,7 @@ Ready, set..... go!
 ### Home Screen
 ![Home Pane](images/home_pane.gif)
 
-The Home Screen ([link to Lovelace config](https://github.com/hmmbob/HomeAssistantConfig/blob/master/lovelace/1-start.yaml) contains some information that is always displayed, it also contains _a lot_ of conditional cards. For instance, a reminder which trash should be put out will only be displayed on the day it will be collected. Media player controls will only appear when one of the media players is actually playing some media and remain hidden when in stand-by. Light controls for the lights part of the group "living room" are hidden with a "fold-entity-row" element. This greatly compacts the screen estate needed while still being able to toggle individual lights if we want to.
+The [Home Screen](https://github.com/hmmbob/HomeAssistantConfig/blob/master/lovelace/1-start.yaml) (link to Lovelace config) contains some information that is always displayed, it also contains _a lot_ of conditional cards. For instance, a reminder which trash should be put out will only be displayed on the day it will be collected. Media player controls will only appear when one of the media players is actually playing some media and remain hidden when in stand-by. Light controls for the lights part of the group "living room" are hidden with a "fold-entity-row" element. This greatly compacts the screen estate needed while still being able to toggle individual lights if we want to.
 
 ### Temperature pane
 In the [temperature pane](https://github.com/hmmbob/HomeAssistantConfig/blob/master/lovelace/2-temp.yaml) I have the controls for the thermostat and the different temperature graphs for the house. See the swiping image.
