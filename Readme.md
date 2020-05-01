@@ -25,8 +25,9 @@ My vision is that my Home Automation should always work, even when the internet 
 
 ## Connected devices
 ### Z-Wave
- - 2x [Qubino Flush Dimmer](https://tweakers.net/pricewatch/467913/qubino-flush-dimmer-z-wave+/specificaties/) 1 for dining room, 1 for window light in living room
+ - 3x [Qubino Flush Dimmer](https://tweakers.net/pricewatch/467913/qubino-flush-dimmer-z-wave+/specificaties/) 1 for dining room, 1 for window light in living room and 1 for the hallway
  - 1x [NEO COOLCAM NAS-PD02Z Z-wave Plus PIR Motion Sensor](https://www.aliexpress.com/item/32796863408.html) in the living room - links to a V2 but I use the V1 which lacks temperature support
+ - 1x [NEO COOLCAM NAS-PD02Z Z-wave Plus PIR Motion Sensor](https://www.aliexpress.com/item/32796863408.html) in the hallway - this actually is a V2
  - 1x [Qubino Flush 2 Relay](https://tweakers.net/pricewatch/474184/qubino-flush-2-relay-z-wave+/specificaties/) in the garden
  - 1x [Qubino Flush Shutter](https://tweakers.net/pricewatch/563345/qubino-flush-shutter-(zmnhcd1)/specificaties/) to control the cover on the attic windows
  
@@ -42,11 +43,11 @@ My vision is that my Home Automation should always work, even when the internet 
  - Rooted Toon thermostat
    - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/cyberjunky/home-assistant-toon_climate) (installed through [HACS](https://hacs.xyz/)).
    - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/includes/emulated_hue.yaml) for light switches.
- - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter. This also requires a [custom component](https://github.com/cyberjunky/home-assistant-toon_smartmeter) to work (also easily installed through [HACS](https://hacs.xyz/)).
+ - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter and pushes this to Home Assistant. This also requires a [custom component](https://github.com/cyberjunky/home-assistant-toon_smartmeter) to work (also easily installed through [HACS](https://hacs.xyz/)).
  
 ### Cast & Voice Control
 - Google Home Hub in the living room
-- AndroidTV platform in the living room TV
+- AndroidTV in the living room TV
 - LG SH-8 Soundbar with built-in cast in the living room
 - Google Home in the study room
 - 2x Google Home Mini upstairs
@@ -54,9 +55,43 @@ My vision is that my Home Automation should always work, even when the internet 
 
 # My actual Home Assistant configuration choices
 ## Presence detection
-### Home Assistant Android App
-I stepped away from using Owntracks in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android) for myself and my wife. This has been working flawlessly so far! It connect directly to my own server, no cloud integration needed.
+Presence detection is always an important issue with Home Automation, and I've struggled with it too. Recently I stepped away from using a combination of Owntracks and bluetooth tracking (I used [Monitor](https://github.com/andrewjfreyer/monitor)) in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android), because this combination was not robust enough. We had a lot of issues with bluetooth interference (my smart watch lost connection to my phone _all the time_, and my wifes phone just disabled bluetooth over time). The Home Assistant app has been working flawlessly for the both of us so far! It connects directly to my own server, so no cloud integration needed. 
 
+## Notifications
+As added benefit of using the official Home Assistant app, I can easily push (actionable) notifications to our phones. Besides push notifications I also use TTS to our Google Home speakers for notifications. 
 
+# My Lovelace setup
+## Mobile, or not?
+We are using Home Assistant mostly from our phones, so in April 2020 I decided to redo my frontend to a mobile only view. This allows me to just focus on making this view look and work good. My Lovelace setup is *heavily* inspired by [jmart518](https://twitter.com/jmart518): I got triggerd by this [tweet](https://twitter.com/jmart518/status/1242464036454674432) of him.
 
-(readme is work in progress, I'll describe more on my setup later).
+## Resources
+I've extended the possibilities of the standard Lovelace interface through multiple plugins installed through [HACS](https://hacs.xyz/). In my configuration I am using the following plugins:
+
+- [Custom Header](https://github.com/maykar/custom-header), used to modify the header to display as footer and to display only a selection of panes in my wifes environment.
+- [Lovelace Swipe Navigation](https://github.com/maykar/lovelace-swipe-navigation) which enables swiping through the different panes.
+- [Card Mod](https://github.com/thomasloven/lovelace-card-mod) is used to tweak the CSS styles of all cards I use.
+- [State Switch](https://github.com/thomasloven/lovelace-state-switch) can be used to display different cards based on the state of an entity. I am using it to display custom greetings to myself and my wife.
+- [Fold entity row](https://github.com/thomasloven/lovelace-fold-entity-row) is a _really_ handy tool to have a fold out overview of entities. I am using it for my livingroom lights in the Home Screen, the gas prices in the Locations Pane and to fold the battery state overview (that uses the earlier mentioned Battery State Card) and the smart meter data in the status pane.
+- [Simple Weather Card](https://github.com/kalkih/simple-weather-card) which beautifully displays the current weather for my location on the Home Screen.
+- [Mini Media Player](https://github.com/kalkih/mini-media-player) The most beautiful and compact media player I saw around there. These are being displayed only conditionally: when one of the media players is playing something this card will show on the Home Screen.
+- [Simple Thermostat](https://github.com/nervetattoo/simple-thermostat) is used to display the thermostat controls for my Toon thermostat.
+- [Battery State Card](https://github.com/maxwroc/battery-state-card) is used for, well, displaying the battery states :)
+- [Button Card](https://github.com/custom-cards/button-card), used for the buttons in the settings pane.
+- [Mini Graph Card](https://github.com/kalkih/mini-graph-card) to display temperature graphs in the temperature pane.
+- [Auto Entities](https://github.com/thomasloven/lovelace-auto-entities) A legacy plugin that I've used in my previous setup, but it is still handy to use in some occasions.
+
+## Ok, enough talking - show me your setup!
+### Home Screen
+The Home Screen contains some information that is always displayed, it also contains _a lot_ of conditional cards. For instance, a reminder which trash should be put out will only be displayed on the day it will be collected. Media player controls will only appear when one of the media players is actually playing some media and remain hidden when in stand-by. Light controls for the lights part of the group "living room" are hidden with a "fold-entity-row" element. This greatly compacts the screen estate needed while still being able to toggle individual lights if we want to.
+
+### Temperature pane
+In the temperature pane I have the controls for the thermostat and the different temperature graphs for the house.
+
+### Location pane
+The location pane also uses a "fold-entity-row" element to display if we are at home and to display some diesel/gas prices around our area. It also displays the geocoded location of my phone - both as text and a map image - so my wife knows when to start cooking when I return home ;-)
+
+### Settings pane
+The settings pane contains 9 custom:button-cards to toggle some input-booleans that enable/disable certain functions in the house. Think of light automations based on movement and the ability of disabling the front door bell or the automations of the cover in the attic.
+
+### Status pane 
+The status pane is only displayed to me and shows some diagnostics of the system. It tells me the battery levels of the different wireless sensors in the house and if certain devices are still online. It will also list the current installed and latest available docker images and if HACS has any updates pending. It also shows the smartmeter power usage - using a state switch card it either displays the normal or low tariff sensor as header of the entity fold.
