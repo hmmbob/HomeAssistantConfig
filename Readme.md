@@ -8,14 +8,12 @@ My vision is that my Home Automation should always work, even when the internet 
 # My Home Assistant Infrastructure
 ## Main Hub
 ### Hardware
-<details><summary>My Home Assistant infrastructure is built around a Raspberry Pi 3B+ (click to open)</summary>
 - Raspberry Pi3B+
 - [Z-Wave.Me ZME_UZB1 USB Stick](https://tweakers.net/pricewatch/434681/z-wave-punt-me-usb-stick-met-z-wave-plus/specificaties/)
 - [CC2531 Zigbee stick](https://tweakers.net/aanbod/1992398/cc2531-zigbee-zigbee2mqtt-usb-stick.html) with [zigbee2mqtt](https://www.zigbee2mqtt.io/)
-</details>
+
 
 ### Software
-<details><summary>I have a Docker based setup, running Home Assistant Core</summary>
 - [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Buster
 - [Docker](https://www.docker.com/)
   - [Home Assistant Core](https://hub.docker.com/r/homeassistant/home-assistant) as core
@@ -25,49 +23,39 @@ My vision is that my Home Automation should always work, even when the internet 
   - [zigbee2mqtt](https://hub.docker.com/r/koenkk/zigbee2mqtt) running my zigbee network
   - [Duplicati](https://hub.docker.com/r/duplicati/duplicati) for encrypted backups of my config files to the cloud
   - [nginx](https://hub.docker.com/r/linuxserver/nginx) for some static file hosting.
-</details>
+
 
 ## Connected devices
 I use a combination of Z-Wave, Zigbee and Wifi in my setup:
 
 ### Z-Wave
-<details><summary>My Z-Wave network:  (click to open)</summary>
  - 3x [Qubino Flush Dimmer](https://tweakers.net/pricewatch/467913/qubino-flush-dimmer-z-wave+/specificaties/) 1 for dining room, 1 for window light in living room and 1 for the hallway
  - 1x [NEO COOLCAM NAS-PD02Z Z-wave Plus PIR Motion Sensor](https://www.aliexpress.com/item/32796863408.html) in the living room - links to a V2 but I use the V1 which lacks temperature support
  - 1x [NEO COOLCAM NAS-PD02Z Z-wave Plus PIR Motion Sensor](https://www.aliexpress.com/item/32796863408.html) in the hallway - this actually is a V2
  - 1x [Qubino Flush 2 Relay](https://tweakers.net/pricewatch/474184/qubino-flush-2-relay-z-wave+/specificaties/) in the garden
  - 1x [Qubino Flush Shutter](https://tweakers.net/pricewatch/563345/qubino-flush-shutter-(zmnhcd1)/specificaties/) to control the cover on the attic windows
- </details>
  
 ### Wifi Switches
-<details><summary>For Wifi, I'm only using ESPhome flashed Sonoff devices  (click to open)</summary>
  - 2x [Sonoff basic](https://www.aliexpress.com/item/32831445550.html) switches running ESPhome (so no connection with China!)
  - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare for the Christmas lights.
- </details>
  
 ### Zigbee sensors
-<details><summary>I only use battery powered Zigbee sensors in my house (click to open)</summary>
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
  - 2x [Xiaomi door Window Sensor](https://www.aliexpress.com/item/32714904459.html), 1 is used at the freezer upstairs because the kids tend to leave it not fully closed. The other is installed at the front door. Both are used to warn if the door has been open for over 2 minutes.
- </details>
  
 ### Thermostat
-<details><summary>By using a rooted Smart thermostat I have local control (click to open)</summary>
  - Rooted Toon thermostat
    - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/cyberjunky/home-assistant-toon_climate) (installed through [HACS](https://hacs.xyz/)).
    - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/includes/emulated_hue.yaml) for light switches.
  - The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter and pushes this to Home Assistant. This also requires a [custom component](https://github.com/cyberjunky/home-assistant-toon_smartmeter) to work (also easily installed through [HACS](https://hacs.xyz/)).
- </details>
  
 ### Cast & Voice Control
-<details><summary>We use the Google Cast ecosytem quite extensively (click to open)</summary>
 * Google Home Hub in the living room
 * AndroidTV in the living room TV
 * LG SH-8 Soundbar with built-in cast in the living room
 * Google Home in the study room
 * 2x Google Home Mini upstairs
 * Google Chromecast in my bedroom TV
-</details>
 
 # My actual Home Assistant configuration choices
 ## Presence detection
