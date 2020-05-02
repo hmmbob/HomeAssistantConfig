@@ -37,7 +37,7 @@ My vision is that my Home Automation should always work, even when the internet 
  
 ### Zigbee sensors
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
- - 2x [Xiaomi door Window Sensor](https://www.aliexpress.com/item/32714904459.html) (still on order), 1 is meant for the freezer upstairs because the kids tend to leave it not fully closed. For the other I have no purpose yet.
+ - 2x [Xiaomi door Window Sensor](https://www.aliexpress.com/item/32714904459.html) (still on order), 1 is meant for the freezer upstairs because the kids tend to leave it not fully closed. The other is installed at the front door. Both are used to warn if the door has been open for over 2 minutes.
  
 ### Thermostat
  - Rooted Toon thermostat
