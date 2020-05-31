@@ -47,7 +47,7 @@ entity_config:
     name: "Gang"
     expose: true
     room: "Gang"
-  binary_sensor.door_contact_2:
+  binary_sensor.door_sensor_2_contact:
     name: "Voordeur"
     expose: true
     room: "Gang"
@@ -58,16 +58,16 @@ entity_config:
     room: "Zolder"
     aliases:
       - "Rolluik"
-  sensor.temp1_temperature:
+  sensor.zolder_temperature:
     name: "Temperatuur zolder"
     expose: true
     room: "Zolder"
-  binary_sensor.door_contact_1:
+  binary_sensor.door_sensor_1_contact:
     name: "Vriezer"
     expose: true
     room: "Zolder"
 ##Slaapkamer
-  sensor.temp2_temperature:
+  sensor.slaapkamer_temperature:
     name: "Temperatuur slaapkamer"
     expose: true
     room: "Slaapkamer"

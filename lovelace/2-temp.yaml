@@ -123,9 +123,9 @@ cards:
                 margin: 0px 0px 0px 14px;
               }
             entities:
-              - entity: sensor.temp2_temperature
+              - entity: sensor.slaapkamer_temperature
                 name: Slaapkamer
-              - entity: sensor.temp2_humidity
+              - entity: sensor.slaapkamer_humidity
                 show_graph: false
                 show_state: true
             points_per_hour: 1
@@ -151,9 +151,9 @@ cards:
                 margin: 0px 14px 0px 0px;
               }
             entities:
-              - entity: sensor.temp1_temperature
+              - entity: sensor.zolder_temperature
                 name: Zolder
-              - entity: sensor.temp1_humidity
+              - entity: sensor.zolder_humidity
                 show_graph: false
                 show_state: true
             points_per_hour: 1

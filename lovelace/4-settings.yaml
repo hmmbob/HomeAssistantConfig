@@ -236,3 +236,50 @@ cards:
                   - filter: opacity(50%)
                 icon:
                   - filter: grayscale(100%)
+      - type: horizontal-stack #### 4th row
+        cards:
+        - type: custom:button-card
+          entity: input_boolean.notify_uv
+          style: |
+           ha-card {
+              box-shadow: var(--card-box-shadow);
+              margin: 0px 0px 0px 14px;
+            }
+          name: UV push
+          icon: '[[[ if (entity.state == "on") return "mdi:message-bulleted"; else return "mdi:message-bulleted-off"; ]]]'
+          show_state: false
+          confirmation:
+            text: '[[[ return `Weet je zeker dat je de UV push-meldingen wil wijzigen?` ]]]'
+          styles:
+            card:
+              - width: 110px
+              - height: 110px
+            name:
+              - font-size: 12px
+          state:
+            - value: 'off'
+              styles:
+                card:
+                  - filter: opacity(50%)
+                icon:
+                  - filter: grayscale(100%)
+        - type: custom:button-card
+          entity: input_boolean.notify_uv_voice
+          name: UV Voice
+          icon: '[[[ if (entity.state == "on") return "mdi:weather-sunny"; else return "mdi:weather-sunny-off"; ]]]'
+          show_state: false
+          confirmation:
+            text: '[[[ return `Weet je zeker dat je de UV-meldingen aan of uit wil zetten?` ]]]'
+          styles:
+            card:
+              - width: 110px
+              - height: 110px
+            name:
+              - font-size: 12px
+          state:
+            - value: 'off'
+              styles:
+                card:
+                  - filter: opacity(50%)
+                icon:
+                  - filter: grayscale(100%)

@@ -7,6 +7,15 @@ notify_trash_voice:
   initial: 'on'
   icon: mdi:google-home
 
+notify_uv:
+  name: 'Push-meldingen over UV'
+  initial: 'on'
+  icon: mdi:white-balance-sunny
+notify_uv_voice:
+  name: 'Voice-meldingen over UV'
+  initial: 'on'
+  icon: mdi:google-home
+
 enable_pir_woonkamer:
   name: 'Verlichting woonkamer aan op beweging'
   initial: 'on'

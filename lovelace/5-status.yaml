@@ -27,19 +27,18 @@ cards:
          ha-card {
           margin: 0px 14px -5px 14px;
           }
-        name: " "
         sort_by_level: "asc"
         collapse: 2
         entities:
         - entity: sensor.pir_woonkamer_battery_level
         - entity: sensor.pir_gang_battery_level
-        - entity: sensor.temp1_battery
-          name: "Batterij temp zolder"
-        - entity: sensor.temp2_battery
-          name: "Batterij temp 1e verdieping"
-        - entity: sensor.door_contact_1_battery
-          name: "Batterij deur vriezer"
-        - entity: sensor.door_contact_2_battery
+        - entity: sensor.slaapkamer_battery
+          name: "Batterij zolder"
+        - entity: sensor.zolder_battery
+          name: "Batterij slaapkamer"
+        - entity: sensor.door_sensor_1_battery
+          name: "Batterij vriezer"
+        - entity: sensor.door_sensor_2_battery
           name: "Batterij voordeur"
       - type: markdown                  ## Statussen header
         content: |
@@ -94,6 +93,7 @@ cards:
           name: "Docker image installed"
         - entity: sensor.latest_version
           name: "Latest Docker image"
+          state_color: true
         - entity: sensor.hacs
           name: "HACS Updates"
           state_color: true

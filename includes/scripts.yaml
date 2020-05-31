@@ -8,16 +8,15 @@ notify_door_open:
       data_template:
         message: "{{ message }}"
         language: nl
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_devices
       data_template:
         title: "{{ title }}"
         message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         data:
           actions:
+            - title: 'OK'
             - action: 'notify_door_alert'
               title: '10 min dempen'
-            - action: 'notify_door_alert'
-              title: '20 min dempen'
           ttl: 0
           priority: high
     - service: logbook.log

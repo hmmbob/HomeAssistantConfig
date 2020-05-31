@@ -18,6 +18,8 @@ homeassistant:
       name: Authenticator app
     - type: notify
       message: 'Access token: {}'
+  external_url: !secret external_url
+  internal_url: !secret external_url # Not an error
 
 default_config:
 
@@ -32,6 +34,15 @@ history:
 
 logger:
   default: warn
+#  default: info #warn
+#  logs:
+#    homeassistant.components.cast: debug
+#    homeassistant.components.cast.media_player: debug
+#    pychromecast: debug
+#    pychromecast.discovery: debug
+#    pychromecast.socket_client: debug
+#    homeassistant.components.zeroconf: debug
+#    zeroconf: debug
 
 logbook:
   exclude:
@@ -41,20 +52,6 @@ logbook:
       - sensor.outside_temperature
       - sensor.room_temperature
   require_admin: true
-
-mqtt:
-  broker: !secret mqtt_broker
-  port: !secret mqtt_port
-  client_id: home-assistant
-  username: !secret mqtt_user
-  password: !secret mqtt_password
-  birth_message:
-    topic: 'hass/status'
-    payload: 'online'
-  will_message:
-    topic: 'hass/status'
-    payload: 'offline'
-  discovery: true
 
 zwave:
   usb_path: /dev/ttyACM1
@@ -68,7 +65,7 @@ http:
   login_attempts_threshold: 2
   use_x_forwarded_for: true
   trusted_proxies: !secret http_trusted_proxies
-  base_url: !secret http_base_url
+#  base_url: !secret http_base_url
 
 lovelace:
   mode: yaml
@@ -122,9 +119,9 @@ climate:
   host: !secret toon_host
   scan_interval: 15
 
-duckdns:
-  domain: !secret duckdns_domain
-  access_token: !secret duckdns_token
+#duckdns:
+#  domain: !secret duckdns_domain
+#  access_token: !secret duckdns_token
 
 #google:
 #  client_id: !secret google_calendar_client_id
@@ -142,6 +139,11 @@ notify:
   - platform: nfandroidtv
     name: TV
     host: !secret cast_ip_androidtv
+  - platform: group
+    name: mobile_devices
+    services:
+      - service: mobile_app_sm_a505fn
+      - service: mobile_app_moto_g_8_plus
 
 tts:
   - platform: google_translate
