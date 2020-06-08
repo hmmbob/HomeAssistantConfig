@@ -21,7 +21,7 @@ cards:
 
   - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
     type: entities
-    title: PIR Woonkamer
+    title: PIR Sensoren
     show_header_toggle: false
     state_color: true
     entities:
@@ -30,28 +30,23 @@ cards:
       - input_boolean.eetkamer_on_movement
       - input_boolean.woonkamer_on_movement
       - input_boolean.enable_pir_woonkamer
+      - type: divider
+      - binary_sensor.pir_gang_sensor
+      - sensor.pir_gang_luminance
+      - sensor.pir_gang_temperature
+      - input_boolean.enable_pir_gang
 
   - type: entities
     title: Voordeur
     show_header_toggle: false
     state_color: true
     entities:
-      - entity: binary_sensor.door_contact_2
+      - entity: binary_sensor.door_sensor_2_contact
         secondary_info: last-changed
       - entity: binary_sensor.doorbell
         secondary_info: last-changed
         icon: mdi:bell-ring
         name: Deurbel
-
-  - id: c78f01234176407b123456923a45f10a  # Automatically created id
-    type: entities
-    title: Zigbee2mqtt
-    show_header_toggle: false
-    state_color: true
-    entities:
-      - input_boolean.zigbee_permit_join
-      - timer.zigbee_permit_join
-      - input_select.zigbee2mqtt_log_level
 
   - id: 069aeb9203024ec7b1d3154ae2f6e1e8  # Automatically created id
     type: custom:auto-entities
@@ -89,5 +84,17 @@ cards:
     filter:
       include:
         - entity_id: sensor.sm_a505fn*
+        - type: divider
+        - entity_id: sensor.moto_*
     sort:
       method: name
+
+  - id: c78f01234176407b123456923a45f10a  # Automatically created id
+    type: entities
+    title: Zigbee2mqtt
+    show_header_toggle: false
+    state_color: true
+    entities:
+      - input_boolean.zigbee_permit_join
+      - timer.zigbee_permit_join
+      - input_select.zigbee2mqtt_log_level

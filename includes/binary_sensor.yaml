@@ -20,3 +20,13 @@
     17: Doorbell
   pull_mode: "UP"
   invert_logic: true
+
+##########################
+## UV Warning
+##########################
+- platform: template
+  sensors:
+    uv_index_warning_level:
+      entity_id: sensor.dark_sky_uv_index
+      friendly_name: 'UV above warning level'
+      value_template: "{{ states('sensor.dark_sky_uv_index')| float > 5.9 }}"

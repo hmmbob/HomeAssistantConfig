@@ -53,9 +53,6 @@ logbook:
       - sensor.room_temperature
   require_admin: true
 
-zwave:
-  usb_path: /dev/ttyACM1
-
 #################################################################
 ## Frontend
 #################################################################  
@@ -119,9 +116,18 @@ climate:
   host: !secret toon_host
   scan_interval: 15
 
-#duckdns:
-#  domain: !secret duckdns_domain
-#  access_token: !secret duckdns_token
+cover:
+  platform: mqtt
+  name: "Zolder"
+  command_topic: "OpenZWave/1/command/setvalue/"
+  set_position_topic: "OpenZWave/1/command/setvalue/"
+  set_position_template: "{ \"Value\": {{ position }}, \"ValueIDKey\": 105480209 }"
+  position_topic: "OpenZWave/1/node/6/instance/1/commandclass/38/value/105480209/"
+  value_template: "{{ value_json.Value }}"
+  position_open: 99
+  position_closed: 0
+  payload_open: "{ \"Value\": 99, \"ValueIDKey\": 105480209 }"
+  payload_close: "{ \"Value\": 0, \"ValueIDKey\": 105480209 }"
 
 #google:
 #  client_id: !secret google_calendar_client_id

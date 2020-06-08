@@ -7,86 +7,35 @@ icon: mdi:home-assistant
 cards:
   - type: vertical-stack
     cards:
-      - type: custom:state-switch
-        entity: user
-        states:
-          Bob:
-            type: horizontal-stack
-            cards:
-              - type: markdown
-                style: |
-                 ha-card {
-                    margin: 5px 14px -5px 10px;
-                    box-shadow: none;
-                    --paper-card-background-color: rgba(0, 0, 0, 0.0)
-                  }
-                  h2 {
-                    font-size: 20px;
-                    font-weight: 500;
-                    color: var(--app-header-text-color);
-                  }
-                content: |
-                   {% if now().hour < 5 %}
-                    ## Goede nacht, Bob!
-                    {% elif now().hour < 12 %}
-                    ## Goede morgen, Bob!
-                    {% elif now().hour < 18 %}
-                    ## Goede middag, Bob!
-                    {% else %}
-                    ## Fijne avond, Bob!
-                    {% endif %}
-          Birgit:
-            type: horizontal-stack
-            cards:
-              - type: markdown
-                style: |
-                 ha-card {
-                    margin: 5px 14px -5px 10px;
-                    box-shadow: none;
-                    --paper-card-background-color: rgba(0, 0, 0, 0.0)
-                  }
-                  h2 {
-                    font-size: 20px;
-                    font-weight: 500;
-                    color: var(--app-header-text-color);
-                  }
-                content: |
-                   {% if now().hour < 5 %}
-                    ## Goede nacht, Birgit!
-                    {% elif now().hour < 12 %}
-                    ## Goede morgen, Birgit!
-                    {% elif now().hour < 18 %}
-                    ## Goede middag, Birgit!
-                    {% else %}
-                    ## Fijne avond, Birgit!
-                    {% endif %}
+      - type: markdown
+        style: |
+         ha-card {
+            margin: 5px 14px -5px 10px;
+            box-shadow: none;
+            --paper-card-background-color: rgba(0, 0, 0, 0.0)
+          }
+          h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--app-header-text-color);
+          }
+        content: |
+           {% if now().hour < 5 %}
+            ## Goede nacht, {{user}}!
+            {% elif now().hour < 12 %}
+            ## Goede morgen, {{user}}!
+            {% elif now().hour < 18 %}
+            ## Goede middag, {{user}}!
+            {% else %}
+            ## Fijne avond, {{user}}!
+            {% endif %}
       - type: markdown                  ## Date
         content: |
-         {% if now().month in (1,) %}
-          ## {{ now().day }} januari 
-          {% elif now().month in (2,) %}
-          ## {{ now().day }} februari 
-          {% elif now().month in (3,) %}
-          ## {{ now().day }} maart 
-          {% elif now().month in (4,) %}
-          ## {{ now().day }} april 
-          {% elif now().month in (5,) %}
-          ## {{ now().day }} mei 
-          {% elif now().month in (6,) %}
-          ## {{ now().day }} juni 
-          {% elif now().month in (7,) %}
-          ## {{ now().day }} juli 
-          {% elif now().month in (8,) %}
-          ## {{ now().day }} augustus 
-          {% elif now().month in (9,) %}
-          ## {{ now().day }} september
-          {% elif now().month in (10,) %}
-          ## {{ now().day }} Oktober 
-          {% elif now().month in (11,) %}
-          ## {{ now().day }} november 
-          {% elif now().month in (12,) %}
-          ## {{ now().day }} december 
-          {% endif %}
+          {% set months = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"] %}
+          {% set month = months[now().strftime('%m') | int -1] %}
+          {% set days = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]  %}
+          {% set day = days[now().strftime('%A') | int ] %}
+          ## {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
         style: |
          ha-card {
             margin: 12px 14px -5px 14px;
@@ -140,57 +89,42 @@ cards:
               night: 'rgba(76, 87, 110)'
               fade: true
 
-      - type: custom:state-switch       ## OpenUV
-        entity: sensor.current_uv_level
-        states:
-          Moderate:
-            type: entities
-            style: |
-             ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(249, 168, 37, 0.3);
-              }
-            entities:
-              - type: custom:fold-entity-row
-                head: 
-                  entity: sensor.current_uv_index
-                  icon: mdi:white-balance-sunny
-                entities:
-                - entity: sensor.current_uv_level
-                  icon: mdi:white-balance-sunny
-                - entity: sensor.max_uv_index
-                  icon: mdi:shield-sun
-          High:
-            type: entities
-            style: |
-             ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(239, 108, 0, 0.3);
-              }
-            entities:
-              - type: custom:fold-entity-row
-                head: sensor.current_uv_index
-                entities:
-                - entity: sensor.current_uv_level
-                  icon: mdi:white-balance-sunny
-                - entity: sensor.max_uv_index
-                  icon: mdi:shield-sun
-          Very High:
-            type: entities
-            style: |
-             ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(183, 28, 28, 0.3);
-              }
-            entities:
-              - type: custom:fold-entity-row
-                head: sensor.current_uv_index
-                entities:
-                - entity: sensor.current_uv_level
-                  icon: mdi:white-balance-sunny
-                - entity: sensor.max_uv_index
-                  icon: mdi:shield-sun
-
+      - type: conditional               ## Conditional UV
+        conditions:
+          - entity: binary_sensor.uv_index_warning_level
+            state: "on"
+        card:
+          type: entities
+          style: |
+           ha-card {
+            margin: 0px 14px -5px 14px;
+            background: rgba(249, 168, 37, 0.3);
+            }
+          entities:
+            - type: custom:fold-entity-row
+              head: 
+                entity: sensor.dark_sky_uv_index
+                icon: mdi:white-balance-sunny
+                name: 'Huidige UV Index'
+              entities:
+              - entity: sensor.dark_sky_uv_index_0d
+                icon: mdi:shield-sun
+                name: 'Max UV Index vandaag'
+              - entity: sensor.dark_sky_uv_index_1h
+                icon: mdi:white-balance-sunny
+                name: 'UV Index over 1 uur'
+              - entity: sensor.dark_sky_uv_index_2h
+                icon: mdi:white-balance-sunny
+                name: 'UV Index over 2 uur'
+              - entity: sensor.dark_sky_uv_index_3h
+                icon: mdi:white-balance-sunny
+                name: 'UV Index over 3 uur'
+              - entity: sensor.dark_sky_uv_index_1d
+                icon: mdi:shield-sun
+                name: 'Max UV Index morgen'
+              - entity: sensor.dark_sky_uv_index_2d
+                icon: mdi:shield-sun
+                name: 'Max UV Index overmorgen'
 
       - type: custom:state-switch       ## Trash
         entity: sensor.trash_today

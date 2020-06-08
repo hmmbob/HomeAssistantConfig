@@ -1,0 +1,36 @@
+##########################
+## UV Warnings 
+##########################
+  - alias: 'UV: Melding vandaag'
+    id: melding_uv_vandaag
+    initial_state: true
+    trigger:
+      platform: time
+      at: '08:15:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.notify_uv
+        state: 'on'
+      - condition: template
+        value_template: "{{ states('sensor.dark_sky_uv_index_0d') | float > 5.9 }}"
+    action:
+      - service: notify.mobile_devices
+        data_template:
+          title: "UV Waarschuwing"
+          message: "Vandaag wordt zonkracht {{ states('sensor.dark_sky_uv_index_0d') }} verwacht. Vergeet niet te smeren!"
+        data:
+          data:
+            tag: 'notification-uv'
+      - condition: state
+        entity_id: input_boolean.notify_uv_voice
+        state: 'on' 
+      - service: tts.google_translate_say
+        entity_id: media_player.woonkamer
+        data_template:
+          message: "Vandaag wordt zonkracht {{ states('sensor.dark_sky_uv_index_0d')  }} verwacht. Goed insmeren dus!"
+          language: 'nl'
+      - delay: '00:00:04'
+      - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
+      - service: media_player.turn_off  
+        entity_id: 
+          - media_player.woonkamer

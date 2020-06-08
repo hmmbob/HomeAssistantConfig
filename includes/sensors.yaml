@@ -6,8 +6,25 @@
   source: docker
 
 ##########################
-## Utility sensors
+## Weather sensors
 ##########################
+- platform: darksky
+  api_key: !secret darksky_api
+  forecast:
+    - 0
+    - 1
+    - 2
+  hourly_forecast:
+    - 0
+    - 1
+    - 2
+    - 3
+  monitored_conditions:
+    - cloud_cover
+    - uv_index
+  scan_interval:
+    minutes: 15
+
 - platform: template
   sensors:
     outside_temperature:
@@ -55,7 +72,7 @@
   region: 'EU'
   scan_interval: 1800
 
-#- platform: waze_travel_time      ## Not being used in Corona times, 
+#- platform: waze_travel_time      ## Not being used in COVID-19 times, 
 #  name: Reistijd Thuis-Werk       ## commented out because I don't need the updates now
 #  origin: zone.home
 #  destination: zone.work
@@ -137,3 +154,15 @@
     {% else %}
       Geen
     {% endif %}
+
+##########################
+## ZWave status sensors
+##########################
+# Sensor for monitoring the bridge state
+- platform: mqtt
+  name: OpenZWave Bridge
+  state_topic: "OpenZWave/1/status/"
+  value_template: "{{ value_json.Status }}"
+  json_attributes_topic: "OpenZWave/1/status/"
+  payload_not_available: "Offline"
+
