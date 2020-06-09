@@ -41,8 +41,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de automatische verlichting in de woonkamer wil wijzigen?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -63,8 +63,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de automatische gangverlichting wil wijzigen?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -82,8 +82,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de verwarming automatisch aan wil laten zetten?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -112,8 +112,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de deurbel aan of uit wil zetten?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -134,8 +134,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de meldingen voor openstaande deuren wil wijzigen?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -156,8 +156,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de rolluik automatisering aan of uit wil zetten?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -184,8 +184,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de afval push-meldingen wil wijzigen? Bob gebruikt deze optie.` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -204,8 +204,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de afvalmeldingen aan of uit wil zetten?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -225,8 +225,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -252,8 +252,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de UV push-meldingen wil wijzigen?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
@@ -272,8 +272,8 @@ cards:
             text: '[[[ return `Weet je zeker dat je de UV-meldingen aan of uit wil zetten?` ]]]'
           styles:
             card:
-              - width: 110px
-              - height: 110px
+              - width: 120px
+              - height: 120px
             name:
               - font-size: 12px
           state:
