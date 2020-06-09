@@ -6,11 +6,6 @@
   trigger:
   - platform: time
     at: '08:15:00'
-#  condition:
-#  - condition: time
-#    weekday:
-#      - sat
-#      - sun
   action:
   - service: notify.tv
     data:

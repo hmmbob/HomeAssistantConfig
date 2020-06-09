@@ -2,11 +2,11 @@
 ## Rolluik zolder
 ##########################
 - id: cover_close_on_time
-  alias: "Rolluik: dicht om 19.30"
+  alias: "Rolluik: dicht om 19.45"
   initial_state: on
   trigger:
     platform: time
-    at: '19:30:00'
+    at: '19:45:00'
   condition:
     - condition: state
       entity_id: input_boolean.enable_cover
