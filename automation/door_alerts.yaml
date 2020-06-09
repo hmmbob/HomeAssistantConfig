@@ -21,6 +21,8 @@
       variables:
         title: "Vriezer"
         message: "Let op: de vriezer is nog open!"
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.helper_freezer_door_alert
   - service: timer.start #2min timer to reannounce that door is open
     data:
       entity_id: timer.freezer_door_open
@@ -75,6 +77,8 @@
       variables:
         title: "Voordeur"
         message: "Let op: de voordeur is nog open!"
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.helper_front_door_alert
   - service: timer.start 
     data:
       entity_id: timer.front_door_open
@@ -139,3 +143,54 @@
     data_template:
       name: "Deur waarschuwingen: " 
       message: "Deur waarschuwingen weer actief ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
+
+#############################
+## Cancel door alerts       #
+#############################
+- id: cancel_freezer_door_alert
+  alias: "Doors: cancel freezer alerts"
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.door_sensor_1_contact
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: state  
+    entity_id: input_boolean.helper_freezer_door_alert
+    state: 'on'
+  action:
+  - service: timer.cancel 
+    data:
+      entity_id: timer.freezer_door_open
+  - service: notify.mobile_devices
+    data:
+      message: clear_notification
+      data:
+        tag: door_alert
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.helper_freezer_door_alert
+
+- id: cancel_front_door_alert
+  alias: "Doors: cancel front door alerts"
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.door_sensor_2_contact
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: state  
+    entity_id: input_boolean.helper_front_door_alert
+    state: 'on'
+  action:
+  - service: timer.cancel 
+    data:
+      entity_id: timer.front_door_open
+  - service: notify.mobile_devices
+    data:
+      message: clear_notification
+      data:
+        tag: door_alert
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.helper_front_door_alert

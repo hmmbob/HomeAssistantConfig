@@ -13,6 +13,7 @@ notify_door_open:
         title: "{{ title }}"
         message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
         data:
+          tag: door_alert
           actions:
             - title: 'OK'
             - action: 'notify_door_alert'
@@ -86,5 +87,3 @@ show_doorbell_alert:
         duration: 10
         transparency: "50%"
         color: "grey"
-
-

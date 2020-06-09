@@ -1,3 +1,6 @@
+#############################
+## Trash                    #
+#############################
 notify_trash:
   name: 'Push-meldingen over afval'
   initial: 'on'
@@ -7,6 +10,9 @@ notify_trash_voice:
   initial: 'on'
   icon: mdi:google-home
 
+#############################
+## UV Warnings              #
+#############################
 notify_uv:
   name: 'Push-meldingen over UV'
   initial: 'on'
@@ -16,6 +22,9 @@ notify_uv_voice:
   initial: 'on'
   icon: mdi:google-home
 
+#############################
+## PIR / Movement based     #
+#############################
 enable_pir_woonkamer:
   name: 'Verlichting woonkamer aan op beweging'
   initial: 'on'
@@ -37,13 +46,9 @@ woonkamer_on_movement:
   initial: 'off'
   icon: mdi:lightbulb-on-outline
 
-vacation_mode_home:
-  name: 'Vakantie (thuis)'
-  icon: mdi:home-map-marker
-vacation_mode_away:
-  name: 'Vakantie (weg)'
-  icon: mdi:home-lock
-
+#############################
+## Doors, doorbell          #
+#############################
 enable_doorbell:
   name: 'Deurbel'
   initial: 'on'
@@ -52,14 +57,39 @@ notify_door_alert:
   name: 'Deur alarm'
   initial: 'on'
   icon: mdi:door-open
+helper_freezer_door_alert:
+  name: 'Deur alarm helper vriezer'
+  initial: 'off'
+  icon: mdi:door-open
+helper_front_door_alert:
+  name: 'Deur alarm helper voordeur'
+  initial: 'off'
+  icon: mdi:door-open
 
-# Input boolean for enabling/disabling zigbee joining
+#############################
+## Zigbee                   #
+#############################
 zigbee_permit_join:
   name: Allow devices to join
   initial: off
   icon: mdi:cellphone-wireless
 
+#############################
+## Rolluik                  #
+#############################
 enable_cover:
   name: Rolluik automatisering
-  initial: off
+  initial: 'off'
   icon: mdi:garage
+  
+#############################
+## Vacation mode            #
+#############################
+vacation_mode_home:
+  name: 'Vakantie (thuis)'
+  initial: 'off'
+  icon: mdi:home-map-marker
+vacation_mode_away:
+  name: 'Vakantie (weg)'
+  initial: 'off'
+  icon: mdi:home-lock
