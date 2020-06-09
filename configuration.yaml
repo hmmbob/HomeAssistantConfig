@@ -34,15 +34,6 @@ history:
 
 logger:
   default: warn
-#  default: info #warn
-#  logs:
-#    homeassistant.components.cast: debug
-#    homeassistant.components.cast.media_player: debug
-#    pychromecast: debug
-#    pychromecast.discovery: debug
-#    pychromecast.socket_client: debug
-#    homeassistant.components.zeroconf: debug
-#    zeroconf: debug
 
 logbook:
   exclude:
@@ -62,7 +53,6 @@ http:
   login_attempts_threshold: 2
   use_x_forwarded_for: true
   trusted_proxies: !secret http_trusted_proxies
-#  base_url: !secret http_base_url
 
 lovelace:
   mode: yaml
@@ -129,17 +119,8 @@ cover:
   payload_open: "{ \"Value\": 99, \"ValueIDKey\": 105480209 }"
   payload_close: "{ \"Value\": 0, \"ValueIDKey\": 105480209 }"
 
-#google:
-#  client_id: !secret google_calendar_client_id
-#  client_secret: !secret google_calendar_client_secret
-
 hacs:
   token: !secret hacs_token
-
-#media_player:
-#  - platform: spotify
-#    client_id: !secret spotify_client_id
-#    client_secret: !secret spotify_client_secret
 
 notify:
   - platform: nfandroidtv
