@@ -283,3 +283,24 @@ cards:
                   - filter: opacity(50%)
                 icon:
                   - filter: grayscale(100%)
+        - type: custom:button-card
+          entity: input_boolean.notify_zolder
+          name: Meldingen leeslampje
+          tap_action: 
+            action: toggle
+          show_state: false
+          confirmation:
+            text: '[[[ return `Weet je zeker dat je de zolder meldingen wil aanpassen?` ]]]'
+          styles:
+            card:
+              - width: 120px
+              - height: 120px
+            name:
+              - font-size: 12px
+          state:
+            - value: 'off'
+              styles:
+                card:
+                  - filter: opacity(50%)
+                icon:
+                  - filter: grayscale(100%)
