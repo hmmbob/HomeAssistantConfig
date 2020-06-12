@@ -11,6 +11,7 @@
       - binary_sensor.doorbell
       - light.eetkamer_level
       - light.window_level
+      - sensor.leeslamp_zolder_power
       - sensor.pir_woonkamer_sensor_luminance
       - sensor.pir_gang_luminance
       - sensor.pir_gang_temperature
