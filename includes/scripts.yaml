@@ -11,7 +11,7 @@ notify_door_open:
     - service: notify.mobile_devices
       data_template:
         title: "{{ title }}"
-        message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
+        message: "{{ message }} ({{ now().strftime('%H:%M') }})."
         data:
           tag: door_alert
           actions:
@@ -23,7 +23,7 @@ notify_door_open:
     - service: logbook.log
       data_template:
         name: "{{ title }}: " 
-        message: "{{ message }} ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
+        message: "{{ message }} ({{ now().strftime('%H:%M') }})."
 
 #############################
 ## Doorbell notifications   #

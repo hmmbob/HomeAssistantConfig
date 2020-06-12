@@ -131,7 +131,7 @@
   - service: logbook.log
     data_template:
       name: "Deur waarschuwingen: " 
-      message: "Deur waarschuwingen gemute ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
+      message: "Deur waarschuwingen gemute {{ now().strftime('%H:%M') }}."
   - delay: 00:10:00
   - service: homeassistant.turn_on
     entity_id: input_boolean.notify_door_alert
@@ -142,7 +142,7 @@
   - service: logbook.log
     data_template:
       name: "Deur waarschuwingen: " 
-      message: "Deur waarschuwingen weer actief ({{ now().strftime('%H') }}:{{now().strftime('%M') }})."
+      message: "Deur waarschuwingen weer actief {{ now().strftime('%H:%M') }}."
 
 #############################
 ## Cancel door alerts       #

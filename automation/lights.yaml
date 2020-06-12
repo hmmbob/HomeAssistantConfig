@@ -302,10 +302,10 @@
     - service: logbook.log
       data_template:
         name: Vacation 
-        message: lights turned on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}. 
+        message: lights turned on at {{ now().strftime('%H:%M') }}. 
     - service: notify.mobile_app_sm_a505fn
       data_template:
-        message: I turned your vacation lights on at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.
+        message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
         title: Vacation lights
     
 - id: vacation_turn_off_time
@@ -329,10 +329,10 @@
     - service: logbook.log
       data_template:
         name: Vacation 
-        message: lights turned off at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.  
+        message: lights turned off at {{ now().strftime('%H:%M') }}.  
     - service: notify.mobile_app_sm_a505fn
       data_template:
-        message: I turned your lights off at {{ now().strftime('%H') }}:{{now().strftime('%M') }}.  
+        message: I turned your lights off at {{ now().strftime('%H:%M') }}.  
         title: Vacation lights
 
 ##########################
@@ -398,4 +398,4 @@
   - service: notify.mobile_devices
     data_template:
       title: "Leeslampje"
-      message: "Het lampje op zolder staat nog aan..."
+      message: "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
