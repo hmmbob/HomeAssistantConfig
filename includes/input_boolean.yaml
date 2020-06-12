@@ -75,12 +75,17 @@ zigbee_permit_join:
   icon: mdi:cellphone-wireless
 
 #############################
-## Rolluik                  #
+## Zolder                   #
 #############################
 enable_cover:
   name: Rolluik automatisering
   initial: 'off'
   icon: mdi:garage
+  
+notify_zolder:
+  name: Waarschuwing leeslamp
+  initial: 'on'
+  icon: mdi:lightbulb-on-outline
   
 #############################
 ## Vacation mode            #
