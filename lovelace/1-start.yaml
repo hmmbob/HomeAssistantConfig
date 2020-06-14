@@ -36,17 +36,18 @@ cards:
           {% set days = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]  %}
           {% set day = days[now().strftime('%A') | int ] %}
           ## {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
+        debug_cardmod: true
         style: |
-         ha-card {
+          ha-card {
             margin: 12px 14px -5px 14px;
             box-shadow: none;
             --paper-card-background-color: rgba(0, 0, 0, 0.0)
           }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
+          h2 { 
+           font-size: 18px;
+           font-weight: 400;
+           padding-left: 10px;
+           border-left: 3px solid rgba(81, 134, 236);
           }
       - type: custom:state-switch       ## Weather
         entity: weather.dark_sky

@@ -313,13 +313,13 @@
   initial_state: on
   trigger:
     platform: time
-    at: '22:30:00'
+    at: '23:00:00'
   condition:
     - condition: state
       entity_id: input_boolean.vacation_mode_away
       state: 'on'
   action:
-    - delay: '00:{{ range(01,30) | random | int }}:00'
+    - delay: '00:{{ range(01,15) | random | int }}:00'
     - service: homeassistant.turn_off
       entity_id: 
         - switch.grijze_lamp
