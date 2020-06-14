@@ -39,9 +39,10 @@ I use a combination of Z-Wave, Zigbee and Wifi in my setup:
  - 2x [Sonoff basic](https://www.aliexpress.com/item/32831445550.html) switches running ESPhome (so no connection with China!)
  - 2x [Sonoff S20](https://www.aliexpress.com/item/32846334606.html) switches also running ESPhome, 1 in use, 1 in spare for the Christmas lights.
  
-### Zigbee sensors
+### Zigbee sensors & switches
  - 2x [Xiaomi mijia Temperature Humidity Sensor](https://www.aliexpress.com/item/32714410866.html), 1 in the attic, the other in the main bedroom
  - 2x [Xiaomi door Window Sensor](https://www.aliexpress.com/item/32714904459.html), 1 is used at the freezer upstairs because the kids tend to leave it not fully closed. The other is installed at the front door. Both are used to warn if the door has been open for over 2 minutes.
+ - 2x [Innr SP120 Smart plugs with power metering](https://www.innr.com/en/product/smart-plug-2300w-sp120/). One is used for a reading light with the kids - not to actually switch the power but to measure if the light is on after bedtime :) I'll find a reason to use the other one soon :)
  
 ### Thermostat
  - Rooted Toon thermostat
