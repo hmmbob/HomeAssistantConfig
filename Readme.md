@@ -14,7 +14,7 @@ My vision is that my Home Automation should always work, even when the internet 
 
 
 ### Software
-- [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) Buster
+- [Raspberry Pi OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) Buster
 - [Docker](https://www.docker.com/)
   - [Home Assistant Core](https://hub.docker.com/r/homeassistant/home-assistant) as core
   - [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto) as local MQTT server
