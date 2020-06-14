@@ -216,13 +216,13 @@ cards:
                 icon:
                   - filter: grayscale(100%)
         - type: custom:button-card
-          entity: input_boolean.zigbee_permit_join
-          name: Add Zigbee device
+          entity: input_boolean.notify_zolder
+          name: Meldingen leeslampje
           tap_action: 
             action: toggle
           show_state: false
           confirmation:
-            text: '[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]'
+            text: '[[[ return `Weet je zeker dat je de zolder meldingen wil aanpassen?` ]]]'
           styles:
             card:
               - width: 120px
@@ -284,13 +284,41 @@ cards:
                 icon:
                   - filter: grayscale(100%)
         - type: custom:button-card
-          entity: input_boolean.notify_zolder
-          name: Meldingen leeslampje
+          entity: input_boolean.vacation_mode_away
+          name: Vakantie mode
           tap_action: 
             action: toggle
           show_state: false
           confirmation:
-            text: '[[[ return `Weet je zeker dat je de zolder meldingen wil aanpassen?` ]]]'
+            text: '[[[ return `Weet je zeker dat de vakantiemodus wil schakelen?` ]]]'
+          styles:
+            card:
+              - width: 120px
+              - height: 120px
+            name:
+              - font-size: 12px
+          state:
+            - value: 'off'
+              styles:
+                card:
+                  - filter: opacity(50%)
+                icon:
+                  - filter: grayscale(100%)
+      - type: horizontal-stack #### 5th row
+        cards:
+        - type: custom:button-card
+          entity: input_boolean.zigbee_permit_join
+          name: Add Zigbee device
+          tap_action: 
+            action: toggle
+          show_state: false
+          confirmation:
+            text: '[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]'
+          style: |
+           ha-card {
+              box-shadow: var(--card-box-shadow);
+              margin: 0px 0px 0px 14px;
+            }
           styles:
             card:
               - width: 120px
