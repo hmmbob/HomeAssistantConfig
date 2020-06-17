@@ -9,19 +9,22 @@ cards:
     cards:
       - type: markdown                  ## Temperatuur header
         content: |
-         ## Thermostaat
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Thermostaat
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: 'custom:simple-thermostat'
         style: |
          ha-card {
@@ -51,19 +54,22 @@ cards:
             unit: '%' 
       - type: markdown                  ## Temperatuur header
         content: |
-         ## Temperaturen
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Temperaturen
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: horizontal-stack
         cards:
           - type: custom:mini-graph-card ## Woonkamer

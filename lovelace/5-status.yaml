@@ -9,19 +9,22 @@ cards:
     cards:
       - type: markdown                  ## Batterij niveaus header
         content: |
-         ## Batterij niveaus
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Batterij niveaus
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: custom:battery-state-card
         style: |
          ha-card {
@@ -42,19 +45,22 @@ cards:
           name: "Batterij voordeur"
       - type: markdown                  ## Statussen header
         content: |
-         ## Statussen
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Statussen
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: entities
         style: |
          ha-card {
@@ -70,19 +76,22 @@ cards:
         - sensor.openzwave_bridge
       - type: markdown                  ## Updates header
         content: |
-         ## Updates
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Updates
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: entities
         style: |
          ha-card {
@@ -100,19 +109,22 @@ cards:
           state_color: true
       - type: markdown                  ## Meterstanden header
         content: |
-         ## Meterstanden
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Meterstanden
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: conditional
         conditions:
           - entity: sensor.toon_p1_power_use_high

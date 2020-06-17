@@ -8,26 +8,29 @@ cards:
   - type: vertical-stack
     cards:
       - type: markdown
-        style: |
-         ha-card {
-            margin: 5px 14px -5px 10px;
-            box-shadow: none;
-            --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--app-header-text-color);
-          }
+        style:
+          .: |
+            ha-card {
+              margin: 5px 14px -5px 10px;
+              box-shadow: none;
+              --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+              h1 {
+                font-size: 20px;
+                font-weight: 500;
+                color: var(--app-header-text-color);
+              }
         content: |
            {% if now().hour < 5 %}
-            ## Goede nacht, {{user}}!
+            # Goede nacht, {{user}}!
             {% elif now().hour < 12 %}
-            ## Goede morgen, {{user}}!
+            # Goede morgen, {{user}}!
             {% elif now().hour < 18 %}
-            ## Goede middag, {{user}}!
+            # Goede middag, {{user}}!
             {% else %}
-            ## Fijne avond, {{user}}!
+            # Fijne avond, {{user}}!
             {% endif %}
       - type: markdown                  ## Date
         content: |
@@ -35,20 +38,23 @@ cards:
           {% set month = months[now().strftime('%m') | int -1] %}
           {% set days = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]  %}
           {% set day = days[now().strftime('%A') | int ] %}
-          ## {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
+          # {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
         debug_cardmod: true
-        style: |
-          ha-card {
-            margin: 12px 14px -5px 14px;
-            box-shadow: none;
-            --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 { 
-           font-size: 18px;
-           font-weight: 400;
-           padding-left: 10px;
-           border-left: 3px solid rgba(81, 134, 236);
-          }
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: custom:state-switch       ## Weather
         entity: weather.dark_sky
         default: default
@@ -183,19 +189,22 @@ cards:
 
       - type: markdown                  ## Oogopslag header
         content: |
-         ## In een oogopslag...
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # In een oogopslag...
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
       - type: entities                  ## Oogopslag overview
         style: |
          ha-card {

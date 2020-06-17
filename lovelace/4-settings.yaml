@@ -9,19 +9,22 @@ cards:
     cards:
       - type: markdown                  ## Instellingen header
         content: |
-         ## Instellingen
-        style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          box-shadow: none;
-          --paper-card-background-color: rgba(0, 0, 0, 0.0)
-          }
-          h2 {
-            font-size: 18px;
-            font-weight: 400;
-            padding-left: 10px;
-            border-left: 3px solid rgba(81, 134, 236);
-          }
+         # Instellingen
+        style:
+          .: |
+            ha-card {
+             margin: 12px 14px -5px 14px;
+             box-shadow: none;
+             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+            }
+          ha-markdown:
+            $: |
+             h1 { 
+              font-size: 18px !important;
+              font-weight: 400 !important;
+              padding-left: 10px !important;
+              border-left: 3px solid rgba(81, 134, 236);
+             }
 
       - type: horizontal-stack ### 1st row
         cards:
