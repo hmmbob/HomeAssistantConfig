@@ -76,3 +76,7 @@ entity_config:
     name: "Schuur"
     expose: true
     room: "Tuin"
+  switch.zwembad:
+    name: "Zwembad"
+    expose: true
+    room: "Tuin"

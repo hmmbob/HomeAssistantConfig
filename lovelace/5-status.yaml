@@ -69,7 +69,7 @@ cards:
         show_header_toggle: false
         state_color: true
         entities:
-        - binary_sensor.blauwe_lamp_status
+        - binary_sensor.zwembad_status
         - binary_sensor.grijze_lamp_status
         - binary_sensor.staande_lamp_status
         - binary_sensor.zigbee2mqtt_bridge

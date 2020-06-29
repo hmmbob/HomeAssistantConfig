@@ -335,3 +335,21 @@ cards:
                   - filter: opacity(50%)
                 icon:
                   - filter: grayscale(100%)
+        - type: custom:button-card
+          entity: switch.zwembad
+          name: Zwembad
+          icon: '[[[ if (entity.state == "on") return "mdi:water-pump"; else return "mdi:water-pump-off"; ]]]'
+          show_state: false
+          styles:
+            card:
+              - width: 120px
+              - height: 120px
+            name:
+              - font-size: 12px
+          state:
+            - value: 'off'
+              styles:
+                card:
+                  - filter: opacity(50%)
+                icon:
+                  - filter: grayscale(100%)
