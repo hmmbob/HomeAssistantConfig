@@ -132,6 +132,7 @@
     data_template:
       name: "Deur waarschuwingen: " 
       message: "Deur waarschuwingen gemute {{ now().strftime('%H:%M') }}."
+      domain: notify
   - delay: 00:10:00
   - service: homeassistant.turn_on
     entity_id: input_boolean.notify_door_alert
@@ -143,6 +144,7 @@
     data_template:
       name: "Deur waarschuwingen: " 
       message: "Deur waarschuwingen weer actief {{ now().strftime('%H:%M') }}."
+      domain: notify
 
 #############################
 ## Cancel door alerts       #

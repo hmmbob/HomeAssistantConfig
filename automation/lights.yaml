@@ -302,7 +302,8 @@
     - service: logbook.log
       data_template:
         name: Vacation 
-        message: lights turned on at {{ now().strftime('%H:%M') }}. 
+        message: Lights turned on at {{ now().strftime('%H:%M') }}. 
+        domain: light
     - service: notify.mobile_app_sm_a505fn
       data_template:
         message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
@@ -329,7 +330,8 @@
     - service: logbook.log
       data_template:
         name: Vacation 
-        message: lights turned off at {{ now().strftime('%H:%M') }}.  
+        message: Lights turned off at {{ now().strftime('%H:%M') }}.
+        domain: light        
     - service: notify.mobile_app_sm_a505fn
       data_template:
         message: I turned your lights off at {{ now().strftime('%H:%M') }}.  

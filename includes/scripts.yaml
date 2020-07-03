@@ -24,6 +24,7 @@ notify_door_open:
       data_template:
         name: "{{ title }}: " 
         message: "{{ message }} ({{ now().strftime('%H:%M') }})."
+        domain: notify
 
 #############################
 ## Doorbell notifications   #
