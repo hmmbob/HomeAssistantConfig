@@ -88,14 +88,6 @@ camera:
   limit_refetch_to_url_change: true
 
 cast:
-  media_player:
-    - host: !secret cast_ip_cc
-    - host: !secret cast_ip_gh
-    - host: !secret cast_ip_hmt
-    - host: !secret cast_ip_hmz
-    - host: !secret cast_ip_sb
-    - host: !secret cast_ip_androidtv
-    - host: !secret cast_ip_hub
 
 climate:
   platform: toon_climate
