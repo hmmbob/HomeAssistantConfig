@@ -19,7 +19,7 @@
         entity_id: input_boolean.notify_uv
         state: 'on'
       - condition: template
-        value_template: "{{ states('sensor.dark_sky_uv_index_0d') | float > 5.9 }}"
+        value_template: "{{ states('sensor.dark_sky_uv_index_0d') | float > 6.1 }}"
     action:
       - service: notify.mobile_devices
         data_template:
@@ -57,7 +57,7 @@
         entity_id: input_boolean.notify_uv
         state: 'on'
       - condition: template
-        value_template: "{{ states('sensor.dark_sky_uv_index_0d') | float > 5.9 }}"
+        value_template: "{{ states('sensor.dark_sky_uv_index_0d') | float > 6.1 }}"
     action:
       - service: notify.mobile_devices
         data_template:
