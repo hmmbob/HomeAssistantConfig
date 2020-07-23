@@ -3,7 +3,7 @@
 ####################
 path: settings
 title: Settings
-icon: mdi:settings
+icon: mdi:cog
 cards:
   - type: vertical-stack
     cards:
