@@ -39,7 +39,6 @@ cards:
           {% set days = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]  %}
           {% set day = days[now().strftime('%A') | int ] %}
           # {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
-        debug_cardmod: true
         style:
           .: |
             ha-card {
