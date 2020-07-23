@@ -1,0 +1,35 @@
+##########################
+## Set theme 
+##########################
+- id: set_theme_on_ha_start_and_sun
+  alias: "System: Set theme on Home Assistant start and Sun"
+  initial_state: 'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: sun
+      event: sunrise
+    - platform: sun
+      event: sunset
+  action:
+    - choose:
+      - conditions:
+          - condition: state
+            entity_id: sun.sun
+            state: 'above_horizon'
+        sequence:
+          - service: frontend.set_theme
+            data:
+              name: "Google Light Theme"
+      - conditions:
+          - condition: state
+            entity_id: sun.sun
+            state: 'below_horizon'
+        sequence:
+          - service: frontend.set_theme
+            data:
+              name: "Google Dark Theme"
+      default:  # Should not be needed, as sun.sun should always have a status
+        - service: frontend.set_theme
+          data:
+            name: "Google Light Theme"

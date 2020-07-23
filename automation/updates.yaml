@@ -1,16 +1,13 @@
 ##########################
-## Set theme on restart, update initial sensors
+## Update initial sensors
 ##########################
 - id: update_sensors_initial
-  alias: 'System: Set theme & update Sensors on startup'
+  alias: 'System: Update Sensors on startup'
   initial_state: 'on'
   trigger:
     - platform: homeassistant
       event: start
   action:
-    - service: frontend.set_theme
-      data:
-        name: "Google Light Theme"
 #    - delay: '00:00:15'
 #    - service: homeassistant.update_entity
 #      entity_id: sensor.reistijd_thuis_werk
