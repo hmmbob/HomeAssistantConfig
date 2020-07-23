@@ -15,7 +15,7 @@ cards:
             ha-card {
              margin: 12px 14px -5px 14px;
              box-shadow: none;
-             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+             --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
@@ -51,7 +51,7 @@ cards:
             ha-card {
              margin: 12px 14px -5px 14px;
              box-shadow: none;
-             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+             --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
@@ -82,7 +82,7 @@ cards:
             ha-card {
              margin: 12px 14px -5px 14px;
              box-shadow: none;
-             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+             --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
@@ -115,7 +115,7 @@ cards:
             ha-card {
              margin: 12px 14px -5px 14px;
              box-shadow: none;
-             --paper-card-background-color: rgba(0, 0, 0, 0.0)
+             --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
