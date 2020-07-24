@@ -1,71 +1,66 @@
-- id: set_google_home_volume_early_evening
-  alias: 'Volume: Set Google Home early evening'
+- id: set_google_home_volume
+  alias: 'Volume: Set Google Home Volume'
   initial_state: on
   trigger:
-    platform: time
-    at: '19:00:00'
+    - platform: time
+      at: '07:00:00'
+    - platform: time
+      at: '09:00:00'
+    - platform: time
+      at: '19:00:00'
+    - platform: time
+      at: '20:30:00'      
   action:
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.woonkamer
-        volume_level: 0.4
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.studeerkamer
-        volume_level: 0.2
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.hmt
-        volume_level: 0.1
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.zolder
-        volume_level: 0.1
-
-- id: set_google_home_volume_late_evening
-  alias: 'Volume: Set Google Homes late evening'
-  initial_state: on
-  trigger:
-    platform: time
-    at: '20:30:00'
-  action:
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.woonkamer
-        volume_level: 0.2
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.studeerkamer
-        volume_level: 0.1
-
-- id: set_google_home_volume_early_morning
-  alias: 'Volume: Set Google Homes AM'
-  initial_state: on
-  trigger:
-    platform: time
-    at: '07:00:00'
-  action:
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.woonkamer
-        volume_level: 0.5
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.studeerkamer
-        volume_level: 0.4
-
-- id: set_google_home_mini_volume_early_morning
-  alias: 'Volume: Set Google Home Minis AM'
-  initial_state: on
-  trigger:
-    platform: time
-    at: '09:00:00'
-  action:
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.hmt
-        volume_level: 0.5
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.zolder
-        volume_level: 0.5
+    - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ now().strftime('%H:%M') == '07:00' }}"
+        sequence:
+          - service: media_player.volume_set
+            data:
+              entity_id: media_player.woonkamer
+              volume_level: 0.5
+          - service: media_player.volume_set
+            data:
+              entity_id: media_player.studeerkamer
+              volume_level: 0.4
+      - conditions:
+          - condition: template
+            value_template: "{{ now().strftime('%H:%M') == '09:00' }}"
+        sequence:
+          - service: media_player.volume_set
+            data:
+              entity_id: 
+                - media_player.hmt
+                - media_player.zolder
+              volume_level: 0.5        
+      - conditions:
+          - condition: template
+            value_template: "{{ now().strftime('%H:%M') == '19:00' }}"
+        sequence:
+          - service: media_player.volume_set
+            data:
+              entity_id: media_player.woonkamer
+              volume_level: 0.4
+          - service: media_player.volume_set
+            data:
+              entity_id: media_player.studeerkamer
+              volume_level: 0.2
+          - service: media_player.volume_set
+            data:
+              entity_id: 
+                - media_player.hmt
+                - media_player.zolder
+              volume_level: 0.1
+      - conditions:
+          - condition: template
+            value_template: "{{ now().strftime('%H:%M') == '20:30' }}"
+        sequence:
+          - service: media_player.volume_set
+            data:
+              entity_id: media_player.woonkamer
+              volume_level: 0.2
+          - service: media_player.volume_set
+            data:
+              entity_id: media_player.studeerkamer
+              volume_level: 0.1
