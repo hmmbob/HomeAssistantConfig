@@ -16,20 +16,12 @@
       - conditions:
           - condition: state
             entity_id: sun.sun
-            state: 'above_horizon'
-        sequence:
-          - service: frontend.set_theme
-            data:
-              name: "Google Light Theme"
-      - conditions:
-          - condition: state
-            entity_id: sun.sun
             state: 'below_horizon'
         sequence:
           - service: frontend.set_theme
             data:
               name: "Google Dark Theme"
-      default:  # Should not be needed, as sun.sun should always have a status
+      default:
         - service: frontend.set_theme
           data:
             name: "Google Light Theme"
