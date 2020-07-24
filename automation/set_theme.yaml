@@ -1,8 +1,8 @@
 ##########################
 ## Set theme 
 ##########################
-- id: set_theme_on_ha_start_and_sun
-  alias: "System: Set theme on Home Assistant start and Sun"
+- id: set_theme
+  alias: "System: Set theme"
   initial_state: 'on'
   trigger:
     - platform: homeassistant
