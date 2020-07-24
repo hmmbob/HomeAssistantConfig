@@ -95,19 +95,6 @@ climate:
   host: !secret toon_host
   scan_interval: 15
 
-cover:
-  platform: mqtt
-  name: "Zolder"
-  command_topic: "OpenZWave/1/command/setvalue/"
-  set_position_topic: "OpenZWave/1/command/setvalue/"
-  set_position_template: "{ \"Value\": {{ position }}, \"ValueIDKey\": 105480209 }"
-  position_topic: "OpenZWave/1/node/6/instance/1/commandclass/38/value/105480209/"
-  value_template: "{{ value_json.Value }}"
-  position_open: 99
-  position_closed: 0
-  payload_open: "{ \"Value\": 99, \"ValueIDKey\": 105480209 }"
-  payload_close: "{ \"Value\": 0, \"ValueIDKey\": 105480209 }"
-
 hacs:
   token: !secret hacs_token
 
