@@ -3,7 +3,7 @@
 ##########################
 - id: set_eetkamer_brightness_on_time
   alias: "Lights: Eetkamer brightness by time"
-  initial_state: 'off'
+  initial_state: false
   trigger:
     platform: state
     entity_id: light.eetkamer_level
@@ -151,7 +151,7 @@
 ##########################
 - id: nachtlampje
   alias: 'Lights: Nachtlampje'
-  initial_state: on
+  initial_state: true
   trigger:
     - platform: state
       entity_id: group.all_persons
@@ -183,7 +183,7 @@
 ##########################
 - id: ask_to_set_lights_before_sunset
   alias: "Lights: Sunset: ask to set lights"
-  initial_state: 'on'
+  initial_state: true
   trigger:
     platform: sun
     event: sunset
@@ -213,7 +213,7 @@
 
 - id: set_lights_before_sunset
   alias: "Lights: Sunset: set sunset lights"
-  initial_state: 'on'
+  initial_state: true
   trigger:
   - platform: event
     event_type: mobile_app_notification_action
@@ -232,7 +232,7 @@
 
 - id: set_lights_before_sunset_in_20
   alias: "Lights: Sunset: set sunset lights in 20 min"
-  initial_state: 'on'
+  initial_state: true
   trigger:
   - platform: event
     event_type: mobile_app_notification_action
@@ -255,7 +255,7 @@
 #############################
 - id: turn_on_garden
   alias: "Lights: Garden turn on"
-  initial_state: 'on'
+  initial_state: true
   trigger:
     platform: sun
     event: sunset
@@ -266,7 +266,7 @@
 
 - id: turn_off_garden
   alias: "Lights: Garden turn off"
-  initial_state: 'on'
+  initial_state: true
   trigger:
     platform: sun
     event: sunrise
@@ -342,7 +342,7 @@
 ##########################
 - id: turn_off_gang
   alias: "Lights: Turn off gang"
-  initial_state: 'on'
+  initial_state: true
   trigger:
     platform: state
     entity_id: binary_sensor.pir_gang_sensor

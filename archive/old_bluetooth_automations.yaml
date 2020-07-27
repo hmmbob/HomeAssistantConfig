@@ -5,8 +5,7 @@
 ### Bob ###
 - alias: "Location: Bob BT Aanwezig"
   id: "bob_bt_aanwezig"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     - platform: numeric_state
       entity_id: sensor.bt_max_bob
       above: 50
@@ -23,8 +22,7 @@
 
 - alias: "Location: Bob BT Afwezig"
   id: "bob_bt_afwezig"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     platform: numeric_state
     entity_id: sensor.bt_max_bob
     below: 15
@@ -41,8 +39,7 @@
       
 - alias: "Location: Trigger BT to Away"
   id: "bob_bt_trigger_away"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
   - platform: state
     entity_id: device_tracker.sm_a505fn
     from: home
@@ -59,8 +56,7 @@
 
 - alias: "Location: Trigger BT to Home"
   id: "bob_bt_trigger_home"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     - platform: state
       entity_id: device_tracker.sm_a505fn
       from: not_home
@@ -77,8 +73,7 @@
 
 - alias: "Location: Trigger App to Away"
   id: "bob_app_trigger_away"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
   - platform: state
     entity_id: device_tracker.bob_bt
     from: home
@@ -94,8 +89,7 @@
 
 - alias: "Location: Trigger App to Home"
   id: "bob_app_trigger_home"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     - platform: state
       entity_id: device_tracker.bob_bt
       from: not_home
@@ -112,8 +106,7 @@
 ### Birgit ###
 - alias: "Location: Birgit BT Aanwezig"
   id: "birgit_bt_aanwezig"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     - platform: numeric_state
       entity_id: sensor.bt_max_birgit
       above: 50
@@ -130,8 +123,7 @@
 
 - alias: "Location: Birgit BT Afwezig"
   id: "birgit_bt_afwezig"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     platform: numeric_state
     entity_id: sensor.bt_max_birgit
     below: 15
@@ -151,8 +143,7 @@
 ##########################
 - alias: 'Location: Restart monitor daily and on startup'
   id: restart_monitor_daily_and_on_startup
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
     - platform: homeassistant
       event: start
     - platform: time
@@ -164,8 +155,7 @@
 
 - alias: "Location: Trigger arrive scan"
   id: "location_trigger_arrive_scan"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
   - platform: state
     entity_id: binary_sensor.door_contact_2
     from: 'off'
@@ -182,8 +172,7 @@
 
 - alias: "Location: Trigger depart scan"
   id: "location_trigger_depart_scan"
-  initial_state: 'on'
-  trigger:
+  initial_state: true  trigger:
   - platform: state
     entity_id: binary_sensor.door_contact_2
     from: 'off'

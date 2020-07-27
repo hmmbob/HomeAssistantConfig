@@ -3,7 +3,7 @@
 ##########################
 - id: update_sensors_initial
   alias: 'System: Update Sensors on startup'
-  initial_state: 'on'
+  initial_state: true
   trigger:
     - platform: homeassistant
       event: start
