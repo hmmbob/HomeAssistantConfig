@@ -27,7 +27,8 @@
 
 - id: turn_on_kerstverlichting
   alias: "Lights: Kerstverlichting turn on"
-  initial_state: true  trigger:
+  initial_state: true
+  trigger:
     platform: sun
     event: sunset
     offset: "-00:30:00"
@@ -37,7 +38,8 @@
 
 - id: turn_off_kerstverlichting
   alias: "Lights: Kerstverlichting turn off"
-  initial_state: true  trigger:
+  initial_state: true
+  trigger:
     platform: sun
     event: sunrise
     offset: "01:00:00"
@@ -189,7 +191,8 @@
 ##########################
 - id: Update_notifications
   alias: 'System: Update notifications'
-  initial_state: true  trigger:
+  initial_state: true
+  trigger:
   - platform: state
     entity_id: updater.updater
   action:
