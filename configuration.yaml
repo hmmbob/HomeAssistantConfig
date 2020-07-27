@@ -95,9 +95,6 @@ climate:
   host: !secret toon_host
   scan_interval: 15
 
-#hacs:
-#  token: !secret hacs_token
-
 notify:
   - platform: nfandroidtv
     name: TV
