@@ -3,11 +3,11 @@
 #############################
 notify_trash:
   name: 'Push-meldingen over afval'
-  initial: 'on'
+  initial: true
   icon: mdi:message-bulleted
 notify_trash_voice:
   name: 'Voice-meldingen over afval'
-  initial: 'on'
+  initial: true
   icon: mdi:google-home
 
 #############################
@@ -15,11 +15,11 @@ notify_trash_voice:
 #############################
 notify_uv:
   name: 'Push-meldingen over UV'
-  initial: 'on'
+  initial: true
   icon: mdi:white-balance-sunny
 notify_uv_voice:
   name: 'Voice-meldingen over UV'
-  initial: 'on'
+  initial: true
   icon: mdi:google-home
 
 #############################
@@ -27,23 +27,23 @@ notify_uv_voice:
 #############################
 enable_pir_woonkamer:
   name: 'Verlichting woonkamer aan op beweging'
-  initial: 'on'
+  initial: true
   icon: mdi:motion-sensor
 enable_pir_gang:
   name: 'Verlichting gang aan op beweging'
-  initial: 'on'
+  initial: true
   icon: mdi:motion-sensor
 toon_on_movement:
   name: 'Toon aan via PIR'
-  initial: 'off'
+  initial: false
   icon: mdi:thermostat
 eetkamer_on_movement:
   name: 'Eetkamer aan via PIR'
-  initial: 'off'
+  initial: false
   icon: mdi:ceiling-light
 woonkamer_on_movement:
   name: 'Woonkamer aan via PIR'
-  initial: 'off'
+  initial: false
   icon: mdi:lightbulb-on-outline
 
 #############################
@@ -51,19 +51,19 @@ woonkamer_on_movement:
 #############################
 enable_doorbell:
   name: 'Deurbel'
-  initial: 'on'
+  initial: true
   icon: mdi:doorbell
 notify_door_alert:
   name: 'Deur alarm'
-  initial: 'on'
+  initial: true
   icon: mdi:door-open
 helper_freezer_door_alert:
   name: 'Deur alarm helper vriezer'
-  initial: 'off'
+  initial: false
   icon: mdi:door-open
 helper_front_door_alert:
   name: 'Deur alarm helper voordeur'
-  initial: 'off'
+  initial: false
   icon: mdi:door-open
 
 #############################
@@ -79,12 +79,12 @@ zigbee_permit_join:
 #############################
 enable_cover:
   name: Rolluik automatisering
-  initial: 'off'
+  initial: false
   icon: mdi:garage
   
 notify_zolder:
   name: Waarschuwing leeslamp
-  initial: 'on'
+  initial: true
   icon: mdi:lightbulb-on-outline
   
 #############################
@@ -92,9 +92,9 @@ notify_zolder:
 #############################
 vacation_mode_home:
   name: 'Vakantie (thuis)'
-  initial: 'off'
+  initial: false
   icon: mdi:home-map-marker
 vacation_mode_away:
   name: 'Vakantie (weg)'
-  initial: 'off'
+  initial: false
   icon: mdi:home-lock
