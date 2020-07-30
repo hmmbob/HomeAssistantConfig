@@ -13,16 +13,16 @@ Google Light Theme:
   primary-color: "#5F9BEA"
   light-primary-color: var(--primary-color)
   primary-background-color: "#F8F8F8"
-  secondary-background-color: var(--primary-background-color)
+  secondary-background-color: "#E6E6E6"
   divider-color: var(--primary-background-color)
   # Text
   primary-text-color: "#424242"
   secondary-text-color: "#5F6267"
   text-primary-color: "#FFFFFF"
-  disabled-text-color: "#717171"
+  disabled-text-color: "#BFBFBF"
   # Sidebar Menu
   sidebar-icon-color: var(--app-header-text-color)
-  sidebar-text-color: '#424242'
+  sidebar-text-color: "#424242"
   sidebar-background-color: "#FFFFFF"
   sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: "#5F9BEA"
@@ -42,7 +42,7 @@ Google Light Theme:
   label-badge-text-color: "#4D5575"
   label-badge-red: "#C7484C"
   label-badge-green: "#6DC071"
-  label-badge-blue: "#5F9BEA" #"#51AAD1"
+  label-badge-blue: "#5F9BEA"
   label-badge-yellow: "#D9B757"
   label-badge-gray: "#5F6267"
   # Cards
@@ -51,6 +51,7 @@ Google Light Theme:
   ha-card-box-shadow: 1px 1px 5px 0px rgb(230, 230, 230)
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
+  paper-card-background-color: var(--card-background-color)
   # Switches
   switch-checked-button-color: "#5F9BEA"
   switch-checked-track-color: "#75a2f0"
@@ -66,8 +67,10 @@ Google Light Theme:
   table-row-alternative-background-color: var(--secondary-background-color)
   data-table-background-color: var(--primary-background-color)
   # Dropdowns
-  material-background-color: var(--paper-card-background-color)
+  material-background-color: var(--card-background-color)
   material-secondary-background-color: var(--primary-background-color)
   mdc-theme-surface: var(--paper-card-background-color)
   # HACS
   hacs-chip-background-color: var(--primary-color)
+  # Pre/Code
+  markdown-code-background-color: '#F8F8F8'
