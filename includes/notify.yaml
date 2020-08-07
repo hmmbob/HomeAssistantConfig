@@ -19,7 +19,7 @@
 #############################
 # Workaround TTS notifier, uses REST and Google Translate say
 # This can be used with the "alert" integration.
-# I tried to make it as compatible as possible with existing 'notify' integrations.
+# Source: https://community.home-assistant.io/t/how-to-notify-using-tts-and-much-more/210326
 - name: tts_google
   platform: rest
   resource: !secret rest_url
