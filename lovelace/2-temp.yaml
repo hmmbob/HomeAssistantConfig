@@ -91,10 +91,12 @@ cards:
             line_width: 8
             font_size: 75
             color_thresholds:
-              - value: 0
+              - value: 15
                 color: "#5f9bea"
-              - value: 19.5
-                color: var(--accent-color)
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
           - type: custom:mini-graph-card ## Buiten
             style: |
              ha-card {
@@ -144,11 +146,11 @@ cards:
             line_width: 8
             font_size: 75
             color_thresholds:
-              - value: 8
-                color: "#5f9bea"
               - value: 15
+                color: "#5f9bea"
+              - value: 19
                 color: "#e5ff00"
-              - value: 21
+              - value: 23
                 color: "#d35400"
           - type: custom:mini-graph-card ## Zolder
             style: |
@@ -172,7 +174,9 @@ cards:
             line_width: 8
             font_size: 75
             color_thresholds:
-              - value: 0
+              - value: 15
                 color: "#5f9bea"
-              - value: 20.5
-                color: var(--accent-color)
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
