@@ -105,6 +105,10 @@ notify:
       - service: mobile_app_sm_a505fn
       - service: mobile_app_moto_g_8_plus
 
+air_quality:
+  - platform: opensensemap
+    station_id: !secret opensensemap
+
 tts:
   - platform: google_translate
     base_url: !secret tts_base_url
