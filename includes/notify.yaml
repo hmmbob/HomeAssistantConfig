@@ -1,0 +1,39 @@
+#############################
+## Notify Group all mobiles #
+#############################
+- platform: group
+  name: mobile_devices
+  services:
+    - service: mobile_app_sm_a505fn
+    - service: mobile_app_moto_g_8_plus
+
+#############################
+## Notify AndroidTV         #
+#############################
+- platform: nfandroidtv
+  name: TV
+  host: !secret cast_ip_androidtv
+
+#############################
+## Notify Google TTS        #
+#############################
+# Workaround TTS notifier, uses REST and Google Translate say
+# This can be used with the "alert" integration.
+# I tried to make it as compatible as possible with existing 'notify' integrations.
+- name: tts_google
+  platform: rest
+  resource: !secret rest_url
+  method: POST_JSON
+  headers:
+    Authorization: !secret rest_token
+    content-type: application/json
+  data_template:
+    # Notifications usually have a title and a message,
+    # so prepend the title to the message and insert
+    # a newline in between so the TTS engine makes a longer pause.
+    message: "{{ title ~ '\n' ~ message }}"
+    # Optional extras which can also be set in an alert's 'data' attribute.
+    # For 'notify', these are presented in the service data attribute 'data'.
+    # Since we have no script, we need to take care of missing values here.
+    entity_id: "{{ data.entity_id | default('media_player.woonkamer',true) }}"
+    language: "nl"

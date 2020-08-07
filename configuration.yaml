@@ -71,6 +71,7 @@ google_assistant: !include includes/googleassistant.yaml
 group: !include includes/groups.yaml
 input_boolean: !include includes/input_boolean.yaml
 input_select: !include includes/input_select.yaml
+notify: !include includes/notify.yaml
 rss_feed_template: !include includes/rss.yaml
 scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
@@ -94,16 +95,6 @@ climate:
   name: Woonkamer
   host: !secret toon_host
   scan_interval: 15
-
-notify:
-  - platform: nfandroidtv
-    name: TV
-    host: !secret cast_ip_androidtv
-  - platform: group
-    name: mobile_devices
-    services:
-      - service: mobile_app_sm_a505fn
-      - service: mobile_app_moto_g_8_plus
 
 air_quality:
   - platform: opensensemap
