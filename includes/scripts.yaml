@@ -32,18 +32,12 @@ ring_doorbell_upstairs:
     before: '19:00:00'
   - service: media_player.play_media
     data:
-      entity_id: 
-        - media_player.studeerkamer
-        - media_player.zolder
-        - media_player.hmt
+      entity_id: media_player.boven
       media_content_id: !secret doorbell_url
       media_content_type: music
   - delay: '00:00:15'
   - service: media_player.turn_off  
-    entity_id: 
-        - media_player.studeerkamer
-        - media_player.zolder
-        - media_player.hmt
+    entity_id: media_player.boven
 
 show_doorbell_alert:
   sequence:
