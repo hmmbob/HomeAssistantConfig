@@ -2,22 +2,22 @@
   id: etenstijd
   entities:
     light.eetkamer_level:
-      state: on
+      state: "on"
       brightness: 255
 - name: Avond
   id: avond
   entities:
-    switch.grijze_lamp: on
-    switch.blauwe_lamp: on
-    switch.staande_lamp: on
+    switch.grijze_lamp: "on"
+    switch.blauwe_lamp: "on"
+    switch.staande_lamp: "on"
     light.window_level:
-      state: on
+      state: "on"
       brightness: 40
 - name: "Alles uit"
   id: allesuit
   entities:
-    light.eetkamer_level: off
-    switch.blauwe_lamp: off
-    switch.grijze_lamp: off
-    switch.staande_lamp: off
-    light.window_level: off
+    light.eetkamer_level: "off"
+    switch.blauwe_lamp: "off"
+    switch.grijze_lamp: "off"
+    switch.staande_lamp: "off"
+    light.window_level: "off"
