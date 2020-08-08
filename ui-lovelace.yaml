@@ -25,5 +25,3 @@ views:
   - !include lovelace/4-settings.yaml 
   - !include lovelace/5-status.yaml
   - !include lovelace/old/9-overviews.yaml
-  
-  ### Test
