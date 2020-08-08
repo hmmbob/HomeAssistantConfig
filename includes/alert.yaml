@@ -1,0 +1,39 @@
+#############################
+## Freezer door alert       #
+#############################
+freezer_door:
+  name: "Vriezer deur"
+  title: "ALARM:"
+  message: "De vriezer is nog open"
+  entity_id: binary_sensor.alert_freezer_door
+  state: 'on'
+  repeat: 2
+  can_acknowledge: false
+  skip_first: true
+  notifiers:
+    - tts_google
+    - mobile_devices
+  data:
+    tag: door_alert
+    ttl: 0
+    priority: high
+
+#############################
+## Front door alert         #
+#############################
+front_door:
+  name: "Voordeur"
+  title: "ALARM:"
+  message: "De voordeur is nog open"
+  entity_id: binary_sensor.alert_front_door
+  state: 'on'
+  repeat: 5
+  can_acknowledge: false
+  skip_first: true
+  notifiers:
+    - tts_google
+    - mobile_devices
+  data:
+    tag: door_alert
+    ttl: 0
+    priority: high
