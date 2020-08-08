@@ -57,14 +57,6 @@ notify_door_alert:
   name: 'Deur alarm'
   initial: true
   icon: mdi:door-open
-helper_freezer_door_alert:
-  name: 'Deur alarm helper vriezer'
-  initial: false
-  icon: mdi:door-open
-helper_front_door_alert:
-  name: 'Deur alarm helper voordeur'
-  initial: false
-  icon: mdi:door-open
 
 #############################
 ## Zigbee                   #
