@@ -1,6 +1,11 @@
 ####################
 # Overview         #
 ####################
+
+############################################################################################
+# This file is not part of my regular setup, but still being used in development efforts.  #
+# It is included just for me, so I can have a quick dev look at some items.                #
+############################################################################################
 path: overview
 title: Overview
 icon: mdi:magnify
