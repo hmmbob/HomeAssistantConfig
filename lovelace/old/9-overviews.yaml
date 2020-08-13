@@ -19,6 +19,21 @@ cards:
     sort:
       method: name
 
+  - id: 13241d19712345bb853a1a8fb849cec0  # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All Mobile App sensors
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - entity_id: sensor.sm_a505fn*
+        - type: divider
+        - entity_id: sensor.moto_*
+    sort:
+      method: name
+
   - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
     type: entities
     title: PIR Sensoren
@@ -37,6 +52,7 @@ cards:
       - input_boolean.enable_pir_gang
 
   - type: entities
+    id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
     title: Voordeur
     show_header_toggle: false
     state_color: true
@@ -74,21 +90,6 @@ cards:
     sort:
       method: name
 
-  - id: 13241d19712345bb853a1a8fb849cec0  # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: All Mobile App sensors
-      show_header_toggle: false
-      state_color: true
-    filter:
-      include:
-        - entity_id: sensor.sm_a505fn*
-        - type: divider
-        - entity_id: sensor.moto_*
-    sort:
-      method: name
-
   - id: c78f01234176407b123456923a45f10a  # Automatically created id
     type: entities
     title: Zigbee2mqtt
@@ -98,3 +99,19 @@ cards:
       - input_boolean.zigbee_permit_join
       - timer.zigbee_permit_join
       - input_select.zigbee2mqtt_log_level
+
+  - id: c915ccdf-3c20-402f-92fa-323541e56dd7  # Automatically created id
+    type: custom:auto-entities
+    card:
+     type: entities
+     title: All weather entities
+     show_header_toggle: false
+     state_color: true
+    filter:
+     include:
+       - entity_id: weather.accuweather
+       - entity_id: sensor.accuweather_*
+       - entity_id: weather.dark_sky
+       - entity_id: sensor.dark_sky_*
+    sort:
+      method: name
