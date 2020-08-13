@@ -3,13 +3,11 @@
   initial_state: on
   trigger:
     - platform: time
-      at: '07:00:00'
-    - platform: time
-      at: '09:00:00'
-    - platform: time
-      at: '19:00:00'
-    - platform: time
-      at: '20:30:00'      
+      at: 
+        - '07:00:00'
+        - '09:00:00'
+        - '19:00:00'
+        - '20:30:00'      
   action:
     - choose:
       - conditions:
