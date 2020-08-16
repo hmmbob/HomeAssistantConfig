@@ -9,28 +9,28 @@ cards:
     cards:
       - type: markdown                  ## Temperatuur header
         content: |
-         # Thermostaat
+          # Thermostaat
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: 'custom:simple-thermostat'
         style: |
-         ha-card {
+          ha-card {
           margin: 0px 14px -5px 14px;
-         --st-font-size-title: 18px;
-         --st-font-size-xl: 
+          --st-font-size-title: 18px;
+          --st-font-size-xl: 
           }
         entity: climate.woonkamer
         label:
@@ -54,27 +54,27 @@ cards:
             unit: '%' 
       - type: markdown                  ## Temperatuur header
         content: |
-         # Temperaturen
+          # Temperaturen
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: horizontal-stack
         cards:
           - type: custom:mini-graph-card ## Woonkamer
             style: |
-             ha-card {
+              ha-card {
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 0px 0px 14px;
               }
@@ -99,13 +99,16 @@ cards:
                 color: "#d35400"
           - type: custom:mini-graph-card ## Buiten
             style: |
-             ha-card {
+              ha-card {
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 14px 0px 0px;
               }
             entities:
               - entity: sensor.outside_temperature
                 name: Buiten
+              - entity: sensor.outside_humidity
+                show_graph: false
+                show_state: true
             points_per_hour: 1
             hour24: true
             show:
@@ -126,7 +129,7 @@ cards:
         cards:
           - type: custom:mini-graph-card ## Slaapkamer
             style: |
-             ha-card {
+              ha-card {
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 0px 0px 14px;
               }
@@ -154,7 +157,7 @@ cards:
                 color: "#d35400"
           - type: custom:mini-graph-card ## Zolder
             style: |
-             ha-card {
+              ha-card {
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 14px 0px 0px;
               }

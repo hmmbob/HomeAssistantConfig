@@ -23,7 +23,7 @@ cards:
                 color: var(--app-header-text-color);
               }
         content: |
-           {% if now().hour < 5 %}
+            {% if now().hour < 5 %}
             # Goede nacht, {{user}}!
             {% elif now().hour < 12 %}
             # Goede morgen, {{user}}!
@@ -42,30 +42,30 @@ cards:
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+            margin: 12px 14px -5px 14px;
+            box-shadow: none;
+            --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: custom:state-switch       ## Weather
-        entity: weather.dark_sky
+        entity: weather.accuweather
         default: default
         states:
           sunny:
             type: custom:simple-weather-card
             style: |
-             ha-card {
+              ha-card {
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 14px 0px 14px;
               }
-            entity: weather.dark_sky
+            entity: weather.accuweather
             name: "thuis"
             secondary_info: precipitation
             tap_action:
@@ -79,11 +79,11 @@ cards:
           default:
             type: custom:simple-weather-card
             style: |
-             ha-card {
+              ha-card {
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 14px 0px 14px;
               }
-            entity: weather.dark_sky
+            entity: weather.accuweather
             name: "thuis"
             secondary_info: precipitation
             tap_action:
@@ -102,7 +102,7 @@ cards:
         card:
           type: entities
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             background: rgba(249, 168, 37, 0.3);
             }
@@ -138,7 +138,7 @@ cards:
           Restafval:
             type: entities
             style: |
-             ha-card {
+              ha-card {
               margin: 0px 14px -5px 14px;
               background: rgba(201, 201, 201, 0.3);
               }
@@ -148,7 +148,7 @@ cards:
           GFT:
             type: entities
             style: |
-             ha-card {
+              ha-card {
               margin: 0px 14px -5px 14px;
               background: rgba(0, 168, 39, 0.1);
               }
@@ -158,7 +158,7 @@ cards:
           Plastic:
             type: entities
             style: |
-             ha-card {
+              ha-card {
               margin: 0px 14px -5px 14px;
               background: rgba(255, 136, 0, 0.25);
               }
@@ -168,7 +168,7 @@ cards:
           Plastic en Oud Papier:
             type: entities
             style: |
-             ha-card {
+              ha-card {
               margin: 0px 14px -5px 14px;
               background: linear-gradient(45deg, rgba(255, 136, 0, 0.25),rgba(0, 106, 255, 0.25));
               }
@@ -178,7 +178,7 @@ cards:
           Oud Papier:
             type: entities
             style: |
-             ha-card {
+              ha-card {
               margin: 0px 14px -5px 14px;
               background: rgba(0, 106, 255, 0.25);
               }
@@ -188,25 +188,25 @@ cards:
 
       - type: markdown                  ## Oogopslag header
         content: |
-         # In een oogopslag...
+          # In een oogopslag...
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+            margin: 12px 14px -5px 14px;
+            box-shadow: none;
+            --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: entities                  ## Oogopslag overview
         style: |
-         ha-card {
+          ha-card {
           margin: 0px 14px -5px 14px;
           }
         entities:
@@ -225,7 +225,7 @@ cards:
         card:
           type: custom:mini-media-player
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             }
           entity: media_player.soundbar
@@ -242,7 +242,7 @@ cards:
         card:
           type: custom:mini-media-player
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             }
           entity: media_player.woonkamer
@@ -276,7 +276,7 @@ cards:
         card:
           type: custom:mini-media-player
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             }
           entity: media_player.tijmen
@@ -293,7 +293,7 @@ cards:
         card:
           type: custom:mini-media-player
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             }
           entity: media_player.zolder
