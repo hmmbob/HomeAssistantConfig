@@ -55,7 +55,7 @@ cards:
               border-left: 3px solid rgba(81, 134, 236);
               }
       - type: custom:state-switch       ## Weather
-        entity: weather.accuweather
+        entity: weather.dark_sky
         default: default
         states:
           sunny:
@@ -65,7 +65,7 @@ cards:
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 14px 0px 14px;
               }
-            entity: weather.accuweather
+            entity: weather.dark_sky
             name: "thuis"
             secondary_info: precipitation
             tap_action:
@@ -83,7 +83,7 @@ cards:
                 box-shadow: var(--card-box-shadow);
                 margin: 0px 14px 0px 14px;
               }
-            entity: weather.accuweather
+            entity: weather.dark_sky
             name: "thuis"
             secondary_info: precipitation
             tap_action:

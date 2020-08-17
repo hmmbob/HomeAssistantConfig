@@ -28,22 +28,22 @@
 - platform: template
   sensors:
     outside_temperature:
-      entity_id:  weather.accuweather
+      entity_id:  weather.dark_sky
       friendly_name: 'Buitentemperatuur'
       unit_of_measurement: '°C'
       value_template: >
-          {%- if states.weather.accuweather.attributes.temperature is defined %}
-              {{ state_attr('weather.accuweather', 'temperature') }}
+          {%- if states.weather.dark_sky.attributes.temperature is defined %}
+              {{ state_attr('weather.dark_sky', 'temperature') }}
           {% else %}
               0
           {%- endif %}
     outside_humidity:
-      entity_id:  weather.accuweather
+      entity_id:  weather.dark_sky
       friendly_name: 'Luchtvochtigheid'
       unit_of_measurement: '%'
       value_template: >
-          {%- if states.weather.accuweather.attributes.humidity is defined %}
-              {{ state_attr('weather.accuweather', 'humidity') }}
+          {%- if states.weather.dark_sky.attributes.humidity is defined %}
+              {{ state_attr('weather.dark_sky', 'humidity') }}
           {% else %}
               0
           {%- endif %}
