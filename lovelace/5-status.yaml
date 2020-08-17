@@ -9,25 +9,25 @@ cards:
     cards:
       - type: markdown                  ## Batterij niveaus header
         content: |
-         # Batterij niveaus
+          # Batterij niveaus
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: custom:battery-state-card
         style: |
-         ha-card {
+          ha-card {
           margin: 0px 14px -5px 14px;
           }
         sort_by_level: "asc"
@@ -45,25 +45,25 @@ cards:
           name: "Batterij voordeur"
       - type: markdown                  ## Statussen header
         content: |
-         # Statussen
+          # Statussen
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: entities
         style: |
-         ha-card {
+          ha-card {
           margin: 0px 14px -5px 14px;
           }
         show_header_toggle: false
@@ -76,25 +76,25 @@ cards:
         - sensor.openzwave_bridge
       - type: markdown                  ## Updates header
         content: |
-         # Updates
+          # Updates
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: entities
         style: |
-         ha-card {
+          ha-card {
           margin: 0px 14px -5px 14px;
           }
         show_header_toggle: false
@@ -109,22 +109,22 @@ cards:
           state_color: true
       - type: markdown                  ## Meterstanden header
         content: |
-         # Meterstanden
+          # Meterstanden
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
       - type: conditional
         conditions:
           - entity: sensor.toon_p1_power_use_high
@@ -132,16 +132,16 @@ cards:
         card:
           type: entities
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             }
           entities:
-           - type: custom:fold-entity-row
-             head: sensor.toon_p1_power_use_high
-             entities:
-             - sensor.toon_p1_power_use_high
-             - sensor.toon_p1_power_use_cnt_high
-             - sensor.toon_p1_power_use_cnt_low
+            - type: custom:fold-entity-row
+              head: sensor.toon_p1_power_use_high
+              entities:
+              - sensor.toon_p1_power_use_high
+              - sensor.toon_p1_power_use_cnt_high
+              - sensor.toon_p1_power_use_cnt_low
       - type: conditional
         conditions:
           - entity: sensor.toon_p1_power_use_low
@@ -149,7 +149,7 @@ cards:
         card:
           type: entities
           style: |
-           ha-card {
+            ha-card {
             margin: 0px 14px -5px 14px;
             }
           entities:
