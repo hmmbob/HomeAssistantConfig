@@ -9,28 +9,28 @@ cards:
     cards:
       - type: markdown                  ## Instellingen header
         content: |
-         # Instellingen
+          # Instellingen
         style:
           .: |
             ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
             }
           ha-markdown:
             $: |
-             h1 { 
+              h1 { 
               font-size: 18px !important;
               font-weight: 400 !important;
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
-             }
+              }
 
       - type: horizontal-stack ### 1st row
         cards:
         - type: custom:button-card
           style: |
-           ha-card {
+            ha-card {
               box-shadow: var(--card-box-shadow);
               margin: 0px 0px 0px 14px;
             }
@@ -101,7 +101,7 @@ cards:
         cards:
         - type: custom:button-card
           style: |
-           ha-card {
+            ha-card {
               box-shadow: var(--card-box-shadow);
               margin: 0px 0px 0px 14px;
             }
@@ -176,7 +176,7 @@ cards:
         - type: custom:button-card
           entity: input_boolean.notify_trash
           style: |
-           ha-card {
+            ha-card {
               box-shadow: var(--card-box-shadow);
               margin: 0px 0px 0px 14px;
             }
@@ -244,7 +244,7 @@ cards:
         - type: custom:button-card
           entity: input_boolean.notify_uv
           style: |
-           ha-card {
+            ha-card {
               box-shadow: var(--card-box-shadow);
               margin: 0px 0px 0px 14px;
             }
@@ -318,7 +318,7 @@ cards:
           confirmation:
             text: '[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]'
           style: |
-           ha-card {
+            ha-card {
               box-shadow: var(--card-box-shadow);
               margin: 0px 0px 0px 14px;
             }
@@ -353,3 +353,14 @@ cards:
                   - filter: opacity(50%)
                 icon:
                   - filter: grayscale(100%)
+            - value: 'unavailable'
+              styles:
+                card:
+                  - filter: opacity(50%)
+                  - border-style: solid
+                  - border-width: 1px
+                  - border-color: rgb(255, 0, 0)
+                  - color: rgb(255, 0, 0)
+                icon:
+                  - color: rgb(255, 0, 0)
+
