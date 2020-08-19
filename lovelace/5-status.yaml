@@ -73,6 +73,7 @@ cards:
         - binary_sensor.grijze_lamp_status
         - binary_sensor.staande_lamp_status
         - binary_sensor.zigbee2mqtt_bridge
+        - binary_sensor.weerhuisje_status
         - sensor.openzwave_bridge
       - type: markdown                  ## Updates header
         content: |

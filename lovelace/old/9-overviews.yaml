@@ -108,15 +108,27 @@ cards:
   - id: c915ccdf-3c20-402f-92fa-323541e56dd7  # Automatically created id
     type: custom:auto-entities
     card:
-     type: entities
-     title: All weather entities
-     show_header_toggle: false
-     state_color: true
+      type: entities
+      title: All weather entities
+      show_header_toggle: false
+      state_color: true
     filter:
-     include:
-       - entity_id: weather.accuweather
-       - entity_id: sensor.accuweather_*
-       - entity_id: weather.dark_sky
-       - entity_id: sensor.dark_sky_*
+      include:
+        - entity_id: weather.dark_sky
+        - entity_id: sensor.dark_sky_*
+    sort:
+      method: name
+
+  - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4  # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All weerhuisje entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - entity_id: sensor.particulate*
+        - entity_id: sensor.bme280*
     sort:
       method: name
