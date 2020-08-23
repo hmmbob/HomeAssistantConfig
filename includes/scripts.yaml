@@ -2,6 +2,7 @@
 ## Doorbell notifications   #
 #############################
 ring_doorbell_downstairs:
+  mode: single
   sequence:
   - condition: time
     after: '07:00:00'
@@ -26,6 +27,7 @@ ring_doorbell_downstairs:
       - media_player.woonkamer
 
 ring_doorbell_upstairs:
+  mode: single
   sequence:
   - condition: time
     after: '08:00:00'
@@ -40,6 +42,7 @@ ring_doorbell_upstairs:
     entity_id: media_player.boven
 
 show_doorbell_alert:
+  mode: single
   sequence:
   - condition: state
     entity_id: media_player.tv_beneden

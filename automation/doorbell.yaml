@@ -6,6 +6,7 @@
 - alias: "Doorbell: Notify"
   id: doorbell_notify
   initial_state: on
+  mode: single
   trigger:
   - platform: state
     entity_id: binary_sensor.doorbell
