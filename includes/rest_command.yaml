@@ -3,84 +3,64 @@ send_luftdaten_pm:
   method: POST
   content_type: 'application/json'
   headers:
-    X-Pin: 1  
+    X-Pin: 1  ## This tells Luftdaten that it is SDS011 data
     X-Sensor: !secret luftdaten_x_sensor
-  payload: '{
-            "software_version": "Home Assistant", 
-            "sensordatavalues":[
-              {"value_type":"P1","value":"{{ p1 }}"},
-              {"value_type":"P2","value":"{{ p2 }}"}
-              ]
-            }'
+  payload: >
+    {
+      "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
+      "sensordatavalues":[
+        {"value_type":"P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
+        {"value_type":"P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"}
+      ]
+    }
 
 send_luftdaten_tph:
   url: https://api.sensor.community/v1/push-sensor-data/
   method: POST
   content_type: 'application/json'
   headers:
-    X-Pin: 11  
+    X-Pin: 11  ## This tells Luftdaten that it is BME280 data
     X-Sensor: !secret luftdaten_x_sensor
-  payload: '{
-            "software_version": "Home Assistant", 
-            "sensordatavalues":[
-              {"value_type":"temperature","value":"{{ temperature }}"},
-              {"value_type":"pressure","value":"{{ pressure }}"},
-              {"value_type":"humidity","value":"{{ humidity }}"}
-              ]
-            }'
+  payload: >
+    {
+      "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
+      "sensordatavalues":[
+        {"value_type":"temperature","value":"{{ states('sensor.bme280_temperature') }}"},
+        {"value_type":"pressure","value":"{{ states('sensor.bme280_pressure') | float * 100 }}"},
+        {"value_type":"humidity","value":"{{ states('sensor.bme280_humidity') }}"}
+      ]
+    }
 
 send_madavi:
   url: https://api-rrd.madavi.de/data.php
   method: POST
   content_type: 'application/json'
   headers:
-    X-Pin: 0  
+    X-Pin: 0
     X-Sensor: !secret luftdaten_x_sensor
-  payload: '{
-            "software_version": "Home Assistant", 
-            "sensordatavalues":[
-              {"value_type":"SDS_P1","value":"{{ p1 }}"},
-              {"value_type":"SDS_P2","value":"{{ p2 }}"},
-              {"value_type":"BME280_temperature","value":"{{ temperature }}"},
-              {"value_type":"BME280_pressure","value":"{{ pressure }}"},
-              {"value_type":"BME280_humidity","value":"{{ humidity }}"}
-              ]
-            }'
+  payload: >
+    {
+      "software_version": "HomeAssistant-{{ states('sensor.current_version') }}", 
+      "sensordatavalues":[
+        {"value_type":"SDS_P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
+        {"value_type":"SDS_P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"},
+        {"value_type":"BME280_temperature","value":"{{ states('sensor.bme280_temperature') }}"},
+        {"value_type":"BME280_pressure","value":"{{ states('sensor.bme280_pressure') | float * 100 }}"},
+        {"value_type":"BME280_humidity","value":"{{ states('sensor.bme280_humidity') }}"}
+      ]
+    }
 
-# OpenSenseBox / OpenSenseMap URLs are in the following format:
-# https://api.opensensemap.org/boxes/SENSBOXID/SENSORID
-# As there is no auth, these IDs are sensitive to prevent spoofing
-post_opensensebox_t:
-  url: !secret opensensebox_t_url
+# OpenSenseBox / OpenSenseMap 
+post_opensensebox:
+  url: !secret opensensebox_url
   method: post
   headers:
-    Content-Type: application/json
-  payload: '{"value": "{{ temperature }}" }'
-
-post_opensensebox_p:
-  url: !secret opensensebox_p_url
-  method: post
-  headers:
-    Content-Type: application/json
-  payload: '{"value": "{{ pressure }}" }'
-
-post_opensensebox_h:
-  url: !secret opensensebox_h_url
-  method: post
-  headers:
-    Content-Type: application/json
-  payload: '{"value": "{{ humidity }}" }'
-
-post_opensensebox_pm25:
-  url: !secret opensensebox_pm25_url
-  method: post
-  headers:
-    Content-Type: application/json
-  payload: '{"value": "{{ p2 }}" }'
-
-post_opensensebox_pm10:
-  url: !secret opensensebox_pm10_url
-  method: post
-  headers:
-    Content-Type: application/json
-  payload: '{"value": "{{ p1 }}" }'
+    content-type: "application/json; charset=utf-8"
+  payload: >-
+    {
+      "5f2d49de10db48001b2d90df": "{{ states('sensor.bme280_temperature') }}",
+      "5f2d49de10db48001b2d90dd": "{{ states('sensor.bme280_pressure') | float * 100 }}",
+      "5f2d49de10db48001b2d90de": "{{ states('sensor.bme280_humidity') }}",
+      "5f2d49de10db48001b2d90e0": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
+      "5f2d49de10db48001b2d90e1": "{{ states('sensor.particulate_matter_10_0um_concentration') }}"
+    }

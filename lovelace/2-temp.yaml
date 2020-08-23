@@ -191,9 +191,14 @@ cards:
           title: Weerhuisje
           show_header_toggle: false
           state_color: true
-          filter:
-            include:
-              - entity_id: sensor.particulate*
-              - entity_id: sensor.bme280*
-          sort:
-            method: name
+          style: |
+            ha-card {
+              margin: 0px 14px -5px 14px;
+              --st-font-size-title: 18px;
+            }
+        filter:
+          include:
+            - entity_id: sensor.particulate*
+            - entity_id: sensor.bme280*
+        sort:
+          method: name

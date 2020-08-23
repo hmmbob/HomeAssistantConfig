@@ -118,4 +118,3 @@ cards:
         - entity_id: sensor.dark_sky_*
     sort:
       method: name
-
