@@ -33,6 +33,8 @@ history:
 
 logger:
   default: warn
+  logs:
+    custom_components.rest_command: debug
 
 logbook:
   exclude:
@@ -73,6 +75,7 @@ group: !include includes/groups.yaml
 input_boolean: !include includes/input_boolean.yaml
 input_select: !include includes/input_select.yaml
 notify: !include includes/notify.yaml
+rest_command: !include includes/rest_command.yaml
 rss_feed_template: !include includes/rss.yaml
 scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml

@@ -1,0 +1,53 @@
+##################################
+## Push values to Air Quality APIs
+##################################
+# Sendsor uses a NodeMCUv2 and SDS011+BME280 sensors.
+# All BME280 sensors update at the same time, so we only
+# need to monitor one sensor to trigger the automation.
+# Temperature is the one that changes most often.
+# Both SDS011 sensors update once every 30 mins. We need
+# to push updates faster to keep data from going stale.
+- alias: 'Update Temp/Pres/Hum'
+  initial_state: true
+  mode: queued
+  trigger: # Trigger on every update of the temperature
+    platform: state
+    entity_id: sensor.bme280_temperature 
+  action:
+    ## Send to Luftdaten / Sensor.Community API
+    ## Split over two calls as the headers differ
+    - service: rest_command.send_luftdaten_tph
+      data_template:
+        temperature: "{{states('sensor.bme280_temperature')}}"
+        pressure: "{{states('sensor.bme280_pressure') | float * 100}}"
+        humidity: "{{states('sensor.bme280_humidity')}}"
+    - service: rest_command.send_luftdaten_pm
+      data_template:
+        p1: "{{states('sensor.particulate_matter_10_0um_concentration')}}"
+        p2: "{{states('sensor.particulate_matter_2_5um_concentration')}}"
+    ## Send updates to Madavi.de too for statistics.
+    ## Madavi consumes all data at once, so we can send all data at once
+    - service: rest_command.send_madavi
+      data_template:
+        p1: "{{states('sensor.particulate_matter_10_0um_concentration')}}"
+        p2: "{{states('sensor.particulate_matter_2_5um_concentration')}}"
+        temperature: "{{states('sensor.bme280_temperature')}}"
+        pressure: "{{states('sensor.bme280_pressure') | float * 100}}"
+        humidity: "{{states('sensor.bme280_humidity')}}"
+    ## Send data to OpenSenseMap. This used an API endpoint per sensor,
+    ## so we trigger various update calls.
+    - service: rest_command.post_opensensebox_t
+      data_template:
+        temperature: "{{states('sensor.bme280_temperature')}}"
+    - service: rest_command.post_opensensebox_p
+      data_template:
+        pressure: "{{states('sensor.bme280_pressure') | float * 100}}"
+    - service: rest_command.post_opensensebox_h
+      data_template:
+        humidity: "{{states('sensor.bme280_humidity')}}"
+    - service: rest_command.post_opensensebox_pm10
+      data_template:
+        p1: "{{states('sensor.particulate_matter_10_0um_concentration')}}"
+    - service: rest_command.post_opensensebox_pm25
+      data_template:
+        p2: "{{states('sensor.particulate_matter_2_5um_concentration')}}"

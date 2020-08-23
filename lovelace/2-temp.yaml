@@ -183,3 +183,17 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+
+      - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4  # Automatically created id
+        type: custom:auto-entities
+        card:
+          type: entities
+          title: Weerhuisje
+          show_header_toggle: false
+          state_color: true
+          filter:
+            include:
+              - entity_id: sensor.particulate*
+              - entity_id: sensor.bme280*
+          sort:
+            method: name
