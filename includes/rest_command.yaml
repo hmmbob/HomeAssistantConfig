@@ -1,3 +1,8 @@
+##################################
+## Push values to Air Quality APIs
+##################################
+# Push to Luftdaten API. Luftdaten uses headers to distinguish between different sensor
+# types, so we need to push twice.
 send_luftdaten_pm:
   url: https://api.sensor.community/v1/push-sensor-data/
   method: POST
@@ -13,7 +18,6 @@ send_luftdaten_pm:
         {"value_type":"P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"}
       ]
     }
-
 send_luftdaten_tph:
   url: https://api.sensor.community/v1/push-sensor-data/
   method: POST
@@ -31,6 +35,7 @@ send_luftdaten_tph:
       ]
     }
 
+# Push to Madavi. This is related to Luftdaten and stores data for use in Grafana.
 send_madavi:
   url: https://api-rrd.madavi.de/data.php
   method: POST
@@ -50,7 +55,7 @@ send_madavi:
       ]
     }
 
-# OpenSenseBox / OpenSenseMap 
+# Push to OpenSenseBox / OpenSenseMap 
 post_opensensebox:
   url: !secret opensensebox_url
   method: post

@@ -1,11 +1,11 @@
 ##################################
 ## Push values to Air Quality APIs
 ##################################
-# Sensor uses a NodeMCUv2 and SDS011+BME280 sensors.
-# All BME280 sensors update at the same time, so we only
-# need to monitor one sensor to trigger the automation.
-# Temperature is the one that changes most often.
-- alias: 'Update Temp/Pres/Hum'
+# Sensor uses a NodeMCUv2 and SDS011+BME280 sensors. NodeMCU is flashed with ESPHome
+# software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
+# sensors update at the same time, we only need to monitor one sensor to trigger
+# the automation. # Temperature is the sensor that changes most often.
+- alias: 'Update Air Quality Sensors'
   initial_state: true
   mode: queued
   trigger: # Trigger on every update of the temperature
