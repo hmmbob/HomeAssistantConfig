@@ -60,21 +60,20 @@ send_madavi:
       ]
     }
 
-# Push to OpenSenseBox / OpenSenseMap. The url !secret contains the openSenseBox APU url,
+# Push to OpenSenseBox / OpenSenseMap. The url !secret contains the openSenseBox API url,
 # which looks like https://api.opensensemap.org/boxes/<<yoursenseboxid>>/data
-# WARNING: Replace the keys below (5f2d...) with your own sensor IDs - these are linked to my sensebox.
+# The input_text items contain the sensor-IDs you need to publish the data to the API.
 # You can find those on your sensbox page on https://opensensemap.org/account
 post_opensensebox:
-  url: !secret opensensebox_url
+  url: !secret opensensebox_api_url
   method: post
   headers:
     content-type: "application/json; charset=utf-8"
   payload: >-
     {
-      "5f2d49de10db48001b2d90df": "{{ states('sensor.bme280_temperature') }}",
-      "5f2d49de10db48001b2d90dd": "{{ states('sensor.bme280_pressure') | float * 100 }}",
-      "5f2d49de10db48001b2d90de": "{{ states('sensor.bme280_humidity') }}",
-      "5f2d49de10db48001b2d90e0": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
-      "5f2d49de10db48001b2d90e1": "{{ states('sensor.particulate_matter_10_0um_concentration') }}"
+      "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.bme280_temperature') }}",
+      "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ states('sensor.bme280_pressure') | float * 100 }}",
+      "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}",
+      "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
+      "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.particulate_matter_10_0um_concentration') }}"
     }
-# Remember to change ^^^^ to your own sensor IDs!
