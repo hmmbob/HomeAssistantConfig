@@ -58,6 +58,14 @@ I use a combination of Z-Wave, Zigbee and Wifi in my setup:
 * 2x Google Home Mini upstairs
 * Google Chromecast in my bedroom TV
 
+### Weather sensor
+In the summer of 2020 my oldest (10) and I decided to build a small weather sensor. As the standard building instructions were using some ugly housing options, we decided to go with a small bird house to put the sensors in. I made a short write-up on what we did at Tweakblogs, also explaining how we use Home Assistant to push the weather data to the APIs of Luftdaten/Sensor.Community and OpenSenseMap: https://hmmbob.tweakblogs.net/blog/18950/push-data-to-luftdaten-and-opensensemap-with-home-assistant.
+
+The weather sensor uses:
+* NodeMCU, flashed with ESPHome
+* SDS011 Particle Matter sensor
+* BME280 Temperature / Pressure / Humidity sensor
+
 # My actual Home Assistant configuration choices
 ## Presence detection
 Presence detection is always an important issue with Home Automation, and I've struggled with it too. Recently I stepped away from using a combination of Owntracks and bluetooth tracking (I used [Monitor](https://github.com/andrewjfreyer/monitor)) in favor of the official [Home Assistant app](https://play.google.com/store/apps/details?id=io.homeassistant.companion.android), because this combination was not robust enough. We had a lot of issues with bluetooth interference (my smart watch lost connection to my phone _all the time_, and my wifes phone just disabled bluetooth over time). The Home Assistant app has been working flawlessly for the both of us so far! It connects directly to my own server, so no cloud integration needed. 
