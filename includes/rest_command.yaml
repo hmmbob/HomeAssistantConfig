@@ -1,6 +1,10 @@
 ##################################
 ## Push values to Air Quality APIs
 ##################################
+
+# The BME280 pressure value in HA is in hPa - the APIs expect it in Pa, hence the 
+# multiplication of the value in the templates below.
+
 # Push to Luftdaten API. Luftdaten uses headers to distinguish between different sensor
 # types, so we need to push twice. The X-Sensor header contains the sensorID from Luftdaten,
 # typically formatted as esp8266-12345678 or similar.
