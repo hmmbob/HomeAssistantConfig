@@ -2,7 +2,8 @@
 ## Push values to Air Quality APIs
 ##################################
 # Push to Luftdaten API. Luftdaten uses headers to distinguish between different sensor
-# types, so we need to push twice.
+# types, so we need to push twice. The X-Sensor header contains the sensorID from Luftdaten,
+# typically formatted as esp8266-12345678 or similar.
 send_luftdaten_pm:
   url: https://api.sensor.community/v1/push-sensor-data/
   method: POST
@@ -55,7 +56,10 @@ send_madavi:
       ]
     }
 
-# Push to OpenSenseBox / OpenSenseMap 
+# Push to OpenSenseBox / OpenSenseMap. The url !secret contains the openSenseBox APU url,
+# which looks like https://api.opensensemap.org/boxes/<<yoursenseboxid>>/data
+# WARNING: Replace the keys below (5f2d...) with your own sensor IDs - these are linked to my sensebox.
+# You can find those on your sensbox page on https://opensensemap.org/account
 post_opensensebox:
   url: !secret opensensebox_url
   method: post
@@ -69,3 +73,4 @@ post_opensensebox:
       "5f2d49de10db48001b2d90e0": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
       "5f2d49de10db48001b2d90e1": "{{ states('sensor.particulate_matter_10_0um_concentration') }}"
     }
+# Remember to change ^^^^ to your own sensor IDs!
