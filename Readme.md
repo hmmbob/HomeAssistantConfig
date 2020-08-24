@@ -59,7 +59,7 @@ I use a combination of Z-Wave, Zigbee and Wifi in my setup:
 * Google Chromecast in my bedroom TV
 
 ### Weather sensor
-In the summer of 2020 my oldest (10) and I decided to build a small weather sensor. As the standard building instructions were using some ugly housing options, we decided to go with a small bird house to put the sensors in. I made a short write-up on what we did at Tweakblogs, also explaining how we use Home Assistant to push the weather data to the APIs of Luftdaten/Sensor.Community and OpenSenseMap: https://hmmbob.tweakblogs.net/blog/18950/push-data-to-luftdaten-and-opensensemap-with-home-assistant.
+In the summer of 2020 my oldest (10) and I decided to build a small weather sensor. As the [standard building instructions were using some ugly housing options](https://sensor.community/en/sensors/airrohr/), we decided to go with a small bird house to put the sensors in. I made a short write-up on what we did at Tweakblogs, also explaining how we use Home Assistant to push the weather data to the APIs of Luftdaten/Sensor.Community and OpenSenseMap: https://hmmbob.tweakblogs.net/blog/18950/push-data-to-luftdaten-and-opensensemap-with-home-assistant. It has pictures too :)
 
 The weather sensor uses:
 * NodeMCU, flashed with ESPHome
