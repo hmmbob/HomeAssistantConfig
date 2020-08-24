@@ -4,7 +4,7 @@
 # Sensor uses a NodeMCUv2 and SDS011+BME280 sensors. NodeMCU is flashed with ESPHome
 # software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
 # sensors update at the same time, we only need to monitor one sensor to trigger
-# the automation. # Temperature is the sensor that changes most often.
+# the automation. Temperature is the sensor that changes most often.
 - alias: 'Weerhuisje: Update Air Quality Sensors'
   initial_state: true
   mode: queued
