@@ -11,7 +11,6 @@
       - binary_sensor.doorbell
       - light.eetkamer_level
       - light.window_level
-      - sensor.leeslamp_zolder_power
       - sensor.pir_woonkamer_sensor_luminance
       - sensor.pir_gang_luminance
       - sensor.pir_gang_temperature
@@ -28,12 +27,14 @@
       - sensor.outside_temperature
       - sensor.room_temperature
       - sensor.current_uv_index
+      - sensor.max_uv_index
       - sensor.bme280_humidity
       - sensor.bme280_pressure
       - sensor.bme280_temperature
       - sensor.particulate_matter_10_0um_concentration
       - sensor.particulate_matter_2_5um_concentration
-      - sensor.max_uv_index
+      - sensor.leeslamp_zolder_power
+      - sensor.wasmachine_power
       - switch.blauwe_lamp
       - switch.grijze_lamp
       - switch.staande_lamp

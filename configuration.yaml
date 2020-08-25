@@ -101,9 +101,9 @@ climate:
   host: !secret toon_host
   scan_interval: 15
 
-#air_quality:
-#  - platform: opensensemap
-#    station_id: !secret opensensemap
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
 
 tts:
   - platform: google_translate
