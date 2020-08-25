@@ -105,6 +105,10 @@ spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
 
+spotcast:
+  sp_dc: !secret spotcast_sp_dc
+  sp_key: !secret spotcast_sp_key
+
 tts:
   - platform: google_translate
     base_url: !secret tts_base_url

@@ -259,8 +259,8 @@ cards:
         card:
           type: custom:mini-media-player
           style: |
-           ha-card {
-            margin: 0px 14px -5px 14px;
+            ha-card {
+              margin: 0px 14px -5px 14px;
             }
           entity: media_player.studeerkamer
           icon: mdi:cast
@@ -271,7 +271,7 @@ cards:
           show_source: true
       - type: conditional
         conditions:
-          - entity: media_player.tijmen
+          - entity: media_player.hmt
             state_not: "off"
         card:
           type: custom:mini-media-player
@@ -279,7 +279,7 @@ cards:
             ha-card {
             margin: 0px 14px -5px 14px;
             }
-          entity: media_player.tijmen
+          entity: media_player.hmt
           icon: mdi:cast
           artwork: cover
           artwork_border: true
@@ -303,5 +303,20 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
-
-
+      - type: conditional
+        conditions:
+          - entity: media_player.spotify_hmmbob
+            state_not: "idle"
+        card:
+          type: custom:mini-media-player
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.spotify_hmmbob
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
