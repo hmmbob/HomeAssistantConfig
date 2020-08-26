@@ -72,12 +72,12 @@ start_music_t:
   - service: media_player.volume_set
     data:
       entity_id: media_player.hmt
-      volume_level: 0.5
+      volume_level: 0.3
   - delay: '00:40:00'
   - service: media_player.volume_set
     data:
       entity_id: media_player.hmt
-      volume_level: 0.3
+      volume_level: 0.2
   - delay: '00:05:00'
   - service: media_player.volume_set
     data:
