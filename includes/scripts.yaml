@@ -57,3 +57,32 @@ show_doorbell_alert:
         duration: 10
         transparency: "50%"
         color: "grey"
+
+#############################
+## Start sleeping music     #
+#############################
+start_music_t:
+  alias: Slaaptijd
+  mode: restart
+  sequence:
+  - service: spotcast.start
+    data:
+      entity_id: media_player.hmt
+      uri: 'spotify:track:5OoSxUZSbP1p7kb1d0SozG'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.hmt
+      volume_level: 0.5
+  - delay: '00:40:00'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.hmt
+      volume_level: 0.3
+  - delay: '00:05:00'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.hmt
+      volume_level: 0.1
+  - service: media_player.turn_off
+    data:
+      entity_id: media_player.hmt

@@ -1,5 +1,4 @@
 project_id: !secret google_assistant_project_id
-#api_key: !secret google_assistant_api_key
 service_account: !include googleassistant_serviceaccount.json
 expose_by_default: false
 report_state: true
@@ -71,6 +70,11 @@ entity_config:
     name: "Temperatuur slaapkamer"
     expose: true
     room: "Slaapkamer"
+##Slaapkamer T
+  script.start_music_t:
+    name: "Slaaptijd"
+    expose: true
+    room: "Slaapkamer T"
 ##Others 
   switch.schuur_1:
     name: "Schuur"
