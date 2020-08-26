@@ -303,20 +303,3 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
-      - type: conditional
-        conditions:
-          - entity: media_player.spotify_hmmbob
-            state_not: "idle"
-        card:
-          type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
-          entity: media_player.spotify_hmmbob
-          icon: mdi:cast
-          artwork: cover
-          artwork_border: true
-          power_color: true
-          scroll_info: true
-          show_source: true
