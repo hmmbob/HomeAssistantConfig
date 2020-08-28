@@ -1,0 +1,77 @@
+##########################
+## Washing machine alerts
+##########################
+
+# Turn on helper if washing machine starts
+- alias: "Wasmachine draait"
+  id: helper_wasmachine
+  initial_state: true
+  trigger:
+    # High power: someone started the washing program...
+    platform: numeric_state
+    entity_id: sensor.wasmachine_power
+    above: 1500
+  condition:
+    - condition: state
+      entity_id: input_boolean.wasmachine_actief
+      state: "off"
+  action:
+    # We know the washing machine is on: set helper
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.wasmachine_actief
+
+# Notify us when washing is done
+- alias: "Wasmachine klaar melding"
+  id: melding_wasmachine
+  initial_state: true
+  trigger:
+    # Low power state for over a minute: washing done
+    platform: numeric_state
+    entity_id: sensor.wasmachine_power
+    below: 6
+    for:
+      minutes: 1
+  condition:
+    # Only if we know that the washing machine is running
+    - condition: state
+      entity_id: input_boolean.wasmachine_actief
+      state: "on"
+  action:
+    # Play a TTS alert downstairs
+    - service: tts.google_translate_say
+      entity_id: media_player.woonkamer
+      data:
+        message: "De wasmachine is klaar!"
+        language: "nl"
+    # Turn on small green LED as visual reminder
+    - service: homeassistant.turn_on
+      entity_id: light.blauwe_lamp_green_led
+    # Turn off helper boolean: machine not active anymore
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.wasmachine_actief
+
+# Turn of reminder light
+- alias: "Wasmachine: zet LED uit"
+  id: wasmachine_LED_uit
+  initial_state: true
+  trigger:
+    # If the machine is turned off
+    - platform: numeric_state
+      entity_id: sensor.wasmachine_power
+      below: 1
+    # Or, if a new cycle is started without turning off
+    - platform: numeric_state
+      entity_id: sensor.wasmachine_power
+      above: 1500
+    # Or, if we forgot about it or something went wrong
+    - platform: time
+      at: "23:59:00"
+  condition:
+    # Only if the LED is actually on
+    - condition: state
+      entity_id: light.blauwe_lamp_green_led
+      state: "on"
+  action:
+    # Turn off small green LED
+    - service: homeassistant.turn_off
+      entity_id: light.blauwe_lamp_green_led

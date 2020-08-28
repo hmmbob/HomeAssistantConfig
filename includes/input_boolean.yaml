@@ -2,11 +2,11 @@
 ## Trash                    #
 #############################
 notify_trash:
-  name: 'Push-meldingen over afval'
+  name: "Push-meldingen over afval"
   initial: true
   icon: mdi:message-bulleted
 notify_trash_voice:
-  name: 'Voice-meldingen over afval'
+  name: "Voice-meldingen over afval"
   initial: true
   icon: mdi:google-home
 
@@ -14,11 +14,11 @@ notify_trash_voice:
 ## UV Warnings              #
 #############################
 notify_uv:
-  name: 'Push-meldingen over UV'
+  name: "Push-meldingen over UV"
   initial: true
   icon: mdi:white-balance-sunny
 notify_uv_voice:
-  name: 'Voice-meldingen over UV'
+  name: "Voice-meldingen over UV"
   initial: true
   icon: mdi:google-home
 
@@ -26,23 +26,23 @@ notify_uv_voice:
 ## PIR / Movement based     #
 #############################
 enable_pir_woonkamer:
-  name: 'Verlichting woonkamer aan op beweging'
+  name: "Verlichting woonkamer aan op beweging"
   initial: true
   icon: mdi:motion-sensor
 enable_pir_gang:
-  name: 'Verlichting gang aan op beweging'
+  name: "Verlichting gang aan op beweging"
   initial: true
   icon: mdi:motion-sensor
 toon_on_movement:
-  name: 'Toon aan via PIR'
+  name: "Toon aan via PIR"
   initial: false
   icon: mdi:thermostat
 eetkamer_on_movement:
-  name: 'Eetkamer aan via PIR'
+  name: "Eetkamer aan via PIR"
   initial: false
   icon: mdi:ceiling-light
 woonkamer_on_movement:
-  name: 'Woonkamer aan via PIR'
+  name: "Woonkamer aan via PIR"
   initial: false
   icon: mdi:lightbulb-on-outline
 
@@ -50,11 +50,11 @@ woonkamer_on_movement:
 ## Doors, doorbell          #
 #############################
 enable_doorbell:
-  name: 'Deurbel'
+  name: "Deurbel"
   initial: true
   icon: mdi:doorbell
 notify_door_alert:
-  name: 'Deur alarm'
+  name: "Deur alarm"
   initial: true
   icon: mdi:door-open
 
@@ -73,20 +73,27 @@ enable_cover:
   name: Rolluik automatisering
   initial: false
   icon: mdi:garage
-  
+
 notify_zolder:
   name: Waarschuwing leeslamp
   initial: true
   icon: mdi:lightbulb-on-outline
-  
+
 #############################
 ## Vacation mode            #
 #############################
 vacation_mode_home:
-  name: 'Vakantie (thuis)'
+  name: "Vakantie (thuis)"
   initial: false
   icon: mdi:home-map-marker
 vacation_mode_away:
-  name: 'Vakantie (weg)'
+  name: "Vakantie (weg)"
   initial: false
   icon: mdi:home-lock
+
+#############################
+## Washing machine          #
+#############################
+wasmachine_actief:
+  name: "Wasmachine actief"
+  initial: false
