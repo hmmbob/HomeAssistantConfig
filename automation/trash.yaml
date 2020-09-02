@@ -1,16 +1,16 @@
 ##########################
 ## Trash
 ##########################
-- alias: 'Afval: Melding vandaag'
+- alias: "Afval: Melding vandaag"
   id: melding_afval_vandaag
   initial_state: true
   trigger:
     platform: time
-    at: '05:00:00'
+    at: "05:00:00"
   condition:
     - condition: state
       entity_id: input_boolean.notify_trash
-      state: 'on'
+      state: "on"
     - condition: template
       value_template: "{{ states('sensor.trash_today') != 'Geen' }}"
     - condition: template
@@ -18,22 +18,22 @@
   action:
     - service: notify.mobile_app_sm_a505fn
       data_template:
-        title: 'Afvalinzameling'
+        title: "Afvalinzameling"
         message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
       data:
         data:
-          tag: 'notification-trash'
+          tag: "notification-trash"
 
-- alias: 'Afval: Melding morgen'
+- alias: "Afval: Melding morgen"
   id: melding_afval_morgen
   initial_state: true
   trigger:
     platform: time
-    at: '17:50:00'
+    at: "17:50:00"
   condition:
     - condition: state
       entity_id: input_boolean.notify_trash
-      state: 'on'
+      state: "on"
     - condition: template
       value_template: "{{ states('sensor.trash_tomorrow') != 'Geen' }}"
     - condition: template
@@ -41,21 +41,73 @@
   action:
     - service: notify.mobile_app_sm_a505fn
       data_template:
-        title: 'Afvalinzameling'
+        title: "Afvalinzameling"
         message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
       data:
         data:
-          tag: 'notification-trash'
+          tag: "notification-trash"
     - condition: state
       entity_id: input_boolean.notify_trash_voice
-      state: 'on' 
+      state: "on"
     - service: tts.google_translate_say
       entity_id: media_player.woonkamer
       data_template:
         message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
-        language: 'nl'
-    - delay: '00:00:04'
-    - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
-    - service: media_player.turn_off  
-      entity_id: 
+        language: "nl"
+    - delay: "00:00:05"
+    - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure TTS is done
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_tomorrow
+              state: "Plastic"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_plastic
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_tomorrow
+              state: "Restafval"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_restafval
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_tomorrow
+              state: "GFT"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_gft
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_tomorrow
+              state: "Oud Papier"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_oudpapier
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_tomorrow
+              state: "Plastic en Oud Papier"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_plasticpapier
+                media_content_type: "image/png"
+    - delay: "00:05:00"
+    - service: media_player.turn_off
+      entity_id:
         - media_player.woonkamer

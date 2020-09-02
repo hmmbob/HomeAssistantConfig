@@ -49,6 +49,17 @@
     # Turn off helper boolean: machine not active anymore
     - service: homeassistant.turn_off
       entity_id: input_boolean.wasmachine_actief
+    # Show image as visual reminder washing is done
+    - delay: "00:00:05" # Wait for TTS to finish
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.woonkamer
+        media_content_id: !secret image_url_wasmachine
+        media_content_type: "image/png"
+    - delay: "00:15:00"
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.woonkamer
 
 # Turn of reminder light
 - alias: "Wasmachine: zet LED uit"
@@ -75,3 +86,7 @@
     # Turn off small green LED
     - service: homeassistant.turn_off
       entity_id: light.blauwe_lamp_green_led
+    # Stop casting image to Google Home
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.woonkamer
