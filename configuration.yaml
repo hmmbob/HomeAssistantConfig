@@ -17,7 +17,7 @@ homeassistant:
     - type: totp
       name: Authenticator app
     - type: notify
-      message: 'Access token: {}'
+      message: "Access token: {}"
   external_url: !secret external_url
   internal_url: !secret external_url # Not an error
 
@@ -33,8 +33,6 @@ history:
 
 logger:
   default: warn
-  logs:
-    custom_components.rest_command: debug
 
 logbook:
   exclude:
@@ -46,7 +44,7 @@ logbook:
 
 #################################################################
 ## Frontend
-#################################################################  
+#################################################################
 http:
   server_port: !secret http_server_port
   ip_ban_enabled: True
@@ -65,7 +63,7 @@ map:
 
 #################################################################
 ## Includes
-#################################################################  
+#################################################################
 alert: !include includes/alert.yaml
 automation: !include_dir_merge_list automation/
 binary_sensor: !include includes/binary_sensor.yaml
@@ -80,13 +78,13 @@ rest_command: !include includes/rest_command.yaml
 rss_feed_template: !include includes/rss.yaml
 scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
-sensor: !include includes/sensors.yaml  
+sensor: !include includes/sensors.yaml
 switch: !include includes/switch.yaml
 timer: !include includes/timer.yaml
 
 #################################################################
 ## Components
-#################################################################  
+#################################################################
 camera:
   name: Hmmbob
   platform: generic
@@ -123,7 +121,7 @@ webhook:
 zigbee2mqtt_networkmap:
 panel_iframe:
   networkmap:
-    title: 'Zigbee Map'
-    url: '/local/community/zigbee2mqtt_networkmap/map.html'
-    icon: 'mdi:graphql'
+    title: "Zigbee Map"
+    url: "/local/community/zigbee2mqtt_networkmap/map.html"
+    icon: "mdi:graphql"
     require_admin: true
