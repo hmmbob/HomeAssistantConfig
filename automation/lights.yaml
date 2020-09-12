@@ -378,26 +378,3 @@
   action:
   - service: homeassistant.turn_on
     entity_id: light.gang_dimmer_level
-        
-##########################
-## Zolder
-##########################
-- id: warn_reading_light_on
-  alias: "Lights: Leeslampje aan"
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.leeslamp_zolder_power
-    above: 1
-    for:
-      minutes: 2
-  condition: 
-  - condition: state
-    entity_id: input_boolean.notify_zolder
-    state: 'on'
-  - condition: time
-    after: '20:15:00'
-  action:
-  - service: notify.mobile_devices
-    data_template:
-      title: "Leeslampje"
-      message: "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."

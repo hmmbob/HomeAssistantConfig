@@ -16,11 +16,11 @@
 ##########################
 ## GPIO on Raspberry Pi
 ##########################
-- platform: rpi_gpio
-  ports:
-    17: Doorbell
-  pull_mode: "UP"
-  invert_logic: true
+#- platform: rpi_gpio
+#  ports:
+#    17: Doorbell
+#  pull_mode: "UP"
+#  invert_logic: true
 
 ##########################
 ## Template sensors
