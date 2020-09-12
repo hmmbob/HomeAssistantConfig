@@ -8,34 +8,17 @@
   initial_state: on
   mode: single
   trigger:
-  - platform: state
-    entity_id: binary_sensor.doorbell
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: input_boolean.enable_doorbell
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: 
-      - script.ring_doorbell_downstairs
-      - script.ring_doorbell_upstairs
-      - script.show_doorbell_alert
-
-### Fix rp_gpio wrong states
-### Sometimes HA keeps showing the doorbell as 'on', even though the button is no longer pressed.
-### The RPi does have the correct state, so this just pulls the state directly from the PI
-- alias: "Doorbell: Fix state"
-  id: doorbell_fix_state
-  initial_state: on
-  trigger:
-    platform: state
-    entity_id: binary_sensor.doorbell
-    from: 'off'
-    to: 'on'
-    for:
-      seconds: 5
-  action:
-    - service: homeassistant.update_entity
+    - platform: state
       entity_id: binary_sensor.doorbell
+      from: "off"
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.enable_doorbell
+      state: "on"
+  action:
+    - service: script.turn_on
+      entity_id:
+        - script.ring_doorbell_downstairs
+        - script.ring_doorbell_upstairs
+        - script.show_doorbell_alert
