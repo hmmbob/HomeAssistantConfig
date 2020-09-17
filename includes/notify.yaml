@@ -27,7 +27,7 @@
   headers:
     Authorization: !secret rest_token
     content-type: application/json
-  data_template:
+  data:
     # Notifications usually have a title and a message,
     # so prepend the title to the message and insert
     # a newline in between so the TTS engine makes a longer pause.

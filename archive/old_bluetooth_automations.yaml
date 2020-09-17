@@ -1,5 +1,5 @@
 ##########################
-## BT Device tracker 
+## BT Device tracker
 ##########################
 
 ### Bob ###
@@ -10,7 +10,7 @@
     - platform: numeric_state
       entity_id: sensor.bt_max_bob
       above: 50
-  condition:  
+  condition:
     condition: state
     entity_id: device_tracker.bob_bt
     state: not_home
@@ -28,7 +28,7 @@
     platform: numeric_state
     entity_id: sensor.bt_max_bob
     below: 15
-  condition:  
+  condition:
     condition: state
     entity_id: device_tracker.bob_bt
     state: home
@@ -38,16 +38,16 @@
       topic: location/bob_bt
       payload: "not_home"
       retain: true
-      
+
 - alias: "Location: Trigger BT to Away"
   id: "bob_bt_trigger_away"
   initial_state: true
   trigger:
-  - platform: state
-    entity_id: device_tracker.sm_a505fn
-    from: home
-    to: not_home
-  condition:  
+    - platform: state
+      entity_id: device_tracker.sm_a505fn
+      from: home
+      to: not_home
+  condition:
     condition: state
     entity_id: device_tracker.bob_bt
     state: home
@@ -65,7 +65,7 @@
       entity_id: device_tracker.sm_a505fn
       from: not_home
       to: home
-  condition:  
+  condition:
     condition: state
     entity_id: device_tracker.bob_bt
     state: not_home
@@ -79,18 +79,18 @@
   id: "bob_app_trigger_away"
   initial_state: true
   trigger:
-  - platform: state
-    entity_id: device_tracker.bob_bt
-    from: home
-    to: not_home
-  condition:  
+    - platform: state
+      entity_id: device_tracker.bob_bt
+      from: home
+      to: not_home
+  condition:
     condition: state
     entity_id: device_tracker.sm_a505fn
     state: home
   action:
-  - service: notify.mobile_app_sm_a505fn
-    data:
-      message: "request_location_update"
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: "request_location_update"
 
 - alias: "Location: Trigger App to Home"
   id: "bob_app_trigger_home"
@@ -100,14 +100,14 @@
       entity_id: device_tracker.bob_bt
       from: not_home
       to: home
-  condition:  
+  condition:
     condition: state
     entity_id: device_tracker.sm_a505fn
     state: not_home
   action:
-  - service: notify.mobile_app_sm_a505fn
-    data:
-      message: "request_location_update" 
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: "request_location_update"
 
 ### Birgit ###
 - alias: "Location: Birgit BT Aanwezig"
@@ -117,7 +117,7 @@
     - platform: numeric_state
       entity_id: sensor.bt_max_birgit
       above: 50
-  condition:  
+  condition:
     condition: state
     entity_id: device_tracker.birgit_bt
     state: not_home
@@ -135,7 +135,7 @@
     platform: numeric_state
     entity_id: sensor.bt_max_birgit
     below: 15
-  condition:  
+  condition:
     condition: state
     entity_id: device_tracker.birgit_bt
     state: home
@@ -149,14 +149,14 @@
 ##########################
 ## Monitor automations
 ##########################
-- alias: 'Location: Restart monitor daily and on startup'
+- alias: "Location: Restart monitor daily and on startup"
   id: restart_monitor_daily_and_on_startup
   initial_state: true
   trigger:
     - platform: homeassistant
       event: start
     - platform: time
-      at: '10:00:00'
+      at: "10:00:00"
   action:
     - service: mqtt.publish
       data:
@@ -166,38 +166,38 @@
   id: "location_trigger_arrive_scan"
   initial_state: true
   trigger:
-  - platform: state
-    entity_id: binary_sensor.door_contact_2
-    from: 'off'
-    to: 'on'
-  condition:  
+    - platform: state
+      entity_id: binary_sensor.door_contact_2
+      from: "off"
+      to: "on"
+  condition:
     condition: state
     entity_id: device_tracker.birgit_bt
     state: not_home
   action:
-  - service: mqtt.publish
-    data:
-      topic: "location/scan/arrive"
-      payload: '{"Reason":"Front door openened and Birgit was away"}'
+    - service: mqtt.publish
+      data:
+        topic: "location/scan/arrive"
+        payload: '{"Reason":"Front door openened and Birgit was away"}'
 
 - alias: "Location: Trigger depart scan"
   id: "location_trigger_depart_scan"
   initial_state: true
   trigger:
-  - platform: state
-    entity_id: binary_sensor.door_contact_2
-    from: 'off'
-    to: 'on'
-  condition:  
+    - platform: state
+      entity_id: binary_sensor.door_contact_2
+      from: "off"
+      to: "on"
+  condition:
     condition: state
     entity_id: device_tracker.birgit_bt
     state: home
   action:
-  - delay: '00:00:15'
-  - service: mqtt.publish
-    data:
-      topic: "location/scan/depart"
-      payload: '{"Reason":"Front door openened and Birgit was home"}'
+    - delay: "00:00:15"
+    - service: mqtt.publish
+      data:
+        topic: "location/scan/depart"
+        payload: '{"Reason":"Front door openened and Birgit was home"}'
 
 #########################
 # Device tracker notifications
@@ -206,78 +206,78 @@
   alias: "Location: notificatie dat Bob thuis is"
   initial_state: false
   trigger:
-  - entity_id: device_tracker.sm_a505fn
-    from: not_home
-    platform: state
-    to: home
+    - entity_id: device_tracker.sm_a505fn
+      from: not_home
+      platform: state
+      to: home
   action:
-  - service: notify.mobile_app_sm_a505fn
-    data_template:
-      message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} thuis!
-      title: Bob is thuis!
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} thuis!
+        title: Bob is thuis!
 
 - id: Set_notification_Bob_arrive_work_owntrak_mqtt
   alias: "Location: Notificatie dat Bob op het werk arriveert"
   initial_state: false
   trigger:
-  - platform: zone
-    entity_id: device_tracker.sm_a505fn
-    event: enter
-    zone: zone.Work
+    - platform: zone
+      entity_id: device_tracker.sm_a505fn
+      event: enter
+      zone: zone.Work
   action:
-  - service: notify.mobile_app_sm_a505fn
-    data_template:
-      message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} op het werk.
-      title: Bob is op het werk!
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} op het werk.
+        title: Bob is op het werk!
 
 - id: Set_notification_Bob_leave_work_owntrak_mqtt
   alias: "Location: Notificatie dat Bob van het werk vertrekt"
   initial_state: false
   trigger:
-  - platform: zone
-    entity_id: device_tracker.sm_a505fn
-    event: leave
-    zone: zone.Work
+    - platform: zone
+      entity_id: device_tracker.sm_a505fn
+      event: leave
+      zone: zone.Work
   action:
-  - service: notify.mobile_app_sm_a505fn
-    data_template:
-      message: Bob verliet om {{now().strftime("%H:%M:%S %d-%m-%Y")}} het werk.
-      title: Bob is op weg naar huis!
-  - service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.bob_werk_verlaten
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: Bob verliet om {{now().strftime("%H:%M:%S %d-%m-%Y")}} het werk.
+        title: Bob is op weg naar huis!
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.bob_werk_verlaten
 
 - id: TTS_notification_Bob_Home_owntrak_mqtt
   alias: "Location: TTS Notificatie dat Bob thuis is"
   initial_state: false
   trigger:
-  - entity_id: device_tracker.sm_a505fn
-    from: not_home
-    platform: state
-    to: home
+    - entity_id: device_tracker.sm_a505fn
+      from: not_home
+      platform: state
+      to: home
   condition:
-  - condition: time
-    after: '15:00:00'
-    before: '19:00:00'
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-  - condition: state
-    entity_id: input_boolean.bob_werk_verlaten
-    state: 'on'
-  action:
-# - service: media_player.volume_set
-#   data:
-#     entity_id: media_player.woonkamer
-#     volume_level: 0.6
-  - service: tts.google_translate_say
-    entity_id: media_player.woonkamer
-    data:
-      message: Papa is thuis
-      language: nl
-  - service: input_boolean.turn_off
-    data:
+    - condition: time
+      after: "15:00:00"
+      before: "19:00:00"
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: state
       entity_id: input_boolean.bob_werk_verlaten
+      state: "on"
+  action:
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.woonkamer
+    #     volume_level: 0.6
+    - service: tts.google_translate_say
+      entity_id: media_player.woonkamer
+      data:
+        message: Papa is thuis
+        language: nl
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.bob_werk_verlaten

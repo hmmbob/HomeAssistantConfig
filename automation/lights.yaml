@@ -12,7 +12,7 @@
   action:
     service: light.turn_on
     entity_id: light.eetkamer_level
-    data_template:
+    data:
       brightness: >
         {% if now().hour < 6 %}20{% elif now().hour > 19 %}20{% else %}255{% endif %}
 
@@ -302,12 +302,12 @@
       data:
         brightness: 100
     - service: logbook.log
-      data_template:
+      data:
         name: Vacation
         message: Lights turned on at {{ now().strftime('%H:%M') }}.
         domain: light
     - service: notify.mobile_app_sm_a505fn
-      data_template:
+      data:
         message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
         title: Vacation lights
 
@@ -330,12 +330,12 @@
         - switch.staande_lamp
         - light.window_level
     - service: logbook.log
-      data_template:
+      data:
         name: Vacation
         message: Lights turned off at {{ now().strftime('%H:%M') }}.
         domain: light
     - service: notify.mobile_app_sm_a505fn
-      data_template:
+      data:
         message: I turned your lights off at {{ now().strftime('%H:%M') }}.
         title: Vacation lights
 

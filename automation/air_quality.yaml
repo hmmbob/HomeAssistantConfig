@@ -31,6 +31,6 @@
         seconds: 120
   action:
     service: notify.mobile_app_sm_a505fn
-    data_template:
+    data:
       title: "Weerhuisje is Offline"
       message: "Weerhuisje is offline"

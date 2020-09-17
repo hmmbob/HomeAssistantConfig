@@ -17,10 +17,9 @@
       value_template: "{{ states('sensor.trash_today') | trim != '' }}"
   action:
     - service: notify.mobile_app_sm_a505fn
-      data_template:
+      data:
         title: "Afvalinzameling"
         message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
-      data:
         data:
           tag: "notification-trash"
 
@@ -40,10 +39,9 @@
       value_template: "{{ states('sensor.trash_tomorrow') | trim != '' }}"
   action:
     - service: notify.mobile_app_sm_a505fn
-      data_template:
+      data:
         title: "Afvalinzameling"
         message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
-      data:
         data:
           tag: "notification-trash"
     - condition: state
@@ -51,7 +49,7 @@
       state: "on"
     - service: tts.google_translate_say
       entity_id: media_player.woonkamer
-      data_template:
+      data:
         message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
         language: "nl"
     - delay: "00:00:05"

@@ -116,7 +116,7 @@
     - thu
     - fri
   action:
-#  - data_template:
+#  - data:
 #      message: Vertrektijd {{ states.sensor.ossbreda.attributes.departure_time_actual
 #        }} vanaf spoor {{ states.sensor.ossbreda.attributes.departure_platform
 #        }}, aankomst om {{ states.sensor.ossbreda.attributes.arrival_time_actual
@@ -126,7 +126,7 @@
 #        }}.'
 #    service: notify.pushbullet
   - service: notify.google
-    data_template:
+    data:
       message: Vertrektijd {{ states.sensor.ossbreda.attributes.departure_time_actual
         }} vanaf spoor {{ states.sensor.ossbreda.attributes.departure_platform
         }}, aankomst om {{ states.sensor.ossbreda.attributes.arrival_time_actual
@@ -173,7 +173,7 @@
 #        }}.'
 #    service: notify.pushbullet
   - service: notify.google
-    data_template:
+    data:
       message: Vertrektijd {{ states.sensor.bredaoss.attributes.departure_time_actual
         }} vanaf spoor {{ states.sensor.bredaoss.attributes.departure_platform
         }}, aankomst om {{ states.sensor.bredaoss.attributes.arrival_time_actual
@@ -197,12 +197,12 @@
     entity_id: updater.updater
   action:
   - service: persistent_notification.create
-    data_template:
+    data:
       message: Home Assistant  {{ states.updater.updater.state }}  is now available.
         You have {{states.sensor.ha_currently_installed.state }} installed.
       title: Update available
   - service: notify.google
-    data_template:
+    data:
       message: Home Assistant  {{ states.updater.updater.state }}  is now available.
         You have {{states.sensor.ha_currently_installed.state }} installed.
       title: Update available
