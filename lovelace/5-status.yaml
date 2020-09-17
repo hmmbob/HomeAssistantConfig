@@ -7,7 +7,7 @@ icon: mdi:check-network-outline
 cards:
   - type: vertical-stack
     cards:
-      - type: markdown                  ## Batterij niveaus header
+      - type: markdown ## Batterij niveaus header
         content: |
           # Batterij niveaus
         style:
@@ -33,17 +33,17 @@ cards:
         sort_by_level: "asc"
         collapse: 2
         entities:
-        - entity: sensor.pir_woonkamer_battery_level
-        - entity: sensor.pir_gang_battery_level
-        - entity: sensor.slaapkamer_battery
-          name: "Batterij zolder"
-        - entity: sensor.zolder_battery
-          name: "Batterij slaapkamer"
-        - entity: sensor.door_sensor_1_battery
-          name: "Batterij vriezer"
-        - entity: sensor.door_sensor_2_battery
-          name: "Batterij voordeur"
-      - type: markdown                  ## Statussen header
+          - entity: sensor.pir_woonkamer_battery_level
+          - entity: sensor.pir_gang_battery_level
+          - entity: sensor.slaapkamer_battery
+            name: "Batterij zolder"
+          - entity: sensor.zolder_battery
+            name: "Batterij slaapkamer"
+          - entity: sensor.door_sensor_1_battery
+            name: "Batterij vriezer"
+          - entity: sensor.door_sensor_2_battery
+            name: "Batterij voordeur"
+      - type: markdown ## Statussen header
         content: |
           # Statussen
         style:
@@ -69,12 +69,14 @@ cards:
         show_header_toggle: false
         state_color: true
         entities:
-        - binary_sensor.grijze_lamp_status
-        - binary_sensor.staande_lamp_status
-        - binary_sensor.zigbee2mqtt_bridge
-        - binary_sensor.weerhuisje_status
-        - sensor.openzwave_bridge
-      - type: markdown                  ## Updates header
+          - binary_sensor.grijze_lamp_status
+          - binary_sensor.staande_lamp_status
+          - binary_sensor.blauwe_lamp_status
+          - binary_sensor.zigbee2mqtt_bridge
+          - binary_sensor.weerhuisje_status
+          - binary_sensor.doorbell_status
+          - sensor.openzwave_bridge
+      - type: markdown ## Updates header
         content: |
           # Updates
         style:
@@ -99,15 +101,15 @@ cards:
           }
         show_header_toggle: false
         entities:
-        - entity: sensor.current_version
-          name: "Docker image installed"
-        - entity: sensor.latest_version
-          name: "Latest Docker image"
-          state_color: true
-        - entity: sensor.hacs
-          name: "HACS Updates"
-          state_color: true
-      - type: markdown                  ## Meterstanden header
+          - entity: sensor.current_version
+            name: "Docker image installed"
+          - entity: sensor.latest_version
+            name: "Latest Docker image"
+            state_color: true
+          - entity: sensor.hacs
+            name: "HACS Updates"
+            state_color: true
+      - type: markdown ## Meterstanden header
         content: |
           # Meterstanden
         style:
@@ -139,9 +141,9 @@ cards:
             - type: custom:fold-entity-row
               head: sensor.toon_p1_power_use_high
               entities:
-              - sensor.toon_p1_power_use_high
-              - sensor.toon_p1_power_use_cnt_high
-              - sensor.toon_p1_power_use_cnt_low
+                - sensor.toon_p1_power_use_high
+                - sensor.toon_p1_power_use_cnt_high
+                - sensor.toon_p1_power_use_cnt_low
       - type: conditional
         conditions:
           - entity: sensor.toon_p1_power_use_low
@@ -156,6 +158,6 @@ cards:
             - type: custom:fold-entity-row
               head: sensor.toon_p1_power_use_low
               entities:
-              - sensor.toon_p1_power_use_low
-              - sensor.toon_p1_power_use_cnt_high
-              - sensor.toon_p1_power_use_cnt_low
+                - sensor.toon_p1_power_use_low
+                - sensor.toon_p1_power_use_cnt_high
+                - sensor.toon_p1_power_use_cnt_low

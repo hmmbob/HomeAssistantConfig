@@ -1,4 +1,3 @@
-
 custom_header:
   footer_mode: true
   compact_mode: true
@@ -22,6 +21,6 @@ views:
   - !include lovelace/1-start.yaml
   - !include lovelace/2-temp.yaml
   - !include lovelace/3-locations.yaml
-  - !include lovelace/4-settings.yaml 
+  - !include lovelace/4-settings.yaml
   - !include lovelace/5-status.yaml
   - !include lovelace/old/9-overviews.yaml
