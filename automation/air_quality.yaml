@@ -5,12 +5,12 @@
 # software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
 # sensors update at the same time, we only need to monitor one sensor to trigger
 # the automation. Temperature is the sensor that changes most often.
-- alias: 'Weerhuisje: Update Air Quality Sensors'
+- alias: "Weerhuisje: Update Air Quality Sensors"
   initial_state: true
   mode: queued
   trigger: # Trigger on every update of the temperature
     platform: state
-    entity_id: sensor.bme280_temperature 
+    entity_id: sensor.bme280_temperature
   action:
     ## Send to Luftdaten / Sensor.Community API
     ## Split over two calls as the headers differ
@@ -18,7 +18,7 @@
     - service: rest_command.send_luftdaten_pm
     ## Send updates to Madavi.de too for statistics.
     - service: rest_command.send_madavi
-    ## Send data to OpenSenseMap. 
+    ## Send data to OpenSenseMap.
     - service: rest_command.post_opensensebox
 
 - alias: "Weerhuisje: Notify if weerhuisje Offline"
@@ -26,9 +26,9 @@
   trigger:
     - platform: state
       entity_id: binary_sensor.weerhuisje_status
-      to: 'off'
+      to: "off"
       for:
-        seconds: 60
+        seconds: 120
   action:
     service: notify.mobile_app_sm_a505fn
     data_template:
