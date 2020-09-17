@@ -28,35 +28,32 @@
 - platform: template
   sensors:
     outside_temperature:
-      entity_id:  weather.dark_sky
-      friendly_name: 'Buitentemperatuur'
-      unit_of_measurement: '°C'
+      friendly_name: "Buitentemperatuur"
+      unit_of_measurement: "°C"
       value_template: >
-          {%- if states.weather.dark_sky.attributes.temperature is defined %}
-              {{ state_attr('weather.dark_sky', 'temperature') }}
-          {% else %}
-              0
-          {%- endif %}
+        {%- if states.weather.dark_sky.attributes.temperature is defined %}
+            {{ state_attr('weather.dark_sky', 'temperature') }}
+        {% else %}
+            0
+        {%- endif %}
     outside_humidity:
-      entity_id:  weather.dark_sky
-      friendly_name: 'Luchtvochtigheid'
-      unit_of_measurement: '%'
+      friendly_name: "Luchtvochtigheid"
+      unit_of_measurement: "%"
       value_template: >
-          {%- if states.weather.dark_sky.attributes.humidity is defined %}
-              {{ state_attr('weather.dark_sky', 'humidity') }}
-          {% else %}
-              0
-          {%- endif %}
+        {%- if states.weather.dark_sky.attributes.humidity is defined %}
+            {{ state_attr('weather.dark_sky', 'humidity') }}
+        {% else %}
+            0
+        {%- endif %}
     room_temperature:
-      entity_id: climate.woonkamer
-      friendly_name: 'Kamertemperatuur'
-      unit_of_measurement: '°C'
+      friendly_name: "Kamertemperatuur"
+      unit_of_measurement: "°C"
       value_template: >
-          {%- if states.climate.woonkamer.attributes.current_temperature is defined %}
-              {{ state_attr('climate.woonkamer', 'current_temperature') }}
-          {% else %}
-              0
-          {%- endif %}
+        {%- if states.climate.woonkamer.attributes.current_temperature is defined %}
+            {{ state_attr('climate.woonkamer', 'current_temperature') }}
+        {% else %}
+            0
+        {%- endif %}
 
 ##########################
 ## Toon sensors
@@ -79,10 +76,10 @@
   name: Reistijd Bob naar huis
   origin: device_tracker.sm_a505fn
   destination: zone.home
-  region: 'EU'
+  region: "EU"
   scan_interval: 1800
 
-#- platform: waze_travel_time      ## Not being used in COVID-19 times, 
+#- platform: waze_travel_time      ## Not being used in COVID-19 times,
 #  name: Reistijd Thuis-Werk       ## commented out because I don't need the updates now
 #  origin: zone.home
 #  destination: zone.work
@@ -101,7 +98,7 @@
 ##########################
 - platform: scrape
   resource: !secret scrape_url_z
-  name: 'Diesel Z'
+  name: "Diesel Z"
   select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
   value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
@@ -109,7 +106,7 @@
 
 - platform: scrape
   resource: !secret scrape_url_z
-  name: 'Benzine Z'
+  name: "Benzine Z"
   select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
   value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
@@ -117,7 +114,7 @@
 
 - platform: scrape
   resource: !secret scrape_url_u
-  name: 'Diesel U'
+  name: "Diesel U"
   select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
   value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
@@ -125,7 +122,7 @@
 
 - platform: scrape
   resource: !secret scrape_url_u
-  name: 'Benzine U'
+  name: "Benzine U"
   select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
   value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
