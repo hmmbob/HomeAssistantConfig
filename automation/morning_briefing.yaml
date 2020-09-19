@@ -1,26 +1,26 @@
 - id: morning_briefing
-  alias: 'System: Morning briefing'
+  alias: "System: Morning briefing"
   initial_state: off
   trigger:
     platform: time
-    at: '05:20:00'
+    at: "05:20:00"
   condition:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-  - condition: state
-    entity_id: device_tracker.sm_a505fn
-    state: home
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+    - condition: state
+      entity_id: device_tracker.sm_a505fn
+      state: home
   action:
-  - service: notify.mobile_app_sm_a505fn
-    data:
-      title: Morning Briefing
-      message: |
-        Vandaag komt de zon op om {{ as_timestamp(state_attr('sun.sun', 'next_rising'))  | timestamp_custom("%H:%M") }}. 
-        Momenteel is het {{ states('sensor.outside_temperature') | int }} C. 
-#        Vandaag: {{ states.sensor.dark_sky_summary_0.state }} Max temp {{ states.sensor.dark_sky_daytime_high_temperature_0.state | int }}C.
+    - service: notify.mobile_app_sm_a505fn
       data:
-        tag: 'morning-brief'
+        title: Morning Briefing
+        message: |
+          Vandaag komt de zon op om {{ as_timestamp(state_attr('sun.sun', 'next_rising'))  | timestamp_custom("%H:%M") }}. 
+          Momenteel is het {{ states('sensor.outside_temperature') | int }} C.
+        #        Vandaag: {{ states.sensor.dark_sky_summary_0.state }} Max temp {{ states.sensor.dark_sky_daytime_high_temperature_0.state | int }}C.
+        data:
+          tag: "morning-brief"

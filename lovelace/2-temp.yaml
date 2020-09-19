@@ -7,7 +7,7 @@ icon: mdi:home-thermometer-outline
 cards:
   - type: vertical-stack
     cards:
-      - type: markdown                  ## Temperatuur header
+      - type: markdown ## Temperatuur header
         content: |
           # Thermostaat
         style:
@@ -25,7 +25,7 @@ cards:
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
               }
-      - type: 'custom:simple-thermostat'
+      - type: "custom:simple-thermostat"
         style: |
           ha-card {
           margin: 0px 14px -5px 14px;
@@ -51,8 +51,8 @@ cards:
             name: Buiten
           - attribute: modulation_level
             name: Brander
-            unit: '%' 
-      - type: markdown                  ## Temperatuur header
+            unit: "%"
+      - type: markdown ## Temperatuur header
         content: |
           # Temperaturen
         style:
@@ -184,7 +184,7 @@ cards:
               - value: 23
                 color: "#d35400"
 
-      - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4  # Automatically created id
+      - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
         type: custom:auto-entities
         card:
           type: entities

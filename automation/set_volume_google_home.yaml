@@ -1,64 +1,64 @@
 - id: set_google_home_volume
-  alias: 'Volume: Set Google Home Volume'
+  alias: "Volume: Set Google Home Volume"
   initial_state: on
   trigger:
     - platform: time
-      at: 
-        - '07:00:00'
-        - '09:00:00'
-        - '19:00:00'
-        - '20:30:00'      
+      at:
+        - "07:00:00"
+        - "09:00:00"
+        - "19:00:00"
+        - "20:30:00"
   action:
     - choose:
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '07:00' }}"
-        sequence:
-          - service: media_player.volume_set
-            data:
-              entity_id: media_player.woonkamer
-              volume_level: 0.5
-          - service: media_player.volume_set
-            data:
-              entity_id: media_player.studeerkamer
-              volume_level: 0.4
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '09:00' }}"
-        sequence:
-          - service: media_player.volume_set
-            data:
-              entity_id: 
-                - media_player.hmt
-                - media_player.zolder
-              volume_level: 0.5        
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '19:00' }}"
-        sequence:
-          - service: media_player.volume_set
-            data:
-              entity_id: media_player.woonkamer
-              volume_level: 0.4
-          - service: media_player.volume_set
-            data:
-              entity_id: media_player.studeerkamer
-              volume_level: 0.2
-          - service: media_player.volume_set
-            data:
-              entity_id: 
-                - media_player.hmt
-                - media_player.zolder
-              volume_level: 0.1
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '20:30' }}"
-        sequence:
-          - service: media_player.volume_set
-            data:
-              entity_id: media_player.woonkamer
-              volume_level: 0.2
-          - service: media_player.volume_set
-            data:
-              entity_id: media_player.studeerkamer
-              volume_level: 0.1
+        - conditions:
+            - condition: template
+              value_template: "{{ now().strftime('%H:%M') == '07:00' }}"
+          sequence:
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.woonkamer
+                volume_level: 0.5
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.studeerkamer
+                volume_level: 0.4
+        - conditions:
+            - condition: template
+              value_template: "{{ now().strftime('%H:%M') == '09:00' }}"
+          sequence:
+            - service: media_player.volume_set
+              data:
+                entity_id:
+                  - media_player.hmt
+                  - media_player.zolder
+                volume_level: 0.5
+        - conditions:
+            - condition: template
+              value_template: "{{ now().strftime('%H:%M') == '19:00' }}"
+          sequence:
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.woonkamer
+                volume_level: 0.4
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.studeerkamer
+                volume_level: 0.2
+            - service: media_player.volume_set
+              data:
+                entity_id:
+                  - media_player.hmt
+                  - media_player.zolder
+                volume_level: 0.1
+        - conditions:
+            - condition: template
+              value_template: "{{ now().strftime('%H:%M') == '20:30' }}"
+          sequence:
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.woonkamer
+                volume_level: 0.2
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.studeerkamer
+                volume_level: 0.1

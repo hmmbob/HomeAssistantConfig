@@ -6,24 +6,24 @@
   trigger:
     platform: state
     entity_id: binary_sensor.pir_woonkamer_motion
-    to: 'on'
-  condition: 
-  - condition: and
-    conditions:
-    - condition: time
-      after: '07:00:00'
-      before: '08:30:00'
-    - condition: numeric_state
-      entity_id: sensor.room_temperature
-      below: 19.5
+    to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          after: "07:00:00"
+          before: "08:30:00"
+        - condition: numeric_state
+          entity_id: sensor.room_temperature
+          below: 19.5
   action:
-  - service: climate.set_preset_mode
-    data:
-      entity_id: climate.woonkamer
-      preset_mode: home
-  - service: homeassistant.turn_on
-    entity_id: 
-      - input_boolean.toon_on_movement
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.woonkamer
+        preset_mode: home
+    - service: homeassistant.turn_on
+      entity_id:
+        - input_boolean.toon_on_movement
 
 ##########################
 ## Toon uit op schooltijd
@@ -31,26 +31,26 @@
 - id: turn_off_toon_at_school_time
   alias: "Temp: Toon uit op schooltijd"
   trigger:
-  - platform: time
-    at: '08:35:00'
-  condition: 
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: input_boolean.toon_on_movement
-      state: 'on'
-    - condition: time
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+    - platform: time
+      at: "08:35:00"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.toon_on_movement
+          state: "on"
+        - condition: time
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
   action:
-  - service: climate.set_preset_mode
-    data:
-      entity_id: climate.woonkamer
-      preset_mode: away
-  - service: homeassistant.turn_off
-    entity_id: 
-      - input_boolean.toon_on_movement
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.woonkamer
+        preset_mode: away
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.toon_on_movement

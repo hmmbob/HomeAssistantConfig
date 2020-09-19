@@ -5,7 +5,7 @@ report_state: true
 exposed_domains:
   - climate
 entity_config:
-## Woonkamer
+  ## Woonkamer
   climate.woonkamer:
     name: "Toon"
     expose: true
@@ -32,7 +32,7 @@ entity_config:
     name: "Avond"
     expose: true
     room: "Woonkamer"
-##Eetkamer
+  ##Eetkamer
   light.eetkamer_level:
     name: "Eetkamer"
     expose: true
@@ -41,7 +41,7 @@ entity_config:
     name: "Diner"
     expose: true
     room: "Eetkamer"
-##Gang
+  ##Gang
   light.gang_dimmer_level:
     name: "Gang"
     expose: true
@@ -50,7 +50,7 @@ entity_config:
     name: "Voordeur"
     expose: true
     room: "Gang"
-##Zolder
+  ##Zolder
   cover.zolder:
     name: "Zolder"
     expose: true
@@ -65,17 +65,17 @@ entity_config:
     name: "Vriezer"
     expose: true
     room: "Zolder"
-##Slaapkamer
+  ##Slaapkamer
   sensor.slaapkamer_temperature:
     name: "Temperatuur slaapkamer"
     expose: true
     room: "Slaapkamer"
-##Slaapkamer T
+  ##Slaapkamer T
   script.start_music_t:
     name: "Slaaptijd"
     expose: true
     room: "Slaapkamer T"
-##Others 
+  ##Others
   switch.schuur_1:
     name: "Schuur"
     expose: true

@@ -1,5 +1,5 @@
 ##########################
-## Set theme 
+## Set theme
 ##########################
 - id: set_theme
   alias: "System: Set theme"
@@ -13,14 +13,14 @@
       event: sunset
   action:
     - choose:
-      - conditions:
-          - condition: state
-            entity_id: sun.sun
-            state: 'below_horizon'
-        sequence:
-          - service: frontend.set_theme
-            data:
-              name: "Google Dark Theme"
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state: "below_horizon"
+          sequence:
+            - service: frontend.set_theme
+              data:
+                name: "Google Dark Theme"
       default:
         - service: frontend.set_theme
           data:

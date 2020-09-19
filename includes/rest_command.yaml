@@ -2,7 +2,7 @@
 ## Push values to Air Quality APIs
 ##################################
 
-# The BME280 pressure value in HA is in hPa - the APIs expect it in Pa, hence the 
+# The BME280 pressure value in HA is in hPa - the APIs expect it in Pa, hence the
 # multiplication of the value in the templates below.
 
 # Push to Luftdaten API. Luftdaten uses headers to distinguish between different sensor
@@ -11,9 +11,9 @@
 send_luftdaten_pm:
   url: https://api.sensor.community/v1/push-sensor-data/
   method: POST
-  content_type: 'application/json'
+  content_type: "application/json"
   headers:
-    X-Pin: 1  ## This tells Luftdaten that it is SDS011 data
+    X-Pin: 1 ## This tells Luftdaten that it is SDS011 data
     X-Sensor: !secret luftdaten_x_sensor
   payload: >
     {
@@ -26,9 +26,9 @@ send_luftdaten_pm:
 send_luftdaten_tph:
   url: https://api.sensor.community/v1/push-sensor-data/
   method: POST
-  content_type: 'application/json'
+  content_type: "application/json"
   headers:
-    X-Pin: 11  ## This tells Luftdaten that it is BME280 data
+    X-Pin: 11 ## This tells Luftdaten that it is BME280 data
     X-Sensor: !secret luftdaten_x_sensor
   payload: >
     {
@@ -44,7 +44,7 @@ send_luftdaten_tph:
 send_madavi:
   url: https://api-rrd.madavi.de/data.php
   method: POST
-  content_type: 'application/json'
+  content_type: "application/json"
   headers:
     X-Pin: 0
     X-Sensor: !secret luftdaten_x_sensor

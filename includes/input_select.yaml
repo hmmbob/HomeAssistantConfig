@@ -1,13 +1,12 @@
 zigbee2mqtt_log_level:
   name: Zigbee2mqtt Log Level
   options:
-   - debug
-   - info
-   - warn
-   - error
+    - debug
+    - info
+    - warn
+    - error
   initial: info
   icon: mdi:format-list-bulleted
-
 #doorbell:
 #  name: Deurbel
 #  options:

@@ -23,16 +23,16 @@ cards:
                 color: var(--app-header-text-color);
               }
         content: |
-            {% if now().hour < 5 %}
-            # Goede nacht, {{user}}!
-            {% elif now().hour < 12 %}
-            # Goede morgen, {{user}}!
-            {% elif now().hour < 18 %}
-            # Goede middag, {{user}}!
-            {% else %}
-            # Fijne avond, {{user}}!
-            {% endif %}
-      - type: markdown                  ## Date
+          {% if now().hour < 5 %}
+          # Goede nacht, {{user}}!
+          {% elif now().hour < 12 %}
+          # Goede morgen, {{user}}!
+          {% elif now().hour < 18 %}
+          # Goede middag, {{user}}!
+          {% else %}
+          # Fijne avond, {{user}}!
+          {% endif %}
+      - type: markdown ## Date
         content: |
           {% set months = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"] %}
           {% set month = months[now().strftime('%m') | int -1] %}
@@ -54,7 +54,7 @@ cards:
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
               }
-      - type: custom:state-switch       ## Weather
+      - type: custom:state-switch ## Weather
         entity: weather.dark_sky
         default: default
         states:
@@ -72,9 +72,9 @@ cards:
               action: more-info
               cards:
             backdrop:
-              day: 'rgba(249, 233, 181)'
+              day: "rgba(249, 233, 181)"
               text: var(--app-header-text-color)
-              night: 'rgba(76, 87, 110)'
+              night: "rgba(76, 87, 110)"
               fade: true
           default:
             type: custom:simple-weather-card
@@ -90,12 +90,12 @@ cards:
               action: more-info
               cards:
             backdrop:
-              day: 'rgba(159, 193, 249)'
+              day: "rgba(159, 193, 249)"
               text: var(--app-header-text-color)
-              night: 'rgba(76, 87, 110)'
+              night: "rgba(76, 87, 110)"
               fade: true
 
-      - type: conditional               ## Conditional UV
+      - type: conditional ## Conditional UV
         conditions:
           - entity: binary_sensor.uv_index_warning_level
             state: "on"
@@ -108,31 +108,31 @@ cards:
             }
           entities:
             - type: custom:fold-entity-row
-              head: 
+              head:
                 entity: sensor.dark_sky_uv_index
                 icon: mdi:white-balance-sunny
-                name: 'Huidige UV Index'
+                name: "Huidige UV Index"
               entities:
-              - entity: sensor.dark_sky_uv_index_0d
-                icon: mdi:shield-sun
-                name: 'Max UV Index vandaag'
-              - entity: sensor.dark_sky_uv_index_1h
-                icon: mdi:white-balance-sunny
-                name: 'UV Index over 1 uur'
-              - entity: sensor.dark_sky_uv_index_2h
-                icon: mdi:white-balance-sunny
-                name: 'UV Index over 2 uur'
-              - entity: sensor.dark_sky_uv_index_3h
-                icon: mdi:white-balance-sunny
-                name: 'UV Index over 3 uur'
-              - entity: sensor.dark_sky_uv_index_1d
-                icon: mdi:shield-sun
-                name: 'Max UV Index morgen'
-              - entity: sensor.dark_sky_uv_index_2d
-                icon: mdi:shield-sun
-                name: 'Max UV Index overmorgen'
+                - entity: sensor.dark_sky_uv_index_0d
+                  icon: mdi:shield-sun
+                  name: "Max UV Index vandaag"
+                - entity: sensor.dark_sky_uv_index_1h
+                  icon: mdi:white-balance-sunny
+                  name: "UV Index over 1 uur"
+                - entity: sensor.dark_sky_uv_index_2h
+                  icon: mdi:white-balance-sunny
+                  name: "UV Index over 2 uur"
+                - entity: sensor.dark_sky_uv_index_3h
+                  icon: mdi:white-balance-sunny
+                  name: "UV Index over 3 uur"
+                - entity: sensor.dark_sky_uv_index_1d
+                  icon: mdi:shield-sun
+                  name: "Max UV Index morgen"
+                - entity: sensor.dark_sky_uv_index_2d
+                  icon: mdi:shield-sun
+                  name: "Max UV Index overmorgen"
 
-      - type: custom:state-switch       ## Trash
+      - type: custom:state-switch ## Trash
         entity: sensor.trash_today
         states:
           Restafval:
@@ -186,7 +186,7 @@ cards:
               - entity: sensor.trash_today
                 name: "Afvalinzameling  "
 
-      - type: markdown                  ## Oogopslag header
+      - type: markdown ## Oogopslag header
         content: |
           # In een oogopslag...
         style:
@@ -204,7 +204,7 @@ cards:
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
               }
-      - type: entities                  ## Oogopslag overview
+      - type: entities ## Oogopslag overview
         style: |
           ha-card {
           margin: 0px 14px -5px 14px;
@@ -218,7 +218,7 @@ cards:
           - binary_sensor.door_sensor_2_contact
           - binary_sensor.door_sensor_1_contact
           - cover.zolder
-      - type: conditional               ## Conditional media_players
+      - type: conditional ## Conditional media_players
         conditions:
           - entity: media_player.soundbar
             state_not: "off"

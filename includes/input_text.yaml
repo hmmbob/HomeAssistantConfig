@@ -2,10 +2,10 @@
 ## Input text configuration
 ##################################
 
-# I am using this workarond to hide sensor-IDs needed in the rest_command 
-# payloads. These templates cannot handle secrets, but you can set these 
+# I am using this workarond to hide sensor-IDs needed in the rest_command
+# payloads. These templates cannot handle secrets, but you can set these
 # input_text items with !secret, so in this way the IDs are obfuscated.
-# I don't mind having these in my HA instance, I just don't want them on 
+# I don't mind having these in my HA instance, I just don't want them on
 # GitHub to prevent copy-paste errors.
 
 opensensebox_sensorid_temp:

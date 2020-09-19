@@ -43,4 +43,3 @@ entities:
   input_boolean.notify_trash_voice:
     name: "z. Meldingen Afval"
     hidden: false
-

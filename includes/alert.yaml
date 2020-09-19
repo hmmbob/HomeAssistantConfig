@@ -6,7 +6,7 @@ freezer_door:
   title: "ALARM:"
   message: "De vriezer is nog open"
   entity_id: binary_sensor.alert_freezer_door
-  state: 'on'
+  state: "on"
   repeat: 2
   can_acknowledge: false
   skip_first: true
@@ -26,7 +26,7 @@ front_door:
   title: "ALARM:"
   message: "De voordeur is nog open"
   entity_id: binary_sensor.alert_front_door
-  state: 'on'
+  state: "on"
   repeat: 5
   can_acknowledge: false
   skip_first: true

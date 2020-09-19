@@ -7,9 +7,9 @@ icon: mdi:crosshairs-gps
 cards:
   - type: vertical-stack
     cards:
-      - type: markdown                  ## Location header
+      - type: markdown ## Location header
         content: |
-         # Location
+          # Location
         style:
           .: |
             ha-card {
@@ -19,17 +19,17 @@ cards:
             }
           ha-markdown:
             $: |
-             h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
-             }
-      - type: entities                  ## Oogopslag overview
+              h1 { 
+               font-size: 18px !important;
+               font-weight: 400 !important;
+               padding-left: 10px !important;
+               border-left: 3px solid rgba(81, 134, 236);
+              }
+      - type: entities ## Oogopslag overview
         style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          }
+          ha-card {
+           margin: 0px 14px -5px 14px;
+           }
         entities:
           - type: custom:fold-entity-row
             head: group.all_persons
@@ -39,20 +39,20 @@ cards:
           - type: custom:fold-entity-row
             head: sensor.diesel_u
             entities:
-            - sensor.diesel_u
-            - sensor.diesel_z
-            - sensor.benzine_u
-            - sensor.benzine_z
+              - sensor.diesel_u
+              - sensor.diesel_z
+              - sensor.benzine_u
+              - sensor.benzine_z
 
       - type: picture-entity
         style: |
-         ha-card {
-          margin: 0px 14px -5px 14px;
-          }
+          ha-card {
+           margin: 0px 14px -5px 14px;
+           }
         title: Hmmbob
         entity: camera.hmmbob
         camera_image: camera.hmmbob
         show_info: true
         show_state: false
-        tap_action: 
+        tap_action:
           action: more-info

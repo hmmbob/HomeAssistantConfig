@@ -6,25 +6,25 @@
   initial_state: on
   trigger:
     platform: time
-    at: '19:45:00'
+    at: "19:45:00"
   condition:
     - condition: state
       entity_id: input_boolean.enable_cover
-      state: 'on'
+      state: "on"
   action:
-    - service: cover.close_cover 
+    - service: cover.close_cover
       entity_id: cover.zolder
-    
+
 - id: cover_open_on_time
   alias: "Rolluik: open om 08.00"
   initial_state: on
   trigger:
     platform: time
-    at: '08:00:00'
+    at: "08:00:00"
   condition:
     - condition: state
       entity_id: input_boolean.enable_cover
-      state: 'on'
+      state: "on"
   action:
-    - service: cover.open_cover 
+    - service: cover.open_cover
       entity_id: cover.zolder

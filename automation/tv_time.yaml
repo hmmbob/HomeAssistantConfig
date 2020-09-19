@@ -4,21 +4,21 @@
 - id: tv_time_over
   alias: "TV: TV Tijd voorbij"
   trigger:
-  - platform: time
-    at: '08:45:00'
+    - platform: time
+      at: "08:45:00"
   condition:
-  - condition: time
-    weekday:
-      - sat
-      - sun
+    - condition: time
+      weekday:
+        - sat
+        - sun
   action:
-  - service: notify.tv
-    data:
-      title: "TV tijd is voorbij!"
-      message: "Zetten jullie de TV uit en gaan jullie boterhammen eten?"
+    - service: notify.tv
       data:
-        fontsize: "large"
-        position: "top-right"
-        duration: 30
-        transparency: "50%"
-        color: "grey"
+        title: "TV tijd is voorbij!"
+        message: "Zetten jullie de TV uit en gaan jullie boterhammen eten?"
+        data:
+          fontsize: "large"
+          position: "top-right"
+          duration: 30
+          transparency: "50%"
+          color: "grey"
