@@ -12,7 +12,7 @@ My vision is that my Home Automation should always work, even when the internet 
 
 ### Hardware
 
-- Intel NUC NUC7PJYH with 16GB RAM and 480GB SSD
+- [Intel NUC NUC7PJYH](https://www.intel.com/content/www/us/en/products/boards-kits/nuc/kits/nuc7pjyh.html) with 16GB RAM and 480GB SSD
 - [Z-Wave.Me ZME_UZB1 USB Stick](https://tweakers.net/pricewatch/434681/z-wave-punt-me-usb-stick-met-z-wave-plus/specificaties/)
 - [CC2531 Zigbee stick](https://tweakers.net/aanbod/1992398/cc2531-zigbee-zigbee2mqtt-usb-stick.html) with [zigbee2mqtt](https://www.zigbee2mqtt.io/)
 
