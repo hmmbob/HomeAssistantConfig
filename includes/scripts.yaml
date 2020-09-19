@@ -3,60 +3,63 @@
 #############################
 ring_doorbell_downstairs:
   mode: single
+  max_exceeded: silent
   sequence:
-  - condition: time
-    after: '07:00:00'
-    before: '22:00:00'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.woonkamer
-      volume_level: 0.8
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.woonkamer
-      media_content_id: !secret doorbell_url
-      media_content_type: music
-  - delay: '00:00:04'
-  - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.woonkamer
-      volume_level: 0.5
-  - service: media_player.turn_off  
-    entity_id: 
-      - media_player.woonkamer
+    - condition: time
+      after: "07:00:00"
+      before: "22:00:00"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.woonkamer
+        volume_level: 0.8
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.woonkamer
+        media_content_id: !secret doorbell_url
+        media_content_type: music
+    - delay: "00:00:04"
+    - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.woonkamer
+        volume_level: 0.5
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.woonkamer
 
 ring_doorbell_upstairs:
   mode: single
+  max_exceeded: silent
   sequence:
-  - condition: time
-    after: '08:00:00'
-    before: '19:00:00'
-  - service: media_player.play_media
-    data:
+    - condition: time
+      after: "08:00:00"
+      before: "19:00:00"
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.boven
+        media_content_id: !secret doorbell_url
+        media_content_type: music
+    - delay: "00:00:15"
+    - service: media_player.turn_off
       entity_id: media_player.boven
-      media_content_id: !secret doorbell_url
-      media_content_type: music
-  - delay: '00:00:15'
-  - service: media_player.turn_off  
-    entity_id: media_player.boven
 
 show_doorbell_alert:
   mode: single
+  max_exceeded: silent
   sequence:
-  - condition: state
-    entity_id: media_player.tv_beneden
-    state: 'off' # Device actually is 'unavailable' when off and shows 'off' when turned on
-  - service: notify.tv
-    data:
-      title: "Deurbel!"
-      message: "Er staat iemand aan de deur"
+    - condition: state
+      entity_id: media_player.tv_beneden
+      state: "off" # Device actually is 'unavailable' when off and shows 'off' when turned on
+    - service: notify.tv
       data:
-        fontsize: "large"
-        position: "top-right"
-        duration: 10
-        transparency: "50%"
-        color: "grey"
+        title: "Deurbel!"
+        message: "Er staat iemand aan de deur"
+        data:
+          fontsize: "large"
+          position: "top-right"
+          duration: 10
+          transparency: "50%"
+          color: "grey"
 
 #############################
 ## Start sleeping music     #
@@ -65,24 +68,24 @@ start_music_t:
   alias: Slaaptijd
   mode: restart
   sequence:
-  - service: spotcast.start
-    data:
-      entity_id: media_player.hmt
-      uri: 'spotify:track:5OoSxUZSbP1p7kb1d0SozG'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.hmt
-      volume_level: 0.4
-  - delay: '00:40:00'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.hmt
-      volume_level: 0.3
-  - delay: '00:05:00'
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.hmt
-      volume_level: 0.1
-  - service: media_player.turn_off
-    data:
-      entity_id: media_player.hmt
+    - service: spotcast.start
+      data:
+        entity_id: media_player.hmt
+        uri: "spotify:track:5OoSxUZSbP1p7kb1d0SozG"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.hmt
+        volume_level: 0.4
+    - delay: "00:40:00"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.hmt
+        volume_level: 0.3
+    - delay: "00:05:00"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.hmt
+        volume_level: 0.1
+    - service: media_player.turn_off
+      data:
+        entity_id: media_player.hmt
