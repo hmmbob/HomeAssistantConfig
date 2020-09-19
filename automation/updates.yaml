@@ -2,74 +2,74 @@
 ## Update initial sensors
 ##########################
 - id: update_sensors_initial
-  alias: 'System: Update Sensors on startup'
+  alias: "System: Update Sensors on startup"
   initial_state: true
   trigger:
     - platform: homeassistant
       event: start
   action:
-#    - delay: '00:00:15'
-#    - service: homeassistant.update_entity
-#      entity_id: sensor.reistijd_thuis_werk
-#    - delay: '00:00:10'
-#    - service: homeassistant.update_entity
-#      entity_id: sensor.reistijd_werk_thuis
-    - delay: '00:01:00'
+    #    - delay: '00:00:15'
+    #    - service: homeassistant.update_entity
+    #      entity_id: sensor.reistijd_thuis_werk
+    #    - delay: '00:00:10'
+    #    - service: homeassistant.update_entity
+    #      entity_id: sensor.reistijd_werk_thuis
+    - delay: "00:01:00"
     - service: zigbee2mqtt_networkmap.update
 
 ##########################
 ## Update Waze sensors during commute
 ##########################
-- id: waze_update_morning_commute
-  alias: 'Waze: update morning commute'
-  initial_state: off                    #Off during COVID-19
+- id: waze_update_commute
+  alias: "Waze: update commute"
+  initial_state: off #Off during COVID-19
   trigger:
     - platform: time_pattern
-      minutes: '/5'
+      minutes: "/5"
       seconds: 00
-  condition: 
-  - condition: time
-    after: '05:30:00'
-    before: '08:00:00'
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+        - condition: or
+          conditions:
+            - condition: time
+              after: "05:30:00"
+              before: "08:00:00"
+            - condition: time
+              after: "15:00:00"
+              before: "19:00:00"
   action:
-    - service: homeassistant.update_entity
-      entity_id: sensor.reistijd_thuis_werk
-
-- id: waze_update_evening_commute
-  alias: 'Waze: update evening commute'
-  initial_state: off                    #Off during COVID-19
-  trigger:
-    - platform: time_pattern
-      minutes: '/5'
-      seconds: 00
-  condition: 
-  - condition: time
-    after: '15:00:00'
-    before: '19:00:00'
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-  action:
-    - service: homeassistant.update_entity
-      entity_id: sensor.reistijd_werk_thuis
+    - choose:
+        - conditions:
+            condition: time
+            after: "05:30:00"
+            before: "08:00:00"
+          sequence:
+            service: homeassistant.update_entity
+            entity_id: sensor.reistijd_thuis_werk
+        - conditions:
+            condition: time
+            after: "15:00:00"
+            before: "19:00:00"
+          sequence:
+            service: homeassistant.update_entity
+            entity_id: sensor.reistijd_werk_thuis
 
 - id: waze_update_to_home
-  alias: 'Waze: update to home'
+  alias: "Waze: update to home"
   initial_state: on
   trigger:
     - platform: time_pattern
-      minutes: '/5'
+      minutes: "/5"
       seconds: 00
-  condition:  
+  condition:
     condition: state
     entity_id: person.bob
     state: not_home
