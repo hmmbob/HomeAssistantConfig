@@ -3,7 +3,7 @@
   initial_state: off
   trigger:
     platform: time
-    at: "05:20:00"
+    at: input_datetime.time_morning_briefing
   condition:
     - condition: time
       weekday:

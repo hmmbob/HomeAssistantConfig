@@ -10,7 +10,7 @@ path: overview
 title: Overview
 icon: mdi:magnify
 cards:
-  - id: e0571d1974a74ebb853a1a8fb849cec0  # Automatically created id
+  - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
       type: entities
@@ -24,7 +24,19 @@ cards:
     sort:
       method: name
 
-  - id: 13241d19712345bb853a1a8fb849cec0  # Automatically created id
+  - id: e0571d1974a74789853a1a8fb849cec0 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: Input Date_Time
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: input_datetime.*
+    sort:
+      method: name
+
+  - id: 13241d19712345bb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
       type: entities
@@ -39,7 +51,7 @@ cards:
     sort:
       method: name
 
-  - id: c78f07f54176407b928ef6923a45f10a  # Automatically created id
+  - id: c78f07f54176407b928ef6923a45f10a # Automatically created id
     type: entities
     title: PIR Sensoren
     show_header_toggle: false
@@ -69,7 +81,7 @@ cards:
         icon: mdi:bell-ring
         name: Deurbel
 
-  - id: 069aeb9203024ec7b1d3154ae2f6e1e8  # Automatically created id
+  - id: 069aeb9203024ec7b1d3154ae2f6e1e8 # Automatically created id
     type: custom:auto-entities
     card:
       type: entities
@@ -82,7 +94,7 @@ cards:
     sort:
       method: name
 
-  - id: e0571d19712345bb853a1a8fb849cec0  # Automatically created id
+  - id: e0571d19712345bb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
       type: entities
@@ -95,7 +107,7 @@ cards:
     sort:
       method: name
 
-  - id: c78f01234176407b123456923a45f10a  # Automatically created id
+  - id: c78f01234176407b123456923a45f10a # Automatically created id
     type: entities
     title: Zigbee2mqtt
     show_header_toggle: false
@@ -105,7 +117,7 @@ cards:
       - timer.zigbee_permit_join
       - input_select.zigbee2mqtt_log_level
 
-  - id: c915ccdf-3c20-402f-92fa-323541e56dd7  # Automatically created id
+  - id: c915ccdf-3c20-402f-92fa-323541e56dd7 # Automatically created id
     type: custom:auto-entities
     card:
       type: entities

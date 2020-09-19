@@ -6,7 +6,7 @@
   initial_state: true
   trigger:
     platform: time
-    at: "08:00:00"
+    at: input_datetime.time_uv_warning
   condition:
     - condition: state
       entity_id: input_boolean.notify_uv

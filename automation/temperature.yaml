@@ -32,7 +32,7 @@
   alias: "Temp: Toon uit op schooltijd"
   trigger:
     - platform: time
-      at: "08:35:00"
+      at: input_datetime.time_schooltijd
   condition:
     - condition: and
       conditions:

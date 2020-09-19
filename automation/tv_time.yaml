@@ -5,7 +5,7 @@
   alias: "TV: TV Tijd voorbij"
   trigger:
     - platform: time
-      at: "08:45:00"
+      at: input_datetime.time_tv_time_over
   condition:
     - condition: time
       weekday:

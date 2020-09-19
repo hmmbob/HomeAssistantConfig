@@ -1,0 +1,40 @@
+time_cover_up:
+  name: Rolluik omhoog
+  has_time: true
+  initial: "08:15"
+time_cover_down:
+  name: Rolluik omlaag
+  has_time: true
+  initial: "19:45"
+time_morning_briefing:
+  name: Start morning briefing
+  has_time: true
+  initial: "05:20"
+time_schooltijd:
+  name: Schooltijd
+  has_time: true
+  initial: "08:35"
+time_trash_warning_today:
+  name: Melding afval vandaag
+  has_time: true
+  initial: "05:00"
+time_trash_warning_tomorrow:
+  name: Melding afval morgen
+  has_time: true
+  initial: "17:50"
+time_tv_time_over:
+  name: Melding TV tijd voorbij
+  has_time: true
+  initial: "08:45"
+time_uv_warning:
+  name: Tijd UV waarschuwing
+  has_time: true
+  initial: "08:00"
+time_vacation_lights_start:
+  name: Vacation lights start
+  has_time: true
+  initial: "20:45"
+time_vacation_lights_end:
+  name: Vacation lights end
+  has_time: true
+  initial: "23:00"

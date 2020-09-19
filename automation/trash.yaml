@@ -6,7 +6,7 @@
   initial_state: true
   trigger:
     platform: time
-    at: "05:00:00"
+    at: input_datetime.time_trash_warning_today
   condition:
     - condition: state
       entity_id: input_boolean.notify_trash
@@ -28,7 +28,7 @@
   initial_state: true
   trigger:
     platform: time
-    at: "17:50:00"
+    at: input_datetime.time_trash_warning_tomorrow
   condition:
     - condition: state
       entity_id: input_boolean.notify_trash

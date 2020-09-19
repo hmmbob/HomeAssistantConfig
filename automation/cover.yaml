@@ -2,11 +2,11 @@
 ## Rolluik zolder
 ##########################
 - id: cover_close_on_time
-  alias: "Rolluik: dicht om 19.45"
+  alias: "Rolluik: dicht"
   initial_state: on
   trigger:
     platform: time
-    at: "19:45:00"
+    at: input_datetime.time_cover_up
   condition:
     - condition: state
       entity_id: input_boolean.enable_cover
@@ -16,11 +16,11 @@
       entity_id: cover.zolder
 
 - id: cover_open_on_time
-  alias: "Rolluik: open om 08.00"
+  alias: "Rolluik: open"
   initial_state: on
   trigger:
     platform: time
-    at: "08:00:00"
+    at: input_datetime.time_cover_up
   condition:
     - condition: state
       entity_id: input_boolean.enable_cover

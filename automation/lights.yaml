@@ -122,7 +122,7 @@
       for:
         minutes: 30
     - platform: time
-      at: "08:36:00"
+      at: input_datetime.time_schooltijd
   #  - platform: sun
   #    event: sunrise
   #    offset: "00:25:00"
@@ -285,7 +285,7 @@
   initial_state: on
   trigger:
     platform: time
-    at: "20:45:00"
+    at: input_datetime.time_vacation_lights_start
   condition:
     - condition: state
       entity_id: input_boolean.vacation_mode_away
@@ -316,7 +316,7 @@
   initial_state: on
   trigger:
     platform: time
-    at: "23:00:00"
+    at: input_datetime.time_vacation_lights_end
   condition:
     - condition: state
       entity_id: input_boolean.vacation_mode_away
