@@ -28,10 +28,6 @@ recorder:
   purge_keep_days: 31
   include: !include includes/recorder-history.yaml
 
-#influxdb:
-#  host: !secret influx_url
-#  include: !include includes/recorder-history.yaml
-
 history:
   include: !include includes/recorder-history.yaml
 
@@ -113,6 +109,7 @@ spotcast:
 
 tts:
   - platform: google_translate
+    language: "nl"
     base_url: !secret tts_base_url
 
 weather:
