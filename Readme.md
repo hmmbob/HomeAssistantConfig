@@ -12,19 +12,21 @@ My vision is that my Home Automation should always work, even when the internet 
 
 ### Hardware
 
-- Raspberry Pi3B+
+- Intel NUC NUC7PJYH with 16GB RAM and 480GB SSD
 - [Z-Wave.Me ZME_UZB1 USB Stick](https://tweakers.net/pricewatch/434681/z-wave-punt-me-usb-stick-met-z-wave-plus/specificaties/)
 - [CC2531 Zigbee stick](https://tweakers.net/aanbod/1992398/cc2531-zigbee-zigbee2mqtt-usb-stick.html) with [zigbee2mqtt](https://www.zigbee2mqtt.io/)
 
 ### Software
 
-- [Raspberry Pi OS](https://www.raspberrypi.org/downloads/raspberry-pi-os/) Buster
+- [Proxmox VE](https://www.proxmox.com/en/proxmox-ve) virtualization manager (running more than just HA)
+- Debian Buster virtual machine as Docker host
 - [Docker](https://www.docker.com/)
   - [Home Assistant Core](https://hub.docker.com/r/homeassistant/home-assistant) as core
   - [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto) as local MQTT server
+  - [zigbee2mqtt](https://hub.docker.com/r/koenkk/zigbee2mqtt) running my Zigbee network
+  - [ozwdaemon](https://hub.docker.com/r/openzwave/ozwdaemon) running my Z-Wave network
   - [Traefik](https://hub.docker.com/_/traefik) as transparant reverse proxy, handling traffic to all containers and SSL termination
-  - [ESPhome](https://hub.docker.com/r/esphome/esphome) to program my sonoff devices
-  - [zigbee2mqtt](https://hub.docker.com/r/koenkk/zigbee2mqtt) running my zigbee network
+  - [ESPhome](https://hub.docker.com/r/esphome/esphome) to program my ESP devices
   - [Duplicati](https://hub.docker.com/r/duplicati/duplicati) for encrypted backups of my config files to the cloud
   - [nginx](https://hub.docker.com/r/linuxserver/nginx) for some static file hosting.
 
