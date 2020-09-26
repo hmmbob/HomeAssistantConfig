@@ -52,4 +52,4 @@ sensor.toon_p1_power_use_cnt_low:
   friendly_name: Totaal verbruik (laag tarief)
   icon: mdi:gauge-empty
 zone.home:
-  radius: 20
+  radius: 50
