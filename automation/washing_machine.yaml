@@ -28,7 +28,7 @@
     # Low power state for over a minute: washing done
     platform: numeric_state
     entity_id: sensor.wasmachine_power
-    below: 6
+    below: 5
     for:
       minutes: 1
   condition:
