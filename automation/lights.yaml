@@ -3,7 +3,6 @@
 ##########################
 - id: set_eetkamer_brightness_on_time
   alias: "Lights: Eetkamer brightness by time"
-  initial_state: false
   trigger:
     platform: state
     entity_id: light.eetkamer_level
