@@ -69,12 +69,12 @@ cards:
         show_header_toggle: false
         state_color: true
         entities:
+          - binary_sensor.blauwe_lamp_status
           - binary_sensor.grijze_lamp_status
           - binary_sensor.staande_lamp_status
-          - binary_sensor.blauwe_lamp_status
-          - binary_sensor.zigbee2mqtt_bridge
-          - binary_sensor.weerhuisje_status
           - binary_sensor.doorbell_status
+          - binary_sensor.weerhuisje_status
+          - binary_sensor.zigbee2mqtt_bridge
           - sensor.openzwave_bridge
       - type: markdown ## Updates header
         content: |
