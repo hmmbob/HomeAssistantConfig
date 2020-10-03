@@ -37,3 +37,22 @@ front_door:
     tag: door_alert
     ttl: 0
     priority: high
+
+#############################
+## Weerhuisje Alert         #
+#############################
+weerhuisje:
+  name: "Weerhuisje"
+  title: "ALARM:"
+  message: "Het weerhuisje is offline"
+  entity_id: binary_sensor.weerhuisje_status
+  state: "off"
+  repeat: 2
+  can_acknowledge: true
+  skip_first: true
+  notifiers:
+    - mobile_app_sm_a505fn
+  data:
+    tag: weerhuisje
+    ttl: 0
+    priority: high

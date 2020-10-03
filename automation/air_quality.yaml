@@ -20,17 +20,3 @@
     - service: rest_command.send_madavi
     ## Send data to OpenSenseMap.
     - service: rest_command.post_opensensebox
-
-- alias: "Weerhuisje: Notify if weerhuisje Offline"
-  initial_state: true
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.weerhuisje_status
-      to: "off"
-      for:
-        seconds: 120
-  action:
-    service: notify.mobile_app_sm_a505fn
-    data:
-      title: "Weerhuisje is Offline"
-      message: "Weerhuisje is offline"
