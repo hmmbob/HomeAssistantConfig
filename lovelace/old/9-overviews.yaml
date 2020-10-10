@@ -9,6 +9,8 @@
 path: overview
 title: Overview
 icon: mdi:magnify
+visible: 
+  - user: 510b1afef60640d7a220711c50b2192a
 cards:
   - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
