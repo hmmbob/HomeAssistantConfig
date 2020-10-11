@@ -35,7 +35,7 @@ enable_pir_gang:
   icon: mdi:motion-sensor
 toon_on_movement:
   name: "Toon aan via PIR"
-  initial: false
+  initial: true
   icon: mdi:thermostat
 eetkamer_on_movement:
   name: "Eetkamer aan via PIR"
