@@ -99,9 +99,8 @@ We are using Home Assistant mostly from our phones, so in April 2020 I decided t
 
 I've extended the possibilities of the standard Lovelace interface through multiple plugins installed through [HACS](https://hacs.xyz/). In my configuration I am using the following plugins:
 
-- [Custom Header](https://github.com/maykar/custom-header), used to modify the header to display as footer and to display only a selection of panes in my wifes environment.
 - [Lovelace Swipe Navigation](https://github.com/maykar/lovelace-swipe-navigation) which enables swiping through the different panes.
-- [Card Mod](https://github.com/thomasloven/lovelace-card-mod) is used to tweak the CSS styles of all cards I use.
+- [Card Mod](https://github.com/thomasloven/lovelace-card-mod) is used to tweak the CSS styles of all cards I use. It also replaces functionality I used from the Custom Header plugin, as that has been deprecated. Check the themes folder to see what I used to mimick CH behaviour.
 - [State Switch](https://github.com/thomasloven/lovelace-state-switch) can be used to display different cards based on the state of an entity. I am using it to display custom greetings to myself and my wife.
 - [Fold entity row](https://github.com/thomasloven/lovelace-fold-entity-row) is a _really_ handy tool to have a fold out overview of entities. I am using it for my livingroom lights in the Home Screen, the gas prices in the Locations Pane and to fold the battery state overview (that uses the earlier mentioned Battery State Card) and the smart meter data in the status pane.
 - [Simple Weather Card](https://github.com/kalkih/simple-weather-card) which beautifully displays the current weather for my location on the Home Screen.
