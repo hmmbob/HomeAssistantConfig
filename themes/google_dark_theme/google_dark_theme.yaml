@@ -6,6 +6,117 @@
 #
 #
 Google Dark Theme:
+  # Card mod stuff
+  card-mod-theme: Google Dark Theme
+  card-mod-root-yaml: |
+    paper-tabs$: |
+      /* This hides tab scroll arrows */
+      paper-icon-button {
+        display: none;
+      }
+    "ha-app-layout":
+      $: |
+        #contentContainer {
+          padding-top: 0px !important;
+        }
+    .: |
+      app-toolbar {
+        height: 0;
+      }
+      .edit-mode, app-header, app-toolbar {
+        background-color: var(--primary-background-color) !important;
+        color: var(--primary-text-color) !important;
+      }
+      app-header {
+        top: calc(100vh - 48px) !important;
+      }
+      app-header.edit-mode {
+        border-bottom: 2px var(--primary-color) solid;
+        padding-bottom: 10px;
+      }
+      app-header[shadow] > ::before {
+        box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.3);
+      }
+      #add-view ha-svg-icon {
+        background-color: var(--primary-color) !important;
+        color: #EEE !important;
+        border-radius: 5px !important;
+      }
+      .edit-icon {
+        color: var(--primary-color) !important;
+      }
+      mwc-icon-button[label="Start conversation"] {
+        top: 0;
+        right: calc(48px * 1);
+        z-index: 2;
+        position: absolute;
+      }
+      mwc-icon-button[title="Help"] {
+        top: 0;
+        right: calc(48px * 2);
+        position: absolute;
+        z-index: 2;
+      }
+      mwc-icon-button[title="Close"] {
+        top: 0;
+        left: 0;
+        position: absolute;
+        z-index: 2;
+      }
+      mwc-icon-button#add-view {
+        position: fixed;
+        right: calc(48px * 1);
+      }
+      ha-button-menu {
+        top: 0;
+        right: 0;
+        z-index: 2;
+        margin-left: 5px;
+        position: absolute;
+        display: none;
+      }
+      app-toolbar > [main-title] {
+        display: none;
+      }
+      menu-button[style="visibility: hidden;"] {
+        display: none;
+      }
+      ha-menu-button {
+        z-index: 2;
+        top: 24px;
+      }
+      paper-tabs {
+        color: var(--app-header-text-color) !important;
+        --paper-tabs-selection-bar-color: var(--state-icon-active-color) !important;
+      }
+      paper-tab[aria-selected="true"] > ha-icon {
+        color: var(--state-icon-active-color) !important;
+      }
+      paper-tab[aria-selected="true"] {
+        color: var(--state-icon-active-color) !important;
+      }
+      @media (orientation: portrait) {
+        paper-tabs {
+          margin-left: 64px !important;
+          margin-right: 32px !important;
+        }
+        ch-header > paper-tabs,
+        app-header.edit-mode > * > paper-tabs {
+          margin-left: 10px !important;
+          margin-right: 10px !important;
+        }
+      }
+      ch-header > ha-button-menu {
+        top: unset;
+      }
+      ch-header > paper-tabs,
+      app-header.edit-mode > paper-tabs {
+        margin-left: 0;
+      }
+      app-toolbar a {
+        color: var(--primary-text-color) !important;
+      }
+  # End card-mod, back to the original theme:
   # Header:
   app-header-background-color: rgb(23, 23, 23)
   app-header-text-color: rgb(198, 203, 210)
