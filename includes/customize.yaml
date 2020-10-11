@@ -1,36 +1,11 @@
-sensor.eetkamer_power:
-  friendly_name: Eetkamer Power
-  icon: mdi:power-plug
-input_number.brightness_eetkamer:
-  friendly_name: Eetkamertafel brightness
-  icon: mdi:ceiling-light
-sensor.schuur_power_1:
-  friendly_name: Schuur Power
-  icon: mdi:power-plug
-switch.eetkamer_switch:
-  friendly_name: Eetkamer schakelaar
-  icon: mdi:lightbulb
-switch.schuur_1:
-  icon: mdi:gate
-sensor.gang_dimmer_power:
-  friendly_name: Gang Power
-  icon: mdi:power-plug
-sensor.ha_currently_installed:
-  icon: mdi:home-assistant
-sensor.sunrise_time:
-  icon: mdi:weather-sunset-up
-sensor.sunset_time:
-  icon: mdi:weather-sunset-down
+# Customizing template and rest sensors that cannot 
+# be customized through the frontend
 sensor.trash_today:
   friendly_name: Vandaag
   icon: mdi:delete
 sensor.trash_tomorrow:
   friendly_name: Morgen
   icon: mdi:delete
-sensor.temp1_temperature:
-  device_class: temperature
-sensor.temp2_temperature:
-  device_class: temperature
 sensor.diesel_u:
   icon: mdi:gas-station
 sensor.diesel_z:
@@ -51,5 +26,6 @@ sensor.toon_p1_power_use_cnt_high:
 sensor.toon_p1_power_use_cnt_low:
   friendly_name: Totaal verbruik (laag tarief)
   icon: mdi:gauge-empty
+# Set home zone to 50m
 zone.home:
   radius: 50
