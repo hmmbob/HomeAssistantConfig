@@ -1,25 +1,25 @@
 ##########################
-## Doorbell
+## Deurbel
 ##########################
 
-### Play doorbell alerts
-- alias: "Doorbell: Notify"
-  id: doorbell_notify
+### Play deurbel alerts
+- alias: "Deurbel: Notify"
+  id: deurbel_notify
   initial_state: on
   mode: single
   max_exceeded: silent
   trigger:
     - platform: state
-      entity_id: binary_sensor.doorbell
+      entity_id: binary_sensor.deurbel
       from: "off"
       to: "on"
   condition:
     - condition: state
-      entity_id: input_boolean.enable_doorbell
+      entity_id: input_boolean.enable_deurbel
       state: "on"
   action:
     - service: script.turn_on
       entity_id:
-        - script.ring_doorbell_downstairs
-        - script.ring_doorbell_upstairs
-        - script.show_doorbell_alert
+        - script.ring_deurbel_downstairs
+        - script.ring_deurbel_upstairs
+        - script.show_deurbel_alert

@@ -47,9 +47,9 @@ woonkamer_on_movement:
   icon: mdi:lightbulb-on-outline
 
 #############################
-## Doors, doorbell          #
+## Doors, deurbel          #
 #############################
-enable_doorbell:
+enable_deurbel:
   name: "Deurbel"
   initial: true
   icon: mdi:doorbell

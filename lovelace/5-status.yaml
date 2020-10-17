@@ -4,7 +4,7 @@
 path: status
 title: Status
 icon: mdi:check-network-outline
-visible: 
+visible:
   - user: 510b1afef60640d7a220711c50b2192a
 cards:
   - type: vertical-stack
@@ -74,7 +74,7 @@ cards:
           - binary_sensor.blauwe_lamp_status
           - binary_sensor.grijze_lamp_status
           - binary_sensor.staande_lamp_status
-          - binary_sensor.doorbell_status
+          - binary_sensor.deurbel_status
           - binary_sensor.weerhuisje_status
           - binary_sensor.zigbee2mqtt_bridge
           - sensor.openzwave_bridge

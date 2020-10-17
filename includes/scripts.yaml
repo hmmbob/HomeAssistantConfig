@@ -1,7 +1,7 @@
 #############################
-## Doorbell notifications   #
+## Deurbel notifications   #
 #############################
-ring_doorbell_downstairs:
+ring_deurbel_downstairs:
   mode: single
   max_exceeded: silent
   sequence:
@@ -15,7 +15,7 @@ ring_doorbell_downstairs:
     - service: media_player.play_media
       data:
         entity_id: media_player.woonkamer
-        media_content_id: !secret doorbell_url
+        media_content_id: !secret deurbel_url
         media_content_type: music
     - delay: "00:00:04"
     - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
@@ -27,7 +27,7 @@ ring_doorbell_downstairs:
       entity_id:
         - media_player.woonkamer
 
-ring_doorbell_upstairs:
+ring_deurbel_upstairs:
   mode: single
   max_exceeded: silent
   sequence:
@@ -37,13 +37,13 @@ ring_doorbell_upstairs:
     - service: media_player.play_media
       data:
         entity_id: media_player.boven
-        media_content_id: !secret doorbell_url
+        media_content_id: !secret deurbel_url
         media_content_type: music
     - delay: "00:00:15"
     - service: media_player.turn_off
       entity_id: media_player.boven
 
-show_doorbell_alert:
+show_deurbel_alert:
   mode: single
   max_exceeded: silent
   sequence:
