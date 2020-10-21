@@ -19,8 +19,10 @@ send_luftdaten_pm:
     {
       "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
       "sensordatavalues":[
-        {"value_type":"P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
-        {"value_type":"P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"}
+        {% if states('sensor.particulate_matter_10_0um_concentration') and ('sensor.particulate_matter_2_5um_concentration') != 'unavailable' %}
+          {"value_type":"P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
+          {"value_type":"P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"}
+        {% endif %}  
       ]
     }
 send_luftdaten_tph:
@@ -52,8 +54,10 @@ send_madavi:
     {
       "software_version": "HomeAssistant-{{ states('sensor.current_version') }}", 
       "sensordatavalues":[
-        {"value_type":"SDS_P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
-        {"value_type":"SDS_P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"},
+        {% if states('sensor.particulate_matter_10_0um_concentration') and ('sensor.particulate_matter_2_5um_concentration') != 'unavailable' %}
+          {"value_type":"SDS_P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
+          {"value_type":"SDS_P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"},
+        {% endif %}        
         {"value_type":"BME280_temperature","value":"{{ states('sensor.bme280_temperature') }}"},
         {"value_type":"BME280_pressure","value":"{{ states('sensor.bme280_pressure') | float * 100 }}"},
         {"value_type":"BME280_humidity","value":"{{ states('sensor.bme280_humidity') }}"}
@@ -71,9 +75,11 @@ post_opensensebox:
     content-type: "application/json; charset=utf-8"
   payload: >-
     {
+      {% if states('sensor.particulate_matter_10_0um_concentration') and ('sensor.particulate_matter_2_5um_concentration') != 'unavailable' %}
+        "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
+        "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.particulate_matter_10_0um_concentration') }}",
+      {% endif %}    
       "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.bme280_temperature') }}",
       "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ states('sensor.bme280_pressure') | float * 100 }}",
-      "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}",
-      "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
-      "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.particulate_matter_10_0um_concentration') }}"
+      "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}"
     }
