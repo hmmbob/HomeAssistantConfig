@@ -19,8 +19,6 @@
         - condition: state
           entity_id: sensor.trash_today
           state: "unavailable"
-        - condition: template
-          value_template: "{{ states('sensor.trash_today') | trim = '' }}"
   action:
     - service: notify.mobile_app_sm_a505fn
       data:
@@ -47,8 +45,6 @@
         - condition: state
           entity_id: sensor.trash_tomorrow
           state: "unavailable"
-        - condition: template
-          value_template: "{{ states('sensor.trash_tomorrow') | trim = '' }}"
   action:
     - service: notify.mobile_app_sm_a505fn
       data:
