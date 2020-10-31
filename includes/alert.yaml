@@ -14,9 +14,11 @@ freezer_door:
     - tts_woonkamer
     - mobile_devices
   data:
-    tag: door_alert
+    tag: freezer_door_alert
     ttl: 0
-    priority: high
+    channel: alerts # For devices on Android 8.0+ only
+    importance: high
+    ledColor: "red" # Set the LED to red
 
 #############################
 ## Front door alert         #
@@ -34,9 +36,11 @@ front_door:
     - tts_woonkamer
     - mobile_devices
   data:
-    tag: door_alert
+    tag: front_door_alert
     ttl: 0
-    priority: high
+    channel: alerts # For devices on Android 8.0+ only
+    importance: high
+    ledColor: "red" # Set the LED to red
 
 #############################
 ## Weerhuisje Alert         #
@@ -55,4 +59,6 @@ weerhuisje:
   data:
     tag: weerhuisje
     ttl: 0
-    priority: high
+    channel: alerts # For devices on Android 8.0+ only
+    importance: high
+    ledColor: "red" # Set the LED to red

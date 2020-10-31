@@ -1,0 +1,43 @@
+# When alerts are cleared, mobile notifications aren't
+# cleared automatically too. But we can automate that!
+- alias: "Notifications: Clear freezer door notification"
+  id: 6cd827a2-bb9b-4376-981b-8dabd5a23084
+  trigger:
+    - platform: state
+      entity_id: alert.freezer_door
+      from: "on"
+      to: "idle"
+  action:
+    - service: notify.mobile_devices
+      data:
+        message: clear_notification
+        data:
+          tag: freezer_door_alert
+
+- alias: "Notifications: Clear front door notification"
+  id: 7bfa14c6-3fe2-49b0-936e-99a7c4849216
+  trigger:
+    - platform: state
+      entity_id: alert.front_door
+      from: "on"
+      to: "idle"
+  action:
+    - service: notify.mobile_devices
+      data:
+        message: clear_notification
+        data:
+          tag: front_door_alert
+
+- alias: "Notifications: Clear weerhuisje notification"
+  id: c4a7c59b-881b-4ee7-80b6-2ba80cb57d1e
+  trigger:
+    - platform: state
+      entity_id: alert.weerhuisje
+      from: "on"
+      to: "idle"
+  action:
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: clear_notification
+        data:
+          tag: weerhuisje
