@@ -1,7 +1,7 @@
 ##########################
 ## Deurbel
 ##########################
-- alias: "Deurbel: Notify"
+- alias: "Deurbel: play doorbell"
   id: deurbel_notify
   initial_state: on
   mode: single
@@ -24,15 +24,15 @@
               after: "08:00:00"
               before: "19:00:00"
           sequence:
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.woonkamer
-                volume_level: 0.8
             - service: media_player.play_media
               data:
                 entity_id: media_player.hele_huis
                 media_content_id: !secret deurbel_url
                 media_content_type: music
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.woonkamer
+                volume_level: 0.8
             - service: script.turn_on
               entity_id:
                 - script.show_deurbel_alert
@@ -58,15 +58,15 @@
                   after: "19:00:00"
                   before: "22:00:00"
           sequence:
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.woonkamer
-                volume_level: 0.8
             - service: media_player.play_media
               data:
                 entity_id: media_player.woonkamer
                 media_content_id: !secret deurbel_url
                 media_content_type: music
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.woonkamer
+                volume_level: 0.8
             - service: script.turn_on
               entity_id:
                 - script.show_deurbel_alert
