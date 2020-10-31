@@ -11,7 +11,7 @@ freezer_door:
   can_acknowledge: false
   skip_first: true
   notifiers:
-    - tts_google
+    - tts_woonkamer
     - mobile_devices
   data:
     tag: door_alert
@@ -31,7 +31,7 @@ front_door:
   can_acknowledge: false
   skip_first: true
   notifiers:
-    - tts_google
+    - tts_woonkamer
     - mobile_devices
   data:
     tag: door_alert

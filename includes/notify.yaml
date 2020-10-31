@@ -17,23 +17,8 @@
 #############################
 ## Notify Google TTS        #
 #############################
-# Workaround TTS notifier, uses REST and Google Translate say
-# This can be used with the "alert" integration.
-# Source: https://community.home-assistant.io/t/how-to-notify-using-tts-and-much-more/210326
-- name: tts_google
-  platform: rest
-  resource: !secret rest_url
-  method: POST_JSON
-  headers:
-    Authorization: !secret rest_token
-    content-type: application/json
-  data:
-    # Notifications usually have a title and a message,
-    # so prepend the title to the message and insert
-    # a newline in between so the TTS engine makes a longer pause.
-    message: "{{ title ~ '\n' ~ message }}"
-    # Optional extras which can also be set in an alert's 'data' attribute.
-    # For 'notify', these are presented in the service data attribute 'data'.
-    # Since we have no script, we need to take care of missing values here.
-    entity_id: "{{ data.entity_id | default('media_player.woonkamer',true) }}"
-    language: "nl"
+- platform: tts
+  name: tts_woonkamer
+  tts_service: tts.google_translate_say
+  media_player: media_player.woonkamer
+  language: nl

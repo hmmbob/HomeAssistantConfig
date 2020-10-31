@@ -38,11 +38,9 @@
       state: "on"
   action:
     # Play a TTS alert downstairs
-    - service: tts.google_translate_say
-      entity_id: media_player.woonkamer
+    - service: notify.tts_woonkamer
       data:
         message: "De wasmachine is klaar!"
-        language: "nl"
     # Turn on small green LED as visual reminder
     - service: homeassistant.turn_on
       entity_id: light.blauwe_lamp_green_led
