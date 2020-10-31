@@ -6,7 +6,37 @@
 # can easily restore these adjustments later.
 #
 # Insert directly under theme name:
+# >0.117.0
+  # Card mod stuff
+  card-mod-theme: Google Light Theme
+  header-height: 48px 
+  card-mod-root-yaml: |
+    ha-app-layout$: |
+      #contentContainer {
+        padding-top: 0px !important;
+        padding-bottom: 48px !important;
+      }
+    .: |
+      ha-tabs {
+        height: var(--header-height);
+        --paper-tabs-selection-bar-color: var(--primary-color) !important;
+        color: var(--app-header-text-color) !important;
+      }
+      paper-tab[aria-selected=true] > ha-icon, paper-tab[aria-selected=true] {
+        color: var(--primary-color) !important;
+      }
+      /* This hides the help button, menu button and title */
+      a.menu-link[target="_blank"], ha-button-menu, [main-title] {
+        display: none;
+      }
+      app-header {
+        top: calc(100vh - 48px) !important;
+        bottom: 0 !important;
+        transform: unset !important;
+      }
+  # End card-mod, back to the original theme:
   
+# Pre-0.117.0:  
   # Card mod stuff
   card-mod-theme: Google Light Theme
   card-mod-root-yaml: |

@@ -8,66 +8,30 @@
 Google Light Theme:
   # Card mod stuff
   card-mod-theme: Google Light Theme
+  header-height: 48px 
   card-mod-root-yaml: |
-    paper-tabs$: |
-      /* This hides tab scroll arrows */
-      paper-icon-button {
-        display: none;
+    ha-app-layout$: |
+      #contentContainer {
+        padding-top: 0px !important;
+        padding-bottom: 48px !important;
       }
-    "ha-app-layout":
-      $: |
-        /* This makes sure the bottom scrollbar isn't hiding cards */
-        #contentContainer {
-          padding-top: 0px !important;
-          padding-bottom: 48px !important;
-        }
     .: |
-      app-toolbar {
-        height: 0;
+      ha-tabs {
+        height: var(--header-height);
+        --paper-tabs-selection-bar-color: var(--primary-color) !important;
+        color: var(--app-header-text-color) !important;
       }
-      app-toolbar > [main-title] {
+      paper-tab[aria-selected=true] > ha-icon, paper-tab[aria-selected=true] {
+        color: var(--primary-color) !important;
+      }
+      /* This hides the help button, menu button and title */
+      a.menu-link[target="_blank"], ha-button-menu, [main-title] {
         display: none;
-      }
-      .edit-mode, app-header, app-toolbar {
-        background-color: var(--primary-background-color) !important;
-        color: var(--primary-text-color) !important;
       }
       app-header {
         top: calc(100vh - 48px) !important;
-      }
-      ha-button-menu {
-        top: 0;
-        right: 0;
-        z-index: 2;
-        margin-left: 5px;
-        position: absolute;
-        display: none;
-      }
-      menu-button[style="visibility: hidden;"] {
-        display: none;
-      }
-      ha-menu-button {
-        z-index: 2;
-        top: 24px;
-        color: var(--app-header-text-color) !important;
-      }
-      paper-tabs {
-        color: var(--app-header-text-color) !important;
-        --paper-tabs-selection-bar-color: var(--primary-color) !important;
-      }
-      paper-tab[aria-selected="true"] {
-        color: var(--primary-color) !important;
-      }
-      /* This corrects the sizing of the mobile view. */
-      @media (orientation: portrait) {
-        paper-tabs {
-          margin-left: 64px !important;
-          margin-right: 32px !important;
-        }
-      }
-      /* This corrects the sizing of the view. */
-      #view {
-        min-height: calc(100vh - 48px) !important;
+        bottom: 0 !important;
+        transform: unset !important;
       }
   # End card-mod, back to the original theme:
   # Header:
