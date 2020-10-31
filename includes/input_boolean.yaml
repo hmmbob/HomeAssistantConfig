@@ -71,7 +71,6 @@ zigbee_permit_join:
 #############################
 enable_cover:
   name: Rolluik automatisering
-  initial: false
   icon: mdi:garage
 
 notify_zolder:
