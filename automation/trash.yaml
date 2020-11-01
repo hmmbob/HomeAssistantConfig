@@ -26,6 +26,71 @@
         message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
         data:
           tag: "notification-trash"
+    - condition: state
+      entity_id: input_boolean.notify_trash_voice
+      state: "on"
+    - service: tts.google_translate_say
+      entity_id: media_player.woonkamer
+      data:
+        message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
+        language: "nl"
+    - delay: "00:00:05"
+    - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure TTS is done
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_today
+              state: "Plastic"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_plastic
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_today
+              state: "Restafval"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_restafval
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_today
+              state: "GFT"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_gft
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_today
+              state: "Oud Papier"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_oudpapier
+                media_content_type: "image/png"
+        - conditions:
+            - condition: state
+              entity_id: sensor.trash_today
+              state: "Plastic en Oud Papier"
+          sequence:
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.woonkamer
+                media_content_id: !secret image_url_plasticpapier
+                media_content_type: "image/png"
+    - delay: "00:15:00"
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.woonkamer
 
 - alias: "Afval: Melding morgen"
   id: melding_afval_morgen
@@ -113,7 +178,7 @@
                 entity_id: media_player.woonkamer
                 media_content_id: !secret image_url_plasticpapier
                 media_content_type: "image/png"
-    - delay: "00:05:00"
+    - delay: "00:15:00"
     - service: media_player.turn_off
       entity_id:
         - media_player.woonkamer
