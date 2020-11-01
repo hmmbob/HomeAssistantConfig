@@ -112,6 +112,11 @@ tts:
   - platform: google_translate
     language: "nl"
     base_url: !secret tts_base_url
+#  - platform: microsoft_speech
+#    api_key: !secret tts_azure_api_key
+#    region: westeurope
+#    language: nl-NL
+#    type: AriaNeural
 
 weather:
   - platform: darksky
