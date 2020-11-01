@@ -26,13 +26,18 @@
           sequence:
             - service: media_player.play_media
               data:
-                entity_id: media_player.hele_huis
+                entity_id: media_player.woonkamer
                 media_content_id: !secret deurbel_url
                 media_content_type: music
             - service: media_player.volume_set
               data:
                 entity_id: media_player.woonkamer
                 volume_level: 0.8
+            - service: media_player.play_media
+              data:
+                entity_id: media_player.boven
+                media_content_id: !secret deurbel_url
+                media_content_type: music
             - service: script.turn_on
               entity_id:
                 - script.show_deurbel_alert
@@ -45,7 +50,8 @@
                 volume_level: 0.5
             - service: media_player.turn_off
               entity_id:
-                - media_player.hele_huis
+                - media_player.woonkamer
+                - media_player.boven
         # Early morning or late at night, we only
         # want the doorbell to play in the living room
         - conditions:
