@@ -6,7 +6,7 @@
   initial_state: on
   trigger:
     platform: time
-    at: input_datetime.time_cover_up
+    at: input_datetime.time_cover_down
   condition:
     - condition: state
       entity_id: input_boolean.enable_cover
