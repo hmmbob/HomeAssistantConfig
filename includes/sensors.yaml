@@ -4,6 +4,12 @@
 - platform: version
 - platform: version
   source: docker
+  
+- platform: systemmonitor
+  resources:
+    - type: memory_use_percent
+    - type: memory_use
+    - type: processor_use
 
 ##########################
 ## Weather sensors

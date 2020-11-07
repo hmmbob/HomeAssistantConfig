@@ -39,3 +39,5 @@ entities:
   - switch.grijze_lamp
   - switch.staande_lamp
   - switch.schuur_1
+  - sensor.memory_use_percent
+  - sensor.processor_use_percent
