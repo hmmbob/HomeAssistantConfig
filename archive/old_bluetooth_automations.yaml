@@ -273,7 +273,7 @@
     #   data:
     #     entity_id: media_player.woonkamer
     #     volume_level: 0.6
-    - service: tts.google_translate_say
+    - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
         message: Papa is thuis

@@ -31,7 +31,7 @@
     - condition: state
       entity_id: input_boolean.notify_uv_voice
       state: "on"
-    - service: tts.google_translate_say
+    - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
         message: "Vandaag wordt zonkracht {{ states('sensor.dark_sky_uv_index_0d')  }} verwacht. Goed insmeren dus!"

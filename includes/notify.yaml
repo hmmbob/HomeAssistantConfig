@@ -19,6 +19,6 @@
 #############################
 - platform: tts
   name: tts_woonkamer
-  tts_service: tts.google_translate_say
+  tts_service: tts.microsoft_say
   media_player: media_player.woonkamer
   language: nl

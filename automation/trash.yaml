@@ -29,7 +29,7 @@
     - condition: state
       entity_id: input_boolean.notify_trash_voice
       state: "on"
-    - service: tts.google_translate_say
+    - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
         message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
@@ -120,7 +120,7 @@
     - condition: state
       entity_id: input_boolean.notify_trash_voice
       state: "on"
-    - service: tts.google_translate_say
+    - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
         message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
