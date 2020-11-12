@@ -13,7 +13,7 @@
     entity_id: light.eetkamer_level
     data:
       brightness: >
-        {% if now().hour < 6 %}20{% elif now().hour > 19 %}20{% else %}255{% endif %}
+        {% if now().hour < 8 %}20{% elif now().hour > 19 %}20{% else %}255{% endif %}
 
 ##########################
 ## Eetkamer aan voor Bob
@@ -31,8 +31,8 @@
           entity_id: input_boolean.enable_pir_woonkamer
           state: "on"
         - condition: time
-          after: "05:15:00"
-          before: "06:58:00"
+          after: "06:58:00"
+          before: "07:29:00"
         - condition: state
           entity_id: group.lampen_woonkamer
           state: "off"
@@ -52,13 +52,13 @@
 ## Eetkamer uit voor Bob
 ##########################
 - id: turn_off_eetkamer_5min_after_movement
-  alias: "Lights: Eetkamer uit na 5min"
+  alias: "Lights: Eetkamer uit na 15min"
   trigger:
     platform: state
     entity_id: binary_sensor.pir_woonkamer_motion
     to: "off"
     for:
-      minutes: 5
+      minutes: 15
   condition:
     condition: state
     entity_id: input_boolean.eetkamer_on_movement
@@ -88,7 +88,7 @@
           entity_id: input_boolean.enable_pir_woonkamer
           state: "on"
         - condition: time
-          after: "06:59:00"
+          after: "07:29:00"
           before: "08:10:00"
         - condition: state
           entity_id: group.lampen_woonkamer
@@ -163,7 +163,7 @@
   action:
     - service: homeassistant.turn_off
       entity_id:
-        - input_boolean.woonkamer_on_movement  
+        - input_boolean.woonkamer_on_movement
 
 ##########################
 ## Nachtlampje
