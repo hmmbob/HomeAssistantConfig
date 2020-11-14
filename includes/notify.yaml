@@ -21,4 +21,3 @@
   name: tts_woonkamer
   tts_service: tts.microsoft_say
   media_player: media_player.woonkamer
-  language: nl
