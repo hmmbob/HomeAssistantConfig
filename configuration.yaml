@@ -109,14 +109,12 @@ spotcast:
   sp_key: !secret spotcast_sp_key
 
 tts:
-  - platform: google_translate
-    language: "nl"
-    base_url: !secret tts_base_url
   - platform: microsoft
     api_key: !secret tts_azure_api_key
     region: westeurope
     language: nl-nl
     type: ColetteNeural
+    base_url: !secret tts_base_url
 
 weather:
   - platform: darksky
