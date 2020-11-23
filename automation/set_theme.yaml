@@ -17,7 +17,7 @@
             - condition: state
               entity_id: sun.sun
               attribute: rising
-              state: "false"
+              state: "false" #check if this works
           sequence:
             - service: frontend.set_theme
               data:
