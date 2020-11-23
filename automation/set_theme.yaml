@@ -7,17 +7,15 @@
   trigger:
     - platform: homeassistant
       event: start
-    - platform: sun
-      event: sunrise
-    - platform: sun
-      event: sunset
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    - platform: state
+      entity_id: sun.sun
+      to: below_horizon
   action:
     - choose:
-        - conditions:
-            - condition: state
-              entity_id: sun.sun
-              attribute: rising
-              state: "false" #check if this works
+        - conditions: "{{ is_state('sun.sun', 'below_horizon')}}"
           sequence:
             - service: frontend.set_theme
               data:
