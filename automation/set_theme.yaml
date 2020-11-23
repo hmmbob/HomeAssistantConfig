@@ -16,7 +16,8 @@
         - conditions:
             - condition: state
               entity_id: sun.sun
-              state: "below_horizon"
+              attribute: rising
+              state: "false"
           sequence:
             - service: frontend.set_theme
               data:
