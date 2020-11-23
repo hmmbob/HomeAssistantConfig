@@ -145,8 +145,8 @@ cards:
       type: entities
       title: Input Date_Time
       show_header_toggle: false
-      filter:
-        include:
-          - entity_id: input_datetime.*
-      sort:
-        method: name
+    filter:
+      include:
+        - entity_id: input_datetime.*
+    sort:
+      method: name
