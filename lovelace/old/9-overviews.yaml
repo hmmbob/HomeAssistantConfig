@@ -26,24 +26,6 @@ cards:
     sort:
       method: name
 
-  - id: 0c96e930-f35b-45b6-9eab-e2c1fa62a4f2
-    type: entities
-    entities:
-      - entity: sensor.next_launch_rocket
-        name: Rocket
-      - entity: sensor.next_launch_mission
-        name: Mission
-      - entity: binary_sensor.next_launch_confirmed
-        name: Confirmed
-      - entity: sensor.next_launch_countdown
-        name: Countdown
-      - entity: sensor.next_launch_day
-        name: Day
-      - entity: sensor.next_launch_time
-        name: Time
-      - entity: sensor.next_launch_site
-        name: Site
-
   - id: 13241d19712345bb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
