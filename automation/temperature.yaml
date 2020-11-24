@@ -4,14 +4,18 @@
 - id: turn_on_toon_on_movement
   alias: "Temp: Toon aan op beweging"
   trigger:
-    platform: state
-    entity_id: binary_sensor.pir_woonkamer_motion
-    to: "on"
+    - platform: state
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "on"
+    - platform: state
+      entity_id: sensor.sm_a505fn_battery_state
+      to: "none"
+      from: "ac"
   condition:
     - condition: and
       conditions:
         - condition: time
-          after: "07:00:00"
+          after: "06:45:00"
           before: "08:30:00"
         - condition: numeric_state
           entity_id: sensor.room_temperature
