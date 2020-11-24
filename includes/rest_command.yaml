@@ -78,8 +78,10 @@ post_opensensebox:
       {% if states('sensor.particulate_matter_10_0um_concentration') and ('sensor.particulate_matter_2_5um_concentration') != 'unavailable' %}
         "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
         "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.particulate_matter_10_0um_concentration') }}",
-      {% endif %}    
-      "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.bme280_temperature') }}",
-      "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ states('sensor.bme280_pressure') | float * 100 }}",
-      "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}"
+      {% endif %}   
+      {% if states('sensor.bme280_temperature') and states('sensor.bme280_humidity') != 'unavailable' %} 
+        "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.bme280_temperature') }}",
+        "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ states('sensor.bme280_pressure') | float * 100 }}",
+        "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}"
+      {% endif %}   
     }
