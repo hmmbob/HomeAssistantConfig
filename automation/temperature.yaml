@@ -8,7 +8,7 @@
       entity_id: binary_sensor.pir_woonkamer_motion
       to: "on"
     - platform: state
-      entity_id: sensor.sm_a505fn_battery_state
+      entity_id: sensor.sm_a505fn_charger_type
       to: "none"
       from: "ac"
   condition:
