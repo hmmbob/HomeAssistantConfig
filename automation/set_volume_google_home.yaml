@@ -5,7 +5,7 @@
     - platform: time
       at:
         - "07:00:00"
-        - "09:00:00"
+        - "08:30:00"
         - "19:00:00"
         - "20:30:00"
   action:
@@ -24,7 +24,7 @@
                 volume_level: 0.4
         - conditions:
             - condition: template
-              value_template: "{{ now().strftime('%H:%M') == '09:00' }}"
+              value_template: "{{ now().strftime('%H:%M') == '08:30' }}"
           sequence:
             - service: media_player.volume_set
               data:
