@@ -11,6 +11,14 @@
   trigger: # Trigger on every update of the temperature
     platform: state
     entity_id: sensor.bme280_temperature
+  condition:
+    condition: not
+    conditions:
+      - "{{ is_state('sensor.particulate_matter_2_5um_concentration', 'unavailable') }}"
+      - "{{ is_state('sensor.particulate_matter_10_0um_concentration', 'unavailable') }}"
+      - "{{ is_state('sensor.bme280_temperature', 'unavailable') }}"
+      - "{{ is_state('sensor.bme280_humidity', 'unavailable') }}"
+      - "{{ is_state('sensor.bme280_pressure', 'unavailable') }}"
   action:
     ## Send to Luftdaten / Sensor.Community API
     ## Split over two calls as the headers differ
