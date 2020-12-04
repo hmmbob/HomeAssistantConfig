@@ -87,18 +87,18 @@ timer: !include includes/timer.yaml
 ## Components
 #################################################################
 camera:
-  name: Hmmbob
-  platform: generic
-  still_image_url: !secret google_maps_url
-  limit_refetch_to_url_change: true
+  - name: Hmmbob
+    platform: generic
+    still_image_url: !secret google_maps_url
+    limit_refetch_to_url_change: true
 
 cast:
 
 climate:
-  platform: toon_climate
-  name: Woonkamer
-  host: !secret toon_host
-  scan_interval: 15
+  - platform: toon_climate
+    name: Woonkamer
+    host: !secret toon_host
+    scan_interval: 15
 
 spotify:
   client_id: !secret spotify_client_id
