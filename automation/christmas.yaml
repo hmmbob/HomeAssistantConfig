@@ -1,0 +1,28 @@
+#############################
+## Christmas lights garden  #
+#############################
+- id: christmas_turn_on_garden
+  alias: "Christmas: Garden turn on lights"
+  initial_state: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:05:00"
+    - platform: time
+      at: "06:55:00"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kerstverlichting_tuin
+
+- id: christmas_turn_off_garden
+  alias: "Christmas: Garden turn off lights"
+  initial_state: true
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "-00:10:00"
+    - platform: time
+      at: "23:30:00"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.kerstverlichting_tuin
