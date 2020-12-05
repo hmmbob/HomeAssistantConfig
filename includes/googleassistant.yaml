@@ -80,3 +80,7 @@ entity_config:
     name: "Schuur"
     expose: true
     room: "Tuin"
+  switch.kerstverlichting_tuin:
+    name: "Kerstverlichting tuin"
+    expose: true
+    room: "Tuin"
