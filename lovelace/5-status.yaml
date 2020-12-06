@@ -72,7 +72,6 @@ cards:
         state_color: true
         entities:
           - binary_sensor.blauwe_lamp_status
-          - binary_sensor.grijze_lamp_status
           - binary_sensor.staande_lamp_status
           - binary_sensor.kerstverlichting_tuin_status
           - binary_sensor.deurbel_status
