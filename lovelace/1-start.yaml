@@ -209,6 +209,7 @@ cards:
           ha-card {
           margin: 0px 14px -5px 14px;
           }
+        state_color: true
         entities:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
