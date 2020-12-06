@@ -9,6 +9,12 @@ entities:
   - binary_sensor.door_sensor_1_contact
   - binary_sensor.door_sensor_2_contact
   - binary_sensor.deurbel
+  - binary_sensor.blauwe_lamp_status
+  - binary_sensor.staande_lamp_status
+  - binary_sensor.kerstverlichting_tuin_status
+  - binary_sensor.deurbel_status
+  - binary_sensor.weerhuisje_status
+  - binary_sensor.zigbee2mqtt_bridge
   - light.eetkamer_level
   - light.window_level
   - sensor.pir_woonkamer_sensor_luminance
@@ -39,5 +45,7 @@ entities:
   - switch.grijze_lamp
   - switch.staande_lamp
   - switch.schuur_1
+  - switch.kerstboom
+  - switch.kerstverlichting_tuin
   - sensor.memory_use_percent
   - sensor.processor_use_percent
