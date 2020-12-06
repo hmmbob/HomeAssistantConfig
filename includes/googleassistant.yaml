@@ -20,10 +20,10 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "TV Lamp"
-  switch.blauwe_lamp:
-    name: "Blauwe lamp"
-    expose: true
-    room: "Woonkamer"
+  #  switch.blauwe_lamp:
+  #    name: "Blauwe lamp"
+  #    expose: true
+  #    room: "Woonkamer"
   light.window_level:
     name: "Raam lamp"
     expose: true
