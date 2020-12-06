@@ -19,8 +19,8 @@
           sequence:
             - service: frontend.set_theme
               data:
-                name: "Google Dark Theme"
+                name: "Hmmbob Google Dark Theme"
       default:
         - service: frontend.set_theme
           data:
-            name: "Google Light Theme"
+            name: "Hmmbob Google Light Theme"

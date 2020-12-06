@@ -1,11 +1,37 @@
 # Theme based on Google app light theme
 # Creator: Juan - @juanmtech
-# Website: https://www.juanmtech.com
-# YouTube Channel: https://youtube.com/juanmtech
-# My Home Assistant Config files: https://github.com/JuanMTech/Home_Assistant_files
-#
-#
-Google Light Theme:
+# Modified by Hmmbob to add card-mod items
+# to replace custom header
+
+Hmmbob Google Light Theme:
+  # Card mod stuff
+  card-mod-theme: Google Light Theme
+  header-height: 48px
+  card-mod-root-yaml: |
+    ha-app-layout$: |
+      #contentContainer {
+        padding-top: 0px !important;
+        padding-bottom: 48px !important;
+      }
+    .: |
+      ha-tabs {
+        height: var(--header-height);
+        --paper-tabs-selection-bar-color: var(--primary-color) !important;
+        color: var(--app-header-text-color) !important;
+      }
+      paper-tab[aria-selected=true] > ha-icon, paper-tab[aria-selected=true] {
+        color: var(--primary-color) !important;
+      }
+      /* This hides the help button, menu button and title */
+      a.menu-link[target="_blank"], ha-button-menu, [main-title] {
+        display: none;
+      }
+      app-header {
+        top: calc(100vh - 48px) !important;
+        bottom: 0 !important;
+        transform: unset !important;
+      }
+  # End card-mod, back to the original theme:
   # Header:
   app-header-background-color: rgb(248, 248, 248)
   app-header-text-color: rgb(95, 99, 104)
