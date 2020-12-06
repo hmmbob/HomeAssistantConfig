@@ -7,3 +7,12 @@ zigbee2mqtt_log_level:
     - error
   initial: info
   icon: mdi:format-list-bulleted
+
+deurbel:
+  name: Deurbel deuntje
+  options:
+    - Star Wars
+    - Sinterklaas
+    - Jingle Bells
+  initial: Jingle Bells
+  icon: mdi:format-list-bulleted

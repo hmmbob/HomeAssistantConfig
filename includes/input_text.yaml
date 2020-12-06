@@ -22,3 +22,16 @@ opensensebox_sensorid_pm25:
 
 opensensebox_sensorid_pm10:
   initial: !secret opensensebox_sensorid_pm10
+
+##################################
+## Doorbell urls
+##################################
+
+deurbel_url_jingle_bells:
+  initial: !secret deurbel_url_jingle_bells
+
+deurbel_url_star_wars:
+  initial: !secret deurbel_url_star_wars
+
+deurbel_url_sinterklaas:
+  initial: !secret deurbel_url_sinterklaas

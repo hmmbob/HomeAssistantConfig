@@ -335,3 +335,5 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
+      - type: entity
+        entity: input_select.deurbel
