@@ -84,3 +84,6 @@ entity_config:
     name: "Kerstverlichting tuin"
     expose: true
     room: "Tuin"
+  switch.kerstboom:
+    name: "Kerstboom"
+    expose: true

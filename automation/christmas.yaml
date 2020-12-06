@@ -25,3 +25,44 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.kerstverlichting_tuin
+
+###################
+## Kerstboom      #
+###################
+- id: kerstboom_aan
+  alias: "Christmas: Kerstboom aan"
+  initial_state: on
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "on"
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kerstboom
+
+- id: kerstboom_uit
+  alias: "Christmas: Kerstboom uit"
+  initial_state: on
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "off"
+      for:
+        minutes: 20
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.kerstboom
