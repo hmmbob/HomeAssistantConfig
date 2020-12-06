@@ -1,4 +1,4 @@
-# Customizing template and rest sensors that cannot 
+# Customizing template and rest sensors that cannot
 # be customized through the frontend
 sensor.trash_today:
   friendly_name: Vandaag
@@ -26,6 +26,8 @@ sensor.toon_p1_power_use_cnt_high:
 sensor.toon_p1_power_use_cnt_low:
   friendly_name: Totaal verbruik (laag tarief)
   icon: mdi:gauge-empty
+sensor.latest_version:
+  icon: mdi:docker
 # Set home zone to 50m
 zone.home:
   radius: 50
