@@ -6,6 +6,13 @@
   initial_state: on
   mode: single
   max_exceeded: silent
+  variables:
+    dingdong: >
+      {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
+      {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
+      {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
+      {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
+      {% endif %}
   trigger:
     - platform: state
       entity_id: binary_sensor.deurbel
@@ -18,7 +25,7 @@
   action:
     - choose:
         # During daytime we want the doorbell to play
-        # in sync through the while house
+        # in sync through the whole house
         - conditions:
             - condition: time
               after: "08:00:00"
@@ -28,12 +35,7 @@
               data:
                 entity_id: media_player.woonkamer
                 media_content_type: music
-                media_content_id: >
-                  {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
-                  {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
-                  {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
-                  {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
-                  {% endif %}
+                media_content_id: "{{ dingdong }}"
             - service: media_player.volume_set
               data:
                 entity_id: media_player.woonkamer
@@ -42,12 +44,7 @@
               data:
                 entity_id: media_player.boven
                 media_content_type: music
-                media_content_id: >
-                  {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
-                  {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
-                  {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
-                  {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
-                  {% endif %}
+                media_content_id: "{{ dingdong }}"
             - service: script.turn_on
               entity_id:
                 - script.show_deurbel_alert
@@ -78,12 +75,7 @@
               data:
                 entity_id: media_player.woonkamer
                 media_content_type: music
-                media_content_id: >
-                  {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
-                  {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
-                  {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
-                  {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
-                  {% endif %}
+                media_content_id: "{{ dingdong }}"
             - service: media_player.volume_set
               data:
                 entity_id: media_player.woonkamer
