@@ -5,7 +5,7 @@
 
 Hmmbob Google Dark Theme:
   # Card mod stuff
-  card-mod-theme: Google Dark Theme
+  card-mod-theme: Hmmbob Google Dark Theme
   header-height: 48px
   card-mod-root-yaml: |
     ha-app-layout$: |

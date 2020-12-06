@@ -5,7 +5,7 @@
 
 Hmmbob Google Light Theme:
   # Card mod stuff
-  card-mod-theme: Google Light Theme
+  card-mod-theme: Hmmbob Google Light Theme
   header-height: 48px
   card-mod-root-yaml: |
     ha-app-layout$: |
