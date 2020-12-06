@@ -32,6 +32,7 @@
                   {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
                   {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
                   {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
+                  {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
                   {% endif %}
             - service: media_player.volume_set
               data:
@@ -45,6 +46,7 @@
                   {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
                   {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
                   {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
+                  {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
                   {% endif %}
             - service: script.turn_on
               entity_id:
@@ -80,6 +82,7 @@
                   {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
                   {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
                   {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
+                  {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
                   {% endif %}
             - service: media_player.volume_set
               data:
