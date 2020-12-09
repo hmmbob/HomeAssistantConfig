@@ -335,5 +335,7 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
-      - type: entity
-        entity: input_select.deurbel
+      - type: entities
+        title: Deurbel
+        entities:
+          - input_select.deurbel
