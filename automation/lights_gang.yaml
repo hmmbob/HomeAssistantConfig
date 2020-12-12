@@ -1,0 +1,41 @@
+##########################
+## Gang
+##########################
+- id: turn_off_gang
+  alias: "Lights: Turn off gang"
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_gang_sensor
+    to: "off"
+    for:
+      seconds: 30
+  condition:
+    - condition: state
+      entity_id: input_boolean.enable_pir_gang
+      state: "on"
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.gang_dimmer_level
+
+- id: turn_on_gang_on_movement
+  alias: "Lights: Gang aan op beweging"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_gang_sensor
+    to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.enable_pir_gang
+          state: "on"
+        - condition: or
+          conditions:
+            - condition: sun
+              after: sunset
+            - condition: sun
+              before: sunrise
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.gang_dimmer_level

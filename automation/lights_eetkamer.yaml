@@ -1,0 +1,74 @@
+##########################
+## Eetkamer brightness per tijdstip
+##########################
+- id: set_eetkamer_brightness_on_time
+  alias: "Lights: Eetkamer brightness by time"
+  trigger:
+    platform: state
+    entity_id: light.eetkamer_level
+    from: "off"
+    to: "on"
+  action:
+    service: light.turn_on
+    entity_id: light.eetkamer_level
+    data:
+      brightness: >
+        {% if now().hour < 8 %}20{% elif now().hour > 19 %}20{% else %}255{% endif %}
+
+##########################
+## Eetkamer aan voor Bob
+##########################
+- id: turn_on_eetkamer_on_movement
+  alias: "Lights: Eetkamer aan op beweging"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_woonkamer_motion
+    to: "on"
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.enable_pir_woonkamer
+          state: "on"
+        - condition: time
+          after: "06:58:00"
+          before: "07:29:00"
+        - condition: state
+          entity_id: group.lampen_woonkamer
+          state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.eetkamer_level
+      data:
+        brightness: 11
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.eetkamer_on_movement
+#  - service: cast.show_lovelace_view
+#    data:
+#      entity_id: media_player.woonkamer
+#      view_path: cast
+
+##########################
+## Eetkamer uit voor Bob
+##########################
+- id: turn_off_eetkamer_5min_after_movement
+  alias: "Lights: Eetkamer uit na 15min"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.pir_woonkamer_motion
+    to: "off"
+    for:
+      minutes: 15
+  condition:
+    condition: state
+    entity_id: input_boolean.eetkamer_on_movement
+    state: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id:
+        - light.eetkamer_level
+        - input_boolean.eetkamer_on_movement
+#  - service: media_player.turn_off
+#    entity_id:
+#      - media_player.woonkamer
+

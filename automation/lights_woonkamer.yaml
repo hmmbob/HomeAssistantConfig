@@ -1,78 +1,4 @@
 ##########################
-## Eetkamer brightness per tijdstip
-##########################
-- id: set_eetkamer_brightness_on_time
-  alias: "Lights: Eetkamer brightness by time"
-  trigger:
-    platform: state
-    entity_id: light.eetkamer_level
-    from: "off"
-    to: "on"
-  action:
-    service: light.turn_on
-    entity_id: light.eetkamer_level
-    data:
-      brightness: >
-        {% if now().hour < 8 %}20{% elif now().hour > 19 %}20{% else %}255{% endif %}
-
-##########################
-## Eetkamer aan voor Bob
-##########################
-- id: turn_on_eetkamer_on_movement
-  alias: "Lights: Eetkamer aan op beweging"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_woonkamer_motion
-    to: "on"
-  condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.enable_pir_woonkamer
-          state: "on"
-        - condition: time
-          after: "06:58:00"
-          before: "07:29:00"
-        - condition: state
-          entity_id: group.lampen_woonkamer
-          state: "off"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: light.eetkamer_level
-      data:
-        brightness: 11
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.eetkamer_on_movement
-#  - service: cast.show_lovelace_view
-#    data:
-#      entity_id: media_player.woonkamer
-#      view_path: cast
-
-##########################
-## Eetkamer uit voor Bob
-##########################
-- id: turn_off_eetkamer_5min_after_movement
-  alias: "Lights: Eetkamer uit na 15min"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_woonkamer_motion
-    to: "off"
-    for:
-      minutes: 15
-  condition:
-    condition: state
-    entity_id: input_boolean.eetkamer_on_movement
-    state: "on"
-  action:
-    - service: homeassistant.turn_off
-      entity_id:
-        - light.eetkamer_level
-        - input_boolean.eetkamer_on_movement
-#  - service: media_player.turn_off
-#    entity_id:
-#      - media_player.woonkamer
-
-##########################
 ## Woonkamer aan op beweging
 ##########################
 - id: turn_on_woonkamer_on_movement
@@ -125,9 +51,6 @@
         minutes: 30
     - platform: time
       at: input_datetime.time_schooltijd
-  #  - platform: sun
-  #    event: sunrise
-  #    offset: "00:25:00"
   condition:
     - condition: and
       conditions:
@@ -200,8 +123,8 @@
 ##########################
 ## Sunset lights woonkamer
 ##########################
-- id: ask_to_set_lights_before_sunset
-  alias: "Lights: Sunset: ask to set lights"
+- id: set_lights_before_sunset
+  alias: "Lights: Sunset set lights"
   initial_state: true
   trigger:
     platform: sun
@@ -211,88 +134,14 @@
     - condition: and
       conditions:
         - condition: state
-          entity_id: device_tracker.sm_a505fn
+          entity_id: group.all_persons
           state: home
         - condition: state
           entity_id: group.lampen_woonkamer
           state: "off"
   action:
-    - service: notify.mobile_app_sm_a505fn
-      data:
-        message: "Het wordt bijna donker. Wil je de lampen aan?"
-        title: "Magic lights"
-        data:
-          actions:
-            - action: "turn_on_sunset_lights"
-              title: "Ja, graag!"
-            - action: "turn_on_sunset_lights_in_20_min"
-              title: "Over 20 minuten"
-          ttl: 0
-          priority: high
-
-- id: set_lights_before_sunset
-  alias: "Lights: Sunset: set sunset lights"
-  initial_state: true
-  trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: "turn_on_sunset_lights"
-  action:
     - service: homeassistant.turn_on
-      entity_id:
-        - switch.grijze_lamp
-        - switch.blauwe_lamp
-        - switch.staande_lamp
-    - service: homeassistant.turn_on
-      entity_id: light.window_level
-      data:
-        brightness: 100
-
-- id: set_lights_before_sunset_in_20
-  alias: "Lights: Sunset: set sunset lights in 20 min"
-  initial_state: true
-  trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: "turn_on_sunset_lights_in_20_min"
-  action:
-    - delay: 00:20:00
-    - service: homeassistant.turn_on
-      entity_id:
-        - switch.grijze_lamp
-        - switch.blauwe_lamp
-        - switch.staande_lamp
-    - service: homeassistant.turn_on
-      entity_id: light.window_level
-      data:
-        brightness: 100
-
-#############################
-## Sunset lights garden     #
-#############################
-- id: turn_on_garden
-  alias: "Lights: Garden turn on"
-  initial_state: true
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:05:00"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.schuur_1
-
-- id: turn_off_garden
-  alias: "Lights: Garden turn off"
-  initial_state: true
-  trigger:
-    platform: sun
-    event: sunrise
-    offset: "-00:10:00"
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.schuur_1
+      entity_id: switch.staande_lamp
 
 #############################
 ## Vacation lights          #
@@ -355,45 +204,3 @@
       data:
         message: I turned your lights off at {{ now().strftime('%H:%M') }}.
         title: Vacation lights
-
-##########################
-## Gang
-##########################
-- id: turn_off_gang
-  alias: "Lights: Turn off gang"
-  initial_state: true
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_gang_sensor
-    to: "off"
-    for:
-      seconds: 30
-  condition:
-    - condition: state
-      entity_id: input_boolean.enable_pir_gang
-      state: "on"
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.gang_dimmer_level
-
-- id: turn_on_gang_on_movement
-  alias: "Lights: Gang aan op beweging"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_gang_sensor
-    to: "on"
-  condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.enable_pir_gang
-          state: "on"
-        - condition: or
-          conditions:
-            - condition: sun
-              after: sunset
-            - condition: sun
-              before: sunrise
-  action:
-    - service: homeassistant.turn_on
-      entity_id: light.gang_dimmer_level

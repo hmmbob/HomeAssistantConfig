@@ -1,0 +1,24 @@
+#############################
+## Garden lights            #
+#############################
+- id: turn_on_garden
+  alias: "Lights: Garden turn on"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:05:00"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.schuur_1
+
+- id: turn_off_garden
+  alias: "Lights: Garden turn off"
+  initial_state: true
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: "-00:10:00"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.schuur_1
