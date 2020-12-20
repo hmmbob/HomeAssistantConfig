@@ -8,6 +8,7 @@
 !*.md
 !automation/
 !automation/*
+!blueprints
 !custom_components/
 custom_components/*
 !custom_components/rss_feed_template/
@@ -21,20 +22,19 @@ custom_components/*
 !themes/
 !themes/*
 
-# Ignore folders.
-.storage
+# Ignore folders
 .cloud
-.google.token
+.storage
+.vscode
 
-# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+# Ensure these files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 googleassistant_serviceaccount.json
 includes/googleassistant_serviceaccount.json
+.google.token
+.spotify-token-cache
 
 # Ignore Python cache files 
 __pycache__/
-
-# Ignore various others
-zwave_device_config.yaml
