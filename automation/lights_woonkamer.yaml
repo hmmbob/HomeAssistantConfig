@@ -30,7 +30,7 @@
     - service: homeassistant.turn_on
       entity_id: light.window_level
       data:
-        brightness: 40
+        brightness_pct: 15
     - service: homeassistant.turn_on
       entity_id:
         - switch.grijze_lamp
@@ -115,7 +115,7 @@
     - service: homeassistant.turn_on
       entity_id: light.eetkamer_level
       data:
-        brightness: 11
+        brightness_pct: 5
     - delay: "00:03:00"
     - service: homeassistant.turn_off
       entity_id: light.eetkamer_level
@@ -166,7 +166,7 @@
     - service: homeassistant.turn_on
       entity_id: light.window_level
       data:
-        brightness: 100
+        brightness_pct: 40
     - service: logbook.log
       data:
         name: Vacation
