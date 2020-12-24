@@ -7,10 +7,9 @@
     - platform: time
       at: input_datetime.time_tv_time_over
   condition:
-    - condition: time
-      weekday:
-        - sat
-        - sun
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "off"
   action:
     - service: notify.tv
       data:

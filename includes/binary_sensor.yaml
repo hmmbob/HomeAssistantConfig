@@ -34,3 +34,11 @@
       value_template: >-
         {{ is_state('binary_sensor.door_sensor_1_contact', 'on')
             and is_state('input_boolean.notify_door_alert', 'on') }}
+
+##########################
+## Schoolday sensor
+##########################
+- platform: workday
+  name: "Schooldag"
+  country: NL
+  add_holidays: !include ./holidays.yaml
