@@ -214,7 +214,6 @@ cards:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
           - light.eetkamer_level
-          - switch.kerstboom
           - switch.kerstverlichting_tuin
           - entity: sensor.leeslamp_zolder_power
             name: "Verbruik leeslamp zolder"

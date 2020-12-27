@@ -1,73 +1,40 @@
-##########################
-## Kerstboom aan bij thuiskomst
-##########################
-- id: kerstboom_bij_thuiskomst
-  alias: 'Lights: Kerstboom aan bij thuiskomst'
+###################
+## Kerstboom      #
+###################
+- id: kerstboom_aan
+  alias: "Christmas: Kerstboom aan"
   initial_state: on
   trigger:
     - platform: state
-      entity_id: group.all_persons
-      to: 'home'
-      from: 'not_home'
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "on"
   condition:
     - condition: time
-      after: '06:45:00'
-      before: '22:00:00'
+      after: "06:45:00"
+      before: "22:00:00"
     - condition: state
       entity_id: switch.kerstboom
-      state: 'off'
+      state: "off"
   action:
     - service: homeassistant.turn_on
       entity_id: switch.kerstboom
 
-##########################
-## Kerstboom uit bij vertrek
-##########################
-- id: kerstboom_bij_vertrek
-  alias: 'Lights: Kerstboom uit bij vertrek'
+- id: kerstboom_uit
+  alias: "Christmas: Kerstboom uit"
   initial_state: on
   trigger:
     - platform: state
-      entity_id: group.all_persons
-      to: 'not_home'
-      from: 'home'
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "off"
+      for:
+        minutes: 20
   condition:
     - condition: time
-      after: '06:45:00'
-      before: '22:00:00'
+      after: "06:45:00"
+      before: "22:00:00"
     - condition: state
       entity_id: switch.kerstboom
-      state: 'on'
+      state: "on"
   action:
     - service: homeassistant.turn_off
       entity_id: switch.kerstboom
-
-##########################
-## Turn on Christmas tree on movement in living room
-##########################
-- id: turn_on_tree_on_movement
-  alias: "Lights: Kerstboom aan op beweging"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_sensor_motion
-    to: 'on'
-  action:
-  - service: homeassistant.turn_on
-    entity_id: switch.kerstboom
-
-
-##########################
-## Turn off Christmas tree on no movement
-##########################
-- id: turn_off_tree_20min_after_movement
-  alias: "Lights: Kerstboom uit na 20min"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_sensor_motion 
-    to: 'off'
-    for:
-      minutes: 20
-  action:
-  - service: homeassistant.turn_off
-    entity_id: 
-      - switch.kerstboom
