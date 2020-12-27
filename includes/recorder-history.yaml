@@ -45,7 +45,6 @@ entities:
   - switch.grijze_lamp
   - switch.staande_lamp
   - switch.schuur_1
-  - switch.kerstboom
   - switch.kerstverlichting_tuin
   - sensor.memory_use_percent
   - sensor.processor_use_percent
