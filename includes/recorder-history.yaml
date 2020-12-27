@@ -1,50 +1,51 @@
 ##Leave this line including first spaces
 domains:
-  - device_tracker
+  - alert
   - climate
+  - device_tracker
   - person
 entities:
-  - binary_sensor.pir_woonkamer_motion
-  - binary_sensor.pir_gang_sensor
+  - binary_sensor.blauwe_lamp_status
+  - binary_sensor.deurbel
+  - binary_sensor.deurbel_status
   - binary_sensor.door_sensor_1_contact
   - binary_sensor.door_sensor_2_contact
-  - binary_sensor.deurbel
-  - binary_sensor.blauwe_lamp_status
-  - binary_sensor.staande_lamp_status
   - binary_sensor.kerstverlichting_tuin_status
-  - binary_sensor.deurbel_status
+  - binary_sensor.pir_gang_sensor
+  - binary_sensor.pir_woonkamer_motion
+  - binary_sensor.staande_lamp_status
   - binary_sensor.weerhuisje_status
   - binary_sensor.zigbee2mqtt_bridge
   - light.eetkamer_level
   - light.window_level
-  - sensor.pir_woonkamer_sensor_luminance
-  - sensor.pir_gang_luminance
-  - sensor.pir_gang_temperature
-  - sensor.reistijd_thuis_werk
-  - sensor.reistijd_werk_thuis
-  - sensor.benzine_z
-  - sensor.diesel_z
   - sensor.benzine_u
-  - sensor.diesel_u
-  - sensor.slaapkamer_temperature
-  - sensor.slaapkamer_humidity
-  - sensor.zolder_temperature
-  - sensor.zolder_humidity
-  - sensor.outside_temperature
-  - sensor.room_temperature
-  - sensor.current_uv_index
-  - sensor.max_uv_index
+  - sensor.benzine_z
   - sensor.bme280_humidity
   - sensor.bme280_pressure
   - sensor.bme280_temperature
+  - sensor.current_uv_index
+  - sensor.diesel_u
+  - sensor.diesel_z
+  - sensor.leeslamp_zolder_power
+  - sensor.max_uv_index
+  - sensor.memory_use_percent
+  - sensor.outside_temperature
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
-  - sensor.leeslamp_zolder_power
+  - sensor.pir_gang_luminance
+  - sensor.pir_gang_temperature
+  - sensor.pir_woonkamer_sensor_luminance
+  - sensor.processor_use_percent
+  - sensor.reistijd_thuis_werk
+  - sensor.reistijd_werk_thuis
+  - sensor.room_temperature
+  - sensor.slaapkamer_humidity
+  - sensor.slaapkamer_temperature
   - sensor.wasmachine_power
+  - sensor.zolder_humidity
+  - sensor.zolder_temperature
   - switch.blauwe_lamp
   - switch.grijze_lamp
-  - switch.staande_lamp
-  - switch.schuur_1
   - switch.kerstverlichting_tuin
-  - sensor.memory_use_percent
-  - sensor.processor_use_percent
+  - switch.schuur_1
+  - switch.staande_lamp

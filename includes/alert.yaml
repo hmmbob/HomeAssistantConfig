@@ -51,7 +51,7 @@ weerhuisje:
   message: "Het weerhuisje is offline"
   entity_id: binary_sensor.weerhuisje_status
   state: "off"
-  repeat: 2
+  repeat: 10
   can_acknowledge: true
   skip_first: true
   notifiers:

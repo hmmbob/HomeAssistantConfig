@@ -54,6 +54,7 @@ cards:
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
               }
+
       - type: custom:state-switch ## Weather
         entity: weather.dark_sky
         default: default
@@ -94,6 +95,21 @@ cards:
               text: var(--app-header-text-color)
               night: "rgba(76, 87, 110)"
               fade: true
+
+      - type: conditional ## Conditional alerts
+        conditions:
+          - entity: alert.weerhuisje
+            state_not: "idle"
+        card:
+          type: entities
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            background: rgba(255, 40, 44, 0.6);
+            }
+          entities:
+            - entity: alert.weerhuisje
+              name: "Weerhuisje offline"
 
       - type: conditional ## Conditional UV
         conditions:
@@ -204,6 +220,7 @@ cards:
               padding-left: 10px !important;
               border-left: 3px solid rgba(81, 134, 236);
               }
+
       - type: entities ## Oogopslag overview
         style: |
           ha-card {
@@ -220,6 +237,7 @@ cards:
           - binary_sensor.door_sensor_2_contact
           - binary_sensor.door_sensor_1_contact
           - cover.zolder
+
       - type: conditional ## Conditional media_players
         conditions:
           - entity: media_player.soundbar
@@ -319,6 +337,23 @@ cards:
             }
           entity: media_player.tv_beneden
           icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.spotify_bob_lelieveld
+            state_not: "idle"
+        card:
+          type: custom:mini-media-player
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.spotify_bob_lelieveld
+          icon: mdi:spotify
           artwork: cover
           artwork_border: true
           power_color: true
