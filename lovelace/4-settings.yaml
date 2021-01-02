@@ -335,7 +335,9 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
-      - type: entities
-        title: Deurbel
-        entities:
-          - input_select.deurbel
+          - type: entity
+            entity: input_select.deurbel
+            style: |
+              ha-card {
+                width: 248px;
+              }

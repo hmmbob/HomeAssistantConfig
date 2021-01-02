@@ -11,7 +11,7 @@
       {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
       {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
       {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
-      {% elif is_state("input_select.deurbel", "Jingle Bells kort") %} {{ states('input_text.deurbel_url_jingle_bells_kort') }}
+      {% elif is_state("input_select.deurbel", "Savage Love") %} {{ states('input_text.deurbel_url_savage_love') }}
       {% endif %}
   trigger:
     - platform: state
@@ -69,7 +69,7 @@
                   before: "08:00:00"
                 - condition: time
                   after: "19:00:00"
-                  before: "22:00:00"
+                  before: "23:00:00"
           sequence:
             - service: media_player.play_media
               data:

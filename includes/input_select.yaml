@@ -11,9 +11,8 @@ zigbee2mqtt_log_level:
 deurbel:
   name: Deurbel deuntje
   options:
+    - Savage Love
     - Star Wars
     - Sinterklaas
     - Jingle Bells
-    - Jingle Bells kort
-  initial: Jingle Bells
   icon: mdi:format-list-bulleted

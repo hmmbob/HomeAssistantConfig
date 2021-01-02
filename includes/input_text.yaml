@@ -30,11 +30,11 @@ opensensebox_sensorid_pm10:
 deurbel_url_jingle_bells:
   initial: !secret deurbel_url_jingle_bells
 
-deurbel_url_jingle_bells_kort:
-  initial: !secret deurbel_url_jingle_bells_kort
-
 deurbel_url_star_wars:
   initial: !secret deurbel_url_star_wars
 
 deurbel_url_sinterklaas:
   initial: !secret deurbel_url_sinterklaas
+
+deurbel_url_savage_love:
+  initial: !secret deurbel_url_savage_love
