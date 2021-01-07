@@ -1,8 +1,8 @@
 ##########################
-## Toon aan op beweging
+## Toon aan
 ##########################
-- id: turn_on_toon_on_movement
-  alias: "Temp: Toon aan op beweging"
+- id: turn_on_toon
+  alias: "Temp: Toon aan"
   trigger:
     - platform: state
       entity_id: binary_sensor.pir_woonkamer_motion
