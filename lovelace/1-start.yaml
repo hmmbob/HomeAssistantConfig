@@ -344,7 +344,7 @@ cards:
           show_source: true
       - type: conditional
         conditions:
-          - entity: media_player.spotify_bob_lelieveld
+          - entity: media_player.spotify_bob
             state_not: "idle"
         card:
           type: custom:mini-media-player
@@ -352,10 +352,28 @@ cards:
             ha-card {
             margin: 0px 14px -5px 14px;
             }
-          entity: media_player.spotify_bob_lelieveld
+          entity: media_player.spotify_bob
           icon: mdi:spotify
           artwork: cover
           artwork_border: true
           power_color: true
           scroll_info: true
           show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.spotify_t
+            state_not: "idle"
+        card:
+          type: custom:mini-media-player
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+          entity: media_player.spotify_t
+          icon: mdi:spotify
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+

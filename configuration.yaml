@@ -108,7 +108,10 @@ spotify:
 spotcast:
   sp_dc: !secret spotcast_sp_dc
   sp_key: !secret spotcast_sp_key
-
+  accounts:
+    t:
+      sp_dc: !secret spotcast_t_sp_dc
+      sp_key: !secret spotcast_t_sp_key
 tts:
   - platform: microsoft
     api_key: !secret tts_azure_api_key

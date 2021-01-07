@@ -28,6 +28,7 @@ start_music_t:
   sequence:
     - service: spotcast.start
       data:
+        account: "t"
         entity_id: media_player.hmt
         uri: "spotify:track:5OoSxUZSbP1p7kb1d0SozG"
     - service: media_player.volume_set
