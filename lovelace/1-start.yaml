@@ -37,7 +37,7 @@ cards:
           {% set months = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"] %}
           {% set month = months[now().strftime('%m') | int -1] %}
           {% set days = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]  %}
-          {% set day = days[now().strftime('%A') | int ] %}
+          {% set day = days[now().strftime('%u') | int -1] %}
           # {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
         style:
           .: |
@@ -376,4 +376,3 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
-
