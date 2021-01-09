@@ -48,3 +48,20 @@ start_music_t:
     - service: media_player.turn_off
       data:
         entity_id: media_player.hmt
+
+#############################
+## Start Radio 538          #
+#############################
+radio:
+  alias: "Radio"
+  mode: single
+  sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.soundbar
+        media_content_id: "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538AAC.aac"
+        media_content_type: music
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.soundbar
+        volume_level: 0.12

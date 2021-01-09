@@ -18,8 +18,6 @@ entity_config:
     name: "Grijze lamp"
     expose: true
     room: "Woonkamer"
-    aliases:
-      - "TV Lamp"
   switch.blauwe_lamp:
     name: "Blauwe lamp"
     expose: true
@@ -30,6 +28,10 @@ entity_config:
     room: "Woonkamer"
   scene.avond:
     name: "Avond"
+    expose: true
+    room: "Woonkamer"
+  script.radio:
+    name: "radio"
     expose: true
     room: "Woonkamer"
   ##Eetkamer
