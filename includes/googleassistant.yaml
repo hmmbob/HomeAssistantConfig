@@ -30,8 +30,12 @@ entity_config:
     name: "Avond"
     expose: true
     room: "Woonkamer"
-  script.radio:
-    name: "radio"
+  script.radio_538:
+    name: "Radio 538"
+    expose: true
+    room: "Woonkamer"
+  script.qmusic:
+    name: "Radio Q"
     expose: true
     room: "Woonkamer"
   ##Eetkamer
