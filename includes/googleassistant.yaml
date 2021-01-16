@@ -10,16 +10,20 @@ entity_config:
     name: "Toon"
     expose: true
     room: "Woonkamer"
-  switch.staande_lamp:
-    name: "Staande lamp"
+  switch.blauwe_lamp:
+    name: "Blauwe lamp"
     expose: true
     room: "Woonkamer"
   switch.grijze_lamp:
     name: "Grijze lamp"
     expose: true
     room: "Woonkamer"
-  switch.blauwe_lamp:
-    name: "Blauwe lamp"
+  switch.staande_lamp:
+    name: "Staande lamp"
+    expose: true
+    room: "Woonkamer"
+  switch.zoutlamp:
+    name: "Zoutlamp"
     expose: true
     room: "Woonkamer"
   light.window_level:

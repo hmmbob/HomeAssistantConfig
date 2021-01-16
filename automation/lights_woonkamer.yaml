@@ -33,9 +33,10 @@
         brightness_pct: 15
     - service: homeassistant.turn_on
       entity_id:
-        - switch.grijze_lamp
         - switch.blauwe_lamp
+        - switch.grijze_lamp
         - switch.staande_lamp
+        - switch.zoutlamp
         - input_boolean.woonkamer_on_movement
 
 ##########################
@@ -160,8 +161,8 @@
     - delay: "00:{{ range(01,30) | random | int }}:00"
     - service: homeassistant.turn_on
       entity_id:
-        - switch.grijze_lamp
         - switch.blauwe_lamp
+        - switch.grijze_lamp
         - switch.staande_lamp
     - service: homeassistant.turn_on
       entity_id: light.window_level
@@ -191,8 +192,8 @@
     - delay: "00:{{ range(01,15) | random | int }}:00"
     - service: homeassistant.turn_off
       entity_id:
-        - switch.grijze_lamp
         - switch.blauwe_lamp
+        - switch.grijze_lamp
         - switch.staande_lamp
         - light.window_level
     - service: logbook.log

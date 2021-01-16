@@ -2,9 +2,10 @@ lampen_woonkamer:
   name: Verlichting Woonkamer
   icon: mdi:lightbulb-group-outline
   entities:
-    - switch.grijze_lamp
     - switch.blauwe_lamp
+    - switch.grijze_lamp
     - switch.staande_lamp
+    - switch.zoutlamp
     - light.window_level
 all_persons:
   name: Personen
