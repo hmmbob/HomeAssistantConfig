@@ -23,9 +23,12 @@ entity_config:
     expose: true
     room: "Woonkamer"
   switch.zoutlamp:
-    name: "Zoutlamp"
+    name: "Zout Lamp"
     expose: true
     room: "Woonkamer"
+    aliases:
+      - "Steen Lamp"
+      - "Zaklamp"
   light.window_level:
     name: "Raam lamp"
     expose: true
