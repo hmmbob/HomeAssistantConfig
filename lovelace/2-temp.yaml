@@ -35,8 +35,10 @@ cards:
         entity: climate.woonkamer
         label:
           temperature: Temperatuur
-          state: Programma
+        hide:
+          state: true
         control:
+          _headings: false
           preset:
             sleep:
               icon: mdi:sleep
@@ -46,8 +48,10 @@ cards:
               icon: mdi:fire
             home:
               icon: mdi:home-thermometer
+            eco:
+              icon: mdi:thermometer-off
         sensors:
-          - entity: sensor.outside_temperature
+          - entity: sensor.bme280_temperature
             name: Buiten
           - attribute: modulation_level
             name: Brander
@@ -104,9 +108,9 @@ cards:
                 margin: 0px 14px 0px 0px;
               }
             entities:
-              - entity: sensor.outside_temperature
+              - entity: sensor.bme280_temperature
                 name: Buiten
-              - entity: sensor.outside_humidity
+              - entity: sensor.bme280_humidity
                 show_graph: false
                 show_state: true
             points_per_hour: 1
