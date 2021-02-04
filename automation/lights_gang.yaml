@@ -16,7 +16,7 @@
       state: "on"
   action:
     service: homeassistant.turn_off
-    entity_id: light.gang_dimmer_level
+    entity_id: switch.gang
 
 - id: turn_on_gang_on_movement
   alias: "Lights: Gang aan op beweging"
@@ -38,4 +38,4 @@
               before: sunrise
   action:
     - service: homeassistant.turn_on
-      entity_id: light.gang_dimmer_level
+      entity_id: switch.gang
