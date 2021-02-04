@@ -4,7 +4,7 @@
 - platform: version
 - platform: version
   source: docker
-  
+
 - platform: systemmonitor
   resources:
     - type: memory_use_percent
@@ -167,15 +167,3 @@
     {% else %}
       Geen
     {% endif %}
-
-##########################
-## ZWave status sensors
-##########################
-# Sensor for monitoring the bridge state
-- platform: mqtt
-  unique_id: openzwave_bridge
-  name: OpenZWave Bridge
-  state_topic: "OpenZWave/1/status/"
-  value_template: "{{ value_json.Status }}"
-  json_attributes_topic: "OpenZWave/1/status/"
-  payload_not_available: "Offline"

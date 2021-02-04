@@ -78,7 +78,6 @@ cards:
           - binary_sensor.deurbel_status
           - binary_sensor.weerhuisje_status
           - binary_sensor.zigbee2mqtt_bridge
-          - sensor.openzwave_bridge
       - type: markdown ## Updates header
         content: |
           # Updates
