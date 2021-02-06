@@ -143,6 +143,16 @@
   action:
     - service: homeassistant.turn_on
       entity_id: switch.staande_lamp
+    - delay: "00:30:00"
+    - service: homeassistant.turn_on
+      entity_id:
+        - switch.blauwe_lamp
+        - switch.grijze_lamp
+        - switch.zoutlamp
+    - service: homeassistant.turn_on
+      entity_id: light.window_level
+      data:
+        brightness_pct: 40
 
 #############################
 ## Vacation lights          #

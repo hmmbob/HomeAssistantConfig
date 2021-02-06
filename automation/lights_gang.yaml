@@ -30,12 +30,10 @@
         - condition: state
           entity_id: input_boolean.enable_pir_gang
           state: "on"
-        - condition: or
-          conditions:
-            - condition: sun
-              after: sunset
-            - condition: sun
-              before: sunrise
+        - condition: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 8
   action:
     - service: homeassistant.turn_on
       entity_id: switch.gang
