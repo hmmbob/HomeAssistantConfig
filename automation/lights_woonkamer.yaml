@@ -143,7 +143,10 @@
   action:
     - service: homeassistant.turn_on
       entity_id: switch.staande_lamp
-    - delay: "00:30:00"
+    - wait_for_trigger:
+        - platform: sun
+          event: sunset
+          offset: "-00:15:00"
     - service: homeassistant.turn_on
       entity_id:
         - switch.blauwe_lamp
