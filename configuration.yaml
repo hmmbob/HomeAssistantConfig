@@ -23,17 +23,24 @@ homeassistant:
 
 default_config:
 
-recorder:
-  db_url: !secret recorder_url
-  purge_keep_days: 31
-  include: !include includes/recorder-history.yaml
+frontend:
+  themes: !include_dir_merge_named themes/
 
 history:
   include: !include includes/recorder-history.yaml
 
-logger:
-  default: warn
+http:
+  server_port: !secret http_server_port
+  ip_ban_enabled: True
+  login_attempts_threshold: 2
+  use_x_forwarded_for: true
+  trusted_proxies: !secret http_trusted_proxies
 
+recorder:
+  db_url: !secret recorder_url
+  purge_keep_days: 31
+  include: !include includes/recorder-history.yaml
+  
 logbook:
   exclude:
     entities:
@@ -42,24 +49,12 @@ logbook:
       - sensor.outside_temperature
       - sensor.room_temperature
 
-#################################################################
-## Frontend
-#################################################################
-http:
-  server_port: !secret http_server_port
-  ip_ban_enabled: True
-  login_attempts_threshold: 2
-  use_x_forwarded_for: true
-  trusted_proxies: !secret http_trusted_proxies
+logger:
+  default: warn
 
 lovelace:
   mode: yaml
   resources: !include lovelace/resources.yaml
-
-frontend:
-  themes: !include_dir_merge_named themes/
-
-map:
 
 #################################################################
 ## Includes
@@ -85,15 +80,13 @@ switch: !include includes/switch.yaml
 timer: !include includes/timer.yaml
 
 #################################################################
-## Components
+## Components not using includes
 #################################################################
 camera:
   - name: Hmmbob
     platform: generic
     still_image_url: !secret google_maps_url
     limit_refetch_to_url_change: true
-
-cast:
 
 climate:
   - platform: toon_climate
@@ -112,6 +105,7 @@ spotcast:
     t:
       sp_dc: !secret spotcast_t_sp_dc
       sp_key: !secret spotcast_t_sp_key
+
 tts:
   - platform: microsoft
     api_key: !secret tts_azure_api_key
@@ -124,13 +118,3 @@ weather:
   - platform: darksky
     api_key: !secret darksky_api
     mode: daily
-
-webhook:
-
-zigbee2mqtt_networkmap:
-panel_iframe:
-  networkmap:
-    title: "Zigbee Map"
-    url: "/local/community/zigbee2mqtt_networkmap/map.html"
-    icon: "mdi:graphql"
-    require_admin: true
