@@ -61,13 +61,9 @@
         - condition: state
           entity_id: input_boolean.vacation_mode_home
           state: "off"
-        - condition: time
-          weekday:
-            - mon
-            - tue
-            - wed
-            - thu
-            - fri
+        - condition: state
+          entity_id: binary_sensor.schooldag
+          state: "on"
   action:
     - service: homeassistant.turn_off
       entity_id:
