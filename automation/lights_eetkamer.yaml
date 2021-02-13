@@ -58,7 +58,7 @@
     entity_id: binary_sensor.pir_woonkamer_motion
     to: "off"
     for:
-      minutes: 15
+      minutes: 20
   condition:
     condition: state
     entity_id: input_boolean.eetkamer_on_movement
