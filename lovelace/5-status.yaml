@@ -38,9 +38,9 @@ cards:
           - entity: sensor.pir_woonkamer_battery_level
           - entity: sensor.pir_gang_battery_level
           - entity: sensor.slaapkamer_battery
-            name: "Batterij zolder"
-          - entity: sensor.zolder_battery
             name: "Batterij slaapkamer"
+          - entity: sensor.zolder_battery
+            name: "Batterij zolder"
           - entity: sensor.door_sensor_1_battery
             name: "Batterij vriezer"
           - entity: sensor.door_sensor_2_battery
