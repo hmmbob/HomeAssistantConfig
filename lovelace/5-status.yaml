@@ -36,15 +36,17 @@ cards:
         collapse: 2
         entities:
           - entity: sensor.pir_woonkamer_battery_level
+            tap_action: more-info
           - entity: sensor.pir_gang_battery_level
+            tap_action: more-info
           - entity: sensor.slaapkamer_battery
-            name: "Batterij slaapkamer"
+            tap_action: more-info
           - entity: sensor.zolder_battery
-            name: "Batterij zolder"
+            tap_action: more-info
           - entity: sensor.door_sensor_1_battery
-            name: "Batterij vriezer"
+            tap_action: more-info
           - entity: sensor.door_sensor_2_battery
-            name: "Batterij voordeur"
+            tap_action: more-info
       - type: markdown ## Statussen header
         content: |
           # Statussen
