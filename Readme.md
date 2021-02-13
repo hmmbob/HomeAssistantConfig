@@ -24,7 +24,7 @@ My vision is that my Home Automation should always work, even when the internet 
   - [Home Assistant Core](https://hub.docker.com/r/homeassistant/home-assistant) as core
   - [Mosquitto](https://hub.docker.com/_/eclipse-mosquitto) as local MQTT server
   - [zigbee2mqtt](https://hub.docker.com/r/koenkk/zigbee2mqtt) running my Zigbee network
-  - [ozwdaemon](https://hub.docker.com/r/openzwave/ozwdaemon) running my Z-Wave network
+  - [zwavejs](https://zwave-js.github.io/zwavejs2mqtt/#/) (through [zwavejs2mqtt](https://hub.docker.com/r/zwavejs/zwavejs2mqtt) running my Z-Wave network
   - [Traefik](https://hub.docker.com/_/traefik) as transparant reverse proxy, handling traffic to all containers and SSL termination
   - [ESPhome](https://hub.docker.com/r/esphome/esphome) to program my ESP devices
   - [Duplicati](https://hub.docker.com/r/duplicati/duplicati) for encrypted backups of my config files to the cloud
@@ -65,7 +65,7 @@ I use a combination of Z-Wave, Zigbee and Wifi in my setup:
 
 - Google Home Hub in the living room
 - AndroidTV in the living room TV
-- LG SH-8 Soundbar with built-in cast in the living room
+- Philips TAB8805/12 Soundbar with built-in cast in the living room
 - Google Home in the study room
 - 2x Google Home Mini upstairs
 - Google Chromecast in my bedroom TV
