@@ -29,7 +29,6 @@ entities:
   - sensor.leeslamp_zolder_power
   - sensor.max_uv_index
   - sensor.memory_use_percent
-  - sensor.outside_temperature
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
   - sensor.pir_gang_luminance
@@ -38,7 +37,6 @@ entities:
   - sensor.processor_use_percent
   - sensor.reistijd_thuis_werk
   - sensor.reistijd_werk_thuis
-  - sensor.room_temperature
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
   - sensor.wasmachine_power

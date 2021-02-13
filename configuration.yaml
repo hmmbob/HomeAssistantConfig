@@ -46,7 +46,6 @@ logbook:
     entities:
       - binary_sensor.pir_woonkamer_motion
       - binary_sensor.pir_gang_sensor
-      - sensor.outside_temperature
       - sensor.room_temperature
 
 logger:

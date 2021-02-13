@@ -18,7 +18,8 @@
           after: "06:45:00"
           before: "08:30:00"
         - condition: numeric_state
-          entity_id: sensor.room_temperature
+          entity_id: climate.woonkamer
+          attribute: current_temperature
           below: 19.5
   action:
     - service: climate.set_preset_mode
