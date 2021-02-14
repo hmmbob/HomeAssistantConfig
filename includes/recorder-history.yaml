@@ -37,6 +37,7 @@ entities:
   - sensor.processor_use_percent
   - sensor.reistijd_thuis_werk
   - sensor.reistijd_werk_thuis
+  - sensor.room_temperature
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
   - sensor.wasmachine_power
