@@ -95,9 +95,22 @@ climate:
     host: !secret toon_host
     scan_interval: 15
 
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
+sabnzbd:
+  api_key: !secret sabnzb_api_key
+  host: !secret sabnzb_ip
+  port: 8081
+  sensors:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+    - queue_count
+    - day_size
+    - week_size
+    - month_size
+    - total_size
 
 spotcast:
   sp_dc: !secret spotcast_sp_dc
@@ -106,6 +119,10 @@ spotcast:
     t:
       sp_dc: !secret spotcast_t_sp_dc
       sp_key: !secret spotcast_t_sp_key
+
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
 
 tts:
   - platform: microsoft
