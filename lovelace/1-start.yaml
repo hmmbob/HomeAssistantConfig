@@ -234,6 +234,8 @@ cards:
           - switch.kerstverlichting_tuin
           - entity: sensor.leeslamp_zolder_power
             name: "Verbruik leeslamp zolder"
+          - entity: sensor.pubercave_power
+            name: "Verbruik Pubercave"
           - binary_sensor.door_sensor_2_contact
           - binary_sensor.door_sensor_1_contact
           - cover.zolder

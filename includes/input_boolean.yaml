@@ -74,7 +74,7 @@ enable_cover:
   icon: mdi:garage
 
 notify_zolder:
-  name: Waarschuwing leeslamp
+  name: Waarschuwing leeslamp & pubercave
   initial: true
   icon: mdi:lightbulb-on-outline
 
