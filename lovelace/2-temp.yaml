@@ -10,28 +10,30 @@ cards:
       - type: markdown ## Temperatuur header
         content: |
           # Thermostaat
-        style:
-          .: |
-            ha-card {
+        card_mod:
+          style:
+            .: |
+              ha-card {
               margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: "custom:simple-thermostat"
-        style: |
-          ha-card {
-          margin: 0px 14px -5px 14px;
-          --st-font-size-title: 18px;
-          --st-font-size-xl: 
-          }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            --st-font-size-title: 18px;
+            --st-font-size-xl: 
+            }
         entity: climate.woonkamer
         label:
           temperature: Temperatuur
@@ -59,29 +61,31 @@ cards:
       - type: markdown ## Temperatuur header
         content: |
           # Temperaturen
-        style:
-          .: |
-            ha-card {
+        card_mod:
+          style:
+            .: |
+              ha-card {
               margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: horizontal-stack
         cards:
           - type: custom:mini-graph-card ## Woonkamer
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             entities:
               - entity: sensor.room_temperature
                 name: Woonkamer
@@ -102,11 +106,12 @@ cards:
               - value: 23
                 color: "#d35400"
           - type: custom:mini-graph-card ## Buiten
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 14px 0px 0px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
             entities:
               - entity: sensor.bme280_temperature
                 name: Buiten
@@ -132,11 +137,12 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mini-graph-card ## Slaapkamer
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             entities:
               - entity: sensor.slaapkamer_temperature
                 name: Slaapkamer
@@ -160,11 +166,12 @@ cards:
               - value: 23
                 color: "#d35400"
           - type: custom:mini-graph-card ## Zolder
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 14px 0px 0px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
             entities:
               - entity: sensor.zolder_temperature
                 name: Zolder
@@ -195,11 +202,12 @@ cards:
           title: Weerhuisje
           show_header_toggle: false
           state_color: true
-          style: |
-            ha-card {
-              margin: 0px 14px -5px 14px;
-              --st-font-size-title: 18px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+                margin: 0px 14px -5px 14px;
+                --st-font-size-title: 18px;
+              }
         filter:
           include:
             - entity_id: sensor.particulate*

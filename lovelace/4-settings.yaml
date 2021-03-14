@@ -10,30 +10,32 @@ cards:
       - type: markdown ## Instellingen header
         content: |
           # Instellingen
-        style:
-          .: |
-            ha-card {
+        card_mod:
+          style:
+            .: |
+              ha-card {
               margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
 
       - type: horizontal-stack ### 1st row
         cards:
           - type: custom:button-card
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             entity: input_boolean.enable_pir_woonkamer
             tap_action:
               action: toggle
@@ -100,11 +102,12 @@ cards:
       - type: horizontal-stack #### 2nd row
         cards:
           - type: custom:button-card
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             entity: input_boolean.enable_deurbel
             icon: '[[[ if (entity.state == "on") return "mdi:bell-ring-outline"; else return "mdi:bell-off-outline"; ]]]'
             tap_action:
@@ -175,11 +178,12 @@ cards:
         cards:
           - type: custom:button-card
             entity: input_boolean.notify_trash
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             name: Afval push
             icon: '[[[ if (entity.state == "on") return "mdi:message-bulleted"; else return "mdi:message-bulleted-off"; ]]]'
             show_state: false
@@ -243,11 +247,12 @@ cards:
         cards:
           - type: custom:button-card
             entity: input_boolean.notify_uv
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             name: UV push
             icon: '[[[ if (entity.state == "on") return "mdi:message-bulleted"; else return "mdi:message-bulleted-off"; ]]]'
             show_state: false
@@ -317,11 +322,12 @@ cards:
             show_state: false
             confirmation:
               text: "[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]"
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 0px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
             styles:
               card:
                 - width: 120px
@@ -337,7 +343,8 @@ cards:
                     - filter: grayscale(100%)
           - type: entity
             entity: input_select.deurbel
-            style: |
-              ha-card {
-                width: 248px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  width: 248px;
+                }

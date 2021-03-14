@@ -10,26 +10,28 @@ cards:
       - type: markdown ## Location header
         content: |
           # Location
-        style:
-          .: |
-            ha-card {
-             margin: 12px 14px -5px 14px;
-             box-shadow: none;
-             --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-               font-size: 18px !important;
-               font-weight: 400 !important;
-               padding-left: 10px !important;
-               border-left: 3px solid rgba(81, 134, 236);
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: entities ## Oogopslag overview
-        style: |
-          ha-card {
-           margin: 0px 14px -5px 14px;
-           }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
         entities:
           - type: custom:fold-entity-row
             head: group.all_persons
@@ -45,10 +47,11 @@ cards:
               - sensor.benzine_z
 
       - type: picture-entity
-        style: |
-          ha-card {
-           margin: 0px 14px -5px 14px;
-           }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
         title: Hmmbob
         entity: camera.hmmbob
         camera_image: camera.hmmbob

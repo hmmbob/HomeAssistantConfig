@@ -12,26 +12,28 @@ cards:
       - type: markdown ## Batterij niveaus header
         content: |
           # Batterij niveaus
-        style:
-          .: |
-            ha-card {
+        card_mod:
+          style:
+            .: |
+              ha-card {
               margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: custom:battery-state-card
-        style: |
-          ha-card {
-          margin: 0px 14px -5px 14px;
-          }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
         sort_by_level: "asc"
         collapse: 2
         entities:
@@ -50,26 +52,28 @@ cards:
       - type: markdown ## Statussen header
         content: |
           # Statussen
-        style:
-          .: |
-            ha-card {
+        card_mod:
+          style:
+            .: |
+              ha-card {
               margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: entities
-        style: |
-          ha-card {
-          margin: 0px 14px -5px 14px;
-          }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
         show_header_toggle: false
         state_color: true
         entities:
@@ -96,26 +100,28 @@ cards:
       - type: markdown ## Updates header
         content: |
           # Updates
-        style:
-          .: |
-            ha-card {
+        card_mod:
+          style:
+            .: |
+              ha-card {
               margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: entities
-        style: |
-          ha-card {
-          margin: 0px 14px -5px 14px;
-          }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
         show_header_toggle: false
         entities:
           - entity: sensor.current_version
@@ -129,31 +135,33 @@ cards:
       - type: markdown ## Meterstanden header
         content: |
           # Meterstanden
-        style:
-          .: |
-            ha-card {
-              margin: 12px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
+        card_mod:
+          style:
+            .: |
+              ha-card {
+                margin: 12px 14px -5px 14px;
+                box-shadow: none;
+                --ha-card-background: rgba(0, 0, 0, 0.0)
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
       - type: conditional
         conditions:
           - entity: sensor.toon_p1_power_use_high
             state_not: "0.00"
         card:
           type: entities
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entities:
             - type: custom:fold-entity-row
               head: sensor.toon_p1_power_use_high
@@ -167,10 +175,11 @@ cards:
             state_not: "0.00"
         card:
           type: entities
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entities:
             - type: custom:fold-entity-row
               head: sensor.toon_p1_power_use_low

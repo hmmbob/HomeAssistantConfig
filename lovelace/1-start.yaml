@@ -8,20 +8,21 @@ cards:
   - type: vertical-stack
     cards:
       - type: markdown
-        style:
-          .: |
-            ha-card {
-              margin: 5px 14px -5px 10px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 {
-                font-size: 20px;
-                font-weight: 500;
-                color: var(--app-header-text-color);
+        card_mod:
+          style:
+            .: |
+              ha-card {
+                margin: 5px 14px -5px 10px;
+                box-shadow: none;
+                --ha-card-background: rgba(0, 0, 0, 0.0)
               }
+            ha-markdown:
+              $: |
+                h1 {
+                  font-size: 20px;
+                  font-weight: 500;
+                  color: var(--app-header-text-color);
+                }
         content: |
           {% if now().hour < 5 %}
           # Goede nacht, {{user}}!
@@ -39,21 +40,22 @@ cards:
           {% set days = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]  %}
           {% set day = days[now().weekday()] %}
           # {{ day + ' ' + now().strftime('%-d') + ' ' + month }}
-        style:
-          .: |
-            ha-card {
-            margin: 12px 14px -5px 14px;
-            box-shadow: none;
-            --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
 
       - type: custom:state-switch ## Weather
         entity: weather.dark_sky
@@ -61,11 +63,12 @@ cards:
         states:
           sunny:
             type: custom:simple-weather-card
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 14px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 14px;
+                }
             entity: weather.dark_sky
             name: "thuis"
             secondary_info: precipitation
@@ -79,11 +82,12 @@ cards:
               fade: true
           default:
             type: custom:simple-weather-card
-            style: |
-              ha-card {
-                box-shadow: var(--card-box-shadow);
-                margin: 0px 14px 0px 14px;
-              }
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 14px;
+                }
             entity: weather.dark_sky
             name: "thuis"
             secondary_info: precipitation
@@ -102,11 +106,12 @@ cards:
             state_not: "idle"
         card:
           type: entities
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            background: rgba(255, 40, 44, 0.6);
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              background: rgba(255, 40, 44, 0.6);
+              }
           entities:
             - entity: alert.weerhuisje
               name: "Weerhuisje offline"
@@ -117,11 +122,12 @@ cards:
             state: "on"
         card:
           type: entities
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            background: rgba(249, 168, 37, 0.3);
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              background: rgba(249, 168, 37, 0.3);
+              }
           entities:
             - type: custom:fold-entity-row
               head:
@@ -153,51 +159,56 @@ cards:
         states:
           Restafval:
             type: entities
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(201, 201, 201, 0.3);
-              }
+            card_mod:
+              style: |
+                ha-card {
+                margin: 0px 14px -5px 14px;
+                background: rgba(201, 201, 201, 0.3);
+                }
             entities:
               - entity: sensor.trash_today
                 name: "Afvalinzameling  "
           GFT:
             type: entities
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(0, 168, 39, 0.1);
-              }
+            card_mod:
+              style: |
+                ha-card {
+                margin: 0px 14px -5px 14px;
+                background: rgba(0, 168, 39, 0.1);
+                }
             entities:
               - entity: sensor.trash_today
                 name: "Afvalinzameling  "
           Plastic:
             type: entities
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(255, 136, 0, 0.25);
-              }
+            card_mod:
+              style: |
+                ha-card {
+                margin: 0px 14px -5px 14px;
+                background: rgba(255, 136, 0, 0.25);
+                }
             entities:
               - entity: sensor.trash_today
                 name: "Afvalinzameling  "
           Plastic en Oud Papier:
             type: entities
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              background: linear-gradient(45deg, rgba(255, 136, 0, 0.25),rgba(0, 106, 255, 0.25));
-              }
+            card_mod:
+              style: |
+                ha-card {
+                margin: 0px 14px -5px 14px;
+                background: linear-gradient(45deg, rgba(255, 136, 0, 0.25),rgba(0, 106, 255, 0.25));
+                }
             entities:
               - entity: sensor.trash_today
                 name: "Afvalinzameling  "
           Oud Papier:
             type: entities
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(0, 106, 255, 0.25);
-              }
+            card_mod:
+              style: |
+                ha-card {
+                margin: 0px 14px -5px 14px;
+                background: rgba(0, 106, 255, 0.25);
+                }
             entities:
               - entity: sensor.trash_today
                 name: "Afvalinzameling  "
@@ -205,27 +216,29 @@ cards:
       - type: markdown ## Oogopslag header
         content: |
           # In een oogopslag...
-        style:
-          .: |
-            ha-card {
-            margin: 12px 14px -5px 14px;
-            box-shadow: none;
-            --ha-card-background: rgba(0, 0, 0, 0.0)
-            }
-          ha-markdown:
-            $: |
-              h1 { 
-              font-size: 18px !important;
-              font-weight: 400 !important;
-              padding-left: 10px !important;
-              border-left: 3px solid rgba(81, 134, 236);
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
               }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
 
       - type: entities ## Oogopslag overview
-        style: |
-          ha-card {
-          margin: 0px 14px -5px 14px;
-          }
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
         state_color: true
         entities:
           - type: custom:fold-entity-row
@@ -246,10 +259,11 @@ cards:
             state_not: "off"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.soundbar
           icon: mdi:cast
           artwork: cover
@@ -263,10 +277,11 @@ cards:
             state_not: "off"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.woonkamer
           icon: mdi:cast
           artwork: cover
@@ -280,10 +295,11 @@ cards:
             state_not: "off"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
+          card_mod:
+            style: |
+              ha-card {
               margin: 0px 14px -5px 14px;
-            }
+              }
           entity: media_player.studeerkamer
           icon: mdi:cast
           artwork: cover
@@ -297,10 +313,11 @@ cards:
             state_not: "off"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.hmt
           icon: mdi:cast
           artwork: cover
@@ -314,10 +331,11 @@ cards:
             state_not: "off"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.zolder
           icon: mdi:cast
           artwork: cover
@@ -333,10 +351,11 @@ cards:
             state_not: "unavailable"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.tv_beneden
           icon: mdi:cast
           artwork: cover
@@ -350,10 +369,11 @@ cards:
             state_not: "idle"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.spotify_bob
           icon: mdi:spotify
           artwork: cover
@@ -367,10 +387,11 @@ cards:
             state_not: "idle"
         card:
           type: custom:mini-media-player
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
           entity: media_player.spotify_t
           icon: mdi:spotify
           artwork: cover
