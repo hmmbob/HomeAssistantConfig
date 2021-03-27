@@ -149,3 +149,16 @@
     {% else %}
       Geen
     {% endif %}
+    
+- platform: afvalinfo
+  resources:
+    - pbd
+    - gft
+    - restafval
+    - papier
+    - trash_type_today
+    - trash_type_tomorrow
+  location: !secret afvalinfo_location
+  postcode: !secret afvalinfo_postcode
+  streetnumber: !secret afvalinfo_streetnumber
+  locale: 'nl'
