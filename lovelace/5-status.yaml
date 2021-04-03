@@ -150,39 +150,29 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
-      - type: conditional
-        conditions:
-          - entity: sensor.toon_p1_power_use_high
-            state_not: "0.00"
-        card:
-          type: entities
-          card_mod:
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              }
-          entities:
-            - type: custom:fold-entity-row
-              head: sensor.toon_p1_power_use_high
-              entities:
-                - sensor.toon_p1_power_use_high
-                - sensor.toon_p1_power_use_cnt_high
-                - sensor.toon_p1_power_use_cnt_low
-      - type: conditional
-        conditions:
-          - entity: sensor.toon_p1_power_use_low
-            state_not: "0.00"
-        card:
-          type: entities
-          card_mod:
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              }
-          entities:
-            - type: custom:fold-entity-row
-              head: sensor.toon_p1_power_use_low
-              entities:
-                - sensor.toon_p1_power_use_low
-                - sensor.toon_p1_power_use_cnt_high
-                - sensor.toon_p1_power_use_cnt_low
+      - type: entities
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+        entities:
+          - type: custom:fold-entity-row
+            head:
+              entity: sensor.dsmr_reading_electricity_currently_delivered
+              name: "Huidig verbruik"
+            entities:
+              - entity: sensor.dsmr_reading_electricity_delivered_2
+                name: "Meterstand hoog tarief"
+              - entity: sensor.dsmr_reading_electricity_delivered_1
+                name: "Meterstand laag tarief"
+              - entity: sensor.dsmr_day_consumption_electricity_merged
+                name: "Totaal dagverbruik"
+              - entity: sensor.dsmr_day_consumption_electricity_cost_merged
+                name: "Totaal electriciteitskosten vandaag"
+              - entity: sensor.dsmr_meter_stats_electricity_tariff
+                name: "Actief tarief"
+              - entity: sensor.dsmr_reading_phase_voltage_l1
+                name: "L1 Voltage"
+              - entity: sensor.dsmr_reading_phase_power_current_l1
+                name: "L1 Stroom"

@@ -46,14 +46,14 @@
 ##########################
 ## Toon sensors
 ##########################
-- platform: toon_smartmeter
-  host: !secret toon_host
-  scan_interval: 15
-  resources:
-    - elecusageflowlow
-    - elecusagecntlow
-    - elecusageflowhigh
-    - elecusagecnthigh
+#- platform: toon_smartmeter
+#  host: !secret toon_host
+#  scan_interval: 15
+#  resources:
+#    - elecusageflowlow
+#    - elecusagecntlow
+#    - elecusageflowhigh
+#    - elecusagecnthigh
 #    - gasused
 #    - gasusedcnt
 
@@ -131,3 +131,8 @@
   postcode: !secret afvalinfo_postcode
   streetnumber: !secret afvalinfo_streetnumber
   locale: "nl"
+
+##########################
+## Smartmeter sensors
+##########################
+- platform: dsmr_reader

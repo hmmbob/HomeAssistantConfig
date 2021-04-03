@@ -1,0 +1,25 @@
+####################
+# Dev Overview     #
+####################
+
+############################################################################################
+# This file is not part of my regular setup, but still being used in development efforts.  #
+# It is included just for me, so I can have a quick dev look at some items.                #
+############################################################################################
+path: dsmr
+title: DSMR overview
+icon: mdi:flash
+visible:
+  - user: 510b1afef60640d7a220711c50b2192a
+cards:
+  - id: 63f214ee-54bd-4a98-bf2f-c780a89c6764 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All DSMR entities
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: sensor.dsmr_*
+    sort:
+      method: name
