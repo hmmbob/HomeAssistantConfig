@@ -1,5 +1,5 @@
 ####################
-# Overview         #
+# Dev Overview     #
 ####################
 
 ############################################################################################
@@ -7,7 +7,7 @@
 # It is included just for me, so I can have a quick dev look at some items.                #
 ############################################################################################
 path: overview
-title: Overview
+title: Development overview
 icon: mdi:magnify
 visible:
   - user: 510b1afef60640d7a220711c50b2192a

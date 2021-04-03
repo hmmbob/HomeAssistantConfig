@@ -8,4 +8,4 @@ views:
   - !include lovelace/3-locations.yaml
   - !include lovelace/4-settings.yaml
   - !include lovelace/5-status.yaml
-  - !include lovelace/old/9-overviews.yaml
+  - !include lovelace/6-development.yaml
