@@ -119,37 +119,6 @@
 ##########################
 ## Trash sensors
 ##########################
-- platform: rest
-  resource: !secret scrape_url_afval
-  name: Trash_Today
-  scan_interval: 3600
-  value_template: >
-    {% set now = as_timestamp(now()) %}
-    {% set today = now | timestamp_custom("%d/%m/%Y") %}
-    {% set containerType = value_json.days[ today ] %}
-    {% if containerType | trim != "" %}
-      {% set trash = value_json.legend[ containerType ] %}
-      {{ trash }}
-    {% else %}
-      Geen
-    {% endif %}
-- platform: rest
-  resource: !secret scrape_url_afval
-  name: Trash_Tomorrow
-  scan_interval: 3600
-  value_template: >
-    {% set now = as_timestamp(now()) %}
-    {% set oneDay = 86400 %}
-    {% set nextDay = now + oneDay %}
-    {% set tomorrow = nextDay | timestamp_custom("%d/%m/%Y") %}
-    {% set containerType = value_json.days[ tomorrow ] %}
-    {% if containerType | trim != "" %}
-      {% set trash = value_json.legend[ containerType ] %}
-      {{ trash }}
-    {% else %}
-      Geen
-    {% endif %}
-    
 - platform: afvalinfo
   resources:
     - pbd
@@ -161,4 +130,4 @@
   location: !secret afvalinfo_location
   postcode: !secret afvalinfo_postcode
   streetnumber: !secret afvalinfo_streetnumber
-  locale: 'nl'
+  locale: "nl"

@@ -155,63 +155,164 @@ cards:
                   name: "Max UV Index overmorgen"
 
       - type: custom:state-switch ## Trash
-        entity: sensor.trash_today
+        entity: sensor.afvalinfo_today
         states:
-          Restafval:
-            type: entities
-            card_mod:
-              style: |
-                ha-card {
-                margin: 0px 14px -5px 14px;
-                background: rgba(201, 201, 201, 0.3);
-                }
-            entities:
-              - entity: sensor.trash_today
-                name: "Afvalinzameling  "
-          GFT:
-            type: entities
-            card_mod:
-              style: |
-                ha-card {
-                margin: 0px 14px -5px 14px;
-                background: rgba(0, 168, 39, 0.1);
-                }
-            entities:
-              - entity: sensor.trash_today
-                name: "Afvalinzameling  "
-          Plastic:
-            type: entities
-            card_mod:
-              style: |
-                ha-card {
-                margin: 0px 14px -5px 14px;
-                background: rgba(255, 136, 0, 0.25);
-                }
-            entities:
-              - entity: sensor.trash_today
-                name: "Afvalinzameling  "
-          Plastic en Oud Papier:
-            type: entities
-            card_mod:
-              style: |
-                ha-card {
-                margin: 0px 14px -5px 14px;
-                background: linear-gradient(45deg, rgba(255, 136, 0, 0.25),rgba(0, 106, 255, 0.25));
-                }
-            entities:
-              - entity: sensor.trash_today
-                name: "Afvalinzameling  "
-          Oud Papier:
-            type: entities
-            card_mod:
-              style: |
-                ha-card {
-                margin: 0px 14px -5px 14px;
-                background: rgba(0, 106, 255, 0.25);
-                }
-            entities:
-              - entity: sensor.trash_today
-                name: "Afvalinzameling  "
+          restafval:
+            type: vertical-stack
+            cards:
+              - type: markdown
+                card_mod:
+                  style:
+                    .: |
+                      ha-card {
+                      margin: 12px 14px -5px 14px;
+                      box-shadow: none;
+                      --ha-card-background: rgba(0, 0, 0, 0.0)
+                      }
+                    ha-markdown:
+                      $: |
+                        h1 { 
+                        font-size: 18px !important;
+                        font-weight: 400 !important;
+                        padding-left: 10px !important;
+                        border-left: 3px solid rgba(81, 134, 236);
+                        }
+                content: |
+                  # Afvalinzameling vandaag
+              - type: entities
+                card_mod:
+                  style: |
+                    ha-card {
+                    margin: 0px 14px -5px 14px;
+                    background: rgba(201, 201, 201, 0.3);
+                    }
+                entities:
+                  - sensor.afvalinfo_restafval
+          gft:
+            type: vertical-stack
+            cards:
+              - type: markdown
+                card_mod:
+                  style:
+                    .: |
+                      ha-card {
+                      margin: 12px 14px -5px 14px;
+                      box-shadow: none;
+                      --ha-card-background: rgba(0, 0, 0, 0.0)
+                      }
+                    ha-markdown:
+                      $: |
+                        h1 { 
+                        font-size: 18px !important;
+                        font-weight: 400 !important;
+                        padding-left: 10px !important;
+                        border-left: 3px solid rgba(81, 134, 236);
+                        }
+                content: |
+                  # Afvalinzameling vandaag
+              - type: entities
+                card_mod:
+                  style: |
+                    ha-card {
+                    margin: 0px 14px -5px 14px;
+                    background: rgba(0, 168, 39, 0.1);
+                    }
+                entities:
+                  - entity: sensor.afvalinfo_gft
+          pbd:
+            type: vertical-stack
+            cards:
+              - type: markdown
+                card_mod:
+                  style:
+                    .: |
+                      ha-card {
+                      margin: 12px 14px -5px 14px;
+                      box-shadow: none;
+                      --ha-card-background: rgba(0, 0, 0, 0.0)
+                      }
+                    ha-markdown:
+                      $: |
+                        h1 { 
+                        font-size: 18px !important;
+                        font-weight: 400 !important;
+                        padding-left: 10px !important;
+                        border-left: 3px solid rgba(81, 134, 236);
+                        }
+                content: |
+                  # Afvalinzameling vandaag
+              - type: entities
+                card_mod:
+                  style: |
+                    ha-card {
+                    margin: 0px 14px -5px 14px;
+                    background: rgba(255, 136, 0, 0.25);
+                    }
+                entities:
+                  - entity: sensor.afvalinfo_pbd
+          papier, pbd:
+            type: vertical-stack
+            cards:
+              - type: markdown
+                card_mod:
+                  style:
+                    .: |
+                      ha-card {
+                      margin: 12px 14px -5px 14px;
+                      box-shadow: none;
+                      --ha-card-background: rgba(0, 0, 0, 0.0)
+                      }
+                    ha-markdown:
+                      $: |
+                        h1 { 
+                        font-size: 18px !important;
+                        font-weight: 400 !important;
+                        padding-left: 10px !important;
+                        border-left: 3px solid rgba(81, 134, 236);
+                        }
+                content: |
+                  # Afvalinzameling vandaag
+              - type: entities
+                card_mod:
+                  style: |
+                    ha-card {
+                    margin: 0px 14px -5px 14px;
+                    background: linear-gradient(45deg, rgba(255, 136, 0, 0.25),rgba(0, 106, 255, 0.25));
+                    }
+                entities:
+                  - sensor.afvalinfo_pbd
+                  - sensor.afvalinfo_papier
+          papier:
+            type: vertical-stack
+            cards:
+              - type: markdown
+                card_mod:
+                  style:
+                    .: |
+                      ha-card {
+                      margin: 12px 14px -5px 14px;
+                      box-shadow: none;
+                      --ha-card-background: rgba(0, 0, 0, 0.0)
+                      }
+                    ha-markdown:
+                      $: |
+                        h1 { 
+                        font-size: 18px !important;
+                        font-weight: 400 !important;
+                        padding-left: 10px !important;
+                        border-left: 3px solid rgba(81, 134, 236);
+                        }
+                content: |
+                  # Afvalinzameling vandaag
+              - type: entities
+                card_mod:
+                  style: |
+                    ha-card {
+                    margin: 0px 14px -5px 14px;
+                    background: rgba(0, 106, 255, 0.25);
+                    }
+                entities:
+                  - sensor.afvalinfo_papier
 
       - type: markdown ## Oogopslag header
         content: |

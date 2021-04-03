@@ -14,16 +14,16 @@
     - condition: not
       conditions:
         - condition: state
-          entity_id: sensor.trash_today
-          state: "Geen"
+          entity_id: sensor.afvalinfo_today
+          state: "none"
         - condition: state
-          entity_id: sensor.trash_today
+          entity_id: sensor.afvalinfo_today
           state: "unavailable"
   action:
     - service: notify.mobile_app_sm_a505fn
       data:
         title: "Afvalinzameling"
-        message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
+        message: "Vandaag wordt het {{ states('sensor.afvalinfo_today') }} opgehaald."
         data:
           tag: "notification-trash"
     - condition: state
@@ -32,14 +32,14 @@
     - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
-        message: "Vandaag wordt het {{ states('sensor.trash_today') }} opgehaald."
+        message: "Vandaag wordt het {{ states('sensor.afvalinfo_today') }} opgehaald."
     - delay: "00:00:05"
     - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure TTS is done
     - choose:
         - conditions:
             - condition: state
-              entity_id: sensor.trash_today
-              state: "Plastic"
+              entity_id: sensor.afvalinfo_today
+              state: "pbd"
           sequence:
             - service: media_player.play_media
               data:
@@ -48,8 +48,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_today
-              state: "Restafval"
+              entity_id: sensor.afvalinfo_today
+              state: "restafval"
           sequence:
             - service: media_player.play_media
               data:
@@ -58,8 +58,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_today
-              state: "GFT"
+              entity_id: sensor.afvalinfo_today
+              state: "gft"
           sequence:
             - service: media_player.play_media
               data:
@@ -68,8 +68,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_today
-              state: "Oud Papier"
+              entity_id: sensor.afvalinfo_today
+              state: "papier"
           sequence:
             - service: media_player.play_media
               data:
@@ -78,8 +78,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_today
-              state: "Plastic en Oud Papier"
+              entity_id: sensor.afvalinfo_today
+              state: "papier, pbd"
           sequence:
             - service: media_player.play_media
               data:
@@ -104,16 +104,16 @@
     - condition: not
       conditions:
         - condition: state
-          entity_id: sensor.trash_tomorrow
-          state: "Geen"
+          entity_id: sensor.afvalinfo_tomorrow
+          state: "none"
         - condition: state
-          entity_id: sensor.trash_tomorrow
+          entity_id: sensor.afvalinfo_tomorrow
           state: "unavailable"
   action:
     - service: notify.mobile_app_sm_a505fn
       data:
         title: "Afvalinzameling"
-        message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
+        message: "Morgen wordt het {{ states('sensor.afvalinfo_tomorrow') }} opgehaald."
         data:
           tag: "notification-trash"
     - condition: state
@@ -122,14 +122,14 @@
     - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
-        message: "Morgen wordt het {{ states('sensor.trash_tomorrow') }} opgehaald."
+        message: "Morgen wordt het {{ states('sensor.afvalinfo_tomorrow') }} opgehaald."
     - delay: "00:00:05"
     - wait_template: "{{ is_state('media_player.woonkamer', 'idle') }}" # Ensure TTS is done
     - choose:
         - conditions:
             - condition: state
-              entity_id: sensor.trash_tomorrow
-              state: "Plastic"
+              entity_id: sensor.afvalinfo_tomorrow
+              state: "pbd"
           sequence:
             - service: media_player.play_media
               data:
@@ -138,8 +138,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_tomorrow
-              state: "Restafval"
+              entity_id: sensor.afvalinfo_tomorrow
+              state: "restafval"
           sequence:
             - service: media_player.play_media
               data:
@@ -148,8 +148,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_tomorrow
-              state: "GFT"
+              entity_id: sensor.afvalinfo_tomorrow
+              state: "gft"
           sequence:
             - service: media_player.play_media
               data:
@@ -158,8 +158,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_tomorrow
-              state: "Oud Papier"
+              entity_id: sensor.afvalinfo_tomorrow
+              state: "papier"
           sequence:
             - service: media_player.play_media
               data:
@@ -168,8 +168,8 @@
                 media_content_type: "image/png"
         - conditions:
             - condition: state
-              entity_id: sensor.trash_tomorrow
-              state: "Plastic en Oud Papier"
+              entity_id: sensor.afvalinfo_tomorrow
+              state: "papier, pbd"
           sequence:
             - service: media_player.play_media
               data:
