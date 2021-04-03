@@ -35,6 +35,7 @@ cards:
             --st-font-size-xl: 
             }
         entity: climate.woonkamer
+        show_header: false
         label:
           temperature: Temperatuur
         hide:
