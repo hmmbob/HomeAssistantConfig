@@ -8,7 +8,13 @@ time_morning_briefing:
   name: Start morning briefing
   has_time: true
 time_schooltijd:
-  name: Schooltijd
+  name: "Schooltijd: Toon & verlichting uit"
+  has_time: true
+time_schooltijd_pre_warning:
+  name: "Schooltijd: Schoenen aan doen"
+  has_time: true
+time_tandenpoetsen:
+  name: "Schooltijd: Tandenpoetsen"
   has_time: true
 time_trash_warning_today:
   name: Melding afval vandaag
@@ -20,7 +26,7 @@ time_tv_time_over:
   name: Melding TV tijd voorbij
   has_time: true
 time_uv_warning:
-  name: Tijd UV waarschuwing
+  name: UV waarschuwing
   has_time: true
 time_vacation_lights_start:
   name: Vacation lights start

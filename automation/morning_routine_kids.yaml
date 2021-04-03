@@ -1,0 +1,65 @@
+##########################
+## TV Time is over (non-schooldays)
+##########################
+- id: tv_time_over
+  alias: "TV: TV Tijd voorbij"
+  trigger:
+    - platform: time
+      at: input_datetime.time_tv_time_over
+  condition:
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "off"
+  action:
+    - service: notify.tv
+      data:
+        title: "TV tijd is voorbij!"
+        message: "Zetten jullie de TV uit en gaan jullie boterhammen eten?"
+        data:
+          fontsize: "large"
+          position: "top-right"
+          duration: 30
+          transparency: "50%"
+          color: "grey"
+
+##########################
+## Remember to brush your teeth (schooldays)
+##########################
+- id: time_to_brush_your_teeth
+  alias: "TTS: Tandenpoetsen"
+  trigger:
+    - platform: time
+      at: input_datetime.time_tandenpoetsen
+  condition:
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "on"
+  action:
+    - service: notify.tts_hele_huis
+      data:
+        message: "Het is tijd om je tanden te poetsen!"
+    - delay: "00:01:00"
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.hele_huis
+
+##########################
+## Announce time to go to school (schooldays)
+##########################
+- id: time_to_go_to_school
+  alias: "TTS: Bijna schooltijd"
+  trigger:
+    - platform: time
+      at: input_datetime.time_schooltijd_pre_warning
+  condition:
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "on"
+  action:
+    - service: notify.tts_hele_huis
+      data:
+        message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
+    - delay: "00:01:00"
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.hele_huis

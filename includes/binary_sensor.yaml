@@ -41,4 +41,6 @@
 - platform: workday
   name: "Schooldag"
   country: NL
+  remove_holidays:
+    - '2021-04-02' # Good Friday
   add_holidays: !include ./holidays.yaml

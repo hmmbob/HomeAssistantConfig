@@ -21,3 +21,8 @@
   name: tts_woonkamer
   tts_service: tts.microsoft_say
   media_player: media_player.woonkamer
+  
+- platform: tts
+  name: tts_hele_huis
+  tts_service: tts.microsoft_say
+  media_player: media_player.hele_huis
