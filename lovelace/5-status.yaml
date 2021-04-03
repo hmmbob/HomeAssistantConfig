@@ -80,7 +80,6 @@ cards:
           - binary_sensor.blauwe_lamp_status
           - binary_sensor.staande_lamp_status
           - binary_sensor.zoutlamp_status
-          - binary_sensor.kerstverlichting_tuin_status
           - binary_sensor.deurbel_status
           - binary_sensor.weerhuisje_status
           - binary_sensor.zigbee2mqtt_bridge
