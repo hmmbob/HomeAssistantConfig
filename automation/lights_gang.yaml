@@ -12,6 +12,9 @@
       seconds: 30
   condition:
     - condition: state
+      entity_id: switch.gang
+      state: "on"
+    - condition: state
       entity_id: input_boolean.enable_pir_gang
       state: "on"
   action:
@@ -27,6 +30,9 @@
   condition:
     - condition: and
       conditions:
+        - condition: state
+          entity_id: switch.gang
+          state: "off"
         - condition: state
           entity_id: input_boolean.enable_pir_gang
           state: "on"
