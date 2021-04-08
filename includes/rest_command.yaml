@@ -9,6 +9,7 @@
 # typically formatted as esp8266-12345678 or similar.
 send_luftdaten_pm:
   url: https://api.sensor.community/v1/push-sensor-data/
+  timeout: "5"
   method: POST
   content_type: "application/json"
   headers:
@@ -24,6 +25,7 @@ send_luftdaten_pm:
     }
 send_luftdaten_tph:
   url: https://api.sensor.community/v1/push-sensor-data/
+  timeout: "5"
   method: POST
   content_type: "application/json"
   headers:
@@ -42,6 +44,7 @@ send_luftdaten_tph:
 # Push to Madavi. This is related to Luftdaten and stores data for use in Grafana.
 send_madavi:
   url: https://api-rrd.madavi.de/data.php
+  timeout: "5"
   method: POST
   content_type: "application/json"
   headers:
@@ -65,7 +68,8 @@ send_madavi:
 # You can find those on your SenseBox page on https://opensensemap.org/account
 post_opensensebox:
   url: !secret opensensebox_api_url
-  method: post
+  timeout: "5"
+  method: POST
   headers:
     content-type: "application/json; charset=utf-8"
   payload: >-
