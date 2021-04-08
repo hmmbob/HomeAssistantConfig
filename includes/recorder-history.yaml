@@ -45,7 +45,7 @@ entities:
   - sensor.zolder_humidity
   - sensor.zolder_temperature
   - switch.blauwe_lamp
+  - switch.genie
   - switch.grijze_lamp
-  - switch.kerstverlichting_tuin
   - switch.schuur_1
   - switch.staande_lamp

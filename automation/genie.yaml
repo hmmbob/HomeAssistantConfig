@@ -1,0 +1,37 @@
+#################################
+## Automations for Rituals Genie
+#################################
+- alias: "Genie: Aan in de avond"
+  id: genie_on_evening
+  initial_state: on
+  trigger:
+    - platform: time
+      at: "17:00:00"
+  condition:
+    - condition: state
+      entity_id: switch.genie
+      state: "off"
+    - condition: state
+      entity_id: group.all_persons
+      state: "home"
+  action:
+    - service: homeassistant.turn_on
+      target:
+        entity_id: switch.genie
+
+- alias: "Genie: Uit"
+  id: genie_off
+  initial_state: on
+  trigger:
+    - platform: time # Stop scheduled evening run
+      at: "20:30:00"
+    - platform: time # Catch manual evening runs
+      at: "22:00:00"
+  condition:
+    - condition: state
+      entity_id: switch.genie
+      state: "on"
+  action:
+    - service: homeassistant.turn_off
+      target:
+        entity_id: switch.genie
