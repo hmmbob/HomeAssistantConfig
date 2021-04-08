@@ -83,6 +83,10 @@
 
 ##########################
 ## Gas prices sensors
+##
+## Just scraping the Tinq website pages for the needed information
+## URLs are to their site: https://www.tinq.nl/tankstations/utrecht-atoomweg (random example)
+## Using !secret as to somewhat keep some privacy for the exact locations I scrape.
 ##########################
 - platform: scrape
   resource: !secret scrape_url_z
