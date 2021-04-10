@@ -3,7 +3,6 @@
 #################################
 - alias: "Genie: Aan in de avond"
   id: genie_on_evening
-  initial_state: on
   trigger:
     - platform: time
       at: "17:00:00"
@@ -21,7 +20,6 @@
 
 - alias: "Genie: Uit"
   id: genie_off
-  initial_state: on
   trigger:
     - platform: time # Stop scheduled evening run
       at: "20:30:00"

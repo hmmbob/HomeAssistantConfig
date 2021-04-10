@@ -52,6 +52,7 @@ logger:
   default: warn
   logs:
     pychromecast.socket_client: critical # Mute cast reconnection warnings/errors
+    homeassistant.components.analytics: info
 
 lovelace:
   mode: yaml
@@ -130,6 +131,9 @@ tts:
     region: westeurope
     language: nl-nl
     type: ColetteNeural
+    base_url: !secret tts_base_url
+  - platform: google_translate
+    language: "nl"
     base_url: !secret tts_base_url
 
 weather:
