@@ -1,4 +1,39 @@
 ##########################
+## Don't forget to eat... (non-schooldays)
+##########################
+- id: tv_time_make_breakfast
+  alias: "TV: Maak je ontbijt"
+  trigger:
+    - platform: time
+      at: input_datetime.time_tv_time_breakfast
+  condition:
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "off"
+  action:
+    - service: notify.tv
+      data:
+        title: "Eten tijdens TV-tijd"
+        message: "Denk eraan dat jullie tijdens de TV-tijd ontbijten?"
+        data:
+          fontsize: "large"
+          position: "top-right"
+          duration: 30
+          transparency: "50%"
+          color: "grey"
+    - delay: "00:25:00"
+    - service: notify.tv
+      data:
+        title: "Eten tijdens TV-tijd"
+        message: "Denk aan je ontbijt, je moet klaar zijn voor {{ states('input_datetime.time_tv_time_over') }}"
+        data:
+          fontsize: "large"
+          position: "top-right"
+          duration: 30
+          transparency: "50%"
+          color: "grey"
+
+##########################
 ## TV Time is over (non-schooldays)
 ##########################
 - id: tv_time_over
@@ -14,7 +49,7 @@
     - service: notify.tv
       data:
         title: "TV tijd is voorbij!"
-        message: "Zetten jullie de TV uit en gaan jullie boterhammen eten?"
+        message: "Zetten jullie de TV uit en gaan jullie aankleden en tanden poetsen?"
         data:
           fontsize: "large"
           position: "top-right"

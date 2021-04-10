@@ -22,8 +22,11 @@ time_trash_warning_today:
 time_trash_warning_tomorrow:
   name: Melding afval morgen
   has_time: true
+time_tv_time_breakfast:
+  name: "TV: Melding ontbijt bij TV"
+  has_time: true
 time_tv_time_over:
-  name: Melding TV tijd voorbij
+  name: "TV: Melding TV tijd voorbij"
   has_time: true
 time_uv_warning:
   name: UV waarschuwing
