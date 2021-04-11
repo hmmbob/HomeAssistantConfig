@@ -21,8 +21,6 @@ homeassistant:
   external_url: !secret external_url
   internal_url: !secret external_url # Not an error
 
-default_config:
-
 frontend:
   themes: !include_dir_merge_named themes/
 
@@ -52,7 +50,7 @@ logger:
   default: warn
   logs:
     pychromecast.socket_client: critical # Mute cast reconnection warnings/errors
-    homeassistant.components.analytics: info
+    homeassistant.components.analytics: info # I'd like to see what is sent
 
 lovelace:
   mode: yaml
@@ -82,6 +80,21 @@ switch: !include includes/switch.yaml
 timer: !include includes/timer.yaml
 
 #################################################################
+## default_config items not included elsewhere
+#################################################################
+dhcp:
+map:
+mobile_app:
+my:
+person:
+ssdp:
+sun:
+system_health:
+updater:
+webhook:
+zeroconf:
+
+#################################################################
 ## Components not using includes
 #################################################################
 camera:
@@ -95,23 +108,6 @@ climate:
     name: Woonkamer
     host: !secret toon_host
     scan_interval: 15
-
-sabnzbd:
-  api_key: !secret sabnzb_api_key
-  host: !secret sabnzb_ip
-  port: 8081
-  sensors:
-    - current_status
-    - speed
-    - queue_size
-    - queue_remaining
-    - disk_size
-    - disk_free
-    - queue_count
-    - day_size
-    - week_size
-    - month_size
-    - total_size
 
 spotcast:
   sp_dc: !secret spotcast_sp_dc
@@ -131,9 +127,6 @@ tts:
     region: westeurope
     language: nl-nl
     type: ColetteNeural
-    base_url: !secret tts_base_url
-  - platform: google_translate
-    language: "nl"
     base_url: !secret tts_base_url
 
 weather:
