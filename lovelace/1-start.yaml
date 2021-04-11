@@ -350,8 +350,14 @@ cards:
             name: "Verbruik leeslamp zolder"
           - entity: sensor.pubercave_power
             name: "Verbruik Pubercave"
-          - binary_sensor.door_sensor_2_contact
-          - binary_sensor.door_sensor_1_contact
+          - type: custom:multiple-entity-row
+            entity: binary_sensor.door_sensor_2_contact
+            show_state: false
+            state_color: true
+            name: Deuren
+            entities:
+              - binary_sensor.door_sensor_2_contact
+              - binary_sensor.door_sensor_1_contact
           - cover.zolder
 
       - type: conditional ## Conditional media_players

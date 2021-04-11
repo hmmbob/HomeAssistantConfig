@@ -83,19 +83,6 @@ cards:
           - binary_sensor.deurbel_status
           - binary_sensor.weerhuisje_status
           - binary_sensor.zigbee2mqtt_bridge
-          - type: custom:fold-entity-row
-            head: sensor.sabnzbd_status
-            entities:
-              - sensor.sabnzbd_queue
-              - sensor.sabnzbd_queue_count
-              - sensor.sabnzbd_left
-              - sensor.sabnzbd_total
-              - sensor.sabnzbd_speed
-              - sensor.sabnzbd_disk
-              - sensor.sabnzbd_disk_free
-              - sensor.sabnzbd_daily_total
-              - sensor.sabnzbd_weekly_total
-              - sensor.sabnzbd_monthly_total
       - type: markdown ## Updates header
         content: |
           # Updates
