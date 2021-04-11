@@ -35,13 +35,12 @@ cards:
             --st-font-size-xl: 
             }
         entity: climate.woonkamer
-        show_header: false
+        header: false
         label:
           temperature: Temperatuur
         hide:
           state: true
         control:
-          _headings: false
           preset:
             sleep:
               icon: mdi:sleep
