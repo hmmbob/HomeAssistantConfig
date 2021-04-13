@@ -70,7 +70,7 @@
       entity_id: sensor.latest_version
   condition:
     - condition: template
-      value: >
+      value_template: >
         {{ states('sensor.latest_version') != states('sensor.current_version') }}
   action:
     - service: notify.mobile_app_sm_a505fn
