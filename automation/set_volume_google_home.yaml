@@ -49,7 +49,7 @@
                 entity_id:
                   - media_player.hmt
                   - media_player.zolder
-                volume_level: 0.1
+                volume_level: 0.2
         - conditions:
             - condition: template
               value_template: "{{ now().strftime('%H:%M') == '20:30' }}"

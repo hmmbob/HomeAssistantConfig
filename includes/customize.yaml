@@ -20,18 +20,6 @@ sensor.benzine_u:
   icon: mdi:gas-station-outline
 sensor.benzine_z:
   icon: mdi:gas-station-outline
-sensor.toon_p1_power_use_high:
-  friendly_name: Huidig verbruik (hoog tarief)
-  icon: mdi:current-ac
-sensor.toon_p1_power_use_low:
-  friendly_name: Huidig verbruik (laag tarief)
-  icon: mdi:current-ac
-sensor.toon_p1_power_use_cnt_high:
-  friendly_name: Totaal verbruik (hoog tarief)
-  icon: mdi:gauge-full
-sensor.toon_p1_power_use_cnt_low:
-  friendly_name: Totaal verbruik (laag tarief)
-  icon: mdi:gauge-empty
 sensor.latest_version:
   icon: mdi:docker
 # Set home zone to 50m

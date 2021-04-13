@@ -59,7 +59,6 @@ I use a combination of Z-Wave, Zigbee and Wifi in my setup:
 - Rooted Toon thermostat
   - Rooting enables local control of the thermostat, and prevents needing a subscription with Eneco. It requires a [custom_component](https://github.com/cyberjunky/home-assistant-toon_climate) (installed through [HACS](https://hacs.xyz/)).
   - Connecting to [emulated Hue on Home Assistant](https://github.com/hmmbob/HomeAssistantConfig/blob/master/includes/emulated_hue.yaml) for light switches.
-- The Toon Thermostat also provides information on my smartmeter, measuring electricity. It receives this information through the P1 port on the meter and pushes this to Home Assistant. This also requires a [custom component](https://github.com/cyberjunky/home-assistant-toon_smartmeter) to work (also easily installed through [HACS](https://hacs.xyz/)).
 
 ### Cast & Voice Control
 

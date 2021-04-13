@@ -1,7 +1,7 @@
 #############################
 ## Deurbel notifications   #
 #############################
-show_deurbel_alert:
+show_doorbell_alert:
   mode: single
   max_exceeded: silent
   sequence:
@@ -19,6 +19,20 @@ show_deurbel_alert:
           transparency: "50%"
           color: "grey"
 
+send_doorbell_notification:
+  mode: single
+  max_exceeded: silent
+  sequence:
+    - condition: state
+      entity_id: device_tracker.sm_a505fn
+      state: "home"
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        title: "Deurbel"
+        message: "Er staat iemand aan de deur!"
+        data:
+          tag: "deurbel"
+
 #############################
 ## Start sleeping music     #
 #############################
@@ -26,6 +40,18 @@ start_music_t:
   alias: Slaaptijd
   mode: restart
   sequence:
+    - choose:
+        - conditions:
+            - condition: not
+              conditions:
+                - condition: state
+                  entity_id: media_player.hmt
+                  state: "off"
+          sequence:
+            - service: media_player.turn_off
+              data:
+                entity_id: media_player.hmt
+            - delay: "00:00:05"
     - service: spotcast.start
       data:
         account: "t"

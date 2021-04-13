@@ -60,7 +60,7 @@ lovelace:
 ## Includes
 #################################################################
 alert: !include includes/alert.yaml
-automation: !include includes/automations.yaml
+automation: !include automations.yaml
 automation split: !include_dir_merge_list automation/
 binary_sensor: !include includes/binary_sensor.yaml
 emulated_hue: !include includes/emulated_hue.yaml

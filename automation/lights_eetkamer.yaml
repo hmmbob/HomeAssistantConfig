@@ -13,7 +13,7 @@
     entity_id: light.eetkamer_level
     data:
       brightness_pct: >
-        {% if now().hour < 8 %}8{% elif now().hour > 19 %}8{% else %}100{% endif %}
+        {% if now().hour < 8 %}10{% elif now().hour > 19 %}15{% else %}100{% endif %}
 
 ##########################
 ## Eetkamer aan voor Bob
@@ -40,13 +40,9 @@
     - service: homeassistant.turn_on
       entity_id: light.eetkamer_level
       data:
-        brightness_pct: 5
+        brightness_pct: 10
     - service: homeassistant.turn_on
       entity_id: input_boolean.eetkamer_on_movement
-#  - service: cast.show_lovelace_view
-#    data:
-#      entity_id: media_player.woonkamer
-#      view_path: cast
 
 ##########################
 ## Eetkamer uit voor Bob
@@ -68,7 +64,3 @@
       entity_id:
         - light.eetkamer_level
         - input_boolean.eetkamer_on_movement
-#  - service: media_player.turn_off
-#    entity_id:
-#      - media_player.woonkamer
-

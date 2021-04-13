@@ -10,12 +10,12 @@
   condition:
     - condition: and
       conditions:
-        - condition: state
-          entity_id: input_boolean.enable_pir_woonkamer
-          state: "on"
         - condition: time
           after: "07:29:00"
           before: "08:10:00"
+        - condition: state
+          entity_id: input_boolean.enable_pir_woonkamer
+          state: "on"
         - condition: state
           entity_id: group.lampen_woonkamer
           state: "off"
@@ -112,7 +112,7 @@
     - service: homeassistant.turn_on
       entity_id: light.eetkamer_level
       data:
-        brightness_pct: 5
+        brightness_pct: 10
     - delay: "00:03:00"
     - service: homeassistant.turn_off
       entity_id: light.eetkamer_level

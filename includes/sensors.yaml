@@ -44,20 +44,6 @@
         {%- endif %}
 
 ##########################
-## Toon sensors
-##########################
-#- platform: toon_smartmeter
-#  host: !secret toon_host
-#  scan_interval: 15
-#  resources:
-#    - elecusageflowlow
-#    - elecusagecntlow
-#    - elecusageflowhigh
-#    - elecusagecnthigh
-#    - gasused
-#    - gasusedcnt
-
-##########################
 ## Waze sensors
 ##########################
 - platform: waze_travel_time

@@ -31,9 +31,9 @@ entities:
   - sensor.memory_use_percent
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
-  - sensor.pir_gang_luminance
+  - sensor.pir_gang_illuminance
   - sensor.pir_gang_temperature
-  - sensor.pir_woonkamer_sensor_luminance
+  - sensor.pir_woonkamer_illuminance
   - sensor.processor_use_percent
   - sensor.pubercave_power
   - sensor.reistijd_thuis_werk
