@@ -40,6 +40,9 @@ cards:
           temperature: Temperatuur
         hide:
           state: true
+        layout:
+          mode:
+            headings: false
         control:
           preset:
             sleep:
