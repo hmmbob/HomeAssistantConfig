@@ -1,6 +1,9 @@
 ##########################
 ## Zolder
 ##########################
+
+# Reading light: the kid shouldn't be reading after bedtime, so we track
+# the power usage of his bedside light with an always on switch
 - id: warn_reading_light_on
   alias: "Lights: Leeslampje aan"
   trigger:
@@ -20,14 +23,14 @@
       data:
         title: "Leeslampje"
         message: "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
+        data:
+          tag: "leeslampje"
 
-# Because the switch is always on, we need another way to
-# track this light in the logbook
+# Because the switch is always on and only used for power tracking,
+# we need another way to track this switch/light in the logbook.
 - id: logging_zolder_leeslampje
   alias: "Lights: Logging leeslampje"
   trigger:
-    - platform: homeassistant
-      event: start
     - platform: numeric_state
       entity_id: sensor.leeslamp_zolder_power
       above: 3
@@ -46,6 +49,8 @@
             is uit
           {% endif %}
 
+# Pubercave: mancave for the adolescent kid. It has a TV and PS4 that obviously
+# shouldn't be on after bedtime... So let's trigger a notification :)
 - id: warn_pubercave_on
   alias: "Power: Pubercave aan"
   trigger:
@@ -63,28 +68,30 @@
       data:
         title: "Pubercave"
         message: "De TV of PS4 op zolder staan nog aan... ({{ now().strftime('%H:%M') }})."
+        data:
+          tag: "pubercave"
 
-# Because the switch is always on, we need another way to
-# track this light in the logbook
+# Because the switch is always on and only used for power tracking,
+# we need another way to track this switch in the logbook. We use
+# 15 watts as crossover point, because the PS4 sometimes charges
+# the controllers and thus consumes a bit of power.
 - id: logging_zolder_pubercave
   alias: "Power: Logging Pubercave"
   trigger:
-    - platform: homeassistant
-      event: start
     - platform: numeric_state
       entity_id: sensor.pubercave_power
-      above: 10
+      above: 15
     - platform: numeric_state
       entity_id: sensor.pubercave_power
-      below: 9
+      below: 15
   action:
     - service: logbook.log
       data:
         name: Pubercave zolder
         entity_id: sensor.pubercave_power
         message: >-
-          {% if states('sensor.pubercave_power') | float > 10 %}
-            is aan
+          {% if states('sensor.pubercave_power') | float > 15 %}
+            is aan 
           {% else %}
             is uit
           {% endif %}
