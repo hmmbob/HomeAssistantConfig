@@ -416,7 +416,7 @@ cards:
           show_source: true
       - type: conditional
         conditions:
-          - entity: media_player.hmt
+          - entity: media_player.slaapkamer
             state_not: "off"
         card:
           type: custom:mini-media-player
@@ -425,7 +425,7 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.hmt
+          entity: media_player.slaapkamer
           icon: mdi:cast
           artwork: cover
           artwork_border: true

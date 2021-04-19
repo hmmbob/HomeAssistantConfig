@@ -29,7 +29,7 @@
             - service: media_player.volume_set
               data:
                 entity_id:
-                  - media_player.hmt
+                  - media_player.slaapkamer
                   - media_player.zolder
                 volume_level: 0.5
         - conditions:
@@ -47,7 +47,7 @@
             - service: media_player.volume_set
               data:
                 entity_id:
-                  - media_player.hmt
+                  - media_player.slaapkamer
                   - media_player.zolder
                 volume_level: 0.2
         - conditions:
