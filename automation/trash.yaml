@@ -14,7 +14,7 @@
       {{ states('sensor.afvalinfo_today') | default("geen", true) }}
     lookedup: >
       [
-        {%- for afval in types.split(', ') -%}
+        {%- for afval in types.split(' ') -%}
           "{{ lookup.get(afval, "onbekend") }}",
         {%- endfor -%}
       ]
@@ -94,7 +94,7 @@
         - conditions:
             - condition: state
               entity_id: sensor.afvalinfo_today
-              state: "papier, pbd"
+              state: "pbd papier"
           sequence:
             - service: media_player.play_media
               data:
@@ -119,7 +119,7 @@
       {{ states('sensor.afvalinfo_tomorrow') | default("geen", true) }}
     lookedup: >
       [
-        {%- for afval in types.split(', ') -%}
+        {%- for afval in types.split(' ') -%}
           "{{ lookup.get(afval, "onbekend") }}",
         {%- endfor -%}
       ]
@@ -199,7 +199,7 @@
         - conditions:
             - condition: state
               entity_id: sensor.afvalinfo_tomorrow
-              state: "papier, pbd"
+              state: "pbd papier"
           sequence:
             - service: media_player.play_media
               data:

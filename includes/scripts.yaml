@@ -28,10 +28,13 @@ send_doorbell_notification:
       state: "home"
     - service: notify.mobile_app_sm_a505fn
       data:
-        title: "Deurbel"
+        title: "Knock Knock!"
         message: "Er staat iemand aan de deur!"
         data:
           tag: "deurbel"
+          ttl: 0
+          channel: doorbell
+          importance: high
 
 #############################
 ## Start sleeping music     #
@@ -54,7 +57,7 @@ start_music_t:
             - delay: "00:00:05"
     - service: spotcast.start
       data:
-        account: "t"
+        # account: "t"
         entity_id: media_player.hmt
         uri: "spotify:track:5OoSxUZSbP1p7kb1d0SozG"
     - service: media_player.volume_set
