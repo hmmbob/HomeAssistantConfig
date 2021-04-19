@@ -1,45 +1,37 @@
 ##########################
 ## Gang
 ##########################
-- id: turn_off_gang
-  alias: "Lights: Turn off gang"
-  initial_state: true
+- id: lights_gang
+  alias: "Lights: gang (new)"
+  mode: restart
+  max_exceeded: silent
   trigger:
-    platform: state
-    entity_id: binary_sensor.pir_gang_sensor
-    to: "off"
-    for:
-      seconds: 30
+    - platform: state
+      entity_id: binary_sensor.pir_gang_sensor
+      from: "off"
+      to: "on"
   condition:
-    - condition: state
-      entity_id: switch.gang
-      state: "on"
     - condition: state
       entity_id: input_boolean.enable_pir_gang
       state: "on"
+    - condition: numeric_state
+      entity_id: sun.sun
+      attribute: elevation
+      below: 8
   action:
-    service: homeassistant.turn_off
-    entity_id: switch.gang
-
-- id: turn_on_gang_on_movement
-  alias: "Lights: Gang aan op beweging"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.pir_gang_sensor
-    to: "on"
-  condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: switch.gang
-          state: "off"
-        - condition: state
-          entity_id: input_boolean.enable_pir_gang
-          state: "on"
-        - condition: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 8
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.gang
+    - alias: "Gang lamp aan..."
+      service: switch.turn_on
+      target:
+        entity_id: switch.gang
+    - alias: "Wacht tot er geen motion meer is..."
+      wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.pir_gang_sensor
+          from: "on"
+          to: "off"
+    - alias: "Extra delay nadat er geen beweging meer is..."
+      delay: "00:00:30"
+    - alias: "Lamp uit.."
+      service: switch.turn_off
+      target:
+        entity_id: switch.gang
