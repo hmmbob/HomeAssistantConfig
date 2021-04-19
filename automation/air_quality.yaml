@@ -23,11 +23,13 @@
       - "{{ is_state('sensor.bme280_humidity', 'unavailable') }}"
       - "{{ is_state('sensor.bme280_pressure', 'unavailable') }}"
   action:
-    ## Send data to OpenSenseMap.
-    - service: rest_command.post_opensensebox
-    ## Send updates to Madavi.de for statistics.
-    - service: rest_command.send_madavi
-    ## Send to Luftdaten / Sensor.Community API
-    ## Split over two calls as the headers differ
-    - service: rest_command.send_luftdaten_tph
-    - service: rest_command.send_luftdaten_pm
+    - alias: "Send data to OpenSenseMap"
+      service: rest_command.post_opensensebox
+    - alias: "Send updates to Madavi.de for statistics."
+      service: rest_command.send_madavi
+    - alias: "Send TPH to Luftdaten / Sensor.Community API" 
+      service: rest_command.send_luftdaten_tph
+    - alias: "Wait 10 sec against timeouts"
+      delay: "00:00:10"
+    - alias: "Send PM to Luftdaten / Sensor.Community API" 
+      service: rest_command.send_luftdaten_pm
