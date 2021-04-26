@@ -10,8 +10,8 @@ entity_config:
     name: "Toon"
     expose: true
     room: "Woonkamer"
-  switch.blauwe_lamp:
-    name: "Blauwe lamp"
+  switch.aquarium:
+    name: "Aquarium"
     expose: true
     room: "Woonkamer"
   switch.genie:

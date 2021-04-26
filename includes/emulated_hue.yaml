@@ -9,8 +9,8 @@ entities:
   switch.grijze_lamp:
     name: "Grijze lamp"
     hidden: false
-  switch.blauwe_lamp:
-    name: "Blauwe lamp"
+  switch.aquarium:
+    name: "Aquarium"
     hidden: false
   light.window_level:
     name: "Vensterbank"
@@ -29,8 +29,6 @@ entities:
   switch.window:
     hidden: true
   switch.zigbee2mqtt_main_join:
-    hidden: true
-  light.blauwe_lamp_green_led:
     hidden: true
   light.grijze_lamp_green_led:
     hidden: true

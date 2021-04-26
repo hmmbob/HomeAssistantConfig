@@ -1,3 +1,9 @@
+time_aquarium_on:
+  name: Aquarium aan
+  has_time: true
+time_aquarium_off:
+  name: Aquarium uit
+  has_time: true
 time_cover_up:
   name: Rolluik omhoog
   has_time: true

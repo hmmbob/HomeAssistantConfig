@@ -1,0 +1,20 @@
+##########################
+## Aquarium lights
+##########################
+- id: aquarium_turn_on_time
+  alias: "Lights: Aquarium turn on"
+  trigger:
+    platform: time
+    at: input_datetime.time_aquarium_on
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.aquarium
+
+- id: aquarium_turn_off_time
+  alias: "Lights: Aquarium turn off"
+  trigger:
+    platform: time
+    at: input_datetime.time_aquarium_off
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.aquarium

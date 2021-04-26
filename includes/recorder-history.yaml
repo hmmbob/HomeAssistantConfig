@@ -5,7 +5,7 @@ domains:
   - device_tracker
   - person
 entities:
-  - binary_sensor.blauwe_lamp_status
+  - binary_sensor.aquarium_status
   - binary_sensor.deurbel
   - binary_sensor.deurbel_status
   - binary_sensor.door_sensor_1_contact
@@ -44,7 +44,7 @@ entities:
   - sensor.wasmachine_power
   - sensor.zolder_humidity
   - sensor.zolder_temperature
-  - switch.blauwe_lamp
+  - switch.aquarium
   - switch.genie
   - switch.grijze_lamp
   - switch.schuur_1
