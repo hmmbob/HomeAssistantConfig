@@ -34,7 +34,7 @@ send_doorbell_notification:
           tag: "deurbel"
           ttl: 0
           channel: doorbell
-          importance: high
+          priority: high
 
 #############################
 ## Start sleeping music     #
@@ -57,7 +57,7 @@ start_music_t:
             - delay: "00:00:05"
     - service: spotcast.start
       data:
-        # account: "t"
+        account: "t"
         entity_id: media_player.slaapkamer
         uri: "spotify:track:5OoSxUZSbP1p7kb1d0SozG"
     - service: media_player.volume_set

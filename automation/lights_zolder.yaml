@@ -56,7 +56,7 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.pubercave_power
-    above: 10
+    above: 15
   condition:
     - condition: state
       entity_id: input_boolean.notify_zolder

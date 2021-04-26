@@ -17,8 +17,12 @@ freezer_door:
     tag: freezer_door_alert
     ttl: 0
     channel: alerts # For devices on Android 8.0+ only
-    importance: high
+    priority: high
     ledColor: "red" # Set the LED to red
+    actions:
+      - action: "URI"
+        title: "Open alert"
+        uri: "entityId:alert.freezer_door"
 
 #############################
 ## Front door alert         #
@@ -39,8 +43,12 @@ front_door:
     tag: front_door_alert
     ttl: 0
     channel: alerts # For devices on Android 8.0+ only
-    importance: high
+    priority: high
     ledColor: "red" # Set the LED to red
+    actions:
+      - action: "URI"
+        title: "Open alert"
+        uri: "entityId:alert.front_door"
 
 #############################
 ## Weerhuisje Alert         #
@@ -60,5 +68,9 @@ weerhuisje:
     tag: weerhuisje
     ttl: 0
     channel: alerts # For devices on Android 8.0+ only
-    importance: high
+    priority: high
     ledColor: "red" # Set the LED to red
+    actions:
+      - action: "URI"
+        title: "Open alert"
+        uri: "entityId:alert.weerhuisje"
