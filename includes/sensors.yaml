@@ -44,30 +44,6 @@
         {%- endif %}
 
 ##########################
-## Waze sensors
-##########################
-- platform: waze_travel_time
-  name: Reistijd Bob naar huis
-  origin: device_tracker.sm_a505fn
-  destination: zone.home
-  region: "EU"
-  scan_interval: 1800
-
-#- platform: waze_travel_time      ## Not being used in COVID-19 times,
-#  name: Reistijd Thuis-Werk       ## commented out because I don't need the updates now
-#  origin: zone.home
-#  destination: zone.work
-#  region: 'EU'
-#  scan_interval: 1800
-#
-#- platform: waze_travel_time
-#  name: Reistijd Werk-Thuis
-#  origin: zone.work
-#  destination: zone.home
-#  region: 'EU'
-#  scan_interval: 1800
-
-##########################
 ## Gas prices sensors
 ##
 ## Just scraping the Tinq website pages for the needed information
