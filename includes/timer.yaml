@@ -1,4 +1,0 @@
-# Timer for joining time remaining (120 sec = 2 min)
-zigbee_permit_join:
-  name: Time remaining
-  duration: 120

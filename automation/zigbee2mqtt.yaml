@@ -9,28 +9,17 @@
       data:
         topic: zigbee2mqtt/bridge/config/permit_join
         payload: "true"
-    - service: timer.start
-      data:
-        entity_id: timer.zigbee_permit_join
-
-- id: disable_zigbee_join
-  alias: "Zigbee: Disable Zigbee joining"
-  trigger:
-    - platform: state
-      entity_id: input_boolean.zigbee_permit_join
-      to: "off"
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.zigbee_permit_join
-  action:
+    - alias: Wait for toggle or timeout
+      wait_for_trigger:
+        - platform: state
+          entity_id: input_boolean.zigbee_permit_join
+          to: "off"
+      timeout: 00:02:00
+      continue_on_timeout: true
     - service: mqtt.publish
       data:
-        payload: "false"
         topic: zigbee2mqtt/bridge/config/permit_join
+        payload: "false"
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.zigbee_permit_join
-    - service: timer.cancel
-      data:
-        entity_id: timer.zigbee_permit_join
