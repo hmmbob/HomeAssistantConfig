@@ -1,70 +1,3 @@
-- id: turn_on_kerstverlichting
-  alias: "Lights: Kerstverlichting turn on"
-  initial_state: true
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:30:00"
-  action:
-  - service: homeassistant.turn_on
-    entity_id: switch.kerstboom
-
-- id: turn_off_kerstverlichting
-  alias: "Lights: Kerstverlichting turn off"
-  initial_state: true
-  trigger:
-    platform: sun
-    event: sunrise
-    offset: "01:00:00"
-  action:
-  - service: homeassistant.turn_off
-    entity_id: switch.kerstboom
-
-##########################
-## Kerstboom aan bij thuiskomst
-##########################
-- id: kerstboom_bij_thuiskomst
-  alias: 'Lights: Kerstboom aan bij thuiskomst'
-  initial_state: off
-  trigger:
-    - platform: state
-      entity_id: group.all_devices
-      to: 'home'
-      from: 'not_home'
-  condition:
-    - condition: time
-      after: '06:45:00'
-      before: '22:00:00'
-    - condition: state
-      entity_id: switch.kerstboom
-      state: 'off'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.kerstboom
-
-##########################
-## Kerstboom uit bij vertrek
-##########################
-- id: kerstboom_bij_vertrek
-  alias: 'Lights: Kerstboom uit bij vertrek'
-  initial_state: off
-  trigger:
-    - platform: state
-      entity_id: group.all_devices
-      to: 'not_home'
-      from: 'home'
-  condition:
-    - condition: time
-      after: '06:45:00'
-      before: '22:00:00'
-    - condition: state
-      entity_id: switch.kerstboom
-      state: 'on'
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.kerstboom
-
-
 ##########################
 ## Treininformatie
 ##########################
@@ -159,24 +92,86 @@
       data:
         tag: 'notification-trein-naar-oss'
 
-##########################
-## Update Home Assistant
-##########################
-- id: Update_notifications
-  alias: 'System: Update notifications'
-  initial_state: true
-  trigger:
-  - platform: state
-    entity_id: updater.updater
-  action:
-  - service: persistent_notification.create
-    data:
-      message: Home Assistant  {{ states.updater.updater.state }}  is now available.
-        You have {{states.sensor.ha_currently_installed.state }} installed.
-      title: Update available
-  - service: notify.google
-    data:
-      message: Home Assistant  {{ states.updater.updater.state }}  is now available.
-        You have {{states.sensor.ha_currently_installed.state }} installed.
-      title: Update available
 
+#########################
+# Device tracker notifications
+#########################
+- id: Set_notification_Bob_Home_owntrak_mqtt
+  alias: "Location: notificatie dat Bob thuis is"
+  initial_state: false
+  trigger:
+    - entity_id: device_tracker.sm_a505fn
+      from: not_home
+      platform: state
+      to: home
+  action:
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} thuis!
+        title: Bob is thuis!
+
+- id: Set_notification_Bob_arrive_work_owntrak_mqtt
+  alias: "Location: Notificatie dat Bob op het werk arriveert"
+  initial_state: false
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sm_a505fn
+      event: enter
+      zone: zone.Work
+  action:
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} op het werk.
+        title: Bob is op het werk!
+
+- id: Set_notification_Bob_leave_work_owntrak_mqtt
+  alias: "Location: Notificatie dat Bob van het werk vertrekt"
+  initial_state: false
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sm_a505fn
+      event: leave
+      zone: zone.Work
+  action:
+    - service: notify.mobile_app_sm_a505fn
+      data:
+        message: Bob verliet om {{now().strftime("%H:%M:%S %d-%m-%Y")}} het werk.
+        title: Bob is op weg naar huis!
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.bob_werk_verlaten
+
+- id: TTS_notification_Bob_Home_owntrak_mqtt
+  alias: "Location: TTS Notificatie dat Bob thuis is"
+  initial_state: false
+  trigger:
+    - entity_id: device_tracker.sm_a505fn
+      from: not_home
+      platform: state
+      to: home
+  condition:
+    - condition: time
+      after: "15:00:00"
+      before: "19:00:00"
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: state
+      entity_id: input_boolean.bob_werk_verlaten
+      state: "on"
+  action:
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.woonkamer
+    #     volume_level: 0.6
+    - service: tts.microsoft_say
+      entity_id: media_player.woonkamer
+      data:
+        message: Papa is thuis
+        language: nl
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.bob_werk_verlaten

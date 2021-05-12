@@ -19,6 +19,28 @@
     - service: homeassistant.turn_on
       entity_id: switch.kerstboom
 
+##########################
+## Kerstboom aan bij thuiskomst
+##########################
+- id: kerstboom_bij_thuiskomst
+  alias: "Lights: Kerstboom aan bij thuiskomst"
+  initial_state: off
+  trigger:
+    - platform: state
+      entity_id: group.all_devices
+      to: "home"
+      from: "not_home"
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "off"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kerstboom
+
 - id: kerstboom_uit
   alias: "Christmas: Kerstboom uit"
   initial_state: on
@@ -28,6 +50,28 @@
       to: "off"
       for:
         minutes: 20
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.kerstboom
+
+##########################
+## Kerstboom uit bij vertrek
+##########################
+- id: kerstboom_bij_vertrek
+  alias: "Lights: Kerstboom uit bij vertrek"
+  initial_state: off
+  trigger:
+    - platform: state
+      entity_id: group.all_devices
+      to: "not_home"
+      from: "home"
   condition:
     - condition: time
       after: "06:45:00"
