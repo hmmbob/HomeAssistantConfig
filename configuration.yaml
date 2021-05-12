@@ -44,7 +44,7 @@ logbook:
     entities:
       - binary_sensor.pir_woonkamer_motion
       - binary_sensor.pir_gang_sensor
-      - sensor.room_temperature
+      - sensor.kamertemperatuur
 
 logger:
   default: warn
