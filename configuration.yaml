@@ -75,7 +75,7 @@ notify: !include includes/notify.yaml
 rest_command: !include includes/rest_command.yaml
 rss_feed_template: !include includes/rss.yaml
 scene: !include includes/scenes.yaml
-script: !include includes/scripts.yaml
+script: !include scripts.yaml
 sensor: !include includes/sensors.yaml
 switch: !include includes/switch.yaml
 template: !include includes/template.yaml
