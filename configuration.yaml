@@ -78,6 +78,7 @@ scene: !include includes/scenes.yaml
 script: !include includes/scripts.yaml
 sensor: !include includes/sensors.yaml
 switch: !include includes/switch.yaml
+template: !include includes/template.yaml
 timer: !include includes/timer.yaml
 
 #################################################################

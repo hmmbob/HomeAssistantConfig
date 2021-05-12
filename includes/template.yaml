@@ -1,0 +1,48 @@
+##############################
+## Freezer door alert helper #
+##############################
+- trigger:
+    - platform: state
+      entity_id: binary_sensor.door_sensor_1_contact
+      from: "off"
+      to: "on"
+      for: "00:05:00"
+  binary_sensor:
+    - name: "Alert Freezer Door"
+      unique_id: alert_freezer_door
+      state: >-
+        {{ is_state('binary_sensor.door_sensor_1_contact', 'on')
+          and is_state('input_boolean.notify_door_alert', 'on') }}
+
+##############################
+## Front door alert helper   #
+##############################
+- trigger:
+    - platform: state
+      entity_id: binary_sensor.door_sensor_2_contact
+      from: "off"
+      to: "on"
+      for: "00:05:00"
+  binary_sensor:
+    - name: "Alert Front Door"
+      unique_id: alert_front_door
+      state: >-
+        {{ is_state('binary_sensor.door_sensor_2_contact', 'on')
+          and is_state('input_boolean.notify_door_alert', 'on') }}
+
+##############################
+## Room temperature          #
+##############################
+- sensor:
+    - name: "Kamertemperatuur"
+      unit_of_measurement: "°C"
+      state: "{{ state_attr('climate.woonkamer', 'current_temperature')}}"
+      device_class: temperature
+
+##############################
+## UV Alert helper           #
+##############################
+- binary_sensor:
+    - name: "UV index Warning level"
+      unique_id: "uv_index_warning_level"
+      state: "{{ states('sensor.dark_sky_uv_index')| float > 5.9 }}"

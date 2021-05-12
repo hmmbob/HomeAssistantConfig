@@ -31,18 +31,6 @@
   scan_interval:
     minutes: 15
 
-- platform: template
-  sensors:
-    room_temperature:
-      friendly_name: "Kamertemperatuur"
-      unit_of_measurement: "°C"
-      value_template: >
-        {%- if states.climate.woonkamer.attributes.current_temperature is defined %}
-            {{ state_attr('climate.woonkamer', 'current_temperature') }}
-        {% else %}
-            0
-        {%- endif %}
-
 ##########################
 ## Gas prices sensors
 ##
