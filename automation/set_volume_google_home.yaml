@@ -17,7 +17,7 @@
             - service: media_player.volume_set
               data:
                 entity_id: media_player.woonkamer
-                volume_level: 0.5
+                volume_level: 0.6
             - service: media_player.volume_set
               data:
                 entity_id: media_player.studeerkamer
@@ -31,7 +31,7 @@
                 entity_id:
                   - media_player.slaapkamer
                   - media_player.zolder
-                volume_level: 0.5
+                volume_level: 0.6
         - conditions:
             - condition: template
               value_template: "{{ now().strftime('%H:%M') == '19:00' }}"

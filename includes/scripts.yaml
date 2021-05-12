@@ -26,7 +26,8 @@ send_doorbell_notification:
     - condition: state
       entity_id: device_tracker.sm_a505fn
       state: "home"
-    - service: notify.mobile_app_sm_a505fn
+    - alias: "Send doorbell notification"
+      service: notify.mobile_app_sm_a505fn
       data:
         title: "Knock Knock!"
         message: "Er staat iemand aan de deur!"
@@ -35,6 +36,19 @@ send_doorbell_notification:
           ttl: 0
           channel: doorbell
           priority: high
+    - alias: "Wait to see if front door opens"
+      wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.door_sensor_2_contact
+          to: "on"
+      timeout: "00:01:00"
+      continue_on_timeout: false
+    - alias: "Somebody answered the door, so let's clear the notification"
+      service: notify.mobile_app_sm_a505fn
+      data:
+        message: clear_notification
+        data:
+          tag: deurbel
 
 #############################
 ## Start sleeping music     #

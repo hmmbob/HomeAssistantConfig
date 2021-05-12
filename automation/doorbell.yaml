@@ -38,19 +38,11 @@
                   - media_player.boven
                 media_content_type: music
                 media_content_id: "{{ dingdong }}"
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.woonkamer
-                volume_level: 0.7
             - service: script.turn_on
               entity_id:
                 - script.send_doorbell_notification
                 - script.show_doorbell_alert
             - delay: "00:00:15"
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.woonkamer
-                volume_level: 0.5
             - service: media_player.turn_off
               entity_id:
                 - media_player.woonkamer
@@ -72,19 +64,11 @@
                 entity_id: media_player.woonkamer
                 media_content_type: music
                 media_content_id: "{{ dingdong }}"
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.woonkamer
-                volume_level: 0.7
             - service: script.turn_on
               entity_id:
                 - script.send_doorbell_notification
                 - script.show_doorbell_alert
             - delay: "00:00:15"
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.woonkamer
-                volume_level: 0.5
             - service: media_player.turn_off
               entity_id:
                 - media_player.woonkamer
