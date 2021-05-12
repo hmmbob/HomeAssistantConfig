@@ -165,7 +165,7 @@
       entity_id: input_boolean.vacation_mode_away
       state: "on"
   action:
-    - delay: "00:{{ range(01,30) | random | int }}:00"
+    - delay: "00:{{ range(1,30) | random | int }}:00"
     - service: homeassistant.turn_on
       entity_id:
         - switch.grijze_lamp
@@ -195,7 +195,7 @@
       entity_id: input_boolean.vacation_mode_away
       state: "on"
   action:
-    - delay: "00:{{ range(01,15) | random | int }}:00"
+    - delay: "00:{{ range(1,15) | random | int }}:00"
     - service: homeassistant.turn_off
       entity_id:
         - switch.grijze_lamp
