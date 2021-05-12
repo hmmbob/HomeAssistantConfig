@@ -90,7 +90,7 @@ cards:
                   margin: 0px 0px 0px 14px;
                 }
             entities:
-              - entity: sensor.room_temperature
+              - entity: sensor.kamertemperatuur
                 name: Woonkamer
             points_per_hour: 1
             hour24: true

@@ -26,6 +26,7 @@ entities:
   - sensor.current_uv_index
   - sensor.diesel_u
   - sensor.diesel_z
+  - sensor.kamertemperatuur
   - sensor.leeslamp_zolder_power
   - sensor.max_uv_index
   - sensor.memory_use_percent
@@ -38,7 +39,6 @@ entities:
   - sensor.pubercave_power
   - sensor.reistijd_thuis_werk
   - sensor.reistijd_werk_thuis
-  - sensor.room_temperature
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
   - sensor.wasmachine_power
