@@ -7,6 +7,10 @@
       entity_id: alert.freezer_door
       from: "on"
       to: "idle"
+    - platform: state
+      entity_id: alert.freezer_door
+      from: "on"
+      to: "off"
   action:
     - service: notify.mobile_devices
       data:
@@ -21,6 +25,10 @@
       entity_id: alert.front_door
       from: "on"
       to: "idle"
+    - platform: state
+      entity_id: alert.front_door
+      from: "on"
+      to: "off"
   action:
     - service: notify.mobile_devices
       data:
@@ -35,6 +43,10 @@
       entity_id: alert.weerhuisje
       from: "on"
       to: "idle"
+    - platform: state
+      entity_id: alert.weerhuisje
+      from: "on"
+      to: "off"
   action:
     - service: notify.mobile_app_sm_a505fn
       data:

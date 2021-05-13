@@ -1,18 +1,23 @@
 - id: set_google_home_volume
   alias: "Volume: Set Google Home Volume"
-  initial_state: on
   trigger:
     - platform: time
       at:
-        - "07:00:00"
-        - "08:30:00"
-        - "19:00:00"
-        - "20:30:00"
+        - "07:00:01"
+        - "08:30:01"
+        - "19:00:01"
+        - "20:30:01"
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
   action:
     - choose:
-        - conditions:
-            - condition: template
-              value_template: "{{ now().strftime('%H:%M') == '07:00' }}"
+        - alias: "It's between 7hrs and 08:30"
+          conditions:
+            - condition: time
+              after: "06:59:59"
+              before: "08:30:00"
           sequence:
             - service: media_player.volume_set
               data:
@@ -22,9 +27,11 @@
               data:
                 entity_id: media_player.studeerkamer
                 volume_level: 0.4
-        - conditions:
-            - condition: template
-              value_template: "{{ now().strftime('%H:%M') == '08:30' }}"
+        - alias: "It's between 08:30 and 19hrs"
+          conditions:
+            - condition: time
+              after: "08:29:59"
+              before: "19:00:00"
           sequence:
             - service: media_player.volume_set
               data:
@@ -32,9 +39,11 @@
                   - media_player.slaapkamer
                   - media_player.zolder
                 volume_level: 0.6
-        - conditions:
-            - condition: template
-              value_template: "{{ now().strftime('%H:%M') == '19:00' }}"
+        - alias: "It's between 19hrs and 20:30"
+          conditions:
+            - condition: time
+              after: "18:59:59"
+              before: "20:30:00"
           sequence:
             - service: media_player.volume_set
               data:
@@ -50,9 +59,11 @@
                   - media_player.slaapkamer
                   - media_player.zolder
                 volume_level: 0.2
-        - conditions:
-            - condition: template
-              value_template: "{{ now().strftime('%H:%M') == '20:30' }}"
+        - alias: "It's between 20:30 and 7hrs"
+          conditions:
+            - condition: time
+              after: "20:29:59"
+              before: "07:00:00"
           sequence:
             - service: media_player.volume_set
               data:

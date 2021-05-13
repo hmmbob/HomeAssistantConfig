@@ -40,12 +40,12 @@
     # Play a TTS alert downstairs
     - service: notify.tts_woonkamer
       data:
-        message: "De wasmachine is klaar!"
+        message: "De wasmachine is klaar."
     # Turn off helper boolean: machine not active anymore
     - service: homeassistant.turn_off
       entity_id: input_boolean.wasmachine_actief
     # Show image as visual reminder washing is done
-    - delay: "00:00:05" # Wait for TTS to finish
+    - delay: "00:00:10" # Wait for TTS to finish
     - service: media_player.play_media
       data:
         entity_id: media_player.woonkamer
