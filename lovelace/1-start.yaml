@@ -347,10 +347,16 @@ cards:
           - light.eetkamer_level
           - switch.genie
           - switch.aquarium
-          - entity: sensor.leeslamp_zolder_power
-            name: "Verbruik leeslamp zolder"
-          - entity: sensor.pubercave_power
-            name: "Verbruik Pubercave"
+          - type: custom:multiple-entity-row
+            entity: sensor.pubercave_power
+            show_state: false
+            state_color: true
+            name: Pubercave
+            entities:
+              - entity: sensor.pubercave_power
+                name: "Playstation"
+              - entity: sensor.leeslamp_zolder_power
+                name: "Leeslampje"
           - type: custom:multiple-entity-row
             entity: binary_sensor.door_sensor_2_contact
             show_state: false
