@@ -9,13 +9,11 @@
   entities:
     switch.grijze_lamp: "on"
     switch.staande_lamp: "on"
-    light.window_level:
-      state: "on"
-      brightness: 40
+    switch.window: "on"
 - name: "Alles uit"
   id: allesuit
   entities:
     light.eetkamer_level: "off"
     switch.grijze_lamp: "off"
     switch.staande_lamp: "off"
-    light.window_level: "off"
+    switch.window: "off"

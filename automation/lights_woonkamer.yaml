@@ -28,13 +28,10 @@
           below: 8
   action:
     - service: homeassistant.turn_on
-      entity_id: light.window_level
-      data:
-        brightness_pct: 15
-    - service: homeassistant.turn_on
       entity_id:
         - switch.grijze_lamp
         - switch.staande_lamp
+        - switch.window
         - switch.zoutlamp
         - input_boolean.woonkamer_on_movement
 
@@ -146,10 +143,7 @@
       entity_id:
         - switch.grijze_lamp
         - switch.zoutlamp
-    - service: homeassistant.turn_on
-      entity_id: light.window_level
-      data:
-        brightness_pct: 40
+        - switch.window
 
 #############################
 ## Vacation lights          #
@@ -171,10 +165,7 @@
       entity_id:
         - switch.grijze_lamp
         - switch.staande_lamp
-    - service: homeassistant.turn_on
-      entity_id: light.window_level
-      data:
-        brightness_pct: 40
+        - switch.window
     - service: logbook.log
       data:
         name: Vacation
@@ -202,7 +193,7 @@
       entity_id:
         - switch.grijze_lamp
         - switch.staande_lamp
-        - light.window_level
+        - switch.window
     - service: logbook.log
       data:
         name: Vacation

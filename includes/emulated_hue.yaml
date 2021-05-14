@@ -12,7 +12,7 @@ entities:
   switch.aquarium:
     name: "Aquarium"
     hidden: false
-  light.window_level:
+  switch.window:
     name: "Vensterbank"
     hidden: false
   light.eetkamer_level:
@@ -26,7 +26,7 @@ entities:
     hidden: true
   switch.schuur_2:
     hidden: true
-  switch.window:
+  light.window_level:
     hidden: true
   switch.zigbee2mqtt_main_join:
     hidden: true

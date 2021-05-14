@@ -33,7 +33,7 @@ entity_config:
     aliases:
       - "Steen Lamp"
       - "Zaklamp"
-  light.window_level:
+  switch.window:
     name: "Raam lamp"
     expose: true
     room: "Woonkamer"
