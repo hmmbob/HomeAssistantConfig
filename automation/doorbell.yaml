@@ -26,30 +26,36 @@
     - choose:
         # During daytime we want the doorbell to play
         # in sync through the whole house
-        - conditions:
+        - alias: "Is it between 8 and 19hrs?"
+          conditions:
             - condition: time
               after: "08:00:00"
               before: "19:00:00"
           sequence:
-            - service: media_player.play_media
+            - alias: "Play doorbell sound everywhere"
+              service: media_player.play_media
               data:
                 entity_id:
                   - media_player.woonkamer
                   - media_player.boven
                 media_content_type: music
                 media_content_id: "{{ dingdong }}"
-            - service: script.turn_on
+            - alias: "Kick off some notifications"
+              service: script.turn_on
               entity_id:
                 - script.send_doorbell_notification
                 - script.show_doorbell_alert
-            - delay: "00:00:15"
-            - service: media_player.turn_off
+            - alias: "Wait a bit for the music to finish..."
+              delay: "00:00:15"
+            - alias: "Turn off everything we used"
+              service: media_player.turn_off
               entity_id:
                 - media_player.woonkamer
                 - media_player.boven
         # Early morning or late at night, we only
         # want the doorbell to play in the living room
-        - conditions:
+        - alias: "Is it between 7 and 8, or 19 and 23hrs?"
+          conditions:
             - condition: or
               conditions:
                 - condition: time
@@ -59,16 +65,20 @@
                   after: "19:00:00"
                   before: "23:00:00"
           sequence:
-            - service: media_player.play_media
+            - alias: "Play doorbell sound downstairs only"
+              service: media_player.play_media
               data:
                 entity_id: media_player.woonkamer
                 media_content_type: music
                 media_content_id: "{{ dingdong }}"
-            - service: script.turn_on
+            - alias: "Kick off some notifications"
+              service: script.turn_on
               entity_id:
                 - script.send_doorbell_notification
                 - script.show_doorbell_alert
-            - delay: "00:00:15"
-            - service: media_player.turn_off
+            - alias: "Wait a bit for the music to finish..."
+              delay: "00:00:15"
+            - alias: "Turn off everything we used"
+              service: media_player.turn_off
               entity_id:
                 - media_player.woonkamer

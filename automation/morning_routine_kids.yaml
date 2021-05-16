@@ -20,7 +20,7 @@
           position: "top-right"
           duration: 30
           transparency: "50%"
-          color: "yellow"
+          color: "amber"
     - delay: "00:25:00"
     - service: notify.tv
       data:
@@ -31,7 +31,7 @@
           position: "top-right"
           duration: 30
           transparency: "50%"
-          color: "yellow"
+          color: "amber"
 
 ##########################
 ## TV Time is over (non-schooldays)
@@ -55,7 +55,7 @@
           position: "top-right"
           duration: 30
           transparency: "50%"
-          color: "yellow"
+          color: "amber"
 
 ##########################
 ## Remember to brush your teeth (schooldays)

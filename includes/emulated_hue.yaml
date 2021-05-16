@@ -27,7 +27,7 @@ entities:
   switch.schuur_2:
     hidden: true
   light.window_level:
-    hidden: true
+    hidden: false
   switch.zigbee2mqtt_main_join:
     hidden: true
   light.grijze_lamp_green_led:

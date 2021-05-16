@@ -2,10 +2,27 @@
 ## Aquarium lights
 ##########################
 - id: aquarium_turn_on_time
-  alias: "Lights: Aquarium turn on"
+  alias: "Lights: Aquarium turn on weekday"
   trigger:
-    platform: time
-    at: input_datetime.time_aquarium_on
+    - platform: time
+      at: input_datetime.time_aquarium_on
+  condition:
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "on"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.aquarium
+
+- id: aquarium_turn_on_time_weekend
+  alias: "Lights: Aquarium turn on weekend"
+  trigger:
+    - platform: time
+      at: input_datetime.time_aquarium_on_weekend
+  condition:
+    - condition: state
+      entity_id: binary_sensor.schooldag
+      state: "off"
   action:
     - service: homeassistant.turn_on
       entity_id: switch.aquarium
