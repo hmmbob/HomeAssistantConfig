@@ -7,8 +7,6 @@
         - "08:30:01"
         - "19:00:01"
         - "20:30:01"
-    - platform: homeassistant
-      event: start
     - platform: event
       event_type: automation_reloaded
   action:

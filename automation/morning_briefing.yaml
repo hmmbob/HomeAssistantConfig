@@ -12,10 +12,10 @@
         - wed
         - thu
     - condition: state
-      entity_id: device_tracker.sm_a505fn
+      entity_id: device_tracker.sm_a526b
       state: home
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         title: Morning Briefing
         message: |

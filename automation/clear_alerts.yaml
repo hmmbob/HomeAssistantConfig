@@ -48,7 +48,7 @@
       from: "on"
       to: "off"
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         message: clear_notification
         data:

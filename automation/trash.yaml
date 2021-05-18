@@ -36,7 +36,7 @@
           entity_id: sensor.afvalinfo_today
           state: "unavailable"
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         title: "Afvalinzameling"
         message: "Vandaag wordt het {{ afval }} opgehaald."
@@ -141,7 +141,7 @@
           entity_id: sensor.afvalinfo_tomorrow
           state: "unavailable"
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         title: "Afvalinzameling"
         message: "Morgen wordt het {{ afval }} opgehaald."

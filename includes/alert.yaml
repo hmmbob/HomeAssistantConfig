@@ -63,7 +63,7 @@ weerhuisje:
   can_acknowledge: true
   skip_first: true
   notifiers:
-    - mobile_app_sm_a505fn
+    - mobile_app_sm_a526b
   data:
     tag: weerhuisje
     ttl: 0

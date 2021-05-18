@@ -4,7 +4,7 @@
 - platform: group
   name: mobile_devices
   services:
-    - service: mobile_app_sm_a505fn
+    - service: mobile_app_sm_a526b
     - service: mobile_app_moto_g_8_plus
 
 #############################
@@ -21,7 +21,7 @@
   name: tts_woonkamer
   tts_service: tts.microsoft_say
   media_player: media_player.woonkamer
-  
+
 - platform: tts
   name: tts_hele_huis
   tts_service: tts.microsoft_say

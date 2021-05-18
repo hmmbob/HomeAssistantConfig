@@ -35,7 +35,7 @@ cards:
         entities:
           - type: custom:fold-entity-row
             head: group.all_persons
-          - entity: sensor.sm_a505fn_geocoded_location
+          - entity: sensor.sm_a526b_geocoded_location
             name: Bob
           - sensor.reistijd_bob_naar_huis
           - type: custom:fold-entity-row

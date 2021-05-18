@@ -73,7 +73,7 @@
       value_template: >
         {{ states('sensor.latest_version') != states('sensor.current_version') }}
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         title: Upgrade time!
         message: >

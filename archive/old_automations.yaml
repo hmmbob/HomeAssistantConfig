@@ -100,12 +100,12 @@
   alias: "Location: notificatie dat Bob thuis is"
   initial_state: false
   trigger:
-    - entity_id: device_tracker.sm_a505fn
+    - entity_id: device_tracker.sm_a526b
       from: not_home
       platform: state
       to: home
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} thuis!
         title: Bob is thuis!
@@ -115,11 +115,11 @@
   initial_state: false
   trigger:
     - platform: zone
-      entity_id: device_tracker.sm_a505fn
+      entity_id: device_tracker.sm_a526b
       event: enter
       zone: zone.Work
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         message: Bob was om {{now().strftime("%H:%M:%S %d-%m-%Y")}} op het werk.
         title: Bob is op het werk!
@@ -129,11 +129,11 @@
   initial_state: false
   trigger:
     - platform: zone
-      entity_id: device_tracker.sm_a505fn
+      entity_id: device_tracker.sm_a526b
       event: leave
       zone: zone.Work
   action:
-    - service: notify.mobile_app_sm_a505fn
+    - service: notify.mobile_app_sm_a526b
       data:
         message: Bob verliet om {{now().strftime("%H:%M:%S %d-%m-%Y")}} het werk.
         title: Bob is op weg naar huis!
@@ -145,7 +145,7 @@
   alias: "Location: TTS Notificatie dat Bob thuis is"
   initial_state: false
   trigger:
-    - entity_id: device_tracker.sm_a505fn
+    - entity_id: device_tracker.sm_a526b
       from: not_home
       platform: state
       to: home

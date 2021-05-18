@@ -22,10 +22,10 @@ send_doorbell_notification:
   max_exceeded: silent
   sequence:
     - condition: state
-      entity_id: device_tracker.sm_a505fn
+      entity_id: device_tracker.sm_a526b
       state: home
     - alias: Send doorbell notification
-      service: notify.mobile_app_sm_a505fn
+      service: notify.mobile_app_sm_a526b
       data:
         title: Knock Knock!
         message: Er staat iemand aan de deur!
@@ -42,7 +42,7 @@ send_doorbell_notification:
       timeout: "00:01:00"
       continue_on_timeout: false
     - alias: Somebody answered the door, so clear the notification
-      service: notify.mobile_app_sm_a505fn
+      service: notify.mobile_app_sm_a526b
       data:
         message: clear_notification
         data:
