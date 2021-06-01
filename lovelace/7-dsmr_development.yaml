@@ -12,14 +12,51 @@ icon: mdi:flash
 visible:
   - user: 510b1afef60640d7a220711c50b2192a
 cards:
-  - id: 63f214ee-54bd-4a98-bf2f-c780a89c6764 # Automatically created id
+  - id: 2e8c923b-488d-4dfd-9068-dc89caab19f7 # Automatically created id
     type: custom:auto-entities
     card:
       type: entities
-      title: All DSMR entities
+      title: All DSMR GAS entities
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: sensor.dsmr_*gas*
+        - entity_id: sensor.dsmr_reading_extra_device_delivered
+    sort:
+      method: name
+  - id: e36d7dcd-0b7d-4829-bdd2-fd3131a367c6 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All DSMR Electricity entities
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: sensor.dsmr_*electricity*
+        - entity_id: sensor.dsmr_*l1*
+        - entity_id: sensor.dsmr_*l2*
+        - entity_id: sensor.dsmr_*l3*
+        - entity_id: sensor.dsmr_meter_stats_long_power_failure_count
+        - entity_id: sensor.dsmr_meter_stats_power_failure_count
+    sort:
+      method: name
+  - id: 26c84972-107a-458b-9d70-e7215a65c73d # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All other DSMR entities
       show_header_toggle: false
     filter:
       include:
         - entity_id: sensor.dsmr_*
+      exclude:
+        - entity_id: sensor.dsmr_*gas*
+        - entity_id: sensor.dsmr_reading_extra_device_delivered
+        - entity_id: sensor.dsmr_*electricity*
+        - entity_id: sensor.dsmr_*l1*
+        - entity_id: sensor.dsmr_*l2*
+        - entity_id: sensor.dsmr_*l3*
+        - entity_id: sensor.dsmr_meter_stats_long_power_failure_count
+        - entity_id: sensor.dsmr_meter_stats_power_failure_count
     sort:
       method: name
