@@ -2,12 +2,15 @@
 ## Home Assistant Core
 #################################################################
 homeassistant:
-  name: Home
-  latitude: !secret home_latitude
-  longitude: !secret home_longitude
-  elevation: 19
-  unit_system: metric
-  time_zone: Europe/Amsterdam
+### Migrated to UI, keeping for easy rollback if needed
+#  name: Home
+#  latitude: !secret home_latitude
+#  longitude: !secret home_longitude
+#  elevation: 19
+#  unit_system: metric
+#  time_zone: Europe/Amsterdam
+#  external_url: !secret external_url
+#  internal_url: !secret external_url # Not an error
   customize: !include includes/customize.yaml
   auth_providers:
     - type: homeassistant
@@ -18,8 +21,6 @@ homeassistant:
       name: Authenticator app
     - type: notify
       message: "Access token: {}"
-  external_url: !secret external_url
-  internal_url: !secret external_url # Not an error
 
 frontend:
   themes: !include_dir_merge_named themes/
@@ -56,6 +57,13 @@ logger:
 lovelace:
   mode: yaml
   resources: !include lovelace/resources.yaml
+  
+panel_iframe:
+  dsmr:
+    title: "DSMR"
+    url: !secret dsmr_url
+    icon: mdi:current-ac
+    require_admin: true
 
 #################################################################
 ## Includes
@@ -83,6 +91,7 @@ template: !include includes/template.yaml
 #################################################################
 ## default_config items not included elsewhere
 #################################################################
+#default_config:
 dhcp:
 map:
 mobile_app:
@@ -128,7 +137,7 @@ tts:
     region: westeurope
     language: nl-nl
     type: ColetteNeural
-    base_url: !secret tts_base_url
+    base_url: !secret external_url
 
 weather:
   - platform: darksky
