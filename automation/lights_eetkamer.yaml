@@ -27,12 +27,15 @@
   condition:
     - condition: and
       conditions:
-        - condition: state
-          entity_id: input_boolean.enable_pir_woonkamer
-          state: "on"
         - condition: time
           after: "06:15:00"
           before: "07:29:00"
+        - condition: state
+          entity_id: sun.sun
+          state: "below_horizon"
+        - condition: state
+          entity_id: input_boolean.enable_pir_woonkamer
+          state: "on"
         - condition: state
           entity_id: group.lampen_woonkamer
           state: "off"
