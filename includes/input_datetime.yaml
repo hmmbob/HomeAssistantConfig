@@ -13,6 +13,9 @@ time_cover_up:
 time_cover_down:
   name: Rolluik omlaag
   has_time: true
+time_leeslampje:
+  name: Leeslampje
+  has_time: true
 time_morning_briefing:
   name: Start morning briefing
   has_time: true

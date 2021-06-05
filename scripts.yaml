@@ -18,6 +18,7 @@ show_doorbell_alert:
   alias: Show doorbell alert
 
 send_doorbell_notification:
+  alias: Send doorbell notification
   mode: single
   max_exceeded: silent
   sequence:
@@ -50,8 +51,7 @@ send_doorbell_notification:
           ttl: 0
           channel: doorbell
           priority: high
-  alias: Send doorbell notification
-
+  
 start_music_t:
   alias: Slaaptijd
   mode: restart

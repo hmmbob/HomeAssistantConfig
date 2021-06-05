@@ -22,7 +22,7 @@
                 - sun
           sequence:
             - delay: "00:30:00" # Run at 08:30 in weekends
-    - service: notify.mobile_devices
+    - service: notify.mobile_devices_all
       data:
         title: "UV Waarschuwing"
         message: "Vandaag wordt zonkracht {{ states('sensor.dark_sky_uv_index_0d') }} verwacht. Vergeet niet te smeren!"

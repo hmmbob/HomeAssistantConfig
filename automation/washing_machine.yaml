@@ -24,6 +24,12 @@
 - alias: "Wasmachine klaar melding"
   id: melding_wasmachine
   initial_state: true
+  variables:
+    notification_service: >
+      {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}mobile_devices_adults
+      {% elif is_state("device_tracker.moto_g_8_plus", "home") %}notify.mobile_app_moto_g_8_plus
+      {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+      {% endif %}
   trigger:
     # Low power state for over a minute: washing done
     platform: numeric_state
@@ -37,16 +43,27 @@
       entity_id: input_boolean.wasmachine_actief
       state: "on"
   action:
-    # Play a TTS alert downstairs
-    - service: notify.tts_woonkamer
+    - alias: Send washing machine notification
+      service: "{{ notification_service }}"
+      data:
+        title: Wasmachine
+        message: De wasmachine is klaar!
+        data:
+          tag: wasmachine
+          ttl: 0
+          channel: wasmachine
+          priority: high
+    - alias: "Play a TTS alert downstairs"
+      service: notify.tts_woonkamer
       data:
         message: "De wasmachine is klaar."
-    # Turn off helper boolean: machine not active anymore
-    - service: homeassistant.turn_off
+    - alias: "Turn off helper boolean: machine not active anymore"
+      service: homeassistant.turn_off
       entity_id: input_boolean.wasmachine_actief
-    # Show image as visual reminder washing is done
-    - delay: "00:00:10" # Wait for TTS to finish
-    - service: media_player.play_media
+    - alias: "Wait for TTS to finish"
+      delay: "00:00:10"
+    - alias: "Show image as visual reminder washing is done"
+      service: media_player.play_media
       data:
         entity_id: media_player.woonkamer
         media_content_id: !secret image_url_wasmachine
@@ -56,7 +73,6 @@
       entity_id:
         - media_player.woonkamer
 
-# Turn of reminder light
 - alias: "Wasmachine: zet LED uit"
   id: wasmachine_LED_uit
   initial_state: true
@@ -77,3 +93,12 @@
     - service: media_player.turn_off
       entity_id:
         - media_player.woonkamer
+    - alias: Clear washing notifications
+      service: notify.mobile_devices_adults
+      data:
+        message: clear_notification
+        data:
+          tag: wasmachine
+          ttl: 0
+          channel: wasmachine
+          priority: high

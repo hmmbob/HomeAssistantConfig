@@ -10,7 +10,7 @@ path: overview
 title: Development overview
 icon: mdi:magnify
 visible:
-  - user: 510b1afef60640d7a220711c50b2192a
+  - user: 510b1afef60640d7a220711c50b2192a # BL
 cards:
   - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
@@ -30,17 +30,41 @@ cards:
     type: custom:auto-entities
     card:
       type: entities
-      title: All Mobile App sensors
+      title: All Mobile App sensors A52
       show_header_toggle: false
       state_color: true
     filter:
       include:
-        - entity_id: sensor.sm_a526b*
-        - type: divider
-        - entity_id: sensor.moto_*
+        - entity_id: "*sm_a526b*"
     sort:
       method: name
-
+      
+  - id: 23241d19712345bb853a1a8fb849cec0 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All Mobile App sensors Moto G8
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - entity_id: "*moto_g_8*"
+    sort:
+      method: name
+      
+  - id: 33241d19712345bb853a1a8fb849cec0 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: All Mobile App sensors Schaduwspeler
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - entity_id: "*schaduwspeler*"
+    sort:
+      method: name
+      
   - id: c78f07f54176407b928ef6923a45f10a # Automatically created id
     type: entities
     title: PIR Sensoren

@@ -17,9 +17,9 @@
       entity_id: input_boolean.notify_zolder
       state: "on"
     - condition: time
-      after: "20:15:00"
+      after: input_datetime.time_leeslampje
   action:
-    - service: notify.mobile_devices
+    - service: notify.mobile_devices_adults
       data:
         title: "Leeslampje"
         message: "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
@@ -62,14 +62,36 @@
       entity_id: input_boolean.notify_zolder
       state: "on"
     - condition: time
-      after: "20:15:00"
+      after: input_datetime.time_leeslampje
   action:
-    - service: notify.mobile_devices
+    - service: notify.mobile_devices_adults
       data:
         title: "Pubercave"
         message: "De TV of PS4 op zolder staan nog aan... ({{ now().strftime('%H:%M') }})."
         data:
           tag: "pubercave"
+          
+# Playstation update: the kid has a maximum of 1 hr of playtime. Let's trigger
+# a notification if power usage is detected for over an hour
+- id: warn_pubercave_1hr
+  alias: "Power: Playstation 1hr"
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pubercave_power
+    above: 60 # Let's exclude regular TV
+    for:
+      minutes: 60
+  condition:
+    - condition: state
+      entity_id: device_tracker.schaduwspeler
+      state: "home"
+  action:
+    - service: notify.mobile_app_schaduwspeler
+      data:
+        title: "Playstation"
+        message: "De Playstation staat al een uur aan."
+        data:
+          tag: "playstation"
 
 # Because the switch is always on and only used for power tracking,
 # we need another way to track this switch in the logbook. We use

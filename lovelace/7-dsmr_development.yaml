@@ -10,7 +10,7 @@ path: dsmr
 title: DSMR overview
 icon: mdi:flash
 visible:
-  - user: 510b1afef60640d7a220711c50b2192a
+  - user: 510b1afef60640d7a220711c50b2192a # BL
 cards:
   - id: 2e8c923b-488d-4dfd-9068-dc89caab19f7 # Automatically created id
     type: custom:auto-entities

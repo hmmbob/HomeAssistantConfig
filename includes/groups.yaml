@@ -6,9 +6,18 @@ lampen_woonkamer:
     - switch.staande_lamp
     - switch.zoutlamp
     - switch.window
-all_persons:
-  name: Personen
+    
+all_adults:
+  name: Alle volwassenen
   icon: mdi:account-group
   entities:
     - person.bob
     - person.birgit
+
+all_persons:
+  name: Alle Personen
+  icon: mdi:account-group
+  entities:
+    - person.bob
+    - person.birgit
+    - person.marijn

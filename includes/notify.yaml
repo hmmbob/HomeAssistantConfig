@@ -2,10 +2,17 @@
 ## Notify Group all mobiles #
 #############################
 - platform: group
-  name: mobile_devices
+  name: mobile_devices_adults
   services:
     - service: mobile_app_sm_a526b
     - service: mobile_app_moto_g_8_plus
+    
+- platform: group
+  name: mobile_devices_all
+  services:
+    - service: mobile_app_sm_a526b
+    - service: mobile_app_moto_g_8_plus
+    - service: mobile_app_schaduwspeler
 
 #############################
 ## Notify AndroidTV         #
