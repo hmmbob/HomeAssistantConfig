@@ -7,8 +7,8 @@
 
 - platform: systemmonitor
   resources:
-    - type: memory_use_percent
     - type: memory_use
+    - type: memory_use_percent
     - type: processor_use
 
 ##########################
@@ -27,9 +27,12 @@
     - 3
   monitored_conditions:
     - cloud_cover
+    - summary
+    - temperature_high
     - uv_index
   scan_interval:
     minutes: 15
+  language: nl
 
 ##########################
 ## Gas prices sensors
@@ -75,10 +78,10 @@
 ##########################
 - platform: afvalinfo
   resources:
-    - pbd
     - gft
-    - restafval
     - papier
+    - pbd
+    - restafval
     - trash_type_today
     - trash_type_tomorrow
   location: !secret afvalinfo_location
@@ -98,9 +101,9 @@
   resource: https://quotes.rest/qod?language=en
   name: Quote of the Day
   scan_interval: 43200
-  json_attributes_path: '$.contents.quotes[0]'
+  json_attributes_path: "$.contents.quotes[0]"
   json_attributes:
-    - quote
     - author
     - category
-  value_template: 'OK'
+    - quote
+  value_template: "OK"
