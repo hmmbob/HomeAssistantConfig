@@ -92,8 +92,12 @@ entity_config:
     name: "Slaaptijd"
     expose: true
     room: "Slaapkamer T"
-  ##Others
+  ##Garden
   switch.schuur_1:
     name: "Schuur"
+    expose: true
+    room: "Tuin"
+  switch.overkapping:
+    name: "Overkapping"
     expose: true
     room: "Tuin"

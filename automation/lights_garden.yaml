@@ -22,3 +22,27 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.schuur_1
+
+#############################
+## Porch lights             #
+#############################
+- id: turn_on_porch_lights
+  alias: "Lights: turn on porch lights"
+  initial_state: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "00:15:00"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.overkapping
+
+- id: turn_off_porch_lights
+  alias: "Lights: turn off porch lights"
+  initial_state: true
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.overkapping

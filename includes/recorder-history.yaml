@@ -2,7 +2,6 @@
 domains:
   - alert
   - climate
-  - device_tracker
   - person
 entities:
   - binary_sensor.aquarium_status
@@ -47,6 +46,7 @@ entities:
   - switch.aquarium
   - switch.genie
   - switch.grijze_lamp
+  - switch.overkapping
   - switch.schuur_1
   - switch.staande_lamp
   - switch.window
