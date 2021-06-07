@@ -32,7 +32,7 @@
   trigger:
     - platform: sun
       event: sunset
-      offset: "00:15:00"
+      offset: "-01:00:00"
   action:
     - service: homeassistant.turn_on
       entity_id: switch.overkapping
@@ -42,7 +42,7 @@
   initial_state: true
   trigger:
     - platform: time
-      at: "23:00:00"
+      at: "23:30:00"
   action:
     - service: homeassistant.turn_off
       entity_id: switch.overkapping

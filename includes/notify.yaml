@@ -6,7 +6,7 @@
   services:
     - service: mobile_app_sm_a526b
     - service: mobile_app_moto_g_8_plus
-    
+
 - platform: group
   name: mobile_devices_all
   services:
@@ -33,3 +33,11 @@
   name: tts_hele_huis
   tts_service: tts.microsoft_say
   media_player: media_player.hele_huis
+
+#############################
+## Notify bogus service     #
+#############################
+# Used to let automations not error out
+- name: bogus
+  platform: command_line
+  command: ""
