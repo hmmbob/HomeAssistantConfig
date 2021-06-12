@@ -92,15 +92,9 @@ cards:
             entities:
               - entity: sensor.kamertemperatuur
                 name: Woonkamer
-            points_per_hour: 1
-            hour24: true
-            show:
-              extrema: true
             align_header: left
             align_icon: left
-            line_color: var(--accent-color)
-            line_width: 8
-            font_size: 75
+            animate: true
             color_thresholds:
               - value: 15
                 color: "#5f9bea"
@@ -108,6 +102,13 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
           - type: custom:mini-graph-card ## Buiten
             card_mod:
               style: |
@@ -121,15 +122,9 @@ cards:
               - entity: sensor.bme280_humidity
                 show_graph: false
                 show_state: true
-            points_per_hour: 1
-            hour24: true
-            show:
-              extrema: true
             align_header: left
             align_icon: left
-            line_color: var(--accent-color)
-            line_width: 8
-            font_size: 75
+            animate: true
             color_thresholds:
               - value: 8
                 color: "#5f9bea"
@@ -137,6 +132,13 @@ cards:
                 color: "#e5ff00"
               - value: 28
                 color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
       - type: horizontal-stack
         cards:
           - type: custom:mini-graph-card ## Slaapkamer
@@ -152,15 +154,9 @@ cards:
               - entity: sensor.slaapkamer_humidity
                 show_graph: false
                 show_state: true
-            points_per_hour: 1
-            hour24: true
-            show:
-              extrema: true
             align_header: left
             align_icon: left
-            line_color: var(--accent-color)
-            line_width: 8
-            font_size: 75
+            animate: true
             color_thresholds:
               - value: 15
                 color: "#5f9bea"
@@ -168,6 +164,13 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
           - type: custom:mini-graph-card ## Zolder
             card_mod:
               style: |
@@ -181,15 +184,9 @@ cards:
               - entity: sensor.zolder_humidity
                 show_graph: false
                 show_state: true
-            points_per_hour: 1
-            hour24: true
-            show:
-              extrema: true
             align_header: left
             align_icon: left
-            line_color: var(--accent-color)
-            line_width: 8
-            font_size: 75
+            animate: true
             color_thresholds:
               - value: 15
                 color: "#5f9bea"
@@ -197,6 +194,13 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
 
       - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
         type: custom:auto-entities
