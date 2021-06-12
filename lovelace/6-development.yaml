@@ -26,6 +26,18 @@ cards:
     sort:
       method: name
 
+  - id: e0571d1974a74789853a1a8fb849cec0 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: Input Date_Time
+      show_header_toggle: false
+    filter:
+      include:
+        - entity_id: input_datetime.*
+    sort:
+      method: name
+
   - id: 13241d19712345bb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
@@ -38,7 +50,7 @@ cards:
         - entity_id: "*sm_a526b*"
     sort:
       method: name
-      
+
   - id: 23241d19712345bb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
@@ -51,7 +63,7 @@ cards:
         - entity_id: "*moto_g_8*"
     sort:
       method: name
-      
+
   - id: 33241d19712345bb853a1a8fb849cec0 # Automatically created id
     type: custom:auto-entities
     card:
@@ -64,7 +76,7 @@ cards:
         - entity_id: "*schaduwspeler*"
     sort:
       method: name
-      
+
   - id: c78f07f54176407b928ef6923a45f10a # Automatically created id
     type: entities
     title: PIR Sensoren
@@ -130,17 +142,5 @@ cards:
       include:
         - entity_id: weather.dark_sky
         - entity_id: sensor.dark_sky_*
-    sort:
-      method: name
-
-  - id: e0571d1974a74789853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: Input Date_Time
-      show_header_toggle: false
-    filter:
-      include:
-        - entity_id: input_datetime.*
     sort:
       method: name
