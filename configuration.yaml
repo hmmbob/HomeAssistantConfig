@@ -2,15 +2,6 @@
 ## Home Assistant Core
 #################################################################
 homeassistant:
-### Migrated to UI, keeping for easy rollback if needed
-#  name: Home
-#  latitude: !secret home_latitude
-#  longitude: !secret home_longitude
-#  elevation: 19
-#  unit_system: metric
-#  time_zone: Europe/Amsterdam
-#  external_url: !secret external_url
-#  internal_url: !secret external_url # Not an error
   customize: !include includes/customize.yaml
   auth_providers:
     - type: homeassistant
@@ -30,7 +21,7 @@ history:
 
 http:
   server_port: !secret http_server_port
-  ip_ban_enabled: True
+  ip_ban_enabled: true
   login_attempts_threshold: 2
   use_x_forwarded_for: true
   trusted_proxies: !secret http_trusted_proxies
@@ -57,13 +48,6 @@ logger:
 lovelace:
   mode: yaml
   resources: !include lovelace/resources.yaml
-  
-panel_iframe:
-  dsmr:
-    title: "DSMR"
-    url: !secret dsmr_url
-    icon: mdi:current-ac
-    require_admin: true
 
 #################################################################
 ## Includes

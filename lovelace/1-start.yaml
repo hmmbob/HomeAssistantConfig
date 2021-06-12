@@ -353,6 +353,8 @@ cards:
                 show_name: true
               - entity: switch.aquarium
                 show_name: true
+              - entity: switch.zwembad
+                show_name: true
           - type: custom:multiple-entity-row
             entity: sensor.pubercave_power
             show_state: false
