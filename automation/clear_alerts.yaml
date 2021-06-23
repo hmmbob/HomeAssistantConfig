@@ -12,7 +12,7 @@
       from: "on"
       to: "off"
   action:
-    - service: notify.mobile_devices
+    - service: notify.mobile_devices_adults
       data:
         message: clear_notification
         data:
@@ -30,7 +30,7 @@
       from: "on"
       to: "off"
   action:
-    - service: notify.mobile_devices
+    - service: notify.mobile_devices_adults
       data:
         message: clear_notification
         data:

@@ -12,7 +12,7 @@ freezer_door:
   skip_first: false
   notifiers:
     - tts_woonkamer
-    - mobile_devices
+    - mobile_devices_adults
   data:
     tag: freezer_door_alert
     ttl: 0
@@ -38,7 +38,7 @@ front_door:
   skip_first: false
   notifiers:
     - tts_woonkamer
-    - mobile_devices
+    - mobile_devices_adults
   data:
     tag: front_door_alert
     ttl: 0
