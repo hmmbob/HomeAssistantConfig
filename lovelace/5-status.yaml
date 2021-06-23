@@ -159,6 +159,7 @@ cards:
                 entities:
                   - entity: sensor.dsmr_reading_phase_voltage_l1
                     name: "L1 Voltage"
+                    format: precision0
                   - entity: sensor.dsmr_reading_phase_power_current_l1
                     name: "L1 Stroom"
               - type: custom:multiple-entity-row
@@ -170,6 +171,7 @@ cards:
                 entities:
                   - entity: sensor.dsmr_reading_phase_voltage_l2
                     name: "L2 Voltage"
+                    format: precision0
                   - entity: sensor.dsmr_reading_phase_power_current_l2
                     name: "L2 Stroom"
               - type: custom:multiple-entity-row
@@ -181,6 +183,7 @@ cards:
                 entities:
                   - entity: sensor.dsmr_reading_phase_voltage_l3
                     name: "L3 Voltage"
+                    format: precision0
                   - entity: sensor.dsmr_reading_phase_power_current_l3
                     name: "L3 Stroom"
               - type: custom:multiple-entity-row
@@ -190,8 +193,10 @@ cards:
                 entities:
                   - entity: sensor.dsmr_reading_electricity_delivered_2
                     name: "Hoog tarief"
+                    format: precision1
                   - entity: sensor.dsmr_reading_electricity_delivered_1
                     name: "Laag tarief"
+                    format: precision1
                   - entity: sensor.dsmr_meter_stats_electricity_tariff
                     name: "Actief"
               - type: custom:multiple-entity-row
@@ -201,6 +206,7 @@ cards:
                 entities:
                   - entity: sensor.dsmr_day_consumption_electricity_merged
                     name: "Verbruik"
+                    format: precision1
                   - entity: sensor.dsmr_day_consumption_electricity_cost_merged
                     name: "Kosten"
               - type: divider
@@ -211,8 +217,10 @@ cards:
                 entities:
                   - entity: sensor.dsmr_consumption_gas_currently_delivered
                     name: "Verbruik"
+                    format: precision1
                   - entity: sensor.dsmr_consumption_gas_delivered
                     name: "Meterstand"
+                    format: precision1
               - type: custom:multiple-entity-row
                 entity: sensor.dsmr_day_consumption_gas
                 show_state: false
@@ -220,5 +228,6 @@ cards:
                 entities:
                   - entity: sensor.dsmr_day_consumption_gas
                     name: "Verbruik"
+                    format: precision1
                   - entity: sensor.dsmr_day_consumption_gas_cost
                     name: "Kosten"
