@@ -26,7 +26,7 @@
   initial_state: true
   variables:
     notification_service: >
-      {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}mobile_devices_adults
+      {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
       {% elif is_state("device_tracker.moto_g_8_plus", "home") %}notify.mobile_app_moto_g_8_plus
       {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
       {% else %}notify.bogus
