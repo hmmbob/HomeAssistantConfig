@@ -1,0 +1,7 @@
+#############################
+## Google Maps map          #
+#############################
+- name: Hmmbob
+  platform: generic
+  still_image_url: !secret google_maps_url
+  limit_refetch_to_url_change: true
