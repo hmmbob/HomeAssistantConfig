@@ -49,6 +49,12 @@ entity_config:
     name: "Radio Q"
     expose: true
     room: "Woonkamer"
+  vacuum.roborock_vacuum_s5e:
+    name: "Stofzuiger"
+    expose: true
+    room: "Woonkamer"
+    aliases:
+      - "Rocky"
   ##Eetkamer
   light.eetkamer_level:
     name: "Eetkamer"
@@ -105,3 +111,5 @@ entity_config:
     name: "Zwembad"
     expose: true
     room: "Tuin"
+    aliases:
+      - "Pomp"

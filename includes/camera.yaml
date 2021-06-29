@@ -5,3 +5,39 @@
   platform: generic
   still_image_url: !secret google_maps_url
   limit_refetch_to_url_change: true
+
+#############################
+## Roborock vacuum map      #
+#############################
+- platform: xiaomi_cloud_map_extractor
+  host: !secret xiaomi_vacuum_host
+  token: !secret xiaomi_vacuum_token
+  username: !secret xiaomi_cloud_username
+  password: !secret xiaomi_cloud_password
+  name: Stofzuiger
+  draw: ["all"]
+  attributes:
+    - calibration_points
+    - charger
+    - cleaned_rooms
+    - country
+    - goto
+    - goto_path
+    - goto_predicted_path
+    - image
+    - is_empty
+    - map_name
+    - no_go_areas
+    - no_mopping_areas
+    - obstacles
+    - ignored_obstacles
+    - obstacles_with_photo
+    - ignored_obstacles_with_photo
+    - path
+    - room_numbers
+    - rooms
+    - vacuum_position
+    - vacuum_room
+    - vacuum_room_name
+    - walls
+    - zones

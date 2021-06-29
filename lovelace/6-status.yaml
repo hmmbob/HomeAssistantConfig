@@ -49,6 +49,9 @@ cards:
             tap_action: more-info
           - entity: sensor.door_sensor_2_battery
             tap_action: more-info
+          - entity: sensor.vacuum_battery
+            name: Stofzuiger batterij
+            tap_action: more-info
       - type: markdown ## Statussen header
         content: |
           # Statussen

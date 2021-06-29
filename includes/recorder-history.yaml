@@ -2,7 +2,9 @@
 domains:
   - alert
   - climate
+  - media_player
   - person
+  - vacuum
 entities:
   - binary_sensor.aquarium_status
   - binary_sensor.deurbel

@@ -144,3 +144,21 @@ cards:
         - entity_id: sensor.dark_sky_*
     sort:
       method: name
+
+  - id: bed7f2c9-56b2-47cf-8228-413c7cd7cae0 # Automatically created id
+    type: custom:auto-entities
+    card:
+      type: entities
+      title: Stofzuiger
+      show_header_toggle: false
+      card_mod:
+        style: |
+          ha-card {
+          margin: 0px 14px -5px 14px;
+          }
+    filter:
+      include:
+        - entity_id: vacuum.*
+        - entity_id: sensor.vacuum_*
+    sort:
+      method: name

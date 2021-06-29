@@ -1,0 +1,126 @@
+##########################
+## Schedule
+##########################
+- alias: "Vacuum: Ask to have Rocky do its cleaning"
+  id: vacuum_ask_to_run
+  initial_state: "on"
+  variables:
+    notification_service: >
+      {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+      {% elif is_state("device_tracker.moto_g_8_plus", "home") %}notify.mobile_app_moto_g_8_plus
+      {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+      {% else %}notify.bogus
+      {% endif %}
+  trigger:
+    - platform: time
+      at: "09:00"
+    - platform: time
+      at: "19:00"
+  condition: "{{ as_timestamp(now()) - as_timestamp(states('sensor.vacuum_clean_start_time')) > 86400 }}"
+  action:
+    - alias: "Vraag of Rocky een rondje moet doen"
+      service: "{{ notification_service }}"
+      data:
+        message: "Het is langer dan 24u geleden dat ik mijn laatste rondje heb gedaan. Zal ik gaan stofzuigen?"
+        title: "Rocky"
+        data:
+          tag: vacuum
+          channel: vacuum
+          actions:
+            - action: "vacuum_start_yes"
+              title: "Ja, graag!"
+            - action: "vacuum_start_no"
+              title: "Nee, dank je."
+          ttl: 0
+          priority: high
+    - alias: "Wacht op antwoord..."
+      wait_for_trigger:
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "vacuum_start_yes"
+      timeout: "01:00:00"
+      continue_on_timeout: false
+    - alias: "Start Rocky na bevestiging"
+      service: vacuum.start
+      target:
+        entity_id: vacuum.roborock_vacuum_s5e
+
+##########################
+## Notifications
+##########################
+- alias: "Vacuum: Rocky started cleaning"
+  id: vacuum_notification_cleaning_started
+  initial_state: "on"
+  trigger:
+    - platform: state
+      entity_id: vacuum.roborock_vacuum_s5e
+      from: "docked"
+      to: "cleaning"
+  action:
+    - service: notify.mobile_app_sm_a526b
+      data:
+        title: "Rocky"
+        message: "Rocky doet zijn rondje!"
+
+- alias: "Vacuum: Rocky stopped cleaning"
+  id: vacuum_notification_stopped_and_docked
+  initial_state: "on"
+  trigger:
+    - platform: state
+      entity_id: vacuum.roborock_vacuum_s5e
+      from: "returning"
+      to: "docked"
+  action:
+    - alias: "Checking if this is the 3rd time cleaning..."
+      choose:
+        - conditions: "{{ (state_attr('vacuum.roborock_vacuum_s5e', 'cleaning_count') % 3) | int == 0 }}"
+          sequence:
+            - service: notify.mobile_app_sm_a526b
+              data:
+                message: "Rocky moet geleegd worden, hij was na {{state_attr('vacuum.roborock_vacuum_s5e','cleaning_time')}} minuten klaar met zijn werk!"
+                title: "Rocky"
+      default:
+        - service: notify.mobile_app_sm_a526b
+          data:
+            title: "Rocky"
+            message: "Rocky is na {{state_attr('vacuum.roborock_vacuum_s5e','cleaning_time')}} minuten klaar met zijn werk!."
+
+- alias: "Vacuum: Rocky is in error mode"
+  id: vacuum_notification_error
+  initial_state: "on"
+  trigger:
+    - platform: state
+      entity_id: sensor.vacuum_error_status
+  condition:
+    - condition: not
+      conditions:
+        condition: state
+        entity_id: sensor.vacuum_error_status
+        state: "unknown"
+  action:
+    - service: notify.mobile_app_sm_a526b
+      data:
+        title: "Rocky"
+        message: "Rocky heeft een probleem: {{state('sensor.vacuum_error_status')}}"
+
+##########################
+## Disable vacuum camera when docked
+##########################
+- alias: "Vacuum: camera on/off"
+  id: vacuum_camera_onoff
+  initial_state: true
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: vacuum.roborock_vacuum_s5e
+    - platform: homeassistant
+      event: start
+  action:
+    - service:
+        "{% if states('vacuum.roborock_vacuum_s5e') in ['unavailable', 'unknown', 'docked'] %}
+        camera.turn_off
+        {% else %}
+        camera.turn_on
+        {% endif %}"
+      entity_id: camera.stofzuiger

@@ -37,7 +37,7 @@ cards:
         entity: climate.woonkamer
         header: false
         label:
-          temperature: Temperatuur
+          temperature: Binnen
         hide:
           state: true
         layout:
@@ -57,7 +57,11 @@ cards:
               icon: mdi:thermometer-off
         sensors:
           - entity: sensor.bme280_temperature
-            name: Buiten
+            name: Eigen tuin
+          - entity: weather.dark_sky
+            attribute: temperature
+            name: Volkel
+            unit: "°C"
           - attribute: modulation_level
             name: Brander
             unit: "%"

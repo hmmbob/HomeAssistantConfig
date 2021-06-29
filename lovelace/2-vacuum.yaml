@@ -1,0 +1,131 @@
+####################
+# Vacuum           #
+####################
+path: vacuum
+title: Stofzuiger
+icon: mdi:robot-vacuum
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown ## Stofzuiger header
+        content: |
+          # Stofzuiger
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: "custom:vacuum-card"
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            width: 376px;
+            }
+        entity: vacuum.roborock_vacuum_s5e
+        stats:
+          cleaning:
+            - attribute: cleaned_area
+              unit: m2
+              subtitle: Cleaning area
+            - attribute: cleaning_time
+              unit: minutes
+              subtitle: Cleaning time
+
+      - type: custom:button-card
+        card_mod:
+          style: |
+            ha-card {
+              margin: 0px 0px 0px 14px;
+            }
+        entity: vacuum.roborock_vacuum_s5e
+        tap_action:
+          action: call-service
+          service: xiaomi_miio.vacuum_clean_segment
+          service_data:
+            segments: "18"
+            entity_id: vacuum.roborock_vacuum_s5e
+        name: Alles stofzuigen
+        icon: "mdi:robot-vacuum"
+        show_state: false
+        color: var(--paper-item-icon-active-color)
+        styles:
+          card:
+            - width: 376px
+            - height: 120px
+          name:
+            - font-size: 12px
+
+      - type: horizontal-stack ### 1st row
+        cards:
+          - type: custom:button-card
+            card_mod:
+              style: |
+                ha-card {
+                  margin: 0px 0px 0px 14px;
+                }
+            entity: vacuum.roborock_vacuum_s5e
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              service_data:
+                segments: "18"
+                entity_id: vacuum.roborock_vacuum_s5e
+            name: Woonkamer stofzuigen
+            icon: "mdi:sofa"
+            show_state: false
+            color: var(--paper-item-icon-active-color)
+            styles:
+              card:
+                - width: 120px
+                - height: 120px
+              name:
+                - font-size: 12px
+          - type: custom:button-card
+            entity: vacuum.roborock_vacuum_s5e
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              service_data:
+                segments: "17"
+                entity_id: vacuum.roborock_vacuum_s5e
+            name: Gang stofzuigen
+            icon: "mdi:stairs"
+            show_state: false
+            color: var(--paper-item-icon-active-color)
+            styles:
+              card:
+                - width: 120px
+                - height: 120px
+              name:
+                - font-size: 12px
+          - type: custom:button-card
+            entity: vacuum.roborock_vacuum_s5e
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              service_data:
+                segments: "16"
+                entity_id: vacuum.roborock_vacuum_s5e
+            name: Keuken stofzuigen
+            icon: "mdi:pot-steam"
+            show_state: false
+            color: var(--paper-item-icon-active-color)
+            styles:
+              card:
+                - width: 120px
+                - height: 120px
+              name:
+                - font-size: 12px
