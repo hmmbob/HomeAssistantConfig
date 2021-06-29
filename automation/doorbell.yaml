@@ -32,11 +32,18 @@
               after: "08:00:00"
               before: "19:00:00"
           sequence:
-            - alias: "Play doorbell sound everywhere"
+            # Cut up in two different actions to speed up playing downstairs
+            - alias: "Play doorbell sound downstairs"
               service: media_player.play_media
               data:
                 entity_id:
                   - media_player.woonkamer
+                media_content_type: music
+                media_content_id: "{{ dingdong }}"
+            - alias: "Play doorbell sound upstairs"
+              service: media_player.play_media
+              data:
+                entity_id:
                   - media_player.boven
                 media_content_type: music
                 media_content_id: "{{ dingdong }}"
