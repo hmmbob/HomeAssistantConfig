@@ -52,10 +52,10 @@
         message: "Zetten jullie de TV uit en gaan jullie aankleden en tanden poetsen?"
         data:
           fontsize: "large"
-          position: "top-right"
-          duration: 30
-          transparency: "50%"
-          color: "amber"
+          position: "center"
+          duration: 60
+          transparency: "25%"
+          color: "red"
 
 ##########################
 ## Remember to brush your teeth (schooldays)
