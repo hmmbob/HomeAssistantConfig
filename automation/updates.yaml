@@ -3,7 +3,6 @@
 ##########################
 - id: waze_update_commute
   alias: "Waze: update commute"
-  initial_state: off #Off during COVID-19
   trigger:
     - platform: time_pattern
       minutes: "/5"
@@ -16,10 +15,6 @@
         - condition: time
           weekday:
             - mon
-            - tue
-            - wed
-            - thu
-            - fri
         - condition: or
           conditions:
             - condition: time
