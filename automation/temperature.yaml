@@ -4,10 +4,12 @@
 - id: turn_on_toon
   alias: "Temp: Toon aan"
   trigger:
-    - platform: state
+    - id: "motion"
+      platform: state
       entity_id: binary_sensor.pir_woonkamer_motion
       to: "on"
-    - platform: state
+    - id: "phone"
+      platform: state
       entity_id: sensor.sm_a526b_charger_type
       to: "none"
       from: "ac"
@@ -22,13 +24,27 @@
           attribute: current_temperature
           below: 19.5
   action:
-    - service: climate.set_preset_mode
-      data:
-        entity_id: climate.woonkamer
-        preset_mode: home
-    - service: homeassistant.turn_on
-      entity_id:
-        - input_boolean.toon_on_movement
+    - alias: "Only use phone trigger when I'm home"
+      choose:
+        - conditions:
+            - condition: trigger
+              id: "phone"
+            - condition: state
+              entity_id: device_tracker.sm_a526b
+              state: "home"
+          sequence:
+            - service: climate.set_preset_mode
+              data:
+                entity_id: climate.woonkamer
+                preset_mode: home
+      default:
+        - service: climate.set_preset_mode
+          data:
+            entity_id: climate.woonkamer
+            preset_mode: home
+        - service: homeassistant.turn_on
+          entity_id:
+            - input_boolean.toon_on_movement
 
 ##########################
 ## Toon uit op schooltijd
