@@ -9,6 +9,7 @@
       seconds: 00
     - platform: homeassistant
       event: start
+      id: "ha_start"
   condition:
     - condition: and
       conditions:
@@ -24,6 +25,13 @@
               after: "15:00:00"
               before: "19:00:00"
   action:
+    - alias: "Check if this is triggered by HA restart and delay updating a bit"
+      choose:
+        - conditions:
+            condition: trigger
+            id: "ha_start"
+          sequence:
+            - delay: 30
     - choose:
         - conditions:
             condition: time

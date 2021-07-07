@@ -2,17 +2,29 @@
   alias: "Volume: Set Google Home Volume"
   trigger:
     - platform: time
+      id: "time"
       at:
-        - "07:00:01"
-        - "08:30:01"
-        - "19:30:01"
-        - "20:30:01"
+        - "07:00:00"
+        - "08:30:00"
+        - "19:30:00"
+        - "20:30:00"
     - platform: homeassistant
       event: start
+      id: "ha_start"
     - platform: event
       event_type: automation_reloaded
+      id: "automation_reload"
   action:
-    - choose:
+    - alias: "Check if this is triggered by HA restart"
+      choose:
+        - conditions:
+            condition: trigger
+            id: "ha_start"
+          sequence:
+            - delay:
+                minutes: 1
+    - alias: "Checking what time it is..."
+      choose:
         - alias: "It's between 7hrs and 08:30"
           conditions:
             - condition: time
