@@ -29,10 +29,10 @@
         - conditions:
             - condition: trigger
               id: "phone"
+          sequence:
             - condition: state
               entity_id: device_tracker.sm_a526b
               state: "home"
-          sequence:
             - service: climate.set_preset_mode
               data:
                 entity_id: climate.woonkamer
