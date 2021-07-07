@@ -53,9 +53,8 @@ cards:
         entity: vacuum.roborock_vacuum_s5e
         tap_action:
           action: call-service
-          service: xiaomi_miio.vacuum_clean_segment
+          service: vacuum.start
           service_data:
-            segments: "18"
             entity_id: vacuum.roborock_vacuum_s5e
         name: Alles stofzuigen
         icon: "mdi:robot-vacuum"
