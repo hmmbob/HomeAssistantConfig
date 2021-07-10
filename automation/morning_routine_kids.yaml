@@ -49,7 +49,7 @@
     - service: notify.tv
       data:
         title: "TV tijd is voorbij!"
-        message: "Zetten jullie de TV uit en gaan jullie aankleden en tanden poetsen?"
+        message: "Zetten jullie de TV uit en gaan jullie aankleden, tanden poetsen en deo opdoen?"
         data:
           fontsize: "large"
           position: "center"
@@ -72,7 +72,7 @@
   action:
     - service: notify.tts_hele_huis
       data:
-        message: "Het is tijd om je tanden te poetsen!"
+        message: "Het is tijd om je tanden te poetsen en deo op te doen!"
     - delay: "00:01:00"
     - service: media_player.turn_off
       entity_id:
@@ -93,7 +93,7 @@
   action:
     - service: notify.tts_hele_huis
       data:
-        message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
+        message: "Het is tijd om schoenen aan te doen en naar school te gaan! Heb je deo opgedaan?"
     - delay: "00:01:00"
     - service: media_player.turn_off
       entity_id:
