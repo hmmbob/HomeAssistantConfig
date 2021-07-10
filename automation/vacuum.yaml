@@ -320,20 +320,39 @@
 - alias: "Vacuum: Rocky is in error mode"
   id: vacuum_notification_error
   initial_state: "on"
+  variables:
+    notification_service: >
+      {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+      {% elif is_state("device_tracker.moto_g_8_plus", "home") %}notify.mobile_app_moto_g_8_plus
+      {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+      {% else %}notify.bogus
+      {% endif %}
   trigger:
     - platform: state
-      entity_id: sensor.vacuum_error_status
+      entity_id: sensor.vacuum_error
   condition:
     - condition: not
       conditions:
         condition: state
-        entity_id: sensor.vacuum_error_status
-        state: "unknown"
+        entity_id: sensor.vacuum_error
+        state: "No error"
   action:
-    - service: notify.mobile_app_sm_a526b
+    - service: "{{ notification_service }}"
       data:
-        title: "Rocky"
-        message: "Rocky heeft een probleem: {{state('sensor.vacuum_error_status')}}"
+        title: "Rocky heeft een probleem"
+        message: "Foutmelding: {{states('sensor.vacuum_error')}}"
+        data:
+          tag: vacuum
+          channel: vacuum
+          ttl: 0
+          priority: high
+    - service: notify.tts_hele_huis
+      data:
+        message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
+    - delay: "00:01:00"
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.hele_huis
 
 ##########################
 ## Disable vacuum camera when docked

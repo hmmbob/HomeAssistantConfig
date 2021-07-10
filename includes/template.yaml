@@ -56,6 +56,16 @@
       state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "status") }}'
       icon: mdi:list-status
 
+    - name: "Vacuum error"
+      unique_id: "vacuum_error"
+      icon: mdi:alert-circle
+      state: >-
+        {% if states("vacuum.roborock_vacuum_s5e") == "error" %}
+          {{ state_attr("vacuum.roborock_vacuum_s5e", "error") }}
+        {% else %}
+          No error
+        {% endif %}
+
     - name: "Vacuum current cleaning time"
       unique_id: "vacuum_current_cleaning_time"
       state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "cleaning_time") }}'
