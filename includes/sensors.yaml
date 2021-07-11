@@ -3,7 +3,7 @@
 ##########################
 - platform: version
 - platform: version
-  source: docker
+  source: container
 
 - platform: systemmonitor
   resources:
