@@ -89,3 +89,26 @@
             - action: "URI"
               title: "Open Changelog"
               uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
+    - service: persistent_notification.create
+      data:
+        notification_id: update_pending
+        title: Upgrade time!
+        message: >
+          There is an upgrade for Home Assistant container pending!
+          Version {{ states('sensor.latest_version') }} just got released!
+          [Changelog:](https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}})
+
+- alias: "System: Clear Upgrade Available Notification"
+  id: system_clear_update_available_notification
+  description: Clear notification of Home Assistant update available
+  trigger:
+    - platform: homeassistant
+      event: start
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.latest_version') == states('sensor.current_version') }}
+  action:
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: update_pending

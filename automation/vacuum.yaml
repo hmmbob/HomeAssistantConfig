@@ -349,10 +349,35 @@
     - service: notify.tts_hele_huis
       data:
         message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
+    - service: persistent_notification.create
+      data:
+        notification_id: vacuum_error
+        title: Rocky heeft een probleem
+        message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
     - delay: "00:01:00"
     - service: media_player.turn_off
       entity_id:
         - media_player.hele_huis
+
+- alias: "Vacuum: Clear Rocky error mode"
+  id: vacuum_clear_notification_error
+  description: Clear notification of Rocky error
+  trigger:
+    - platform: state
+      entity_id: sensor.vacuum_error
+      to: "No error"
+  action:
+    - service: notify.mobile_devices_adults
+      data:
+        message: clear_notification
+        data:
+          tag: vacuum
+          ttl: 0
+          channel: vacuum
+          priority: high
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: vacuum_error
 
 ##########################
 ## Disable vacuum camera when docked
