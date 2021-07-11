@@ -15,6 +15,7 @@
   username: !secret xiaomi_cloud_username
   password: !secret xiaomi_cloud_password
   name: Stofzuiger
+  scan_interval: 30
   draw: ["all"]
   attributes:
     - calibration_points
