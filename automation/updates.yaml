@@ -65,6 +65,9 @@
     - service: homeassistant.update_entity
       entity_id: sensor.reistijd_bob_naar_huis
 
+##########################
+## System update notifications
+##########################
 - alias: "System: Upgrade Available Notification"
   id: system_update_available_notification
   description: Send notification on Home Assistant update available
@@ -112,3 +115,36 @@
     - service: persistent_notification.dismiss
       data:
         notification_id: update_pending
+
+##########################
+## Gasprice notifications
+##########################
+- id: diesel_price_changed
+  alias: "Notification: Diesel price changed"
+  trigger:
+    - platform: state
+      entity_id: sensor.diesel_u
+  condition:
+    - alias: "Check if price really changed"
+      condition: template
+      value_template: "{{ trigger.to_state.state != trigger.from_state.state }}"
+  action:
+    - service: notify.mobile_app_sm_a526b
+      data:
+        title: >-
+          {% if trigger.to_state.state < trigger.from_state.state %}
+          Diesel wordt goedkoper
+          {% else %}
+          Diesel wordt duurder
+          {% endif %}
+        message: >-
+          {% if trigger.to_state.state < trigger.from_state.state %}
+          ⛽ De dieselprijs is gezakt. 
+          {% else %}
+          ⛽ De dieselprijs is gestegen. 
+          {% endif %}
+          Nieuwe prijs: {{ trigger.to_state.state }}. 
+          Oude prijs: {{ trigger.from_state.state }}.
+        data:
+          tag: diesel
+          channel: diesel
