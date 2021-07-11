@@ -21,14 +21,14 @@
     - alias: "Vraag of Rocky een rondje moet doen"
       service: "{{ notification_service }}"
       data:
-        message: "Het is langer dan 24u geleden dat ik mijn laatste rondje heb gedaan. Zal ik gaan stofzuigen?"
+        message: "Het is langer dan 24u geleden dat ik mijn laatste rondje heb gedaan. Zal ik gaan stofzuigen? 🧹🧹"
         title: "Rocky"
         data:
           tag: vacuum
           channel: vacuum
           actions:
             - action: "vacuum_start_yes"
-              title: "Ja, graag!"
+              title: "🧹 Ja, graag!"
             - action: "vacuum_start_no"
               title: "Nee, dank je."
           ttl: 0
@@ -61,7 +61,7 @@
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Rocky"
-        message: "Rocky doet zijn rondje!"
+        message: "Rocky doet zijn rondje! 🧹🧹"
 
 - alias: "Vacuum: Fire Rocky stopped cleaning event"
   id: vacuum_event_cleaning_stopped
@@ -94,7 +94,7 @@
         - service: notify.mobile_app_sm_a526b
           data:
             title: "Rocky"
-            message: "Rocky is na {{state_attr('vacuum.roborock_vacuum_s5e','cleaning_time')}} minuten klaar met zijn werk!."
+            message: "🧹 Rocky is na {{state_attr('vacuum.roborock_vacuum_s5e','cleaning_time')}} minuten klaar met zijn werk!."
 
 ##########################
 ## Maintenance notifications
@@ -353,7 +353,7 @@
       data:
         notification_id: vacuum_error
         title: Rocky heeft een probleem
-        message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
+        message: "⚠ De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
     - delay: "00:01:00"
     - service: media_player.turn_off
       entity_id:
