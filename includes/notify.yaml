@@ -15,13 +15,6 @@
     - service: mobile_app_schaduwspeler
 
 #############################
-## Notify AndroidTV         #
-#############################
-- platform: nfandroidtv
-  name: TV
-  host: !secret cast_ip_androidtv
-
-#############################
 ## Notify Google TTS        #
 #############################
 - platform: tts
