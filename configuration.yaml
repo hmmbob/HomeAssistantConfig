@@ -78,6 +78,7 @@ template: !include includes/template.yaml
 #################################################################
 #default_config:
 dhcp:
+energy:
 map:
 mobile_app:
 my:
