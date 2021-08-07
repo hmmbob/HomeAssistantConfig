@@ -82,38 +82,6 @@
         - input_boolean.woonkamer_on_movement
 
 ##########################
-## Nachtlampje
-##########################
-- id: nachtlampje
-  alias: "Lights: Nachtlampje"
-  initial_state: true
-  trigger:
-    - platform: state
-      entity_id: group.all_adults
-      from: "not_home"
-      to: "home"
-  condition:
-    - condition: and
-      conditions:
-        - condition: or
-          conditions:
-            - condition: sun
-              after: sunset
-            - condition: sun
-              before: sunrise
-        - condition: state
-          entity_id: group.lampen_woonkamer
-          state: "off"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: light.eetkamer_level
-      data:
-        brightness_pct: 10
-    - delay: "00:03:00"
-    - service: homeassistant.turn_off
-      entity_id: light.eetkamer_level
-
-##########################
 ## Sunset lights woonkamer
 ##########################
 - id: set_lights_before_sunset
