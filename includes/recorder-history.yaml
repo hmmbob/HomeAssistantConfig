@@ -53,3 +53,14 @@ entities:
   - switch.staande_lamp
   - switch.window
   - switch.zwembad
+  - sensor.grijze_lamp_energy
+  - sensor.leeslamp_zolder_power
+  - sensor.pubercave_energy
+  - sensor.wasmachine_power
+  - sensor.schuur_electric_consumed_kwh_all
+  - sensor.eetkamer_electric_consumed_kwh
+  - sensor.cover_zolder_electric_consumed_kwh
+  - sensor.gang_dimmer_electric_consumed_kwh
+  - sensor.raam_electric_consumed_kwh
+  - sensor.dsmr_reading_electricity_delivered_1
+  - sensor.dsmr_reading_electricity_delivered_2
