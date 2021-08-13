@@ -10,6 +10,8 @@ homeassistant:
       name: Authenticator app
     - type: notify
       message: "Access token: {}"
+      include:
+        - mobile_app_sm_a526b
 
 frontend:
   themes: !include_dir_merge_named themes/
