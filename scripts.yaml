@@ -5,7 +5,7 @@ show_doorbell_alert:
     - condition: state
       entity_id: media_player.tv_beneden
       state: "off"
-    - service: notify.tv
+    - service: notify.android_tv_fire_tv
       data:
         title: Deurbel!
         message: Er staat iemand aan de deur
@@ -51,7 +51,7 @@ send_doorbell_notification:
           ttl: 0
           channel: doorbell
           priority: high
-  
+
 start_music_t:
   alias: Slaaptijd
   mode: restart
