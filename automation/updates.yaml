@@ -1,53 +1,6 @@
 ##########################
-## Update Waze sensors during commute
+## Update Waze sensors
 ##########################
-- id: waze_update_commute
-  alias: "Waze: update commute"
-  trigger:
-    - platform: time_pattern
-      minutes: "/5"
-      seconds: 00
-    - platform: homeassistant
-      event: start
-      id: "ha_start"
-  condition:
-    - condition: and
-      conditions:
-        - condition: time
-          weekday:
-            - mon
-        - condition: or
-          conditions:
-            - condition: time
-              after: "05:30:00"
-              before: "08:00:00"
-            - condition: time
-              after: "15:00:00"
-              before: "19:00:00"
-  action:
-    - alias: "Check if this is triggered by HA restart and delay updating a bit"
-      choose:
-        - conditions:
-            condition: trigger
-            id: "ha_start"
-          sequence:
-            - delay: 30
-    - choose:
-        - conditions:
-            condition: time
-            after: "05:30:00"
-            before: "08:00:00"
-          sequence:
-            service: homeassistant.update_entity
-            entity_id: sensor.reistijd_thuis_werk
-        - conditions:
-            condition: time
-            after: "15:00:00"
-            before: "19:00:00"
-          sequence:
-            service: homeassistant.update_entity
-            entity_id: sensor.reistijd_werk_thuis
-
 - id: waze_update_to_home
   alias: "Waze: update to home"
   initial_state: on
@@ -64,6 +17,46 @@
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.reistijd_bob_naar_huis
+
+- id: notification_hmmbob_left_work
+  alias: "Location: Notificatie dat Bob van het werk vertrekt"
+  initial_state: on
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sm_a526b
+      event: leave
+      zone: zone.work
+  condition:
+    - condition: time
+      after: "15:00:00"
+      before: "19:00:00"
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.reistijd_bob_naar_huis
+    - delay:
+        seconds: 10
+    - service: notify.mobile_app_moto_g_8_plus
+      data:
+        title: ♥ Bob is op weg naar huis!
+        message: >
+          Hij is rond {{now().strftime("%H:%M")}} vertrokken en Waze 
+          denkt dat hij over {{states('sensor.reistijd_bob_naar_huis')}} min thuis is.
+        data:
+          actions:
+            - action: "URI"
+              title: "Check huidige locatie"
+              uri: "/lovelace/locations"
+    - service: notify.mobile_app_sm_a526b
+      data:
+        title: Goede thuisreis
+        message: >
+          Ik heb thuis laten weten dat je volgens Waze over {{states('sensor.reistijd_bob_naar_huis')}} min thuis bent.
 
 ##########################
 ## System update notifications

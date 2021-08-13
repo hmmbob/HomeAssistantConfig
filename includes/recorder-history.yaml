@@ -38,8 +38,6 @@ entities:
   - sensor.pir_woonkamer_illuminance
   - sensor.processor_use_percent
   - sensor.pubercave_power
-  - sensor.reistijd_thuis_werk
-  - sensor.reistijd_werk_thuis
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
   - sensor.wasmachine_power
@@ -53,4 +51,3 @@ entities:
   - switch.staande_lamp
   - switch.window
   - switch.zwembad
-
