@@ -5,8 +5,6 @@ homeassistant:
   customize: !include includes/customize.yaml
   auth_providers:
     - type: homeassistant
-    - type: legacy_api_password
-      api_password: !secret http_api_password
   auth_mfa_modules:
     - type: totp
       name: Authenticator app
@@ -66,7 +64,6 @@ input_select: !include includes/input_select.yaml
 input_text: !include includes/input_text.yaml
 notify: !include includes/notify.yaml
 rest_command: !include includes/rest_command.yaml
-rss_feed_template: !include includes/rss.yaml
 scene: !include includes/scenes.yaml
 script: !include scripts.yaml
 sensor: !include includes/sensors.yaml
