@@ -102,72 +102,16 @@
           state: "off"
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.staande_lamp
+      entity_id: switch.grijze_lamp
     - wait_for_trigger:
         - platform: sun
           event: sunset
           offset: "-00:15:00"
+    - condition: state
+      entity_id: switch.grijze_lamp
+      state: "on"
     - service: homeassistant.turn_on
       entity_id:
-        - switch.grijze_lamp
+        - switch.staande_lamp
         - switch.zoutlamp
         - switch.window
-
-#############################
-## Vacation lights          #
-#############################
-- id: vacation_turn_on_time
-  alias: "Lights: Vacation turn on"
-  initial_state: on
-  trigger:
-    platform: time
-    at: input_datetime.time_vacation_lights_start
-  condition:
-    - condition: state
-      entity_id: input_boolean.vacation_mode_away
-      state: "on"
-  action:
-    - delay: "{{ range(30*60) | random }}"
-      alias: "Random delay between now and 30mins"
-    - service: homeassistant.turn_on
-      entity_id:
-        - switch.grijze_lamp
-        - switch.staande_lamp
-        - switch.window
-    - service: logbook.log
-      data:
-        name: Vacation
-        message: Lights turned on at {{ now().strftime('%H:%M') }}.
-        domain: light
-    - service: notify.mobile_app_sm_a526b
-      data:
-        message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
-        title: Vacation lights
-
-- id: vacation_turn_off_time
-  alias: "Lights: Vacation turn off"
-  initial_state: on
-  trigger:
-    platform: time
-    at: input_datetime.time_vacation_lights_end
-  condition:
-    - condition: state
-      entity_id: input_boolean.vacation_mode_away
-      state: "on"
-  action:
-    - delay: "{{ range(15*60) | random }}"
-      alias: "Random delay between now and 30mins"
-    - service: homeassistant.turn_off
-      entity_id:
-        - switch.grijze_lamp
-        - switch.staande_lamp
-        - switch.window
-    - service: logbook.log
-      data:
-        name: Vacation
-        message: Lights turned off at {{ now().strftime('%H:%M') }}.
-        domain: light
-    - service: notify.mobile_app_sm_a526b
-      data:
-        message: I turned your lights off at {{ now().strftime('%H:%M') }}.
-        title: Vacation lights
