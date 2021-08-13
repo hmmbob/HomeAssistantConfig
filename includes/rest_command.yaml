@@ -11,7 +11,7 @@
 # Using the http endpoints, as the https endpoints error out more often.
 
 send_luftdaten_pm:
-  url: https://api.sensor.community/v1/push-sensor-data/
+  url: http://api.sensor.community/v1/push-sensor-data/
   method: POST
   content_type: "application/json"
   headers:
@@ -26,7 +26,7 @@ send_luftdaten_pm:
       ]
     }
 send_luftdaten_tph:
-  url: https://api.sensor.community/v1/push-sensor-data/
+  url: http://api.sensor.community/v1/push-sensor-data/
   method: POST
   content_type: "application/json"
   headers:
