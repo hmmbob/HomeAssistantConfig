@@ -107,9 +107,3 @@ entity_config:
     name: "Overkapping"
     expose: true
     room: "Tuin"
-  switch.zwembad:
-    name: "Zwembad"
-    expose: true
-    room: "Tuin"
-    aliases:
-      - "Pomp"

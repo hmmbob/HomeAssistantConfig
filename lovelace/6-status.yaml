@@ -85,7 +85,6 @@ cards:
           - binary_sensor.weerhuisje_status
           - binary_sensor.zigbee2mqtt_bridge
           - binary_sensor.zoutlamp_status
-          - binary_sensor.zwembad_status
       - type: markdown ## Updates header
         content: |
           # Updates
