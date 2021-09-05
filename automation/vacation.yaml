@@ -79,6 +79,11 @@
       data:
         message: Someone is moving around your house.... ({{ now().strftime('%H:%M') }})
         title: Creepers
+        data:
+          tag: house-alarm
+          ttl: 0
+          channel: house-alarm
+          priority: high
     - service: logbook.log
       data:
         name: Vacation

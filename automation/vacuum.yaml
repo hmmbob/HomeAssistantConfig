@@ -16,7 +16,11 @@
       at: "09:00"
     - platform: time
       at: "19:00"
-  condition: "{{ as_timestamp(now()) - as_timestamp(states('sensor.vacuum_clean_start_time')) > 86400 }}"
+  condition:
+    - "{{ as_timestamp(now()) - as_timestamp(states('sensor.vacuum_clean_start_time')) > 86400 }}"
+    - condition: state
+      entity_id: input_boolean.vacation_mode_away
+      state: "off"
   action:
     - alias: "Vraag of Rocky een rondje moet doen"
       service: "{{ notification_service }}"
@@ -333,9 +337,12 @@
   condition:
     - condition: not
       conditions:
-        condition: state
-        entity_id: sensor.vacuum_error
-        state: "No error"
+        - condition: state
+          entity_id: sensor.vacuum_error
+          state: "No error"
+        - condition: state
+          entity_id: sensor.vacuum_error
+          state: "unavailable"
   action:
     - service: "{{ notification_service }}"
       data:

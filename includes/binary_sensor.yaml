@@ -20,5 +20,5 @@
   name: "Schooldag"
   country: NL
   remove_holidays:
-    - "Good Friday"
+    - "Goede Vrijdag"
   add_holidays: !include ./holidays.yaml
