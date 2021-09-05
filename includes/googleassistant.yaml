@@ -73,6 +73,10 @@ entity_config:
     name: "Voordeur"
     expose: true
     room: "Gang"
+  binary_sensor.door_sensor_1_contact:
+    name: "Vriezer"
+    expose: true
+    room: "Gang"
   ##Zolder
   cover.zolder:
     name: "Zolder"
@@ -82,10 +86,6 @@ entity_config:
       - "Rolluik"
   sensor.zolder_temperature:
     name: "Temperatuur zolder"
-    expose: true
-    room: "Zolder"
-  binary_sensor.door_sensor_1_contact:
-    name: "Vriezer"
     expose: true
     room: "Zolder"
   ##Slaapkamer
