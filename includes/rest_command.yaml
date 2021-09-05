@@ -14,6 +14,7 @@ send_luftdaten_pm:
   url: http://api.sensor.community/v1/push-sensor-data/
   method: POST
   content_type: "application/json"
+  timeout: 30
   headers:
     X-Pin: 1 ## This tells Luftdaten that it is SDS011 data
     X-Sensor: !secret luftdaten_x_sensor
@@ -29,6 +30,7 @@ send_luftdaten_tph:
   url: http://api.sensor.community/v1/push-sensor-data/
   method: POST
   content_type: "application/json"
+  timeout: 30
   headers:
     X-Pin: 11 ## This tells Luftdaten that it is BME280 data
     X-Sensor: !secret luftdaten_x_sensor
