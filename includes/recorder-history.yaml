@@ -31,6 +31,7 @@ entities:
   - sensor.leeslamp_zolder_power
   - sensor.max_uv_index
   - sensor.memory_use_percent
+  - sensor.nightstate
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
   - sensor.pir_gang_illuminance
@@ -40,6 +41,8 @@ entities:
   - sensor.pubercave_power
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
+  - sensor.vacuum_error
+  - sensor.vacuum_status
   - sensor.wasmachine_power
   - sensor.zolder_humidity
   - sensor.zolder_temperature

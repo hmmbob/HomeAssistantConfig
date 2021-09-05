@@ -31,6 +31,13 @@
           and is_state('input_boolean.notify_door_alert', 'on') }}
 
 ##############################
+## Night template sensors   #
+##############################
+- sensor:
+    - name: "Nightstate"
+      state: "{% if is_state('sun.sun', 'below_horizon') %}1{% else %}0{% endif %}"
+
+##############################
 ## Room temperature          #
 ##############################
 - sensor:

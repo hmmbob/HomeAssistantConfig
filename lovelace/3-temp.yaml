@@ -96,6 +96,13 @@ cards:
             entities:
               - entity: sensor.kamertemperatuur
                 name: Woonkamer
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
             align_header: left
             align_icon: left
             animate: true
@@ -126,6 +133,13 @@ cards:
               - entity: sensor.bme280_humidity
                 show_graph: false
                 show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
             align_header: left
             align_icon: left
             animate: true
@@ -158,6 +172,13 @@ cards:
               - entity: sensor.slaapkamer_humidity
                 show_graph: false
                 show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
             align_header: left
             align_icon: left
             animate: true
@@ -188,6 +209,13 @@ cards:
               - entity: sensor.zolder_humidity
                 show_graph: false
                 show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
             align_header: left
             align_icon: left
             animate: true
