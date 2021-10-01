@@ -20,6 +20,9 @@
           entity_id: group.lampen_woonkamer
           state: "off"
         - condition: state
+          entity_id: light.eetkamer_level
+          state: "off"
+        - condition: state
           entity_id: input_boolean.woonkamer_on_movement
           state: "off"
         - condition: numeric_state
