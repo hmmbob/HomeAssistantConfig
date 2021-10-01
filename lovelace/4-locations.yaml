@@ -40,6 +40,8 @@ cards:
             head: group.all_persons
           - entity: sensor.sm_a526b_geocoded_location
             name: Bob
+          - entity: sensor.schaduwspeler_gegeocodeerde_locatie
+            name: !secret naam_puber
           - sensor.reistijd_bob_naar_huis
           - type: custom:fold-entity-row
             head: sensor.diesel_u

@@ -38,3 +38,9 @@ deurbel_url_sinterklaas:
 
 deurbel_url_savage_love:
   initial: !secret deurbel_url_savage_love
+
+##################################
+## names
+##################################
+naam_puber:
+  initial: !secret naam_puber

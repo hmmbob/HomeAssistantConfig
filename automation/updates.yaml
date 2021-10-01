@@ -18,6 +18,9 @@
     - service: homeassistant.update_entity
       entity_id: sensor.reistijd_bob_naar_huis
 
+##########################
+## Coming home notifications
+##########################
 - id: notification_hmmbob_left_work
   alias: "Location: Notificatie dat Bob van het werk vertrekt"
   initial_state: on
@@ -58,6 +61,77 @@
         message: >
           Ik heb thuis laten weten dat je volgens Waze over {{states('sensor.reistijd_bob_naar_huis')}} min thuis bent.
 
+- id: notification_m_left_school
+  alias: "Location: Notificatie dat M van school vertrekt"
+  initial_state: on
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.schaduwspeler
+      event: leave
+      zone: zone.school
+  condition:
+    - condition: time
+      after: "12:00:00"
+      before: "18:00:00"
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: notify.mobile_devices_adults
+      data:
+        title: ♥ {{states('input_text.naam_puber')}} is op weg naar huis!
+        message: >
+          {{states('input_text.naam_puber')}} is rond {{now().strftime("%H:%M")}} van school vertrokken.
+        data:
+          actions:
+            - action: "URI"
+              title: "Check huidige locatie"
+              uri: "/map"
+
+##########################
+## Battery level notifications
+##########################
+- id: notification_m_battery_low
+  alias: "Updates: Notificatie dat batterij van M opgeladen moet worden"
+  initial_state: on
+  trigger:
+    - platform: time
+      at: "20:00:00"
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.schaduwspeler_batterijniveau
+      below: 40
+    - condition: state
+      entity_id: binary_sensor.schaduwspeler_is_aan_het_opladen
+      state: "off"
+  action:
+    - service: notify.mobile_app_schaduwspeler
+      data:
+        title: 🔋 Batterijwaarschuwing
+        message: >
+          Je moet je telefoon even opladen....
+
+- id: notification_m_battery_low_parents
+  alias: "Updates: Notificatie dat batterij van M bijna leeg is"
+  initial_state: on
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.schaduwspeler_batterijniveau
+      below: 10
+  condition:
+    - condition: state
+      entity_id: device_tracker.schaduwspeler
+      state: not_home
+  action:
+    - service: notify.mobile_devices_adults
+      data:
+        title: 🔋 Batterijwaarschuwing
+        message: >
+          De telefoon van {{states('input_text.naam_puber')}} is bijna leeg. Updates van zijn locatie zullen snel stoppen.
+
 ##########################
 ## System update notifications
 ##########################
@@ -92,7 +166,7 @@
         message: >
           There is an upgrade for Home Assistant container pending!
           Version {{ states('sensor.latest_version') }} just got released!
-          [Changelog:](https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}})
+          [Changelog](https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}})
 
 - alias: "System: Clear Upgrade Available Notification"
   id: system_clear_update_available_notification
