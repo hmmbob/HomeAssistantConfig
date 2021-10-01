@@ -56,7 +56,7 @@
   trigger:
     platform: numeric_state
     entity_id: sensor.pubercave_power
-    above: 15
+    above: 25
   condition:
     - condition: state
       entity_id: input_boolean.notify_zolder
@@ -70,7 +70,7 @@
         message: "De TV of PS4 op zolder staan nog aan... ({{ now().strftime('%H:%M') }})."
         data:
           tag: "pubercave"
-          
+
 # Playstation update: the kid has a maximum of 1 hr of playtime. Let's trigger
 # a notification if power usage is detected for over an hour
 - id: warn_pubercave_1hr
@@ -95,24 +95,24 @@
 
 # Because the switch is always on and only used for power tracking,
 # we need another way to track this switch in the logbook. We use
-# 15 watts as crossover point, because the PS4 sometimes charges
+# 25 watts as crossover point, because the PS4 sometimes charges
 # the controllers and thus consumes a bit of power.
 - id: logging_zolder_pubercave
   alias: "Power: Logging Pubercave"
   trigger:
     - platform: numeric_state
       entity_id: sensor.pubercave_power
-      above: 15
+      above: 25
     - platform: numeric_state
       entity_id: sensor.pubercave_power
-      below: 15
+      below: 25
   action:
     - service: logbook.log
       data:
         name: Pubercave zolder
         entity_id: sensor.pubercave_power
         message: >-
-          {% if states('sensor.pubercave_power') | float > 15 %}
+          {% if states('sensor.pubercave_power') | float > 25 %}
             is aan 
           {% else %}
             is uit
