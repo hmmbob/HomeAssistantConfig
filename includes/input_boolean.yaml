@@ -25,6 +25,10 @@ notify_uv_voice:
 #############################
 ## PIR / Movement based     #
 #############################
+disable_pir_sensor_automations:
+  name: "Schakel bewegings-automatiseringen uit"
+  initial: false
+  icon: mdi:sofa-outline
 enable_pir_woonkamer:
   name: "Verlichting woonkamer aan op beweging"
   initial: true

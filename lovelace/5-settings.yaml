@@ -344,10 +344,32 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.disable_pir_sensor_automations
+            name: Couch sleeper
+            icon: mdi:sofa-outline
+            show_state: false
+            styles:
+              card:
+                - width: 120px
+                - height: 120px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+
+      - type: horizontal-stack #### 6th row
+        cards:
           - type: entity
             entity: input_select.deurbel
             card_mod:
               style: |
                 ha-card {
-                  width: 248px;
+                  width: 368px;
+                  margin: 0px 0px 0px 14px;
                 }

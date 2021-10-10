@@ -118,3 +118,45 @@
         - switch.staande_lamp
         - switch.zoutlamp
         - switch.window
+
+##########################
+## Disable movement automations
+##########################
+- id: disable_movement_automations
+  alias: "System: Disable movement automations"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.disable_pir_sensor_automations
+      from: "off"
+      to: "on"
+      id: "disable_automations"
+    - platform: state
+      entity_id: input_boolean.disable_pir_sensor_automations
+      from: "on"
+      to: "off"
+      id: "enable_automations"
+  action:
+    - alias: "Bepaal welke actie te nemen"
+      choose:
+        - conditions:
+            condition: trigger
+            id: "enable_automations"
+          sequence:
+            - alias: "Enabling relevant input booleans"
+              service: input_boolean.turn_on
+              target:
+                entity_id:
+                  - input_boolean.enable_pir_woonkamer
+                  - input_boolean.enable_pir_gang
+                  - input_boolean.toon_on_movement
+        - conditions:
+            condition: trigger
+            id: "disable_automations"
+          sequence:
+            - alias: "Disabling relevant input booleans"
+              service: input_boolean.turn_off
+              target:
+                entity_id:
+                  - input_boolean.enable_pir_woonkamer
+                  - input_boolean.enable_pir_gang
+                  - input_boolean.toon_on_movement

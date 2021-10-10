@@ -83,6 +83,8 @@ cards:
     show_header_toggle: false
     state_color: true
     entities:
+      - input_boolean.disable_pir_sensor_automations
+      - type: divider
       - binary_sensor.pir_woonkamer_motion
       - sensor.pir_woonkamer_illuminance
       - input_boolean.eetkamer_on_movement
