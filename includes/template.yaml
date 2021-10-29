@@ -73,93 +73,18 @@
           No error
         {% endif %}
 
-    - name: "Vacuum current cleaning time"
-      unique_id: "vacuum_current_cleaning_time"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "cleaning_time") }}'
-      icon: mdi:history
-      unit_of_measurement: "min"
-
-    - name: "Vacuum current cleaned area"
-      unique_id: "vacuum_current_cleaned_area"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "cleaned_area") }}'
-      icon: mdi:texture-box
-      unit_of_measurement: "m2"
-
-    - name: "Vacuum total cleaned area"
-      unique_id: "vacuum_total_cleaned_area"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "total_cleaned_area") }}'
-      icon: mdi:texture-box
-      unit_of_measurement: "m2"
-
-    - name: "Vacuum total cleaning count"
-      unique_id: "vacuum_total_cleaning_count"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "cleaning_count") }}'
-      icon: mdi:history
-      unit_of_measurement: "x"
-
-    - name: "Vacuum total cleaning time"
-      unique_id: "vacuum_total_cleaning_time"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "total_cleaning_time")  | int // 60 }}'
-      icon: mdi:av-timer
-      unit_of_measurement: "uur"
-
-    - name: "Vacuum main brush left"
-      unique_id: "vacuum_main_brush_left"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "main_brush_left") }}'
-      icon: mdi:broom
-      unit_of_measurement: "uur"
-
-    - name: "Vacuum side brush left"
-      unique_id: "vacuum_side_brush_left"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "side_brush_left") }}'
-      icon: mdi:pinwheel
-      unit_of_measurement: "uur"
-
-    - name: "Vacuum filter left"
-      unique_id: "vacuum_filter_left"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "filter_left") }}'
-      icon: mdi:air-filter
-      unit_of_measurement: "uur"
-
-    - name: "Vacuum sensor dirty left"
-      unique_id: "vacuum_sensor_dirty_left"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "sensor_dirty_left") }}'
-      icon: mdi:eye
-      unit_of_measurement: "uur"
-
-    - name: "Vacuum clean start time"
-      unique_id: "vacuum_clean_start_time"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "clean_start")}}'
-      icon: mdi:clock-start
-      device_class: timestamp
-
-    - name: "Vacuum clean stop time"
-      unique_id: "vacuum_clean_stop_time"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "clean_stop") }}'
-      icon: mdi:timer-off-outline
-      device_class: timestamp
-
-    - name: "Vacuum vmop attached"
-      unique_id: "vacuum_vmop_attached"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "mop_attached") }}'
-      icon: mdi:pail
-
     - name: "Vacuum battery"
       unique_id: "vacuum_battery"
       state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "battery_level") }}'
       device_class: "battery"
       unit_of_measurement: "%"
       icon: >-
-        {% set battery_level = states('sensor.vacuum_battery')|int('unknown') %}
-        {% set battery_round = (battery_level|int / 10)|int * 10 %}
-        {% if battery_level == 'unknown' %}
-          mdi:battery-unknown
+        {% set battery_level = states('sensor.vacuum_battery')|int(default=0) %}
+        {% set battery_round = (battery_level / 10)|int * 10 %}
+        {% if battery_round >= 100 %}
+          mdi:battery
+        {% elif battery_round > 0 %}
+          mdi:battery-{{ battery_round }}
         {% else %}
-          {% if battery_round >= 100 %}
-            mdi:battery
-          {% elif battery_round > 0 %}
-            mdi:battery-{{ battery_round }}
-          {% else %}
-            mdi:battery-alert
-          {% endif %}
+          mdi:battery-alert
         {% endif %}
