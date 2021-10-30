@@ -15,7 +15,7 @@
     - service: mobile_app_schaduwspeler
 
 #############################
-## Notify Google TTS        #
+## Notify via Microsoft TTS #
 #############################
 - platform: tts
   name: tts_woonkamer
@@ -33,4 +33,4 @@
 # Used to let automations not error out
 - name: bogus
   platform: command_line
-  command: ""
+  command: ":" # bash no-op command

@@ -11,7 +11,7 @@
     - condition: and
       conditions:
         - condition: time
-          after: "07:29:00"
+          after: "06:15:00"
           before: "08:10:00"
         - condition: state
           entity_id: input_boolean.enable_pir_woonkamer
