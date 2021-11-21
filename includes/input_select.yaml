@@ -6,3 +6,14 @@ deurbel:
     - Sinterklaas
     - Jingle Bells
   icon: mdi:format-list-bulleted
+
+tts_target:
+  name: TTS Target
+  options:
+    - Woonkamer
+    - Hele huis
+    - Bovenverdieping
+    - Slaapkamer
+    - Zolder
+    - Studeerkamer
+  icon: mdi:cast-audio

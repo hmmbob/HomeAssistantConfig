@@ -40,7 +40,14 @@ deurbel_url_savage_love:
   initial: !secret deurbel_url_savage_love
 
 ##################################
-## names
+## Names
 ##################################
 naam_puber:
   initial: !secret naam_puber
+
+##################################
+## TTS Message
+##################################
+tts_message:
+  name: Bericht
+  icon: mdi:message-processing-outline

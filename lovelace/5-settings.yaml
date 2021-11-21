@@ -363,13 +363,71 @@ cards:
                   icon:
                     - filter: grayscale(100%)
 
+      - type: markdown ## TTS header
+        content: |
+          # Speel een bericht af
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
       - type: horizontal-stack #### 6th row
         cards:
-          - type: entity
-            entity: input_select.deurbel
+          - type: entities
+            card_mod:
+              style: |
+                ha-card {
+                width: 368px;
+                margin: 0px 14px -5px 14px;
+                }
+            state_color: true
+            entities:
+              - input_select.tts_target
+              - input_text.tts_message
+              - entity: script.play_tts_message
+                icon: mdi:account-voice
+                name: "Speel bericht af"
+
+      - type: markdown ## Deurbel header
+        content: |
+          # Deurbel
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown:
+              $: |
+                h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: horizontal-stack #### 7th row
+        cards:
+          - type: entities
             card_mod:
               style: |
                 ha-card {
                   width: 368px;
                   margin: 0px 0px 0px 14px;
                 }
+            entities:
+              - input_select.deurbel
