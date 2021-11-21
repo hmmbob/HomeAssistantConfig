@@ -49,7 +49,7 @@ entity_config:
     name: "Radio Q"
     expose: true
     room: "Woonkamer"
-  vacuum.roborock_vacuum_s5e:
+  vacuum.rocky:
     name: "Stofzuiger"
     expose: true
     room: "Woonkamer"

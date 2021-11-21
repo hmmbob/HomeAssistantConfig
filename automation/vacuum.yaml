@@ -17,7 +17,7 @@
     - platform: time
       at: "19:00"
   condition:
-    - "{{ as_timestamp(now()) - as_timestamp(states('sensor.roborock_vacuum_s5e_last_clean_start')) > 86400 }}"
+    - "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86400 }}"
     - condition: state
       entity_id: input_boolean.vacation_mode_away
       state: "off"
@@ -48,7 +48,7 @@
     - alias: "Start Rocky na bevestiging"
       service: vacuum.start
       target:
-        entity_id: vacuum.roborock_vacuum_s5e
+        entity_id: vacuum.rocky
 
 ##########################
 ## Notifications
@@ -58,7 +58,7 @@
   initial_state: "on"
   trigger:
     - platform: state
-      entity_id: vacuum.roborock_vacuum_s5e
+      entity_id: vacuum.rocky
       from: "docked"
       to: "cleaning"
   action:
@@ -72,7 +72,7 @@
   initial_state: "on"
   trigger:
     - platform: state
-      entity_id: vacuum.roborock_vacuum_s5e
+      entity_id: vacuum.rocky
       from: "returning"
       to: "docked"
   action:
@@ -88,17 +88,17 @@
   action:
     - alias: "Checking if this is the 3rd time cleaning..."
       choose:
-        - conditions: "{{ (states('sensor.roborock_vacuum_s5e_total_clean_count') | int(default=0)) % 3 == 0 }}"
+        - conditions: "{{ (states('sensor.rocky_total_clean_count') | int(default=0)) % 3 == 0 }}"
           sequence:
             - service: notify.mobile_app_sm_a526b
               data:
-                message: "Rocky moet geleegd worden, hij was na {{((states('sensor.roborock_vacuum_s5e_last_clean_duration') | int(default=0)) / 60) | round(0) }} minuten klaar met zijn werk!"
+                message: "Rocky moet geleegd worden, hij was na {{((states('sensor.rocky_last_clean_duration') | int(default=0)) / 60) | round(0) }} minuten klaar met zijn werk!"
                 title: "Rocky"
       default:
         - service: notify.mobile_app_sm_a526b
           data:
             title: "Rocky"
-            message: "🧹 Rocky is na {{((states('sensor.roborock_vacuum_s5e_last_clean_duration') | int(default=0)) / 60) | round(0) }} minuten klaar met zijn werk!."
+            message: "🧹 Rocky is na {{((states('sensor.rocky_last_clean_duration') | int(default=0)) / 60) | round(0) }} minuten klaar met zijn werk!."
 
 ##########################
 ## Maintenance notifications
@@ -112,13 +112,13 @@
   condition:
     - alias: "Check for sensor status"
       condition: numeric_state
-      entity_id: sensor.roborock_vacuum_s5e_sensor_dirty_left
+      entity_id: sensor.rocky_sensor_dirty_left
       below: 7200 # unit_of_measurement: seconds (equals 2hrs)
   action:
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Rocky needs maintenance"
-        message: "De sensoren van Rocky moeten schoongemaakt worden. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_sensor_dirty_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De sensoren van Rocky moeten schoongemaakt worden. Resterende tijd: {{((states('sensor.rocky_sensor_dirty_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum
           channel: vacuum
@@ -139,13 +139,13 @@
   condition:
     - alias: "Check for main brush status"
       condition: numeric_state
-      entity_id: sensor.roborock_vacuum_s5e_main_brush_left
+      entity_id: sensor.rocky_main_brush_left
       below: 18000 # unit_of_measurement: seconds (equals 5hrs)
   action:
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Rocky needs maintenance"
-        message: "De hoofdborstel van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_main_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De hoofdborstel van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.rocky_main_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -166,13 +166,13 @@
   condition:
     - alias: "Check for side brush status"
       condition: numeric_state
-      entity_id: sensor.roborock_vacuum_s5e_side_brush_left
+      entity_id: sensor.rocky_side_brush_left
       below: 18000 # unit_of_measurement: seconds (equals 5hrs)
   action:
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Rocky needs maintenance"
-        message: "De zijborstel van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_side_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De zijborstel van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.rocky_side_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -193,13 +193,13 @@
   condition:
     - alias: "Check for filter status"
       condition: numeric_state
-      entity_id: sensor.roborock_vacuum_s5e_filter_left
+      entity_id: sensor.rocky_filter_left
       below: 18000 # unit_of_measurement: seconds (equals 5hrs)
   action:
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Rocky needs maintenance"
-        message: "De filter van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_filter_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De filter van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.rocky_filter_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -226,14 +226,14 @@
     - service: vacuum.send_Command
       alias: "Reset hours for sensor cleaning"
       target:
-        entity_id: vacuum.roborock_vacuum_s5e
+        entity_id: vacuum.rocky
       data:
         command: reset_consumable
         params: ["sensor_dirty_time"]
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Maintenance completed"
-        message: "De sensortijd is gereset. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_sensor_dirty_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De sensortijd is gereset. Resterende tijd: {{((states('sensor.rocky_sensor_dirty_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -252,14 +252,14 @@
     - service: vacuum.send_Command
       alias: "Reset hours for main brush replacement"
       target:
-        entity_id: vacuum.roborock_vacuum_s5e
+        entity_id: vacuum.rocky
       data:
         command: reset_consumable
         params: ["main_brush_work_time"]
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Maintenance completed"
-        message: "De hoofdborstel van Rocky is vervangen. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_main_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De hoofdborstel van Rocky is vervangen. Resterende tijd: {{((states('sensor.rocky_main_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -278,14 +278,14 @@
     - service: vacuum.send_Command
       alias: "Reset hours for side brush replacement"
       target:
-        entity_id: vacuum.roborock_vacuum_s5e
+        entity_id: vacuum.rocky
       data:
         command: reset_consumable
         params: ["side_brush_work_time"]
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Maintenance completed"
-        message: "De zijborstel van Rocky is vervangen. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_side_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De zijborstel van Rocky is vervangen. Resterende tijd: {{((states('sensor.rocky_side_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -304,14 +304,14 @@
     - service: vacuum.send_Command
       alias: "Reset hours for filter replacement"
       target:
-        entity_id: vacuum.roborock_vacuum_s5e
+        entity_id: vacuum.rocky
       data:
         command: reset_consumable
         params: ["filter_work_time"]
     - service: notify.mobile_app_sm_a526b
       data:
         title: "Maintenance completed"
-        message: "De filter van Rocky is vervangen. Resterende tijd: {{((states('sensor.roborock_vacuum_s5e_filter_left') | int(default=0)) / 3600) | round(0) }} uur."
+        message: "De filter van Rocky is vervangen. Resterende tijd: {{((states('sensor.rocky_filter_left') | int(default=0)) / 3600) | round(0) }} uur."
         data:
           tag: vacuum_maintenance
           channel: vacuum
@@ -395,12 +395,12 @@
   mode: restart
   trigger:
     - platform: state
-      entity_id: vacuum.roborock_vacuum_s5e
+      entity_id: vacuum.rocky
     - platform: homeassistant
       event: start
   action:
     - service:
-        "{% if states('vacuum.roborock_vacuum_s5e') in ['unavailable', 'unknown', 'docked'] %}
+        "{% if states('vacuum.rocky') in ['unavailable', 'unknown', 'docked'] %}
         camera.turn_off
         {% else %}
         camera.turn_on

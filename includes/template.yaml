@@ -60,22 +60,22 @@
 - sensor:
     - name: "Vacuum status"
       unique_id: "vacuum_status"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "status") }}'
+      state: '{{ state_attr("vacuum.rocky", "status") }}'
       icon: mdi:list-status
 
     - name: "Vacuum error"
       unique_id: "vacuum_error"
       icon: mdi:alert-circle
       state: >-
-        {% if states("vacuum.roborock_vacuum_s5e") == "error" %}
-          {{ state_attr("vacuum.roborock_vacuum_s5e", "error") }}
+        {% if states("vacuum.rocky") == "error" %}
+          {{ state_attr("vacuum.rocky", "error") }}
         {% else %}
           No error
         {% endif %}
 
     - name: "Vacuum battery"
       unique_id: "vacuum_battery"
-      state: '{{ state_attr("vacuum.roborock_vacuum_s5e", "battery_level") }}'
+      state: '{{ state_attr("vacuum.rocky", "battery_level") }}'
       device_class: "battery"
       unit_of_measurement: "%"
       icon: >-

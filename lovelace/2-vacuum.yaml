@@ -34,7 +34,7 @@ cards:
             margin: 0px 14px -5px 14px;
             width: 376px;
             }
-        entity: vacuum.roborock_vacuum_s5e
+        entity: vacuum.rocky
         stats:
           cleaning:
             - attribute: cleaned_area
@@ -50,12 +50,12 @@ cards:
             ha-card {
               margin: 0px 0px 0px 14px;
             }
-        entity: vacuum.roborock_vacuum_s5e
+        entity: vacuum.rocky
         tap_action:
           action: call-service
           service: vacuum.start
           service_data:
-            entity_id: vacuum.roborock_vacuum_s5e
+            entity_id: vacuum.rocky
         name: Alles stofzuigen
         icon: "mdi:robot-vacuum"
         show_state: false
@@ -75,13 +75,13 @@ cards:
                 ha-card {
                   margin: 0px 0px 0px 14px;
                 }
-            entity: vacuum.roborock_vacuum_s5e
+            entity: vacuum.rocky
             tap_action:
               action: call-service
               service: xiaomi_miio.vacuum_clean_segment
               service_data:
                 segments: "18"
-                entity_id: vacuum.roborock_vacuum_s5e
+                entity_id: vacuum.rocky
             name: Woonkamer stofzuigen
             icon: "mdi:sofa"
             show_state: false
@@ -93,13 +93,13 @@ cards:
               name:
                 - font-size: 12px
           - type: custom:button-card
-            entity: vacuum.roborock_vacuum_s5e
+            entity: vacuum.rocky
             tap_action:
               action: call-service
               service: xiaomi_miio.vacuum_clean_segment
               service_data:
                 segments: "17"
-                entity_id: vacuum.roborock_vacuum_s5e
+                entity_id: vacuum.rocky
             name: Gang stofzuigen
             icon: "mdi:stairs"
             show_state: false
@@ -111,13 +111,13 @@ cards:
               name:
                 - font-size: 12px
           - type: custom:button-card
-            entity: vacuum.roborock_vacuum_s5e
+            entity: vacuum.rocky
             tap_action:
               action: call-service
               service: xiaomi_miio.vacuum_clean_segment
               service_data:
                 segments: "16"
-                entity_id: vacuum.roborock_vacuum_s5e
+                entity_id: vacuum.rocky
             name: Keuken stofzuigen
             icon: "mdi:pot-steam"
             show_state: false
