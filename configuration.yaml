@@ -43,7 +43,6 @@ logger:
   logs:
     pychromecast.socket_client: critical # Mute cast reconnection warnings/errors
     homeassistant.components.analytics: info # I'd like to see what is sent
-    custom_components.spotcast: debug
 
 lovelace:
   mode: yaml
