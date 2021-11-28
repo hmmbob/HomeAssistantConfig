@@ -5,7 +5,17 @@ show_doorbell_alert:
     - condition: state
       entity_id: media_player.tv_beneden
       state: "off"
-    - service: notify.android_tv_fire_tv
+    - service: notify.tv_woonkamer
+      data:
+        title: Deurbel!
+        message: Er staat iemand aan de deur
+        data:
+          fontsize: large
+          position: top-right
+          duration: 10
+          transparency: 50%
+          color: grey
+    - service: notify.tv_slaapkamer
       data:
         title: Deurbel!
         message: Er staat iemand aan de deur
