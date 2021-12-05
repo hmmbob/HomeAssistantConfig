@@ -57,8 +57,7 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: custom:simple-weather-card ## Weather
-        type: custom:simple-weather-card
+      - type: custom:simple-weather-card
         card_mod:
           style: |
             ha-card {

@@ -16,6 +16,9 @@
   condition:
     - condition: and
       conditions:
+        - condition: state
+          entity_id: input_boolean.toon_on_movement
+          state: "on"
         - condition: time
           after: "06:45:00"
           before: "08:30:00"
@@ -42,9 +45,6 @@
           data:
             entity_id: climate.woonkamer
             preset_mode: home
-        - service: homeassistant.turn_on
-          entity_id:
-            - input_boolean.toon_on_movement
 
 ##########################
 ## Toon uit op schooltijd
@@ -68,6 +68,3 @@
       data:
         entity_id: climate.woonkamer
         preset_mode: away
-    - service: homeassistant.turn_off
-      entity_id:
-        - input_boolean.toon_on_movement
