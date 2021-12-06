@@ -2,9 +2,6 @@ show_doorbell_alert:
   mode: single
   max_exceeded: silent
   sequence:
-    - condition: state
-      entity_id: media_player.tv_beneden
-      state: "off"
     - service: notify.tv_woonkamer
       data:
         title: Deurbel!
