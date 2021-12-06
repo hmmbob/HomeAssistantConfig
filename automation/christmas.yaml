@@ -1,0 +1,86 @@
+###################
+## Kerstboom      #
+###################
+- id: kerstboom_aan
+  alias: "Christmas: Kerstboom aan"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "on"
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "off"
+    - condition: state
+      entity_id: input_boolean.enable_pir_woonkamer
+      state: "on"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kerstboom
+
+##########################
+## Kerstboom aan bij thuiskomst
+##########################
+- id: kerstboom_bij_thuiskomst
+  alias: "Christmas: Kerstboom aan bij thuiskomst"
+  trigger:
+    - platform: state
+      entity_id: group.all_adults
+      to: "home"
+      from: "not_home"
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "off"
+    - condition: state
+      entity_id: input_boolean.enable_pir_woonkamer
+      state: "on"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.kerstboom
+
+- id: kerstboom_uit
+  alias: "Christmas: Kerstboom uit"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.pir_woonkamer_motion
+      to: "off"
+      for:
+        minutes: 20
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.kerstboom
+
+##########################
+## Kerstboom uit bij vertrek
+##########################
+- id: kerstboom_bij_vertrek
+  alias: "Christmas: Kerstboom uit bij vertrek"
+  trigger:
+    - platform: state
+      entity_id: group.all_adults
+      to: "not_home"
+      from: "home"
+  condition:
+    - condition: time
+      after: "06:45:00"
+      before: "22:00:00"
+    - condition: state
+      entity_id: switch.kerstboom
+      state: "on"
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.kerstboom

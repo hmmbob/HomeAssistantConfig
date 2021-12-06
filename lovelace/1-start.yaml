@@ -321,6 +321,7 @@ cards:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
           - light.eetkamer_level
+          - switch.kerstboom
           - type: buttons
             entities:
               - entity: switch.overkapping
@@ -441,9 +442,9 @@ cards:
           show_source: true
       - type: conditional
         conditions:
-          - entity: media_player.tv_beneden
+          - entity: media_player.tv_woonkamer
             state_not: "off"
-          - entity: media_player.tv_beneden
+          - entity: media_player.tv_woonkamer
             state_not: "unavailable"
         card:
           type: custom:mini-media-player
@@ -452,7 +453,27 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.tv_beneden
+          entity: media_player.tv_woonkamer
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.tv_slaapkamer
+            state_not: "off"
+          - entity: media_player.tv_slaapkamer
+            state_not: "unavailable"
+        card:
+          type: custom:mini-media-player
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
+          entity: media_player.tv_slaapkamer
           icon: mdi:cast
           artwork: cover
           artwork_border: true
@@ -481,7 +502,7 @@ cards:
           show_source: true
       - type: conditional
         conditions:
-          - entity: media_player.spotify_bob
+          - entity: media_player.spotify_hmmbob
             state_not: "idle"
         card:
           type: custom:mini-media-player
@@ -490,7 +511,7 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.spotify_bob
+          entity: media_player.spotify_hmmbob
           icon: mdi:spotify
           artwork: cover
           artwork_border: true
@@ -509,6 +530,24 @@ cards:
               margin: 0px 14px -5px 14px;
               }
           entity: media_player.spotify_t
+          icon: mdi:spotify
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+      - type: conditional
+        conditions:
+          - entity: media_player.spotify_m
+            state_not: "idle"
+        card:
+          type: custom:mini-media-player
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
+          entity: media_player.spotify_m
           icon: mdi:spotify
           artwork: cover
           artwork_border: true
