@@ -39,6 +39,8 @@ logbook:
       - binary_sensor.pir_woonkamer_motion
       - binary_sensor.pir_gang_sensor
       - sensor.kamertemperatuur
+    domains:
+      - media_player
 
 logger:
   default: warn
