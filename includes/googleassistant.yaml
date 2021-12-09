@@ -33,7 +33,8 @@ entity_config:
   switch.zoutlamp:
     name: "Zout Lamp"
     expose: true
-    room: "Woonkamer"
+    # room: "Woonkamer"
+    room: "Slaapkamer"
     aliases:
       - "Steen Lamp"
       - "Zaklamp"

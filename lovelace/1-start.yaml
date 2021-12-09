@@ -321,7 +321,6 @@ cards:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
           - light.eetkamer_level
-          - switch.kerstboom
           - type: buttons
             entities:
               - entity: switch.overkapping
@@ -329,6 +328,10 @@ cards:
               - entity: switch.genie
                 show_name: true
               - entity: switch.aquarium
+                show_name: true
+              - entity: switch.zoutlamp
+                show_name: true
+              - entity: switch.kerstboom
                 show_name: true
           - type: custom:multiple-entity-row
             entity: sensor.pubercave_power
