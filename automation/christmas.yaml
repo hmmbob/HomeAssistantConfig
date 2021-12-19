@@ -53,13 +53,6 @@
       to: "off"
       for:
         minutes: 20
-  condition:
-    - condition: time
-      after: "06:45:00"
-      before: "22:00:00"
-    - condition: state
-      entity_id: switch.kerstboom
-      state: "on"
   action:
     - service: homeassistant.turn_off
       entity_id: switch.kerstboom
@@ -74,13 +67,6 @@
       entity_id: group.all_adults
       to: "not_home"
       from: "home"
-  condition:
-    - condition: time
-      after: "06:45:00"
-      before: "22:00:00"
-    - condition: state
-      entity_id: switch.kerstboom
-      state: "on"
   action:
     - service: homeassistant.turn_off
       entity_id: switch.kerstboom
