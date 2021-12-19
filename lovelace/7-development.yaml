@@ -22,7 +22,8 @@ cards:
       include:
         - state: unknown
       exclude:
-        - entity_id: group.*
+        - domain: group
+        - domain: button
     sort:
       method: name
 

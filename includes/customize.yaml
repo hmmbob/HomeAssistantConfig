@@ -1,17 +1,5 @@
 # Customizing template and rest sensors that cannot
 # be customized through the frontend
-sensor.afvalinfo_gft:
-  friendly_name: GFT
-  icon: mdi:recycle
-sensor.afvalinfo_papier:
-  friendly_name: Oud Papier
-  icon: mdi:recycle-variant
-sensor.afvalinfo_pbd:
-  friendly_name: Plastic
-  icon: mdi:bottle-soda
-sensor.afvalinfo_restafval:
-  friendly_name: Restafval
-  icon: mdi:delete
 sensor.diesel_u:
   icon: mdi:gas-station
 sensor.diesel_z:
