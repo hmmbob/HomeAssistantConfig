@@ -11,6 +11,14 @@
     - type: memory_use_percent
     - type: processor_use
 
+- platform: sql
+  db_url: !secret recorder_url
+  queries:
+    - name: Database Grootte
+      query: 'SELECT table_schema "homeassistant", Round(Sum(data_length + index_length) / POWER(1024,2), 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: "value"
+      unit_of_measurement: mB
+
 ##########################
 ## Weather sensors
 ##########################

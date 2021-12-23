@@ -25,6 +25,7 @@ entities:
   - sensor.bme280_pressure
   - sensor.bme280_temperature
   - sensor.current_uv_index
+  - sensor.database_grootte
   - sensor.diesel_u
   - sensor.diesel_z
   - sensor.kamertemperatuur
