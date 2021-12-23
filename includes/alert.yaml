@@ -20,9 +20,8 @@ freezer_door:
     priority: high
     ledColor: "red" # Set the LED to red
     actions:
-      - action: "URI"
-        title: "Open alert"
-        uri: "entityId:alert.freezer_door"
+      - action: "mute_alert_freezer"
+        title: "Alert dempen"
 
 #############################
 ## Front door alert         #
@@ -46,9 +45,8 @@ front_door:
     priority: high
     ledColor: "red" # Set the LED to red
     actions:
-      - action: "URI"
-        title: "Open alert"
-        uri: "entityId:alert.front_door"
+      - action: "mute_alert_front_door"
+        title: "Alert dempen"
 
 #############################
 ## Weerhuisje Alert         #
@@ -71,6 +69,5 @@ weerhuisje:
     priority: high
     ledColor: "red" # Set the LED to red
     actions:
-      - action: "URI"
-        title: "Open alert"
-        uri: "entityId:alert.weerhuisje"
+      - action: "mute_alert_weerhuisje"
+        title: "Alert dempen"
