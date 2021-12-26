@@ -18,6 +18,7 @@ entities:
   - binary_sensor.weerhuisje_status
   - binary_sensor.zigbee2mqtt_bridge
   - light.eetkamer_level
+  - light.sonoff_l1
   - light.window_level
   - sensor.benzine_u
   - sensor.benzine_z
