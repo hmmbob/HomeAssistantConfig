@@ -22,10 +22,6 @@ entity_config:
     name: "Grijze lamp"
     expose: true
     room: "Woonkamer"
-  switch.kerstboom:
-    name: "Kerstboom"
-    expose: true
-    room: "Woonkamer"
   switch.staande_lamp:
     name: "Staande lamp"
     expose: true
@@ -33,8 +29,7 @@ entity_config:
   switch.zoutlamp:
     name: "Zout Lamp"
     expose: true
-    # room: "Woonkamer"
-    room: "Slaapkamer"
+    room: "Woonkamer"
     aliases:
       - "Steen Lamp"
       - "Zaklamp"
@@ -97,6 +92,12 @@ entity_config:
     name: "Temperatuur zolder"
     expose: true
     room: "Zolder"
+  light.sonoff_l1:
+    name: "Led strip"
+    expose: true
+    room: "Zolder"
+    aliases:
+      - "Ledstrip"
   ##Slaapkamer
   sensor.slaapkamer_temperature:
     name: "Temperatuur slaapkamer"

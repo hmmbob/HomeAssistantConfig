@@ -3,31 +3,12 @@
 ###################
 - id: kerstboom_aan
   alias: "Christmas: Kerstboom aan"
-  initial_state: on
   trigger:
     - platform: state
       entity_id: binary_sensor.pir_woonkamer_motion
       to: "on"
-  condition:
-    - condition: time
-      after: "06:45:00"
-      before: "22:00:00"
-    - condition: state
-      entity_id: switch.kerstboom
-      state: "off"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.kerstboom
-
-##########################
-## Kerstboom aan bij thuiskomst
-##########################
-- id: kerstboom_bij_thuiskomst
-  alias: "Lights: Kerstboom aan bij thuiskomst"
-  initial_state: off
-  trigger:
     - platform: state
-      entity_id: group.all_devices
+      entity_id: group.all_adults
       to: "home"
       from: "not_home"
   condition:
@@ -37,76 +18,28 @@
     - condition: state
       entity_id: switch.kerstboom
       state: "off"
+    - condition: state
+      entity_id: input_boolean.enable_pir_woonkamer
+      state: "on"
   action:
     - service: homeassistant.turn_on
       entity_id: switch.kerstboom
 
+##########################
+## Kerstboom uit
+##########################
 - id: kerstboom_uit
   alias: "Christmas: Kerstboom uit"
-  initial_state: on
   trigger:
     - platform: state
       entity_id: binary_sensor.pir_woonkamer_motion
       to: "off"
       for:
         minutes: 20
-  condition:
-    - condition: time
-      after: "06:45:00"
-      before: "22:00:00"
-    - condition: state
-      entity_id: switch.kerstboom
-      state: "on"
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.kerstboom
-
-##########################
-## Kerstboom uit bij vertrek
-##########################
-- id: kerstboom_bij_vertrek
-  alias: "Lights: Kerstboom uit bij vertrek"
-  initial_state: off
-  trigger:
     - platform: state
-      entity_id: group.all_devices
-      to: "not_home"
+      entity_id: group.all_adults
       from: "home"
-  condition:
-    - condition: time
-      after: "06:45:00"
-      before: "22:00:00"
-    - condition: state
-      entity_id: switch.kerstboom
-      state: "on"
+      to: "not_home"
   action:
     - service: homeassistant.turn_off
       entity_id: switch.kerstboom
-
-#############################
-## Christmas lights garden  #
-#############################
-- id: christmas_turn_on_garden
-  alias: "Christmas: Garden turn on lights"
-  initial_state: true
-  trigger:
-    - platform: sun
-      event: sunset
-      offset: "00:15:00"
-    - platform: time
-      at: "06:55:00"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.kerstverlichting_tuin
-
-- id: christmas_turn_off_garden
-  alias: "Christmas: Garden turn off lights"
-  initial_state: true
-  trigger:
-    - platform: time
-      at: "09:00:00"
-    - platform: time
-      at: "23:30:00"
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.kerstverlichting_tuin

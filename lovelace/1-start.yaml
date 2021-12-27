@@ -333,8 +333,6 @@ cards:
             entities:
               - entity: switch.zoutlamp
                 show_name: true
-              - entity: switch.kerstboom
-                show_name: true
               - entity: light.sonoff_l1
                 show_name: true
           - type: custom:multiple-entity-row

@@ -51,7 +51,6 @@ entities:
   - switch.aquarium
   - switch.genie
   - switch.grijze_lamp
-  - switch.kerstboom
   - switch.overkapping
   - switch.schuur_1
   - switch.staande_lamp
