@@ -1,7 +1,6 @@
 ##########################
 ## Washing machine alerts
 ##########################
-
 # Turn on helper if washing machine starts
 - alias: "Wasmachine draait"
   id: helper_wasmachine
@@ -21,8 +20,8 @@
       entity_id: input_boolean.wasmachine_actief
 
 # Notify us when washing is done
-- alias: "Wasmachine klaar melding"
-  id: melding_wasmachine
+- alias: "Notifications: Wasmachine klaar melding"
+  id: notification_wasmachine
   initial_state: true
   variables:
     notification_service: >
@@ -54,6 +53,8 @@
           ttl: 0
           channel: wasmachine
           priority: high
+          icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+          notification_icon: mdi:washing-machine
     - alias: "Play a TTS alert downstairs"
       service: notify.tts_woonkamer
       data:
@@ -74,8 +75,8 @@
       entity_id:
         - media_player.woonkamer
 
-- alias: "Wasmachine: zet LED uit"
-  id: wasmachine_LED_uit
+- alias: "Notifications: Clear wasmachine"
+  id: notifications_wasmachine_remove
   initial_state: true
   trigger:
     # If the machine is turned off

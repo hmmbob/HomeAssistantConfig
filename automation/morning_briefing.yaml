@@ -20,3 +20,4 @@
           Vandaag verwachten we {{ states('sensor.dark_sky_summary_0d') | lower }} Max temperatuur wordt {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int }}C.
         data:
           tag: "morning-brief"
+          icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"

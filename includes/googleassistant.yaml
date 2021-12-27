@@ -54,6 +54,10 @@ entity_config:
     name: "Radio Q"
     expose: true
     room: "Woonkamer"
+  script.nashville:
+    name: "Nashville"
+    expose: true
+    room: "Woonkamer"
   vacuum.rocky:
     name: "Stofzuiger"
     expose: true

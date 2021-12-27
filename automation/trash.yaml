@@ -1,212 +1,67 @@
 ##########################
-## Trash
+## Trash notifications
 ##########################
-- alias: "Afval: Melding vandaag"
-  id: melding_afval_vandaag
+- alias: "Afval: Meldingen"
+  id: melding_afval
   initial_state: true
+  trigger:
+    - platform: time
+      at: input_datetime.time_trash_warning_today
+      id: Vandaag_today
+    - platform: time
+      at: input_datetime.time_trash_warning_tomorrow
+      id: Morgen_tomorrow
   variables:
-    lookup:
+    sensor: "sensor.afvalinfo_{{ trigger.id.split('_')[1] }}"
+    trash_descr:
       pbd: "plastic"
       gft: "GFT"
       restafval: "restafval"
       papier: "oud papier"
-    types: >
-      {{ states('sensor.afvalinfo_today') | default("geen", true) }}
-    lookedup: >
-      [
-        {%- for afval in types.split(' ') -%}
-          "{{ lookup.get(afval, "onbekend") }}",
-        {%- endfor -%}
-      ]
+      pbd papier: "plastic en oud papier"
     afval: >
-      {{ lookedup | join(" en ") }}
-  trigger:
-    platform: time
-    at: input_datetime.time_trash_warning_today
+      {{ trash_descr.get(states(sensor), "onbekend") }}
+    image_url: >
+      {% if is_state(sensor, "pbd") %} {{ states('input_text.trash_url_plastic') }}
+      {% elif is_state(sensor, "gft") %} {{ states('input_text.trash_url_gft') }}
+      {% elif is_state(sensor, "restafval") %} {{ states('input_text.trash_url_restafval') }}
+      {% elif is_state(sensor, "papier") %} {{ states('input_text.trash_url_oudpapier') }}
+      {% elif is_state(sensor, "pbd papier") %} {{ states('input_text.trash_url_plasticpapier') }}
+      {% endif %}
   condition:
-    - condition: state
+    - alias: "Do we want notifications?"
+      condition: state
       entity_id: input_boolean.notify_trash
       state: "on"
-    - condition: not
-      conditions:
-        - condition: state
-          entity_id: sensor.afvalinfo_today
-          state: "none"
-        - condition: state
-          entity_id: sensor.afvalinfo_today
-          state: "unavailable"
+    - alias: "Do we need to send a notification"
+      condition: template
+      value_template: "{{ states(sensor) not in ['unknown','unavailable','none'] }}"
   action:
-    - service: notify.mobile_app_sm_a526b
+    - alias: "Sending push notification"
+      service: notify.mobile_app_sm_a526b
       data:
-        title: "Afvalinzameling"
-        message: "Vandaag wordt het {{ afval }} opgehaald."
+        title: "Afvalinzameling (new)"
+        message: "{{ trigger.id.split('_')[0] }} wordt het {{ afval }} opgehaald."
         data:
           tag: "notification-trash"
-    - condition: state
+          icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+          notification_icon: mdi:delete
+    - alias: "Check if TTS should be played"
+      condition: state
       entity_id: input_boolean.notify_trash_voice
       state: "on"
-    - service: tts.microsoft_say
+    - alias: "Play TTS"
+      service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
-        message: "Vandaag wordt het {{ afval }} opgehaald."
-    - delay: "00:00:10"
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_today
-              state: "pbd"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_plastic
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_today
-              state: "restafval"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_restafval
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_today
-              state: "gft"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_gft
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_today
-              state: "papier"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_oudpapier
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_today
-              state: "pbd papier"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_plasticpapier
-                media_content_type: "image/png"
+        message: "{{ trigger.id.split('_')[0] }} wordt het {{ afval }} opgehaald."
+    - delay: "00:00:15"
+    - alias: "Streaming image to Nest Hub"
+      service: media_player.play_media
+      data:
+        entity_id: media_player.woonkamer
+        media_content_id: "{{ image_url }}"
+        media_content_type: "image/png"
     - delay: "00:15:00"
     - service: media_player.turn_off
-      entity_id:
-        - media_player.woonkamer
-
-- alias: "Afval: Melding morgen"
-  id: melding_afval_morgen
-  initial_state: true
-  variables:
-    lookup:
-      pbd: "plastic"
-      gft: "GFT"
-      restafval: "restafval"
-      papier: "oud papier"
-    types: >
-      {{ states('sensor.afvalinfo_tomorrow') | default("geen", true) }}
-    lookedup: >
-      [
-        {%- for afval in types.split(' ') -%}
-          "{{ lookup.get(afval, "onbekend") }}",
-        {%- endfor -%}
-      ]
-    afval: >
-      {{ lookedup | join(" en ") }}
-  trigger:
-    platform: time
-    at: input_datetime.time_trash_warning_tomorrow
-  condition:
-    - condition: state
-      entity_id: input_boolean.notify_trash
-      state: "on"
-    - condition: not
-      conditions:
-        - condition: state
-          entity_id: sensor.afvalinfo_tomorrow
-          state: "none"
-        - condition: state
-          entity_id: sensor.afvalinfo_tomorrow
-          state: "unavailable"
-  action:
-    - service: notify.mobile_app_sm_a526b
-      data:
-        title: "Afvalinzameling"
-        message: "Morgen wordt het {{ afval }} opgehaald."
-        data:
-          tag: "notification-trash"
-    - condition: state
-      entity_id: input_boolean.notify_trash_voice
-      state: "on"
-    - service: tts.microsoft_say
       entity_id: media_player.woonkamer
-      data:
-        message: "Morgen wordt het {{ afval }} opgehaald."
-    - delay: "00:00:10"
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_tomorrow
-              state: "pbd"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_plastic
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_tomorrow
-              state: "restafval"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_restafval
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_tomorrow
-              state: "gft"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_gft
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_tomorrow
-              state: "papier"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_oudpapier
-                media_content_type: "image/png"
-        - conditions:
-            - condition: state
-              entity_id: sensor.afvalinfo_tomorrow
-              state: "pbd papier"
-          sequence:
-            - service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_id: !secret image_url_plasticpapier
-                media_content_type: "image/png"
-    - delay: "00:15:00"
-    - service: media_player.turn_off
-      entity_id:
-        - media_player.woonkamer

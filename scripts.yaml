@@ -28,12 +28,19 @@ send_doorbell_notification:
   alias: Send doorbell notification
   mode: single
   max_exceeded: silent
+  variables:
+    notification_service: >
+      {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+      {% elif is_state("device_tracker.moto_g_8_plus", "home") %}notify.mobile_app_moto_g_8_plus
+      {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+      {% else %}notify.bogus
+      {% endif %}
   sequence:
     - condition: state
       entity_id: device_tracker.sm_a526b
       state: home
     - alias: Send doorbell notification
-      service: notify.mobile_app_sm_a526b
+      service: "{{ notification_service }}"
       data:
         title: Knock Knock!
         message: Er staat iemand aan de deur!
@@ -42,6 +49,7 @@ send_doorbell_notification:
           ttl: 0
           channel: doorbell
           priority: high
+          icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
     - alias: Wait to see if front door opens
       wait_for_trigger:
         - platform: state
@@ -50,7 +58,7 @@ send_doorbell_notification:
       timeout: "00:01:00"
       continue_on_timeout: false
     - alias: Somebody answered the door, so clear the notification
-      service: notify.mobile_app_sm_a526b
+      service: "{{ notification_service }}"
       data:
         message: clear_notification
         data:
@@ -120,6 +128,20 @@ qmusic:
       data:
         entity_id: media_player.soundbar
         media_content_id: https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_32.aac
+        media_content_type: music
+    - delay: 00:00:05
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.soundbar
+        volume_level: 0.1
+nashville:
+  alias: Nashville
+  mode: single
+  sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.soundbar
+        media_content_id: https://nashvillefm.stream-server.nl:8300/stream
         media_content_type: music
     - delay: 00:00:05
     - service: media_player.volume_set

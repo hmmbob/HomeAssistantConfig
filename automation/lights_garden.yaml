@@ -27,7 +27,7 @@
 ## Porch lights             #
 #############################
 - id: turn_on_porch_lights
-  alias: "Lights: turn on porch lights"
+  alias: "Lights: Porch lights turn on"
   initial_state: true
   trigger:
     - platform: sun
@@ -38,7 +38,7 @@
       entity_id: switch.overkapping
 
 - id: turn_off_porch_lights
-  alias: "Lights: turn off porch lights"
+  alias: "Lights: Porch lights turn off"
   initial_state: true
   trigger:
     - platform: time

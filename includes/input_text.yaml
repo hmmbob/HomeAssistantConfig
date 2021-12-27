@@ -1,32 +1,14 @@
 ##################################
 ## Input text configuration
 ##################################
-
-# I am using this workarond to hide sensor-IDs needed in the rest_command
-# payloads. These templates cannot handle secrets, but you can set these
-# input_text items with !secret, so in this way the IDs are obfuscated.
-# I don't mind having these in my HA instance, I just don't want them on
-# GitHub to prevent copy-paste errors.
-
-opensensebox_sensorid_temp:
-  initial: !secret opensensebox_sensorid_temp
-
-opensensebox_sensorid_press:
-  initial: !secret opensensebox_sensorid_press
-
-opensensebox_sensorid_hum:
-  initial: !secret opensensebox_sensorid_hum
-
-opensensebox_sensorid_pm25:
-  initial: !secret opensensebox_sensorid_pm25
-
-opensensebox_sensorid_pm10:
-  initial: !secret opensensebox_sensorid_pm10
+# I am using this workarond to hide sensitive information in templates.
+# These templates cannot handle secrets, but you can set these input_text items
+# with !secret, so in this way the IDs are obfuscated. I don't mind having these
+# in my HA instance, I just don't want them on Github.
 
 ##################################
 ## Doorbell urls
 ##################################
-
 deurbel_url_jingle_bells:
   initial: !secret deurbel_url_jingle_bells
 
@@ -44,6 +26,42 @@ deurbel_url_savage_love:
 ##################################
 naam_puber:
   initial: !secret naam_puber
+
+##################################
+## OpenSensebox SensorIDs
+##################################
+opensensebox_sensorid_temp:
+  initial: !secret opensensebox_sensorid_temp
+
+opensensebox_sensorid_press:
+  initial: !secret opensensebox_sensorid_press
+
+opensensebox_sensorid_hum:
+  initial: !secret opensensebox_sensorid_hum
+
+opensensebox_sensorid_pm25:
+  initial: !secret opensensebox_sensorid_pm25
+
+opensensebox_sensorid_pm10:
+  initial: !secret opensensebox_sensorid_pm10
+
+##################################
+## Trash urls
+##################################
+trash_url_gft:
+  initial: !secret image_url_gft
+
+trash_url_oudpapier:
+  initial: !secret image_url_oudpapier
+
+trash_url_plastic:
+  initial: !secret image_url_plastic
+
+trash_url_plasticpapier:
+  initial: !secret image_url_plasticpapier
+
+trash_url_restafval:
+  initial: !secret image_url_restafval
 
 ##################################
 ## TTS Message

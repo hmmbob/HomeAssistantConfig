@@ -4,59 +4,21 @@
 
 # Reading light: the kid shouldn't be reading after bedtime, so we track
 # the power usage of his bedside light with an always on switch
-- id: warn_reading_light_on
-  alias: "Lights: Leeslampje aan"
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.leeslamp_zolder_power
-    above: 1
-    for:
-      minutes: 2
-  condition:
-    - condition: state
-      entity_id: input_boolean.notify_zolder
-      state: "on"
-    - condition: time
-      after: input_datetime.time_leeslampje
-  action:
-    - service: notify.mobile_devices_adults
-      data:
-        title: "Leeslampje"
-        message: "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
-        data:
-          tag: "leeslampje"
-
-# Because the switch is always on and only used for power tracking,
-# we need another way to track this switch/light in the logbook.
-- id: logging_zolder_leeslampje
-  alias: "Lights: Logging leeslampje"
-  trigger:
-    - platform: numeric_state
-      entity_id: sensor.leeslamp_zolder_power
-      above: 3
-    - platform: numeric_state
-      entity_id: sensor.leeslamp_zolder_power
-      below: 1
-  action:
-    - service: logbook.log
-      data:
-        name: Leeslampje zolder
-        entity_id: sensor.leeslamp_zolder_power
-        message: >-
-          {% if states('sensor.leeslamp_zolder_power') | float > 3 %}
-            is aan
-          {% else %}
-            is uit
-          {% endif %}
-
 # Pubercave: mancave for the adolescent kid. It has a TV and PS4 that obviously
-# shouldn't be on after bedtime... So let's trigger a notification :)
+# shouldn't be on after bedtime... So let's trigger a notification if it is :)
 - id: warn_pubercave_on
-  alias: "Power: Pubercave aan"
+  alias: "Notifications: Pubercave aan"
   trigger:
-    platform: numeric_state
-    entity_id: sensor.pubercave_power
-    above: 25
+    - platform: numeric_state
+      entity_id: sensor.leeslamp_zolder_power
+      above: 1
+      for:
+        minutes: 2
+      id: Leeslampje
+    - platform: numeric_state
+      entity_id: sensor.pubercave_power
+      above: 25
+      id: Pubercave
   condition:
     - condition: state
       entity_id: input_boolean.notify_zolder
@@ -66,54 +28,67 @@
   action:
     - service: notify.mobile_devices_adults
       data:
-        title: "Pubercave"
-        message: "De TV of PS4 op zolder staan nog aan... ({{ now().strftime('%H:%M') }})."
+        title: "{{ trigger.id }}"
+        message: >-
+          {% if trigger.id == "Leeslampje" %}
+            "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
+          {% else %}
+            "De TV of PS4 op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
+          {% endif %}
         data:
-          tag: "pubercave"
-
-# Playstation update: the kid has a maximum of 1 hr of playtime. Let's trigger
-# a notification if power usage is detected for over an hour
-- id: warn_pubercave_1hr
-  alias: "Power: Playstation 1hr"
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.pubercave_power
-    above: 60 # Let's exclude regular TV
-    for:
-      minutes: 60
-  condition:
-    - condition: state
-      entity_id: device_tracker.schaduwspeler
-      state: "home"
-  action:
-    - service: notify.mobile_app_schaduwspeler
-      data:
-        title: "Playstation"
-        message: "De Playstation staat al een uur aan."
-        data:
-          tag: "playstation"
+          tag: "{{ trigger.id }}"
+          icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
 
 # Because the switch is always on and only used for power tracking,
 # we need another way to track this switch in the logbook. We use
 # 25 watts as crossover point, because the PS4 sometimes charges
 # the controllers and thus consumes a bit of power.
-- id: logging_zolder_pubercave
-  alias: "Power: Logging Pubercave"
+- id: logging_zolder_power
+  alias: "Power: Logging pubercave en leeslampje"
   trigger:
     - platform: numeric_state
       entity_id: sensor.pubercave_power
       above: 25
+      id: pubercave
     - platform: numeric_state
       entity_id: sensor.pubercave_power
       below: 25
+      id: pubercave
+    - platform: numeric_state
+      entity_id: sensor.leeslamp_zolder_power
+      above: 3
+      id: leeslampje
+    - platform: numeric_state
+      entity_id: sensor.leeslamp_zolder_power
+      below: 1
+      id: leeslampje
   action:
-    - service: logbook.log
-      data:
-        name: Pubercave zolder
-        entity_id: sensor.pubercave_power
-        message: >-
-          {% if states('sensor.pubercave_power') | float > 25 %}
-            is aan 
-          {% else %}
-            is uit
-          {% endif %}
+    - choose:
+        - conditions:
+            condition: trigger
+            id: pubercave
+          sequence:
+            - service: logbook.log
+              data:
+                name: Pubercave zolder
+                entity_id: sensor.pubercave_power
+                message: >-
+                  {% if states('sensor.pubercave_power') | float > 25 %}
+                    is aan 
+                  {% else %}
+                    is uit
+                  {% endif %}
+        - conditions:
+            condition: trigger
+            id: leeslampje
+          sequence:
+            - service: logbook.log
+              data:
+                name: Leeslampje zolder
+                entity_id: sensor.leeslamp_zolder_power
+                message: >-
+                  {% if states('sensor.leeslamp_zolder_power') | float > 3 %}
+                    is aan
+                  {% else %}
+                    is uit
+                  {% endif %}

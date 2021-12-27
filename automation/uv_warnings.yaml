@@ -1,8 +1,8 @@
 ##########################
 ## UV Warnings
 ##########################
-- alias: "UV: Melding"
-  id: melding_uv
+- alias: "Notifications: UV melding"
+  id: notifications_uv
   initial_state: true
   trigger:
     platform: time
@@ -28,6 +28,7 @@
         message: "Vandaag wordt zonkracht {{ states('sensor.dark_sky_uv_index_0d') }} verwacht. Vergeet niet te smeren!"
         data:
           tag: "notification-uv"
+          icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
     - condition: state
       entity_id: input_boolean.notify_uv_voice
       state: "on"

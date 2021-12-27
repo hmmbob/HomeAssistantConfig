@@ -84,6 +84,8 @@
           ttl: 0
           channel: house-alarm
           priority: high
+          icon_url: "https://alerts.home-assistant.io/images/favicon.png"
+          notification_icon: "mdi:alert"
     - service: logbook.log
       data:
         name: Vacation

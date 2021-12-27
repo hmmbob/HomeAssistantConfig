@@ -2,7 +2,7 @@
 ## Gang
 ##########################
 - id: lights_gang
-  alias: "Lights: gang"
+  alias: "Lights: Gang"
   mode: restart
   max_exceeded: silent
   trigger:

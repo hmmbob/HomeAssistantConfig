@@ -1,7 +1,7 @@
 ##########################
 ## Deurbel
 ##########################
-- alias: "Deurbel: play doorbell"
+- alias: "Deurbel: Play doorbell"
   id: deurbel_notify
   initial_state: on
   mode: single

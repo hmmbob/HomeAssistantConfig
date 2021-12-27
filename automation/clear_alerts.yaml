@@ -28,19 +28,17 @@
         - "idle"
         - "off"
       id: weerhuisje
-  variables:
-    tag: "{{ trigger.id }}"
   action:
     - service: notify.mobile_devices_adults
       data:
         message: clear_notification
         data:
-          tag: "{{ tag }}"
+          tag: "{{ trigger.id }}"
 
 ##########################
 ## Mute alerts
 ##########################
-- alias: "Notifications: handle alert mute"
+- alias: "Notifications: Handle alert mute"
   id: mute_door_alerts
   initial_state: "on"
   trigger:
@@ -59,9 +57,7 @@
       event_data:
         action: "mute_alert_weerhuisje"
       id: weerhuisje
-  variables:
-    alert: "alert.{{ trigger.id }}"
   action:
     - service: alert.turn_off
       target:
-        entity_id: "{{ alert }}"
+        entity_id: "alert.{{ trigger.id }}"

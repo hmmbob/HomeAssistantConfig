@@ -15,10 +15,8 @@
   condition:
     condition: not
     conditions:
-      - "{{ is_state('sensor.particulate_matter_2_5um_concentration', 'unavailable') }}"
-      - "{{ is_state('sensor.particulate_matter_10_0um_concentration', 'unavailable') }}"
-      - "{{ is_state('sensor.particulate_matter_2_5um_concentration', 'unknown') }}"
-      - "{{ is_state('sensor.particulate_matter_10_0um_concentration', 'unknown') }}"
+      - "{{ states('sensor.particulate_matter_2_5um_concentration') in ['unknown','unavailable'] }}"
+      - "{{ states('sensor.particulate_matter_10_0um_concentration') in ['unknown','unavailable'] }}"
       - "{{ is_state('sensor.bme280_temperature', 'unavailable') }}"
       - "{{ is_state('sensor.bme280_humidity', 'unavailable') }}"
       - "{{ is_state('sensor.bme280_pressure', 'unavailable') }}"

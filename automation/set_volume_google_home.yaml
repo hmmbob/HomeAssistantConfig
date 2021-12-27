@@ -63,12 +63,9 @@
                 volume_level: 0.4
             - service: media_player.volume_set
               data:
-                entity_id: media_player.studeerkamer
-                volume_level: 0.2
-            - service: media_player.volume_set
-              data:
                 entity_id:
                   - media_player.slaapkamer
+                  - media_player.studeerkamer
                   - media_player.zolder
                 volume_level: 0.2
         - alias: "It's between 20:30 and 7hrs"
