@@ -51,13 +51,13 @@ opensensebox_sensorid_pm10:
 trash_url_gft:
   initial: !secret image_url_gft
 
-trash_url_oudpapier:
+trash_url_papier:
   initial: !secret image_url_oudpapier
 
-trash_url_plastic:
+trash_url_pbd:
   initial: !secret image_url_plastic
 
-trash_url_plasticpapier:
+trash_url_pbdpapier:
   initial: !secret image_url_plasticpapier
 
 trash_url_restafval:

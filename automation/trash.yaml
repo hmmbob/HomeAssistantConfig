@@ -21,13 +21,6 @@
       pbd papier: "plastic en oud papier"
     afval: >
       {{ trash_descr.get(states(sensor), "onbekend") }}
-    image_url: >
-      {% if is_state(sensor, "pbd") %} {{ states('input_text.trash_url_plastic') }}
-      {% elif is_state(sensor, "gft") %} {{ states('input_text.trash_url_gft') }}
-      {% elif is_state(sensor, "restafval") %} {{ states('input_text.trash_url_restafval') }}
-      {% elif is_state(sensor, "papier") %} {{ states('input_text.trash_url_oudpapier') }}
-      {% elif is_state(sensor, "pbd papier") %} {{ states('input_text.trash_url_plasticpapier') }}
-      {% endif %}
   condition:
     - alias: "Do we want notifications?"
       condition: state
@@ -60,7 +53,7 @@
       service: media_player.play_media
       data:
         entity_id: media_player.woonkamer
-        media_content_id: "{{ image_url }}"
+        media_content_id: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
         media_content_type: "image/png"
     - delay: "00:15:00"
     - service: media_player.turn_off
