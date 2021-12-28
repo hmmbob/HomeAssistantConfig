@@ -13,8 +13,6 @@
 custom_components/*
 !custom_components/rss_feed_template/
 !custom_components/rss_feed_template/*
-!archive/
-!archive/*
 !includes/
 !includes/*
 !lovelace/
@@ -35,6 +33,7 @@ googleassistant_serviceaccount.json
 includes/googleassistant_serviceaccount.json
 .google.token
 .spotify-token-cache
+.sonoff.json
 
 # Ignore Python cache files 
 __pycache__/
