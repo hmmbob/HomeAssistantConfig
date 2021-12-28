@@ -35,7 +35,7 @@
         - switch.grijze_lamp
         - switch.staande_lamp
         - switch.window
-        # - switch.zoutlamp
+        - switch.zoutlamp
         - input_boolean.woonkamer_on_movement
 
 ##########################
@@ -116,7 +116,7 @@
     - service: homeassistant.turn_on
       entity_id:
         - switch.staande_lamp
-        # - switch.zoutlamp
+        - switch.zoutlamp
         - switch.window
 
 ##########################
@@ -129,15 +129,15 @@
       entity_id: input_boolean.disable_pir_sensor_automations
       from: "off"
       to: "on"
-      id: "on"
+      id: "turn_off"
     - platform: state
       entity_id: input_boolean.disable_pir_sensor_automations
       from: "on"
       to: "off"
-      id: "off"
+      id: "turn_on"
   action:
     - alias: "Toggling relevant input booleans"
-      service: input_boolean.turn_{{ trigger.id }}
+      service: input_boolean.{{ trigger.id }}
       target:
         entity_id:
           - input_boolean.enable_pir_woonkamer

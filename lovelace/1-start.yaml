@@ -335,6 +335,10 @@ cards:
                 show_name: true
               - entity: light.sonoff_l1
                 show_name: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: toggle
           - type: custom:multiple-entity-row
             entity: sensor.pubercave_power
             show_state: false

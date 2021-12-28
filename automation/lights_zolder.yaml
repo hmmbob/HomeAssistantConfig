@@ -8,6 +8,7 @@
 # shouldn't be on after bedtime... So let's trigger a notification if it is :)
 - id: warn_pubercave_on
   alias: "Notifications: Pubercave aan"
+  mode: queued
   trigger:
     - platform: numeric_state
       entity_id: sensor.leeslamp_zolder_power
@@ -45,6 +46,7 @@
 # the controllers and thus consumes a bit of power.
 - id: logging_zolder_power
   alias: "Power: Logging pubercave en leeslampje"
+  mode: queued
   trigger:
     - platform: numeric_state
       entity_id: sensor.pubercave_power
