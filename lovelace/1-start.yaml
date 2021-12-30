@@ -349,6 +349,11 @@ cards:
                 name: "Playstation"
               - entity: sensor.leeslamp_zolder_power
                 name: "Leeslampje"
+                tap_action:
+                  action: more-info
+              - entity: sensor.pubercave_on_today
+                attribute: value
+                name: "PS4 aan vandaag"
           - type: custom:multiple-entity-row
             entity: binary_sensor.door_sensor_2_contact
             show_state: false

@@ -94,3 +94,59 @@
                   {% else %}
                     is uit
                   {% endif %}
+
+##########################
+## Turn on gaming mode if PS4 starts
+##########################
+- id: turn_on_gaming_mode_when_ps4_starts
+  alias: "Lights: Game mode als PS4 aan gaat"
+  mode: single
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.pubercave_power
+      above: 80
+      id: "on"
+    - platform: numeric_state
+      entity_id: sensor.pubercave_power
+      below: 30
+      id: "off"
+  condition:
+    - condition: state
+      entity_id: input_boolean.enable_game_mode
+      state: "on"
+    - condition: time
+      after: "07:30:00"
+      before: "21:00:00"
+  action:
+    - alias: "Choose based on trigger ID"
+      choose:
+        - conditions:
+            condition: trigger
+            id: "on"
+          sequence:
+            - alias: "Turn on LED strip"
+              service: light.turn_on
+              target:
+                entity_id: light.sonoff_l1
+              data:
+                effect: RGB Gradient
+            - alias: "Close cover for darkness"
+              service: cover.close_cover
+              target:
+                entity_id: cover.zolder
+        - conditions:
+            condition: trigger
+            id: "off"
+          sequence:
+            - alias: "Turn off LED strip"
+              service: light.turn_off
+              target:
+                entity_id: light.sonoff_l1
+            - alias: "Only open cover again between set times"
+              condition: time
+              after: input_datetime.time_cover_up
+              before: input_datetime.time_cover_down
+            - alias: "Open cover again"
+              service: cover.open_cover
+              target:
+                entity_id: cover.zolder
