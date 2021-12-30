@@ -1,12 +1,8 @@
 # Customizing template and rest sensors that cannot
 # be customized through the frontend
-sensor.diesel_u:
+sensor.diesel:
   icon: mdi:gas-station
-sensor.diesel_z:
-  icon: mdi:gas-station
-sensor.benzine_u:
-  icon: mdi:gas-station-outline
-sensor.benzine_z:
+sensor.benzine:
   icon: mdi:gas-station-outline
 sensor.latest_version:
   icon: mdi:docker

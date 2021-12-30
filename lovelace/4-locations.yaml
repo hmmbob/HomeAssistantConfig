@@ -43,13 +43,8 @@ cards:
           - entity: sensor.schaduwspeler_gegeocodeerde_locatie
             name: !secret naam_puber
           - sensor.reistijd_bob_naar_huis
-          - type: custom:fold-entity-row
-            head: sensor.diesel_u
-            entities:
-              - sensor.diesel_u
-              - sensor.diesel_z
-              - sensor.benzine_u
-              - sensor.benzine_z
+          - sensor.benzine
+          - sensor.diesel
 
       - type: picture-entity
         card_mod:

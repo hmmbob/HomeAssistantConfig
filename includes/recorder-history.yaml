@@ -21,15 +21,13 @@ entities:
   - light.eetkamer_level
   - light.sonoff_l1
   - light.window_level
-  - sensor.benzine_u
-  - sensor.benzine_z
+  - sensor.benzine
   - sensor.bme280_humidity
   - sensor.bme280_pressure
   - sensor.bme280_temperature
   - sensor.current_uv_index
   - sensor.database_grootte
-  - sensor.diesel_u
-  - sensor.diesel_z
+  - sensor.diesel
   - sensor.kamertemperatuur
   - sensor.leeslamp_zolder_power
   - sensor.max_uv_index

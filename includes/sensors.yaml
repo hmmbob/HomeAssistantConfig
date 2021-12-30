@@ -50,24 +50,8 @@
 ## Using !secret as to somewhat keep some privacy for the exact locations I scrape.
 ##########################
 - platform: scrape
-  resource: !secret scrape_url_z
-  name: "Diesel Z"
-  select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
-  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
-  unit_of_measurement: €
-  scan_interval: 3600
-
-- platform: scrape
-  resource: !secret scrape_url_z
-  name: "Benzine Z"
-  select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
-  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
-  unit_of_measurement: €
-  scan_interval: 3600
-
-- platform: scrape
   resource: !secret scrape_url_u
-  name: "Diesel U"
+  name: "Diesel"
   select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
   value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €
@@ -75,7 +59,7 @@
 
 - platform: scrape
   resource: !secret scrape_url_u
-  name: "Benzine U"
+  name: "Benzine"
   select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
   value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
   unit_of_measurement: €

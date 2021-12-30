@@ -206,7 +206,7 @@
   alias: "Notifications: Diesel price changed"
   trigger:
     - platform: state
-      entity_id: sensor.diesel_u
+      entity_id: sensor.diesel
   condition:
     - alias: "Check if price really changed"
       condition: template
