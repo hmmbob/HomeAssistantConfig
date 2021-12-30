@@ -100,3 +100,10 @@ vacation_mode_away:
 wasmachine_actief:
   name: "Wasmachine actief"
   initial: false
+
+#############################
+## Picnic                   #
+#############################
+notify_picnic_voice:
+  name: "Voice meldingen over Picnic"
+  icon: mdi:google-home

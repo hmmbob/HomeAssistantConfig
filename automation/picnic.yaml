@@ -1,0 +1,86 @@
+- id: picnic_order_window_closing
+  alias: "Picnic: Order window closing"
+  mode: single
+  description: Send a notification when there are 2 hours left to submit the current order
+  trigger:
+    - platform: template
+      value_template: >-
+        {% if states('sensor.picnic_selected_slot_max_order_time') not in ['unknown','unavailable','none'] %}
+          {{ 7200 > (as_timestamp(states('sensor.picnic_selected_slot_max_order_time')) - as_timestamp(now(), 0)) > 0}}
+        {% endif %}
+  action:
+    - service: notify.mobile_app_sm_a526b
+      data:
+        title: Picnic bestelling sluit!
+        message: >
+          Bestel nog snel je laatste Picnic boodschappen! Na {{ as_timestamp(states("sensor.picnic_selected_slot_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
+        data:
+          clickAction: "app://com.picnic.android"
+          icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
+          notification_icon: mdi:cart
+          tag: "picnic_alert"
+          timeout: 1800
+          color: "#eb4034"
+          ttl: 0
+          priority: high
+    - alias: "Check if TTS should be played"
+      condition: state
+      entity_id: input_boolean.notify_picnic_voice
+      state: "on"
+    - service: tts.microsoft_say
+      entity_id: media_player.woonkamer
+      data:
+        message: >
+          Bestel nog snel je laatste Picnic boodschappen! Over twee uur kan het niet meer.
+        language: "nl-NL"
+
+- id: picnic_delivery_known
+  alias: "Picnic: Delivery known"
+  mode: single
+  description: Send a notification when the short window of the picnic delivery is known
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.picnic_last_order_eta_start
+        - sensor.picnic_last_order_eta_end
+    - platform: time
+      at: "18:59:00"
+    - platform: template # Trigger 15 minutes before eta start time.
+      value_template: >-
+        {% if states('sensor.picnic_last_order_eta_start') not in ['unknown','unavailable','none'] %}
+          {{ 900 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 0}}
+        {% endif %}
+  variables:
+    days_left: "{{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%d') | int - as_timestamp(now()) | timestamp_custom('%d') | int }}"
+    day_name: >-
+      {% if days_left == 0 %} zometeen
+      {% elif days_left == 1 %} morgen
+      {% endif %}
+  condition:
+    - "{{ days_left < 2 }}"
+    - "{{ as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) > as_timestamp(now()) }}"
+  action:
+    - service: notify.mobile_app_sm_a526b
+      data:
+        title: Picnic komt eraan!
+        message: >
+          Picnic bezorgt {{ day_name }} tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
+        data:
+          clickAction: "app://com.picnic.android"
+          icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
+          notification_icon: mdi:cart
+          tag: "picnic_alert"
+          timeout: 1800
+          color: "#eb4034"
+          ttl: 0
+          priority: high
+    - alias: "Check if TTS should be played"
+      condition: state
+      entity_id: input_boolean.notify_picnic_voice
+      state: "on"
+    - service: tts.microsoft_say
+      entity_id: media_player.woonkamer
+      data:
+        message: >
+          Picnic bezorgt {{ day_name }} tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
+        language: "nl-NL"
