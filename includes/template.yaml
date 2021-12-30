@@ -88,3 +88,14 @@
         {% else %}
           mdi:battery-alert
         {% endif %}
+
+#####################################
+## Pubercave power helper for stats #
+#####################################
+- trigger:
+    - platform: state
+      entity_id: sensor.pubercave_power
+  binary_sensor:
+    - name: "Is pubercave on"
+      unique_id: is_pubercave_on
+      state: "{{ states('sensor.pubercave_power') | float > 25 }}"
