@@ -40,17 +40,13 @@ cards:
                   margin: 0px 0px 0px 14px;
                 }
             entity: input_boolean.enable_pir_woonkamer
-            tap_action:
-              action: toggle
             name: Woonkamer
             icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de automatische verlichting in de woonkamer wil wijzigen?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -62,17 +58,13 @@ cards:
                     - filter: grayscale(100%)
           - type: custom:button-card
             entity: input_boolean.enable_pir_gang
-            tap_action:
-              action: toggle
             name: Gang
             icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de automatische gangverlichting wil wijzigen?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -86,12 +78,28 @@ cards:
             entity: input_boolean.toon_on_movement
             name: Toon op beweging
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de verwarming automatisch aan wil laten zetten?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.disable_pir_sensor_automations
+            name: Couch sleeper
+            icon: mdi:sofa-outline
+            show_state: false
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -113,16 +121,12 @@ cards:
                 }
             entity: input_boolean.enable_deurbel
             icon: '[[[ if (entity.state == "on") return "mdi:bell-ring-outline"; else return "mdi:bell-off-outline"; ]]]'
-            tap_action:
-              action: toggle
             name: Deurbel
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de deurbel aan of uit wil zetten?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -134,17 +138,12 @@ cards:
                     - filter: grayscale(100%)
           - type: custom:button-card
             entity: input_boolean.notify_door_alert
-            tap_action:
-              action: toggle
-              service: scene.turn_on
             name: Open deur alarm
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de meldingen voor openstaande deuren wil wijzigen?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -155,18 +154,32 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.enable_cover
-            icon: '[[[ if (entity.state == "on") return "mdi:garage"; else return "mdi:garage-alert"; ]]]'
-            tap_action:
-              action: toggle
-            name: Rolluik
+            entity: input_boolean.notify_picnic_voice
+            name: Picnic TTS
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de rolluik automatisering aan of uit wil zetten?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.vacation_mode_away
+            name: Vakantie mode
+            show_state: false
+            confirmation:
+              text: "[[[ return `Weet je zeker dat de vakantiemodus wil schakelen?` ]]]"
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -190,12 +203,10 @@ cards:
             name: Afval push
             icon: '[[[ if (entity.state == "on") return "mdi:message-bulleted"; else return "mdi:message-bulleted-off"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de afval push-meldingen wil wijzigen? Bob gebruikt deze optie.` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -210,12 +221,10 @@ cards:
             name: Afval Voice
             icon: '[[[ if (entity.state == "on") return "mdi:delete-outline"; else return "mdi:delete-off-outline"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de afvalmeldingen aan of uit wil zetten?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -225,46 +234,15 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: input_boolean.notify_zolder
-            name: Meldingen leeslampje
-            tap_action:
-              action: toggle
-            show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de zolder meldingen wil aanpassen?` ]]]"
-            styles:
-              card:
-                - width: 120px
-                - height: 120px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
-      - type: horizontal-stack #### 4th row
-        cards:
           - type: custom:button-card
             entity: input_boolean.notify_uv
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                  margin: 0px 0px 0px 14px;
-                }
             name: UV push
             icon: '[[[ if (entity.state == "on") return "mdi:message-bulleted"; else return "mdi:message-bulleted-off"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de UV push-meldingen wil wijzigen?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -279,12 +257,10 @@ cards:
             name: UV Voice
             icon: '[[[ if (entity.state == "on") return "mdi:weather-sunny"; else return "mdi:weather-sunny-off"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je de UV-meldingen aan of uit wil zetten?` ]]]"
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -294,47 +270,24 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: input_boolean.vacation_mode_away
-            name: Vakantie mode
-            tap_action:
-              action: toggle
-            show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat de vakantiemodus wil schakelen?` ]]]"
-            styles:
-              card:
-                - width: 120px
-                - height: 120px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
-      - type: horizontal-stack #### 5th row
+
+      - type: horizontal-stack #### 4th row
         cards:
           - type: custom:button-card
-            entity: input_boolean.zigbee_permit_join
-            name: Add Zigbee device
-            tap_action:
-              action: toggle
-            show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]"
+            entity: input_boolean.enable_cover
             card_mod:
               style: |
                 ha-card {
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 0px 0px 14px;
                 }
+            icon: '[[[ if (entity.state == "on") return "mdi:garage"; else return "mdi:garage-alert"; ]]]'
+            name: Rolluik
+            show_state: false
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -345,14 +298,50 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.disable_pir_sensor_automations
-            name: Couch sleeper
-            icon: mdi:sofa-outline
+            entity: input_boolean.notify_zolder
+            name: Meldingen leeslampje
             show_state: false
             styles:
               card:
-                - width: 120px
-                - height: 120px
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.enable_game_mode
+            name: Game mode
+            icon: mdi:sony-playstation
+            show_state: false
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.zigbee_permit_join
+            name: Add Zigbee device
+            show_state: false
+            confirmation:
+              text: "[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]"
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
               name:
                 - font-size: 12px
             state:
@@ -383,14 +372,14 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: horizontal-stack #### 6th row
+      - type: horizontal-stack #### TTS Settings
         cards:
           - type: entities
             card_mod:
               style: |
                 ha-card {
-                width: 368px;
-                margin: 0px 14px -5px 14px;
+                width: 380px;
+                margin: 0px 0px -5px 14px;
                 }
             state_color: true
             entities:
@@ -420,13 +409,13 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: horizontal-stack #### 7th row
+      - type: horizontal-stack
         cards:
           - type: entities
             card_mod:
               style: |
                 ha-card {
-                  width: 368px;
+                  width: 380px;
                   margin: 0px 0px 0px 14px;
                 }
             entities:
