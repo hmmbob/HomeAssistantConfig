@@ -8,12 +8,25 @@
         {% if states('sensor.picnic_selected_slot_max_order_time') not in ['unknown','unavailable','none'] %}
           {{ 7200 > (as_timestamp(states('sensor.picnic_selected_slot_max_order_time')) - as_timestamp(now(), 0)) > 0}}
         {% endif %}
+      id: cart
+    - platform: template
+      value_template: >-
+        {% if states('sensor.picnic_last_order_max_order_time') not in ['unknown','unavailable','none'] %}
+          {{ 7200 > (as_timestamp(states('sensor.picnic_last_order_max_order_time')) - as_timestamp(now(), 0)) > 0}}
+        {% endif %}
+      id: order
+  variables:
+    message: >-
+      {% if trigger.id == "cart" %}
+        De Picnic bestelling is nog niet verzonden! Na {{ as_timestamp(states("sensor.picnic_selected_slot_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
+      {% else %}
+        Wil je nog iets toevoegen aan je volgende Picnic bestelling? Na {{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
+      {% endif %}
   action:
-    - service: notify.mobile_app_sm_a526b
+    - service: notify.mobile_devices_adults
       data:
         title: Picnic bestelling sluit!
-        message: >
-          Bestel nog snel je laatste Picnic boodschappen! Na {{ as_timestamp(states("sensor.picnic_selected_slot_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
+        message: "{{ message }}"
         data:
           clickAction: "app://com.picnic.android"
           icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
@@ -30,41 +43,26 @@
     - service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
-        message: >
-          Bestel nog snel je laatste Picnic boodschappen! Over twee uur kan het niet meer.
-        language: "nl-NL"
+        message: "{{ message }}"
 
 - id: picnic_delivery_known
   alias: "Picnic: Delivery known"
   mode: single
   description: Send a notification when the short window of the picnic delivery is known
   trigger:
-    - platform: state
-      entity_id:
-        - sensor.picnic_last_order_eta_start
-        - sensor.picnic_last_order_eta_end
-    - platform: time
-      at: "18:59:00"
     - platform: template # Trigger 15 minutes before eta start time.
       value_template: >-
         {% if states('sensor.picnic_last_order_eta_start') not in ['unknown','unavailable','none'] %}
           {{ 900 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 0}}
         {% endif %}
-  variables:
-    days_left: "{{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%d') | int - as_timestamp(now()) | timestamp_custom('%d') | int }}"
-    day_name: >-
-      {% if days_left == 0 %} zometeen
-      {% elif days_left == 1 %} morgen
-      {% endif %}
   condition:
-    - "{{ days_left < 2 }}"
     - "{{ as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) > as_timestamp(now()) }}"
   action:
-    - service: notify.mobile_app_sm_a526b
+    - service: notify.mobile_devices_adults
       data:
         title: Picnic komt eraan!
         message: >
-          Picnic bezorgt {{ day_name }} tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
+          Picnic bezorgt tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
         data:
           clickAction: "app://com.picnic.android"
           icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
@@ -82,5 +80,4 @@
       entity_id: media_player.woonkamer
       data:
         message: >
-          Picnic bezorgt {{ day_name }} tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
-        language: "nl-NL"
+          Picnic bezorgt tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
