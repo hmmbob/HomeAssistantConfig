@@ -331,8 +331,6 @@ cards:
                 show_name: true
           - type: buttons
             entities:
-              - entity: switch.zoutlamp
-                show_name: true
               - entity: light.sonoff_l1
                 show_name: true
                 tap_action:

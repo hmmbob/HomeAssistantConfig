@@ -28,11 +28,6 @@ http:
   use_x_forwarded_for: true
   trusted_proxies: !secret http_trusted_proxies
 
-recorder:
-  db_url: !secret recorder_url
-  purge_keep_days: 31
-  include: !include includes/recorder-history.yaml
-
 logbook:
   exclude:
     entities:
@@ -47,11 +42,16 @@ logger:
   logs:
     pychromecast.socket_client: critical # Mute cast reconnection warnings/errors
     homeassistant.components.analytics: info # I'd like to see what is sent
-    custom_components.spotcast: debug
+    homeassistant.components.webhook: error # Temp mute "received message unregistered webhook"
 
 lovelace:
   mode: yaml
   resources: !include lovelace/resources.yaml
+
+recorder:
+  db_url: !secret recorder_url
+  purge_keep_days: 31
+  include: !include includes/recorder-history.yaml
 
 #################################################################
 ## Includes

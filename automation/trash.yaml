@@ -33,7 +33,7 @@
     - alias: "Sending push notification"
       service: notify.mobile_app_sm_a526b
       data:
-        title: "Afvalinzameling (new)"
+        title: "Afvalinzameling"
         message: "{{ trigger.id.split('_')[0] }} wordt het {{ afval }} opgehaald."
         data:
           tag: "notification-trash"

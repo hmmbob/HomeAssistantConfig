@@ -32,9 +32,9 @@
         title: "{{ trigger.id }}"
         message: >-
           {% if trigger.id == "Leeslampje" %}
-            "Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
+            Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
           {% else %}
-            "De TV of PS4 op zolder staat nog aan... ({{ now().strftime('%H:%M') }})."
+            De TV of PS4 op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
           {% endif %}
         data:
           tag: "{{ trigger.id }}"
