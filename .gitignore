@@ -19,6 +19,8 @@ custom_components/*
 !lovelace/*
 !themes/
 !themes/*
+!www/icons/
+!www/icons/*
 
 # Ignore folders
 .cloud
