@@ -72,6 +72,7 @@ notify: !include includes/notify.yaml
 rest_command: !include includes/rest_command.yaml
 scene: !include includes/scenes.yaml
 script: !include scripts.yaml
+script split: !include_dir_merge_named scripts/
 sensor: !include includes/sensors.yaml
 switch: !include includes/switch.yaml
 template: !include includes/template.yaml

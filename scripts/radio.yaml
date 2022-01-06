@@ -1,0 +1,42 @@
+radio_538:
+  alias: Radio 538
+  mode: single
+  sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.soundbar
+        media_content_id: http://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538AAC.aac
+        media_content_type: music
+    - delay: 00:00:05
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.soundbar
+        volume_level: 0.1
+qmusic:
+  alias: Q Music
+  mode: single
+  sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.soundbar
+        media_content_id: https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_32.aac
+        media_content_type: music
+    - delay: 00:00:05
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.soundbar
+        volume_level: 0.1
+nashville:
+  alias: Nashville
+  mode: single
+  sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.soundbar
+        media_content_id: https://nashvillefm.stream-server.nl:8300/stream
+        media_content_type: music
+    - delay: 00:00:05
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.soundbar
+        volume_level: 0.1
