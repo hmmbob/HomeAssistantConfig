@@ -1,4 +1,7 @@
 show_doorbell_alert:
+  alias: Show doorbell alert
+  description: "Show an alert on the TV if the doorbell rings"
+  icon: mdi:doorbell
   mode: single
   max_exceeded: silent
   sequence:
@@ -22,10 +25,11 @@ show_doorbell_alert:
           duration: 10
           transparency: 50%
           color: grey
-  alias: Show doorbell alert
 
 send_doorbell_notification:
   alias: Send doorbell notification
+  description: "Send a notification when the doorbell rings"
+  icon: mdi:doorbell
   mode: single
   max_exceeded: silent
   variables:

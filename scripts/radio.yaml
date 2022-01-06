@@ -1,5 +1,7 @@
 radio_538:
   alias: Radio 538
+  description: "Play Radio 538 on our Soundbar"
+  icon: mdi:cast-audio-variant
   mode: single
   sequence:
     - service: media_player.play_media
@@ -12,8 +14,11 @@ radio_538:
       data:
         entity_id: media_player.soundbar
         volume_level: 0.1
+
 qmusic:
   alias: Q Music
+  description: "Play Q Music on our Soundbar"
+  icon: mdi:cast-audio-variant
   mode: single
   sequence:
     - service: media_player.play_media
@@ -26,8 +31,11 @@ qmusic:
       data:
         entity_id: media_player.soundbar
         volume_level: 0.1
+
 nashville:
   alias: Nashville
+  description: "Play Nashville FM on our Soundbar (Grandma's favorite!)"
+  icon: mdi:cast-audio-variant
   mode: single
   sequence:
     - service: media_player.play_media

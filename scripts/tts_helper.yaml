@@ -1,5 +1,6 @@
 play_tts_message:
   alias: Play TTS message
+  description: "Play a TTS message set in the frontend"
   icon: mdi:account-voice
   mode: single
   max_exceeded: silent

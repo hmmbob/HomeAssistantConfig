@@ -1,5 +1,7 @@
 start_music_t:
   alias: Slaaptijd
+  description: "Play some relaxing music to fall asleep"
+  icon: mdi:sleep
   mode: restart
   sequence:
     - choose:
