@@ -1,0 +1,41 @@
+####################
+# Picnic           #
+####################
+path: picnic-order-closing
+title: Picnic Order window closing
+icon: mdi:clock-alert-outline
+type: panel
+cards:
+  - type: picture-elements
+    image: local/icons/picnic_background2.png
+    elements:
+      - type: custom:text-element
+        text: "Bijbestellen kan tot"
+        style:
+          top: 67%
+          left: 50%
+          color: white
+          font-size: 300%
+          font-weight: bold
+      - type: state-label
+        entity: sensor.picnic_last_order_max_order_time_only
+        style:
+          top: 85%
+          left: 50%
+          color: white
+          font-size: 800%
+          font-weight: bold
+      - type: icon
+        icon: mdi:close-circle
+        tap_action:
+          action: call-service
+          service: homeassistant.turn_off
+          target:
+            entity_id:
+              - script.cast_helper
+              - media_player.woonkamer
+        style:
+          top: 10%
+          left: 90%
+          color: white
+          transform: scale(3,3)

@@ -44,25 +44,33 @@
       entity_id: media_player.woonkamer
       data:
         message: "{{ message }}"
+    - delay: "00:00:12"
+    - service: script.turn_on
+      target:
+        entity_id: script.cast_helper
+      data:
+        variables:
+          dashboard_path: "lovelace-cast"
+          lovelace_view: "picnic-order-closing"
+          media_player: "media_player.woonkamer"
+          runtime: "2"
 
 - id: picnic_delivery_known
-  alias: "Picnic: Delivery known"
+  alias: "Picnic: Delivery soon"
   mode: single
-  description: Send a notification when the short window of the picnic delivery is known
+  description: Send a notification when the short window of the picnic delivery is near
   trigger:
-    - platform: template # Trigger 15 minutes before eta start time.
+    - platform: template # Trigger 10 minutes before eta start time.
       value_template: >-
         {% if states('sensor.picnic_last_order_eta_start') not in ['unknown','unavailable','none'] %}
-          {{ 900 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 0}}
+          {{ 601 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 540}}
         {% endif %}
-  condition:
-    - "{{ as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) > as_timestamp(now()) }}"
   action:
     - service: notify.mobile_devices_adults
       data:
         title: Picnic komt eraan!
         message: >
-          Picnic bezorgt tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
+          Picnic bezorgt tussen {{ states('sensor.picnic_last_order_eta_start_time') }} en {{ states('sensor.picnic_last_order_eta_end_time') }}!
         data:
           clickAction: "app://com.picnic.android"
           icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
@@ -76,8 +84,19 @@
       condition: state
       entity_id: input_boolean.notify_picnic_voice
       state: "on"
-    - service: tts.microsoft_say
+    - alias: "Play TTS"
+      service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
         message: >
-          Picnic bezorgt tussen {{ as_timestamp(states('sensor.picnic_last_order_eta_start')) | timestamp_custom('%H:%M') }} en {{ as_timestamp(states('sensor.picnic_last_order_eta_end')) | timestamp_custom('%H:%M') }}!
+          Picnic bezorgt tussen {{ states('sensor.picnic_last_order_eta_start_time') }} en {{ states('sensor.picnic_last_order_eta_end_time') }}!
+    - delay: "00:00:08"
+    - service: script.turn_on
+      target:
+        entity_id: script.cast_helper
+      data:
+        variables:
+          dashboard_path: "lovelace-cast"
+          lovelace_view: "picnic-eta"
+          media_player: "media_player.woonkamer"
+          runtime: "2"

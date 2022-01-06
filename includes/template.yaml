@@ -38,6 +38,36 @@
       state: "{% if is_state('sun.sun', 'below_horizon') %}1{% else %}0{% endif %}"
 
 ##############################
+## Picnic time sensors       #
+##############################
+- trigger:
+    - platform: state
+      entity_id: sensor.picnic_last_order_eta_start
+    - platform: homeassistant
+      event: start
+  sensor:
+    - name: "Picnic last order ETA start time"
+      state: '{{ as_timestamp(states("sensor.picnic_last_order_eta_start")) | timestamp_custom("%H:%M") }}'
+
+- trigger:
+    - platform: state
+      entity_id: sensor.picnic_last_order_eta_end
+    - platform: homeassistant
+      event: start
+  sensor:
+    - name: "Picnic last order ETA end time"
+      state: '{{ as_timestamp(states("sensor.picnic_last_order_eta_end")) | timestamp_custom("%H:%M") }}'
+
+- trigger:
+    - platform: state
+      entity_id: sensor.picnic_last_order_max_order_time
+    - platform: homeassistant
+      event: start
+  sensor:
+    - name: "Picnic last order max order time only"
+      state: '{{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }}'
+
+##############################
 ## Room temperature          #
 ##############################
 - sensor:

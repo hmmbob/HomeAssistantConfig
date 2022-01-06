@@ -1,0 +1,4 @@
+title: Cast views
+views:
+  - !include 90-cast-picnic-delivery-eta.yaml
+  - !include 91-cast-picnic-order-closing.yaml
