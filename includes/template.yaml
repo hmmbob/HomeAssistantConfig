@@ -40,29 +40,33 @@
 ##############################
 ## Picnic time sensors       #
 ##############################
-- trigger:
-    - platform: state
-      entity_id: sensor.picnic_last_order_eta_start
-  sensor:
+- sensor:
     - name: "Picnic last order ETA start time"
       unique_id: picnic_last_order_eta_start_time
-      state: '{{ as_timestamp(states("sensor.picnic_last_order_eta_start")) | timestamp_custom("%H:%M") }}'
+      state: >-
+        {% if is_state("sensor.picnic_last_order_eta_start", "unknown") %} 
+          unknown 
+        {% else %}
+          {{ as_timestamp(states("sensor.picnic_last_order_eta_start"), 0) | timestamp_custom("%H:%M", "00:00") }}
+        {% endif %}
 
-- trigger:
-    - platform: state
-      entity_id: sensor.picnic_last_order_eta_end
-  sensor:
     - name: "Picnic last order ETA end time"
       unique_id: picnic_last_order_eta_end_time
-      state: '{{ as_timestamp(states("sensor.picnic_last_order_eta_end")) | timestamp_custom("%H:%M") }}'
+      state: >-
+        {% if is_state("sensor.picnic_last_order_eta_end", "unknown") %} 
+          unknown 
+        {% else %}
+          {{ as_timestamp(states("sensor.picnic_last_order_eta_end"), 0) | timestamp_custom("%H:%M", "00:00") }}
+        {% endif %}
 
-- trigger:
-    - platform: state
-      entity_id: sensor.picnic_last_order_max_order_time
-  sensor:
     - name: "Picnic last order max order time only"
       unique_id: picnic_last_order_max_order_time_only
-      state: '{{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }}'
+      state: >-
+        {% if is_state("sensor.picnic_last_order_max_order_time", "unknown") %} 
+          unknown 
+        {% else %}
+          {{ as_timestamp(states("sensor.picnic_last_order_max_order_time"), 0) | timestamp_custom("%H:%M", "00:00") }}
+        {% endif %}
 
 ##############################
 ## Room temperature          #

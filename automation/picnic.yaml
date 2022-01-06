@@ -53,7 +53,7 @@
           dashboard_path: "lovelace-cast"
           lovelace_view: "picnic-order-closing"
           media_player: "media_player.woonkamer"
-          runtime: "2"
+          runtime: "30"
 
 - id: picnic_delivery_known
   alias: "Picnic: Delivery soon"
@@ -99,4 +99,4 @@
           dashboard_path: "lovelace-cast"
           lovelace_view: "picnic-eta"
           media_player: "media_player.woonkamer"
-          runtime: "2"
+          runtime: "30"
