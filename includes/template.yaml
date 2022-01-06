@@ -43,28 +43,25 @@
 - trigger:
     - platform: state
       entity_id: sensor.picnic_last_order_eta_start
-    - platform: homeassistant
-      event: start
   sensor:
     - name: "Picnic last order ETA start time"
+      unique_id: picnic_last_order_eta_start_time
       state: '{{ as_timestamp(states("sensor.picnic_last_order_eta_start")) | timestamp_custom("%H:%M") }}'
 
 - trigger:
     - platform: state
       entity_id: sensor.picnic_last_order_eta_end
-    - platform: homeassistant
-      event: start
   sensor:
     - name: "Picnic last order ETA end time"
+      unique_id: picnic_last_order_eta_end_time
       state: '{{ as_timestamp(states("sensor.picnic_last_order_eta_end")) | timestamp_custom("%H:%M") }}'
 
 - trigger:
     - platform: state
       entity_id: sensor.picnic_last_order_max_order_time
-    - platform: homeassistant
-      event: start
   sensor:
     - name: "Picnic last order max order time only"
+      unique_id: picnic_last_order_max_order_time_only
       state: '{{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }}'
 
 ##############################
