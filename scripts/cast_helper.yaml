@@ -36,10 +36,9 @@ cast_helper:
       example: "media_player.nest_hub"
       required: true
       selector:
-        target:
-          entity:
-            integration: cast
-            domain: media_player
+        entity:
+          integration: cast
+          domain: media_player
     runtime:
       name: "Runtime"
       description: "Duration of cast view in minutes (default: 1, max: 60)"
