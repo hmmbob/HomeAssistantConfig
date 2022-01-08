@@ -62,10 +62,10 @@
   mode: single
   description: Send a notification when the short window of the picnic delivery is near
   trigger:
-    - platform: template # Trigger 10 minutes before eta start time.
+    - platform: template # Trigger 15 minutes before eta start time.
       value_template: >-
         {% if states('sensor.picnic_last_order_eta_start') not in ['unknown','unavailable','none'] %}
-          {{ 601 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 540}}
+          {{ 901 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 840}}
         {% endif %}
   action:
     - service: notify.mobile_devices_adults
@@ -104,3 +104,19 @@
     - service: media_player.turn_off
       target:
         entity_id: media_player.woonkamer
+
+##########################
+## Update Picnic ETA sensors
+##########################
+- id: picnic_update_eta
+  alias: "Picnic: update ETA"
+  mode: single
+  description: Update ETA sensors more frequently if delivery is near
+  trigger:
+    - platform: time_pattern
+      minutes: "/2"
+  condition:
+    - "{{ 901 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 0}}"
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.picnic_last_order_eta_start

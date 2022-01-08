@@ -41,25 +41,22 @@ cast_helper:
           domain: media_player
     runtime:
       name: "Runtime"
-      description: "Duration of cast view in minutes (default: 1, max: 60)"
+      description: "Duration of cast view in minutes (default: 1, max: 180)"
       example: "5"
       selector:
         number:
           min: 1
-          max: 60
+          max: 180
           mode: box
   sequence:
-    - alias: "Cast view for set duration"
-      repeat:
-        count: "{{ runtime | int(default=1) }}"
-        sequence:
-          - alias: "Start casting"
-            service: cast.show_lovelace_view
-            data:
-              entity_id: "{{ media_player }}"
-              dashboard_path: "{{ dashboard_path }}"
-              view_path: "{{ lovelace_view }}"
-          - delay: "00:01:00"
+    - alias: "Start casting"
+      service: cast.show_lovelace_view
+      data:
+        entity_id: "{{ media_player }}"
+        dashboard_path: "{{ dashboard_path }}"
+        view_path: "{{ lovelace_view }}"
+    - delay:
+        minutes: "{{runtime}}"
     - service: media_player.turn_off
       target:
         entity_id: "{{ media_player }}"

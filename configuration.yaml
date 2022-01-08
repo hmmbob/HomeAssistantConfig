@@ -35,6 +35,7 @@ logbook:
       - binary_sensor.pir_gang_sensor
       - sensor.kamertemperatuur
     domains:
+      - input_boolean
       - media_player
 
 logger:
