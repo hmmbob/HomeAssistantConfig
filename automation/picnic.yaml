@@ -45,15 +45,17 @@
       data:
         message: "{{ message }}"
     - delay: "00:00:12"
-    - service: script.turn_on
-      target:
-        entity_id: script.cast_helper
+    - alias: "Start casting"
+      service: cast.show_lovelace_view
       data:
-        variables:
-          dashboard_path: "lovelace-cast"
-          lovelace_view: "picnic-order-closing"
-          media_player: "media_player.woonkamer"
-          runtime: "30"
+        entity_id: media_player.woonkamer
+        dashboard_path: lovelace-cast
+        view_path: picnic-order-closing
+    - delay:
+        minutes: 30
+    - service: media_player.turn_off
+      target:
+        entity_id: media_player.woonkamer
 
 - id: picnic_delivery_known
   alias: "Picnic: Delivery soon"
@@ -91,12 +93,14 @@
         message: >
           Picnic bezorgt tussen {{ states('sensor.picnic_last_order_eta_start_time') }} en {{ states('sensor.picnic_last_order_eta_end_time') }}!
     - delay: "00:00:08"
-    - service: script.turn_on
-      target:
-        entity_id: script.cast_helper
+    - alias: "Start casting"
+      service: cast.show_lovelace_view
       data:
-        variables:
-          dashboard_path: "lovelace-cast"
-          lovelace_view: "picnic-eta"
-          media_player: "media_player.woonkamer"
-          runtime: "30"
+        entity_id: media_player.woonkamer
+        dashboard_path: lovelace-cast
+        view_path: picnic-eta
+    - delay:
+        minutes: 30
+    - service: media_player.turn_off
+      target:
+        entity_id: media_player.woonkamer
