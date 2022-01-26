@@ -20,6 +20,12 @@ frontend:
 
 history:
   include: !include includes/recorder-history.yaml
+  exclude:
+    entity_globs:
+      - binary_sensor.sm_a52*
+      - binary_sensor.moto_*
+      - binary_sensor.schad*
+      - binary_sensor.*_over_load_*
 
 http:
   server_port: !secret http_server_port
@@ -31,9 +37,12 @@ http:
 logbook:
   exclude:
     entities:
-      - binary_sensor.pir_woonkamer_motion
-      - binary_sensor.pir_gang_sensor
       - sensor.kamertemperatuur
+    entity_globs:
+      - binary_sensor.pir*
+      - binary_sensor.sm_a52*
+      - binary_sensor.moto_*
+      - binary_sensor.schad*
     domains:
       - input_boolean
       - media_player
