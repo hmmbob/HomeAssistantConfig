@@ -46,16 +46,17 @@ cards:
           - sensor.benzine
           - sensor.diesel
 
-      - type: picture-entity
+      - type: map
         card_mod:
           style: |
             ha-card {
-            margin: 0px 14px -5px 14px;
+              margin: 0px 14px -5px 14px;
+              width: 94% !important;
             }
-        title: Hmmbob
-        entity: camera.hmmbob
-        camera_image: camera.hmmbob
-        show_info: true
-        show_state: false
-        tap_action:
-          action: more-info
+        entities:
+          - person.bob
+          - !secret person_puber
+          - zone.home
+          - zone.scouting
+          - zone.school
+          - zone.work
