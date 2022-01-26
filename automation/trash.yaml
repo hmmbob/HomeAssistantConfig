@@ -19,6 +19,7 @@
       restafval: "restafval"
       papier: "oud papier"
       pbd papier: "plastic en oud papier"
+      papier pbd: "plastic en oud papier"
     afval: >
       {{ trash_descr.get(states(sensor), "onbekend") }}
   condition:

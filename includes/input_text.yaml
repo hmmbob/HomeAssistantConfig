@@ -59,6 +59,9 @@ trash_url_pbd:
 
 trash_url_pbdpapier:
   initial: !secret image_url_plasticpapier
+trash_url_papierpbd:
+  initial: !secret image_url_plasticpapier
+
 
 trash_url_restafval:
   initial: !secret image_url_restafval
