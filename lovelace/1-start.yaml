@@ -365,7 +365,7 @@ cards:
       - type: conditional ## Conditional media_players
         conditions:
           - entity: media_player.soundbar
-            state_not: "off"
+            state_not: "idle"
         card:
           type: custom:mini-media-player
           card_mod:
@@ -380,10 +380,11 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.woonkamer
-            state_not: "off"
+            state_not: "idle"
         card:
           type: custom:mini-media-player
           card_mod:
@@ -398,10 +399,11 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.studeerkamer
-            state_not: "off"
+            state_not: "idle"
         card:
           type: custom:mini-media-player
           card_mod:
@@ -416,10 +418,11 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.slaapkamer
-            state_not: "off"
+            state_not: "idle"
         card:
           type: custom:mini-media-player
           card_mod:
@@ -434,10 +437,11 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.zolder
-            state_not: "off"
+            state_not: "idle"
         card:
           type: custom:mini-media-player
           card_mod:
@@ -452,10 +456,11 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.tv_woonkamer
-            state_not: "off"
+            state_not: "idle"
           - entity: media_player.tv_woonkamer
             state_not: "unavailable"
         card:
@@ -472,10 +477,11 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.tv_slaapkamer
-            state_not: "off"
+            state_not: "idle"
           - entity: media_player.tv_slaapkamer
             state_not: "unavailable"
         card:
@@ -492,10 +498,13 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.tv_zolder
             state_not: "off"
+          - entity: media_player.tv_zolder
+            state_not: "idle"
           - entity: media_player.tv_zolder
             state_not: "unavailable"
         card:
@@ -512,6 +521,7 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.spotify_hmmbob
@@ -530,6 +540,7 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.spotify_t
@@ -548,6 +559,7 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
+
       - type: conditional
         conditions:
           - entity: media_player.spotify_m

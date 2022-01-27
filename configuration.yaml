@@ -100,6 +100,8 @@ template: !include includes/template.yaml
 #################################################################
 #default_config:
 dhcp:
+diagnostics: # HA 2022.02
+input_button": # HA 2022.02
 map:
 mobile_app:
 my:
