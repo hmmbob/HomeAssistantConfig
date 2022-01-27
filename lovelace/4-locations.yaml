@@ -55,6 +55,7 @@ cards:
             }
         entities:
           - person.bob
+          - person.birgit
           - !secret person_puber
           - zone.home
           - zone.scouting

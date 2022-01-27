@@ -22,8 +22,9 @@ cards:
       include:
         - state: unknown
       exclude:
-        - domain: group
         - domain: button
+        - domain: group
+        - domain: scene
     sort:
       method: name
 
