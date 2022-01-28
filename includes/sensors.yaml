@@ -1,10 +1,6 @@
 ##########################
 ## System sensors
 ##########################
-- platform: version
-- platform: version
-  source: container
-
 - platform: systemmonitor
   resources:
     - type: memory_use
