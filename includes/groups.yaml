@@ -3,7 +3,9 @@ lampen_woonkamer:
   icon: mdi:lightbulb-group-outline
   entities:
     - switch.grijze_lamp
+    - switch.kast
     - switch.staande_lamp
+    - switch.tv_kastje
     - switch.zoutlamp
     - light.window_level
 

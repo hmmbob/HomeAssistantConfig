@@ -337,6 +337,12 @@ cards:
                   action: more-info
                 hold_action:
                   action: toggle
+              - entity: light.badkamer
+                show_name: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: toggle
           - type: custom:multiple-entity-row
             entity: sensor.pubercave_power
             show_state: false
@@ -345,7 +351,7 @@ cards:
             entities:
               - entity: sensor.pubercave_power
                 name: "Playstation"
-              - entity: sensor.leeslamp_zolder_power
+              - entity: sensor.leeslampje_zolder_power
                 name: "Leeslampje"
                 tap_action:
                   action: more-info

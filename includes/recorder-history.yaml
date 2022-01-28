@@ -7,6 +7,7 @@ domains:
   - person
   - vacuum
 entities:
+  - light.badkamer
   - light.eetkamer_level
   - light.sonoff_l1
   - light.window_level
@@ -18,7 +19,7 @@ entities:
   - sensor.database_grootte
   - sensor.diesel
   - sensor.kamertemperatuur
-  - sensor.leeslamp_zolder_power
+  - sensor.leeslampje_zolder_power
   - sensor.max_uv_index
   - sensor.memory_use_percent
   - sensor.nightstate
@@ -39,7 +40,9 @@ entities:
   - switch.aquarium
   - switch.genie
   - switch.grijze_lamp
+  - switch.kast
   - switch.overkapping
   - switch.schuur_1
   - switch.staande_lamp
+  - switch.tv_kastje
   - switch.window

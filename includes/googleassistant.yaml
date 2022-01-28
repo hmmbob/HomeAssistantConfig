@@ -2,8 +2,6 @@ project_id: !secret google_assistant_project_id
 service_account: !include googleassistant_serviceaccount.json
 expose_by_default: false
 report_state: true
-exposed_domains:
-  - climate
 entity_config:
   ## Woonkamer
   climate.woonkamer:
@@ -22,8 +20,16 @@ entity_config:
     name: "Grijze lamp"
     expose: true
     room: "Woonkamer"
+  switch.kast:
+    name: "Kast"
+    expose: true
+    room: "Woonkamer"
   switch.staande_lamp:
     name: "Staande lamp"
+    expose: true
+    room: "Woonkamer"
+  switch.tv_kastje:
+    name: "TV Kastje"
     expose: true
     room: "Woonkamer"
   switch.zoutlamp:
@@ -59,6 +65,7 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "Rocky"
+
   ##Eetkamer
   light.eetkamer_level:
     name: "Eetkamer"
@@ -68,6 +75,7 @@ entity_config:
     name: "Diner"
     expose: true
     room: "Eetkamer"
+
   ##Gang
   light.gang_dimmer_level:
     name: "Gang"
@@ -81,6 +89,25 @@ entity_config:
     name: "Vriezer"
     expose: true
     room: "Gang"
+
+  ##Badkamer
+  light.badkamer:
+    name: "Badkamer"
+    expose: true
+    room: "Badkamer"
+
+  ##Slaapkamer B
+  sensor.slaapkamer_temperature:
+    name: "Temperatuur slaapkamer"
+    expose: true
+    room: "Slaapkamer"
+
+  ##Slaapkamer T
+  script.start_music_t:
+    name: "Slaaptijd"
+    expose: true
+    room: "Slaapkamer T"
+
   ##Zolder
   cover.zolder:
     name: "Zolder"
@@ -98,16 +125,7 @@ entity_config:
     room: "Zolder"
     aliases:
       - "Ledstrip"
-  ##Slaapkamer
-  sensor.slaapkamer_temperature:
-    name: "Temperatuur slaapkamer"
-    expose: true
-    room: "Slaapkamer"
-  ##Slaapkamer T
-  script.start_music_t:
-    name: "Slaaptijd"
-    expose: true
-    room: "Slaapkamer T"
+
   ##Garden
   switch.schuur_1:
     name: "Schuur"

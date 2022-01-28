@@ -116,4 +116,4 @@
 - binary_sensor:
     - name: "Is pubercave on"
       unique_id: is_pubercave_on
-      state: "{{ states('sensor.pubercave_power') | float > 80 }}"
+      state: "{{ states('sensor.pubercave_power') | int(default=0) > 80 }}"
