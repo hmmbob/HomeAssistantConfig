@@ -1,6 +1,6 @@
 lampen_woonkamer:
   name: Verlichting Woonkamer
-  icon: mdi:lightbulb-group-outline
+  icon: mdi:lamps
   entities:
     - switch.grijze_lamp
     - switch.kast
