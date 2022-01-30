@@ -1,0 +1,18 @@
+##########################
+## EV charger status
+##########################
+- resource: !secret oplaadpalen_url
+  scan_interval: 1800 # 30min
+  sensor:
+    - name: EV Charger ID
+      value_template: "{{ value_json.features[0].properties.external_reference }}"
+# This could have been a regular REST sensor, but I decided to
+# keep this sensor close to the one below, for readability.
+
+- resource_template: https://www.oplaadpalen.nl/api/map/location/{{ states('sensor.ev_charger_id') }}
+  scan_interval: 300 # 5min
+  sensor:
+    - name: EV laadplek 1
+      value_template: "{{ value_json.data.evses.0.status }}"
+    - name: EV laadplek 2
+      value_template: "{{ value_json.data.evses.1.status }}"

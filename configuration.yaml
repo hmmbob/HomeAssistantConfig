@@ -87,6 +87,7 @@ input_datetime: !include includes/input_datetime.yaml
 input_select: !include includes/input_select.yaml
 input_text: !include includes/input_text.yaml
 notify: !include includes/notify.yaml
+rest: !include includes/rest.yaml
 rest_command: !include includes/rest_command.yaml
 scene: !include includes/scenes.yaml
 script: !include scripts.yaml
