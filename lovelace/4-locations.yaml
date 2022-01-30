@@ -38,13 +38,69 @@ cards:
         entities:
           - type: custom:fold-entity-row
             head: group.all_persons
-          - entity: sensor.sm_a526b_geocoded_location
-            name: Bob
-          - entity: sensor.schaduwspeler_gegeocodeerde_locatie
-            name: !secret naam_puber
-          - sensor.reistijd_bob_naar_huis
-          - sensor.benzine
-          - sensor.diesel
+            no_animation: true
+            entities:
+              - type: custom:fold-entity-row
+                no_animation: true
+                head: person.bob
+                entities:
+                  - entity: sensor.sm_a526b_geocoded_location
+                    name: Bob
+                  - sensor.reistijd_bob_naar_huis
+              - type: custom:fold-entity-row
+                no_animation: true
+                head: !secret person_mw
+                entities:
+                  - entity: sensor.moto_g_8_plus_geocoded_location
+                    name: !secret naam_mw
+              - type: custom:fold-entity-row
+                no_animation: true
+                head: !secret person_puber
+                entities:
+                  - entity: sensor.schaduwspeler_gegeocodeerde_locatie
+                    name: !secret naam_puber
+
+          - type: custom:multiple-entity-row
+            entity: sensor.diesel
+            show_state: false
+            state_color: true
+            name: Brandstofprijzen
+            entities:
+              - entity: sensor.benzine
+                name: "Benzine"
+              - entity: sensor.diesel
+                name: "Diesel"
+
+          - type: custom:multiple-entity-row
+            entity: sensor.ev_charger_id
+            icon: mdi:ev-station
+            show_state: false
+            name: Laadpaal beschikbaarheid
+            card_mod:
+              style:
+                hui-generic-entity-row:
+                  .: |
+                    div.entity:nth-child(1) state-badge {
+                        {% if is_state('sensor.ev_laadplek_1', 'AVAILABLE') %}
+                          color: green;
+                        {% else %}
+                          color: red;
+                        {% endif %}
+                    }
+                    div.entity:nth-child(2) state-badge {
+                        {% if is_state('sensor.ev_laadplek_2', 'AVAILABLE') %}
+                          color: green;
+                        {% else %}
+                          color: red;
+                        {% endif %}
+                    }
+            entities:
+              - entity: sensor.ev_laadplek_1
+                name: false
+                icon: mdi:ev-station
+              - entity: sensor.ev_laadplek_2
+                name: false
+                icon: mdi:ev-station
 
       - type: map
         card_mod:
@@ -55,7 +111,7 @@ cards:
             }
         entities:
           - person.bob
-          - person.birgit
+          - !secret person_mw
           - !secret person_puber
           - zone.home
           - zone.scouting
