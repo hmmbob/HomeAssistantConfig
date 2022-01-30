@@ -37,11 +37,11 @@ cards:
         entity: vacuum.rocky
         stats:
           cleaning:
-            - attribute: cleaned_area
+            - entity_id: sensor.rocky_current_clean_area
               unit: m2
               subtitle: Cleaning area
-            - attribute: cleaning_time
-              unit: minutes
+            - entity_id: sensor.rocky_current_clean_duration
+              unit: seconds
               subtitle: Cleaning time
 
       - type: custom:button-card
