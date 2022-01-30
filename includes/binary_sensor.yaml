@@ -22,3 +22,16 @@
   remove_holidays:
     - "Goede Vrijdag"
   add_holidays: !include ./holidays.yaml
+
+- platform: group
+  name: Statussen
+  device_class: connectivity
+  all: true
+  entities:
+    - binary_sensor.deurbel_status
+    - binary_sensor.kast_status
+    - binary_sensor.overkapping_status
+    - binary_sensor.staande_lamp_status
+    - binary_sensor.weerhuisje_status
+    - binary_sensor.zigbee2mqtt_bridge
+    - binary_sensor.zoutlamp_status

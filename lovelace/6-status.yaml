@@ -80,11 +80,17 @@ cards:
         show_header_toggle: false
         state_color: true
         entities:
-          - binary_sensor.deurbel_status
-          - binary_sensor.staande_lamp_status
-          - binary_sensor.weerhuisje_status
-          - binary_sensor.zigbee2mqtt_bridge
-          - binary_sensor.zoutlamp_status
+          - type: custom:fold-entity-row
+            head: binary_sensor.statussen
+            entities:
+              - binary_sensor.deurbel_status
+              - binary_sensor.kast_status
+              - binary_sensor.overkapping_status
+              - binary_sensor.staande_lamp_status
+              - binary_sensor.weerhuisje_status
+              - binary_sensor.zigbee2mqtt_bridge
+              - binary_sensor.zoutlamp_status
+
       - type: markdown ## Updates header
         content: |
           # Updates
