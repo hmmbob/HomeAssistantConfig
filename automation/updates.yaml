@@ -232,3 +232,30 @@
           tag: diesel
           channel: diesel
           notification_icon: mdi:gas-station
+
+##########################
+## Update EV sensors
+##########################
+# This ID changes daily at 1am, so make sure we catch it
+- id: update_ev_id
+  alias: "EV: update ID"
+  trigger:
+    - platform: time
+      at: "01:00:30"
+  action:
+    - service: homeassistant.update_entity
+      entity_id: sensor.ev_charger_id
+
+# Make sure we update these sensors as they rely on the ID
+- id: update_ev_sensors
+  alias: "EV: update on ID change"
+  trigger:
+    - platform: state
+      entity_id: sensor.ev_charger_id
+    - platform: homeassistant
+      event: start
+  action:
+    - service: homeassistant.update_entity
+      entity_id:
+        - sensor.ev_laadplek_1
+        - sensor.ev_laadplek_2
