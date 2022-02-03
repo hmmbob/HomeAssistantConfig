@@ -93,6 +93,6 @@ wasmachine_actief:
 #############################
 ## Picnic                   #
 #############################
-notify_picnic_voice:
-  name: "Voice meldingen over Picnic"
-  icon: mdi:google-home
+notify_picnic_push:
+  name: "Push meldingen over Picnic"
+  icon: mdi:cart

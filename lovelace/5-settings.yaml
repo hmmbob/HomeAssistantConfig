@@ -154,8 +154,8 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_picnic_voice
-            name: Picnic TTS
+            entity: input_boolean.notify_picnic_push
+            name: Picnic push
             show_state: false
             styles:
               card:
