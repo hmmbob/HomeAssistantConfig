@@ -83,20 +83,6 @@
 - platform: dsmr_reader
 
 ##########################
-## Quote of the day sensor
-##########################
-- platform: rest
-  resource: https://quotes.rest/qod?language=en
-  name: Quote of the Day
-  scan_interval: 43200
-  json_attributes_path: "$.contents.quotes[0]"
-  json_attributes:
-    - author
-    - category
-    - quote
-  value_template: "OK"
-
-##########################
 ## History statistics
 ##########################
 - platform: history_stats
