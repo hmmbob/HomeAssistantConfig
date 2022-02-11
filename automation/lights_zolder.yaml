@@ -101,6 +101,7 @@
 - id: turn_on_gaming_mode_when_ps4_starts
   alias: "Lights: Game mode als PS4 aan gaat"
   mode: single
+  max_exceeded: silent
   trigger:
     - platform: numeric_state
       entity_id: sensor.pubercave_power

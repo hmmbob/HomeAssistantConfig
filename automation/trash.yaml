@@ -3,7 +3,6 @@
 ##########################
 - alias: "Afval: Meldingen"
   id: melding_afval
-  initial_state: true
   trigger:
     - platform: time
       at: input_datetime.time_trash_warning_today

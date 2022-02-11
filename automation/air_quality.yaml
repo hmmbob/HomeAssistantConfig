@@ -7,7 +7,6 @@
 # the automation. Temperature is the sensor that changes most often.
 - id: weerhuisje_update_air_quality_sensors
   alias: "Weerhuisje: Update Air Quality Sensors"
-  initial_state: true
   mode: queued
   trigger: # Trigger on every update of the temperature
     - platform: state

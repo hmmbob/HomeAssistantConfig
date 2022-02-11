@@ -1,6 +1,7 @@
 - id: picnic_order_window_closing
   alias: "Picnic: Order window closing"
   mode: single
+  max_exceeded: silent
   description: Send a notification when there are 2 hours left to submit the current order
   trigger:
     - platform: template
@@ -58,6 +59,7 @@
 - id: picnic_delivery_known
   alias: "Picnic: Delivery soon"
   mode: single
+  max_exceeded: silent
   description: Send a notification when the short window of the picnic delivery is near
   trigger:
     - platform: template # Trigger 15 minutes before eta start time.
@@ -105,6 +107,7 @@
 - id: picnic_update_eta
   alias: "Picnic: update ETA"
   mode: single
+  max_exceeded: silent
   description: Update ETA sensors more frequently if delivery is near
   trigger:
     - platform: time_pattern

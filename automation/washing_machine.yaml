@@ -4,7 +4,6 @@
 # Turn on helper if washing machine starts
 - alias: "Wasmachine draait"
   id: helper_wasmachine
-  initial_state: true
   trigger:
     # High power: someone started the washing program...
     platform: numeric_state
@@ -22,7 +21,6 @@
 # Notify us when washing is done
 - alias: "Notifications: Wasmachine klaar melding"
   id: notification_wasmachine
-  initial_state: true
   variables:
     notification_service: >
       {% if is_state("device_tracker.moto_g_8_plus", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
@@ -77,7 +75,6 @@
 
 - alias: "Notifications: Clear wasmachine"
   id: notifications_wasmachine_remove
-  initial_state: true
   trigger:
     # If the machine is turned off
     - platform: numeric_state

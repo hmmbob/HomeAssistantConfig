@@ -40,7 +40,6 @@
 ##########################
 - alias: "Notifications: Handle alert mute"
   id: mute_door_alerts
-  initial_state: "on"
   trigger:
     - platform: event
       event_type: mobile_app_notification_action

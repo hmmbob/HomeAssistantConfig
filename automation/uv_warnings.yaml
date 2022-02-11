@@ -3,7 +3,6 @@
 ##########################
 - alias: "Notifications: UV melding"
   id: notifications_uv
-  initial_state: true
   trigger:
     platform: time
     at: input_datetime.time_uv_warning

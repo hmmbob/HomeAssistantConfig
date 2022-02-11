@@ -85,7 +85,6 @@
 ##########################
 - id: set_lights_before_sunset
   alias: "Lights: Sunset set lights"
-  initial_state: true
   trigger:
     platform: sun
     event: sunset

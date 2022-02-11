@@ -3,7 +3,6 @@
 #############################
 - id: turn_on_garden
   alias: "Lights: Garden turn on"
-  initial_state: true
   trigger:
     platform: sun
     event: sunset
@@ -14,7 +13,6 @@
 
 - id: turn_off_garden
   alias: "Lights: Garden turn off"
-  initial_state: true
   trigger:
     platform: sun
     event: sunrise
@@ -28,7 +26,6 @@
 #############################
 - id: turn_on_porch_lights
   alias: "Lights: Porch lights turn on"
-  initial_state: true
   trigger:
     - platform: sun
       event: sunset
@@ -39,7 +36,6 @@
 
 - id: turn_off_porch_lights
   alias: "Lights: Porch lights turn off"
-  initial_state: true
   trigger:
     - platform: time
       at: "23:30:00"

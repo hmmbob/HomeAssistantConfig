@@ -3,7 +3,6 @@
 ##########################
 - id: set_theme
   alias: "System: Set theme"
-  initial_state: true
   trigger:
     - platform: homeassistant
       event: start

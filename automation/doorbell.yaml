@@ -3,7 +3,6 @@
 ##########################
 - alias: "Deurbel: Play doorbell"
   id: deurbel_notify
-  initial_state: on
   mode: single
   max_exceeded: silent
   variables:

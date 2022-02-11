@@ -392,7 +392,6 @@
 ##########################
 - alias: "Vacuum: camera on/off"
   id: vacuum_camera_onoff
-  initial_state: true
   mode: restart
   trigger:
     - platform: state

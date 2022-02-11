@@ -3,7 +3,6 @@
 ##########################
 - id: cover_close_on_time
   alias: "Rolluik: dicht"
-  initial_state: on
   trigger:
     platform: time
     at: input_datetime.time_cover_down
@@ -17,7 +16,6 @@
 
 - id: cover_open_on_time
   alias: "Rolluik: open"
-  initial_state: on
   trigger:
     platform: time
     at: input_datetime.time_cover_up

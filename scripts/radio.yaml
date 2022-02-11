@@ -3,6 +3,7 @@ radio_538:
   description: "Play Radio 538 on our Soundbar"
   icon: mdi:cast-audio-variant
   mode: single
+  max_exceeded: silent
   sequence:
     - service: media_player.play_media
       data:
@@ -20,6 +21,7 @@ qmusic:
   description: "Play Q Music on our Soundbar"
   icon: mdi:cast-audio-variant
   mode: single
+  max_exceeded: silent
   sequence:
     - service: media_player.play_media
       data:
@@ -37,6 +39,7 @@ nashville:
   description: "Play Nashville FM on our Soundbar (Grandma's favorite!)"
   icon: mdi:cast-audio-variant
   mode: single
+  max_exceeded: silent
   sequence:
     - service: media_player.play_media
       data:
