@@ -18,7 +18,7 @@ cards:
           font-size: 400%
           font-weight: bold
       - type: state-label
-        entity: sensor.picnic_last_order_eta_start_time
+        entity: sensor.picnic_next_delivery_eta_start_time
         style:
           top: 85%
           left: 30%
@@ -34,7 +34,7 @@ cards:
           font-size: 300%
           font-weight: bold
       - type: state-label
-        entity: sensor.picnic_last_order_eta_end_time
+        entity: sensor.picnic_next_delivery_eta_end_time
         style:
           top: 85%
           left: 70%

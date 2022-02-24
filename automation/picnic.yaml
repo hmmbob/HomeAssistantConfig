@@ -64,8 +64,8 @@
   trigger:
     - platform: template # Trigger 15 minutes before eta start time.
       value_template: >-
-        {% if states('sensor.picnic_last_order_eta_start') not in ['unknown','unavailable','none'] %}
-          {{ 901 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 840}}
+        {% if states('sensor.picnic_next_delivery_eta_start') not in ['unknown','unavailable','none'] %}
+          {{ 901 > (as_timestamp(states('sensor.picnic_next_delivery_eta_start'), 0) - as_timestamp(now(), 0)) > 840}}
         {% endif %}
   action:
     - choose:
@@ -79,7 +79,7 @@
               data:
                 title: Picnic komt eraan!
                 message: >
-                  Picnic bezorgt tussen {{ states('sensor.picnic_last_order_eta_start_time') }} en {{ states('sensor.picnic_last_order_eta_end_time') }}!
+                  Picnic bezorgt tussen {{ states('sensor.picnic_next_delivery_eta_start_time') }} en {{ states('sensor.picnic_next_delivery_eta_end_time') }}!
                 data:
                   clickAction: "app://com.picnic.android"
                   icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
@@ -113,7 +113,7 @@
     - platform: time_pattern
       minutes: "/2"
   condition:
-    - "{{ 901 > (as_timestamp(states('sensor.picnic_last_order_eta_start'), 0) - as_timestamp(now(), 0)) > 0}}"
+    - "{{ 901 > (as_timestamp(states('sensor.picnic_next_delivery_eta_start'), 0) - as_timestamp(now(), 0)) > 0}}"
   action:
     - service: homeassistant.update_entity
-      entity_id: sensor.picnic_last_order_eta_start
+      entity_id: sensor.picnic_next_delivery_eta_start

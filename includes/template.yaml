@@ -31,22 +31,22 @@
 ## Picnic time sensors       #
 ##############################
 - sensor:
-    - name: "Picnic last order ETA start time"
-      unique_id: picnic_last_order_eta_start_time
+    - name: "Picnic next delivery ETA start time"
+      unique_id: picnic_next_delivery_eta_start_time
       state: >-
-        {% if is_state("sensor.picnic_last_order_eta_start", "unknown") %} 
+        {% if is_state("sensor.picnic_next_delivery_eta_start", "unknown") %} 
           unknown 
         {% else %}
-          {{ as_timestamp(states("sensor.picnic_last_order_eta_start"), 0) | timestamp_custom("%H:%M", "00:00") }}
+          {{ as_timestamp(states("sensor.picnic_next_delivery_eta_start"), 0) | timestamp_custom("%H:%M", "00:00") }}
         {% endif %}
 
-    - name: "Picnic last order ETA end time"
-      unique_id: picnic_last_order_eta_end_time
+    - name: "Picnic next delivery ETA end time"
+      unique_id: picnic_next_delivery_eta_end_time
       state: >-
-        {% if is_state("sensor.picnic_last_order_eta_end", "unknown") %} 
+        {% if is_state("sensor.picnic_next_delivery_eta_end", "unknown") %} 
           unknown 
         {% else %}
-          {{ as_timestamp(states("sensor.picnic_last_order_eta_end"), 0) | timestamp_custom("%H:%M", "00:00") }}
+          {{ as_timestamp(states("sensor.picnic_next_delivery_eta_end"), 0) | timestamp_custom("%H:%M", "00:00") }}
         {% endif %}
 
     - name: "Picnic last order max order time only"
