@@ -93,7 +93,6 @@ scene: !include includes/scenes.yaml
 script: !include scripts.yaml
 script split: !include_dir_merge_named scripts/
 sensor: !include includes/sensors.yaml
-switch: !include includes/switch.yaml
 template: !include includes/template.yaml
 
 #################################################################
@@ -101,16 +100,16 @@ template: !include includes/template.yaml
 #################################################################
 #default_config:
 dhcp:
-diagnostics: # HA 2022.02
-input_button: # HA 2022.02
+diagnostics:
+input_button:
 map:
+media_source:
 mobile_app:
 my:
 person:
 ssdp:
 sun:
 system_health:
-updater:
 webhook:
 zeroconf:
 
