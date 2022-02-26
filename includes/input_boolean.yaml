@@ -51,14 +51,6 @@ notify_door_alert:
   icon: mdi:door-open
 
 #############################
-## Zigbee                   #
-#############################
-zigbee_permit_join:
-  name: Allow devices to join
-  initial: off
-  icon: mdi:cellphone-wireless
-
-#############################
 ## Zolder                   #
 #############################
 enable_cover:

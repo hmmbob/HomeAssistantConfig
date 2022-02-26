@@ -332,25 +332,6 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: input_boolean.zigbee_permit_join
-            name: Add Zigbee device
-            show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat je een Zigbee apparaat wil toevoegen?` ]]]"
-            styles:
-              card:
-                - width: 90px
-                - height: 90px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
 
       - type: markdown ## TTS header
         content: |

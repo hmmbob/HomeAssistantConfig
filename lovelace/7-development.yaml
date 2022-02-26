@@ -127,14 +127,6 @@ cards:
     sort:
       method: name
 
-  - id: c78f01234176407b123456923a45f10a # Automatically created id
-    type: entities
-    title: Zigbee2mqtt
-    show_header_toggle: false
-    state_color: true
-    entities:
-      - input_boolean.zigbee_permit_join
-
   - id: c915ccdf-3c20-402f-92fa-323541e56dd7 # Automatically created id
     type: custom:auto-entities
     card:
