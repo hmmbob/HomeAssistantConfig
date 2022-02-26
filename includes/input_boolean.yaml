@@ -1,22 +1,19 @@
 #############################
-## Trash                    #
+## Doors, deurbel          #
 #############################
-notify_trash:
-  name: "Push-meldingen over afval"
-  icon: mdi:message-bulleted
-notify_trash_voice:
-  name: "Voice-meldingen over afval"
-  icon: mdi:google-home
+enable_deurbel:
+  name: "Deurbel"
+  icon: mdi:doorbell
+notify_door_alert:
+  name: "Deur alarm"
+  icon: mdi:door-open
 
 #############################
-## UV Warnings              #
+## Picnic                   #
 #############################
-notify_uv:
-  name: "Push-meldingen over UV"
-  icon: mdi:white-balance-sunny
-notify_uv_voice:
-  name: "Voice-meldingen over UV"
-  icon: mdi:google-home
+notify_picnic_push:
+  name: "Push meldingen over Picnic"
+  icon: mdi:cart
 
 #############################
 ## PIR / Movement based     #
@@ -41,39 +38,34 @@ woonkamer_on_movement:
   icon: mdi:lightbulb-on-outline
 
 #############################
-## Doors, deurbel          #
+## Trash                    #
 #############################
-enable_deurbel:
-  name: "Deurbel"
-  icon: mdi:doorbell
-notify_door_alert:
-  name: "Deur alarm"
-  icon: mdi:door-open
+notify_trash:
+  name: "Push-meldingen over afval"
+  icon: mdi:message-bulleted
+notify_trash_voice:
+  name: "Voice-meldingen over afval"
+  icon: mdi:google-home
 
 #############################
-## Zolder                   #
+## UV Warnings              #
 #############################
-enable_cover:
-  name: Rolluik automatisering
-  icon: mdi:garage
-
-enable_game_mode:
-  name: Game mode
-  icon: mdi:sony-playstation
-
-notify_zolder:
-  name: Waarschuwing leeslamp & pubercave
-  icon: mdi:lightbulb-on-outline
+notify_uv:
+  name: "Push-meldingen over UV"
+  icon: mdi:white-balance-sunny
+notify_uv_voice:
+  name: "Voice-meldingen over UV"
+  icon: mdi:google-home
 
 #############################
 ## Vacation mode            #
 #############################
-vacation_mode_home:
-  name: "Vakantie (thuis)"
-  icon: mdi:home-map-marker
 vacation_mode_away:
   name: "Vakantie (weg)"
   icon: mdi:home-lock
+vacation_mode_home:
+  name: "Vakantie (thuis)"
+  icon: mdi:home-map-marker
 
 #############################
 ## Washing machine          #
@@ -83,8 +75,14 @@ wasmachine_actief:
   initial: false
 
 #############################
-## Picnic                   #
+## Zolder                   #
 #############################
-notify_picnic_push:
-  name: "Push meldingen over Picnic"
-  icon: mdi:cart
+enable_cover:
+  name: Rolluik automatisering
+  icon: mdi:garage
+enable_game_mode:
+  name: Game mode
+  icon: mdi:sony-playstation
+notify_zolder:
+  name: Waarschuwing leeslamp & pubercave
+  icon: mdi:lightbulb-on-outline
