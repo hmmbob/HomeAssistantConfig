@@ -21,18 +21,18 @@ notify_picnic_push:
 disable_pir_sensor_automations:
   name: "Schakel bewegings-automatiseringen uit"
   icon: mdi:sofa-outline
-enable_pir_woonkamer:
-  name: "Verlichting woonkamer aan op beweging"
-  icon: mdi:motion-sensor
+eetkamer_on_movement:
+  name: "Eetkamer aan via PIR"
+  icon: mdi:ceiling-light
 enable_pir_gang:
   name: "Verlichting gang aan op beweging"
+  icon: mdi:motion-sensor
+enable_pir_woonkamer:
+  name: "Verlichting woonkamer aan op beweging"
   icon: mdi:motion-sensor
 toon_on_movement:
   name: "Toon aan via PIR"
   icon: mdi:thermostat
-eetkamer_on_movement:
-  name: "Eetkamer aan via PIR"
-  icon: mdi:ceiling-light
 woonkamer_on_movement:
   name: "Woonkamer aan via PIR"
   icon: mdi:lightbulb-on-outline

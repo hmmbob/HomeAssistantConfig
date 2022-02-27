@@ -1,3 +1,6 @@
+##########################
+## Lights
+##########################
 lampen_woonkamer:
   name: Verlichting Woonkamer
   icon: mdi:lamps
@@ -9,6 +12,9 @@ lampen_woonkamer:
     - switch.zoutlamp
     - light.window_level
 
+##########################
+## Persons
+##########################
 all_adults:
   name: Alle volwassenen
   icon: mdi:account-group

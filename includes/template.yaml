@@ -58,6 +58,14 @@
           {{ as_timestamp(states("sensor.picnic_last_order_max_order_time"), 0) | timestamp_custom("%H:%M", "00:00") }}
         {% endif %}
 
+#####################################
+## Pubercave power helper for stats #
+#####################################
+- binary_sensor:
+    - name: "Is pubercave on"
+      unique_id: is_pubercave_on
+      state: "{{ states('sensor.pubercave_power') | int(default=0) > 80 }}"
+
 ##############################
 ## Room temperature          #
 ##############################
@@ -109,11 +117,3 @@
         {% else %}
           mdi:battery-alert
         {% endif %}
-
-#####################################
-## Pubercave power helper for stats #
-#####################################
-- binary_sensor:
-    - name: "Is pubercave on"
-      unique_id: is_pubercave_on
-      state: "{{ states('sensor.pubercave_power') | int(default=0) > 80 }}"

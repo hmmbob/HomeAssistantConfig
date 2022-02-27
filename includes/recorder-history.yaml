@@ -1,4 +1,3 @@
-##Leave this line including first spaces
 domains:
   - alert
   - binary_sensor

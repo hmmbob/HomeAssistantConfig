@@ -1,4 +1,30 @@
 ##########################
+## Connectivity sensor
+##########################
+- platform: group
+  name: Statussen
+  device_class: connectivity
+  all: true
+  entities:
+    - binary_sensor.deurbel_status
+    - binary_sensor.kast_status
+    - binary_sensor.overkapping_status
+    - binary_sensor.staande_lamp_status
+    - binary_sensor.weerhuisje_status
+    - binary_sensor.zigbee2mqtt_bridge
+    - binary_sensor.zoutlamp_status
+
+##########################
+## Schoolday sensor
+##########################
+- platform: workday
+  name: "Schooldag"
+  country: NL
+  remove_holidays:
+    - "Goede Vrijdag"
+  add_holidays: !include ./holidays.yaml
+
+##########################
 ## Zigbee2mqtt
 ##########################
 # Sensor for monitoring the bridge state
@@ -12,26 +38,3 @@
   payload_available: "online"
   payload_not_available: "offline"
   device_class: connectivity
-
-##########################
-## Schoolday sensor
-##########################
-- platform: workday
-  name: "Schooldag"
-  country: NL
-  remove_holidays:
-    - "Goede Vrijdag"
-  add_holidays: !include ./holidays.yaml
-
-- platform: group
-  name: Statussen
-  device_class: connectivity
-  all: true
-  entities:
-    - binary_sensor.deurbel_status
-    - binary_sensor.kast_status
-    - binary_sensor.overkapping_status
-    - binary_sensor.staande_lamp_status
-    - binary_sensor.weerhuisje_status
-    - binary_sensor.zigbee2mqtt_bridge
-    - binary_sensor.zoutlamp_status

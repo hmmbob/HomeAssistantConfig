@@ -1,15 +1,3 @@
-- name: Etenstijd
-  id: etenstijd
-  entities:
-    light.eetkamer_level:
-      state: "on"
-      brightness: 255
-- name: Avond
-  id: avond
-  entities:
-    switch.grijze_lamp: "on"
-    switch.staande_lamp: "on"
-    switch.window: "on"
 - name: "Alles uit"
   id: allesuit
   entities:
@@ -17,3 +5,17 @@
     switch.grijze_lamp: "off"
     switch.staande_lamp: "off"
     switch.window: "off"
+
+- name: Avond
+  id: avond
+  entities:
+    switch.grijze_lamp: "on"
+    switch.staande_lamp: "on"
+    switch.window: "on"
+
+- name: Etenstijd
+  id: etenstijd
+  entities:
+    light.eetkamer_level:
+      state: "on"
+      brightness: 255

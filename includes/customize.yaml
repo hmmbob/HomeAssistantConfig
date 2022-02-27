@@ -4,8 +4,6 @@ sensor.diesel:
   icon: mdi:gas-station
 sensor.benzine:
   icon: mdi:gas-station-outline
-sensor.latest_version:
-  icon: mdi:docker
 # Set home zone to 50m
 zone.home:
   radius: 50

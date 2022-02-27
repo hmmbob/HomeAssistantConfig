@@ -2,7 +2,7 @@
 ## EV charger status
 ##########################
 - resource: !secret oplaadpalen_url
-  scan_interval: 1800 # 30min
+  scan_interval: 21600 # 6 hrs
   sensor:
     - name: EV Charger ID
       value_template: "{{ value_json.features[0].properties.external_reference }}"

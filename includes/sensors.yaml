@@ -1,44 +1,4 @@
 ##########################
-## System sensors
-##########################
-- platform: systemmonitor
-  resources:
-    - type: memory_use
-    - type: memory_use_percent
-    - type: processor_use
-
-- platform: sql
-  db_url: !secret recorder_url
-  queries:
-    - name: Database Grootte
-      query: 'SELECT table_schema "homeassistant", Round(Sum(data_length + index_length) / POWER(1024,2), 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
-      column: "value"
-      unit_of_measurement: mB
-
-##########################
-## Weather sensors
-##########################
-- platform: darksky
-  api_key: !secret darksky_api
-  forecast:
-    - 0
-    - 1
-    - 2
-  hourly_forecast:
-    - 0
-    - 1
-    - 2
-    - 3
-  monitored_conditions:
-    - cloud_cover
-    - summary
-    - temperature_high
-    - uv_index
-  scan_interval:
-    minutes: 15
-  language: nl
-
-##########################
 ## Gas prices sensors
 ##
 ## Just scraping the Tinq website pages for the needed information
@@ -62,6 +22,39 @@
   scan_interval: 3600
 
 ##########################
+## History statistics
+##########################
+- platform: history_stats
+  name: Pubercave ON today
+  entity_id: binary_sensor.is_pubercave_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+##########################
+## Smartmeter sensors
+##########################
+- platform: dsmr_reader
+
+##########################
+## System sensors
+##########################
+- platform: systemmonitor
+  resources:
+    - type: memory_use
+    - type: memory_use_percent
+    - type: processor_use
+
+- platform: sql
+  db_url: !secret recorder_url
+  queries:
+    - name: Database Grootte
+      query: 'SELECT table_schema "homeassistant", Round(Sum(data_length + index_length) / POWER(1024,2), 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: "value"
+      unit_of_measurement: mB
+
+##########################
 ## Trash sensors
 ##########################
 - platform: afvalinfo
@@ -78,17 +71,24 @@
   locale: "nl"
 
 ##########################
-## Smartmeter sensors
+## Weather sensors
 ##########################
-- platform: dsmr_reader
-
-##########################
-## History statistics
-##########################
-- platform: history_stats
-  name: Pubercave ON today
-  entity_id: binary_sensor.is_pubercave_on
-  state: "on"
-  type: time
-  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-  end: "{{ now() }}"
+- platform: darksky
+  api_key: !secret darksky_api
+  forecast:
+    - 0
+    - 1
+    - 2
+  hourly_forecast:
+    - 0
+    - 1
+    - 2
+    - 3
+  monitored_conditions:
+    - cloud_cover
+    - summary
+    - temperature_high
+    - uv_index
+  scan_interval:
+    minutes: 15
+  language: nl
