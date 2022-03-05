@@ -16,9 +16,9 @@
     conditions:
       - "{{ states('sensor.particulate_matter_2_5um_concentration') in ['unknown','unavailable'] }}"
       - "{{ states('sensor.particulate_matter_10_0um_concentration') in ['unknown','unavailable'] }}"
-      - "{{ is_state('sensor.bme280_temperature', 'unavailable') }}"
-      - "{{ is_state('sensor.bme280_humidity', 'unavailable') }}"
-      - "{{ is_state('sensor.bme280_pressure', 'unavailable') }}"
+      - "{{ states('sensor.bme280_temperature') in ['unknown','unavailable'] }}"
+      - "{{ states('sensor.bme280_humidity') in ['unknown','unavailable'] }}"
+      - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
   action:
     - alias: "Send data to OpenSenseMap"
       service: rest_command.post_opensensebox
