@@ -8,9 +8,9 @@
 - id: weerhuisje_update_air_quality_sensors
   alias: "Weerhuisje: Update Air Quality Sensors"
   mode: queued
-  trigger: # Trigger on every update of the temperature
-    - platform: state
-      entity_id: sensor.bme280_temperature
+  trigger:
+    - platform: time_pattern
+      minutes: "/1"
   condition:
     condition: not
     conditions:
@@ -20,13 +20,11 @@
       - "{{ states('sensor.bme280_humidity') in ['unknown','unavailable'] }}"
       - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
   action:
+    - alias: "Send TPH to Luftdaten / Sensor.Community API"
+      service: rest_command.send_luftdaten_tph
     - alias: "Send data to OpenSenseMap"
       service: rest_command.post_opensensebox
     - alias: "Send updates to Madavi.de for statistics."
       service: rest_command.send_madavi
-    - alias: "Send TPH to Luftdaten / Sensor.Community API"
-      service: rest_command.send_luftdaten_tph
-    - alias: "Wait 10 sec against timeouts"
-      delay: "00:00:10"
     - alias: "Send PM to Luftdaten / Sensor.Community API"
       service: rest_command.send_luftdaten_pm

@@ -157,6 +157,9 @@
     - platform: state
       entity_id: sensor.latest_version
   condition:
+    - alias: "Guard for statusses we can't use"
+      condition: template
+      value_template: "{{ states('sensor.latest_version') not in ['unknown','unavailable','none'] }}"
     - condition: template
       value_template: >
         {{ states('sensor.latest_version') != states('sensor.current_version') }}
@@ -208,6 +211,9 @@
     - platform: state
       entity_id: sensor.diesel
   condition:
+    - alias: "Guard for statusses we can't use"
+      condition: template
+      value_template: "{{ states('sensor.diesel') not in ['unknown','unavailable','none'] }}"
     - alias: "Check if price really changed"
       condition: template
       value_template: "{{ trigger.to_state.state != trigger.from_state.state }}"
