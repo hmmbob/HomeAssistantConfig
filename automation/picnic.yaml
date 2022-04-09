@@ -9,20 +9,15 @@
         {% if states('sensor.picnic_selected_slot_max_order_time') not in ['unknown','unavailable','none'] %}
           {{ 7200 > (as_timestamp(states('sensor.picnic_selected_slot_max_order_time')) - as_timestamp(now(), 0)) > 0}}
         {% endif %}
-      id: cart
+      variables:
+        message: De Picnic bestelling is nog niet verzonden! Na {{ as_timestamp(states("sensor.picnic_selected_slot_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
     - platform: template
       value_template: >-
         {% if states('sensor.picnic_last_order_max_order_time') not in ['unknown','unavailable','none'] %}
           {{ 7200 > (as_timestamp(states('sensor.picnic_last_order_max_order_time')) - as_timestamp(now(), 0)) > 0}}
         {% endif %}
-      id: order
-  variables:
-    message: >-
-      {% if trigger.id == "cart" %}
-        De Picnic bestelling is nog niet verzonden! Na {{ as_timestamp(states("sensor.picnic_selected_slot_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
-      {% else %}
-        Wil je nog iets toevoegen aan je volgende Picnic bestelling? Na {{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
-      {% endif %}
+      variables:
+        message: Wil je nog iets toevoegen aan je volgende Picnic bestelling? Na {{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
   action:
     - choose:
         - conditions:

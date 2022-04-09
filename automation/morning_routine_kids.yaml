@@ -65,10 +65,12 @@
   trigger:
     - platform: time
       at: input_datetime.time_tandenpoetsen
-      id: tandenpoetsen
+      variables:
+        message: "Het is tijd om je tanden te poetsen en deo op te doen!"
     - platform: time
       at: input_datetime.time_schooltijd_pre_warning
-      id: time_to_go
+      variables:
+        message: "Het is tijd om schoenen aan te doen en naar school te gaan! Heb je deo opgedaan?"
   condition:
     - condition: state
       entity_id: binary_sensor.schooldag
@@ -76,12 +78,7 @@
   action:
     - service: notify.tts_hele_huis
       data:
-        message: >-
-          {% if trigger.id == "tandenpoetsen" %}
-            "Het is tijd om je tanden te poetsen en deo op te doen!"
-          {% else %}
-            "Het is tijd om schoenen aan te doen en naar school te gaan! Heb je deo opgedaan?"
-          {% endif %}
+        message: "{{ message }}"
     - delay: "00:01:00"
     - service: media_player.turn_off
       entity_id:
