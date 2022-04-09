@@ -99,6 +99,7 @@ template: !include includes/template.yaml
 ## default_config items not included elsewhere
 #################################################################
 #default_config:
+backup:
 dhcp:
 diagnostics:
 input_button:
