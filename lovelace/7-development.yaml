@@ -57,12 +57,12 @@ cards:
     type: custom:auto-entities
     card:
       type: entities
-      title: All Mobile App sensors Moto G8
+      title: All Mobile App sensors A33
       show_header_toggle: false
       state_color: true
     filter:
       include:
-        - entity_id: "*moto_g_8*"
+        - entity_id: "*a336b*"
     sort:
       method: name
 

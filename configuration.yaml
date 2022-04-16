@@ -23,7 +23,7 @@ history:
   exclude:
     entity_globs:
       - binary_sensor.sm_a52*
-      - binary_sensor.moto_*
+      - binary_sensor.sm_a33_*
       - binary_sensor.schad*
       - binary_sensor.*_over_load_*
 
@@ -41,7 +41,7 @@ logbook:
     entity_globs:
       - binary_sensor.pir*
       - binary_sensor.sm_a52*
-      - binary_sensor.moto_*
+      - binary_sensor.sm_a33_*
       - binary_sensor.schad*
     domains:
       - input_boolean

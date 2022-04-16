@@ -51,7 +51,7 @@ cards:
                 no_animation: true
                 head: !secret person_mw
                 entities:
-                  - entity: sensor.moto_g_8_plus_geocoded_location
+                  - entity: sensor.sm_a336b_geocoded_location
                     name: !secret naam_mw
               - type: custom:fold-entity-row
                 no_animation: true

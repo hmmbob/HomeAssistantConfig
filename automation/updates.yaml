@@ -44,7 +44,7 @@
       entity_id: sensor.reistijd_bob_naar_huis
     - delay:
         seconds: 10
-    - service: notify.mobile_app_moto_g_8_plus
+    - service: notify.mobile_app_sm_a336b
       data:
         title: ♥ Bob is op weg naar huis!
         message: >
