@@ -43,7 +43,7 @@
       service: cast.show_lovelace_view
       data:
         entity_id: media_player.woonkamer
-        dashboard_path: lovelace-cast
+        dashboard_path: cast
         view_path: picnic-order-closing
     - delay:
         minutes: 30
@@ -88,7 +88,7 @@
       service: cast.show_lovelace_view
       data:
         entity_id: media_player.woonkamer
-        dashboard_path: lovelace-cast
+        dashboard_path: cast
         view_path: picnic-eta
     - delay:
         minutes: 30

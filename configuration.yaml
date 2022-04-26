@@ -56,11 +56,11 @@ logger:
 
 lovelace:
   mode: yaml
-  resources: !include lovelace/resources.yaml
+  resources: !include dashboards/resources.yaml
   dashboards:
     lovelace-cast:
       mode: yaml
-      filename: lovelace/cast/cast.yaml
+      filename: dashboards/cast/cast.yaml
       title: Cast views
       icon: mdi:cast
       show_in_sidebar: true

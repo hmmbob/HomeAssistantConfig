@@ -13,6 +13,8 @@
 custom_components/*
 !custom_components/rss_feed_template/
 !custom_components/rss_feed_template/*
+!dashboards/
+!dashboards/*
 !includes/
 !includes/*
 !lovelace/
