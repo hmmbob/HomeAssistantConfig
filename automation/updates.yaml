@@ -250,18 +250,23 @@
       at: "01:00:30"
   action:
     - service: homeassistant.update_entity
-      entity_id: sensor.ev_charger_id
+      entity_id:
+        - sensor.ev_charger_id_b1
+        - sensor.ev_charger_id_b5
 
 # Make sure we update these sensors as they rely on the ID
 - id: update_ev_sensors
   alias: "EV: update on ID change"
   trigger:
     - platform: state
-      entity_id: sensor.ev_charger_id
+      entity_id:
+        - sensor.ev_charger_id_b1
     - platform: homeassistant
       event: start
   action:
     - service: homeassistant.update_entity
       entity_id:
-        - sensor.ev_laadplek_1
-        - sensor.ev_laadplek_2
+        - sensor.ev_laadplek_b1_1
+        - sensor.ev_laadplek_b1_2
+        - sensor.ev_laadplek_b5_1
+        - sensor.ev_laadplek_b5_2

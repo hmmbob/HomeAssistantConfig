@@ -72,7 +72,7 @@ cards:
                 name: "Diesel"
 
           - type: custom:multiple-entity-row
-            entity: sensor.ev_charger_id
+            entity: sensor.ev_charger_id_b1
             icon: mdi:ev-station
             show_state: false
             name: Laadpaal beschikbaarheid
@@ -81,24 +81,24 @@ cards:
                 hui-generic-entity-row:
                   .: |
                     div.entity:nth-child(1) state-badge {
-                        {% if is_state('sensor.ev_laadplek_1', 'AVAILABLE') %}
+                        {% if is_state('sensor.ev_laadplek_b1_1', 'AVAILABLE') %}
                           color: green;
                         {% else %}
                           color: red;
                         {% endif %}
                     }
                     div.entity:nth-child(2) state-badge {
-                        {% if is_state('sensor.ev_laadplek_2', 'AVAILABLE') %}
+                        {% if is_state('sensor.ev_laadplek_b1_2', 'AVAILABLE') %}
                           color: green;
                         {% else %}
                           color: red;
                         {% endif %}
                     }
             entities:
-              - entity: sensor.ev_laadplek_1
+              - entity: sensor.ev_laadplek_b1_1
                 name: false
                 icon: mdi:ev-station
-              - entity: sensor.ev_laadplek_2
+              - entity: sensor.ev_laadplek_b1_2
                 name: false
                 icon: mdi:ev-station
 
