@@ -247,7 +247,7 @@
   alias: "EV: update ID"
   trigger:
     - platform: time
-      at: "01:00:30"
+      at: "02:00:30"
   action:
     - service: homeassistant.update_entity
       entity_id:
@@ -264,6 +264,8 @@
     - platform: homeassistant
       event: start
   action:
+    - alias: "Delay for 10 seconds to let both ID sensors settle"
+      delay: 10
     - service: homeassistant.update_entity
       entity_id:
         - sensor.ev_laadplek_b1_1

@@ -32,4 +32,9 @@
     - name: EV laadplek B5-1
       value_template: "{{ value_json.data.evses.0.status }}"
     - name: EV laadplek B5-2
-      value_template: "{{ value_json.data.evses.1.status }}"
+      value_template: >
+        {% if value_json.data.evses|length > 1  %}
+          {{ value_json.data.evses.1.status }}
+        {% else %}
+          unavailable
+        {% endif %}

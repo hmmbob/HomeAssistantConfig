@@ -94,11 +94,21 @@ cards:
                           color: red;
                         {% endif %}
                     }
+                    div.entity:nth-child(3) state-badge {
+                        {% if is_state('sensor.ev_laadplek_b1_2', 'AVAILABLE') %}
+                          color: green;
+                        {% else %}
+                          color: red;
+                        {% endif %}
+                    }
             entities:
               - entity: sensor.ev_laadplek_b1_1
                 name: false
                 icon: mdi:ev-station
               - entity: sensor.ev_laadplek_b1_2
+                name: false
+                icon: mdi:ev-station
+              - entity: sensor.ev_laadplek_b5_1
                 name: false
                 icon: mdi:ev-station
 
