@@ -145,7 +145,6 @@ tts:
     region: westeurope
     language: nl-nl
     type: ColetteNeural
-    base_url: !secret external_url
 
 weather:
   - platform: darksky
