@@ -31,26 +31,26 @@
               after: "08:00:00"
               before: "19:00:00"
           sequence:
-            # Cut up in two different actions to speed up playing downstairs
-            - alias: "Play doorbell sound downstairs"
-              service: media_player.play_media
-              data:
-                entity_id:
-                  - media_player.woonkamer
-                media_content_type: music
-                media_content_id: "{{ dingdong }}"
-            - alias: "Play doorbell sound upstairs"
-              service: media_player.play_media
-              data:
-                entity_id:
-                  - media_player.boven
-                media_content_type: music
-                media_content_id: "{{ dingdong }}"
-            - alias: "Kick off some notifications"
-              service: script.turn_on
-              entity_id:
-                - script.send_doorbell_notification
-                - script.show_doorbell_alert
+            - parallel: # Run in parallel to speed up playing downstairs
+                - alias: "Play doorbell sound downstairs"
+                  service: media_player.play_media
+                  data:
+                    entity_id:
+                      - media_player.woonkamer
+                    media_content_type: music
+                    media_content_id: "{{ dingdong }}"
+                - alias: "Play doorbell sound upstairs"
+                  service: media_player.play_media
+                  data:
+                    entity_id:
+                      - media_player.boven
+                    media_content_type: music
+                    media_content_id: "{{ dingdong }}"
+                - alias: "Kick off some notifications"
+                  service: script.turn_on
+                  entity_id:
+                    - script.send_doorbell_notification
+                    - script.show_doorbell_alert
             - alias: "Wait a bit for the music to finish..."
               delay: "00:00:15"
             - alias: "Turn off everything we used"
@@ -71,17 +71,18 @@
                   after: "19:00:00"
                   before: "23:00:00"
           sequence:
-            - alias: "Play doorbell sound downstairs only"
-              service: media_player.play_media
-              data:
-                entity_id: media_player.woonkamer
-                media_content_type: music
-                media_content_id: "{{ dingdong }}"
-            - alias: "Kick off some notifications"
-              service: script.turn_on
-              entity_id:
-                - script.send_doorbell_notification
-                - script.show_doorbell_alert
+            - parallel:
+                - alias: "Play doorbell sound downstairs only"
+                  service: media_player.play_media
+                  data:
+                    entity_id: media_player.woonkamer
+                    media_content_type: music
+                    media_content_id: "{{ dingdong }}"
+                - alias: "Kick off some notifications"
+                  service: script.turn_on
+                  entity_id:
+                    - script.send_doorbell_notification
+                    - script.show_doorbell_alert
             - alias: "Wait a bit for the music to finish..."
               delay: "00:00:15"
             - alias: "Turn off everything we used"
