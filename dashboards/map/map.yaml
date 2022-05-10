@@ -1,0 +1,17 @@
+title: Map
+views:
+  - title: Map
+    type: panel
+    badges: []
+    cards:
+      - type: map
+        entities:
+          - entity: person.bob
+          - entity: !secret person_mw
+          - entity: !secret person_puber
+          - entity: zone.home
+          - entity: zone.work
+          - entity: zone.school
+          - entity: zone.scouting
+          - entity: !secret zone_work_mw
+        default_zoom: 17

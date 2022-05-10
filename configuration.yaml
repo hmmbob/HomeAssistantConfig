@@ -65,6 +65,13 @@ lovelace:
       icon: mdi:cast
       show_in_sidebar: true
       require_admin: true
+    lovelace-map:
+      mode: yaml
+      filename: dashboards/map/map.yaml
+      title: Map
+      icon: mdi:map
+      show_in_sidebar: true
+      require_admin: false
 
 recorder:
   db_url: !secret recorder_url
@@ -103,7 +110,7 @@ backup:
 dhcp:
 diagnostics:
 input_button:
-map:
+# map:
 media_source:
 mobile_app:
 my:

@@ -96,7 +96,7 @@
           actions:
             - action: "URI"
               title: "Check huidige locatie"
-              uri: "/map"
+              uri: "/lovelace-map/0"
           ttl: 0
           priority: high
           icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
