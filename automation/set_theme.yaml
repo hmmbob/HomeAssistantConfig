@@ -13,13 +13,12 @@
       entity_id: sun.sun
       to: below_horizon
   action:
-    - choose:
-        - conditions: "{{ is_state('sun.sun', 'below_horizon')}}"
-          sequence:
-            - service: frontend.set_theme
-              data:
-                name: "Hmmbob Google Dark Theme"
-      default:
+    - if: "{{ is_state('sun.sun', 'below_horizon')}}"
+      then:
+        - service: frontend.set_theme
+          data:
+            name: "Hmmbob Google Dark Theme"
+      else:
         - service: frontend.set_theme
           data:
             name: "Hmmbob Google Light Theme"

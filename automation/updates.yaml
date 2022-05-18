@@ -120,8 +120,7 @@
       entity_id: sensor.schaduwspeler_batterijniveau
       below: 10
   condition:
-    condition: not
-    conditions:
+    not:
       - condition: state
         entity_id: device_tracker.schaduwspeler
         state: home

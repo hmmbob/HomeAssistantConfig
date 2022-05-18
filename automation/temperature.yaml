@@ -14,18 +14,17 @@
       to: "none"
       from: "ac"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.toon_on_movement
-          state: "on"
-        - condition: time
-          after: "06:45:00"
-          before: "08:30:00"
-        - condition: numeric_state
-          entity_id: climate.woonkamer
-          attribute: current_temperature
-          below: 19.5
+    and:
+      - condition: state
+        entity_id: input_boolean.toon_on_movement
+        state: "on"
+      - condition: time
+        after: "06:45:00"
+        before: "08:30:00"
+      - condition: numeric_state
+        entity_id: climate.woonkamer
+        attribute: current_temperature
+        below: 19.5
   action:
     - alias: "Only use phone trigger when I'm home"
       choose:
@@ -55,14 +54,13 @@
     - platform: time
       at: input_datetime.time_schooltijd
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.toon_on_movement
-          state: "on"
-        - condition: state
-          entity_id: binary_sensor.schooldag
-          state: "on"
+    and:
+      - condition: state
+        entity_id: input_boolean.toon_on_movement
+        state: "on"
+      - condition: state
+        entity_id: binary_sensor.schooldag
+        state: "on"
   action:
     - service: climate.set_preset_mode
       data:

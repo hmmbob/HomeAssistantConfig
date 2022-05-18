@@ -62,8 +62,7 @@
         # want the doorbell to play in the living room
         - alias: "Is it between 7 and 8, or 19 and 23hrs?"
           conditions:
-            - condition: or
-              conditions:
+            - or:
                 - condition: time
                   after: "07:00:00"
                   before: "08:00:00"

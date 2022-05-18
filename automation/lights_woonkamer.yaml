@@ -8,27 +8,26 @@
     entity_id: binary_sensor.pir_woonkamer_motion
     to: "on"
   condition:
-    - condition: and
-      conditions:
-        - condition: time
-          after: "06:15:00"
-          before: "08:10:00"
-        - condition: state
-          entity_id: input_boolean.enable_pir_woonkamer
-          state: "on"
-        - condition: state
-          entity_id: group.lampen_woonkamer
-          state: "off"
-        - condition: state
-          entity_id: light.eetkamer_level
-          state: "off"
-        - condition: state
-          entity_id: input_boolean.woonkamer_on_movement
-          state: "off"
-        - condition: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 8
+    and:
+      - condition: time
+        after: "06:15:00"
+        before: "08:10:00"
+      - condition: state
+        entity_id: input_boolean.enable_pir_woonkamer
+        state: "on"
+      - condition: state
+        entity_id: group.lampen_woonkamer
+        state: "off"
+      - condition: state
+        entity_id: light.eetkamer_level
+        state: "off"
+      - condition: state
+        entity_id: input_boolean.woonkamer_on_movement
+        state: "off"
+      - condition: numeric_state
+        entity_id: sun.sun
+        attribute: elevation
+        below: 8
   action:
     - service: homeassistant.turn_on
       entity_id:
@@ -48,17 +47,16 @@
     - platform: time
       at: input_datetime.time_schooltijd
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.woonkamer_on_movement
-          state: "on"
-        - condition: state
-          entity_id: input_boolean.vacation_mode_home
-          state: "off"
-        - condition: state
-          entity_id: binary_sensor.schooldag
-          state: "on"
+    and:
+      - condition: state
+        entity_id: input_boolean.woonkamer_on_movement
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.vacation_mode_home
+        state: "off"
+      - condition: state
+        entity_id: binary_sensor.schooldag
+        state: "on"
   action:
     - service: homeassistant.turn_off
       entity_id:
@@ -90,14 +88,13 @@
     event: sunset
     offset: "-00:45:00"
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: group.all_adults
-          state: home
-        - condition: state
-          entity_id: group.lampen_woonkamer
-          state: "off"
+    and:
+      - condition: state
+        entity_id: group.all_adults
+        state: home
+      - condition: state
+        entity_id: group.lampen_woonkamer
+        state: "off"
   action:
     - service: homeassistant.turn_on
       entity_id:
