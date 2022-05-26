@@ -106,6 +106,7 @@ template: !include includes/template.yaml
 ## default_config items not included elsewhere
 #################################################################
 #default_config:
+application_credentials:
 backup:
 dhcp:
 diagnostics:
@@ -130,6 +131,18 @@ climate:
     host: !secret toon_host
     scan_interval: 15
 
+mqtt:
+  binary_sensor: # Sensor for monitoring the bridge state
+    - unique_id: zigbee2mqtt_bridge
+      name: Zigbee2mqtt Bridge
+      state_topic: "zigbee2mqtt/bridge/state"
+      payload_on: "online"
+      payload_off: "offline"
+      availability_topic: "zigbee2mqtt/bridge/state"
+      payload_available: "online"
+      payload_not_available: "offline"
+      device_class: connectivity
+
 sonoff:
   username: !secret sonoff_username
   password: !secret sonoff_password
@@ -141,10 +154,6 @@ spotcast:
     t:
       sp_dc: !secret spotcast_t_sp_dc
       sp_key: !secret spotcast_t_sp_key
-
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
 
 tts:
   - platform: microsoft

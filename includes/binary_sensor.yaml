@@ -23,18 +23,3 @@
   remove_holidays:
     - "Goede Vrijdag"
   add_holidays: !include ./holidays.yaml
-
-##########################
-## Zigbee2mqtt
-##########################
-# Sensor for monitoring the bridge state
-- platform: mqtt
-  unique_id: zigbee2mqtt_bridge
-  name: Zigbee2mqtt Bridge
-  state_topic: "zigbee2mqtt/bridge/state"
-  payload_on: "online"
-  payload_off: "offline"
-  availability_topic: "zigbee2mqtt/bridge/state"
-  payload_available: "online"
-  payload_not_available: "offline"
-  device_class: connectivity
