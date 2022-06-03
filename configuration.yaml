@@ -108,6 +108,7 @@ template: !include includes/template.yaml
 #default_config:
 application_credentials:
 backup:
+cloud:
 dhcp:
 diagnostics:
 input_button:
