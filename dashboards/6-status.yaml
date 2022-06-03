@@ -20,9 +20,8 @@ cards:
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
               }
-            ha-markdown:
-              $: |
-                h1 { 
+            ha-markdown$: |
+              h1 { 
                 font-size: 18px !important;
                 font-weight: 400 !important;
                 padding-left: 10px !important;
@@ -63,9 +62,8 @@ cards:
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
               }
-            ha-markdown:
-              $: |
-                h1 { 
+            ha-markdown$: |
+              h1 { 
                 font-size: 18px !important;
                 font-weight: 400 !important;
                 padding-left: 10px !important;
@@ -102,9 +100,8 @@ cards:
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
               }
-            ha-markdown:
-              $: |
-                h1 { 
+            ha-markdown$: |
+              h1 { 
                 font-size: 18px !important;
                 font-weight: 400 !important;
                 padding-left: 10px !important;
@@ -137,9 +134,8 @@ cards:
                 box-shadow: none;
                 --ha-card-background: rgba(0, 0, 0, 0.0)
               }
-            ha-markdown:
-              $: |
-                h1 { 
+            ha-markdown$: |
+              h1 { 
                 font-size: 18px !important;
                 font-weight: 400 !important;
                 padding-left: 10px !important;
