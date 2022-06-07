@@ -27,14 +27,7 @@
       value_template: "{{ value_json.features[0].properties.external_reference }}"
 
 - resource_template: https://www.oplaadpalen.nl/api/map/location/{{ states('sensor.ev_charger_id_b5') }}
-  scan_interval: 21600
+  scan_interval: 300
   sensor:
     - name: EV laadplek B5-1
       value_template: "{{ value_json.data.evses.0.status }}"
-    - name: EV laadplek B5-2
-      value_template: >
-        {% if value_json.data.evses|length > 1  %}
-          {{ value_json.data.evses.1.status }}
-        {% else %}
-          unavailable
-        {% endif %}

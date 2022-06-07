@@ -22,7 +22,6 @@ entities:
   - sensor.ev_laadplek_b1_1
   - sensor.ev_laadplek_b1_2
   - sensor.ev_laadplek_b5_1
-  - sensor.ev_laadplek_b5_2
   - sensor.kamertemperatuur
   - sensor.leeslampje_zolder_power
   - sensor.max_uv_index
