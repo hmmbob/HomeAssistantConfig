@@ -25,4 +25,4 @@
 - url: /hacsfiles/vacuum-card/vacuum-card.js
   type: module
 - url: /hacsfiles/text-element/text-element.js
-  type: js
+  type: module
