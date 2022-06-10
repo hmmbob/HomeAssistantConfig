@@ -22,11 +22,17 @@ time_morning_briefing:
 time_schooltijd:
   name: "Schooltijd: Toon & verlichting uit"
   has_time: true
-time_schooltijd_pre_warning:
-  name: "Schooltijd: Schoenen aan doen"
+time_schooltijd_pre_warning_mini:
+  name: "Schooltijd: Schoenen aan doen mini"
   has_time: true
-time_tandenpoetsen:
-  name: "Schooltijd: Tandenpoetsen"
+time_tandenpoetsen_mini:
+  name: "Schooltijd: Tandenpoetsen mini"
+  has_time: true
+time_schooltijd_pre_warning_puber:
+  name: "Schooltijd: Schoenen aan doen puber"
+  has_time: true
+time_tandenpoetsen_puber:
+  name: "Schooltijd: Tandenpoetsen puber"
   has_time: true
 time_trash_warning_today:
   name: Melding afval vandaag
