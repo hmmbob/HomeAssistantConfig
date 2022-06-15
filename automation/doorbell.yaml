@@ -7,10 +7,10 @@
   max_exceeded: silent
   variables:
     dingdong: >
-      {% if is_state("input_select.deurbel", "Star Wars") %} {{ states('input_text.deurbel_url_star_wars') }}
-      {% elif is_state("input_select.deurbel", "Sinterklaas") %} {{ states('input_text.deurbel_url_sinterklaas') }}
-      {% elif is_state("input_select.deurbel", "Jingle Bells") %} {{ states('input_text.deurbel_url_jingle_bells') }}
-      {% elif is_state("input_select.deurbel", "Savage Love") %} {{ states('input_text.deurbel_url_savage_love') }}
+      {% if is_state("input_select.deurbel", "Star Wars") %}/local/sounds/star_wars.mp3
+      {% elif is_state("input_select.deurbel", "Sinterklaas") %}/local/sounds/hoorwiekloptdaarkindren_kort.mp3
+      {% elif is_state("input_select.deurbel", "Jingle Bells") %}/local/sounds/jingle_bells.mp3
+      {% elif is_state("input_select.deurbel", "Savage Love") %}/local/sounds/Savage_Love.mp3
       {% endif %}
   trigger:
     - platform: state
