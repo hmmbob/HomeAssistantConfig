@@ -66,27 +66,35 @@
     - platform: time
       at: input_datetime.time_tandenpoetsen_mini
       variables:
-        message: "{{states('input_text.naam_mini')}}, het is tijd om je tanden te poetsen."
+        child: "{{ states('input_text.naam_mini') }}"
+        message: "Het is tijd om je tanden te poetsen."
+        service: "tts_hele_huis"
     - platform: time
       at: input_datetime.time_tandenpoetsen_puber
       variables:
-        message: "{{states('input_text.naam_puber')}}, het is tijd om je tanden te poetsen en deo op te doen!"
+        child: "{{ states('input_text.naam_puber') }}"
+        message: "Het is tijd om je tanden te poetsen."
+        service: "tts_woonkamer"
     - platform: time
       at: input_datetime.time_schooltijd_pre_warning_mini
       variables:
-        message: "{{states('input_text.naam_mini')}}, het is tijd om schoenen aan te doen en naar school te gaan!"
+        child: "{{ states('input_text.naam_mini') }}"
+        message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
+        service: "tts_hele_huis"
     - platform: time
       at: input_datetime.time_schooltijd_pre_warning_puber
       variables:
-        message: "{{states('input_text.naam_puber')}}, het is tijd om schoenen aan te doen en naar school te gaan! Heb je deo opgedaan?"
+        child: "{{ states('input_text.naam_puber') }}"
+        message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
+        service: "tts_woonkamer"
   condition:
     - condition: state
       entity_id: binary_sensor.schooldag
       state: "on"
   action:
-    - service: notify.tts_hele_huis
+    - service: notify.{{ service }}
       data:
-        message: "{{ message }}"
+        message: "{{ child }} {{ message }}"
     - delay: "00:01:00"
     - service: media_player.turn_off
       entity_id:
