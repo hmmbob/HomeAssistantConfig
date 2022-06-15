@@ -16,13 +16,12 @@
       id: "automation_reload"
   action:
     - alias: "Check if this is triggered by HA restart"
-      choose:
-        - conditions:
-            condition: trigger
-            id: "ha_start"
-          sequence:
-            - delay:
-                minutes: 1
+      if:
+        condition: trigger
+        id: "ha_start"
+      then:
+        - delay:
+            minutes: 1
     - alias: "Checking what time it is..."
       choose:
         - alias: "It's between 7hrs and 08:30"

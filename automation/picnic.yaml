@@ -19,26 +19,25 @@
       variables:
         message: Wil je nog iets toevoegen aan je volgende Picnic bestelling? Na {{ as_timestamp(states("sensor.picnic_last_order_max_order_time")) | timestamp_custom("%H:%M") }} kan het niet meer.
   action:
-    - choose:
-        - conditions:
-            - alias: "Check if push message should be sent"
-              condition: state
-              entity_id: input_boolean.notify_picnic_push
-              state: "on"
-          sequence:
-            - service: notify.mobile_devices_adults
-              data:
-                title: Picnic bestelling sluit!
-                message: "{{ message }}"
-                data:
-                  clickAction: "app://com.picnic.android"
-                  icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
-                  notification_icon: mdi:cart
-                  tag: "picnic_alert"
-                  timeout: 1800
-                  color: "#eb4034"
-                  ttl: 0
-                  priority: high
+    - if:
+        - alias: "Check if push message should be sent"
+          condition: state
+          entity_id: input_boolean.notify_picnic_push
+          state: "on"
+      then:
+        - service: notify.mobile_devices_adults
+          data:
+            title: Picnic bestelling sluit!
+            message: "{{ message }}"
+            data:
+              clickAction: "app://com.picnic.android"
+              icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
+              notification_icon: mdi:cart
+              tag: "picnic_alert"
+              timeout: 1800
+              color: "#eb4034"
+              ttl: 0
+              priority: high
     - alias: "Start casting"
       service: cast.show_lovelace_view
       data:
@@ -63,27 +62,26 @@
           {{ 901 > (as_timestamp(states('sensor.picnic_next_delivery_eta_start'), 0) - as_timestamp(now(), 0)) > 840}}
         {% endif %}
   action:
-    - choose:
-        - conditions:
-            - alias: "Check if push message should be sent"
-              condition: state
-              entity_id: input_boolean.notify_picnic_push
-              state: "on"
-          sequence:
-            - service: notify.mobile_devices_adults
-              data:
-                title: Picnic komt eraan!
-                message: >
-                  Picnic bezorgt tussen {{ states('sensor.picnic_next_delivery_eta_start_time') }} en {{ states('sensor.picnic_next_delivery_eta_end_time') }}!
-                data:
-                  clickAction: "app://com.picnic.android"
-                  icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
-                  notification_icon: mdi:cart
-                  tag: "picnic_alert"
-                  timeout: 1800
-                  color: "#eb4034"
-                  ttl: 0
-                  priority: high
+    - if:
+        - alias: "Check if push message should be sent"
+          condition: state
+          entity_id: input_boolean.notify_picnic_push
+          state: "on"
+      then:
+        - service: notify.mobile_devices_adults
+          data:
+            title: Picnic komt eraan!
+            message: >
+              Picnic bezorgt tussen {{ states('sensor.picnic_next_delivery_eta_start_time') }} en {{ states('sensor.picnic_next_delivery_eta_end_time') }}!
+            data:
+              clickAction: "app://com.picnic.android"
+              icon_url: "https://picnic.app/nl/wp-content/uploads/sites/18/2020/11/logo.png"
+              notification_icon: mdi:cart
+              tag: "picnic_alert"
+              timeout: 1800
+              color: "#eb4034"
+              ttl: 0
+              priority: high
     - alias: "Start casting"
       service: cast.show_lovelace_view
       data:

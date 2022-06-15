@@ -24,18 +24,13 @@
       entity_id: input_boolean.enable_cover
       state: "on"
   action:
-    - alias: "Check for schoolday"
-      choose:
-        - conditions:
-            - condition: state
-              entity_id: binary_sensor.schooldag
-              state: "off"
+    - if:
+        - alias: "Check for schoolday"
+          condition: state
+          entity_id: binary_sensor.schooldag
+          state: "off"
           # It is a day off, so let's delay opening for 1hr
-          sequence:
-            - delay: "01:00:00"
-            - service: cover.open_cover
-              entity_id: cover.zolder
-      default:
-        # It is a schoolday, open at set time
-        - service: cover.open_cover
-          entity_id: cover.zolder
+      then:
+        - delay: "01:00:00"
+    - service: cover.open_cover
+      entity_id: cover.zolder
