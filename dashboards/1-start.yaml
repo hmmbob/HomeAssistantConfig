@@ -129,7 +129,7 @@ cards:
                   name: "Max UV Index overmorgen"
 
       - type: custom:state-switch ## Trash
-        entity: sensor.afvalinfo_today
+        entity: sensor.afvalinfo_vandaag
         states:
           restafval:
             type: vertical-stack

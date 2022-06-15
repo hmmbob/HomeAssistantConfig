@@ -6,12 +6,12 @@
   trigger:
     - platform: time
       at: input_datetime.time_trash_warning_today
-      id: Vandaag_today
+      id: vandaag
     - platform: time
       at: input_datetime.time_trash_warning_tomorrow
-      id: Morgen_tomorrow
+      id: morgen
   variables:
-    sensor: "sensor.afvalinfo_{{ trigger.id.split('_')[1] }}"
+    sensor: "sensor.afvalinfo_{{ trigger.id }}"
     trash_descr:
       pbd: "plastic"
       gft: "GFT"
@@ -34,7 +34,7 @@
       service: notify.mobile_app_sm_a526b
       data:
         title: "Afvalinzameling"
-        message: "{{ trigger.id.split('_')[0] }} wordt het {{ afval }} opgehaald."
+        message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
         data:
           tag: "notification-trash"
           icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
@@ -47,7 +47,7 @@
       service: tts.microsoft_say
       entity_id: media_player.woonkamer
       data:
-        message: "{{ trigger.id.split('_')[0] }} wordt het {{ afval }} opgehaald."
+        message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
     - delay: "00:00:15"
     - alias: "Streaming image to Nest Hub"
       service: media_player.play_media
