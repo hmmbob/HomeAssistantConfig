@@ -50,9 +50,23 @@ logbook:
 logger:
   default: warn
   logs:
-    pychromecast.socket_client: critical # Mute cast reconnection warnings/errors
     homeassistant.components.analytics: info # I'd like to see what is sent
-    homeassistant.components.webhook: error # Temp mute "received message unregistered webhook"
+  filters:
+    custom_components.toon_climate.climate:
+      # Occasionaly Toon doesn't reply
+      - "Timeout error occurred while polling"
+      - "Cannot poll Woonkamer"
+    homeassistant.components.rest_command:
+      # The other server isn't too stable
+      - "Connection reset by peer"
+      - "Server disconnected"
+      - "Timeout call"
+    pychromecast.socket_client:
+      # Mute cast reconnection warnings/errors
+      - "Failed to connect to service ServiceInfo"
+      - "Heartbeat timeout, resetting connection"
+      - "Error communicating with socket, resetting connection"
+      - "Error reading from socket"
 
 lovelace:
   mode: yaml
