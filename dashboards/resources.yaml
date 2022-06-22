@@ -10,7 +10,7 @@
   type: module
 - url: /hacsfiles/lovelace-state-switch/state-switch.js
   type: module
-- url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js
+- url: /hacsfiles/hass-swipe-navigation/swipe-navigation.js
   type: module
 - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
   type: module
