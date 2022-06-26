@@ -82,6 +82,7 @@ cards:
             head: binary_sensor.statussen
             entities:
               - binary_sensor.deurbel_status
+              - binary_sensor.hp_printer_connectivity
               - binary_sensor.kast_status
               - binary_sensor.overkapping_status
               - binary_sensor.staande_lamp_status
