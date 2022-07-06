@@ -10,47 +10,60 @@
 ## Names
 ##################################
 naam_puber:
+  name: Naam puber
   initial: !secret naam_puber
 
 naam_mini:
+  name: Naam mini
   initial: !secret naam_mini
 
 ##################################
 ## OpenSensebox SensorIDs
 ##################################
 opensensebox_sensorid_temp:
+  name: Opensensebox temperature ID
   initial: !secret opensensebox_sensorid_temp
 
 opensensebox_sensorid_press:
+  name: Opensensebox pressure ID
   initial: !secret opensensebox_sensorid_press
 
 opensensebox_sensorid_hum:
+  name: Opensensebox humidity ID
   initial: !secret opensensebox_sensorid_hum
 
 opensensebox_sensorid_pm25:
+  name: Opensensebox PM2.5 ID
   initial: !secret opensensebox_sensorid_pm25
 
 opensensebox_sensorid_pm10:
+  name: Opensensebox PM10 ID
   initial: !secret opensensebox_sensorid_pm10
 
 ##################################
 ## Trash urls
 ##################################
 trash_url_gft:
+  name: Trash URL GFT
   initial: !secret image_url_gft
 
 trash_url_papier:
+  name: Trash URL papier
   initial: !secret image_url_oudpapier
 
 trash_url_pbd:
+  name: Trash URL plastic
   initial: !secret image_url_plastic
 
 trash_url_pbdpapier:
+  name: Trash URL plastic en papier
   initial: !secret image_url_plasticpapier
 trash_url_papierpbd:
+  name: Trash URL papier en plastic
   initial: !secret image_url_plasticpapier
 
 trash_url_restafval:
+  name: Trash URL restafval
   initial: !secret image_url_restafval
 
 ##################################
