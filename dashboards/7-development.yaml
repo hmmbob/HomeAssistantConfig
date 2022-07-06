@@ -12,195 +12,195 @@ icon: mdi:magnify
 visible:
   - user: 510b1afef60640d7a220711c50b2192a # BL
 cards:
-  - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: Things that might be broken
-      show_header_toggle: false
-    filter:
-      include:
-        - state: unknown
-      exclude:
-        - domain: button
-        - domain: group
-        - domain: scene
-    sort:
-      method: name
-
-  - id: e0571d1974a74789853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: Input Date_Time
-      show_header_toggle: false
-    filter:
-      include:
-        - entity_id: input_datetime.*
-    sort:
-      method: name
-
-  - id: 13241d19712345bb853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: All Mobile App sensors A52
-      show_header_toggle: false
-      state_color: true
-    filter:
-      include:
-        - entity_id: "*sm_a526b*"
-    sort:
-      method: name
-
-  - id: 23241d19712345bb853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: All Mobile App sensors A33
-      show_header_toggle: false
-      state_color: true
-    filter:
-      include:
-        - entity_id: "*a336b*"
-    sort:
-      method: name
-
-  - id: 33241d19712345bb853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: All Mobile App sensors Schaduwspeler
-      show_header_toggle: false
-      state_color: true
-    filter:
-      include:
-        - entity_id: "*schaduwspeler*"
-    sort:
-      method: name
-
-  - id: c78f07f54176407b928ef6923a45f10a # Automatically created id
-    type: entities
-    title: PIR Sensoren
-    show_header_toggle: false
-    state_color: true
-    entities:
-      - input_boolean.disable_pir_sensor_automations
-      - type: divider
-      - binary_sensor.pir_woonkamer_motion
-      - sensor.pir_woonkamer_illuminance
-      - input_boolean.eetkamer_on_movement
-      - input_boolean.woonkamer_on_movement
-      - input_boolean.enable_pir_woonkamer
-      - type: divider
-      - binary_sensor.pir_gang_sensor
-      - sensor.pir_gang_illuminance
-      - sensor.pir_gang_temperature
-      - input_boolean.enable_pir_gang
-      - type: divider
-      - switch.gang
-      - light.gang_dimmer_level
-
-  - type: entities
-    id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
-    title: Voordeur
-    show_header_toggle: false
-    state_color: true
-    entities:
-      - entity: binary_sensor.door_sensor_2_contact
-        secondary_info: last-changed
-      - entity: binary_sensor.deurbel
-        secondary_info: last-changed
-        icon: mdi:bell-ring
-        name: Deurbel
-
-  - id: e0571d19712345bb853a1a8fb849cec0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: All Input Booleans
-      show_header_toggle: false
-      state_color: true
-    filter:
-      include:
-        - entity_id: input_boolean.*
-    sort:
-      method: name
-
-  - id: c915ccdf-3c20-402f-92fa-323541e56dd7 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: All weather entities
-      show_header_toggle: false
-      state_color: true
-    filter:
-      include:
-        - entity_id: weather.dark_sky
-        - entity_id: sensor.dark_sky_*
-    sort:
-      method: name
-
-  - id: bed7f2c9-56b2-47cf-8228-413c7cd7cae0 # Automatically created id
-    type: custom:auto-entities
-    card:
-      type: entities
-      title: Stofzuiger
-      show_header_toggle: false
-      card_mod:
-        style: |
-          ha-card {
-          margin: 0px 14px -5px 14px;
-          }
-    filter:
-      include:
-        - entity_id: vacuum.*
-        - entity_id: sensor.vacuum_*
-    sort:
-      method: name
-
-  - type: "custom:vertical-stack-in-card"
+  - type: vertical-stack
     cards:
-      - type: entities
+      - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
+        type: custom:auto-entities
+        card:
+          type: entities
+          title: Things that might be broken
+          show_header_toggle: false
+        filter:
+          include:
+            - state: unknown
+          exclude:
+            - domain: button
+            - domain: group
+            - domain: scene
+        sort:
+          method: name
+
+      - id: c78f07f54176407b928ef6923a45f10a # Automatically created id
+        type: entities
+        title: PIR Sensors
         show_header_toggle: false
-        title: HP Color Laser Jet Info
+        state_color: true
         entities:
-          - binary_sensor.hp_printer_connectivity
-
-      - type: "custom:bar-card"
-        align: bottom
-        columns: 4
-        direction: up
-        height: 150px
-        icon_position: inside
-        max: 100
-        min: 0
-        padding: 3px
-        positions:
-          name: outside
-          indicator: "off"
-        target: 20
+          - input_boolean.disable_pir_sensor_automations
+          - type: divider
+          - type: custom:fold-entity-row
+            head:
+              entity: binary_sensor.pir_woonkamer_motion
+            entities:
+              - sensor.pir_woonkamer_illuminance
+              - input_boolean.eetkamer_on_movement
+              - input_boolean.woonkamer_on_movement
+              - input_boolean.enable_pir_woonkamer
+          - type: divider
+          - type: custom:fold-entity-row
+            head:
+              entity: binary_sensor.pir_gang_sensor
+            entities:
+              - sensor.pir_gang_illuminance
+              - sensor.pir_gang_temperature
+              - input_boolean.enable_pir_gang
+      - type: entities
+        id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
+        title: Voordeur
+        show_header_toggle: false
+        state_color: true
         entities:
-          - color: MediumTurquoise
-            entity: sensor.hp_printer_toner_cyan
-            title: Cyan
-          - color: MediumOrchid
-            entity: sensor.hp_printer_toner_magenta
-            title: Magenta
-          - color: Gold
-            entity: sensor.hp_printer_toner_yellow
-            title: Yellow
-          - color: Black
-            entity: sensor.hp_printer_toner_black
-            title: Black
+          - entity: binary_sensor.door_sensor_2_contact
+            secondary_info: last-changed
+          - entity: binary_sensor.deurbel
+            secondary_info: last-changed
+            icon: mdi:bell-ring
+            name: Deurbel
 
-      - type: markdown
-        content: >
-          - <ha-icon icon="mdi:counter"></ha-icon> Print Counter: **{{ 
-          states('sensor.hp_printer_printer') }}** Pages
+  - type: vertical-stack
+    cards:
+      - id: 13241d19712345bb853a1a8fb849cec0 # Automatically created id
+        type: entities
+        title: All Mobile App sensors
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Mobile App A52
+            filter:
+              include:
+                - entity_id: "*sm_a526b*"
+            sort:
+              method: name
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Mobile App A33
+            filter:
+              include:
+                - entity_id: "*a336b*"
+            sort:
+              method: name
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Mobile App Schaduwspeler
+            filter:
+              include:
+                - entity_id: "*schaduwspeler*"
+            sort:
+              method: name
+      - id: e0571d19712345bb853a1a8fb849cec0 # Automatically created id
+        type: entities
+        title: All Input fields
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: All input booleans
+            filter:
+              include:
+                - entity_id: input_boolean.*
+            sort:
+              method: name
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: All input date_time
+            filter:
+              include:
+                - entity_id: input_datetime.*
+            sort:
+              method: name
 
-          - <ha-icon icon="mdi:cancel"></ha-icon> Print Aborts: **{{ 
-          states('sensor.hp_printer_printer.attributes.Cancelled') }}** Pages
+  - type: vertical-stack
+    cards:
+      - id: c915ccdf-3c20-402f-92fa-323541e56dd7 # Automatically created id
+        type: entities
+        title: All weather entities
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                entity: weather.dark_sky
+            filter:
+              include:
+                - entity_id: "sensor.dark_sky_*"
+            sort:
+              method: name
+      - id: bed7f2c9-56b2-47cf-8228-413c7cd7cae0 # Automatically created id
+        type: custom:auto-entities
+        card:
+          type: entities
+          title: Stofzuiger
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: vacuum.*
+            - entity_id: sensor.vacuum_*
+        sort:
+          method: name
+      - type: "custom:vertical-stack-in-card"
+        cards:
+          - type: entities
+            show_header_toggle: false
+            title: HP Color Laser Jet Info
+            entities:
+              - binary_sensor.hp_printer_connectivity
+          - type: "custom:bar-card"
+            align: bottom
+            columns: 4
+            direction: up
+            height: 150px
+            icon_position: inside
+            max: 100
+            min: 0
+            padding: 3px
+            positions:
+              name: outside
+              indicator: "off"
+            target: 20
+            entities:
+              - color: MediumTurquoise
+                entity: sensor.hp_printer_toner_cyan
+                title: Cyan
+              - color: MediumOrchid
+                entity: sensor.hp_printer_toner_magenta
+                title: Magenta
+              - color: Gold
+                entity: sensor.hp_printer_toner_yellow
+                title: Yellow
+              - color: Black
+                entity: sensor.hp_printer_toner_black
+                title: Black
+          - type: markdown
+            content: >
+              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter: **{{ 
+              states('sensor.hp_printer_printer') }}** Pages
 
-          - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
-          states('sensor.hp_printer_scanner') }}** Pages
+              - <ha-icon icon="mdi:cancel"></ha-icon> Print Aborts: **{{ 
+              states('sensor.hp_printer_printer.attributes.Cancelled') }}** Pages
+
+              - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
+              states('sensor.hp_printer_scanner') }}** Pages
