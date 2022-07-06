@@ -27,6 +27,7 @@ entities:
   - sensor.leeslampje_zolder_power
   - sensor.max_uv_index
   - sensor.memory_use_percent
+  - sensor.mini_cave_power
   - sensor.nightstate
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration

@@ -297,8 +297,8 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_zolder
-            name: Meldingen leeslampje
+            entity: input_boolean.power_use
+            name: Meldingen leeslampje, PS4, computer
             show_state: false
             styles:
               card:
