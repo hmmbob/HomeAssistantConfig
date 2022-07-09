@@ -111,6 +111,19 @@ cards:
                 name: false
                 icon: mdi:ev-station
 
+          - type: custom:multiple-entity-row
+            entity: sensor.wachttijd_a_gates
+            icon: mdi:airplane-clock
+            show_state: false
+            name: Wachttijden DUS
+            entities:
+              - entity: sensor.wachttijd_a_gates
+                name: A-pier
+              - entity: sensor.wachttijd_b_gates
+                name: B-pier
+              - entity: sensor.wachttijd_c_gates
+                name: C-pier
+
       - type: map
         card_mod:
           style: |
