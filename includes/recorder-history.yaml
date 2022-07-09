@@ -52,3 +52,4 @@ entities:
   - switch.staande_lamp
   - switch.tv_kastje
   - switch.window
+  - switch.zwembad
