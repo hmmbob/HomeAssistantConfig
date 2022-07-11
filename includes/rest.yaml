@@ -38,7 +38,7 @@
 - resource: https://www.dus.com/api/sitecore/flightapi/WaitingTimes?lang=de
   headers:
     X-Requested-With: XMLHttpRequest
-  scan_interval: 120
+  scan_interval: 300
   sensor:
     - name: "Wachttijd A-gates"
       icon: mdi:airplane-clock
