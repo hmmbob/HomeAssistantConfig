@@ -1,27 +1,4 @@
 ##########################
-## Gas prices sensors
-##
-## Just scraping the Tinq website pages for the needed information
-## URLs are to their site: https://www.tinq.nl/tankstations/utrecht-atoomweg (random example)
-## Using !secret as to somewhat keep some privacy for the exact locations I scrape.
-##########################
-- platform: scrape
-  resource: !secret scrape_url_u
-  name: "Diesel"
-  select: ".field--name-field-station-prices .taxonomy-term-Diesel .field--name-field-prices-price-pump"
-  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
-  unit_of_measurement: €
-  scan_interval: 3600
-
-- platform: scrape
-  resource: !secret scrape_url_u
-  name: "Benzine"
-  select: ".field--name-field-station-prices .taxonomy-term-Euro95 .field--name-field-prices-price-pump"
-  value_template: "{{ value | replace('€', '') | replace('EUR/L', '') | float | round(3) }}"
-  unit_of_measurement: €
-  scan_interval: 3600
-
-##########################
 ## History statistics
 ##########################
 - platform: history_stats

@@ -43,9 +43,9 @@ logbook:
       - binary_sensor.sm_a52*
       - binary_sensor.sm_a33_*
       - binary_sensor.schad*
+      - media_player.*
     domains:
       - input_boolean
-      - media_player
 
 logger:
   default: warn
@@ -107,6 +107,7 @@ input_boolean: !include includes/input_boolean.yaml
 input_datetime: !include includes/input_datetime.yaml
 input_select: !include includes/input_select.yaml
 input_text: !include includes/input_text.yaml
+multiscrape: !include includes/multiscrape.yaml
 notify: !include includes/notify.yaml
 rest: !include includes/rest.yaml
 rest_command: !include includes/rest_command.yaml
