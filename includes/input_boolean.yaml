@@ -9,6 +9,16 @@ notify_door_alert:
   icon: mdi:door-open
 
 #############################
+## Morning notifications    #
+#############################
+enable_morning_tts_mini:
+  name: "Herinnering voor mini"
+  icon: mdi:account-voice
+enable_morning_tts_puber:
+  name: "Herinnering voor puber"
+  icon: mdi:account-voice
+
+#############################
 ## Picnic                   #
 #############################
 notify_picnic_push:

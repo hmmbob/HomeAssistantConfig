@@ -69,28 +69,33 @@
         child: "{{ states('input_text.naam_mini') }}"
         message: "Het is tijd om je tanden te poetsen."
         service: "tts_hele_huis"
+        play: "{{ is_state('input_boolean.enable_morning_tts_mini', 'on')}}"
     - platform: time
       at: input_datetime.time_tandenpoetsen_puber
       variables:
         child: "{{ states('input_text.naam_puber') }}"
         message: "Het is tijd om je tanden te poetsen."
         service: "tts_woonkamer"
+        play: "{{ is_state('input_boolean.enable_morning_tts_puber', 'on')}}"
     - platform: time
       at: input_datetime.time_schooltijd_pre_warning_mini
       variables:
         child: "{{ states('input_text.naam_mini') }}"
         message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
         service: "tts_hele_huis"
+        play: "{{ is_state('input_boolean.enable_morning_tts_mini', 'on')}}"
     - platform: time
       at: input_datetime.time_schooltijd_pre_warning_puber
       variables:
         child: "{{ states('input_text.naam_puber') }}"
         message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
         service: "tts_woonkamer"
+        play: "{{ is_state('input_boolean.enable_morning_tts_puber', 'on')}}"
   condition:
     - condition: state
       entity_id: binary_sensor.schooldag
       state: "on"
+    - "{{ play }}"
   action:
     - service: notify.{{ service }}
       data:
