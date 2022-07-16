@@ -202,17 +202,9 @@
     - service: notify.mobile_app_sm_a526b
       data:
         title: >-
-          {% if trigger.to_state.state < trigger.from_state.state %}
-          Diesel wordt goedkoper
-          {% else %}
-          Diesel wordt duurder
-          {% endif %}
+          {{ iif(trigger.to_state.state < trigger.from_state.state, "Diesel wordt goedkoper", "Diesel wordt duurder") }}
         message: >-
-          {% if trigger.to_state.state < trigger.from_state.state %}
-          ⛽ De dieselprijs is gezakt. 
-          {% else %}
-          ⛽ De dieselprijs is gestegen. 
-          {% endif %}
+          {{ iif(trigger.to_state.state < trigger.from_state.state,  "⛽ De dieselprijs is gezakt.", "⛽ De dieselprijs is gestegen.") }}
           Nieuwe prijs: {{ trigger.to_state.state }}. 
           Oude prijs: {{ trigger.from_state.state }}.
         data:

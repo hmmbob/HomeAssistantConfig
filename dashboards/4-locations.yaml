@@ -80,25 +80,13 @@ cards:
                 hui-generic-entity-row:
                   .: |
                     div.entity:nth-child(1) state-badge {
-                        {% if is_state('sensor.ev_laadplek_b1_1', 'AVAILABLE') %}
-                          color: green;
-                        {% else %}
-                          color: red;
-                        {% endif %}
+                        {{ iif (is_state('sensor.ev_laadplek_b1_1', 'AVAILABLE'), "color: green;", "color: red;")}}
                     }
                     div.entity:nth-child(2) state-badge {
-                        {% if is_state('sensor.ev_laadplek_b1_2', 'AVAILABLE') %}
-                          color: green;
-                        {% else %}
-                          color: red;
-                        {% endif %}
+                        {{ iif (is_state('sensor.ev_laadplek_b1_2', 'AVAILABLE'), "color: green;", "color: red;")}}
                     }
                     div.entity:nth-child(3) state-badge {
-                        {% if is_state('sensor.ev_laadplek_b1_2', 'AVAILABLE') %}
-                          color: green;
-                        {% else %}
-                          color: red;
-                        {% endif %}
+                        {{ iif (is_state('sensor.ev_laadplek_b5_1', 'AVAILABLE'), "color: green;", "color: red;")}}
                     }
             entities:
               - entity: sensor.ev_laadplek_b1_1

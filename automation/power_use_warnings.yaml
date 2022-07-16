@@ -91,11 +91,7 @@
                 name: Pubercave zolder
                 entity_id: sensor.pubercave_power
                 message: >-
-                  {% if states('sensor.pubercave_power') | float > 25 %}
-                    is aan 
-                  {% else %}
-                    is uit
-                  {% endif %}
+                  {{ iif(states('sensor.pubercave_power') | float > 25, "is aan", "is uit" )}}
         - conditions:
             condition: trigger
             id: leeslampje
@@ -105,11 +101,7 @@
                 name: Leeslampje zolder
                 entity_id: sensor.leeslampje_zolder_power
                 message: >-
-                  {% if states('sensor.leeslampje_zolder_power') | float > 3 %}
-                    is aan
-                  {% else %}
-                    is uit
-                  {% endif %}
+
         - conditions:
             condition: trigger
             id: minicave
@@ -119,8 +111,4 @@
                 name: Minicave
                 entity_id: sensor.mini_cave_power
                 message: >-
-                  {% if states('sensor.mini_cave_power') | float > 22 %}
-                    is aan 
-                  {% else %}
-                    is uit
-                  {% endif %}
+                  {{ iif(states('sensor.mini_cave_power') | float > 22, "is aan", "is uit")}}

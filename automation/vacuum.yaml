@@ -399,10 +399,6 @@
     - platform: homeassistant
       event: start
   action:
-    - service:
-        "{% if states('vacuum.rocky') in ['unavailable', 'unknown', 'docked'] %}
-        camera.turn_off
-        {% else %}
-        camera.turn_on
-        {% endif %}"
+    - service: >-
+        {{ iif(states('vacuum.rocky') in ['unavailable', 'unknown', 'docked'], "camera.turn_off", "camera.turn_on") }}
       entity_id: camera.stofzuiger

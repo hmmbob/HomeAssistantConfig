@@ -25,7 +25,7 @@
 ##############################
 - sensor:
     - name: "Nightstate"
-      state: "{% if is_state('sun.sun', 'below_horizon') %}1{% else %}0{% endif %}"
+      state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
 
 ##############################
 ## Picnic time sensors       #
@@ -34,37 +34,31 @@
     - name: "Picnic next delivery ETA start time"
       unique_id: picnic_next_delivery_eta_start_time
       state: >-
-        {% if is_state("sensor.picnic_next_delivery_eta_start", "unknown") %} 
-          unknown 
-        {% else %}
-          {{ as_timestamp(states("sensor.picnic_next_delivery_eta_start"), 0) | timestamp_custom("%H:%M", "00:00") }}
-        {% endif %}
+        {{ iif(is_state("sensor.picnic_next_delivery_eta_start", "unknown"), "unknown", 
+                as_timestamp(states("sensor.picnic_next_delivery_eta_start"), 0) | timestamp_custom("%H:%M", "00:00")) }}
 
     - name: "Picnic next delivery ETA end time"
       unique_id: picnic_next_delivery_eta_end_time
       state: >-
-        {% if is_state("sensor.picnic_next_delivery_eta_end", "unknown") %} 
-          unknown 
-        {% else %}
-          {{ as_timestamp(states("sensor.picnic_next_delivery_eta_end"), 0) | timestamp_custom("%H:%M", "00:00") }}
-        {% endif %}
+        {{ iif(is_state("sensor.picnic_next_delivery_eta_end", "unknown"), "unknown", 
+                as_timestamp(states("sensor.picnic_next_delivery_eta_end"), 0) | timestamp_custom("%H:%M", "00:00")) }}
 
     - name: "Picnic last order max order time only"
       unique_id: picnic_last_order_max_order_time_only
       state: >-
-        {% if is_state("sensor.picnic_last_order_max_order_time", "unknown") %} 
-          unknown 
-        {% else %}
-          {{ as_timestamp(states("sensor.picnic_last_order_max_order_time"), 0) | timestamp_custom("%H:%M", "00:00") }}
-        {% endif %}
+        {{ iif(is_state("sensor.picnic_last_order_max_order_time", "unknown"), "unknown", 
+                as_timestamp(states("sensor.picnic_last_order_max_order_time"), 0) | timestamp_custom("%H:%M", "00:00")) }}
 
 #####################################
-## Pubercave power helper for stats #
+## Power level helpers for stats    #
 #####################################
 - binary_sensor:
     - name: "Is pubercave on"
       unique_id: is_pubercave_on
       state: "{{ states('sensor.pubercave_power') | int(default=0) > 80 }}"
+    - name: "Is minicave on"
+      unique_id: is_minicave_on
+      state: "{{ states('sensor.mini_cave_power') | int(default=0) > 22 }}"
 
 ##############################
 ## Room temperature          #
@@ -96,11 +90,7 @@
       unique_id: "vacuum_error"
       icon: mdi:alert-circle
       state: >-
-        {% if states("vacuum.rocky") == "error" %}
-          {{ state_attr("vacuum.rocky", "error") }}
-        {% else %}
-          No error
-        {% endif %}
+        {{ iif(is_state('vacuum.rocky', 'error'), state_attr("vacuum.rocky", "error"), "No error") }}
 
     - name: "Vacuum battery"
       unique_id: "vacuum_battery"
