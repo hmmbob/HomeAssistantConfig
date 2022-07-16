@@ -8,6 +8,13 @@
   type: time
   start: "{{ now().replace(hour=0, minute=0, second=0) }}"
   end: "{{ now() }}"
+- platform: history_stats
+  name: Minicave ON today
+  entity_id: binary_sensor.is_minicave_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
 
 ##########################
 ## Smartmeter sensors
