@@ -93,6 +93,6 @@ enable_cover:
 enable_game_mode:
   name: Game mode
   icon: mdi:sony-playstation
-power_use:
+notify_power_use:
   name: Waarschuwing leeslamp, minicave & pubercave
   icon: mdi:lightbulb-on-outline
