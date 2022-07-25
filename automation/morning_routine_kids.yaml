@@ -22,6 +22,7 @@
             id: breakfast
           sequence:
             - service: notify.tv_woonkamer
+              continue_on_error: true
               data:
                 title: "Eten tijdens TV-tijd"
                 message: "Denk eraan dat jullie tijdens de TV-tijd ontbijten?"
@@ -33,6 +34,7 @@
                   color: "amber"
             - delay: "00:25:00"
             - service: notify.tv_woonkamer
+              continue_on_error: true
               data:
                 title: "Eten tijdens TV-tijd"
                 message: "Denk aan je ontbijt, je moet klaar zijn voor {{ states('input_datetime.time_tv_time_over') }}"
@@ -47,6 +49,7 @@
             id: tv_time_over
           sequence:
             - service: notify.tv_woonkamer
+              continue_on_error: true
               data:
                 title: "TV tijd is voorbij!"
                 message: "Zetten jullie de TV uit en gaan jullie aankleden, tanden poetsen en deo opdoen?"

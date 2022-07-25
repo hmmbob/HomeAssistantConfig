@@ -6,6 +6,7 @@ show_doorbell_alert:
   max_exceeded: silent
   sequence:
     - service: notify.tv_woonkamer
+      continue_on_error: true
       data:
         title: Deurbel!
         message: Er staat iemand aan de deur
@@ -16,6 +17,7 @@ show_doorbell_alert:
           transparency: 50%
           color: grey
     - service: notify.tv_slaapkamer
+      continue_on_error: true
       data:
         title: Deurbel!
         message: Er staat iemand aan de deur
