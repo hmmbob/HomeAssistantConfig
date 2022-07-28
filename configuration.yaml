@@ -52,10 +52,15 @@ logger:
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
   filters:
+    aioesphomeapi.reconnect_logic:
+      # This device has weak wifi connection, just mute the reconnect logs
+      - "weerhuisje"
     custom_components.toon_climate.climate:
       # Occasionaly Toon doesn't reply
       - "Timeout error occurred while polling"
       - "Cannot poll Woonkamer"
+    homeassistant.components.esphome:
+      - "Timeout waiting for response"
     homeassistant.components.rest_command:
       # The other server isn't too stable
       - "Connection reset by peer"
