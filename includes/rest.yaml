@@ -31,6 +31,8 @@
   sensor:
     - name: EV laadplek B5-1
       value_template: "{{ value_json.data.evses.0.status }}"
+    - name: EV laadplek B5-2
+      value_template: "{{ value_json.data.evses.1.status }}"
 
 ##########################
 ## DUS Waiting times

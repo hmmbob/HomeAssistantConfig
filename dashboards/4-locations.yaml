@@ -88,6 +88,9 @@ cards:
                     div.entity:nth-child(3) state-badge {
                         {{ iif (is_state('sensor.ev_laadplek_b5_1', 'AVAILABLE'), "color: green;", "color: red;")}}
                     }
+                    div.entity:nth-child(4) state-badge {
+                        {{ iif (is_state('sensor.ev_laadplek_b5_2', 'AVAILABLE'), "color: green;", "color: red;")}}
+                    }
             entities:
               - entity: sensor.ev_laadplek_b1_1
                 name: false
@@ -96,6 +99,9 @@ cards:
                 name: false
                 icon: mdi:ev-station
               - entity: sensor.ev_laadplek_b5_1
+                name: false
+                icon: mdi:ev-station
+              - entity: sensor.ev_laadplek_b5_2
                 name: false
                 icon: mdi:ev-station
 
