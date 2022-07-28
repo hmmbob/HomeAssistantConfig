@@ -55,7 +55,6 @@ notify_trash:
   icon: mdi:message-bulleted
 notify_trash_voice:
   name: "Voice-meldingen over afval"
-  icon: mdi:google-home
 
 #############################
 ## UV Warnings              #
@@ -65,7 +64,6 @@ notify_uv:
   icon: mdi:white-balance-sunny
 notify_uv_voice:
   name: "Voice-meldingen over UV"
-  icon: mdi:google-home
 
 #############################
 ## Vacation mode            #
