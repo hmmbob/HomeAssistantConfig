@@ -5,7 +5,8 @@
 ## URL is to their site: https://www.tinq.nl/tankstations/utrecht-atoomweg (random example)
 ## Using !secret as to somewhat keep some privacy for the exact location I scrape.
 ##########################
-- resource: !secret scrape_url_tinq
+- name: gasprices
+  resource: !secret scrape_url_tinq
   scan_interval: 3600
   sensor:
     - unique_id: diesel

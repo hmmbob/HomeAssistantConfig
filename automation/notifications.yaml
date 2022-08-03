@@ -204,7 +204,7 @@
         title: >-
           {{ iif(trigger.to_state.state < trigger.from_state.state, "Diesel wordt goedkoper", "Diesel wordt duurder") }}
         message: >-
-          {{ iif(trigger.to_state.state < trigger.from_state.state,  "⛽ De dieselprijs is gezakt.", "⛽ De dieselprijs is gestegen.") }}
+          ⛽ De dieselprijs is {{ iif(trigger.to_state.state < trigger.from_state.state,  "gezakt.", "gestegen.") }}
           Nieuwe prijs: {{ trigger.to_state.state }}. 
           Oude prijs: {{ trigger.from_state.state }}.
         data:

@@ -34,10 +34,6 @@
               data:
                 entity_id: media_player.woonkamer
                 volume_level: 0.6
-            - service: media_player.volume_set
-              data:
-                entity_id: media_player.studeerkamer
-                volume_level: 0.4
         - alias: "It's between 08:30 and 19hrs"
           conditions:
             - condition: time
@@ -50,6 +46,10 @@
                   - media_player.slaapkamer
                   - media_player.zolder
                 volume_level: 0.6
+            - service: media_player.volume_set
+              data:
+                entity_id: media_player.studeerkamer
+                volume_level: 0.4
         - alias: "It's between 19hrs and 20:30"
           conditions:
             - condition: time

@@ -3,7 +3,7 @@
 ##########################
 - alias: "Vacuum: Ask to have Rocky do its cleaning"
   id: vacuum_ask_to_run
-  initial_state: "on"
+  initial_state: "off"
   variables:
     notification_service: >
       {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
@@ -12,8 +12,6 @@
       {% else %}notify.bogus
       {% endif %}
   trigger:
-    - platform: time
-      at: "09:00"
     - platform: time
       at: "19:00"
   condition:
