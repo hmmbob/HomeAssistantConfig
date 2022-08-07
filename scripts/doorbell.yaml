@@ -5,18 +5,9 @@ show_doorbell_alert:
   mode: single
   max_exceeded: silent
   sequence:
+    - condition:
+        - "{{ states('media_player.tv_woonkamer') not in ['off','unavailable'] }}"
     - service: notify.tv_woonkamer
-      continue_on_error: true
-      data:
-        title: Deurbel!
-        message: Er staat iemand aan de deur
-        data:
-          fontsize: large
-          position: top-right
-          duration: 10
-          transparency: 50%
-          color: grey
-    - service: notify.tv_slaapkamer
       continue_on_error: true
       data:
         title: Deurbel!
@@ -32,8 +23,7 @@ send_doorbell_notification:
   alias: Send doorbell notification
   description: "Send a notification when the doorbell rings"
   icon: mdi:doorbell
-  mode: single
-  max_exceeded: silent
+  mode: restart
   variables:
     notification_service: >
       {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
@@ -42,9 +32,6 @@ send_doorbell_notification:
       {% else %}notify.bogus
       {% endif %}
   sequence:
-    - condition: state
-      entity_id: device_tracker.sm_a526b
-      state: home
     - alias: Send doorbell notification
       service: "{{ notification_service }}"
       data:
@@ -56,6 +43,10 @@ send_doorbell_notification:
           channel: doorbell
           priority: high
           icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+          # Instead of taking a camera snapshot first, just use the existing entity picture
+          image: "{{state_attr('camera.voordeur', 'entity_picture')}}"
+          # OnClick, go to the live camera view
+          clickAction: "/lovelace/camera"
     - alias: Wait to see if front door opens
       wait_for_trigger:
         - platform: state

@@ -128,6 +128,7 @@ template: !include includes/template.yaml
 #default_config:
 application_credentials:
 backup:
+bluetooth:
 cloud:
 dhcp:
 diagnostics:
@@ -138,6 +139,7 @@ mobile_app:
 my:
 person:
 ssdp:
+stream:
 sun:
 system_health:
 webhook:
@@ -151,6 +153,8 @@ climate:
     name: Woonkamer
     host: !secret toon_host
     scan_interval: 15
+
+ffmpeg:
 
 mqtt:
   binary_sensor: # Sensor for monitoring the bridge state

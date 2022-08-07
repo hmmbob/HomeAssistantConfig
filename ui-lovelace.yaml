@@ -4,6 +4,7 @@ swipe_nav:
 title: Home sweet home
 views:
   - !include dashboards/1-start.yaml
+  - !include dashboards/9-camera.yaml
   - !include dashboards/2-vacuum.yaml
   - !include dashboards/3-temp.yaml
   - !include dashboards/4-locations.yaml
