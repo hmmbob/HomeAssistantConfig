@@ -331,6 +331,31 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: automation.zwembad_zet_pomp_aan
+            name: Zwembad
+            icon: mdi:pool
+            show_state: false
+            tap_action:
+              action: call-service
+              service: automation.toggle
+              service_data:
+                entity_id:
+                  - automation.zwembad_zet_pomp_aan
+                  - automation.zwembad_zet_pomp_uit
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
 
       - type: markdown ## TTS header
         content: |
