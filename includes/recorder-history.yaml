@@ -11,18 +11,9 @@ entities:
   - light.sonoff_l1
   - light.window_level
   - sensor.benzine
-  - sensor.bme280_humidity
-  - sensor.bme280_pressure
-  - sensor.bme280_temperature
   - sensor.current_uv_index
   - sensor.database_grootte
   - sensor.diesel
-  - sensor.ev_charger_id_b1
-  - sensor.ev_charger_id_b5
-  - sensor.ev_laadplek_b1_1
-  - sensor.ev_laadplek_b1_2
-  - sensor.ev_laadplek_b5_1
-  - sensor.ev_laadplek_b5_2
   - sensor.hp_printer_status
   - sensor.kamertemperatuur
   - sensor.leeslampje_zolder_power
@@ -41,9 +32,6 @@ entities:
   - sensor.slaapkamer_temperature
   - sensor.vacuum_error
   - sensor.vacuum_status
-  - sensor.wachttijd_a_gates
-  - sensor.wachttijd_b_gates
-  - sensor.wachttijd_c_gates
   - sensor.wasmachine_power
   - sensor.zolder_humidity
   - sensor.zolder_temperature
@@ -57,3 +45,7 @@ entities:
   - switch.tv_kastje
   - switch.window
   - switch.zwembad
+entity_globs:
+  - sensor.bme280_*
+  - sensor.ev_*
+  - sensor.tgtg_*

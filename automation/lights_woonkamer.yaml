@@ -90,6 +90,9 @@
   condition:
     and:
       - condition: state
+        entity_id: input_boolean.woonkamer_on_movement
+        state: "on"
+      - condition: state
         entity_id: group.all_adults
         state: home
       - condition: state

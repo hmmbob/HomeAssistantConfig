@@ -47,6 +47,7 @@ send_doorbell_notification:
           image: "{{state_attr('camera.voordeur', 'entity_picture')}}"
           # OnClick, go to the live camera view
           clickAction: "/lovelace/camera"
+          visibility: public
     - alias: Wait to see if front door opens
       wait_for_trigger:
         - platform: state

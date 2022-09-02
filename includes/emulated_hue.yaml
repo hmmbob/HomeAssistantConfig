@@ -1,41 +1,23 @@
 expose_by_default: false
-#exposed_domains:
-# - light
-# - switch
 entities:
-  switch.staande_lamp:
-    name: "Staande lamp"
-    hidden: false
   switch.grijze_lamp:
     name: "Grijze lamp"
     hidden: false
-  switch.aquarium:
-    name: "Aquarium"
+  switch.kast:
+    name: "Kast"
+    hidden: false
+  switch.staande_lamp:
+    name: "Staande lamp"
+    hidden: false
+  switch.tv_kastje:
+    name: "TV Kastje"
     hidden: false
   switch.window:
     name: "Vensterbank"
     hidden: false
+  switch.zoutlamp:
+    name: "Zoutlamp"
+    hidden: false
   light.eetkamer_level:
     name: "Eetkamer"
-    hidden: false
-  switch.eetkamer_switch:
-    hidden: true
-  switch.schuur_all:
-    hidden: true
-  switch.schuur_1:
-    hidden: true
-  switch.schuur_2:
-    hidden: true
-  light.window_level:
-    hidden: false
-  light.grijze_lamp_green_led:
-    hidden: true
-  input_boolean.notify_door_alert:
-    name: "z. Deur alarmen"
-    hidden: false
-  input_boolean.enable_cover:
-    name: "z. Rolluik automatisering"
-    hidden: false
-  input_boolean.notify_trash_voice:
-    name: "z. Meldingen Afval"
     hidden: false
