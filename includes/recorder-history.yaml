@@ -44,7 +44,6 @@ entities:
   - switch.staande_lamp
   - switch.tv_kastje
   - switch.window
-  - switch.zwembad
 entity_globs:
   - sensor.bme280_*
   - sensor.ev_*
