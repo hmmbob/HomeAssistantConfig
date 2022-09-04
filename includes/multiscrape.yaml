@@ -9,15 +9,6 @@
   resource: !secret scrape_url_tinq
   scan_interval: 3600
   sensor:
-    - unique_id: diesel
-      name: "Diesel"
-      select: ".taxonomy-term-Diesel .field--name-field-prices-price-pump"
-      attribute: "content"
-      unit_of_measurement: €
-      attributes:
-        - name: Adres
-          select: ".address"
-          value_template: "{{ value | striptags }}"
     - unique_id: benzine
       name: "Benzine"
       select: ".taxonomy-term-Euro95 .field--name-field-prices-price-pump"

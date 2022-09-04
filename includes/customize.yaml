@@ -1,9 +1,7 @@
 # Customizing template and rest sensors that cannot
 # be customized through the frontend
-sensor.diesel:
-  icon: mdi:gas-station
 sensor.benzine:
-  icon: mdi:gas-station-outline
+  icon: mdi:gas-station
 # Set home zone to 50m
 zone.home:
   radius: 50

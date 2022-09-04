@@ -59,16 +59,8 @@ cards:
                   - entity: sensor.schaduwspeler_gegeocodeerde_locatie
                     name: !secret naam_puber
 
-          - type: custom:multiple-entity-row
-            entity: sensor.diesel
-            show_state: false
-            state_color: true
-            name: Brandstofprijzen
-            entities:
-              - entity: sensor.benzine
-                name: "Benzine"
-              - entity: sensor.diesel
-                name: "Diesel"
+          - entity: sensor.benzine
+            name: "Benzineprijs"
 
           - type: custom:multiple-entity-row
             entity: sensor.ev_charger_id_b1

@@ -13,7 +13,6 @@ entities:
   - sensor.benzine
   - sensor.current_uv_index
   - sensor.database_grootte
-  - sensor.diesel
   - sensor.hp_printer_status
   - sensor.kamertemperatuur
   - sensor.leeslampje_zolder_power

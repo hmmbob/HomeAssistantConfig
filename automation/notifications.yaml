@@ -185,11 +185,11 @@
 ##########################
 ## Gasprice notifications
 ##########################
-- id: notification_diesel_price_changed
-  alias: "Notifications: Diesel price changed"
+- id: notification_benzine_price_changed
+  alias: "Notifications: Benzine price changed"
   trigger:
     - platform: state
-      entity_id: sensor.diesel
+      entity_id: sensor.benzine
       not_to:
         - "unknown"
         - "unavailable"
@@ -202,14 +202,14 @@
     - service: notify.mobile_app_sm_a526b
       data:
         title: >-
-          {{ iif(trigger.to_state.state < trigger.from_state.state, "Diesel wordt goedkoper", "Diesel wordt duurder") }}
+          {{ iif(trigger.to_state.state < trigger.from_state.state, "Benzine wordt goedkoper", "Benzine wordt duurder") }}
         message: >-
-          ⛽ De dieselprijs is {{ iif(trigger.to_state.state < trigger.from_state.state,  "gezakt.", "gestegen.") }}
+          ⛽ De benzineprijs is {{ iif(trigger.to_state.state < trigger.from_state.state,  "gezakt.", "gestegen.") }}
           Nieuwe prijs: {{ trigger.to_state.state }}. 
           Oude prijs: {{ trigger.from_state.state }}.
         data:
-          tag: diesel
-          channel: diesel
+          tag: benzine
+          channel: benzine
           notification_icon: mdi:gas-station
 
 ##########################
