@@ -1,44 +1,32 @@
 #############################
 ## Garden lights            #
 #############################
-- id: turn_on_garden
+- id: garden_turn_on
   alias: "Lights: Garden turn on"
   trigger:
     platform: sun
     event: sunset
-    offset: "-00:05:00"
   action:
-    - service: homeassistant.turn_on
-      entity_id: switch.schuur_1
+    - service: switch.turn_on
+      entity_id: switch.overkapping
 
-- id: turn_off_garden
+- id: garden_switch_lights
+  alias: "Lights: Garden switch between lights"
+  trigger:
+    - platform: time
+      at: "22:00:00"
+  action:
+    - servide: switch.turn_on
+      entity_id: switch.schuur_1
+    - service: switch.turn_off
+      entity_id: switch.overkapping
+
+- id: garden_turn_off
   alias: "Lights: Garden turn off"
   trigger:
     platform: sun
     event: sunrise
     offset: "-00:10:00"
   action:
-    - service: homeassistant.turn_off
+    - service: switch.turn_off
       entity_id: switch.schuur_1
-
-#############################
-## Porch lights             #
-#############################
-- id: turn_on_porch_lights
-  alias: "Lights: Porch lights turn on"
-  trigger:
-    - platform: sun
-      event: sunset
-  #      offset: "-01:00:00"
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.overkapping
-
-- id: turn_off_porch_lights
-  alias: "Lights: Porch lights turn off"
-  trigger:
-    - platform: time
-      at: "23:30:00"
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.overkapping

@@ -17,7 +17,7 @@
     - condition: numeric_state
       entity_id: sun.sun
       attribute: elevation
-      below: 8
+      below: 6
   action:
     - alias: "Gang lamp aan..."
       service: switch.turn_on
@@ -30,7 +30,7 @@
           from: "on"
           to: "off"
     - alias: "Extra delay nadat er geen beweging meer is..."
-      delay: "00:00:30"
+      delay: "00:00:10"
     - alias: "Lamp uit.."
       service: switch.turn_off
       target:

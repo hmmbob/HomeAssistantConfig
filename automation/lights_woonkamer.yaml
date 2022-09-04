@@ -31,7 +31,7 @@
   action:
     - service: homeassistant.turn_on
       entity_id:
-        - group.lampen_woonkamer
+        - switch.grijze_lamp
 
 ##########################
 ## Verlichting woonkamer uit op schooltijd
@@ -86,7 +86,7 @@
   trigger:
     platform: sun
     event: sunset
-    offset: "-00:45:00"
+    offset: "-00:15:00"
   condition:
     and:
       - condition: state
@@ -104,17 +104,6 @@
         - switch.grijze_lamp
         - switch.kast
         - switch.tv_kastje
-    - wait_for_trigger:
-        - platform: sun
-          event: sunset
-          offset: "-00:15:00"
-    - alias: "Check if we didn't turn the lights off manually"
-      condition: state
-      entity_id: switch.grijze_lamp
-      state: "on"
-    - service: homeassistant.turn_on
-      entity_id:
-        - group.lampen_woonkamer
 
 ##########################
 ## Disable movement automations
