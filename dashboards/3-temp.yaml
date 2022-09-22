@@ -232,22 +232,94 @@ cards:
             show:
               extrema: true
 
-      - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
-        type: custom:auto-entities
-        card:
-          type: entities
-          title: Weerhuisje
-          show_header_toggle: false
-          state_color: true
-          card_mod:
-            style: |
+      - type: markdown ## Energieverbruik header
+        content: |
+          # Energieverbruik
+        card_mod:
+          style:
+            .: |
               ha-card {
-                margin: 0px 14px -5px 14px;
-                --st-font-size-title: 18px;
+                margin: 12px 14px -5px 14px;
+                box-shadow: none;
+                --ha-card-background: rgba(0, 0, 0, 0.0)
               }
-        filter:
-          include:
-            - entity_id: sensor.particulate*
-            - entity_id: sensor.bme280*
-        sort:
-          method: name
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+      - type: entities
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            }
+        entities:
+          - entity: sensor.dsmr_reading_electricity_currently_delivered
+            name: "Huidig verbruik gecombineerd"
+            icon: mdi:power-plug
+          - type: divider
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_day_consumption_electricity_cost_merged
+            show_state: false
+            name: "Dagverbruik electra"
+            icon: "mdi:home-lightning-bolt"
+            entities:
+              - entity: sensor.dsmr_day_consumption_electricity_merged
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_day_consumption_electricity_cost_merged
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_day_consumption_gas
+            show_state: false
+            name: "Dagverbruik gas"
+            entities:
+              - entity: sensor.dsmr_day_consumption_gas
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_day_consumption_gas_cost
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_day_consumption_total_cost
+            show_state: false
+            name: "Energiekosten vandaag"
+            entities:
+              - entity: sensor.dsmr_day_consumption_fixed_cost
+                name: "Vaste kosten"
+              - entity: sensor.dsmr_day_consumption_total_cost
+                name: "Totaal vandaag"
+
+          - type: divider
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_current_month_electricity_cost_merged
+            show_state: false
+            name: "Maandverbruik electra"
+            icon: "mdi:home-lightning-bolt"
+            entities:
+              - entity: sensor.dsmr_current_month_electricity_merged
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_current_month_electricity_cost_merged
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_current_month_gas
+            show_state: false
+            name: "Maandverbruik gas"
+            entities:
+              - entity: sensor.dsmr_current_month_gas
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_current_month_gas_cost
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_current_month_total_cost
+            show_state: false
+            name: "Energiekosten deze maand"
+            entities:
+              - entity: sensor.dsmr_current_month_fixed_cost
+                name: "Vaste kosten"
+              - entity: sensor.dsmr_current_month_total_cost
+                name: "Totaal deze maand"

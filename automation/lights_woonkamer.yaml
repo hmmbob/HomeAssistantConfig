@@ -32,6 +32,7 @@
     - service: homeassistant.turn_on
       entity_id:
         - switch.grijze_lamp
+        - input_boolean.woonkamer_on_movement
 
 ##########################
 ## Verlichting woonkamer uit op schooltijd

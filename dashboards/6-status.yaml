@@ -123,16 +123,17 @@ cards:
           - entity: sensor.hacs
             name: "HACS Updates"
             state_color: true
-      - type: markdown ## Meterstanden header
+
+      - type: markdown ## Weerhuisje header
         content: |
-          # Meterstanden
+          # Weerhuisje
         card_mod:
           style:
             .: |
               ha-card {
-                margin: 12px 14px -5px 14px;
-                box-shadow: none;
-                --ha-card-background: rgba(0, 0, 0, 0.0)
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
               }
             ha-markdown$: |
               h1 { 
@@ -141,97 +142,22 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
-      - type: entities
-        card_mod:
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
-        entities:
-          - type: custom:fold-entity-row
-            head:
-              entity: sensor.dsmr_reading_electricity_currently_delivered
-              name: "Huidig verbruik gecombineerd"
-              icon: mdi:power-plug
-            entities:
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_reading_phase_currently_delivered_l1
-                icon: mdi:current-ac
-                show_state: true
-                state_header: "L1 Verbruik"
-                name: "Fase L1"
-                entities:
-                  - entity: sensor.dsmr_reading_phase_voltage_l1
-                    name: "L1 Voltage"
-                    format: precision0
-                  - entity: sensor.dsmr_reading_phase_power_current_l1
-                    name: "L1 Stroom"
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_reading_phase_currently_delivered_l2
-                icon: mdi:current-ac
-                show_state: true
-                state_header: "L2 Verbruik"
-                name: "Fase L2"
-                entities:
-                  - entity: sensor.dsmr_reading_phase_voltage_l2
-                    name: "L2 Voltage"
-                    format: precision0
-                  - entity: sensor.dsmr_reading_phase_power_current_l2
-                    name: "L2 Stroom"
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_reading_phase_currently_delivered_l3
-                icon: mdi:current-ac
-                show_state: true
-                state_header: "L3 Verbruik"
-                name: "Fase L3"
-                entities:
-                  - entity: sensor.dsmr_reading_phase_voltage_l3
-                    name: "L3 Voltage"
-                    format: precision0
-                  - entity: sensor.dsmr_reading_phase_power_current_l3
-                    name: "L3 Stroom"
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_reading_electricity_currently_delivered
-                show_state: false
-                name: "Electriciteitsmeter"
-                entities:
-                  - entity: sensor.dsmr_reading_electricity_delivered_2
-                    name: "Hoog tarief"
-                    format: precision1
-                  - entity: sensor.dsmr_reading_electricity_delivered_1
-                    name: "Laag tarief"
-                    format: precision1
-                  - entity: sensor.dsmr_meter_stats_electricity_tariff
-                    name: "Actief"
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_day_consumption_electricity_cost_merged
-                show_state: false
-                name: "Dagverbruik Electra"
-                entities:
-                  - entity: sensor.dsmr_day_consumption_electricity_merged
-                    name: "Verbruik"
-                    format: precision1
-                  - entity: sensor.dsmr_day_consumption_electricity_cost_merged
-                    name: "Kosten"
-              - type: divider
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_consumption_gas_currently_delivered
-                show_state: false
-                name: "Gasmeter"
-                entities:
-                  - entity: sensor.dsmr_consumption_gas_currently_delivered
-                    name: "Verbruik"
-                    format: precision1
-                  - entity: sensor.dsmr_consumption_gas_delivered
-                    name: "Meterstand"
-                    format: precision1
-              - type: custom:multiple-entity-row
-                entity: sensor.dsmr_day_consumption_gas
-                show_state: false
-                name: "Dagverbruik Gas"
-                entities:
-                  - entity: sensor.dsmr_day_consumption_gas
-                    name: "Verbruik"
-                    format: precision1
-                  - entity: sensor.dsmr_day_consumption_gas_cost
-                    name: "Kosten"
+
+      - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
+        type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          state_color: true
+          card_mod:
+            style: |
+              ha-card {
+                margin: 0px 14px -5px 14px;
+                --st-font-size-title: 18px;
+              }
+        filter:
+          include:
+            - entity_id: sensor.particulate*
+            - entity_id: sensor.bme280*
+        sort:
+          method: name
