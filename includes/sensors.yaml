@@ -17,11 +17,6 @@
   end: "{{ now() }}"
 
 ##########################
-## Smartmeter sensors
-##########################
-- platform: dsmr_reader
-
-##########################
 ## System sensors
 ##########################
 - platform: systemmonitor
