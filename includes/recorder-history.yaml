@@ -29,6 +29,7 @@ entities:
   - sensor.pubercave_power
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
+  - sensor.stroommeter_power
   - sensor.vacuum_error
   - sensor.vacuum_status
   - sensor.wasmachine_power
@@ -47,3 +48,4 @@ entity_globs:
   - sensor.bme280_*
   - sensor.ev_*
   - sensor.tgtg_*
+  - sensor.wachttijd_*
