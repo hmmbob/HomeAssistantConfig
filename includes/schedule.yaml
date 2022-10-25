@@ -1,0 +1,35 @@
+time_schooltijd_pre_warning_mini:
+  name: "Schooltijd mini"
+  monday:
+    - from: "08:20:00"
+      to: "08:21:00"
+  tuesday:
+    - from: "08:20:00"
+      to: "08:21:00"
+  wednesday:
+    - from: "08:20:00"
+      to: "08:21:00"
+  thursday:
+    - from: "08:10:00"
+      to: "08:11:00"
+  friday:
+    - from: "08:20:00"
+      to: "08:21:00"
+
+time_tandenpoetsen_mini:
+  name: "Tandenpoetsen mini"
+  monday:
+    - from: "08:05:00"
+      to: "08:06:00"
+  tuesday:
+    - from: "08:05:00"
+      to: "08:06:00"
+  wednesday:
+    - from: "08:05:00"
+      to: "08:06:00"
+  thursday:
+    - from: "07:55:00"
+      to: "07:56:00"
+  friday:
+    - from: "08:05:00"
+      to: "08:06:00"

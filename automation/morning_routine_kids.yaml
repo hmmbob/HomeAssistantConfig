@@ -66,8 +66,12 @@
 - id: time_to_brush_your_teeth_and_go_to_school
   alias: "TTS: Tandenpoetsen & naar school"
   trigger:
-    - platform: time
-      at: input_datetime.time_tandenpoetsen_mini
+    - platform: state
+      entity_id: schedule.time_tandenpoetsen_mini
+      to: "on"
+      not_from:
+        - "unknown"
+        - "unavailable"
       variables:
         child: "{{ states('input_text.naam_mini') }}"
         message: "Het is tijd om je tanden te poetsen."
@@ -80,8 +84,12 @@
         message: "Het is tijd om je tanden te poetsen."
         service: "tts_woonkamer"
         play: "{{ is_state('input_boolean.enable_morning_tts_puber', 'on')}}"
-    - platform: time
-      at: input_datetime.time_schooltijd_pre_warning_mini
+    - platform: state
+      entity_id: schedule.time_schooltijd_pre_warning_mini
+      to: "on"
+      not_from:
+        - "unknown"
+        - "unavailable"
       variables:
         child: "{{ states('input_text.naam_mini') }}"
         message: "Het is tijd om schoenen aan te doen en naar school te gaan!"

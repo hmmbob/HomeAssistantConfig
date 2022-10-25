@@ -57,21 +57,25 @@ logger:
       - "weerhuisje"
     custom_components.toon_climate.climate:
       # Occasionaly Toon doesn't reply
-      - "Timeout error occurred while polling"
       - "Cannot poll Woonkamer"
+      - "Timeout error occurred while polling"
     homeassistant.components.esphome:
+      - "Error getting initial data"
       - "Timeout waiting for response"
     homeassistant.components.rest_command:
       # The other server isn't too stable
       - "Connection reset by peer"
       - "Server disconnected"
+      - "Status code 502"
       - "Timeout call"
+    homeassistant.components.rituals_perfume_genie:
+      - "Cannot connect to host"
     pychromecast.socket_client:
       # Mute cast reconnection warnings/errors
-      - "Failed to connect to service ServiceInfo"
-      - "Heartbeat timeout, resetting connection"
       - "Error communicating with socket, resetting connection"
       - "Error reading from socket"
+      - "Failed to connect to service ServiceInfo"
+      - "Heartbeat timeout, resetting connection"
 
 lovelace:
   mode: yaml
@@ -117,6 +121,7 @@ notify: !include includes/notify.yaml
 rest: !include includes/rest.yaml
 rest_command: !include includes/rest_command.yaml
 scene: !include includes/scenes.yaml
+schedule: !include includes/schedule.yaml
 script: !include scripts.yaml
 script split: !include_dir_merge_named scripts/
 sensor: !include includes/sensors.yaml
@@ -130,8 +135,10 @@ application_credentials:
 backup:
 bluetooth:
 cloud:
+# debugpy:
 dhcp:
 diagnostics:
+homeassistant_alerts:
 input_button:
 # map:
 media_source:

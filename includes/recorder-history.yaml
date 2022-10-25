@@ -30,6 +30,7 @@ entities:
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
   - sensor.stroommeter_power
+  - sensor.tucson_ev_battery
   - sensor.vacuum_error
   - sensor.vacuum_status
   - sensor.wasmachine_power
