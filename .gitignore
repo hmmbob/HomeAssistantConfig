@@ -11,8 +11,6 @@
 !blueprints
 !custom_components/
 custom_components/*
-!custom_components/rss_feed_template/
-!custom_components/rss_feed_template/*
 !dashboards/
 !dashboards/*
 !includes/
@@ -42,6 +40,3 @@ includes/googleassistant_serviceaccount.json
 
 # Ignore Python cache files 
 __pycache__/
-
-
-automation/tgtg.yaml
