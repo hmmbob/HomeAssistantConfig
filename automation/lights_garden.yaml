@@ -8,18 +8,18 @@
     event: sunset
   action:
     - service: switch.turn_on
-      entity_id: switch.overkapping
-
-- id: garden_switch_lights
-  alias: "Lights: Garden switch between lights"
-  trigger:
-    - platform: time
-      at: "22:00:00"
-  action:
-    - service: switch.turn_on
       entity_id: switch.schuur_1
-    - service: switch.turn_off
-      entity_id: switch.overkapping
+
+#- id: garden_switch_lights
+#  alias: "Lights: Garden switch between lights"
+#  trigger:
+#    - platform: time
+#      at: "22:00:00"
+#  action:
+#    - service: switch.turn_on
+#      entity_id: switch.schuur_1
+#    - service: switch.turn_off
+#      entity_id: switch.overkapping
 
 - id: garden_turn_off
   alias: "Lights: Garden turn off"
