@@ -37,13 +37,14 @@
     - alias: "Update EV charger IDs"
       service: homeassistant.update_entity
       entity_id:
-        - sensor.ev_charger_id_b1
+        - sensor.ev_charger_id_b6
         - sensor.ev_charger_id_b5
     - alias: "Delay for 10 seconds to let both ID sensors settle"
       delay: 10
     - alias: "Update the EV sensors as they rely on the charger ID"
       service: homeassistant.update_entity
       entity_id:
-        - sensor.ev_laadplek_b1_1
-        - sensor.ev_laadplek_b1_2
+        - sensor.ev_laadplek_b6_1
+        - sensor.ev_laadplek_b6_2
         - sensor.ev_laadplek_b5_1
+        - sensor.ev_laadplek_b5_2
