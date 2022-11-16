@@ -63,7 +63,7 @@ cards:
             name: "Benzineprijs"
 
           - type: custom:multiple-entity-row
-            entity: sensor.ev_charger_id_b6
+            entity: sensor.ev_laadplek_b6_1
             icon: mdi:ev-station
             show_state: false
             name: Laadpaal beschikbaarheid
@@ -72,16 +72,16 @@ cards:
                 hui-generic-entity-row:
                   .: |
                     div.entity:nth-child(1) state-badge {
-                        {{ iif (is_state('sensor.ev_laadplek_b6_1', 'AVAILABLE'), "color: green;", "color: red;")}}
+                        {{ iif (is_state('sensor.ev_laadplek_b6_1', 'available'), "color: green;", "color: red;")}}
                     }
                     div.entity:nth-child(2) state-badge {
-                        {{ iif (is_state('sensor.ev_laadplek_b6_2', 'AVAILABLE'), "color: green;", "color: red;")}}
+                        {{ iif (is_state('sensor.ev_laadplek_b6_2', 'available'), "color: green;", "color: red;")}}
                     }
                     div.entity:nth-child(3) state-badge {
-                        {{ iif (is_state('sensor.ev_laadplek_b5_1', 'AVAILABLE'), "color: green;", "color: red;")}}
+                        {{ iif (is_state('sensor.ev_laadplek_b5_1', 'available'), "color: green;", "color: red;")}}
                     }
                     div.entity:nth-child(4) state-badge {
-                        {{ iif (is_state('sensor.ev_laadplek_b5_2', 'AVAILABLE'), "color: green;", "color: red;")}}
+                        {{ iif (is_state('sensor.ev_laadplek_b5_2', 'available'), "color: green;", "color: red;")}}
                     }
             entities:
               - entity: sensor.ev_laadplek_b6_1

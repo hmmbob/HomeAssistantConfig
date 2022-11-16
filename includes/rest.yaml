@@ -1,41 +1,29 @@
 ##########################
-## EV charger status #1
+## EV charger status
 ##########################
-- resource: !secret oplaadpalen_url_1
-  scan_interval: 21600 # 6 hrs
-  sensor:
-    - name: "EV Charger ID B6"
-      value_template: "{{ value_json.features[0].properties.external_reference }}"
-# This could have been a regular REST sensor, but I decided to
-# keep this sensor close to the one below, for readability.
-
-- resource_template: https://www.oplaadpalen.nl/api/map/location/{{ states('sensor.ev_charger_id_b6') }}
-  scan_interval: 300 # 5min
+- resource: !secret ev_charger_url_1
+  scan_interval: 300
   sensor:
     - name: EV laadplek B6-1
-      value_template: "{{ value_json.data.evses.0.status }}"
+      unique_id: ev_laadplek_b6_1
+      value_template: "{{ value_json.evses.0.status | lower }}"
     - name: EV laadplek B6-2
-      value_template: "{{ value_json.data.evses.1.status }}"
+      unique_id: ev_laadplek_b6_2
+      value_template: "{{ value_json.evses.1.status | lower }}"
 
-##########################
-## EV charger status #2
-##########################
-- resource: !secret oplaadpalen_url_2
-  scan_interval: 21600 # 6 hrs
-  sensor:
-    - name: "EV Charger ID B5"
-      value_template: "{{ value_json.features[0].properties.external_reference }}"
-
-- resource_template: https://www.oplaadpalen.nl/api/map/location/{{ states('sensor.ev_charger_id_b5') }}
+- resource: !secret ev_charger_url_2
   scan_interval: 300
   sensor:
     - name: EV laadplek B5-1
-      value_template: "{{ value_json.data.evses.0.status }}"
+      unique_id: ev_laadplek_b5_1
+      value_template: "{{ value_json.evses.0.status | lower }}"
     - name: EV laadplek B5-2
-      value_template: "{{ value_json.data.evses.1.status }}"
+      unique_id: ev_laadplek_b5_2
+      value_template: "{{ value_json.evses.1.status | lower }}"
 ##########################
 ## DUS Waiting times
 ##########################
+
 #- resource: https://www.dus.com/api/sitecore/flightapi/WaitingTimes?lang=de
 #  headers:
 #    X-Requested-With: XMLHttpRequest
