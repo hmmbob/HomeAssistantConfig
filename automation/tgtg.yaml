@@ -1,4 +1,5 @@
 - alias: "TGTG Notify"
+  id: tgtg_notify
   description: "Notifications for TooGoodToGo"
   mode: parallel
   max: 25
@@ -8,6 +9,7 @@
         - sensor.tgtg_bakker_bart
         - sensor.tgtg_bakkerij_b_magic_box
         - sensor.tgtg_m_magic_box
+        - sensor.tgtg_oliebollenkraam
   condition:
     - condition: state
       entity_id: group.all_adults
