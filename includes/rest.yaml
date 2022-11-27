@@ -6,20 +6,20 @@
   sensor:
     - name: EV laadplek B6-1
       unique_id: ev_laadplek_b6_1
-      value_template: "{{ value_json.evses.0.status | lower }}"
+      value_template: "{{ (value_json.evses.0.status if value_json is defined else 'unavailable') | lower }}"
     - name: EV laadplek B6-2
       unique_id: ev_laadplek_b6_2
-      value_template: "{{ value_json.evses.1.status | lower }}"
+      value_template: "{{ (value_json.evses.1.status if value_json is defined else 'unavailable') | lower }}"
 
 - resource: !secret ev_charger_url_2
   scan_interval: 300
   sensor:
     - name: EV laadplek B5-1
       unique_id: ev_laadplek_b5_1
-      value_template: "{{ value_json.evses.0.status | lower }}"
+      value_template: "{{ (value_json.evses.0.status if value_json is defined else 'unavailable') | lower }}"
     - name: EV laadplek B5-2
       unique_id: ev_laadplek_b5_2
-      value_template: "{{ value_json.evses.1.status | lower }}"
+      value_template: "{{ (value_json.evses.1.status if value_json is defined else 'unavailable') | lower }}"
 ##########################
 ## DUS Waiting times
 ##########################
