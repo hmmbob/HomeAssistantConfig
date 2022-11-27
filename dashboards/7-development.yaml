@@ -139,10 +139,10 @@ cards:
             card:
               type: custom:fold-entity-row
               head:
-                entity: weather.dark_sky
+                entity: weather.knmi_home
             filter:
               include:
-                - entity_id: "sensor.dark_sky_*"
+                - entity_id: "sensor.knmi_*"
             sort:
               method: name
       - id: bed7f2c9-56b2-47cf-8228-413c7cd7cae0 # Automatically created id

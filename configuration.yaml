@@ -51,6 +51,7 @@ logger:
   default: warn
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
+    homeassistant.components.openuv: info
   filters:
     aioesphomeapi.reconnect_logic:
       # This device has weak wifi connection, just mute the reconnect logs
@@ -193,8 +194,3 @@ tts:
     region: westeurope
     language: nl-nl
     type: ColetteNeural
-
-weather:
-  - platform: darksky
-    api_key: !secret darksky_api
-    mode: daily

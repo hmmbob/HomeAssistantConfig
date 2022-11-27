@@ -13,8 +13,8 @@
         title: Good morning sunshine!
         message: |
           Vandaag komt de zon op om {{ as_timestamp(state_attr('sun.sun', 'next_rising'))  | timestamp_custom("%H:%M") }}. 
-          Momenteel is het {{ states('sensor.bme280_temperature') }} C en {{ states('sensor.dark_sky_summary') | lower}}.
-          Vandaag verwachten we {{ states('sensor.dark_sky_summary_0d') | lower }} Max temperatuur wordt {{ states('sensor.dark_sky_daytime_high_temperature_0d') | int }}C.
+          Momenteel is het {{ state_attr('weather.knmi_home','temperature') }}C (voelt als {{ states('sensor.knmi_home_gevoelstemperatuur')}}C ) en {{ states('sensor.knmi_home_omschrijving') | lower}}.
+          {{ states('sensor.knmi_home_korte_dagverwachting') }} Max temperatuur wordt {{ state_attr('weather.knmi_home','forecast')[0].temperature }}C.
         data:
           tag: "morning-brief"
           icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"

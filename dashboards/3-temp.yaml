@@ -57,7 +57,7 @@ cards:
         sensors:
           - entity: sensor.bme280_temperature
             name: Eigen tuin
-          - entity: weather.dark_sky
+          - entity: weather.knmi_home
             attribute: temperature
             name: Volkel
             unit: "°C"
@@ -128,7 +128,7 @@ cards:
             entities:
               - entity: sensor.bme280_temperature
                 name: Buiten
-              - entity: sensor.bme280_humidity
+              - entity: sensor.knmi_home_relatieve_luchtvochtigheid
                 show_graph: false
                 show_state: true
               - entity: sensor.nightstate

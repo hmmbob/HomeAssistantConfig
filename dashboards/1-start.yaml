@@ -62,7 +62,7 @@ cards:
               box-shadow: var(--card-box-shadow);
               margin: 0px 14px 0px 14px;
             }
-        entity: weather.dark_sky
+        entity: weather.knmi_home
         name: "thuis"
         secondary_info: precipitation
         tap_action:
@@ -105,28 +105,13 @@ cards:
           entities:
             - type: custom:fold-entity-row
               head:
-                entity: sensor.dark_sky_uv_index
+                entity: sensor.openuv_current_uv_index
                 icon: mdi:white-balance-sunny
                 name: "Huidige UV Index"
               entities:
-                - entity: sensor.dark_sky_uv_index_0d
+                - entity: sensor.openuv_max_uv_index
                   icon: mdi:shield-sun
                   name: "Max UV Index vandaag"
-                - entity: sensor.dark_sky_uv_index_1h
-                  icon: mdi:white-balance-sunny
-                  name: "UV Index over 1 uur"
-                - entity: sensor.dark_sky_uv_index_2h
-                  icon: mdi:white-balance-sunny
-                  name: "UV Index over 2 uur"
-                - entity: sensor.dark_sky_uv_index_3h
-                  icon: mdi:white-balance-sunny
-                  name: "UV Index over 3 uur"
-                - entity: sensor.dark_sky_uv_index_1d
-                  icon: mdi:shield-sun
-                  name: "Max UV Index morgen"
-                - entity: sensor.dark_sky_uv_index_2d
-                  icon: mdi:shield-sun
-                  name: "Max UV Index overmorgen"
 
       - type: custom:state-switch ## Trash
         entity: sensor.afvalinfo_vandaag

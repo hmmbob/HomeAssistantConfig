@@ -15,6 +15,7 @@ entities:
   - sensor.database_grootte
   - sensor.hp_printer_status
   - sensor.kamertemperatuur
+  - sensor.knmi_home_relatieve_luchtvochtigheid
   - sensor.leeslampje_zolder_power
   - sensor.max_uv_index
   - sensor.memory_use_percent

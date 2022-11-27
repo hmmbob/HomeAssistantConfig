@@ -75,7 +75,7 @@
 - binary_sensor:
     - name: "UV index Warning level"
       unique_id: "uv_index_warning_level"
-      state: "{{ states('sensor.dark_sky_uv_index')| float > 5.9 }}"
+      state: "{{ states('sensor.openuv_current_uv_index')| float >= 5.0 }}"
 
 ##############################
 ## Vacuum template sensors   #
