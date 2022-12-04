@@ -10,6 +10,7 @@ views:
           - entity: !secret person_mw
           - entity: !secret person_puber
           - entity: zone.home
+          - entity: zone.new_home
           - entity: zone.work
           - entity: zone.school
           - entity: zone.scouting
