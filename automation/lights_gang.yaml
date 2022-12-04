@@ -12,7 +12,7 @@
       to: "on"
   condition:
     - condition: state
-      entity_id: input_boolean.enable_pir_gang
+      entity_id: input_boolean.enable_pir_gang_automations
       state: "on"
     - condition: numeric_state
       entity_id: sun.sun

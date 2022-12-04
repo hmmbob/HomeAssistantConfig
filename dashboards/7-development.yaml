@@ -43,9 +43,8 @@ cards:
               entity: binary_sensor.pir_woonkamer_motion
             entities:
               - sensor.pir_woonkamer_illuminance
-              - input_boolean.eetkamer_on_movement
-              - input_boolean.woonkamer_on_movement
-              - input_boolean.enable_pir_woonkamer
+              - input_boolean.woonkamer_turned_on_by_movement
+              - input_boolean.enable_pir_woonkamer_automations
           - type: divider
           - type: custom:fold-entity-row
             head:
@@ -53,7 +52,7 @@ cards:
             entities:
               - sensor.pir_gang_illuminance
               - sensor.pir_gang_temperature
-              - input_boolean.enable_pir_gang
+              - input_boolean.enable_pir_gang_automations
       - type: entities
         id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
         title: Voordeur

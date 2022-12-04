@@ -16,7 +16,7 @@
   condition:
     and:
       - condition: state
-        entity_id: input_boolean.toon_on_movement
+        entity_id: input_boolean.toon_on_through_movement
         state: "on"
       - condition: time
         after: "06:45:00"
@@ -56,7 +56,7 @@
   condition:
     and:
       - condition: state
-        entity_id: input_boolean.toon_on_movement
+        entity_id: input_boolean.toon_on_through_movement
         state: "on"
       - condition: state
         entity_id: binary_sensor.schooldag

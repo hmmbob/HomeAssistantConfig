@@ -38,7 +38,7 @@ cards:
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 0px 0px 14px;
                 }
-            entity: input_boolean.enable_pir_woonkamer
+            entity: input_boolean.enable_pir_woonkamer_automations
             name: Woonkamer
             icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
             show_state: false
@@ -56,7 +56,7 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.enable_pir_gang
+            entity: input_boolean.enable_pir_gang_automations
             name: Gang
             icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
             show_state: false
@@ -74,7 +74,7 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.toon_on_movement
+            entity: input_boolean.toon_on_through_movement
             name: Toon op beweging
             show_state: false
             styles:

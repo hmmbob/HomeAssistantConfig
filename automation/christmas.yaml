@@ -19,7 +19,7 @@
       entity_id: switch.kerstboom
       state: "off"
     - condition: state
-      entity_id: input_boolean.enable_pir_woonkamer
+      entity_id: input_boolean.enable_pir_woonkamer_automations
       state: "on"
   action:
     - service: homeassistant.turn_on
