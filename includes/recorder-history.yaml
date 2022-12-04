@@ -30,7 +30,6 @@ entities:
   - sensor.pubercave_power
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
-  - sensor.stroommeter_power
   - sensor.tucson_ev_battery
   - sensor.vacuum_error
   - sensor.vacuum_status
@@ -41,6 +40,7 @@ entities:
   - switch.genie
   - switch.grijze_lamp
   - switch.kast
+  - switch.kerstboom
   - switch.overkapping
   - switch.schuur_1
   - switch.staande_lamp

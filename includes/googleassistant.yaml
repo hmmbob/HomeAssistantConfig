@@ -24,6 +24,10 @@ entity_config:
     name: "Kast"
     expose: true
     room: "Woonkamer"
+  switch.kerstboom:
+    name: "Kerstboom"
+    expose: true
+    room: "Woonkamer"
   switch.staande_lamp:
     name: "Staande lamp"
     expose: true
