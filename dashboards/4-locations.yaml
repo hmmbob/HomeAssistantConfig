@@ -121,7 +121,10 @@ cards:
           - person.bob
           - !secret person_mw
           - !secret person_puber
+          - zone.cz
           - zone.home
-          - zone.scouting
+          - zone.new_home
           - zone.school
+          - zone.scouting
           - zone.work
+          - zone.work_ms

@@ -9,10 +9,11 @@ views:
           - entity: person.bob
           - entity: !secret person_mw
           - entity: !secret person_puber
+          - entity: zone.cz
           - entity: zone.home
           - entity: zone.new_home
-          - entity: zone.work
           - entity: zone.school
           - entity: zone.scouting
-          - entity: !secret zone_work_mw
+          - entity: zone.work
+          - entity: zone.work_ms
         default_zoom: 17
