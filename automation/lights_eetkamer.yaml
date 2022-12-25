@@ -13,4 +13,4 @@
     entity_id: light.eetkamer_level
     data:
       brightness_pct: >
-        {% if now().hour < 8 %}10{% elif now().hour > 19 %}15{% else %}100{% endif %}
+        {% if now().hour < 9 %}10{% elif now().hour > 19 %}15{% else %}100{% endif %}
