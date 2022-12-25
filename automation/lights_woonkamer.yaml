@@ -16,13 +16,10 @@
         entity_id: input_boolean.enable_pir_woonkamer_automations
         state: "on"
       - condition: state
-        entity_id: group.lampen_woonkamer
-        state: "off"
-      - condition: state
-        entity_id: light.eetkamer_level
-        state: "off"
-      - condition: state
-        entity_id: input_boolean.woonkamer_turned_on_by_movement
+        entity_id:
+          - group.lampen_woonkamer
+          - input_boolean.woonkamer_turned_on_by_movement
+          - light.eetkamer_level
         state: "off"
       - condition: numeric_state
         entity_id: sun.sun
@@ -50,14 +47,13 @@
   condition:
     and:
       - condition: state
-        entity_id: input_boolean.woonkamer_turned_on_by_movement
+        entity_id:
+          - binary_sensor.schooldag
+          - input_boolean.woonkamer_turned_on_by_movement
         state: "on"
       - condition: state
         entity_id: input_boolean.vacation_mode_home
         state: "off"
-      - condition: state
-        entity_id: binary_sensor.schooldag
-        state: "on"
   action:
     - service: homeassistant.turn_off
       entity_id:

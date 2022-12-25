@@ -41,7 +41,7 @@ toon_on_through_movement:
   name: "Toon aan via PIR"
   icon: mdi:thermostat
 woonkamer_turned_on_by_movement:
-  name: "Woonkamer aan via PIR"
+  name: "Woonkamer aan gedaan via PIR"
   icon: mdi:lightbulb-on-outline
 
 #############################
@@ -52,6 +52,7 @@ notify_trash:
   icon: mdi:message-bulleted
 notify_trash_voice:
   name: "Voice-meldingen over afval"
+  icon: mdi:account-voice
 
 #############################
 ## UV Warnings              #
@@ -61,6 +62,7 @@ notify_uv:
   icon: mdi:white-balance-sunny
 notify_uv_voice:
   name: "Voice-meldingen over UV"
+  icon: mdi:account-voice
 
 #############################
 ## Vacation mode            #
