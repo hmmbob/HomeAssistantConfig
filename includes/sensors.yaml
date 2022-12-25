@@ -47,6 +47,19 @@
   postcode: !secret afvalinfo_postcode
   streetnumber: !secret afvalinfo_streetnumber
   locale: "nl"
+- platform: afvalinfo
+  id: nieuwe-huis
+  resources:
+    - gft
+    - papier
+    - pbd
+    - restafval
+    - trash_type_today
+    - trash_type_tomorrow
+  location: !secret afvalinfo_location
+  postcode: !secret afvalinfo_postcode_2
+  streetnumber: !secret afvalinfo_streetnumber_2
+  locale: "nl"
 
 ##########################
 ## Weather sensors
