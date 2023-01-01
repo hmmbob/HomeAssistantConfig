@@ -1,0 +1,164 @@
+####################
+# Energy             #
+####################
+path: energy
+title: Energieverbruik
+icon: mdi:transmission-tower-import
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown ## Energieverbruik header
+        content: |
+          # Energieverbruik
+        card_mod:
+          style:
+            .: |
+              ha-card {
+                margin: 12px 14px -5px 14px;
+                box-shadow: none;
+                --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: "custom:config-template-card"
+        variables:
+          AVERAGE: states['sensor.nordpool_kwh_nl_eur_3_09_0'].attributes.average
+        entities:
+          - sensor.nordpool_kwh_nl_eur_3_09_0
+        card:
+          type: custom:apexcharts-card
+          config_templates: energy
+          header:
+            title: Electriciteitsprijzen vandaag
+          now:
+            show: true
+            label: Now
+          series:
+            - entity: sensor.nordpool_kwh_nl_eur_3_09_0
+              data_generator: |
+                return entity.attributes.raw_today.map((start, index) => {
+                  return [new Date(start["start"]).getTime() + 1800000, entity.attributes.raw_today[index]["value"]];
+                });
+          apex_config:
+            annotations:
+              yaxis:
+                - y: "${ AVERAGE }"
+                  label:
+                    text: "${ AVERAGE }"
+                    position: "left"
+                    offsetX: 25
+                - y: "0.40"
+                  label:
+                    text: "Energieplafond"
+                    position: "left"
+                    offsetX: 75
+                  borderColor: "#DC182F"
+
+      - type: "custom:config-template-card"
+        variables:
+          AVERAGE: "states['sensor.nordpool_tomorrow_average'].state"
+        entities:
+          - sensor.nordpool_kwh_nl_eur_3_09_0
+          - sensor.nordpool_tomorrow_average
+        card:
+          type: custom:apexcharts-card
+          config_templates: energy
+          header:
+            title: Electriciteitsprijzen morgen
+          span:
+            offset: +1d
+          series:
+            - entity: sensor.nordpool_kwh_nl_eur_3_09_0
+              data_generator: |
+                return entity.attributes.raw_tomorrow.map((start, index) => {
+                  return [new Date(start["start"]).getTime(), entity.attributes.raw_tomorrow[index]["value"]];
+                });
+          apex_config:
+            annotations:
+              yaxis:
+                - y: "${ AVERAGE }"
+                  label:
+                    text: "${ AVERAGE }"
+                    position: "left"
+                    offsetX: 25
+                - y: "0.40"
+                  label:
+                    text: "Energieplafond"
+                    position: "left"
+                    offsetX: 75
+                  borderColor: "#DC182F"
+
+      - type: entities
+        entities:
+          - entity: sensor.dsmr_reading_electricity_currently_delivered
+            name: "Huidig verbruik gecombineerd"
+            icon: mdi:power-plug
+          - type: divider
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_day_consumption_electricity_cost_merged
+            show_state: false
+            name: "Dagverbruik electra"
+            icon: "mdi:home-lightning-bolt"
+            entities:
+              - entity: sensor.dsmr_day_consumption_electricity_merged
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_day_consumption_electricity_cost_merged
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_day_consumption_gas
+            show_state: false
+            name: "Dagverbruik gas"
+            entities:
+              - entity: sensor.dsmr_day_consumption_gas
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_day_consumption_gas_cost
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_day_consumption_total_cost
+            show_state: false
+            name: "Energiekosten vandaag"
+            entities:
+              - entity: sensor.dsmr_day_consumption_fixed_cost
+                name: "Vaste kosten"
+              - entity: sensor.dsmr_day_consumption_total_cost
+                name: "Totaal vandaag"
+
+          - type: divider
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_current_month_electricity_cost_merged
+            show_state: false
+            name: "Maandverbruik electra"
+            icon: "mdi:home-lightning-bolt"
+            entities:
+              - entity: sensor.dsmr_current_month_electricity_merged
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_current_month_electricity_cost_merged
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_current_month_gas
+            show_state: false
+            name: "Maandverbruik gas"
+            entities:
+              - entity: sensor.dsmr_current_month_gas
+                name: "Verbruik"
+                format: precision1
+              - entity: sensor.dsmr_current_month_gas_cost
+                name: "Kosten"
+          - type: custom:multiple-entity-row
+            entity: sensor.dsmr_current_month_total_cost
+            show_state: false
+            name: "Energiekosten deze maand"
+            entities:
+              - entity: sensor.dsmr_current_month_fixed_cost
+                name: "Vaste kosten"
+              - entity: sensor.dsmr_current_month_total_cost
+                name: "Totaal deze maand"

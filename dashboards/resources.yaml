@@ -1,8 +1,12 @@
+- url: /hacsfiles/apexcharts-card/apexcharts-card.js
+  type: module
 - url: /hacsfiles/bar-card/bar-card.js
   type: module
 - url: /hacsfiles/battery-state-card/battery-state-card.js
   type: module
 - url: /hacsfiles/button-card/button-card.js
+  type: module
+- url: /hacsfiles/config-template-card/config-template-card.js
   type: module
 - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
   type: module

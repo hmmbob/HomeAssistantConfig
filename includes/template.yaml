@@ -28,6 +28,14 @@
       state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
 
 ##############################
+## Nordpool tomorrow average #
+##############################
+- sensor:
+    - name: "Nordpool Tomorrow Average"
+      unique_id: nordpool_tomorrow_average
+      state: "{{ average(states['sensor.nordpool_kwh_nl_eur_3_09_0'].attributes.tomorrow, 0) | round(3) }}"
+
+##############################
 ## Picnic time sensors       #
 ##############################
 - sensor:
