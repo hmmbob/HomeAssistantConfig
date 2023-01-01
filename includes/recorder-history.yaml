@@ -40,7 +40,6 @@ entities:
   - switch.genie
   - switch.grijze_lamp
   - switch.kast
-  - switch.kerstboom
   - switch.overkapping
   - switch.schuur_1
   - switch.staande_lamp

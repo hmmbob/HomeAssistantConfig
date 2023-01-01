@@ -320,8 +320,6 @@ cards:
                   action: more-info
                 hold_action:
                   action: toggle
-              - entity: switch.kerstboom
-                show_name: true
           - type: custom:multiple-entity-row
             entity: sensor.pubercave_power
             show_state: false
