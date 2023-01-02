@@ -20,10 +20,24 @@
     - name: EV laadplek B5-2
       unique_id: ev_laadplek_b5_2
       value_template: "{{ (value_json.evses.1.status if value_json is defined else 'unavailable') | lower }}"
+
+##########################
+## Dynamic gasprices
+##########################
+- resource: https://enever.nl/feed/gasprijs_vandaag.php
+  scan_interval: 21600
+  sensor:
+    - name: "Zonneplan gasprijs"
+      unique_id: zonneplan_gasprijs
+      value_template: "{{ ((value_json.data.0.prijsZP | float(0)) if value_json is defined else 'unavailable')  }}"
+      json_attributes_path: "$.data.0"
+      json_attributes:
+        - "datum"
+      device_class: monetary
+#
 ##########################
 ## DUS Waiting times
 ##########################
-
 #- resource: https://www.dus.com/api/sitecore/flightapi/WaitingTimes?lang=de
 #  headers:
 #    X-Requested-With: XMLHttpRequest

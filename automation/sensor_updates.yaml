@@ -42,3 +42,18 @@
       entity_id:
         - binary_sensor.openuv_protection_window
         - sensor.openuv_current_uv_index
+
+##########################
+## Update Zonneplan prijs
+##########################
+- id: update_zonneplan_gasprijs
+  alias: "Update Zonneplan gasprijs"
+  trigger:
+    - platform: time
+      at: "06:02:34"
+  condition: []
+  action:
+    service: homeassistant.update_entity
+    target:
+      entity_id:
+        - sensor.zonneplan_gasprijs

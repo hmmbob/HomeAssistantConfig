@@ -21,6 +21,8 @@ entities:
   - sensor.memory_use_percent
   - sensor.mini_cave_power
   - sensor.nightstate
+  - sensor.nordpool
+  - sensor.nordpool_tomorrow_average
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
   - sensor.pir_gang_illuminance
@@ -36,6 +38,7 @@ entities:
   - sensor.wasmachine_power
   - sensor.zolder_humidity
   - sensor.zolder_temperature
+  - sensor.zonneplan_gasprijs
   - switch.aquarium
   - switch.genie
   - switch.grijze_lamp

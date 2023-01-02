@@ -28,12 +28,38 @@
       state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
 
 ##############################
-## Nordpool tomorrow average #
+## Nordpool template sensors #
 ##############################
 - sensor:
     - name: "Nordpool Tomorrow Average"
       unique_id: nordpool_tomorrow_average
-      state: "{{ average(states['sensor.nordpool_kwh_nl_eur_3_09_0'].attributes.tomorrow, 0) | round(3) }}"
+      state: "{{ average(states['sensor.nordpool'].attributes.tomorrow, 0) | round(3) }}"
+
+- binary_sensor:
+    - name: "Negative electricity price this hour"
+      unique_id: electricity_negative_this_hour
+      state: >
+        {{ states('sensor.nordpool') | float(3) < 0.155 }}
+      availability: >
+        {{ states('sensor.nordpool') | is_number }}
+
+    - name: "Negative electricity price today"
+      unique_id: electricity_negative_today
+      state: >
+        {{ state_attr("sensor.nordpool", "today") | min < 0.155 }}
+      availability: >
+        {{ states('sensor.nordpool') | is_number }}
+
+    - name: "Negative electricity price tomorrow"
+      unique_id: electricity_negative_tomorrow
+      state: >
+        {% if is_state_attr('sensor.nordpool','tomorrow_valid', 'false') %}
+          off
+        {% else %}
+          {{ state_attr("sensor.nordpool", "tomorrow") | min < 0.155 }}
+        {% endif %}
+      availability: >
+        {{ states('sensor.nordpool') | is_number }}
 
 ##############################
 ## Picnic time sensors       #
@@ -83,7 +109,7 @@
 - binary_sensor:
     - name: "UV index Warning level"
       unique_id: "uv_index_warning_level"
-      state: "{{ states('sensor.openuv_current_uv_index')| float >= 5.0 }}"
+      state: "{{ states('sensor.openuv_current_uv_index')| float(0) >= 5.0 }}"
 
 ##############################
 ## Vacuum template sensors   #

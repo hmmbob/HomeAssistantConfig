@@ -3,7 +3,7 @@
 ####################
 path: energy
 title: Energieverbruik
-icon: mdi:transmission-tower-import
+icon: mdi:home-lightning-bolt
 cards:
   - type: vertical-stack
     cards:
@@ -28,19 +28,22 @@ cards:
 
       - type: "custom:config-template-card"
         variables:
-          AVERAGE: states['sensor.nordpool_kwh_nl_eur_3_09_0'].attributes.average
+          AVERAGE: states['sensor.nordpool'].attributes.average
         entities:
-          - sensor.nordpool_kwh_nl_eur_3_09_0
+          - sensor.nordpool
         card:
           type: custom:apexcharts-card
-          config_templates: energy
+          config_templates:
+            - energy
+            - electricity
           header:
             title: Electriciteitsprijzen vandaag
           now:
             show: true
             label: Now
           series:
-            - entity: sensor.nordpool_kwh_nl_eur_3_09_0
+            - entity: sensor.nordpool
+              name: "Dynamische energieprijs"
               data_generator: |
                 return entity.attributes.raw_today.map((start, index) => {
                   return [new Date(start["start"]).getTime() + 1800000, entity.attributes.raw_today[index]["value"]];
@@ -53,28 +56,38 @@ cards:
                     text: "${ AVERAGE }"
                     position: "left"
                     offsetX: 25
+                    style:
+                      background: rgb(26, 115, 232)
+                      color: "#fff"
+                    borderColor: "#fff"
                 - y: "0.40"
                   label:
                     text: "Energieplafond"
                     position: "left"
                     offsetX: 75
-                  borderColor: "#DC182F"
+                    style:
+                      background: rgb(26, 115, 232)
+                      color: "#fff"
+                    borderColor: "#fff"
 
       - type: "custom:config-template-card"
         variables:
           AVERAGE: "states['sensor.nordpool_tomorrow_average'].state"
         entities:
-          - sensor.nordpool_kwh_nl_eur_3_09_0
+          - sensor.nordpool
           - sensor.nordpool_tomorrow_average
         card:
           type: custom:apexcharts-card
-          config_templates: energy
+          config_templates:
+            - energy
+            - electricity
           header:
             title: Electriciteitsprijzen morgen
           span:
             offset: +1d
           series:
-            - entity: sensor.nordpool_kwh_nl_eur_3_09_0
+            - entity: sensor.nordpool
+              name: "Dynamische energieprijs"
               data_generator: |
                 return entity.attributes.raw_tomorrow.map((start, index) => {
                   return [new Date(start["start"]).getTime(), entity.attributes.raw_tomorrow[index]["value"]];
@@ -87,12 +100,43 @@ cards:
                     text: "${ AVERAGE }"
                     position: "left"
                     offsetX: 25
+                    style:
+                      background: rgb(26, 115, 232)
+                      color: "#fff"
+                    borderColor: "#fff"
                 - y: "0.40"
                   label:
                     text: "Energieplafond"
                     position: "left"
                     offsetX: 75
-                  borderColor: "#DC182F"
+                    style:
+                      background: rgb(26, 115, 232)
+                      color: "#fff"
+                    borderColor: "#fff"
+
+      - type: custom:apexcharts-card
+        config_templates:
+          - energy
+          - gas
+        header:
+          title: Gasprijs vandaag
+        series:
+          - entity: sensor.zonneplan_gasprijs
+            group_by:
+              duration: 1d
+              func: last
+        apex_config:
+          annotations:
+            yaxis:
+              - y: "1.45"
+                label:
+                  text: "Energieplafond"
+                  position: "left"
+                  offsetX: 75
+                  style:
+                    background: rgb(26, 115, 232)
+                    color: "#fff"
+                  borderColor: "#fff"
 
       - type: entities
         entities:
