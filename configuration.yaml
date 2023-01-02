@@ -51,7 +51,6 @@ logger:
   default: warn
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
-    homeassistant.components.openuv: info
   filters:
     aioesphomeapi.reconnect_logic:
       # This device has weak wifi connection, just mute the reconnect logs
@@ -136,12 +135,10 @@ application_credentials:
 backup:
 bluetooth:
 cloud:
-# debugpy:
 dhcp:
 diagnostics:
 homeassistant_alerts:
 input_button:
-# map:
 media_source:
 mobile_app:
 my:
