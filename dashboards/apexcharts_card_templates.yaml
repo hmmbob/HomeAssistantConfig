@@ -1,0 +1,96 @@
+energy:
+  header:
+    show: true
+  experimental:
+    color_threshold: true
+  all_series_config:
+    type: column
+    show:
+      extremas: true
+    float_precision: 3
+  apex_config:
+    noData:
+      text: "Prijzen nog niet bekend"
+      align: "center"
+      verticalAlign: "middle"
+    xaxis:
+      type: datetime
+      tooltip:
+        enabled: false
+    tooltip:
+      enabled: true
+      x:
+        show: true
+      fixed:
+        enabled: true
+        position: topLeft
+        offsetX: 50
+        offsetY: 10
+    chart:
+      height: 320px
+    grid:
+      show: true
+      borderColor: rgba(255,255,255,0.1)
+
+electricity:
+  graph_span: 23h
+  span:
+    start: day
+  all_series_config:
+    color_threshold:
+      - value: 0
+        color: "#186ddc"
+      - value: 0.155
+        color: "#04822e"
+      - value: 0.2
+        color: "#12A141"
+      - value: 0.25
+        color: "#79B92C"
+      - value: 0.3
+        color: "#C4D81D"
+      - value: 0.35
+        color: "#F3DC0C"
+      - value: 0.4
+        color: "red"
+      - value: 0.5
+        color: "magenta"
+  yaxis:
+    - id: "1"
+      min: ~0.20
+      max: ~0.45
+      align_to: 0.1
+      decimals: 2
+      apex_config:
+        title:
+          text: €/kWh
+        tickAmount: 4
+
+gas:
+  graph_span: 30d
+  span:
+    end: day
+  all_series_config:
+    color_threshold:
+      - value: 0.5
+        color: "#04822e"
+      - value: 0.8
+        color: "#12A141"
+      - value: 1.0
+        color: "#79B92C"
+      - value: 1.2
+        color: "#C4D81D"
+      - value: 1.4
+        color: "#F3DC0C"
+      - value: 1.6
+        color: "red"
+      - value: 1.8
+        color: "magenta"
+  yaxis:
+    - id: "1"
+      min: ~1.40
+      align_to: 0.1
+      decimals: 2
+      apex_config:
+        title:
+          text: €/M3
+        tickAmount: 4
