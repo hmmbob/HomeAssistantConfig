@@ -1,7 +1,7 @@
 - alias: "Energy: Notification for negative electricity price tomorrow"
   trigger:
     platform: state
-    entity_id: binary_sensor.negative_electricity_price_tomorrow
+    entity_id: binary_sensor.nordpool_negative_electricity_price_tomorrow
     to: "on"
     from: "off"
   action:

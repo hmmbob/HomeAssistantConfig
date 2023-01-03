@@ -37,26 +37,26 @@
 
 - binary_sensor:
     - name: "Negative electricity price this hour"
-      unique_id: electricity_negative_this_hour
+      unique_id: nordpool_electricity_negative_this_hour
       state: >
-        {{ states('sensor.nordpool') | float(3) < 0.155 }}
+        {{ states('sensor.nordpool') | float(3) < 0.156 }}
       availability: >
         {{ states('sensor.nordpool') | is_number }}
 
     - name: "Negative electricity price today"
-      unique_id: electricity_negative_today
+      unique_id: nordpool_electricity_negative_today
       state: >
-        {{ state_attr("sensor.nordpool", "today") | min < 0.155 }}
+        {{ state_attr("sensor.nordpool", "today") | min < 0.156 }}
       availability: >
         {{ states('sensor.nordpool') | is_number }}
 
     - name: "Negative electricity price tomorrow"
-      unique_id: electricity_negative_tomorrow
+      unique_id: nordpool_electricity_negative_tomorrow
       state: >
         {% if is_state_attr('sensor.nordpool','tomorrow_valid', 'false') %}
           off
         {% else %}
-          {{ state_attr("sensor.nordpool", "tomorrow") | min < 0.155 }}
+          {{ state_attr("sensor.nordpool", "tomorrow") | min < 0.156 }}
         {% endif %}
       availability: >
         {{ states('sensor.nordpool') | is_number }}

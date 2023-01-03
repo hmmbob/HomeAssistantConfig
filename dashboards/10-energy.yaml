@@ -90,7 +90,7 @@ cards:
               name: "Dynamische energieprijs"
               data_generator: |
                 return entity.attributes.raw_tomorrow.map((start, index) => {
-                  return [new Date(start["start"]).getTime(), entity.attributes.raw_tomorrow[index]["value"]];
+                  return [new Date(start["start"]).getTime() + 1800000, entity.attributes.raw_tomorrow[index]["value"]];
                 });
           apex_config:
             annotations:

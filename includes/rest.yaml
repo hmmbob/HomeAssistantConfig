@@ -2,7 +2,7 @@
 ## Dynamic gasprices
 ##########################
 - resource: https://enever.nl/feed/gasprijs_vandaag.php
-  scan_interval: 21600
+  scan_interval: 900
   sensor:
     - name: "Zonneplan gasprijs"
       unique_id: zonneplan_gasprijs

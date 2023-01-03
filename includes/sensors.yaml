@@ -88,15 +88,15 @@
 ## Dynamic energy prices
 ##########################
 - platform: nordpool
-  VAT: False
-  currency: "EUR"
-  price_in_cents: false
-  low_price_cutoff: 0.9
   region: "NL"
+  currency: "EUR"
+  VAT: False
   precision: 3
+  low_price_cutoff: 0.9
+  price_in_cents: false
   price_type: kWh
   additional_costs: >
     {% set VAT = 0.21 %}
     {% set tax_kWh = 0.12599 %}
     {% set opslag = 0.0025 %}
-    {{ ((current_price * VAT ) + (tax_kWh + opslag) * (1 + VAT))|float }}
+    {{ ((current_price * VAT ) + (tax_kWh + opslag) * (1 + VAT)) | float }}
