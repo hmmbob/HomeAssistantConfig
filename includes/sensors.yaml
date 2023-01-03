@@ -100,3 +100,8 @@
     {% set tax_kWh = 0.12599 %}
     {% set opslag = 0.0025 %}
     {{ ((current_price * VAT ) + (tax_kWh + opslag) * (1 + VAT)) | float }}
+
+##########################
+## Formula 1
+##########################
+- platform: formulaone_api

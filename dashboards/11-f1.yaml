@@ -1,0 +1,60 @@
+####################
+# F1 cards         #
+####################
+
+path: f1
+title: Formula 1
+icon: mdi:flag-checkered
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown ## F1 header
+        content: |
+          # Formule 1
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: custom:formulaone-card
+        card_type: next_race
+        sensor: sensor.formula_one_sensor_races
+        title: Volgende race
+        date_locale: nl
+        image_clickable: true
+
+      - type: custom:formulaone-card
+        card_type: last_result
+        sensor: sensor.formula_one_sensor_last_result
+        title: Laatste race
+
+      - type: custom:formulaone-card
+        card_type: driver_standings
+        sensor: sensor.formula_one_sensor_drivers
+        title: Stand coureurs
+        standings:
+          show_flag: true
+          show_team: true
+
+      - type: custom:formulaone-card
+        card_type: constructor_standings
+        sensor: sensor.formula_one_sensor_constructors
+        title: Stand constructeurs
+
+      - type: custom:formulaone-card
+        card_type: schedule
+        sensor: sensor.formula_one_sensor_races
+        title: Volgende races
+        date_locale: nl
+        previous_race: hide

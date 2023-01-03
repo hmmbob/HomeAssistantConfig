@@ -13,5 +13,6 @@ views:
   - !include dashboards/2-vacuum.yaml
   - !include dashboards/5-settings.yaml
   - !include dashboards/6-status.yaml
+  - !include dashboards/11-f1.yaml
   - !include dashboards/7-development.yaml
   - !include dashboards/8-dsmr_development.yaml
