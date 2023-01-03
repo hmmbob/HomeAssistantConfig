@@ -50,6 +50,5 @@ entities:
   - switch.window
 entity_globs:
   - sensor.bme280_*
-  - sensor.ev_*
   - sensor.tgtg_*
   - sensor.wachttijd_*
