@@ -46,11 +46,3 @@
       unit_of_measurement: "°C"
       state: "{{ state_attr('climate.woonkamer', 'current_temperature')}}"
       device_class: temperature
-
-##############################
-## UV Alert helper           #
-##############################
-- binary_sensor:
-    - name: "UV index Warning level"
-      unique_id: "uv_index_warning_level"
-      state: "{{ states('sensor.openuv_current_uv_index')| float(0) >= 5.0 }}"

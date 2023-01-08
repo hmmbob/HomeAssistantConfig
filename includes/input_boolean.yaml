@@ -35,16 +35,6 @@ woonkamer_turned_on_by_movement:
   icon: mdi:lightbulb-on-outline
 
 #############################
-## UV Warnings              #
-#############################
-notify_uv:
-  name: "Push-meldingen over UV"
-  icon: mdi:white-balance-sunny
-notify_uv_voice:
-  name: "Voice-meldingen over UV"
-  icon: mdi:account-voice
-
-#############################
 ## Vacation mode            #
 #############################
 vacation_mode_away:

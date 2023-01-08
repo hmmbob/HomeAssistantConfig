@@ -40,9 +40,6 @@ time_tv_time_breakfast:
 time_tv_time_over:
   name: "TV: Melding TV tijd voorbij"
   has_time: true
-time_uv_warning:
-  name: UV waarschuwing
-  has_time: true
 time_vacation_lights_start:
   name: Vacation lights start
   has_time: true

@@ -19,26 +19,3 @@
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.reistijd_bob_naar_huis
-
-##########################
-## Update OpenUV sensors
-##########################
-- id: update_openuv
-  alias: "Update OpenUV"
-  trigger:
-    - platform: time_pattern
-      minutes: "/25"
-    - platform: homeassistant
-      event: start
-  condition:
-    - condition: sun
-      after: sunrise
-      after_offset: "+00:30:00"
-      before: sunset
-      before_offset: "-00:30:00"
-  action:
-    service: homeassistant.update_entity
-    target:
-      entity_id:
-        - binary_sensor.openuv_protection_window
-        - sensor.openuv_current_uv_index
