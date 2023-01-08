@@ -1,0 +1,195 @@
+morning_routines_package:
+  binary_sensor:
+    - platform: workday
+      name: "Schooldag"
+      country: NL
+      remove_holidays:
+        - "Goede Vrijdag"
+      add_holidays: !include ../includes/holidays.yaml
+
+  input_booleans:
+    enable_morning_tts_mini:
+      name: "Herinnering voor mini"
+      icon: mdi:account-voice
+    enable_morning_tts_puber:
+      name: "Herinnering voor puber"
+      icon: mdi:account-voice
+
+  input_datetime:
+    time_schooltijd:
+      name: "Schooltijd: Toon & verlichting uit"
+      has_time: true
+    time_schooltijd_pre_warning_mini:
+      name: "Schooltijd: Schoenen aan doen mini"
+      has_time: true
+    time_tandenpoetsen_mini:
+      name: "Schooltijd: Tandenpoetsen mini"
+      has_time: true
+    time_schooltijd_pre_warning_puber:
+      name: "Schooltijd: Schoenen aan doen puber"
+      has_time: true
+    time_tandenpoetsen_puber:
+      name: "Schooltijd: Tandenpoetsen puber"
+      has_time: true
+    time_tv_time_breakfast:
+      name: "TV: Melding ontbijt bij TV"
+      has_time: true
+    time_tv_time_over:
+      name: "TV: Melding TV tijd voorbij"
+      has_time: true
+
+  schedule:
+    time_schooltijd_pre_warning_mini:
+      name: "Schooltijd mini"
+      monday:
+        - from: "08:20:00"
+          to: "08:21:00"
+      tuesday:
+        - from: "08:20:00"
+          to: "08:21:00"
+      wednesday:
+        - from: "08:20:00"
+          to: "08:21:00"
+      thursday:
+        - from: "08:10:00"
+          to: "08:11:00"
+      friday:
+        - from: "08:20:00"
+          to: "08:21:00"
+
+    time_tandenpoetsen_mini:
+      name: "Tandenpoetsen mini"
+      monday:
+        - from: "08:05:00"
+          to: "08:06:00"
+      tuesday:
+        - from: "08:05:00"
+          to: "08:06:00"
+      wednesday:
+        - from: "08:05:00"
+          to: "08:06:00"
+      thursday:
+        - from: "07:55:00"
+          to: "07:56:00"
+      friday:
+        - from: "08:05:00"
+          to: "08:06:00"
+
+  automation:
+    ##########################
+    ## Don't forget to eat and turn off the TV... (non-schooldays)
+    ##########################
+    - id: tv_time_make_breakfast_and_turn_off
+      alias: "TV: Maak je ontbijt & zet uit"
+      trigger:
+        - platform: time
+          at: input_datetime.time_tv_time_breakfast
+          id: breakfast
+        - platform: time
+          at: input_datetime.time_tv_time_over
+          id: tv_time_over
+      condition:
+        - condition: state
+          entity_id: binary_sensor.schooldag
+          state: "off"
+      action:
+        - alias: "Choose based on trigger"
+          choose:
+            - conditions:
+                condition: trigger
+                id: breakfast
+              sequence:
+                - service: notify.tv_woonkamer
+                  continue_on_error: true
+                  data:
+                    title: "Eten tijdens TV-tijd"
+                    message: "Denk eraan dat jullie tijdens de TV-tijd ontbijten?"
+                    data:
+                      fontsize: "large"
+                      position: "top-right"
+                      duration: 30
+                      transparency: "50%"
+                      color: "amber"
+                - delay: "00:25:00"
+                - service: notify.tv_woonkamer
+                  continue_on_error: true
+                  data:
+                    title: "Eten tijdens TV-tijd"
+                    message: "Denk aan je ontbijt, je moet klaar zijn voor {{ states('input_datetime.time_tv_time_over') }}"
+                    data:
+                      fontsize: "large"
+                      position: "top-right"
+                      duration: 30
+                      transparency: "50%"
+                      color: "amber"
+            - conditions:
+                condition: trigger
+                id: tv_time_over
+              sequence:
+                - service: notify.tv_woonkamer
+                  continue_on_error: true
+                  data:
+                    title: "TV tijd is voorbij!"
+                    message: "Zetten jullie de TV uit en gaan jullie aankleden, tanden poetsen en deo opdoen?"
+                    data:
+                      fontsize: "large"
+                      position: "center"
+                      duration: 60
+                      transparency: "25%"
+                      color: "red"
+
+    ##########################
+    ## Remember to brush your teeth and head off to school (schooldays)
+    ##########################
+    - id: time_to_brush_your_teeth_and_go_to_school
+      alias: "TTS: Tandenpoetsen & naar school"
+      trigger:
+        - platform: state
+          entity_id: schedule.time_tandenpoetsen_mini
+          to: "on"
+          not_from:
+            - "unknown"
+            - "unavailable"
+          variables:
+            child: "{{ states('input_text.naam_mini') }}"
+            message: "Het is tijd om je tanden te poetsen."
+            service: "tts_hele_huis"
+            play: "{{ is_state('input_boolean.enable_morning_tts_mini', 'on')}}"
+        - platform: time
+          at: input_datetime.time_tandenpoetsen_puber
+          variables:
+            child: "{{ states('input_text.naam_puber') }}"
+            message: "Het is tijd om je tanden te poetsen."
+            service: "tts_woonkamer"
+            play: "{{ is_state('input_boolean.enable_morning_tts_puber', 'on')}}"
+        - platform: state
+          entity_id: schedule.time_schooltijd_pre_warning_mini
+          to: "on"
+          not_from:
+            - "unknown"
+            - "unavailable"
+          variables:
+            child: "{{ states('input_text.naam_mini') }}"
+            message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
+            service: "tts_hele_huis"
+            play: "{{ is_state('input_boolean.enable_morning_tts_mini', 'on')}}"
+        - platform: time
+          at: input_datetime.time_schooltijd_pre_warning_puber
+          variables:
+            child: "{{ states('input_text.naam_puber') }}"
+            message: "Het is tijd om schoenen aan te doen en naar school te gaan!"
+            service: "tts_woonkamer"
+            play: "{{ is_state('input_boolean.enable_morning_tts_puber', 'on')}}"
+      condition:
+        - condition: state
+          entity_id: binary_sensor.schooldag
+          state: "on"
+        - "{{ play }}"
+      action:
+        - service: notify.{{ service }}
+          data:
+            message: "{{ child }} {{ message }}"
+        - delay: "00:01:00"
+        - service: media_player.turn_off
+          entity_id:
+            - media_player.hele_huis

@@ -119,7 +119,6 @@ input_text: !include includes/input_text.yaml
 notify: !include includes/notify.yaml
 rest: !include includes/rest.yaml
 scene: !include includes/scenes.yaml
-schedule: !include includes/schedule.yaml
 script: !include scripts.yaml
 script split: !include_dir_merge_named scripts/
 sensor: !include includes/sensors.yaml

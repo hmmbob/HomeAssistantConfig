@@ -1,27 +1,6 @@
 time_morning_briefing:
   name: Start morning briefing
   has_time: true
-time_schooltijd:
-  name: "Schooltijd: Toon & verlichting uit"
-  has_time: true
-time_schooltijd_pre_warning_mini:
-  name: "Schooltijd: Schoenen aan doen mini"
-  has_time: true
-time_tandenpoetsen_mini:
-  name: "Schooltijd: Tandenpoetsen mini"
-  has_time: true
-time_schooltijd_pre_warning_puber:
-  name: "Schooltijd: Schoenen aan doen puber"
-  has_time: true
-time_tandenpoetsen_puber:
-  name: "Schooltijd: Tandenpoetsen puber"
-  has_time: true
-time_tv_time_breakfast:
-  name: "TV: Melding ontbijt bij TV"
-  has_time: true
-time_tv_time_over:
-  name: "TV: Melding TV tijd voorbij"
-  has_time: true
 time_vacation_lights_start:
   name: Vacation lights start
   has_time: true
