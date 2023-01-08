@@ -19,13 +19,6 @@ enable_morning_tts_puber:
   icon: mdi:account-voice
 
 #############################
-## Picnic                   #
-#############################
-notify_picnic_push:
-  name: "Push meldingen over Picnic"
-  icon: mdi:cart
-
-#############################
 ## PIR / Movement based     #
 #############################
 disable_pir_sensor_automations:

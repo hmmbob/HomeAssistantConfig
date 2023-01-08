@@ -27,28 +27,6 @@
     - name: "Nightstate"
       state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
 
-##############################
-## Picnic time sensors       #
-##############################
-- sensor:
-    - name: "Picnic next delivery ETA start time"
-      unique_id: picnic_next_delivery_eta_start_time
-      state: >-
-        {{ iif(is_state("sensor.picnic_next_delivery_eta_start", "unknown"), "unknown", 
-                as_timestamp(states("sensor.picnic_next_delivery_eta_start"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-
-    - name: "Picnic next delivery ETA end time"
-      unique_id: picnic_next_delivery_eta_end_time
-      state: >-
-        {{ iif(is_state("sensor.picnic_next_delivery_eta_end", "unknown"), "unknown", 
-                as_timestamp(states("sensor.picnic_next_delivery_eta_end"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-
-    - name: "Picnic last order max order time only"
-      unique_id: picnic_last_order_max_order_time_only
-      state: >-
-        {{ iif(is_state("sensor.picnic_last_order_max_order_time", "unknown"), "unknown", 
-                as_timestamp(states("sensor.picnic_last_order_max_order_time"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-
 #####################################
 ## Power level helpers for stats    #
 #####################################
