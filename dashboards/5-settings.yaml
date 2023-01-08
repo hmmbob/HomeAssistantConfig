@@ -297,8 +297,25 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_power_use
-            name: Meldingen leeslampje, PS4, computer
+            entity: input_boolean.notify_power_use_attic
+            name: Meldingen leeslampje, PS4
+            show_state: false
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.notify_power_use_minicave
+            name: Meldingen minicave
             show_state: false
             styles:
               card:

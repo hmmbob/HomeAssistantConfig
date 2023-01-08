@@ -1,6 +1,0 @@
-##############################
-## Night template sensors   #
-##############################
-- sensor:
-    - name: "Nightstate"
-      state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"

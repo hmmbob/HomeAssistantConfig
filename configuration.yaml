@@ -2,7 +2,9 @@
 ## Home Assistant Core
 #################################################################
 homeassistant:
-  customize: !include includes/customize.yaml
+  customize:
+    zone.home: # Set home zone to 50m
+      radius: 50
   auth_providers:
     - type: homeassistant
   auth_mfa_modules:
@@ -106,17 +108,8 @@ recorder:
 ## Includes
 #################################################################
 automation: !include automations.yaml
-automation split: !include_dir_merge_list automation/
-binary_sensor: !include includes/binary_sensor.yaml
-emulated_hue: !include includes/emulated_hue.yaml
 google_assistant: !include includes/googleassistant.yaml
-group: !include includes/groups.yaml
-input_text: !include includes/input_text.yaml
-notify: !include includes/notify.yaml
-rest: !include includes/rest.yaml
 script: !include scripts.yaml
-sensor: !include includes/sensors.yaml
-template: !include includes/template.yaml
 
 #################################################################
 ## default_config items not included elsewhere
@@ -144,20 +137,24 @@ zeroconf:
 #################################################################
 ## Components not using includes
 #################################################################
+ffmpeg: # Used by doorbell
 
-ffmpeg:
+notify:
+  - platform: tts
+    name: tts_woonkamer
+    tts_service: tts.microsoft_say
+    media_player: media_player.woonkamer
 
-mqtt:
-  binary_sensor: # Sensor for monitoring the bridge state
-    - unique_id: zigbee2mqtt_bridge
-      name: Zigbee2mqtt Bridge
-      state_topic: "zigbee2mqtt/bridge/state"
-      payload_on: "online"
-      payload_off: "offline"
-      availability_topic: "zigbee2mqtt/bridge/state"
-      payload_available: "online"
-      payload_not_available: "offline"
-      device_class: connectivity
+  - platform: tts
+    name: tts_hele_huis
+    tts_service: tts.microsoft_say
+    media_player: media_player.hele_huis
+
+  # Notify bogus service
+  # Used to let automations not error out
+  - name: bogus
+    platform: command_line
+    command: ":" # bash no-op command
 
 spotcast:
   sp_dc: !secret spotcast_sp_dc

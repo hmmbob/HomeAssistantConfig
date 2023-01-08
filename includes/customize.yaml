@@ -1,6 +1,0 @@
-# Customizing template and rest sensors that cannot
-# be customized through the frontend
-
-# Set home zone to 50m
-zone.home:
-  radius: 50

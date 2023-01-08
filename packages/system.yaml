@@ -1,0 +1,213 @@
+system_package:
+  binary_sensor:
+    ##########################
+    ## Connectivity sensor
+    ##########################
+    - platform: group
+      name: Statussen
+      device_class: connectivity
+      all: true
+      entities:
+        - binary_sensor.hp_printer_connectivity
+        - binary_sensor.kast_status
+        - binary_sensor.overkapping_status
+        - binary_sensor.staande_lamp_status
+        - binary_sensor.weerhuisje_status
+        - binary_sensor.zigbee2mqtt_bridge
+        - binary_sensor.zoutlamp_status
+
+  mqtt:
+    binary_sensor: # Sensor for monitoring the bridge state
+      - unique_id: zigbee2mqtt_bridge
+        name: Zigbee2mqtt Bridge
+        state_topic: "zigbee2mqtt/bridge/state"
+        payload_on: "online"
+        payload_off: "offline"
+        availability_topic: "zigbee2mqtt/bridge/state"
+        payload_available: "online"
+        payload_not_available: "offline"
+        device_class: connectivity
+
+  sensor:
+    ##########################
+    ## System sensors
+    ##########################
+    - platform: systemmonitor
+      resources:
+        - type: memory_use
+        - type: memory_use_percent
+        - type: processor_use
+
+  template:
+    ##############################
+    ## Night template sensors   #
+    ##############################
+    - sensor:
+        - name: "Nightstate"
+          state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
+
+  automation:
+    ##########################
+    ## Set theme
+    ##########################
+    - id: set_theme
+      alias: "System: Set theme"
+      trigger:
+        - platform: homeassistant
+          event: start
+        - platform: state
+          entity_id: sun.sun
+          to: above_horizon
+        - platform: state
+          entity_id: sun.sun
+          to: below_horizon
+      action:
+        - if: "{{ is_state('sun.sun', 'below_horizon')}}"
+          then:
+            - service: frontend.set_theme
+              data:
+                name: "Hmmbob Google Dark Theme"
+          else:
+            - service: frontend.set_theme
+              data:
+                name: "Hmmbob Google Light Theme"
+
+    - id: set_google_home_volume
+      alias: "Volume: Set Google Home Volume"
+      trigger:
+        - platform: time
+          id: "time"
+          at:
+            - "07:00:00"
+            - "08:30:00"
+            - "19:30:00"
+            - "20:30:00"
+        - platform: homeassistant
+          event: start
+          id: "ha_start"
+        - platform: event
+          event_type: automation_reloaded
+          id: "automation_reload"
+      action:
+        - alias: "Check if this is triggered by HA restart"
+          if:
+            condition: trigger
+            id: "ha_start"
+          then:
+            - delay:
+                minutes: 1
+        - alias: "Checking what time it is..."
+          choose:
+            - alias: "It's between 7hrs and 08:30"
+              conditions:
+                - condition: time
+                  after: "06:59:59"
+                  before: "08:30:00"
+              sequence:
+                - service: media_player.volume_set
+                  data:
+                    entity_id: media_player.woonkamer
+                    volume_level: 0.6
+            - alias: "It's between 08:30 and 19hrs"
+              conditions:
+                - condition: time
+                  after: "08:29:59"
+                  before: "19:00:00"
+              sequence:
+                - service: media_player.volume_set
+                  data:
+                    entity_id:
+                      - media_player.slaapkamer
+                      - media_player.zolder
+                    volume_level: 0.6
+                - service: media_player.volume_set
+                  data:
+                    entity_id: media_player.studeerkamer
+                    volume_level: 0.4
+            - alias: "It's between 19hrs and 20:30"
+              conditions:
+                - condition: time
+                  after: "18:59:59"
+                  before: "20:30:00"
+              sequence:
+                - service: media_player.volume_set
+                  data:
+                    entity_id: media_player.woonkamer
+                    volume_level: 0.4
+                - service: media_player.volume_set
+                  data:
+                    entity_id:
+                      - media_player.slaapkamer
+                      - media_player.studeerkamer
+                      - media_player.zolder
+                    volume_level: 0.2
+            - alias: "It's between 20:30 and 7hrs"
+              conditions:
+                - condition: time
+                  after: "20:29:59"
+                  before: "07:00:00"
+              sequence:
+                - service: media_player.volume_set
+                  data:
+                    entity_id: media_player.woonkamer
+                    volume_level: 0.2
+                - service: media_player.volume_set
+                  data:
+                    entity_id: media_player.studeerkamer
+                    volume_level: 0.1
+
+    ##########################
+    ## System update notifications
+    ##########################
+    - alias: "System: Upgrade Available Notification"
+      id: system_update_available_notification
+      description: Send notification on Home Assistant update available
+      trigger:
+        - platform: state
+          entity_id: sensor.latest_version
+          not_to:
+            - "unknown"
+            - "unavailable"
+            - "none"
+      condition:
+        - condition: template
+          value_template: >
+            {{ states('sensor.latest_version') != states('sensor.current_version') }}
+      action:
+        - service: notify.mobile_app_sm_a526b
+          data:
+            title: Upgrade time!
+            message: >
+              There is an upgrade for Home Assistant container pending!
+              Version {{ states('sensor.latest_version') }} just got released!
+            data:
+              tag: System
+              channel: System
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              actions:
+                - action: "URI"
+                  title: "Open Changelog"
+                  uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
+        - service: persistent_notification.create
+          data:
+            notification_id: update_pending
+            title: Upgrade time!
+            message: >
+              There is an upgrade for Home Assistant container pending!
+              Version {{ states('sensor.latest_version') }} just got released!
+              [Changelog](https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}})
+
+    - alias: "System: Clear Upgrade Available Notification"
+      id: system_clear_update_available_notification
+      description: Clear notification of Home Assistant update available
+      trigger:
+        - platform: homeassistant
+          event: start
+      condition:
+        - condition: template
+          value_template: >
+            {{ states('sensor.latest_version') == states('sensor.current_version') }}
+      action:
+        - service: persistent_notification.dismiss
+          data:
+            notification_id: update_pending

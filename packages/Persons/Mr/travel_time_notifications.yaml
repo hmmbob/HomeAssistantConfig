@@ -1,0 +1,71 @@
+travel_time_notifications_package:
+  automation:
+    ##########################
+    ## Update Waze sensors
+    ##########################
+    - id: update_waze_to_home
+      alias: "Update: Waze travel time to home"
+      initial_state: on
+      trigger:
+        - platform: time_pattern
+          minutes: "/5"
+          seconds: 00
+        - platform: homeassistant
+          event: start
+      condition:
+        condition: state
+        entity_id: person.bob
+        state: not_home
+      action:
+        - service: homeassistant.update_entity
+          entity_id: sensor.reistijd_bob_naar_huis
+
+    ##########################
+    ## Coming home notifications
+    ##########################
+    - id: notification_hmmbob_left_work
+      alias: "Location: Notificatie dat Bob van het werk vertrekt"
+      initial_state: on
+      trigger:
+        - platform: zone
+          entity_id: device_tracker.sm_a526b
+          event: leave
+          zone: zone.work
+      condition:
+        - condition: time
+          after: "15:00:00"
+          before: "19:00:00"
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+      action:
+        - service: homeassistant.update_entity
+          entity_id: sensor.reistijd_bob_naar_huis
+        - delay:
+            seconds: 10
+        - service: notify.mobile_app_sm_a336b
+          data:
+            title: ♥ Bob is op weg naar huis!
+            message: >
+              Hij is rond {{now().strftime("%H:%M")}} vertrokken en Waze 
+              denkt dat hij over {{states('sensor.reistijd_bob_naar_huis')}} min thuis is.
+            data:
+              actions:
+                - action: "URI"
+                  title: "Check huidige locatie"
+                  uri: "/dashboards/locations"
+              ttl: 0
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+        - service: notify.mobile_app_sm_a526b
+          data:
+            title: Goede thuisreis
+            message: >
+              Ik heb thuis laten weten dat je volgens Waze over {{states('sensor.reistijd_bob_naar_huis')}} min thuis bent.
+            data:
+              ttl: 0
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"

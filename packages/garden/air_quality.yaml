@@ -21,37 +21,6 @@ air_quality_package:
           - action: "mute_alert_weerhuisje"
             title: "Alert dempen"
 
-  automation:
-    ##################################
-    ## Push values to Air Quality APIs
-    ##################################
-    # Sensor uses a NodeMCUv2 and SDS011+BME280 sensors. NodeMCU is flashed with ESPHome
-    # software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
-    # sensors update at the same time, we only need to monitor one sensor to trigger
-    # the automation. Temperature is the sensor that changes most often.
-    - id: weerhuisje_update_air_quality_sensors
-      alias: "Weerhuisje: Update Air Quality Sensors"
-      mode: queued
-      trigger:
-        - platform: time_pattern
-          minutes: "/1"
-      condition:
-        not:
-          - "{{ states('sensor.particulate_matter_2_5um_concentration') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.particulate_matter_10_0um_concentration') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.bme280_temperature') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.bme280_humidity') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
-      action:
-        - alias: "Send TPH to Luftdaten / Sensor.Community API"
-          service: rest_command.send_luftdaten_tph
-        - alias: "Send data to OpenSenseMap"
-          service: rest_command.post_opensensebox
-        - alias: "Send updates to Madavi.de for statistics."
-          service: rest_command.send_madavi
-        - alias: "Send PM to Luftdaten / Sensor.Community API"
-          service: rest_command.send_luftdaten_pm
-
   input_text:
     ##################################
     ## OpenSensebox SensorIDs
@@ -160,3 +129,71 @@ air_quality_package:
           "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}",
           "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}"
         }
+
+  automation:
+    ##################################
+    ## Push values to Air Quality APIs
+    ##################################
+    # Sensor uses a NodeMCUv2 and SDS011+BME280 sensors. NodeMCU is flashed with ESPHome
+    # software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
+    # sensors update at the same time, we only need to monitor one sensor to trigger
+    # the automation. Temperature is the sensor that changes most often.
+    - id: weerhuisje_update_air_quality_sensors
+      alias: "Weerhuisje: Update Air Quality Sensors"
+      mode: queued
+      trigger:
+        - platform: time_pattern
+          minutes: "/1"
+      condition:
+        not:
+          - "{{ states('sensor.particulate_matter_2_5um_concentration') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.particulate_matter_10_0um_concentration') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.bme280_temperature') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.bme280_humidity') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
+      action:
+        - alias: "Send TPH to Luftdaten / Sensor.Community API"
+          service: rest_command.send_luftdaten_tph
+        - alias: "Send data to OpenSenseMap"
+          service: rest_command.post_opensensebox
+        - alias: "Send updates to Madavi.de for statistics."
+          service: rest_command.send_madavi
+        - alias: "Send PM to Luftdaten / Sensor.Community API"
+          service: rest_command.send_luftdaten_pm
+
+    ##########################
+    ## Clear alerts
+    ##########################
+    # When alerts are cleared, mobile notifications aren't
+    # cleared automatically too. But we can automate that!
+
+    - alias: "Notifications: Clear weerhuisje alerts"
+      id: clear_weerhuisje_alert
+      trigger:
+        - platform: state
+          entity_id: alert.weerhuisje
+          from: "on"
+          to:
+            - "idle"
+            - "off"
+      action:
+        - service: notify.mobile_devices_adults
+          data:
+            message: clear_notification
+            data:
+              tag: weerhuisje
+
+    ##########################
+    ## Mute alerts
+    ##########################
+    - alias: "Notifications: Handle weerhuisje alert mute"
+      id: mute_weerhuisje_alerts
+      trigger:
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "mute_alert_weerhuisje"
+      action:
+        - service: alert.turn_off
+          target:
+            entity_id: alert.weerhuisje

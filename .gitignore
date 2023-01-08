@@ -19,6 +19,7 @@ custom_components/*
 !lovelace/*
 !packages/
 !packages/*
+!packages/*/*
 !scripts/
 !scripts/*
 !themes/

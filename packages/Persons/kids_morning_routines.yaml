@@ -1,11 +1,11 @@
-morning_routines_package:
+kids_morning_routines_package:
   binary_sensor:
     - platform: workday
       name: "Schooldag"
       country: NL
       remove_holidays:
         - "Goede Vrijdag"
-      add_holidays: !include ../includes/holidays.yaml
+      add_holidays: !include /config/includes/holidays.yaml
 
   input_boolean:
     enable_morning_tts_mini:
