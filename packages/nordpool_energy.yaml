@@ -17,9 +17,6 @@ nordpool_energy:
         {% set opslag = 0.0025 %}
         {{ ((current_price * VAT ) + (tax_kWh + opslag) * (1 + VAT)) | float }}
 
-  ##############################
-  ## Nordpool template sensors #
-  ##############################
   template:
     - sensor:
         - name: "Nordpool Tomorrow Average"
@@ -54,9 +51,7 @@ nordpool_energy:
             {% endif %}
           availability: >
             {{ states('sensor.nordpool') | is_number }}
-  ##########################
-  ## Dynamic gasprices
-  ##########################
+
   rest:
     - resource: https://enever.nl/feed/gasprijs_vandaag.php
       scan_interval: 900
@@ -68,3 +63,24 @@ nordpool_energy:
           json_attributes:
             - "datum"
           device_class: monetary
+
+  automation:
+    - alias: "Energy: Notification for negative electricity price tomorrow"
+      trigger:
+        platform: state
+        entity_id: binary_sensor.nordpool_negative_electricity_price_tomorrow
+        to: "on"
+        from: "off"
+      action:
+        - service: notify.mobile_app_sm_a526b
+          data:
+            title: "Negative electricity price tomorrow"
+            message: "There are one or more hour with negative electricity prices tomorrow!"
+            data:
+              channel: "Energy"
+              importance: high
+              notification_icon: "mdi:home-lightning-bolt"
+              actions:
+                - action: "URI"
+                  title: "Check overzicht"
+                  uri: "/lovelace/energy"
