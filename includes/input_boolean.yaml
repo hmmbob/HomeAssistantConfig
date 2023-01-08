@@ -27,9 +27,6 @@ enable_pir_gang_automations:
 enable_pir_woonkamer_automations:
   name: "Verlichting woonkamer aan op beweging"
   icon: mdi:motion-sensor
-toon_on_through_movement:
-  name: "Toon aan via PIR"
-  icon: mdi:thermostat
 woonkamer_turned_on_by_movement:
   name: "Woonkamer aan gedaan via PIR"
   icon: mdi:lightbulb-on-outline

@@ -151,11 +151,6 @@ zeroconf:
 #################################################################
 ## Components not using includes
 #################################################################
-climate:
-  - platform: toon_climate
-    name: Woonkamer
-    host: !secret toon_host
-    scan_interval: 15
 
 ffmpeg:
 

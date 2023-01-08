@@ -37,12 +37,3 @@
     - name: "Is minicave on"
       unique_id: is_minicave_on
       state: "{{ states('sensor.mini_cave_power') | int(default=0) > 22 }}"
-
-##############################
-## Room temperature          #
-##############################
-- sensor:
-    - name: "Kamertemperatuur"
-      unit_of_measurement: "°C"
-      state: "{{ state_attr('climate.woonkamer', 'current_temperature')}}"
-      device_class: temperature

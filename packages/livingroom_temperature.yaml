@@ -1,0 +1,88 @@
+livingroom_temperature_package:
+  climate:
+    - platform: toon_climate
+      name: Woonkamer
+      host: !secret toon_host
+      scan_interval: 15
+
+  input_boolean:
+    toon_on_through_movement:
+      name: "Toon aan via PIR"
+      icon: mdi:thermostat
+
+  template:
+    - sensor:
+        - name: "Kamertemperatuur"
+          unit_of_measurement: "°C"
+          state: "{{ state_attr('climate.woonkamer', 'current_temperature')}}"
+          device_class: temperature
+
+  automation:
+    ##########################
+    ## Toon aan
+    ##########################
+    - id: turn_on_toon
+      alias: "Temp: Toon aan"
+      trigger:
+        - id: "motion"
+          platform: state
+          entity_id: binary_sensor.pir_woonkamer_motion
+          to: "on"
+        - id: "phone"
+          platform: state
+          entity_id: sensor.sm_a526b_charger_type
+          to: "none"
+          from: "ac"
+      condition:
+        and:
+          - condition: state
+            entity_id: input_boolean.toon_on_through_movement
+            state: "on"
+          - condition: time
+            after: "06:45:00"
+            before: "08:30:00"
+          - condition: numeric_state
+            entity_id: climate.woonkamer
+            attribute: current_temperature
+            below: 19.5
+      action:
+        - alias: "Only use phone trigger when I'm home"
+          choose:
+            - conditions:
+                - condition: trigger
+                  id: "phone"
+              sequence:
+                - condition: state
+                  entity_id: device_tracker.sm_a526b
+                  state: "home"
+                - service: climate.set_preset_mode
+                  data:
+                    entity_id: climate.woonkamer
+                    preset_mode: home
+          default:
+            - service: climate.set_preset_mode
+              data:
+                entity_id: climate.woonkamer
+                preset_mode: home
+
+    ##########################
+    ## Toon uit op schooltijd
+    ##########################
+    - id: turn_off_toon_at_school_time
+      alias: "Temp: Toon uit op schooltijd"
+      trigger:
+        - platform: time
+          at: input_datetime.time_schooltijd
+      condition:
+        and:
+          - condition: state
+            entity_id: input_boolean.toon_on_through_movement
+            state: "on"
+          - condition: state
+            entity_id: binary_sensor.schooldag
+            state: "on"
+      action:
+        - service: climate.set_preset_mode
+          data:
+            entity_id: climate.woonkamer
+            preset_mode: away
