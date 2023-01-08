@@ -7,7 +7,7 @@ morning_routines_package:
         - "Goede Vrijdag"
       add_holidays: !include ../includes/holidays.yaml
 
-  input_booleans:
+  input_boolean:
     enable_morning_tts_mini:
       name: "Herinnering voor mini"
       icon: mdi:account-voice
