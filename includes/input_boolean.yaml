@@ -40,10 +40,3 @@ vacation_mode_away:
 vacation_mode_home:
   name: "Vakantie (thuis)"
   icon: mdi:home-map-marker
-
-#############################
-## Washing machine          #
-#############################
-wasmachine_actief:
-  name: "Wasmachine actief"
-  initial: false
