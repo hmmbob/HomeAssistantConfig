@@ -1,0 +1,47 @@
+aquarium_package:
+  input_datetime:
+    time_aquarium_on:
+      name: Aquarium aan
+      has_time: true
+    time_aquarium_on_weekend:
+      name: Aquarium aan weekend
+      has_time: true
+    time_aquarium_off:
+      name: Aquarium uit
+      has_time: true
+
+  automation:
+    - id: aquarium_turn_on_time
+      alias: "Lights: Aquarium turn on weekday"
+      trigger:
+        - platform: time
+          at: input_datetime.time_aquarium_on
+      condition:
+        - condition: state
+          entity_id: binary_sensor.schooldag
+          state: "on"
+      action:
+        - service: homeassistant.turn_on
+          entity_id: switch.aquarium
+
+    - id: aquarium_turn_on_time_weekend
+      alias: "Lights: Aquarium turn on weekend"
+      trigger:
+        - platform: time
+          at: input_datetime.time_aquarium_on_weekend
+      condition:
+        - condition: state
+          entity_id: binary_sensor.schooldag
+          state: "off"
+      action:
+        - service: homeassistant.turn_on
+          entity_id: switch.aquarium
+
+    - id: aquarium_turn_off_time
+      alias: "Lights: Aquarium turn off"
+      trigger:
+        platform: time
+        at: input_datetime.time_aquarium_off
+      action:
+        - service: homeassistant.turn_off
+          entity_id: switch.aquarium
