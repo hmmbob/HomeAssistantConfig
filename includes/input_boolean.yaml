@@ -1,6 +1,0 @@
-#############################
-## Doors                    #
-#############################
-notify_door_alert:
-  name: "Deur alarm"
-  icon: mdi:door-open

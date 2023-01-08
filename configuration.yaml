@@ -105,14 +105,12 @@ recorder:
 #################################################################
 ## Includes
 #################################################################
-alert: !include includes/alert.yaml
 automation: !include automations.yaml
 automation split: !include_dir_merge_list automation/
 binary_sensor: !include includes/binary_sensor.yaml
 emulated_hue: !include includes/emulated_hue.yaml
 google_assistant: !include includes/googleassistant.yaml
 group: !include includes/groups.yaml
-input_boolean: !include includes/input_boolean.yaml
 input_datetime: !include includes/input_datetime.yaml
 input_select: !include includes/input_select.yaml
 input_text: !include includes/input_text.yaml
