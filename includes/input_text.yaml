@@ -16,10 +16,3 @@ naam_puber:
 naam_mini:
   name: Naam mini
   initial: !secret naam_mini
-
-##################################
-## TTS Message
-##################################
-tts_message:
-  name: Bericht
-  icon: mdi:message-processing-outline

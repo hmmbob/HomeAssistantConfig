@@ -1,0 +1,47 @@
+tts_system_package:
+  ##########################
+  ## Send a TTS message on selected speakers
+  ##########################
+  input_text:
+    tts_message:
+      name: Bericht
+      icon: mdi:message-processing-outline
+
+  input_select:
+    tts_target:
+      name: TTS Target
+      options:
+        - Woonkamer
+        - Hele huis
+        - Bovenverdieping
+        - Slaapkamer
+        - Zolder
+        - Studeerkamer
+      icon: mdi:cast-audio
+
+  script:
+    play_tts_message:
+      alias: Play TTS message
+      description: "Play a TTS message set in the frontend"
+      icon: mdi:account-voice
+      mode: single
+      max_exceeded: silent
+      variables:
+        target: >
+          {% if is_state("input_select.tts_target", "Woonkamer") %} media_player.woonkamer
+          {% elif is_state("input_select.tts_target", "Hele huis") %} media_player.hele_huis
+          {% elif is_state("input_select.tts_target", "Bovenverdieping") %} media_player.boven
+          {% elif is_state("input_select.tts_target", "Slaapkamer") %} media_player.slaapkamer
+          {% elif is_state("input_select.tts_target", "Zolder") %} media_player.zolder
+          {% elif is_state("input_select.tts_target", "Studeerkamer") %} media_player.studeerkamer
+          {% endif %}
+      sequence:
+        - service: tts.microsoft_say
+          data:
+            entity_id: "{{ target }}"
+            message: "{{ states('input_text.tts_message') }}"
+            cache: false
+        - delay: 00:00:10
+        - service: media_player.turn_off
+          data:
+            entity_id: "{{ target }}"
