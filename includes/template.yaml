@@ -26,14 +26,3 @@
 - sensor:
     - name: "Nightstate"
       state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
-
-#####################################
-## Power level helpers for stats    #
-#####################################
-- binary_sensor:
-    - name: "Is pubercave on"
-      unique_id: is_pubercave_on
-      state: "{{ states('sensor.pubercave_power') | int(default=0) > 80 }}"
-    - name: "Is minicave on"
-      unique_id: is_minicave_on
-      state: "{{ states('sensor.mini_cave_power') | int(default=0) > 22 }}"

@@ -47,13 +47,3 @@ vacation_mode_home:
 wasmachine_actief:
   name: "Wasmachine actief"
   initial: false
-
-#############################
-## Zolder                   #
-#############################
-enable_game_mode:
-  name: Game mode
-  icon: mdi:sony-playstation
-notify_power_use:
-  name: Waarschuwing leeslamp, minicave & pubercave
-  icon: mdi:lightbulb-on-outline

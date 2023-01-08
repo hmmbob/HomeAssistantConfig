@@ -1,0 +1,76 @@
+bedroom_minicave_package:
+  input_boolean:
+    notify_power_use_minicave:
+      name: Waarschuwing Minicave
+      icon: mdi:lightbulb-on-outline
+
+  input_datetime:
+    time_poweruse_minicave:
+      name: Tijd poweruse minicave
+      has_time: true
+
+  sensor:
+    - platform: history_stats
+      name: Minicave ON today
+      entity_id: binary_sensor.is_minicave_on
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      end: "{{ now() }}"
+
+  template:
+    - binary_sensor:
+        - name: "Is minicave on"
+          unique_id: is_minicave_on
+          state: "{{ states('sensor.mini_cave_power') | int(default=0) > 22 }}"
+
+  automation:
+    ## Warnings on power usage on kid's bedroom
+    ## The little one shouldn't be at his PC after bedtime.
+    - id: warn_power_usage_after_bedtime_minicave
+      alias: "Notifications: Power usage na bedtijd minicave"
+      mode: queued
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.mini_cave_power
+          above: 22
+          id: Minicave
+      condition:
+        - condition: state
+          entity_id: input_boolean.notify_power_use_minicave
+          state: "on"
+        - condition: time
+          after: input_datetime.time_poweruse_minicave
+      action:
+        - service: notify.mobile_devices_adults
+          data:
+            title: "{{ trigger.id }}"
+            message: >-
+              De computer op de slaapkamer van T staat nog aan... ({{ now().strftime('%H:%M') }}).
+            data:
+              tag: "{{ trigger.id }}"
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+
+    # Because the switch is always on and only used for power tracking,
+    # we need another way to track this switch in the logbook. We use
+    # 25 watts as crossover point, because the PS4 sometimes charges
+    # the controllers and thus consumes a bit of power.
+    - id: power_logging_minicave
+      alias: "Power: Logging minicave"
+      mode: queued
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.mini_cave_power
+          above: 22
+          id: minicave
+        - platform: numeric_state
+          entity_id: sensor.mini_cave_power
+          below: 8
+          id: minicave
+      action:
+        - service: logbook.log
+          data:
+            name: Minicave
+            entity_id: sensor.mini_cave_power
+            message: >-
+              {{ iif(states('sensor.mini_cave_power') | float > 22, "is aan", "is uit")}}

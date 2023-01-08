@@ -166,10 +166,6 @@ mqtt:
       payload_not_available: "offline"
       device_class: connectivity
 
-sonoff:
-  username: !secret sonoff_username
-  password: !secret sonoff_password
-
 spotcast:
   sp_dc: !secret spotcast_sp_dc
   sp_key: !secret spotcast_sp_key
