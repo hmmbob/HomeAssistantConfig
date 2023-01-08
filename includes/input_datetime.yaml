@@ -1,9 +1,3 @@
 time_morning_briefing:
   name: Start morning briefing
   has_time: true
-time_vacation_lights_start:
-  name: Vacation lights start
-  has_time: true
-time_vacation_lights_end:
-  name: Vacation lights end
-  has_time: true

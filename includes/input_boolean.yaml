@@ -20,13 +20,3 @@ enable_pir_woonkamer_automations:
 woonkamer_turned_on_by_movement:
   name: "Woonkamer aan gedaan via PIR"
   icon: mdi:lightbulb-on-outline
-
-#############################
-## Vacation mode            #
-#############################
-vacation_mode_away:
-  name: "Vakantie (weg)"
-  icon: mdi:home-lock
-vacation_mode_home:
-  name: "Vakantie (thuis)"
-  icon: mdi:home-map-marker
