@@ -12,6 +12,7 @@ homeassistant:
       message: "Access token: {}"
       include:
         - mobile_app_sm_a526b
+  packages: !include_dir_merge_named packages/
 
 frontend:
   themes: !include_dir_merge_named themes/
@@ -51,6 +52,7 @@ logger:
   default: warn
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
+    custom_components.kia_uvo: debug
   filters:
     aioesphomeapi.reconnect_logic:
       # This device has weak wifi connection, just mute the reconnect logs
