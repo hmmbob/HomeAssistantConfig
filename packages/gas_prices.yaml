@@ -1,0 +1,54 @@
+gas_prices_package:
+  multiscrape:
+    ##########################
+    ## Gas prices sensors
+    ##
+    ## Just scraping the Tinq website page for the needed information
+    ## URL is to their site: https://www.tinq.nl/tankstations/utrecht-atoomweg (random example)
+    ## Using !secret as to somewhat keep some privacy for the exact location I scrape.
+    ##########################
+    - name: gasprices
+      resource: !secret scrape_url_tinq
+      scan_interval: 3600
+      sensor:
+        - unique_id: benzine
+          name: "Benzine"
+          icon: mdi:gas-station
+          select: ".taxonomy-term-Euro95 .field--name-field-prices-price-pump"
+          attribute: "content"
+          unit_of_measurement: €
+          attributes:
+            - name: Adres
+              select: ".address"
+              value_template: "{{ value | striptags }}"
+
+  automation:
+    ##########################
+    ## Gasprice notifications
+    ##########################
+    - id: notification_benzine_price_changed
+      alias: "Notifications: Benzine price changed"
+      trigger:
+        - platform: state
+          entity_id: sensor.benzine
+          not_to:
+            - "unknown"
+            - "unavailable"
+            - "none"
+      condition:
+        - alias: "Check if price really changed"
+          condition: template
+          value_template: "{{ trigger.to_state.state != trigger.from_state.state }}"
+      action:
+        - service: notify.mobile_app_sm_a526b
+          data:
+            title: >-
+              {{ iif(trigger.to_state.state < trigger.from_state.state, "Benzine wordt goedkoper", "Benzine wordt duurder") }}
+            message: >-
+              ⛽ De benzineprijs is {{ iif(trigger.to_state.state < trigger.from_state.state,  "gezakt.", "gestegen.") }}
+              Nieuwe prijs: {{ trigger.to_state.state }}. 
+              Oude prijs: {{ trigger.from_state.state }}.
+            data:
+              tag: benzine
+              channel: benzine
+              notification_icon: mdi:gas-station
