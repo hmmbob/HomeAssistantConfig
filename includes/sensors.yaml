@@ -25,13 +25,6 @@
     - type: memory_use_percent
     - type: processor_use
 
-- platform: tgtg
-  username: !secret tgtg_username
-  access_token: !secret tgtg_access_token
-  refresh_token: !secret tgtg_refresh_token
-  user_id: !secret tgtg_user_id
-  scan_interval: 300
-
 ##########################
 ## Trash sensors
 ##########################
