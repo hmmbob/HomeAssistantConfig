@@ -1,0 +1,41 @@
+lights_hallway_package:
+  input_boolean:
+    enable_pir_gang_automations:
+      name: "Verlichting gang aan op beweging"
+      icon: mdi:motion-sensor
+
+  automation:
+    - id: lights_gang
+      alias: "Lights: Gang"
+      mode: restart
+      max_exceeded: silent
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.pir_gang_sensor
+          from: "off"
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: input_boolean.enable_pir_gang_automations
+          state: "on"
+        - condition: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 6
+      action:
+        - alias: "Gang lamp aan..."
+          service: switch.turn_on
+          target:
+            entity_id: switch.gang
+        - alias: "Wacht tot er geen motion meer is..."
+          wait_for_trigger:
+            - platform: state
+              entity_id: binary_sensor.pir_gang_sensor
+              from: "on"
+              to: "off"
+        - alias: "Extra delay nadat er geen beweging meer is..."
+          delay: "00:00:10"
+        - alias: "Lamp uit.."
+          service: switch.turn_off
+          target:
+            entity_id: switch.gang

@@ -1,18 +1,4 @@
 ##########################
-## Lights
-##########################
-lampen_woonkamer:
-  name: Verlichting Woonkamer
-  icon: mdi:lamps
-  entities:
-    - switch.grijze_lamp
-    - switch.kast
-    - switch.staande_lamp
-    - switch.tv_kastje
-    - switch.zoutlamp
-    - light.window_level
-
-##########################
 ## Persons
 ##########################
 all_adults:
