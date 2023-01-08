@@ -66,6 +66,7 @@ nordpool_energy_package:
 
   automation:
     - alias: "Energy: Notification for negative electricity price tomorrow"
+      id: energy_notifocation_negative_tomorrow
       trigger:
         platform: state
         entity_id: binary_sensor.nordpool_negative_electricity_price_tomorrow

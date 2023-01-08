@@ -13,6 +13,7 @@ livingroom_temperature_package:
   template:
     - sensor:
         - name: "Kamertemperatuur"
+          unique_id: "kamertemperatuur"
           unit_of_measurement: "°C"
           state: "{{ state_attr('climate.woonkamer', 'current_temperature')}}"
           device_class: temperature

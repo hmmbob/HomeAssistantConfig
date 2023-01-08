@@ -5,6 +5,7 @@ system_package:
     ##########################
     - platform: group
       name: Statussen
+      unique_id: statussen
       device_class: connectivity
       all: true
       entities:
@@ -44,6 +45,7 @@ system_package:
     ##############################
     - sensor:
         - name: "Nightstate"
+          unique_id: nightstate
           state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
 
   automation:
