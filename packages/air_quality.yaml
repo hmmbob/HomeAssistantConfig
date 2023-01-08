@@ -1,0 +1,162 @@
+air_quality_package:
+  alert:
+    weerhuisje:
+      name: "Weerhuisje"
+      title: "ALARM:"
+      message: "Het weerhuisje is offline"
+      entity_id: binary_sensor.weerhuisje_status
+      state: "off"
+      repeat: 10
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - mobile_app_sm_a526b
+      data:
+        tag: weerhuisje
+        ttl: 0
+        channel: alerts # For devices on Android 8.0+ only
+        priority: high
+        ledColor: "red" # Set the LED to red
+        actions:
+          - action: "mute_alert_weerhuisje"
+            title: "Alert dempen"
+
+  automation:
+    ##################################
+    ## Push values to Air Quality APIs
+    ##################################
+    # Sensor uses a NodeMCUv2 and SDS011+BME280 sensors. NodeMCU is flashed with ESPHome
+    # software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
+    # sensors update at the same time, we only need to monitor one sensor to trigger
+    # the automation. Temperature is the sensor that changes most often.
+    - id: weerhuisje_update_air_quality_sensors
+      alias: "Weerhuisje: Update Air Quality Sensors"
+      mode: queued
+      trigger:
+        - platform: time_pattern
+          minutes: "/1"
+      condition:
+        not:
+          - "{{ states('sensor.particulate_matter_2_5um_concentration') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.particulate_matter_10_0um_concentration') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.bme280_temperature') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.bme280_humidity') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
+      action:
+        - alias: "Send TPH to Luftdaten / Sensor.Community API"
+          service: rest_command.send_luftdaten_tph
+        - alias: "Send data to OpenSenseMap"
+          service: rest_command.post_opensensebox
+        - alias: "Send updates to Madavi.de for statistics."
+          service: rest_command.send_madavi
+        - alias: "Send PM to Luftdaten / Sensor.Community API"
+          service: rest_command.send_luftdaten_pm
+
+  input_text:
+    ##################################
+    ## OpenSensebox SensorIDs
+    ##################################
+    opensensebox_sensorid_temp:
+      name: Opensensebox temperature ID
+      initial: !secret opensensebox_sensorid_temp
+
+    opensensebox_sensorid_press:
+      name: Opensensebox pressure ID
+      initial: !secret opensensebox_sensorid_press
+
+    opensensebox_sensorid_hum:
+      name: Opensensebox humidity ID
+      initial: !secret opensensebox_sensorid_hum
+
+    opensensebox_sensorid_pm25:
+      name: Opensensebox PM2.5 ID
+      initial: !secret opensensebox_sensorid_pm25
+
+    opensensebox_sensorid_pm10:
+      name: Opensensebox PM10 ID
+      initial: !secret opensensebox_sensorid_pm10
+
+  rest_command:
+    ##################################
+    ## Push values to Air Quality APIs
+    ##################################
+    # The BME280 pressure value in HA is in hPa - the APIs expect it in Pa, hence the
+    # multiplication of the value in the templates below.
+
+    # Push to Luftdaten API. Luftdaten uses headers to distinguish between different sensor
+    # types, so we need to push twice. The X-Sensor header contains the sensorID from Luftdaten,
+    # typically formatted as esp8266-12345678 or similar.
+
+    # Using the http endpoints, as the https endpoints error out more often.
+    send_luftdaten_pm:
+      url: http://api.sensor.community/v1/push-sensor-data/
+      method: POST
+      content_type: "application/json"
+      timeout: 30
+      headers:
+        X-Pin: 1 ## This tells Luftdaten that it is SDS011 data
+        X-Sensor: !secret luftdaten_x_sensor
+      payload: >-
+        {
+          "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
+          "sensordatavalues":[
+            {"value_type":"P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
+            {"value_type":"P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"}
+          ]
+        }
+    send_luftdaten_tph:
+      url: http://api.sensor.community/v1/push-sensor-data/
+      method: POST
+      content_type: "application/json"
+      timeout: 30
+      headers:
+        X-Pin: 11 ## This tells Luftdaten that it is BME280 data
+        X-Sensor: !secret luftdaten_x_sensor
+      payload: >-
+        {
+          "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
+          "sensordatavalues":[
+            {"value_type":"temperature","value":"{{ states('sensor.bme280_temperature') }}"},
+            {"value_type":"pressure","value":"{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}"},
+            {"value_type":"humidity","value":"{{ states('sensor.bme280_humidity') }}"}
+          ]
+        }
+
+    # Push to Madavi. This is related to Luftdaten and stores data for use in Grafana.
+    send_madavi:
+      url: http://api-rrd.madavi.de/data.php
+      method: POST
+      content_type: "application/json"
+      headers:
+        X-Pin: 0
+        X-Sensor: !secret luftdaten_x_sensor
+      payload: >-
+        {
+          "software_version": "HomeAssistant-{{ states('sensor.current_version') }}", 
+          "sensordatavalues":[
+            {"value_type":"SDS_P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
+            {"value_type":"SDS_P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"},
+            {"value_type":"BME280_temperature","value":"{{ states('sensor.bme280_temperature') }}"},
+            {"value_type":"BME280_pressure","value":"{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}"},
+            {"value_type":"BME280_humidity","value":"{{ states('sensor.bme280_humidity') }}"}
+          ]
+        }
+
+    # Push to OpenSenseBox / OpenSenseMap. The url !secret contains the openSenseBox API url,
+    # which looks like https://api.opensensemap.org/boxes/<<yoursenseboxid>>/data
+    # The input_text items contain the sensor-IDs you need to publish the data to the API.
+    # You can find those on your SenseBox page on https://opensensemap.org/account
+    # I use input_text to hide this sensitive information from Github.
+    post_opensensebox:
+      url: !secret opensensebox_api_url
+      method: POST
+      headers:
+        content-type: "application/json; charset=utf-8"
+      payload: >-
+        {
+          "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
+          "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.particulate_matter_10_0um_concentration') }}",
+          "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.bme280_temperature') }}",
+          "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}",
+          "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}"
+        }

@@ -47,27 +47,3 @@ front_door:
     actions:
       - action: "mute_alert_front_door"
         title: "Alert dempen"
-
-#############################
-## Weerhuisje Alert         #
-#############################
-weerhuisje:
-  name: "Weerhuisje"
-  title: "ALARM:"
-  message: "Het weerhuisje is offline"
-  entity_id: binary_sensor.weerhuisje_status
-  state: "off"
-  repeat: 10
-  can_acknowledge: true
-  skip_first: true
-  notifiers:
-    - mobile_app_sm_a526b
-  data:
-    tag: weerhuisje
-    ttl: 0
-    channel: alerts # For devices on Android 8.0+ only
-    priority: high
-    ledColor: "red" # Set the LED to red
-    actions:
-      - action: "mute_alert_weerhuisje"
-        title: "Alert dempen"

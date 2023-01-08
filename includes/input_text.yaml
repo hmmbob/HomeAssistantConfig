@@ -18,29 +18,6 @@ naam_mini:
   initial: !secret naam_mini
 
 ##################################
-## OpenSensebox SensorIDs
-##################################
-opensensebox_sensorid_temp:
-  name: Opensensebox temperature ID
-  initial: !secret opensensebox_sensorid_temp
-
-opensensebox_sensorid_press:
-  name: Opensensebox pressure ID
-  initial: !secret opensensebox_sensorid_press
-
-opensensebox_sensorid_hum:
-  name: Opensensebox humidity ID
-  initial: !secret opensensebox_sensorid_hum
-
-opensensebox_sensorid_pm25:
-  name: Opensensebox PM2.5 ID
-  initial: !secret opensensebox_sensorid_pm25
-
-opensensebox_sensorid_pm10:
-  name: Opensensebox PM10 ID
-  initial: !secret opensensebox_sensorid_pm10
-
-##################################
 ## TTS Message
 ##################################
 tts_message:
