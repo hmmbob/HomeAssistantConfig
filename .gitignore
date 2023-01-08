@@ -9,8 +9,6 @@
 !automation/
 !automation/*
 !blueprints
-!custom_components/
-custom_components/*
 !dashboards/
 !dashboards/*
 !includes/
@@ -18,8 +16,7 @@ custom_components/*
 !lovelace/
 !lovelace/*
 !packages/
-!packages/*
-!packages/*/*
+!packages/**
 !scripts/
 !scripts/*
 !themes/
