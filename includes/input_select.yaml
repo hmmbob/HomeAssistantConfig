@@ -1,12 +1,3 @@
-deurbel:
-  name: Deurbel deuntje
-  options:
-    - Savage Love
-    - Star Wars
-    - Sinterklaas
-    - Jingle Bells
-  icon: mdi:format-list-bulleted
-
 tts_target:
   name: TTS Target
   options:

@@ -1,9 +1,6 @@
 #############################
-## Doors, deurbel          #
+## Doors                    #
 #############################
-enable_deurbel:
-  name: "Deurbel"
-  icon: mdi:doorbell
 notify_door_alert:
   name: "Deur alarm"
   icon: mdi:door-open

@@ -1,0 +1,205 @@
+doorbell_package:
+  input_boolean:
+    enable_deurbel:
+      name: "Deurbel"
+      icon: mdi:doorbell
+
+  input_select:
+    deurbel:
+      name: Deurbel deuntje
+      options:
+        - Savage Love
+        - Star Wars
+        - Sinterklaas
+        - Jingle Bells
+      icon: mdi:format-list-bulleted
+
+  automation:
+    - alias: "Deurbel"
+      id: deurbel
+      mode: restart
+      variables:
+        dingdong: >
+          {% if is_state("input_select.deurbel", "Star Wars") %}/local/sounds/star_wars.mp3
+          {% elif is_state("input_select.deurbel", "Sinterklaas") %}/local/sounds/hoorwiekloptdaarkindren_kort.mp3
+          {% elif is_state("input_select.deurbel", "Jingle Bells") %}/local/sounds/jingle_bells.mp3
+          {% elif is_state("input_select.deurbel", "Savage Love") %}/local/sounds/Savage_Love.mp3
+          {% endif %}
+      trigger:
+        - platform: webhook
+          webhook_id: VD1buttonpressed
+          # The Foscam VD1 doorbell has no integration, but can use GET webhooks.
+          # Using GET webhooks in HA needs a custom_component. See this comment:
+          # https://github.com/home-assistant/core/pull/56446#issuecomment-1038554548
+          allowed_methods:
+            - GET
+            - POST
+            - PUT
+          local_only: false
+      condition:
+        - condition: state
+          entity_id: input_boolean.enable_deurbel
+          state: "on"
+      action:
+        - choose:
+            # During daytime we want the doorbell to play
+            # in sync through the whole house
+            - alias: "Is it between 8 and 19hrs?"
+              conditions:
+                - condition: time
+                  after: "08:00:00"
+                  before: "19:00:00"
+              sequence:
+                - parallel: # Run in parallel to speed up playing downstairs
+                    - alias: "Play doorbell sound to Nest Hub"
+                      service: media_player.play_media
+                      data:
+                        entity_id: media_player.woonkamer
+                        media_content_id: "{{ dingdong }}"
+                        media_content_type: music
+                        extra:
+                          metadata:
+                            metadataType: 3
+                            title: "Er staat iemand aan de deur..."
+                            images:
+                              - url: !secret camera_entity_picture
+                    - alias: "Play doorbell sound upstairs"
+                      service: media_player.play_media
+                      data:
+                        entity_id:
+                          - media_player.boven
+                        media_content_type: music
+                        media_content_id: "{{ dingdong }}"
+                    - alias: "Kick off some notifications"
+                      service: script.turn_on
+                      entity_id:
+                        - script.send_doorbell_notification
+                        - script.show_doorbell_alert
+                - alias: "Wait a bit for the dingdong to finish..."
+                  delay: "00:00:04"
+                - alias: "Stream snapshotimage to Nest Hub"
+                  service: media_player.play_media
+                  data:
+                    entity_id: media_player.woonkamer
+                    media_content_id: !secret camera_url
+                    media_content_type: image/jpeg
+                - alias: "Wait before we clean up"
+                  delay: "00:01:00"
+                - alias: "Turn off everything we used"
+                  service: media_player.turn_off
+                  entity_id:
+                    - media_player.woonkamer
+                    - media_player.boven
+
+            # Early morning or late at night, we only
+            # want the doorbell to play in the living room
+            - alias: "Is it between 7 and 8, or 19 and 23hrs?"
+              conditions:
+                - or:
+                    - condition: time
+                      after: "07:00:00"
+                      before: "08:00:00"
+                    - condition: time
+                      after: "19:00:00"
+                      before: "23:00:00"
+              sequence:
+                - parallel:
+                    - alias: "Play doorbell sound to Nest Hub"
+                      service: media_player.play_media
+                      data:
+                        entity_id: media_player.woonkamer
+                        media_content_id: "{{ dingdong }}"
+                        media_content_type: music
+                        extra:
+                          metadata:
+                            metadataType: 3
+                            title: "Er staat iemand aan de deur..."
+                            images:
+                              - url: !secret camera_entity_picture
+                    - alias: "Kick off some notifications"
+                      service: script.turn_on
+                      entity_id:
+                        - script.send_doorbell_notification
+                        - script.show_doorbell_alert
+                - alias: "Wait a bit for the dingdong to finish..."
+                  delay: "00:00:04"
+                - alias: "Streaming image to Nest Hub"
+                  service: media_player.play_media
+                  data:
+                    entity_id: media_player.woonkamer
+                    media_content_id: !secret camera_url
+                    media_content_type: image/jpeg
+                - alias: "Wait before we clean up"
+                  delay: "00:01:00"
+                - alias: "Turn off everything we used"
+                  service: media_player.turn_off
+                  entity_id:
+                    - media_player.woonkamer
+
+  script:
+    show_doorbell_alert:
+      alias: Show doorbell alert
+      description: "Show an alert on the TV if the doorbell rings"
+      icon: mdi:doorbell
+      mode: single
+      max_exceeded: silent
+      sequence:
+        - condition:
+            - "{{ states('media_player.tv_woonkamer') not in ['off','unavailable'] }}"
+        - service: notify.tv_woonkamer
+          continue_on_error: true
+          data:
+            title: Deurbel!
+            message: Er staat iemand aan de deur
+            data:
+              fontsize: large
+              position: top-right
+              duration: 10
+              transparency: 50%
+              color: grey
+
+    send_doorbell_notification:
+      alias: Send doorbell notification
+      description: "Send a notification when the doorbell rings"
+      icon: mdi:doorbell
+      mode: restart
+      variables:
+        notification_service: >
+          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+          {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
+          {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+          {% else %}notify.bogus
+          {% endif %}
+      sequence:
+        - alias: Send doorbell notification
+          service: "{{ notification_service }}"
+          data:
+            title: Knock Knock!
+            message: Er staat iemand aan de deur!
+            data:
+              tag: deurbel
+              ttl: 0
+              channel: doorbell
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              # Instead of taking a camera snapshot first, just use the existing entity picture
+              image: "{{state_attr('camera.voordeur', 'entity_picture')}}"
+              # OnClick, go to the live camera view
+              clickAction: "/lovelace/camera"
+              visibility: public
+        - alias: Wait to see if front door opens
+          wait_for_trigger:
+            - platform: state
+              entity_id: binary_sensor.door_sensor_2_contact
+              to: "on"
+          timeout: "00:01:00"
+          continue_on_timeout: true
+        - alias: Somebody answered the door, so clear the notification
+          service: "{{ notification_service }}"
+          data:
+            message: clear_notification
+            data:
+              tag: deurbel
+              ttl: 0
+              channel: doorbell
+              priority: high
