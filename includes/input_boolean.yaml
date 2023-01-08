@@ -51,9 +51,6 @@ wasmachine_actief:
 #############################
 ## Zolder                   #
 #############################
-enable_cover:
-  name: Rolluik automatisering
-  icon: mdi:garage
 enable_game_mode:
   name: Game mode
   icon: mdi:sony-playstation
