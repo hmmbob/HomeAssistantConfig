@@ -1,8 +1,8 @@
 picnic_package:
   input_boolean:
     notify_picnic_push:
-    name: "Push meldingen over Picnic"
-    icon: mdi:cart
+      name: "Push meldingen over Picnic"
+      icon: mdi:cart
 
   template:
     - sensor:
