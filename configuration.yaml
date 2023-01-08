@@ -52,7 +52,6 @@ logger:
   default: warn
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
-    custom_components.kia_uvo: debug
   filters:
     aioesphomeapi.reconnect_logic:
       # This device has weak wifi connection, just mute the reconnect logs
@@ -110,7 +109,6 @@ alert: !include includes/alert.yaml
 automation: !include automations.yaml
 automation split: !include_dir_merge_list automation/
 binary_sensor: !include includes/binary_sensor.yaml
-camera: !include includes/camera.yaml
 emulated_hue: !include includes/emulated_hue.yaml
 google_assistant: !include includes/googleassistant.yaml
 group: !include includes/groups.yaml
