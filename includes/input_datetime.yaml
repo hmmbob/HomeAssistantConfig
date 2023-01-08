@@ -34,12 +34,6 @@ time_schooltijd_pre_warning_puber:
 time_tandenpoetsen_puber:
   name: "Schooltijd: Tandenpoetsen puber"
   has_time: true
-time_trash_warning_today:
-  name: Melding afval vandaag
-  has_time: true
-time_trash_warning_tomorrow:
-  name: Melding afval morgen
-  has_time: true
 time_tv_time_breakfast:
   name: "TV: Melding ontbijt bij TV"
   has_time: true

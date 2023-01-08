@@ -41,32 +41,6 @@ opensensebox_sensorid_pm10:
   initial: !secret opensensebox_sensorid_pm10
 
 ##################################
-## Trash urls
-##################################
-trash_url_gft:
-  name: Trash URL GFT
-  initial: !secret image_url_gft
-
-trash_url_papier:
-  name: Trash URL papier
-  initial: !secret image_url_oudpapier
-
-trash_url_pbd:
-  name: Trash URL plastic
-  initial: !secret image_url_plastic
-
-trash_url_pbdpapier:
-  name: Trash URL plastic en papier
-  initial: !secret image_url_plasticpapier
-trash_url_papierpbd:
-  name: Trash URL papier en plastic
-  initial: !secret image_url_plasticpapier
-
-trash_url_restafval:
-  name: Trash URL restafval
-  initial: !secret image_url_restafval
-
-##################################
 ## TTS Message
 ##################################
 tts_message:

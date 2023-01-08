@@ -45,16 +45,6 @@ woonkamer_turned_on_by_movement:
   icon: mdi:lightbulb-on-outline
 
 #############################
-## Trash                    #
-#############################
-notify_trash:
-  name: "Push-meldingen over afval"
-  icon: mdi:message-bulleted
-notify_trash_voice:
-  name: "Voice-meldingen over afval"
-  icon: mdi:account-voice
-
-#############################
 ## UV Warnings              #
 #############################
 notify_uv:
