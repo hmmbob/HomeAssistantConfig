@@ -61,7 +61,7 @@ open_uv_package:
           entity_id: input_boolean.notify_uv
           state: "on"
         - condition: template
-          value_template: "{{ states('sensor.openuv_max_uv_index') | float >= 5.0 }}"
+          value_template: "{{ states('sensor.openuv_max_uv_index') | float(0) >= 5.0 }}"
       action:
         - choose:
             - conditions:

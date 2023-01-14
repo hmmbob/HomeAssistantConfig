@@ -113,10 +113,10 @@ attic_pubercave_package:
           id: Pubercave
       condition:
         - condition: state
-          entity_id: input_boolean.notify_power_use
+          entity_id: input_boolean.notify_power_use_attic
           state: "on"
         - condition: time
-          after: input_datetime.time_leeslampje
+          after: input_datetime.time_leeslampje_attic
       action:
         - service: notify.mobile_devices_adults
           data:

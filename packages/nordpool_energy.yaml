@@ -19,6 +19,10 @@ nordpool_energy_package:
 
   template:
     - sensor:
+        - name: "Nordpool Today Average"
+          unique_id: nordpool_today_average
+          state: "{{ average(states['sensor.nordpool'].attributes.today, 0) | round(3) }}"
+    - sensor:
         - name: "Nordpool Tomorrow Average"
           unique_id: nordpool_tomorrow_average
           state: "{{ average(states['sensor.nordpool'].attributes.tomorrow, 0) | round(3) }}"

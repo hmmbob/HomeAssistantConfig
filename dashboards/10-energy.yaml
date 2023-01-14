@@ -9,7 +9,7 @@ cards:
     cards:
       - type: markdown ## Energieverbruik header
         content: |
-          # Energieverbruik
+          # Energie
         card_mod:
           style:
             .: |
@@ -28,9 +28,9 @@ cards:
 
       - type: "custom:config-template-card"
         variables:
-          AVERAGE: states['sensor.nordpool'].attributes.average
+          AVERAGE: "states['sensor.nordpool_today_average'].state"
         entities:
-          - sensor.nordpool
+          - sensor.nordpool_today_average
         card:
           type: custom:apexcharts-card
           config_templates:
@@ -40,7 +40,7 @@ cards:
             title: Electriciteitsprijzen vandaag
           now:
             show: true
-            label: Now
+            label: Nu
           series:
             - entity: sensor.nordpool
               name: "Dynamische energieprijs"

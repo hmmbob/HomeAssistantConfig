@@ -16,4 +16,3 @@ views:
   - !include dashboards/11-f1.yaml
   - !include dashboards/7-development.yaml
   - !include dashboards/8-dsmr_development.yaml
-  

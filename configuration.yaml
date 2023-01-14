@@ -47,6 +47,8 @@ logbook:
       - binary_sensor.sm_a33_*
       - binary_sensor.schad*
       - media_player.*
+      - sensor.dsmr_*
+      - sensor.*_last_seen
     domains:
       - input_boolean
 
@@ -102,7 +104,7 @@ lovelace:
 recorder:
   db_url: !secret recorder_url
   purge_keep_days: 31
-  include: !include includes/recorder-history.yaml
+#  include: !include includes/recorder-history.yaml
 
 #################################################################
 ## Includes
@@ -121,6 +123,7 @@ bluetooth:
 cloud:
 dhcp:
 diagnostics:
+energy:
 homeassistant_alerts:
 input_button:
 media_source:
