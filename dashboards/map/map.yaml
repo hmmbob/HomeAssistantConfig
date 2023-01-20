@@ -8,11 +8,13 @@ views:
         entities:
           - entity: person.bob
           - entity: !secret person_mw
+          - entity: !secret person_mini
           - entity: !secret person_puber
           - entity: zone.cz
           - entity: zone.home
           - entity: zone.new_home
           - entity: zone.school
+          - entity: zone.school_mini
           - entity: zone.scouting
           - entity: zone.work
           - entity: zone.work_ms

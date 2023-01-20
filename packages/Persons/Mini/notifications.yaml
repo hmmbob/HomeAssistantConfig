@@ -1,0 +1,82 @@
+mini_notifications_package:
+  automation:
+    ##########################
+    ## Coming home notifications
+    ##########################
+    - id: notification_t_left_school
+      alias: "Location: Notificatie dat T van school vertrekt"
+      initial_state: on
+      trigger:
+        - platform: zone
+          entity_id: device_tracker.moto_g8
+          event: leave
+          zone: zone.school_mini
+      condition:
+        - condition: time
+          after: "12:00:00"
+          before: "15:30:00"
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+      action:
+        - service: notify.mobile_devices_adults
+          data:
+            title: ♥ {{states('input_text.naam_mini')}} is op weg naar huis!
+            message: >
+              {{states('input_text.naam_mini')}} is rond {{now().strftime("%H:%M")}} van school vertrokken.
+            data:
+              actions:
+                - action: "URI"
+                  title: "Check huidige locatie"
+                  uri: "/lovelace-map/0"
+              ttl: 0
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+        - service: notify.mobile_app_moto_g8
+          data:
+            title: Goede thuisreis
+            message: "Ik heb thuis laten weten dat je onderweg bent."
+            data:
+              ttl: 0
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+
+    ##########################
+    ## Battery level notifications
+    ##########################
+    - id: notification_t_battery_low_parents
+      alias: "Notifications: Melding dat batterij van T bijna leeg is"
+      initial_state: on
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.moto_g8_battery_level
+          below: 10
+      condition:
+        not:
+          - condition: state
+            entity_id: device_tracker.moto_g8
+            state: home
+      action:
+        - service: notify.mobile_devices_adults
+          data:
+            title: 🔋 Batterijwaarschuwing
+            message: >
+              De telefoon van {{states('input_text.naam_mini')}} is bijna leeg. Updates van zijn locatie zullen snel stoppen.
+            data:
+              ttl: 0
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              notification_icon: mdi:battery-alert-variant
+        - service: notify.mobile_app_moto_g8
+          data:
+            title: 🔋 Batterijwaarschuwing
+            message: >
+              Je moet je telefoon even opladen....
+            data:
+              ttl: 0
+              priority: high
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              notification_icon: mdi:battery-alert-variant

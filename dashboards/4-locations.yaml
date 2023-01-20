@@ -58,6 +58,12 @@ cards:
                 entities:
                   - entity: sensor.schaduwspeler_gegeocodeerde_locatie
                     name: !secret naam_puber
+              - type: custom:fold-entity-row
+                no_animation: true
+                head: !secret person_mini
+                entities:
+                  - entity: sensor.moto_g8_geocoded_location
+                    name: !secret naam_mini
 
           - entity: sensor.benzine
             name: "Benzineprijs"
@@ -85,11 +91,13 @@ cards:
         entities:
           - person.bob
           - !secret person_mw
+          - !secret person_mini
           - !secret person_puber
           - zone.cz
           - zone.home
           - zone.new_home
           - zone.school
+          - zone.school_mini
           - zone.scouting
           - zone.work
           - zone.work_ms

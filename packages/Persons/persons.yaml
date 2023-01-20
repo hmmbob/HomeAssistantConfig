@@ -14,6 +14,7 @@ persons_package:
         - person.bob
         - !secret person_mw
         - !secret person_puber
+        - !secret person_mini
 
   input_text:
     # I am using this workarond to hide sensitive information.
@@ -41,3 +42,4 @@ persons_package:
         - service: mobile_app_sm_a526b
         - service: mobile_app_sm_a336b
         - service: mobile_app_schaduwspeler
+        - service: mobile_app_moto_g8
