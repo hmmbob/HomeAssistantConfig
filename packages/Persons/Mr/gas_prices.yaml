@@ -31,6 +31,10 @@ gas_prices_package:
       trigger:
         - platform: state
           entity_id: sensor.benzine
+          not_from:
+            - "unknown"
+            - "unavailable"
+            - "none"
           not_to:
             - "unknown"
             - "unavailable"
