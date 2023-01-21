@@ -28,6 +28,28 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
+
+      - type: custom:mushroom-chips-card
+        card_mod:
+          style: |
+            ha-card {
+              margin: 0px 14px -5px 14px;
+            }
+        alignment: justify
+        chips:
+          - type: entity
+            entity: person.bob
+            use_entity_picture: true
+          - type: entity
+            entity: !secret person_mw
+            use_entity_picture: true
+          - type: entity
+            entity: !secret person_puber
+            use_entity_picture: true
+          - type: entity
+            entity: !secret person_mini
+            use_entity_picture: true
+
       - type: entities ## Oogopslag overview
         card_mod:
           style: |
