@@ -27,29 +27,44 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: custom:formulaone-card
-        card_type: next_race
-        title: Volgende race
-        date_locale: nl
-        image_clickable: true
-
-      - type: custom:formulaone-card
-        card_type: last_result
-        title: Laatste race
-
-      - type: custom:formulaone-card
-        card_type: driver_standings
-        title: Stand coureurs
-        standings:
-          show_flag: true
-          show_team: true
-
-      - type: custom:formulaone-card
-        card_type: constructor_standings
-        title: Stand constructeurs
-
-      - type: custom:formulaone-card
-        card_type: schedule
-        title: Volgende races
-        date_locale: nl
-        previous_race: hide
+      - type: custom:tabbed-card
+        options: {}
+        tabs:
+          - card:
+              type: custom:formulaone-card
+              card_type: next_race
+              title: Komende race
+              date_locale: nl
+              image_clickable: true
+            attributes:
+              icon: mdi:calendar-clock
+          - card:
+              type: custom:formulaone-card
+              card_type: last_result
+              title: Laatste race
+            attributes:
+              icon: mdi:flag-checkered
+          - card:
+              type: custom:formulaone-card
+              card_type: schedule
+              title: Volgende races
+              date_locale: nl
+              previous_race: hide
+              location_clickable: true
+            attributes:
+              icon: mdi:calendar-text
+          - card:
+              type: custom:formulaone-card
+              card_type: driver_standings
+              title: Stand coureurs
+              standings:
+                show_flag: true
+                show_team: true
+            attributes:
+              icon: mdi:racing-helmet
+          - card:
+              type: custom:formulaone-card
+              card_type: constructor_standings
+              title: Stand constructeurs
+            attributes:
+              icon: mdi:car-wrench

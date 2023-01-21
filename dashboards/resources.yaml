@@ -32,6 +32,8 @@
   type: module
 - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
   type: module
+- url: /hacsfiles/tabbed-card/tabbed-card.js
+  type: module
 - url: /hacsfiles/text-element/text-element.js
   type: module
 - url: /hacsfiles/vacuum-card/vacuum-card.js
