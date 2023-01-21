@@ -76,6 +76,40 @@ cards:
 
       - type: conditional ## Conditional alerts
         conditions:
+          - entity: sensor.knmi_code
+            state_not: "Groen"
+        card:
+          type: custom:mushroom-template-card
+          card_mod:
+            style: |
+              ha-card {
+                margin: 0px 14px -5px 14px;
+              }
+          primary: "KNMI: {{ states('sensor.knmi_code')}}"
+          secondary: "{{ states('sensor.knmi_heading') }}"
+          icon: |-
+            {% if is_state('sensor.knmi_code','Code groen') %}
+              mdi:alert-circle-check
+            {% elif is_state('sensor.knmi_code','Code geel') %}
+              mdi:alert-decagram
+            {% else %}
+              mdi:alert
+            {% endif %}
+          icon_color: |-
+            {% if is_state('sensor.knmi_code','Code groen') %}
+              green
+            {% elif is_state('sensor.knmi_code','Code geel') %}
+              yellow
+            {% else %}
+              red
+            {% endif %}
+          tap_action:
+            action: url
+            url_path: !secret scrape_url_knmi
+          multiline_secondary: true
+
+      - type: conditional ## Conditional alerts
+        conditions:
           - entity: alert.weerhuisje
             state_not: "idle"
         card:

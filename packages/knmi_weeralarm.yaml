@@ -1,0 +1,15 @@
+knmi_weeralarm_package:
+  multiscrape:
+    - name: knmi
+      resource: !secret scrape_url_knmi
+      scan_interval: 900
+      sensor:
+        - unique_id: knmi_code
+          name: "KNMI Code"
+          select: "div.alert__heading"
+        - unique_id: knmi_heading
+          name: "KNMI Heading"
+          select: "a.alert__description"
+          attributes:
+            - name: "KNMI message"
+              select: "div.weather__text > p"

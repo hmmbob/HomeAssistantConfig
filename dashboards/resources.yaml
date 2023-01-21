@@ -26,6 +26,8 @@
   type: module
 - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
   type: module
+- url: /hacsfiles/lovelace-mushroom/mushroom.js
+  type: module
 - url: /hacsfiles/simple-thermostat/simple-thermostat.js
   type: module
 - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
