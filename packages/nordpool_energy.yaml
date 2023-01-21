@@ -22,10 +22,42 @@ nordpool_energy_package:
         - name: "Nordpool Today Average"
           unique_id: nordpool_today_average
           state: "{{ average(states['sensor.nordpool'].attributes.today, 0) | round(2) }}"
-    - sensor:
+
         - name: "Nordpool Tomorrow Average"
           unique_id: nordpool_tomorrow_average
           state: "{{ average(states['sensor.nordpool'].attributes.tomorrow, 0) | round(2) }}"
+
+        - name: "Zonneplan goedkoopste prijs"
+          unique_id: zonneplan_cheapest_tariff
+          state: >
+            {% set cheapest = state_attr('sensor.zonneplan_current_electricity_tariff', 'forcast')
+                        | selectattr('datetime', '>', utcnow().isoformat())
+                        | sort(attribute='price')  
+                        | first %}
+            {{ (cheapest.price /10000000) | round(2) }}
+          attributes:
+            datetime: >
+              {% set cheapest = state_attr('sensor.zonneplan_current_electricity_tariff', 'forcast')
+                          | selectattr('datetime', '>', utcnow().isoformat())
+                          | sort(attribute='price')  
+                          | first %}
+              {{ cheapest.datetime }}
+
+        - name: "Zonneplan duurste prijs"
+          unique_id: zonneplan_most_expensive_tariff
+          state: >
+            {% set expensive = state_attr('sensor.zonneplan_current_electricity_tariff', 'forcast')
+                        | selectattr('datetime', '>', utcnow().isoformat())
+                        | sort(attribute='price', reverse = True)
+                        | first %}
+            {{ (expensive.price /10000000) | round(2)}}
+          attributes:
+            datetime: >
+              {% set expensive = state_attr('sensor.zonneplan_current_electricity_tariff', 'forcast')
+                          | selectattr('datetime', '>', utcnow().isoformat())
+                          | sort(attribute='price', reverse = True)
+                          | first %}
+              {{ expensive.datetime }}
 
     - binary_sensor:
         - name: "Negative electricity price this hour"

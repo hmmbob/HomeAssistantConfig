@@ -20,12 +20,14 @@ energy:
     tooltip:
       enabled: true
       x:
-        show: true
+        show: false
       fixed:
         enabled: true
         position: topLeft
         offsetX: 50
         offsetY: 10
+      marker:
+        show: true
     chart:
       height: 320px
     grid:
@@ -34,8 +36,6 @@ energy:
 
 electricity:
   graph_span: 23h
-  span:
-    start: day
   all_series_config:
     color_threshold:
       - value: 0

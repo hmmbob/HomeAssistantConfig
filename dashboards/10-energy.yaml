@@ -26,93 +26,98 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: "custom:config-template-card"
-        variables:
-          AVERAGE: "states['sensor.nordpool_today_average'].state"
-        entities:
-          - sensor.nordpool_today_average
-        card:
-          type: custom:apexcharts-card
-          config_templates:
-            - energy
-            - electricity
-          header:
-            title: Electriciteitsprijzen vandaag
-          now:
-            show: true
-            label: Nu
-          series:
-            - entity: sensor.nordpool
-              name: "Dynamische energieprijs"
-              data_generator: |
-                return entity.attributes.raw_today.map((start, index) => {
-                  return [new Date(start["start"]).getTime() + 1800000, entity.attributes.raw_today[index]["value"]];
-                });
-          apex_config:
-            annotations:
-              yaxis:
-                - y: "${ AVERAGE }"
-                  label:
-                    text: "${ AVERAGE }"
-                    position: "left"
-                    offsetX: 25
-                    style:
-                      background: rgb(26, 115, 232)
-                      color: "#fff"
-                    borderColor: "#fff"
-                - y: "0.40"
-                  label:
-                    text: "Energieplafond"
-                    position: "left"
-                    offsetX: 75
-                    style:
-                      background: rgb(26, 115, 232)
-                      color: "#fff"
-                    borderColor: "#fff"
+      - type: tile
+        entity: sensor.zonneplan_status_tip
+        color: green
+        show_entity_picture: false
+        icon: mdi:head-lightbulb-outline
+        name: Zonneplan advies
 
-      - type: "custom:config-template-card"
-        variables:
-          AVERAGE: "states['sensor.nordpool_tomorrow_average'].state"
-        entities:
-          - sensor.nordpool
-          - sensor.nordpool_tomorrow_average
-        card:
-          type: custom:apexcharts-card
-          config_templates:
-            - energy
-            - electricity
-          header:
-            title: Electriciteitsprijzen morgen
-          span:
-            offset: +1d
-          series:
-            - entity: sensor.nordpool
-              name: "Dynamische energieprijs"
-              data_generator: |
-                return entity.attributes.raw_tomorrow.map((start, index) => {
-                  return [new Date(start["start"]).getTime() + 1800000, entity.attributes.raw_tomorrow[index]["value"]];
-                });
-          apex_config:
-            annotations:
-              yaxis:
-                - y: "${ AVERAGE }"
-                  label:
-                    text: "${ AVERAGE }"
-                    position: "left"
-                    offsetX: 25
-                    style:
-                      background: rgb(26, 115, 232)
-                      color: "#fff"
-                    borderColor: "#fff"
-                - y: "0.40"
-                  label:
-                    text: "Energieplafond"
-                    position: "left"
-                    offsetX: 75
-                    style:
-                      background: rgb(26, 115, 232)
-                      color: "#fff"
-                    borderColor: "#fff"
+      - type: custom:mushroom-template-card
+        primary: >-
+          Huidige prijs: €{{"%0.2f" | format(states('sensor.zonneplan_current_electricity_tariff') | float) }}
+        secondary: |-
+          {% set mapping = dict(low="goedkoop", normal="gemiddeld", high="duur") %}
+          {{ now().hour }}:00 - {{ now().hour+1 }}:00. Stroom is nu 
+          {{ mapping[states('sensor.zonneplan_current_tariff_group')] }}.
+        icon: mdi:currency-eur
+        entity: sensor.zonneplan_current_electricity_tariff
+        icon_color: |-
+          {% if is_state("sensor.zonneplan_current_tariff_group", "low") -%}
+            green
+          {%- elif is_state("sensor.zonneplan_current_tariff_group", "normal") -%}
+            orange
+          {%- elif is_state("sensor.zonneplan_current_tariff_group", "high") -%}
+            red
+          {%- endif %}
+        badge_icon: |-
+          {% set mapping = dict(low=1, normal=2, high=3) %}
+          {% set current = states('sensor.zonneplan_current_tariff_group') %}
+          {% set forecast = states('sensor.zonneplan_forcast_tariff_group_hour_1') %}
+          {% set available = current in mapping.keys() and forecast in mapping.keys() %}
+          {% if available and mapping[forecast] > mapping[current] %}
+            mdi:arrow-top-right-thick
+          {% elif available and mapping[forecast] < mapping[current] %}
+            mdi:arrow-bottom-right-thick
+          {% elif available %}
+            mdi:arrow-right-bold
+          {% endif %}
+        badge_color: |-
+          {% set mapping = dict(low=1, normal=2, high=3) %}
+          {% set current = states('sensor.zonneplan_current_tariff_group') %}
+          {% set forecast = states('sensor.zonneplan_forcast_tariff_group_hour_1') %}
+          {% set available = current in mapping.keys() and forecast in mapping.keys() %}
+          {% if available and mapping[forecast] > mapping[current] %}
+            red
+          {% elif available and mapping[forecast] < mapping[current] %}
+            green
+          {% elif available %}
+            blue
+          {% endif %}
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: "Laagste prijs: €{{'%0.2f' | format(states('sensor.zonneplan_goedkoopste_prijs') | float) }}"
+            secondary: >-
+              {{ as_local(as_datetime(state_attr('sensor.zonneplan_goedkoopste_prijs',
+                'datetime'))).strftime('%d-%m %-H:%M')}} - 
+              {{ (as_local(as_datetime(state_attr('sensor.zonneplan_goedkoopste_prijs',
+                'datetime'))).strftime('%-H')|int)+1}}:00
+            icon: mdi:currency-eur
+            entity: sensor.zonneplan_goedkoopste_prijs
+            icon_color: green
+          - type: custom:mushroom-template-card
+            primary: "Hoogste prijs: €{{'%0.2f' | format(states('sensor.zonneplan_duurste_prijs') | float) }}"
+            secondary: >-
+              {{ as_local(as_datetime(state_attr('sensor.zonneplan_duurste_prijs',
+                'datetime'))).strftime('%d-%m %-H:%M')}} - 
+              {{ (as_local(as_datetime(state_attr('sensor.zonneplan_duurste_prijs',
+                'datetime'))).strftime('%-H')|int)+1}}:00
+            icon: mdi:currency-eur
+            entity: sensor.zonneplan_duurste_prijs
+            icon_color: red
+
+      - type: custom:apexcharts-card
+        config_templates:
+          - energy
+          - electricity
+        header:
+          title: Electriciteitsprijs
+        span:
+          start: hour
+        now:
+          show: true
+          label: Nu
+        series:
+          - entity: sensor.zonneplan_current_electricity_tariff
+            name: "Dynamische energieprijs"
+            data_generator: |
+              return entity.attributes.forcast.map((start, index) => {
+                return [new Date(start["datetime"]).getTime() + 1800000, 
+                        (entity.attributes.forcast[index]["electricity_price"] / 10000000).toFixed(2) ];
+                }
+              );
 
       - type: custom:apexcharts-card
         config_templates:
