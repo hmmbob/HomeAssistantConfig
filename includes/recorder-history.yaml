@@ -21,8 +21,6 @@ entities:
   - sensor.memory_use_percent
   - sensor.mini_cave_power
   - sensor.nightstate
-  - sensor.nordpool
-  - sensor.nordpool_tomorrow_average
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
   - sensor.pir_gang_illuminance
@@ -52,3 +50,4 @@ entity_globs:
   - sensor.bme280_*
   - sensor.tgtg_*
   - sensor.wachttijd_*
+  - sensor.zonneplan_*
