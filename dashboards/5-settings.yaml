@@ -404,14 +404,13 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: horizontal-stack
-        cards:
-          - type: entities
-            card_mod:
-              style: |
-                ha-card {
-                  width: 380px;
-                  margin: 0px 0px 0px 14px;
-                }
-            entities:
-              - input_select.deurbel
+      - type: custom:mushroom-select-card
+        card_mod:
+          style: |
+            ha-card {
+              width: 380px;
+              margin: 0px 0px 0px 14px;
+            }
+        entity: input_select.deurbel
+        icon: mdi:music
+        secondary_info: none

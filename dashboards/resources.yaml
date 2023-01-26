@@ -6,8 +6,6 @@
   type: module
 - url: /hacsfiles/button-card/button-card.js
   type: module
-- url: /hacsfiles/config-template-card/config-template-card.js
-  type: module
 - url: /hacsfiles/formulaone-card/formulaone-card.js
   type: module
 - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
@@ -35,8 +33,6 @@
 - url: /hacsfiles/tabbed-card/tabbed-card.js
   type: module
 - url: /hacsfiles/text-element/text-element.js
-  type: module
-- url: /hacsfiles/vacuum-card/vacuum-card.js
   type: module
 - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
   type: module

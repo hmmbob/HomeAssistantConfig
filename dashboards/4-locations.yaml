@@ -50,46 +50,6 @@ cards:
             entity: !secret person_mini
             use_entity_picture: true
 
-      - type: entities ## Oogopslag overview
-        card_mod:
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
-        entities:
-          - type: custom:fold-entity-row
-            head: group.all_persons
-            no_animation: true
-            entities:
-              - type: custom:fold-entity-row
-                no_animation: true
-                head: person.bob
-                entities:
-                  - entity: sensor.sm_a526b_geocoded_location
-                    name: Bob
-                  - sensor.reistijd_bob_naar_huis
-              - type: custom:fold-entity-row
-                no_animation: true
-                head: !secret person_mw
-                entities:
-                  - entity: sensor.sm_a336b_geocoded_location
-                    name: !secret naam_mw
-              - type: custom:fold-entity-row
-                no_animation: true
-                head: !secret person_puber
-                entities:
-                  - entity: sensor.schaduwspeler_gegeocodeerde_locatie
-                    name: !secret naam_puber
-              - type: custom:fold-entity-row
-                no_animation: true
-                head: !secret person_mini
-                entities:
-                  - entity: sensor.moto_g8_geocoded_location
-                    name: !secret naam_mini
-
-          - entity: sensor.benzine
-            name: "Benzineprijs"
-
       #          - type: custom:multiple-entity-row
       #            entity: sensor.wachttijd_a_gates
       #            icon: mdi:airplane-clock
@@ -110,6 +70,7 @@ cards:
               margin: 0px 14px -5px 14px;
               width: 94% !important;
             }
+        hours_to_show: 1
         entities:
           - person.bob
           - !secret person_mw
