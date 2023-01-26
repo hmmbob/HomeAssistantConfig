@@ -77,7 +77,7 @@ cards:
       - type: conditional ## Conditional alerts
         conditions:
           - entity: sensor.knmi_code
-            state_not: "Groen"
+            state_not: "Code groen"
         card:
           type: custom:mushroom-template-card
           card_mod:

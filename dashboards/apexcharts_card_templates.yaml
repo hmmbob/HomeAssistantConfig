@@ -35,7 +35,7 @@ energy:
       borderColor: rgba(255,255,255,0.1)
 
 electricity:
-  graph_span: 23h
+  graph_span: 36h
   all_series_config:
     color_threshold:
       - value: 0
@@ -57,7 +57,7 @@ electricity:
   yaxis:
     - id: "1"
       min: 0.14
-      max: ~0.45
+      max: 0.65
       decimals: 2
       apex_config:
         title:
@@ -86,7 +86,7 @@ gas:
         color: "magenta"
   yaxis:
     - id: "1"
-      min: ~1.40
+      min: ~1.30
       align_to: 0.1
       decimals: 2
       apex_config:

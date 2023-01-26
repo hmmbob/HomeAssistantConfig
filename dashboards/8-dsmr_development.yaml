@@ -36,8 +36,6 @@ cards:
         - entity_id: sensor.dsmr_*l1*
         - entity_id: sensor.dsmr_*l2*
         - entity_id: sensor.dsmr_*l3*
-        - entity_id: sensor.dsmr_meter_stats_long_power_failure_count
-        - entity_id: sensor.dsmr_meter_stats_power_failure_count
     sort:
       method: name
   - id: 26c84972-107a-458b-9d70-e7215a65c73d # Automatically created id
@@ -56,8 +54,6 @@ cards:
         - entity_id: sensor.dsmr_*l1*
         - entity_id: sensor.dsmr_*l2*
         - entity_id: sensor.dsmr_*l3*
-        - entity_id: sensor.dsmr_meter_stats_long_power_failure_count
-        - entity_id: sensor.dsmr_meter_stats_power_failure_count
     sort:
       method: name
 
@@ -99,9 +95,6 @@ cards:
             state_header: "L1 Verbruik"
             name: "Fase L1"
             entities:
-              - entity: sensor.dsmr_reading_phase_voltage_l1
-                name: "L1 Voltage"
-                format: precision0
               - entity: sensor.dsmr_reading_phase_power_current_l1
                 name: "L1 Stroom"
           - type: custom:multiple-entity-row
@@ -111,9 +104,6 @@ cards:
             state_header: "L2 Verbruik"
             name: "Fase L2"
             entities:
-              - entity: sensor.dsmr_reading_phase_voltage_l2
-                name: "L2 Voltage"
-                format: precision0
               - entity: sensor.dsmr_reading_phase_power_current_l2
                 name: "L2 Stroom"
           - type: custom:multiple-entity-row
@@ -123,32 +113,5 @@ cards:
             state_header: "L3 Verbruik"
             name: "Fase L3"
             entities:
-              - entity: sensor.dsmr_reading_phase_voltage_l3
-                name: "L3 Voltage"
-                format: precision0
               - entity: sensor.dsmr_reading_phase_power_current_l3
                 name: "L3 Stroom"
-          - type: custom:multiple-entity-row
-            entity: sensor.dsmr_reading_electricity_currently_delivered
-            show_state: false
-            name: "Electriciteitsmeter"
-            entities:
-              - entity: sensor.dsmr_reading_electricity_delivered_2
-                name: "Hoog tarief"
-                format: precision1
-              - entity: sensor.dsmr_reading_electricity_delivered_1
-                name: "Laag tarief"
-                format: precision1
-              - entity: sensor.dsmr_meter_stats_electricity_tariff
-                name: "Actief"
-          - type: custom:multiple-entity-row
-            entity: sensor.dsmr_consumption_gas_currently_delivered
-            show_state: false
-            name: "Gasmeter"
-            entities:
-              - entity: sensor.dsmr_consumption_gas_currently_delivered
-                name: "Verbruik"
-                format: precision1
-              - entity: sensor.dsmr_consumption_gas_delivered
-                name: "Meterstand"
-                format: precision1

@@ -44,13 +44,8 @@ cards:
             icon: mdi:currency-eur
             entity: sensor.zonneplan_current_electricity_tariff
             icon_color: |-
-              {% if is_state("sensor.zonneplan_current_tariff_group", "low") -%}
-                green
-              {%- elif is_state("sensor.zonneplan_current_tariff_group", "normal") -%}
-                orange
-              {%- elif is_state("sensor.zonneplan_current_tariff_group", "high") -%}
-                red
-              {%- endif %}
+              {% set mapping = dict(low="green", normal="orange", high="red") %}
+              {{ mapping[states('sensor.zonneplan_current_tariff_group')] }}
             badge_icon: |-
               {% set mapping = dict(low=1, normal=2, high=3) %}
               {% set current = states('sensor.zonneplan_current_tariff_group') %}
@@ -86,10 +81,9 @@ cards:
           - type: custom:mushroom-template-card
             primary: "Laagste prijs: €{{'%0.2f' | format(states('sensor.zonneplan_goedkoopste_prijs') | float) }}"
             secondary: >-
-              {{ as_local(as_datetime(state_attr('sensor.zonneplan_goedkoopste_prijs',
-                'datetime'))).strftime('%d-%m %-H:%M')}} - 
-              {{ (as_local(as_datetime(state_attr('sensor.zonneplan_goedkoopste_prijs',
-                'datetime'))).strftime('%-H')|int)+1}}:00
+              {% set dt = as_local(as_datetime(state_attr('sensor.zonneplan_goedkoopste_prijs','datetime'))) %}
+              {{ iif(dt.day == now().day, 'Vandaag', 'Morgen') }} 
+              {{ dt.strftime('%-H:%M')}} - {{ (dt.strftime('%-H')|int)+1}}:00
             icon: mdi:currency-eur
             entity: sensor.zonneplan_goedkoopste_prijs
             icon_color: green
@@ -98,10 +92,9 @@ cards:
           - type: custom:mushroom-template-card
             primary: "Hoogste prijs: €{{'%0.2f' | format(states('sensor.zonneplan_duurste_prijs') | float) }}"
             secondary: >-
-              {{ as_local(as_datetime(state_attr('sensor.zonneplan_duurste_prijs',
-                'datetime'))).strftime('%d-%m %-H:%M')}} - 
-              {{ (as_local(as_datetime(state_attr('sensor.zonneplan_duurste_prijs',
-                'datetime'))).strftime('%-H')|int)+1}}:00
+              {% set dt = as_local(as_datetime(state_attr('sensor.zonneplan_duurste_prijs','datetime'))) %}
+              {{ iif(dt.day == now().day, 'Vandaag', 'Morgen') }} 
+              {{ dt.strftime('%-H:%M')}} - {{ (dt.strftime('%-H')|int)+1}}:00
             icon: mdi:currency-eur
             entity: sensor.zonneplan_duurste_prijs
             icon_color: red
