@@ -40,6 +40,7 @@ http:
 logbook:
   exclude:
     entities:
+      - automation.weerhuisje_update_air_quality_sensors
       - sensor.kamertemperatuur
     entity_globs:
       - binary_sensor.pir*
