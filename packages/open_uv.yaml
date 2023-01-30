@@ -32,7 +32,7 @@ open_uv_package:
       alias: "Update OpenUV"
       trigger:
         - platform: time_pattern
-          minutes: "/25"
+          minutes: "/45"
         - platform: homeassistant
           event: start
       condition:
