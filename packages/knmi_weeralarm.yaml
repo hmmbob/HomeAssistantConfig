@@ -8,13 +8,22 @@ knmi_weeralarm_package:
           json_attributes_path: "$.rss.channel"
           json_attributes:
             - "item"
+          force_update: true
 
   template:
     - sensor:
         - name: "KNMI Weeralarm Noord-Brabant"
           unique_id: knmi_weeralarm_brabant
           state: >-
-            {{ (state_attr('sensor.knmi_all_data', 'item') | selectattr('title', 'search', 'Brabant') | map(attribute='description') | join).split('. ')[0]}}
+            {{ (state_attr('sensor.knmi_all_data', 'item')
+                  | selectattr('title', 'search', 'Brabant')
+                  | map(attribute='description')
+                  | join).split('.')[0]
+            }}
           attributes:
             warning: >-
-              {{ (state_attr('sensor.knmi_all_data', 'item') | selectattr('title', 'search', 'Brabant') | map(attribute='description') | join).split('. ')[1]}}
+              {{ (state_attr('sensor.knmi_all_data', 'item')
+                  | selectattr('title', 'search', 'Brabant')
+                  | map(attribute='description')
+                  | join).split('.')[1:] | join('.') | striptags | trim
+              }}
