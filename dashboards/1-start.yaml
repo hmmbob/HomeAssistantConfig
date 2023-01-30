@@ -76,8 +76,8 @@ cards:
 
       - type: conditional ## Conditional alerts
         conditions:
-          - entity: sensor.knmi_code
-            state_not: "Code groen"
+          - entity: sensor.knmi_weeralarm_noord_brabant
+            state_not: "Code Groen"
         card:
           type: custom:mushroom-template-card
           card_mod:
@@ -85,27 +85,27 @@ cards:
               ha-card {
                 margin: 0px 14px -5px 14px;
               }
-          primary: "KNMI: {{ states('sensor.knmi_code')}}"
-          secondary: "{{ states('sensor.knmi_heading') }}"
+          primary: "KNMI: {{ states('sensor.knmi_weeralarm_noord_brabant')}}"
+          secondary: "{{ state_attr('sensor.knmi_weeralarm_noord_brabant', 'warning') }}"
           icon: |-
-            {% if is_state('sensor.knmi_code','Code groen') %}
+            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Groen') %}
               mdi:alert-circle-check
-            {% elif is_state('sensor.knmi_code','Code geel') %}
+            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
               mdi:alert-decagram
             {% else %}
               mdi:alert
             {% endif %}
           icon_color: |-
-            {% if is_state('sensor.knmi_code','Code groen') %}
+            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Groen') %}
               green
-            {% elif is_state('sensor.knmi_code','Code geel') %}
+            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
               yellow
             {% else %}
               red
             {% endif %}
           tap_action:
             action: url
-            url_path: !secret scrape_url_knmi
+            url_path: https://www.knmi.nl/nederland-nu/weer/waarschuwingen/noord-brabant
           multiline_secondary: true
 
       - type: conditional ## Conditional alerts

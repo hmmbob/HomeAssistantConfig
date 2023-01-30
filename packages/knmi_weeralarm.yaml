@@ -1,15 +1,20 @@
 knmi_weeralarm_package:
-  multiscrape:
-    - name: knmi
-      resource: !secret scrape_url_knmi
+  rest:
+    - resource: https://cdn.knmi.nl/knmi/xml/rss/rss_KNMIwaarschuwingen.xml
       scan_interval: 900
       sensor:
-        - unique_id: knmi_code
-          name: "KNMI Code"
-          select: "div.alert__heading"
-        - unique_id: knmi_heading
-          name: "KNMI Heading"
-          select: "a.alert__description"
+        - name: "KNMI All data"
+          value_template: "OK"
+          json_attributes_path: "$.rss.channel"
+          json_attributes:
+            - "item"
+
+  template:
+    - sensor:
+        - name: "KNMI Weeralarm Noord-Brabant"
+          unique_id: knmi_weeralarm_brabant
+          state: >-
+            {{ (state_attr('sensor.knmi_all_data', 'item') | selectattr('title', 'search', 'Brabant') | map(attribute='description') | join).split('. ')[0]}}
           attributes:
-            - name: "KNMI message"
-              select: "div.weather__text > p"
+            warning: >-
+              {{ (state_attr('sensor.knmi_all_data', 'item') | selectattr('title', 'search', 'Brabant') | map(attribute='description') | join).split('. ')[1]}}
