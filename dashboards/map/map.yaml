@@ -4,7 +4,6 @@ views:
     type: panel
     cards:
       - type: map
-        hours_to_show: 1
         entities:
           - entity: person.bob
           - entity: !secret person_mw

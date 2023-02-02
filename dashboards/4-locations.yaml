@@ -70,7 +70,6 @@ cards:
               margin: 0px 14px -5px 14px;
               width: 94% !important;
             }
-        hours_to_show: 1
         entities:
           - person.bob
           - !secret person_mw

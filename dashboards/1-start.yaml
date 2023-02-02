@@ -88,19 +88,19 @@ cards:
           primary: "KNMI: {{ states('sensor.knmi_weeralarm_noord_brabant')}}"
           secondary: "{{ state_attr('sensor.knmi_weeralarm_noord_brabant', 'warning') }}"
           icon: |-
-            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Groen') %}
-              mdi:alert-circle-check
-            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
+            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
+              mdi:alert-circle
+            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
               mdi:alert-decagram
-            {% else %}
+            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
               mdi:alert
             {% endif %}
           icon_color: |-
-            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Groen') %}
-              green
-            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
+            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
               yellow
-            {% else %}
+            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
+              orange
+            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
               red
             {% endif %}
           tap_action:
