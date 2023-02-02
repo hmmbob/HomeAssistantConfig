@@ -47,11 +47,11 @@ logbook:
       - binary_sensor.sm_a52*
       - binary_sensor.sm_a33_*
       - binary_sensor.schad*
-      - media_player.*
       - sensor.dsmr_*
       - sensor.*_last_seen
     domains:
       - input_boolean
+      - media_player
 
 logger:
   default: warn
@@ -105,7 +105,31 @@ lovelace:
 recorder:
   db_url: !secret recorder_url
   purge_keep_days: 31
-#  include: !include includes/recorder-history.yaml
+  exclude:
+    domains:
+      - camera
+      - media_player
+      - sun
+      - update
+    entity_globs:
+      - sensor.*_geocoded_*
+      - sensor.*_last_notification
+      - sensor.*_last_removed_notification
+      - sensor.*_last_seen
+      - sensor.*_linkquality
+      - sensor.*_uptime
+      - sensor.afvalinfo_*
+      - sensor.dsmr_reading_phase_currently_delivered_l*
+      - sensor.dsmr_reading_phase_power_current_l*
+      - sensor.dsmr_reading_phase_voltage_l*
+      - sensor.zonneplan_for*
+    entities:
+      - sensor.dsmr_consumption_gas_currently_delivered
+      - sensor.dsmr_reading_electricity_currently_delivered
+      - sensor.knmi_all_data
+      - sensor.schaduwspeler_aantal_actieve_meldingen
+      - sensor.schaduwspeler_laatste_notificatie
+      - sensor.schaduwspeler_laatste_verwijderde_melding
 
 #################################################################
 ## Includes

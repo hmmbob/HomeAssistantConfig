@@ -18,7 +18,6 @@ entities:
   - sensor.knmi_home_relatieve_luchtvochtigheid
   - sensor.leeslampje_zolder_power
   - sensor.max_uv_index
-  - sensor.memory_use_percent
   - sensor.mini_cave_power
   - sensor.nightstate
   - sensor.particulate_matter_10_0um_concentration
@@ -26,7 +25,6 @@ entities:
   - sensor.pir_gang_illuminance
   - sensor.pir_gang_temperature
   - sensor.pir_woonkamer_illuminance
-  - sensor.processor_use_percent
   - sensor.pubercave_power
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature

@@ -29,16 +29,6 @@ system_package:
         payload_not_available: "offline"
         device_class: connectivity
 
-  sensor:
-    ##########################
-    ## System sensors
-    ##########################
-    - platform: systemmonitor
-      resources:
-        - type: memory_use
-        - type: memory_use_percent
-        - type: processor_use
-
   template:
     ##############################
     ## Night template sensors   #
