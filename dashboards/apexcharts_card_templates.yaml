@@ -19,8 +19,6 @@ energy:
         enabled: false
     tooltip:
       enabled: true
-      x:
-        show: false
       fixed:
         enabled: true
         position: topLeft
@@ -63,6 +61,11 @@ electricity:
         title:
           text: €/kWh
         tickAmount: 4
+  apex_config:
+    tooltip:
+      x:
+        show: true
+        format: "HH:00 - HH:59"
 
 gas:
   graph_span: 30d
@@ -93,3 +96,8 @@ gas:
         title:
           text: €/M3
         tickAmount: 4
+  apex_config:
+    tooltip:
+      x:
+        show: true
+        format: "dd MMM"

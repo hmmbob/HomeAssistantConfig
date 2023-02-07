@@ -49,7 +49,7 @@ cards:
             badge_icon: |-
               {% set mapping = dict(low=1, normal=2, high=3) %}
               {% set current = states('sensor.zonneplan_current_tariff_group') %}
-              {% set forecast = states('sensor.zonneplan_forcast_tariff_group_hour_1') %}
+              {% set forecast = states('sensor.zonneplan_forecast_tariff_group_hour_1') %}
               {% set available = current in mapping.keys() and forecast in mapping.keys() %}
               {% if available and mapping[forecast] > mapping[current] %}
                 mdi:arrow-top-right-thick
@@ -61,7 +61,7 @@ cards:
             badge_color: |-
               {% set mapping = dict(low=1, normal=2, high=3) %}
               {% set current = states('sensor.zonneplan_current_tariff_group') %}
-              {% set forecast = states('sensor.zonneplan_forcast_tariff_group_hour_1') %}
+              {% set forecast = states('sensor.zonneplan_forecast_tariff_group_hour_1') %}
               {% set available = current in mapping.keys() and forecast in mapping.keys() %}
               {% if available and mapping[forecast] > mapping[current] %}
                 red
@@ -114,11 +114,11 @@ cards:
           label: Nu
         series:
           - entity: sensor.zonneplan_current_electricity_tariff
-            name: "Dynamische energieprijs"
+            name: "Prijs:"
             data_generator: |
-              return entity.attributes.forcast.map((start, index) => {
+              return entity.attributes.forecast.map((start, index) => {
                 return [new Date(start["datetime"]).getTime() + 1800000, 
-                        (entity.attributes.forcast[index]["electricity_price"] / 10000000).toFixed(2) ];
+                        (entity.attributes.forecast[index]["electricity_price"] / 10000000).toFixed(2) ];
                 }
               );
 
@@ -130,6 +130,7 @@ cards:
           title: Gasprijs vandaag
         series:
           - entity: sensor.zonneplan_current_gas_tariff
+            name: "Prijs:"
             group_by:
               duration: 1d
               func: last
