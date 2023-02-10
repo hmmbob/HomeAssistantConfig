@@ -4,10 +4,11 @@ tgtg_package:
   ##########################
   sensor:
     - platform: tgtg
-      username: !secret tgtg_username
+      email: !secret tgtg_username
       access_token: !secret tgtg_access_token
       refresh_token: !secret tgtg_refresh_token
       user_id: !secret tgtg_user_id
+      cookie: !secret tgtg_cookie
       scan_interval: 300
 
   automation:
@@ -22,8 +23,8 @@ tgtg_package:
             - sensor.tgtg_bakker_bart
             - sensor.tgtg_bakkerij_b_magic_box
             - sensor.tgtg_holland_barrett_magic_box
-            - sensor.tgtg_m_magic_box
             - sensor.tgtg_oliebollenkraam
+            - sensor.tgtg_zuivelhoeve
       condition: []
       action:
         - choose:
