@@ -16,14 +16,14 @@ knmi_weeralarm_package:
           unique_id: knmi_weeralarm_brabant
           state: >-
             {{ (state_attr('sensor.knmi_all_data', 'item')
-                  | selectattr('title', 'search', 'Brabant')
+                  | selectattr('title', 'search', 'Waarschuwingen Noord-Brabant')
                   | map(attribute='description')
                   | join).split('.')[0]
             }}
           attributes:
             warning: >-
               {{ (state_attr('sensor.knmi_all_data', 'item')
-                  | selectattr('title', 'search', 'Brabant')
+                  | selectattr('title', 'search', 'Waarschuwingen Noord-Brabant')
                   | map(attribute='description')
                   | join).split('.')[1:] | join('.') | striptags | trim
               }}
