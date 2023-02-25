@@ -4,7 +4,7 @@ tgtg_package:
   ##########################
   sensor:
     - platform: tgtg
-      email: !secret tgtg_username
+      email: !secret tgtg_email
       access_token: !secret tgtg_access_token
       refresh_token: !secret tgtg_refresh_token
       user_id: !secret tgtg_user_id
@@ -21,8 +21,8 @@ tgtg_package:
         - platform: state
           entity_id:
             - sensor.tgtg_bakker_bart
-            - sensor.tgtg_bakkerij_b_magic_box
-            - sensor.tgtg_holland_barrett_magic_box
+            - sensor.tgtg_bakkerij_b
+            - sensor.tgtg_holland_barrett
             - sensor.tgtg_oliebollenkraam
             - sensor.tgtg_zuivelhoeve
       condition: []
@@ -30,10 +30,10 @@ tgtg_package:
         - choose:
             - conditions:
                 - condition: template
-                  value_template: "{{ trigger.to_state.state | float >= 1 }}"
+                  value_template: "{{ trigger.to_state.state | int >= 1 }}"
                 - condition: template
                   value_template: >-
-                    {{ trigger.from_state.state | float == 0 or
+                    {{ trigger.from_state.state | int == 0 or
                     trigger.from_state.state == "unavailable" }}
               sequence:
                 - service: notify.mobile_devices_adults
@@ -41,18 +41,18 @@ tgtg_package:
                     message: >-
                       {{ trigger.to_state.attributes.friendly_name[5:] }} heeft
                       {{ trigger.to_state.state }} box(en) voor
-                      {{ trigger.to_state.attributes['TGTG Price'] }}
-                      tussen {{ trigger.to_state.attributes['Pickup start'] | as_timestamp | timestamp_custom('%A %H:%M') }}
-                      en {{ trigger.to_state.attributes['Pickup stop'] | as_timestamp | timestamp_custom('%H:%M') }}
+                      {{ trigger.to_state.attributes['item_price'] }}
+                      tussen {{ trigger.to_state.attributes['pickup_start'] | as_timestamp | timestamp_custom('%A %H:%M') }}
+                      en {{ trigger.to_state.attributes['pickup_end'] | as_timestamp | timestamp_custom('%H:%M') }}
                     data:
                       tag: "{{ trigger.to_state.attributes.friendly_name }}"
-                      clickAction: "{{ trigger.to_state.attributes['Item URL'] }}"
+                      clickAction: "{{ trigger.to_state.attributes['item_url'] }}"
                       notification_icon: "mdi:package-variant"
           default: []
         - choose:
             - conditions:
                 - condition: template
-                  value_template: "{{ trigger.to_state.state | float == 0 }}"
+                  value_template: "{{ trigger.to_state.state | int == 0 }}"
               sequence:
                 - service: notify.mobile_devices_adults
                   data:
