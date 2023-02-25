@@ -22,8 +22,9 @@ knmi_weeralarm_package:
             }}
           attributes:
             warning: >-
-              {{ (state_attr('sensor.knmi_all_data', 'item')
+              {{ ((state_attr('sensor.knmi_all_data', 'item')
                   | selectattr('title', 'search', 'Waarschuwingen Noord-Brabant')
                   | map(attribute='description')
-                  | join).split('.')[1:] | join('.') | striptags | trim
-              }}
+                  | join).split('<br>') | join('.')).split('.') 
+                  | select() | list | reject('search', 'Code|Wat kan ik') 
+                  | join('. ') | striptags | trim }}
