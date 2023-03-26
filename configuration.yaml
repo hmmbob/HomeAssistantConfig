@@ -49,6 +49,7 @@ logbook:
       - binary_sensor.schad*
       - sensor.dsmr_*
       - sensor.*_last_seen
+      - sensor.slimme_lezer*
     domains:
       - input_boolean
       - media_player
@@ -122,6 +123,7 @@ recorder:
       - sensor.dsmr_reading_phase_currently_delivered_l*
       - sensor.dsmr_reading_phase_power_current_l*
       - sensor.dsmr_reading_phase_voltage_l*
+      - sensor.slimme_lezer*
       - sensor.zonneplan_for*
     entities:
       - sensor.dsmr_consumption_gas_currently_delivered

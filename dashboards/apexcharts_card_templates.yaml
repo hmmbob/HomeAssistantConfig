@@ -54,8 +54,8 @@ electricity:
         color: "magenta"
   yaxis:
     - id: "1"
-      min: 0.14
-      max: 0.65
+      min: 0.10
+      max: 0.50
       decimals: 2
       apex_config:
         title:
