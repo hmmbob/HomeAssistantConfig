@@ -1,0 +1,32 @@
+solar_package:
+  rest_command:
+    update_pvoutput:
+      url: https://pvoutput.org/service/r2/addstatus.jsp
+      method: post
+      content_type: "application/x-www-form-urlencoded"
+      headers:
+        X-Pvoutput-Apikey: !secret pvoutput_api_key
+        X-Pvoutput-SystemId: !secret pvoutput_system_id
+      payload: >-
+        d={{now().strftime("%Y%m%d")}}
+        &t={{now().strftime("%H:%M")}}
+        &v1={{states.sensor.today_s_pv_generation.state|float(0) * 1000 }}
+        &v2={{states.sensor.pv_power.state|float(0)|round(0)}}
+        &v5={{state_attr('weather.knmi_home', 'temperature')|float(0)}}
+        &v6={{states('sensor.on_grid_l1_voltage')|float(0)}}
+
+  automation:
+    - alias: PVOutput Uploader (rest_command)
+      description: Uploads values to PVOutput
+      trigger:
+        - platform: time_pattern
+          minutes: /5
+          seconds: "0"
+      condition:
+        - condition: state
+          entity_id: sensor.work_mode
+          state: "Normal"
+      action:
+        - service: rest_command.update_pvoutput
+          data: {}
+      mode: single
