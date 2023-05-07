@@ -20,16 +20,8 @@ frontend:
   themes: !include_dir_merge_named themes/
   extra_module_url:
     - /hacsfiles/lovelace-card-mod/card-mod.js
-    - /hacsfiles/fix-card-tools/fix-card-tools.js
 
 history:
-  include: !include includes/recorder-history.yaml
-  exclude:
-    entity_globs:
-      - binary_sensor.sm_a52*
-      - binary_sensor.sm_a33_*
-      - binary_sensor.schad*
-      - binary_sensor.*_over_load_*
 
 http:
   server_port: !secret http_server_port
@@ -63,10 +55,6 @@ logger:
     aioesphomeapi.reconnect_logic:
       # This device has weak wifi connection, just mute the reconnect logs
       - "weerhuisje"
-    custom_components.toon_climate.climate:
-      # Occasionaly Toon doesn't reply
-      - "Cannot poll Woonkamer"
-      - "Timeout error occurred while polling"
     homeassistant.components.esphome:
       - "Error getting initial data"
       - "Timeout waiting for response"
@@ -124,6 +112,9 @@ recorder:
       - sensor.dsmr_reading_phase_currently_delivered_l*
       - sensor.dsmr_reading_phase_power_current_l*
       - sensor.dsmr_reading_phase_voltage_l*
+      - sensor.on_grid_*
+      - sensor.pv1_*
+      - sensor.pv2_*
       - sensor.slimme_lezer*
       - sensor.zonneplan_for*
     entities:

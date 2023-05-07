@@ -1,4 +1,4 @@
-- url: /hacsfiles/apexcharts-card/apexcharts-card.js?patch=20230330
+- url: /hacsfiles/apexcharts-card/apexcharts-card.js
   type: module
 - url: /hacsfiles/bar-card/bar-card.js
   type: module
