@@ -18,8 +18,8 @@ Hmmbob Google Dark Theme:
         color: var(--primary-color) !important;
       }
       /* This hides the help button, menu button and title */
-      a.menu-link[target="_blank"], ha-button-menu, [main-title] {
-        display: none;
+      .action-items {
+        display: none !important;
       }
       .header {
         top: calc(100vh - 48px) !important;
