@@ -27,8 +27,8 @@ Hmmbob Google Light Theme:
         transform: unset !important;
       }
       #view {
-        margin-top: 0px !important;
-        margin-bottom: 48px !important;
+        padding-top: 0px !important;
+        padding-bottom: 48px !important;
       }
   # End card-mod, back to the original theme:
   # Header:
