@@ -98,7 +98,7 @@ system_package:
               sequence:
                 - service: media_player.volume_set
                   data:
-                    entity_id: media_player.woonkamer
+                    entity_id: media_player.nest_hub_woonkamer
                     volume_level: 0.6
             - alias: "It's between 08:30 and 19hrs"
               conditions:
@@ -109,12 +109,12 @@ system_package:
                 - service: media_player.volume_set
                   data:
                     entity_id:
-                      - media_player.slaapkamer
+                      - media_player.slaapkamer_t
                       - media_player.zolder
                     volume_level: 0.6
                 - service: media_player.volume_set
                   data:
-                    entity_id: media_player.studeerkamer
+                    entity_id: media_player.kantoor
                     volume_level: 0.4
             - alias: "It's between 19hrs and 20:30"
               conditions:
@@ -124,13 +124,13 @@ system_package:
               sequence:
                 - service: media_player.volume_set
                   data:
-                    entity_id: media_player.woonkamer
+                    entity_id: media_player.nest_hub_woonkamer
                     volume_level: 0.4
                 - service: media_player.volume_set
                   data:
                     entity_id:
-                      - media_player.slaapkamer
-                      - media_player.studeerkamer
+                      - media_player.slaapkamer_t
+                      - media_player.kantoor
                       - media_player.zolder
                     volume_level: 0.2
             - alias: "It's between 20:30 and 7hrs"
@@ -141,11 +141,11 @@ system_package:
               sequence:
                 - service: media_player.volume_set
                   data:
-                    entity_id: media_player.woonkamer
+                    entity_id: media_player.nest_hub_woonkamer
                     volume_level: 0.2
                 - service: media_player.volume_set
                   data:
-                    entity_id: media_player.studeerkamer
+                    entity_id: media_player.kantoor
                     volume_level: 0.1
 
     ##########################

@@ -12,19 +12,6 @@ trash_package:
       postcode: !secret afvalinfo_postcode
       streetnumber: !secret afvalinfo_streetnumber
       locale: "nl"
-    - platform: afvalinfo
-      id: nieuwe-huis
-      resources:
-        - gft
-        - papier
-        - pbd
-        - restafval
-        - trash_type_today
-        - trash_type_tomorrow
-      location: !secret afvalinfo_location
-      postcode: !secret afvalinfo_postcode_2
-      streetnumber: !secret afvalinfo_streetnumber_2
-      locale: "nl"
 
   input_boolean:
     notify_trash:
@@ -114,16 +101,16 @@ trash_package:
           state: "on"
         - alias: "Play TTS"
           service: tts.microsoft_say
-          entity_id: media_player.woonkamer
+          entity_id: media_player.nest_hub_woonkamer
           data:
             message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
         - delay: "00:00:15"
         - alias: "Streaming image to Nest Hub"
           service: media_player.play_media
           data:
-            entity_id: media_player.woonkamer
+            entity_id: media_player.nest_hub_woonkamer
             media_content_id: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
             media_content_type: "image/png"
         - delay: "00:15:00"
         - service: media_player.turn_off
-          entity_id: media_player.woonkamer
+          entity_id: media_player.nest_hub_woonkamer

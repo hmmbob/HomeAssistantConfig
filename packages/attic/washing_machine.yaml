@@ -72,13 +72,13 @@ washing_machine_package:
         - alias: "Show image as visual reminder washing is done"
           service: media_player.play_media
           data:
-            entity_id: media_player.woonkamer
+            entity_id: media_player.nest_hub_woonkamer
             media_content_id: !secret image_url_wasmachine
             media_content_type: "image/png"
         - delay: "00:15:00"
         - service: media_player.turn_off
           entity_id:
-            - media_player.woonkamer
+            - media_player.nest_hub_woonkamer
 
     - alias: "Notifications: Clear wasmachine"
       id: notifications_wasmachine_remove
@@ -98,7 +98,7 @@ washing_machine_package:
         # Stop casting image to Google Home
         - service: media_player.turn_off
           entity_id:
-            - media_player.woonkamer
+            - media_player.nest_hub_woonkamer
         - alias: Clear washing notifications
           service: notify.mobile_devices_adults
           data:

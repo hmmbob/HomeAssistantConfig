@@ -401,7 +401,7 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: media_player.woonkamer
+          - entity: media_player.nest_hub_woonkamer
             state_not: "off"
         card:
           type: custom:mini-media-player
@@ -410,7 +410,7 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.woonkamer
+          entity: media_player.nest_hub_woonkamer
           icon: mdi:cast
           artwork: cover
           artwork_border: true
@@ -420,7 +420,7 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: media_player.studeerkamer
+          - entity: media_player.kantoor
             state_not: "off"
         card:
           type: custom:mini-media-player
@@ -429,7 +429,7 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.studeerkamer
+          entity: media_player.kantoor
           icon: mdi:cast
           artwork: cover
           artwork_border: true
@@ -439,7 +439,7 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: media_player.slaapkamer
+          - entity: media_player.slaapkamer_t
             state_not: "off"
         card:
           type: custom:mini-media-player
@@ -448,7 +448,7 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.slaapkamer
+          entity: media_player.slaapkamer_t
           icon: mdi:cast
           artwork: cover
           artwork_border: true

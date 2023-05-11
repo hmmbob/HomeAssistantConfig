@@ -54,7 +54,7 @@ doorbell_package:
                     - alias: "Play doorbell sound to Nest Hub"
                       service: media_player.play_media
                       data:
-                        entity_id: media_player.woonkamer
+                        entity_id: media_player.nest_hub_woonkamer
                         media_content_id: "{{ dingdong }}"
                         media_content_type: music
                         extra:
@@ -80,7 +80,7 @@ doorbell_package:
                 - alias: "Stream snapshotimage to Nest Hub"
                   service: media_player.play_media
                   data:
-                    entity_id: media_player.woonkamer
+                    entity_id: media_player.nest_hub_woonkamer
                     media_content_id: !secret camera_url
                     media_content_type: image/jpeg
                 - alias: "Wait before we clean up"
@@ -88,7 +88,7 @@ doorbell_package:
                 - alias: "Turn off everything we used"
                   service: media_player.turn_off
                   entity_id:
-                    - media_player.woonkamer
+                    - media_player.nest_hub_woonkamer
                     - media_player.boven
 
             # Early morning or late at night, we only
@@ -107,7 +107,7 @@ doorbell_package:
                     - alias: "Play doorbell sound to Nest Hub"
                       service: media_player.play_media
                       data:
-                        entity_id: media_player.woonkamer
+                        entity_id: media_player.nest_hub_woonkamer
                         media_content_id: "{{ dingdong }}"
                         media_content_type: music
                         extra:
@@ -126,7 +126,7 @@ doorbell_package:
                 - alias: "Streaming image to Nest Hub"
                   service: media_player.play_media
                   data:
-                    entity_id: media_player.woonkamer
+                    entity_id: media_player.nest_hub_woonkamer
                     media_content_id: !secret camera_url
                     media_content_type: image/jpeg
                 - alias: "Wait before we clean up"
@@ -134,7 +134,7 @@ doorbell_package:
                 - alias: "Turn off everything we used"
                   service: media_player.turn_off
                   entity_id:
-                    - media_player.woonkamer
+                    - media_player.nest_hub_woonkamer
 
   script:
     show_doorbell_alert:

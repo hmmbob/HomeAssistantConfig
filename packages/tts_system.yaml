@@ -14,9 +14,9 @@ tts_system_package:
         - Woonkamer
         - Hele huis
         - Bovenverdieping
-        - Slaapkamer
+        - Slaapkamer T
         - Zolder
-        - Studeerkamer
+        - Kantoor
       icon: mdi:cast-audio
 
   script:
@@ -28,12 +28,12 @@ tts_system_package:
       max_exceeded: silent
       variables:
         target: >
-          {% if is_state("input_select.tts_target", "Woonkamer") %} media_player.woonkamer
+          {% if is_state("input_select.tts_target", "Woonkamer") %} media_player.nest_hub_woonkamer
           {% elif is_state("input_select.tts_target", "Hele huis") %} media_player.hele_huis
           {% elif is_state("input_select.tts_target", "Bovenverdieping") %} media_player.boven
-          {% elif is_state("input_select.tts_target", "Slaapkamer") %} media_player.slaapkamer
+          {% elif is_state("input_select.tts_target", "Slaapkamer T") %} media_player.slaapkamer_t
           {% elif is_state("input_select.tts_target", "Zolder") %} media_player.zolder
-          {% elif is_state("input_select.tts_target", "Studeerkamer") %} media_player.studeerkamer
+          {% elif is_state("input_select.tts_target", "Kantoor") %} media_player.kantoor
           {% endif %}
       sequence:
         - service: tts.microsoft_say

@@ -68,14 +68,14 @@ picnic_package:
         - alias: "Start casting"
           service: cast.show_lovelace_view
           data:
-            entity_id: media_player.woonkamer
+            entity_id: media_player.nest_hub_woonkamer
             dashboard_path: lovelace-cast
             view_path: picnic-order-closing
         - delay:
             minutes: 30
         - service: media_player.turn_off
           target:
-            entity_id: media_player.woonkamer
+            entity_id: media_player.nest_hub_woonkamer
 
     - id: picnic_delivery_known
       alias: "Picnic: Delivery soon"
@@ -112,14 +112,14 @@ picnic_package:
         - alias: "Start casting"
           service: cast.show_lovelace_view
           data:
-            entity_id: media_player.woonkamer
+            entity_id: media_player.nest_hub_woonkamer
             dashboard_path: lovelace-cast
             view_path: picnic-eta
         - delay:
             minutes: 30
         - service: media_player.turn_off
           target:
-            entity_id: media_player.woonkamer
+            entity_id: media_player.nest_hub_woonkamer
 
     ##########################
     ## Update Picnic ETA sensors

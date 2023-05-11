@@ -165,7 +165,7 @@ notify:
   - platform: tts
     name: tts_woonkamer
     tts_service: tts.microsoft_say
-    media_player: media_player.woonkamer
+    media_player: media_player.nest_hub_woonkamer
 
   - platform: tts
     name: tts_hele_huis

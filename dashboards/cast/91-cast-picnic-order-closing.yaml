@@ -33,7 +33,7 @@ cards:
           target:
             entity_id:
               - script.cast_helper
-              - media_player.woonkamer
+              - media_player.nest_hub_woonkamer
         style:
           top: 10%
           left: 90%
