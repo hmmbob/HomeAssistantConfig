@@ -1,15 +1,12 @@
 domains:
   - alert
   - binary_sensor
-  - climate
   - media_player
   - person
   - vacuum
 entities:
   - light.badkamer
-  - light.eetkamer_level
   - light.sonoff_l1
-  - light.window_level
   - sensor.benzine
   - sensor.current_uv_index
   - sensor.database_grootte
@@ -22,9 +19,6 @@ entities:
   - sensor.nightstate
   - sensor.particulate_matter_10_0um_concentration
   - sensor.particulate_matter_2_5um_concentration
-  - sensor.pir_gang_illuminance
-  - sensor.pir_gang_temperature
-  - sensor.pir_woonkamer_illuminance
   - sensor.pubercave_power
   - sensor.slaapkamer_humidity
   - sensor.slaapkamer_temperature
@@ -39,11 +33,8 @@ entities:
   - switch.genie
   - switch.grijze_lamp
   - switch.kast
-  - switch.overkapping
-  - switch.schuur_1
   - switch.staande_lamp
   - switch.tv_kastje
-  - switch.window
 entity_globs:
   - sensor.bme280_*
   - sensor.tgtg_*

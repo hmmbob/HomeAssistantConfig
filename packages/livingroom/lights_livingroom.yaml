@@ -8,8 +8,6 @@ lights_livingroom_package:
         - switch.kast
         - switch.staande_lamp
         - switch.tv_kastje
-        - switch.zoutlamp
-        - light.window_level
 
   input_boolean:
     enable_pir_woonkamer_automations:
@@ -18,22 +16,6 @@ lights_livingroom_package:
     woonkamer_turned_on_by_movement:
       name: "Woonkamer aan gedaan via PIR"
       icon: mdi:lightbulb-on-outline
-
-  scene:
-    - name: "Alles uit"
-      id: allesuit
-      entities:
-        light.eetkamer_level: "off"
-        switch.grijze_lamp: "off"
-        switch.staande_lamp: "off"
-        switch.window: "off"
-
-    - name: Avond
-      id: avond
-      entities:
-        switch.grijze_lamp: "on"
-        switch.staande_lamp: "on"
-        switch.window: "on"
 
   automation:
     ##########################
@@ -57,7 +39,6 @@ lights_livingroom_package:
             entity_id:
               - group.lampen_woonkamer
               - input_boolean.woonkamer_turned_on_by_movement
-              - light.eetkamer_level
             state: "off"
           - condition: numeric_state
             entity_id: sun.sun

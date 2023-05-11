@@ -1,23 +1,24 @@
-lights_dining_room_package:
-  scene:
-    - name: Etenstijd
-      id: etenstijd
-      entities:
-        light.eetkamer_level:
-          state: "on"
-          brightness: 255
-
-  automation:
-    - id: set_eetkamer_brightness_on_time
-      alias: "Lights: Eetkamer brightness by time"
-      trigger:
-        platform: state
-        entity_id: light.eetkamer_level
-        from: "off"
-        to: "on"
-      action:
-        service: light.turn_on
-        entity_id: light.eetkamer_level
-        data:
-          brightness_pct: >
-            {% if now().hour < 9 %}10{% elif now().hour > 19 %}15{% else %}100{% endif %}
+lights_dining_room_package: {}
+#  scene:
+#    - name: Etenstijd
+#      id: etenstijd
+#      entities:
+#        light.eetkamer_level:
+#          state: "on"
+#          brightness: 255
+#
+#  automation:
+#    - id: set_eetkamer_brightness_on_time
+#      alias: "Lights: Eetkamer brightness by time"
+#      trigger:
+#        platform: state
+#        entity_id: light.eetkamer_level
+#        from: "off"
+#        to: "on"
+#      action:
+#        service: light.turn_on
+#        entity_id: light.eetkamer_level
+#        data:
+#          brightness_pct: >
+#            {% if now().hour < 9 %}10{% elif now().hour > 19 %}15{% else %}100{% endif %}
+#

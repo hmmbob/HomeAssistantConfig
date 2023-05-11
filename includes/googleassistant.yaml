@@ -4,10 +4,6 @@ expose_by_default: false
 report_state: true
 entity_config:
   ## Woonkamer
-  climate.woonkamer:
-    name: "Toon"
-    expose: true
-    room: "Woonkamer"
   switch.aquarium:
     name: "Aquarium"
     expose: true
@@ -24,29 +20,17 @@ entity_config:
     name: "Kast"
     expose: true
     room: "Woonkamer"
+
+  ## Salon
   switch.staande_lamp:
     name: "Staande lamp"
     expose: true
-    room: "Woonkamer"
+    room: "Salon"
   switch.tv_kastje:
     name: "TV Kastje"
     expose: true
-    room: "Woonkamer"
-  switch.zoutlamp:
-    name: "Zout Lamp"
-    expose: true
-    room: "Woonkamer"
-    aliases:
-      - "Steen Lamp"
-      - "Zaklamp"
-  switch.window:
-    name: "Raam lamp"
-    expose: true
-    room: "Woonkamer"
-  scene.avond:
-    name: "Avond"
-    expose: true
-    room: "Woonkamer"
+    room: "Salon"
+
   script.radio_538:
     name: "Radio 538"
     expose: true
@@ -67,28 +51,8 @@ entity_config:
       - "Rocky"
 
   ##Eetkamer
-  light.eetkamer_level:
-    name: "Eetkamer"
-    expose: true
-    room: "Eetkamer"
-  scene.etenstijd:
-    name: "Diner"
-    expose: true
-    room: "Eetkamer"
 
   ##Gang
-  light.gang_dimmer_level:
-    name: "Gang"
-    expose: true
-    room: "Gang"
-  binary_sensor.door_sensor_2_contact:
-    name: "Voordeur"
-    expose: true
-    room: "Gang"
-  binary_sensor.door_sensor_1_contact:
-    name: "Vriezer"
-    expose: true
-    room: "Gang"
 
   ##Badkamer
   light.badkamer:
@@ -109,12 +73,6 @@ entity_config:
     room: "Slaapkamer T"
 
   ##Zolder
-  cover.zolder:
-    name: "Zolder"
-    expose: true
-    room: "Zolder"
-    aliases:
-      - "Rolluik"
   sensor.zolder_temperature:
     name: "Temperatuur zolder"
     expose: true
@@ -125,13 +83,4 @@ entity_config:
     room: "Zolder"
     aliases:
       - "Ledstrip"
-
   ##Garden
-  switch.schuur_1:
-    name: "Schuur"
-    expose: true
-    room: "Tuin"
-  switch.overkapping:
-    name: "Overkapping"
-    expose: true
-    room: "Tuin"

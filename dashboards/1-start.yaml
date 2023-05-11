@@ -331,11 +331,8 @@ cards:
         entities:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
-          - light.eetkamer_level
           - type: buttons
             entities:
-              - entity: switch.overkapping
-                show_name: true
               - entity: switch.genie
                 show_name: true
               - entity: switch.aquarium
@@ -343,6 +340,12 @@ cards:
           - type: buttons
             entities:
               - entity: light.sonoff_l1
+                show_name: true
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: toggle
+              - entity: light.ledstrip_mini
                 show_name: true
                 tap_action:
                   action: more-info
@@ -370,15 +373,15 @@ cards:
                 name: "PS4 aan vandaag"
               - entity: sensor.minicave_on_today
                 name: "PC aan vandaag"
-          - type: custom:multiple-entity-row
-            entity: binary_sensor.door_sensor_2_contact
-            show_state: false
-            state_color: true
-            name: Deuren
-            entities:
-              - binary_sensor.door_sensor_2_contact
-              - binary_sensor.door_sensor_1_contact
-          - cover.zolder
+      #          - type: custom:multiple-entity-row
+      #            entity: binary_sensor.door_sensor_2_contact
+      #            show_state: false
+      #            state_color: true
+      #            name: Deuren
+      #            entities:
+      #              - binary_sensor.door_sensor_2_contact
+      #              - binary_sensor.door_sensor_1_contact
+      #          - cover.zolder
 
       - type: conditional ## Conditional media_players
         conditions:
