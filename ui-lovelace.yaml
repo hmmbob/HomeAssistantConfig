@@ -1,8 +1,6 @@
 swipe_nav:
   animate: swipe
 
-apexcharts_card_templates: !include dashboards/apexcharts_card_templates.yaml
-
 title: Home sweet home
 views:
   - !include dashboards/1-start.yaml
