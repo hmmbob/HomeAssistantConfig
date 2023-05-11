@@ -49,41 +49,65 @@ cards:
             margin: 0px 14px -5px 14px;
             width: 376px;
             }
-        alignment: justify
+        alignment: left
         chips:
           - type: entity
             entity: vacuum.rocky
-            name: Woonkamer zuigen
+            name: Woonkamer
             content_info: name
             icon: mdi:sofa
             tap_action:
               action: call-service
-              service: vacuum.start
+              service: xiaomi_miio.vacuum_clean_segment
               data:
-                segments: "18"
+                segments: [17]
               target:
                 entity_id: vacuum.rocky
           - type: entity
             entity: vacuum.rocky
-            name: Gang zuigen
-            content_info: name
-            icon: mdi:stairs
-            tap_action:
-              action: call-service
-              service: vacuum.start
-              data:
-                segments: "17"
-              target:
-                entity_id: vacuum.rocky
-          - type: entity
-            entity: vacuum.rocky
-            name: Keuken zuigen
+            name: Eetkamer
             content_info: name
             icon: mdi:pot-steam
             tap_action:
               action: call-service
-              service: vacuum.start
+              service: xiaomi_miio.vacuum_clean_segment
               data:
-                segments: "16"
+                segments: [18]
+              target:
+                entity_id: vacuum.rocky
+          - type: entity
+            entity: vacuum.rocky
+            name: Gang
+            content_info: name
+            icon: mdi:stairs
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              data:
+                segments: [16]
+              target:
+                entity_id: vacuum.rocky
+          - type: entity
+            entity: vacuum.rocky
+            name: Bijkeuken
+            content_info: name
+            icon: mdi:washing-machine
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              data:
+                segments: [19]
+              target:
+                entity_id: vacuum.rocky
+          - type: entity
+            entity: vacuum.rocky
+            name: Salon
+            content_info: name
+            icon: mdi:television
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              data:
+                segments: [20]
               target:
                 entity_id: vacuum.rocky
