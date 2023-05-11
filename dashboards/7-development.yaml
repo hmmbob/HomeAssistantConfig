@@ -38,29 +38,29 @@ cards:
         entities:
           - input_boolean.disable_pir_sensor_automations
           - type: divider
-          - type: custom:fold-entity-row
-            head:
-              entity: binary_sensor.pir_woonkamer_motion
-            entities:
-              - sensor.pir_woonkamer_illuminance
-              - input_boolean.woonkamer_turned_on_by_movement
-              - input_boolean.enable_pir_woonkamer_automations
-          - type: divider
-          - type: custom:fold-entity-row
-            head:
-              entity: binary_sensor.pir_gang_sensor
-            entities:
-              - sensor.pir_gang_illuminance
-              - sensor.pir_gang_temperature
-              - input_boolean.enable_pir_gang_automations
-      - type: entities
-        id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
-        title: Voordeur
-        show_header_toggle: false
-        state_color: true
-        entities:
-          - entity: binary_sensor.door_sensor_2_contact
-            secondary_info: last-changed
+          #- type: custom:fold-entity-row
+          #  head:
+          #    entity: binary_sensor.pir_woonkamer_motion
+          #  entities:
+          #    - sensor.pir_woonkamer_illuminance
+          #    - input_boolean.woonkamer_turned_on_by_movement
+          #    - input_boolean.enable_pir_woonkamer_automations
+          #- type: divider
+          #- type: custom:fold-entity-row
+          #  head:
+          #    entity: binary_sensor.pir_gang_sensor
+          #  entities:
+          #    - sensor.pir_gang_illuminance
+          #    - sensor.pir_gang_temperature
+          #    - input_boolean.enable_pir_gang_automations
+      #- type: entities
+      #  id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
+      #  title: Voordeur
+      #  show_header_toggle: false
+      #  state_color: true
+      #  entities:
+      #    - entity: binary_sensor.door_sensor_2_contact
+      #      secondary_info: last-changed
 
   - type: vertical-stack
     cards:

@@ -36,18 +36,18 @@ cards:
         sort_by_level: "asc"
         collapse: 2
         entities:
-          - entity: sensor.pir_woonkamer_battery_level
-            tap_action: more-info
-          - entity: sensor.pir_gang_battery_level
-            tap_action: more-info
+          #- entity: sensor.pir_woonkamer_battery_level
+          #  tap_action: more-info
+          #- entity: sensor.pir_gang_battery_level
+          #  tap_action: more-info
           - entity: sensor.slaapkamer_battery
             tap_action: more-info
           - entity: sensor.zolder_battery
             tap_action: more-info
-          - entity: sensor.door_sensor_1_battery
-            tap_action: more-info
-          - entity: sensor.door_sensor_2_battery
-            tap_action: more-info
+          #- entity: sensor.door_sensor_1_battery
+          #  tap_action: more-info
+          #- entity: sensor.door_sensor_2_battery
+          #  tap_action: more-info
           - entity: sensor.vacuum_battery
             name: Stofzuiger batterij
             tap_action: more-info
@@ -83,11 +83,11 @@ cards:
             entities:
               - binary_sensor.hp_printer_connectivity
               - binary_sensor.kast_status
-              - binary_sensor.overkapping_status
+              # - binary_sensor.overkapping_status
               - binary_sensor.staande_lamp_status
               - binary_sensor.weerhuisje_status
               - binary_sensor.zigbee2mqtt_bridge
-              - binary_sensor.zoutlamp_status
+              # - binary_sensor.zoutlamp_status
 
       - type: markdown ## Weerhuisje header
         content: |

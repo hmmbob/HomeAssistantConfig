@@ -7,63 +7,63 @@ icon: mdi:home-thermometer-outline
 cards:
   - type: vertical-stack
     cards:
-      - type: markdown ## Temperatuur header
-        content: |
-          # Thermostaat
-        card_mod:
-          style:
-            .: |
-              ha-card {
-              margin: 12px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 { 
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-      - type: "custom:simple-thermostat"
-        card_mod:
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            --st-font-size-title: 18px;
-            --st-font-size-xl: 
-            }
-        entity: climate.woonkamer
-        header: false
-        label:
-          temperature: Binnen
-        hide:
-          state: true
-        layout:
-          mode:
-            headings: false
-        control:
-          preset:
-            sleep:
-              icon: mdi:sleep
-            away:
-              icon: mdi:leaf
-            comfort:
-              icon: mdi:fire
-            home:
-              icon: mdi:home-thermometer
-            eco:
-              icon: mdi:thermometer-off
-        sensors:
-          - entity: sensor.bme280_temperature
-            name: Eigen tuin
-          - entity: weather.knmi_home
-            attribute: temperature
-            name: Volkel
-            unit: "°C"
-          - attribute: modulation_level
-            name: Brander
-            unit: "%"
+      #- type: markdown ## Temperatuur header
+      #  content: |
+      #    # Thermostaat
+      #  card_mod:
+      #    style:
+      #      .: |
+      #        ha-card {
+      #        margin: 12px 14px -5px 14px;
+      #        box-shadow: none;
+      #        --ha-card-background: rgba(0, 0, 0, 0.0)
+      #        }
+      #      ha-markdown$: |
+      #        h1 {
+      #          font-size: 18px !important;
+      #          font-weight: 400 !important;
+      #          padding-left: 10px !important;
+      #          border-left: 3px solid rgba(81, 134, 236);
+      #          }
+      #- type: "custom:simple-thermostat"
+      #  card_mod:
+      #    style: |
+      #      ha-card {
+      #      margin: 0px 14px -5px 14px;
+      #      --st-font-size-title: 18px;
+      #      --st-font-size-xl:
+      #      }
+      #  entity: climate.woonkamer
+      #  header: false
+      #  label:
+      #    temperature: Binnen
+      #  hide:
+      #    state: true
+      #  layout:
+      #    mode:
+      #      headings: false
+      #  control:
+      #    preset:
+      #      sleep:
+      #        icon: mdi:sleep
+      #      away:
+      #        icon: mdi:leaf
+      #      comfort:
+      #        icon: mdi:fire
+      #      home:
+      #        icon: mdi:home-thermometer
+      #      eco:
+      #        icon: mdi:thermometer-off
+      #  sensors:
+      #    - entity: sensor.bme280_temperature
+      #      name: Eigen tuin
+      #    - entity: weather.knmi_home
+      #      attribute: temperature
+      #      name: Volkel
+      #      unit: "°C"
+      #    - attribute: modulation_level
+      #      name: Brander
+      #      unit: "%"
       - type: markdown ## Temperatuur header
         content: |
           # Temperaturen
@@ -126,7 +126,8 @@ cards:
                   margin: 0px 14px 0px 0px;
                 }
             entities:
-              - entity: sensor.bme280_temperature
+              - entity: weather.knmi_home
+                attribute: temperature
                 name: Buiten
               - entity: sensor.knmi_home_relatieve_luchtvochtigheid
                 show_graph: false
@@ -150,6 +151,7 @@ cards:
                 color: "#d35400"
             font_size: 75
             hour24: true
+            icon: "mdi:thermometer"
             line_color: var(--accent-color)
             line_width: 8
             points_per_hour: 1
