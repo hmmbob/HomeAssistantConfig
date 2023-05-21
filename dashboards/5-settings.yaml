@@ -273,31 +273,13 @@ cards:
       - type: horizontal-stack #### 4th row
         cards:
           - type: custom:button-card
-            entity: input_boolean.enable_cover
+            entity: input_boolean.notify_power_use_attic
             card_mod:
               style: |
                 ha-card {
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 0px 0px 14px;
                 }
-            icon: '[[[ if (entity.state == "on") return "mdi:garage"; else return "mdi:garage-alert"; ]]]'
-            name: Rolluik
-            show_state: false
-            styles:
-              card:
-                - width: 90px
-                - height: 90px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: input_boolean.notify_power_use_attic
             name: Meldingen leeslampje, PS4
             show_state: false
             styles:

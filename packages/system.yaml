@@ -97,7 +97,7 @@ system_package:
                 - service: media_player.volume_set
                   data:
                     entity_id: media_player.nest_hub_woonkamer
-                    volume_level: 0.6
+                    volume_level: 0.7
             - alias: "It's between 08:30 and 19hrs"
               conditions:
                 - condition: time
@@ -123,7 +123,7 @@ system_package:
                 - service: media_player.volume_set
                   data:
                     entity_id: media_player.nest_hub_woonkamer
-                    volume_level: 0.4
+                    volume_level: 0.6
                 - service: media_player.volume_set
                   data:
                     entity_id:
@@ -140,7 +140,7 @@ system_package:
                 - service: media_player.volume_set
                   data:
                     entity_id: media_player.nest_hub_woonkamer
-                    volume_level: 0.2
+                    volume_level: 0.4
                 - service: media_player.volume_set
                   data:
                     entity_id: media_player.kantoor
