@@ -2,35 +2,26 @@ project_id: !secret google_assistant_project_id
 service_account: !include googleassistant_serviceaccount.json
 expose_by_default: false
 report_state: true
+exposed_domains:
+  - media_player
 entity_config:
   ## Woonkamer
-  switch.aquarium:
-    name: "Aquarium"
-    expose: true
-    room: "Woonkamer"
-  switch.genie:
-    name: "Genie"
-    expose: true
-    room: "Woonkamer"
-  switch.grijze_lamp:
+  light.grijze_lamp:
     name: "Grijze lamp"
     expose: true
     room: "Woonkamer"
-  switch.kast:
+  light.kast:
     name: "Kast"
     expose: true
     room: "Woonkamer"
-
-  ## Salon
-  switch.staande_lamp:
-    name: "Staande lamp"
+  light.spots_vaas:
+    name: "Spots vaas"
     expose: true
-    room: "Salon"
-  switch.tv_kastje:
-    name: "TV Kastje"
+    room: "Woonkamer"
+  light.spots_woonkamer:
+    name: "Spots woonkamer"
     expose: true
-    room: "Salon"
-
+    room: "Woonkamer"
   script.radio_538:
     name: "Radio 538"
     expose: true
@@ -43,6 +34,14 @@ entity_config:
     name: "Nashville"
     expose: true
     room: "Woonkamer"
+  switch.aquarium:
+    name: "Aquarium"
+    expose: true
+    room: "Woonkamer"
+  switch.genie:
+    name: "Genie"
+    expose: true
+    room: "Woonkamer"
   vacuum.rocky:
     name: "Stofzuiger"
     expose: true
@@ -50,37 +49,63 @@ entity_config:
     aliases:
       - "Rocky"
 
-  ##Eetkamer
+  ## Salon
+  light.staande_lamp:
+    name: "Staande lamp"
+    expose: true
+    room: "Salon"
+  light.tv_kastje:
+    name: "TV Kastje"
+    expose: true
+    room: "Salon"
 
-  ##Gang
+  ## Dining room
+  light.spots_eetkamer:
+    name: "Spots eetkamer"
+    expose: true
+    room: "Eetkamer"
 
-  ##Badkamer
+  ## Kitchen
+  light.spots_keuken:
+    name: "Spots keuken"
+    expose: true
+    room: "Keuken"
+
+  ## Gang
+
+  ## Badkamer
   light.badkamer:
     name: "Badkamer"
     expose: true
     room: "Badkamer"
 
-  ##Slaapkamer B
+  ## Slaapkamer MBR
   sensor.slaapkamer_temperature:
     name: "Temperatuur slaapkamer"
     expose: true
     room: "Slaapkamer"
 
-  ##Slaapkamer T
+  ## Slaapkamer T
+  light.ledstrip_mini:
+    name: "Ledstrip mini"
+    expose: true
+    room: "Slaapkamer T"
+    aliases:
+      - "Led strip mini"
   script.start_music_t:
     name: "Slaaptijd"
     expose: true
     room: "Slaapkamer T"
 
-  ##Zolder
+  ## Zolder
+  light.sonoff_l1:
+    name: "Ledstrip zolder"
+    expose: true
+    room: "Zolder"
+    aliases:
+      - "Led strip zolder"
   sensor.zolder_temperature:
     name: "Temperatuur zolder"
     expose: true
     room: "Zolder"
-  light.sonoff_l1:
-    name: "Led strip"
-    expose: true
-    room: "Zolder"
-    aliases:
-      - "Ledstrip"
-  ##Garden
+  ## Garden

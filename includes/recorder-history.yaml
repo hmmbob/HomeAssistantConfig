@@ -1,12 +1,11 @@
 domains:
   - alert
   - binary_sensor
+  - light
   - media_player
   - person
   - vacuum
 entities:
-  - light.badkamer
-  - light.sonoff_l1
   - sensor.benzine
   - sensor.current_uv_index
   - sensor.database_grootte
@@ -31,10 +30,6 @@ entities:
   - sensor.zonneplan_gasprijs
   - switch.aquarium
   - switch.genie
-  - switch.grijze_lamp
-  - switch.kast
-  - switch.staande_lamp
-  - switch.tv_kastje
 entity_globs:
   - sensor.bme280_*
   - sensor.tgtg_*

@@ -1,0 +1,8 @@
+lights_salon_package:
+  group:
+    lampen_salon:
+      name: Verlichting Salon
+      icon: mdi:lamps
+      entities:
+        - light.staande_lamp
+        - light.tv_kastje

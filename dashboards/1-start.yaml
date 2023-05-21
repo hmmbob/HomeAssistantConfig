@@ -108,22 +108,6 @@ cards:
             url_path: https://www.knmi.nl/nederland-nu/weer/waarschuwingen/noord-brabant
           multiline_secondary: true
 
-      - type: conditional ## Conditional alerts
-        conditions:
-          - entity: alert.weerhuisje
-            state_not: "idle"
-        card:
-          type: entities
-          card_mod:
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              background: rgba(255, 40, 44, 0.6);
-              }
-          entities:
-            - entity: alert.weerhuisje
-              name: "Weerhuisje offline"
-
       - type: conditional ## Conditional UV
         conditions:
           - entity: binary_sensor.uv_index_warning_level
@@ -321,6 +305,110 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.spots_keuken
+            icon: mdi:countertop
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: true
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entity: light.spots_woonkamer
+            icon: mdi:sofa
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entity: light.spots_eetkamer
+            icon: mdi:table-chair
+            show_brightness_control: true
+            collapsible_controls: true
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entity: light.spots_vaas
+            icon: mdi:lightbulb-spot
+            show_brightness_control: true
+            collapsible_controls: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entity: light.sonoff_l1
+            icon: mdi:led-strip-variant
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entity: light.ledstrip_mini
+            icon: mdi:desk
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-entity-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entity: switch.aquarium
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entity: light.badkamer
+            show_brightness_control: true
+            collapsible_controls: true
+
       - type: entities ## Oogopslag overview
         card_mod:
           style: |
@@ -331,32 +419,12 @@ cards:
         entities:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
+          - type: custom:fold-entity-row
+            head: group.lampen_salon
           - type: buttons
             entities:
               - entity: switch.genie
                 show_name: true
-              - entity: switch.aquarium
-                show_name: true
-          - type: buttons
-            entities:
-              - entity: light.sonoff_l1
-                show_name: true
-                tap_action:
-                  action: more-info
-                hold_action:
-                  action: toggle
-              - entity: light.ledstrip_mini
-                show_name: true
-                tap_action:
-                  action: more-info
-                hold_action:
-                  action: toggle
-              - entity: light.badkamer
-                show_name: true
-                tap_action:
-                  action: more-info
-                hold_action:
-                  action: toggle
           - type: custom:multiple-entity-row
             entity: sensor.pubercave_power
             show_state: false

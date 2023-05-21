@@ -4,10 +4,8 @@ lights_livingroom_package:
       name: Verlichting Woonkamer
       icon: mdi:lamps
       entities:
-        - switch.grijze_lamp
-        - switch.kast
-        - switch.staande_lamp
-        - switch.tv_kastje
+        - light.grijze_lamp
+        - light.kast
 
   input_boolean:
     enable_pir_woonkamer_automations:
@@ -115,8 +113,8 @@ lights_livingroom_package:
             entity_id: group.lampen_woonkamer
             state: "off"
       action:
-        - service: homeassistant.turn_on
-          entity_id:
-            - switch.grijze_lamp
-            - switch.kast
-            - switch.tv_kastje
+        - service: light.turn_on
+          data:
+            brightness_pct: 20
+          target:
+            entity_id: light.spots_vaas
