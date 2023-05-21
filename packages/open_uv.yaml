@@ -38,14 +38,13 @@ open_uv_package:
       condition:
         - condition: sun
           after: sunrise
-          after_offset: "+00:30:00"
+          after_offset: "+01:00:00"
           before: sunset
-          before_offset: "-00:30:00"
+          before_offset: "-01:00:00"
       action:
         service: homeassistant.update_entity
         target:
           entity_id:
-            - binary_sensor.openuv_protection_window
             - sensor.openuv_current_uv_index
 
     ##########################
