@@ -23,6 +23,7 @@ cards:
             padding-left: 10px !important;
             border-left: 3px solid rgba(81, 134, 236);
             }
-  - type: picture-entity
-    entity: camera.voordeur
-    camera_view: live
+
+  - type: "custom:webrtc-camera"
+    url: "rtsp://192.168.88.32:8554/voordeur"
+    background: true # run stream when not displayed (ex. for quick video loading), default false
