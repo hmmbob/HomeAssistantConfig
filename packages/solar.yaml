@@ -16,7 +16,7 @@ solar_package:
         &v6={{states('sensor.on_grid_l1_voltage')|float(0)}}
 
   automation:
-    - alias: PVOutput Uploader (rest_command)
+    - alias: "Power: PVOutput uploader"
       description: Uploads values to PVOutput
       trigger:
         - platform: time_pattern

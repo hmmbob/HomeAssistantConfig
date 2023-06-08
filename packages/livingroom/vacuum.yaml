@@ -37,6 +37,17 @@ vacuum_package:
         - walls
         - zones
 
+  input_boolean:
+    vacuum_enable_ask_for_cleaning:
+      name: "Stofzuiger herinnering"
+      icon: mdi:robot-vacuum
+
+  input_datetime:
+    vacuum_ask_for_cleaning_time:
+      name: Stofzuiger herinnering tijdstip
+      has_time: true
+      has_date: false
+
   template:
     - sensor:
         - name: "Vacuum status"
@@ -46,7 +57,7 @@ vacuum_package:
 
         - name: "Vacuum error"
           unique_id: "vacuum_error"
-          icon: mdi:alert-circle
+          icon: mdi:robot-vacuum-alert
           state: >-
             {{ iif(is_state('vacuum.rocky', 'error'), state_attr("vacuum.rocky", "error"), "No error") }}
 
@@ -72,7 +83,7 @@ vacuum_package:
     ##########################
     - alias: "Vacuum: Ask to have Rocky do its cleaning"
       id: vacuum_ask_to_run
-      initial_state: "off"
+      initial_state: "on"
       variables:
         notification_service: >
           {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
@@ -82,8 +93,11 @@ vacuum_package:
           {% endif %}
       trigger:
         - platform: time
-          at: "19:00"
+          at: input_datetime.vacuum_ask_for_cleaning_time
       condition:
+        - condition: state
+          entity_id: vacuum_enable_ask_for_cleaning
+          state: "on"
         - "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86400 }}"
         - condition: state
           entity_id: input_boolean.vacation_mode_away
@@ -169,6 +183,19 @@ vacuum_package:
                   title: "Keer terug naar je dock"
               ttl: 0
               priority: high
+        - alias: "Wait for Rocky to return"
+          wait_for_trigger:
+            - platform: state
+              entity_id: vacuum.rocky
+              from: "idle"
+              to: "returning"
+          timeout: "01:00:00"
+          continue_on_timeout: false
+        - service: notify.mobile_devices_adults
+          data:
+            message: clear_notification
+            data:
+              tag: "vacuum"
 
     - alias: "Vacuum: Return to dock"
       id: vacuum_return_to_dock
@@ -200,236 +227,6 @@ vacuum_package:
           data:
             title: "Rocky"
             message: "Rocky doet zijn rondje! 🧹🧹"
-
-    - alias: "Vacuum: Fire Rocky stopped cleaning event"
-      id: vacuum_event_cleaning_stopped
-      initial_state: "on"
-      trigger:
-        - platform: state
-          entity_id: vacuum.rocky
-          from: "returning"
-          to: "docked"
-      action:
-        - alias: "Cleaning done - fire an event we listen to in other automations"
-          event: vacuum_cleaning_ended
-
-    ##########################
-    ## Maintenance notifications
-    ##########################
-    - alias: "Vacuum: Notify that Rocky's sensors need maintenance"
-      id: vacuum_notification_maintenance_sensors
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: vacuum_cleaning_ended
-      condition:
-        - alias: "Check for sensor status"
-          condition: numeric_state
-          entity_id: sensor.rocky_sensor_dirty_left
-          below: 7200 # unit_of_measurement: seconds (equals 2hrs)
-      action:
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Rocky needs maintenance"
-            message: "De sensoren van Rocky moeten schoongemaakt worden. Resterende tijd: {{((states('sensor.rocky_sensor_dirty_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum
-              channel: vacuum
-              actions:
-                - action: "vacuum_maintenance_sensors_done"
-                  title: "Onderhoud uitgevoerd!"
-                - action: "vacuum_maintenance_sensors_later"
-                  title: "Nee, doe ik later"
-              ttl: 0
-              priority: high
-
-    - alias: "Vacuum: Notify that Rocky's main brush needs maintenance"
-      id: vacuum_notification_maintenance_main_brush
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: vacuum_cleaning_ended
-      condition:
-        - alias: "Check for main brush status"
-          condition: numeric_state
-          entity_id: sensor.rocky_main_brush_left
-          below: 18000 # unit_of_measurement: seconds (equals 5hrs)
-      action:
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Rocky needs maintenance"
-            message: "De hoofdborstel van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.rocky_main_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              actions:
-                - action: "vacuum_maintenance_main_brush_done"
-                  title: "Onderhoud uitgevoerd!"
-                - action: "vacuum_maintenance_main_brush_later"
-                  title: "Nee, doe ik later"
-              ttl: 0
-              priority: high
-
-    - alias: "Vacuum: Notify that Rocky's side brush needs maintenance"
-      id: vacuum_notification_maintenance_side_brush
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: vacuum_cleaning_ended
-      condition:
-        - alias: "Check for side brush status"
-          condition: numeric_state
-          entity_id: sensor.rocky_side_brush_left
-          below: 18000 # unit_of_measurement: seconds (equals 5hrs)
-      action:
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Rocky needs maintenance"
-            message: "De zijborstel van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.rocky_side_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              actions:
-                - action: "vacuum_maintenance_side_brush_done"
-                  title: "Onderhoud uitgevoerd!"
-                - action: "vacuum_maintenance_side_brush_later"
-                  title: "Nee, doe ik later"
-              ttl: 0
-              priority: high
-
-    - alias: "Vacuum: Notify that Rocky's filter needs maintenance"
-      id: vacuum_notification_maintenance_filter
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: vacuum_cleaning_ended
-      condition:
-        - alias: "Check for filter status"
-          condition: numeric_state
-          entity_id: sensor.rocky_filter_left
-          below: 18000 # unit_of_measurement: seconds (equals 5hrs)
-      action:
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Rocky needs maintenance"
-            message: "De filter van Rocky moet bijna vervangen worden. Resterende tijd: {{((states('sensor.rocky_filter_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              actions:
-                - action: "vacuum_maintenance_filter_done"
-                  title: "Onderhoud uitgevoerd!"
-                - action: "vacuum_maintenance_filter_later"
-                  title: "Nee, doe ik later"
-              ttl: 0
-              priority: high
-
-    ##########################
-    ## Maintenance actions
-    ##########################
-    - alias: "Vacuum: Reset Rocky's sensors maintenance interval"
-      id: vacuum_reset_maintenance_sensors
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: mobile_app_notification_action
-          event_data:
-            action: "vacuum_maintenance_sensors_done"
-      action:
-        - service: vacuum.send_Command
-          alias: "Reset hours for sensor cleaning"
-          target:
-            entity_id: vacuum.rocky
-          data:
-            command: reset_consumable
-            params: ["sensor_dirty_time"]
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Maintenance completed"
-            message: "De sensortijd is gereset. Resterende tijd: {{((states('sensor.rocky_sensor_dirty_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              ttl: 0
-              priority: high
-
-    - alias: "Vacuum: Reset Rocky's main brush maintenance interval"
-      id: vacuum_reset_maintenance_main_brush
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: mobile_app_notification_action
-          event_data:
-            action: "vacuum_maintenance_main_brush_done"
-      action:
-        - service: vacuum.send_Command
-          alias: "Reset hours for main brush replacement"
-          target:
-            entity_id: vacuum.rocky
-          data:
-            command: reset_consumable
-            params: ["main_brush_work_time"]
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Maintenance completed"
-            message: "De hoofdborstel van Rocky is vervangen. Resterende tijd: {{((states('sensor.rocky_main_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              ttl: 0
-              priority: high
-
-    - alias: "Vacuum: Reset Rocky's side brush maintenance interval"
-      id: vacuum_reset_maintenance_side_brush
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: mobile_app_notification_action
-          event_data:
-            action: "vacuum_maintenance_side_brush_done"
-      action:
-        - service: vacuum.send_Command
-          alias: "Reset hours for side brush replacement"
-          target:
-            entity_id: vacuum.rocky
-          data:
-            command: reset_consumable
-            params: ["side_brush_work_time"]
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Maintenance completed"
-            message: "De zijborstel van Rocky is vervangen. Resterende tijd: {{((states('sensor.rocky_side_brush_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              ttl: 0
-              priority: high
-
-    - alias: "Vacuum: Reset Rocky's filter maintenance interval"
-      id: vacuum_reset_maintenance_filter
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: mobile_app_notification_action
-          event_data:
-            action: "vacuum_maintenance_filter_done"
-      action:
-        - service: vacuum.send_Command
-          alias: "Reset hours for filter replacement"
-          target:
-            entity_id: vacuum.rocky
-          data:
-            command: reset_consumable
-            params: ["filter_work_time"]
-        - service: notify.mobile_app_sm_a526b
-          data:
-            title: "Maintenance completed"
-            message: "De filter van Rocky is vervangen. Resterende tijd: {{((states('sensor.rocky_filter_left') | int(default=0)) / 3600) | round(0) }} uur."
-            data:
-              tag: vacuum_maintenance
-              channel: vacuum
-              ttl: 0
-              priority: high
 
     ##########################
     ## Capture errors
@@ -502,7 +299,7 @@ vacuum_package:
     ##########################
     ## Disable vacuum camera when docked
     ##########################
-    - alias: "Vacuum: camera on/off"
+    - alias: "Vacuum: Camera on/off"
       id: vacuum_camera_onoff
       mode: restart
       trigger:

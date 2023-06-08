@@ -12,7 +12,7 @@ tgtg_package:
       scan_interval: 300
 
   automation:
-    - alias: "TGTG Notify"
+    - alias: "TGTG: Notify"
       id: tgtg_notify
       description: "Notifications for TooGoodToGo"
       mode: parallel

@@ -136,9 +136,10 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_door_alert
-            name: Open deur alarm
+            entity: input_boolean.vacuum_enable_ask_for_cleaning
+            name: Stofzuiger
             show_state: false
+            icon: '[[[ if (entity.state == "on") return "mdi:robot-vacuum"; else return "mdi:robot-vacuum-off"; ]]]'
             styles:
               card:
                 - width: 90px

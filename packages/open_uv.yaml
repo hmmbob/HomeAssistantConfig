@@ -29,12 +29,10 @@ open_uv_package:
     ## Update OpenUV sensors
     ##########################
     - id: update_openuv
-      alias: "Update OpenUV"
+      alias: "Update: OpenUV"
       trigger:
         - platform: time_pattern
           minutes: "/45"
-        - platform: homeassistant
-          event: start
       condition:
         - condition: sun
           after: sunrise

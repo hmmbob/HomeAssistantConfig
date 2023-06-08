@@ -9,7 +9,7 @@ washing_machine_package:
     ## Washing machine alerts
     ##########################
     # Turn on helper if washing machine starts
-    - alias: "Wasmachine draait"
+    - alias: "Washing machine: Wasmachine draait"
       id: helper_wasmachine
       trigger:
         # High power: someone started the washing program...
