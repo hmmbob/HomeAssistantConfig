@@ -118,6 +118,72 @@ vacuum_package:
           target:
             entity_id: vacuum.rocky
 
+    - alias: "Vacuum: Drive Rocky to trash can"
+      id: vacuum_drive_to_trash
+      initial_state: "on"
+      trigger:
+        - platform: state
+          entity_id: vacuum.rocky
+          from: "cleaning"
+          to: "returning"
+          for:
+            hours: 0
+            minutes: 0
+            seconds: 5
+      condition:
+        - alias: "Check if there was major cleaning done"
+          condition: numeric_state
+          entity_id: sensor.rocky_current_clean_area
+          above: 3
+      action:
+        - alias: "Stop Rocky before sending goto command"
+          service: vacuum.stop
+          entity_id: vacuum.rocky
+        - delay: "00:00:02"
+        - alias: "Send Rocky to the trash can"
+          service: xiaomi_miio.vacuum_goto
+          data:
+            entity_id: vacuum.rocky
+            x_coord: "30301"
+            y_coord: "29421"
+        - alias: "Wait for Rocky to arrive at trash can"
+          wait_for_trigger:
+            - platform: state
+              entity_id: vacuum.rocky
+              to: "idle"
+          timeout: "00:05:00"
+          continue_on_timeout: false
+        - alias: "Make some noise so people know I'm here"
+          service: vacuum.locate
+          target:
+            entity_id: vacuum.rocky
+        - service: notify.mobile_devices_adults
+          data:
+            message: "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het legen op mijn 🏠 toets en ik ga terug naar mijn dock."
+            title: "Rocky"
+            data:
+              tag: vacuum
+              channel: vacuum
+              actions:
+                - action: "vacuum_return_to_dock"
+                  title: "Keer terug naar je dock"
+              ttl: 0
+              priority: high
+
+    - alias: "Vacuum: Return to dock"
+      id: vacuum_return_to_dock
+      initial_state: "on"
+      trigger:
+        - platform: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "vacuum_return_to_dock"
+      action:
+        - service: vacuum.return_to_base
+          alias: "Returning to dock"
+          target:
+            entity_id: vacuum.rocky
+
     ##########################
     ## Notifications
     ##########################
@@ -146,27 +212,6 @@ vacuum_package:
       action:
         - alias: "Cleaning done - fire an event we listen to in other automations"
           event: vacuum_cleaning_ended
-
-    - alias: "Vacuum: Notify that Rocky stopped cleaning"
-      id: vacuum_notification_stopped_and_docked
-      initial_state: "on"
-      trigger:
-        - platform: event
-          event_type: vacuum_cleaning_ended
-      action:
-        - alias: "Checking if this is the 3rd time cleaning..."
-          choose:
-            - conditions: "{{ (states('sensor.rocky_total_clean_count') | int(default=0)) % 3 == 0 }}"
-              sequence:
-                - service: notify.mobile_app_sm_a526b
-                  data:
-                    message: "Rocky moet geleegd worden, hij was na {{((states('sensor.rocky_last_clean_duration') | int(default=0)) / 60) | round(0) }} minuten klaar met zijn werk!"
-                    title: "Rocky"
-          default:
-            - service: notify.mobile_app_sm_a526b
-              data:
-                title: "Rocky"
-                message: "🧹 Rocky is na {{((states('sensor.rocky_last_clean_duration') | int(default=0)) / 60) | round(0) }} minuten klaar met zijn werk!."
 
     ##########################
     ## Maintenance notifications
@@ -421,7 +466,7 @@ vacuum_package:
               channel: vacuum
               ttl: 0
               priority: high
-        - service: notify.tts_hele_huis
+        - service: notify.tts_woonkamer
           data:
             message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
         - service: persistent_notification.create
@@ -432,7 +477,7 @@ vacuum_package:
         - delay: "00:01:00"
         - service: media_player.turn_off
           entity_id:
-            - media_player.hele_huis
+            - media_player.nest_hub_woonkamer
 
     - alias: "Vacuum: Clear Rocky error mode"
       id: vacuum_clear_notification_error
