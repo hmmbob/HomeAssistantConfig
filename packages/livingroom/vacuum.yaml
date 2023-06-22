@@ -83,7 +83,6 @@ vacuum_package:
     ##########################
     - alias: "Vacuum: Ask to have Rocky do its cleaning"
       id: vacuum_ask_to_run
-      initial_state: "on"
       variables:
         notification_service: >
           {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
@@ -96,7 +95,7 @@ vacuum_package:
           at: input_datetime.vacuum_ask_for_cleaning_time
       condition:
         - condition: state
-          entity_id: vacuum_enable_ask_for_cleaning
+          entity_id: input_boolean.vacuum_enable_ask_for_cleaning
           state: "on"
         - "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86400 }}"
         - condition: state

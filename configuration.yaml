@@ -33,7 +33,6 @@ http:
 logbook:
   exclude:
     entities:
-      - automation.weerhuisje_update_air_quality_sensors
       - sensor.kamertemperatuur
     entity_globs:
       - binary_sensor.pir*
@@ -44,6 +43,7 @@ logbook:
       - sensor.*_last_seen
       - sensor.slimme_lezer*
     domains:
+      - automation
       - input_boolean
       - media_player
 
@@ -115,15 +115,20 @@ recorder:
       - sensor.dsmr_reading_phase_power_current_l*
       - sensor.dsmr_reading_phase_voltage_l*
       - sensor.on_grid_*
+      - sensor.power_consume*
+      - sensor.power_produce*
       - sensor.pv1_*
       - sensor.pv2_*
       - sensor.slimme_lezer*
       - sensor.smartevse_mains_*
+      - sensor.sun_*
+      - sensor.voltage*
       - sensor.zonneplan_for*
     entities:
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
       - sensor.knmi_all_data
+      - sensor.netto_consumption
       - sensor.schaduwspeler_aantal_actieve_meldingen
       - sensor.schaduwspeler_laatste_notificatie
       - sensor.schaduwspeler_laatste_verwijderde_melding

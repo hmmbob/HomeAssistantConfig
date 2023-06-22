@@ -22,6 +22,12 @@ entity_config:
     name: "Spots woonkamer"
     expose: true
     room: "Woonkamer"
+  media_player.sonos_woonkamer:
+    name: "Sonos woonkamer"
+    expose: true
+    room: "Woonkamer"
+    aliases:
+      - "Sonos"
   script.radio_538:
     name: "Radio 538"
     expose: true
@@ -32,10 +38,6 @@ entity_config:
     room: "Woonkamer"
   script.nashville:
     name: "Nashville"
-    expose: true
-    room: "Woonkamer"
-  switch.aquarium:
-    name: "Aquarium"
     expose: true
     room: "Woonkamer"
   switch.genie:
@@ -56,6 +58,10 @@ entity_config:
     room: "Salon"
   light.tv_kastje:
     name: "TV Kastje"
+    expose: true
+    room: "Salon"
+  switch.aquarium:
+    name: "Aquarium"
     expose: true
     room: "Salon"
 

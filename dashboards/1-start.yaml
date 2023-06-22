@@ -479,9 +479,9 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: media_player.woonkamer
+          - entity: media_player.sonos_woonkamer
             state_not: "off"
-          - entity: media_player.woonkamer
+          - entity: media_player.sonos_woonkamer
             state_not: "idle"
         card:
           type: custom:mini-media-player
@@ -490,7 +490,7 @@ cards:
               ha-card {
               margin: 0px 14px -5px 14px;
               }
-          entity: media_player.woonkamer
+          entity: media_player.sonos_woonkamer
           icon: mdi:cast
           artwork: cover
           artwork_border: true
