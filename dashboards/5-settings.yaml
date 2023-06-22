@@ -73,23 +73,7 @@ cards:
                     - filter: opacity(50%)
                   icon:
                     - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: input_boolean.toon_on_through_movement
-            name: Toon op beweging
-            show_state: false
-            styles:
-              card:
-                - width: 90px
-                - height: 90px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
+
           - type: custom:button-card
             entity: input_boolean.disable_pir_sensor_automations
             name: Couch sleeper

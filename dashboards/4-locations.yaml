@@ -77,7 +77,8 @@ cards:
           - !secret person_puber
           - zone.cz
           - zone.home
-          - zone.new_home
+          - zone.mc
+          - zone.ploeterklas
           - zone.school
           - zone.school_mini
           - zone.scouting
