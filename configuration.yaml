@@ -180,8 +180,6 @@ ffmpeg: # Used by doorbell
 sonos:
   media_player:
     advertise_addr: !secret sonos_host
-    hosts:
-      - !secret sonos_symfonisk
 
 notify:
   - platform: tts
