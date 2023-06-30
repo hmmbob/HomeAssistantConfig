@@ -95,7 +95,6 @@ lovelace:
       require_admin: false
 
 recorder:
-  db_url: !secret recorder_url
   purge_keep_days: 31
   exclude:
     domains:
@@ -152,11 +151,13 @@ cloud:
 dhcp:
 diagnostics:
 energy:
+hardware:
 homeassistant_alerts:
 input_button:
 media_source:
 mobile_app:
 my:
+network:
 person:
 ssdp:
 stream:
