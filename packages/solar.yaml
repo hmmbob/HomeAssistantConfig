@@ -1,5 +1,41 @@
 solar_package:
+  binary_sensor:
+    # Check if the current electricity prices are negative
+    # on == negative price, off == positive price
+    - platform: threshold
+      name: "Negatieve stroomprijs"
+      entity_id: sensor.zonneplan_current_electricity_tariff
+      lower: 0
+
+  input_boolean:
+    # Do I want the PV to turn off automatically?
+    solar_pv_off_automatic:
+      name: "Solar: Turn PV off automatically"
+      icon: mdi:refresh-auto
+    # Do I want the PV to turn off by schedule?
+    solar_pv_off_schedule:
+      name: "Solar: Turn PV off on schedule"
+      icon: mdi:calendar-start
+    solar_send_message:
+      name: "Solar: send message to tell something changed"
+      initial: "off"
+
+  input_datetime:
+    # When should PV off period stop (and turn on PV)
+    solar_pv_off_end:
+      name: "Solar PV off time end"
+      has_time: true
+      has_date: true
+      icon: mdi:clock-end
+    # When should PV off period start (and turn off PV)
+    solar_pv_off_start:
+      name: "Solar PV off time start"
+      has_time: true
+      has_date: true
+      icon: mdi:clock-start
+
   rest_command:
+    # Rest Command to upload PV generation data to PVOutput
     update_pvoutput:
       url: https://pvoutput.org/service/r2/addstatus.jsp
       method: post
@@ -14,7 +50,6 @@ solar_package:
         &v2={{(states('sensor.pv_power')|float(0))|round(0)}}
         &v5={{state_attr('weather.knmi_home', 'temperature')|float(0)}}
         &v6={{states('sensor.on_grid_l1_voltage')|float(0)}}
-      # &v4={{((states('sensor.filtered_netto_consumption')|float(0)) * 1000)|round(0)}}
 
   sensor:
     # Filtered netto consumption. Consumption is in kW
@@ -43,8 +78,9 @@ solar_package:
                   | round(3) }}
 
   automation:
+    # Automation to trigger the upload to PVOutput, using the rest_command defined above
     - id: solar_upload_to_pvoutput
-      alias: "Power: PVOutput uploader"
+      alias: "Solar: PVOutput uploader"
       description: Upload values to PVOutput
       trigger:
         - platform: time_pattern
@@ -58,3 +94,146 @@ solar_package:
         - service: rest_command.update_pvoutput
           data: {}
       mode: single
+
+    # Automation to set the date of the "end field" in the UI to the same value as the "start"
+    - id: solar_set_schedule_end_date
+      alias: "Solar: Set date of end field to date of start field"
+      trigger:
+        - platform: state
+          entity_id: input_datetime.solar_pv_off_start
+      action:
+        - alias: Set date of PV off end field
+          service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.solar_pv_off_end
+          data:
+            date: "{{states('input_datetime.solar_pv_off_start') | truncate(10, 'False', '') }}"
+
+    # Automation to automatically turn off my solar system when electricity prices are below 0.
+    # This can be done automatically or by time schedule based on input_datetime.
+    # It works by setting the "grid_export_limit" in the GoodWe integration to 0%, effectively
+    # instructing the inverter that it isn't allowed to export (produce) any power. Setting
+    # it back to 100% restarts the production again to the maximum capacity of the inverter.
+    - id: solar_handle_pv_off
+      alias: "Solar: Handle PV off"
+      trigger:
+        # Triggers for automatic switching
+        - platform: state
+          entity_id:
+            - binary_sensor.negatieve_stroomprijs
+          attribute: position
+          to: below
+          id: automatic_start
+          variables:
+            message: "Je zonnepanelen zijn automatisch uitgeschakeld omdat de stroomprijs negatief is."
+        - platform: state
+          entity_id:
+            - binary_sensor.negatieve_stroomprijs
+          attribute: position
+          to: above
+          id: automatic_stop
+          variables:
+            message: "Je zonnepanelen zijn weer ingeschakeld omdat de stroomprijs positief is."
+        # Triggers for scheduled switching
+        - platform: time
+          at: input_datetime.solar_pv_off_start
+          id: scheduled_start
+          variables:
+            message: "Je zonnepanelen zijn uitgeschakeld op basis van je schedule."
+        - platform: time
+          at: input_datetime.solar_pv_off_end
+          id: scheduled_stop
+          variables:
+            message: "Je zonnepanelen zijn weer ingeschakeld op basis van je schedule."
+      condition:
+        - alias: "Check if inverter is actually working"
+          condition: state
+          entity_id: sensor.work_mode
+          state: "Normal"
+      action:
+        - alias: "Choose what to execute"
+          choose:
+            - conditions:
+                - condition: trigger
+                  id: automatic_start
+              sequence:
+                - if:
+                    - alias: "Check if we enabled automatic turning on/off"
+                      condition: state
+                      entity_id: input_boolean.solar_pv_off_automatic
+                      state: "on"
+                  then:
+                    - alias: "Set grid export limit to 0% to turn off PV production"
+                      service: number.set_value
+                      target:
+                        entity_id: number.grid_export_limit
+                      data:
+                        value: "0"
+                  else:
+                    - stop: "Stopping because automatic turning on/off is not enabled"
+            - conditions:
+                - condition: trigger
+                  id: automatic_stop
+              sequence:
+                - if:
+                    - alias: "Check if we enabled automatic turning on/off"
+                      condition: state
+                      entity_id: input_boolean.solar_pv_off_automatic
+                      state: "on"
+                  then:
+                    - alias: "Set grid export limit to 100% to turn on PV production"
+                      service: number.set_value
+                      target:
+                        entity_id: number.grid_export_limit
+                      data:
+                        value: "100"
+                  else:
+                    - stop: "Stopping because automatic turning on/off is not enabled"
+            - conditions:
+                - condition: trigger
+                  id: scheduled_start
+              sequence:
+                - if:
+                    - alias: "Check if we enabled scheduled turning on/off"
+                      condition: state
+                      entity_id: input_boolean.solar_pv_off_schedule
+                      state: "on"
+                  then:
+                    - alias: "Set grid export limit to 0% to turn off PV production"
+                      service: number.set_value
+                      target:
+                        entity_id: number.grid_export_limit
+                      data:
+                        value: "0"
+                  else:
+                    - stop: "Stopping because scheduled turning on/off is not enabled"
+            - conditions:
+                - condition: trigger
+                  id: scheduled_stop
+              sequence:
+                - if:
+                    - alias: "Check if we enabled scheduled turning on/off"
+                      condition: state
+                      entity_id: input_boolean.solar_pv_off_schedule
+                      state: "on"
+                  then:
+                    - alias: "Set grid export limit to 100% to turn on PV production"
+                      service: number.set_value
+                      target:
+                        entity_id: number.grid_export_limit
+                      data:
+                        value: "100"
+                    - alias: "Disable PV off schedule"
+                      service: input_boolean.turn_off
+                      target:
+                        entity_id: input_boolean.solar_pv_off_schedule
+                  else:
+                    - stop: "Stopping because scheduled turning on/off is not enabled"
+        - alias: "Sending push notification"
+          service: notify.mobile_app_sm_a526b
+          data:
+            title: "Zonnepanelen update"
+            message: "{{ message }}"
+            data:
+              tag: "notification-solar"
+              notification_icon: mdi:solar-power-variant

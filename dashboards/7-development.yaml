@@ -14,6 +14,24 @@ visible:
 cards:
   - type: vertical-stack
     cards:
+      - type: entities
+        state_color: true
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.negatieve_stroomprijs
+          - entity: number.grid_export_limit
+          - entity: sensor.pv_power
+          - type: divider
+          - entity: input_boolean.solar_pv_off_automatic
+            name: "Turn off PV automatically when negative prices"
+          - type: divider
+          - entity: input_boolean.solar_pv_off_schedule
+            name: "Enable scheduled turning on/off of solar"
+          - entity: input_datetime.solar_pv_off_start
+            name: Start PV off time
+          - entity: input_datetime.solar_pv_off_end
+            name: End PV off time
+
       - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
         type: custom:auto-entities
         card:
