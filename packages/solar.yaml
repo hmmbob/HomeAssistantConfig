@@ -16,9 +16,6 @@ solar_package:
     solar_pv_off_schedule:
       name: "Solar: Turn PV off on schedule"
       icon: mdi:calendar-start
-    solar_send_message:
-      name: "Solar: send message to tell something changed"
-      initial: "off"
 
   input_datetime:
     # When should PV off period stop (and turn on PV)
