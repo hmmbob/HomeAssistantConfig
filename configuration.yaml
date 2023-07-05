@@ -193,6 +193,15 @@ notify:
     tts_service: tts.microsoft_say
     media_player: media_player.hele_huis
 
+  - platform: smtp
+    name: "Email"
+    sender: !secret smtp_sender
+    sender_name: "Homeassistant"
+    username: !secret smtp_sender
+    password: !secret smtp_sender_password
+    recipient: !secret smtp_recipient
+    server: !secret smtp_server
+
 spotcast:
   sp_dc: !secret spotcast_sp_dc
   sp_key: !secret spotcast_sp_key
