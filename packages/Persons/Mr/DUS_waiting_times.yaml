@@ -10,7 +10,7 @@ dus_waiting_times_package:
       sensor:
         - name: "Wachttijd A-gates"
           icon: mdi:airplane-clock
-          value_template: "{{ value_json.data.0.waitingTime }}"
+          value_template: "{{ value_json.data.0.waitingTime | default(0) }}"
           json_attributes_path: "$.data.0"
           json_attributes:
             - name
@@ -20,7 +20,7 @@ dus_waiting_times_package:
           unit_of_measurement: min
         - name: "Wachttijd B-gates"
           icon: mdi:airplane-clock
-          value_template: "{{ value_json.data.1.waitingTime }}"
+          value_template: "{{ value_json.data.1.waitingTime | default(0)}}"
           json_attributes_path: "$.data.1"
           json_attributes:
             - name
@@ -30,7 +30,7 @@ dus_waiting_times_package:
           unit_of_measurement: min
         - name: "Wachttijd C-gates"
           icon: mdi:airplane-clock
-          value_template: "{{ value_json.data.2.waitingTime }}"
+          value_template: "{{ value_json.data.2.waitingTime | default(0)}}"
           json_attributes_path: "$.data.2"
           json_attributes:
             - name

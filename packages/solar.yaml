@@ -120,6 +120,7 @@ solar_package:
             - binary_sensor.negatieve_stroomprijs
           attribute: position
           to: below
+          from: above
           id: automatic_start
           variables:
             message: "Je zonnepanelen zijn automatisch uitgeschakeld omdat de stroomprijs negatief is."
@@ -128,6 +129,7 @@ solar_package:
             - binary_sensor.negatieve_stroomprijs
           attribute: position
           to: above
+          from: below
           id: automatic_stop
           variables:
             message: "Je zonnepanelen zijn weer ingeschakeld omdat de stroomprijs positief is."

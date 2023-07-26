@@ -120,10 +120,12 @@ recorder:
       - sensor.pv2_*
       - sensor.slimme_lezer*
       - sensor.smartevse_mains_*
+      - sensor.smartevse_11469*
       - sensor.sun_*
       - sensor.voltage*
       - sensor.zonneplan_for*
     entities:
+      - sensor.droger_dryer_completion_time
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
       - sensor.knmi_all_data
