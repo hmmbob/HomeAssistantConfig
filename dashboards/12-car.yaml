@@ -1,0 +1,68 @@
+####################
+# Car              #
+####################
+path: car
+title: Car
+icon: mdi:car-electric
+visible:
+  - user: 510b1afef60640d7a220711c50b2192a # BL
+cards:
+  - type: vertical-stack
+    cards:
+      - type: gauge
+        entity: sensor.tucson_ev_battery_level
+        name: Tucson Accu
+        needle: false
+        severity:
+          green: 66
+          yellow: 33
+          red: 0
+
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: sensor.smartevse_state
+            icon_color: green
+            icon: mdi:ev-station
+            tap_action:
+              action: url
+              url_path: http://192.168.88.216
+          - type: entity
+            entity: sensor.smartevse_mode
+            icon: mdi:ev-plug-type2
+            tap_action:
+              action: url
+              url_path: http://192.168.88.216
+          - type: spacer
+          - type: action
+            icon: mdi:refresh
+            tap_action:
+              action: call-service
+              service: kia_uvo.update
+              target: {}
+              data:
+                device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
+          - type: entity
+            entity: sensor.tucson_ev_battery_level
+            use_entity_picture: false
+            icon: mdi:car-electric
+
+      - type: custom:mushroom-title-card
+        title: Scheduled charge settings
+
+      - type: entities
+        state_color: true
+        show_header_toggle: false
+        entities:
+          - entity: input_boolean.evse_schedule
+            name: Scheduled charging
+          - entity: input_datetime.evse_charge_start
+            name: Start Charging
+          - entity: input_datetime.evse_charge_end
+            name: End Charging
+
+          - entity: input_select.evse_charge_policy
+            icon: mdi:ev-station
+            name: Scheduled Charge Policy
+          - entity: input_select.evse_charge_policy_when_done
+            name: Set Charging Policy When Done

@@ -1,0 +1,144 @@
+ev_package:
+  input_boolean:
+    evse_schedule:
+      name: EVSE Schedule
+      icon: mdi:calendar
+
+  input_datetime:
+    evse_charge_end:
+      name: EVSE Charge End
+      has_time: true
+      has_date: true
+    evse_charge_start:
+      name: EVSE Charge Start
+      has_time: true
+      has_date: true
+
+  input_select:
+    evse_charge_policy:
+      name: EVSE Charge Policy
+      options:
+        - "Off"
+        - Normal
+        - Solar
+        - Smart
+      icon: mdi:ev-station
+    evse_charge_policy_when_done:
+      name: EVSE Charge Policy when done
+      options:
+        - "Off"
+        - Normal
+        - Solar
+        - Smart
+      icon: mdi:ev-station
+
+  utility_meter:
+    ev_charged_energy:
+      cycle: monthly
+      name: SmartEVSE Monthly total
+      source: sensor.smartevse_ev_total_kwh
+
+  automation:
+    - id: ev_handle_scheduled_charge
+      alias: "EV: Handle scheduled charge"
+      trigger:
+        - platform: time
+          at: input_datetime.evse_charge_start
+          id: start
+        - platform: time
+          at: input_datetime.evse_charge_end
+          id: stop
+      condition:
+        - alias: "Check if schedule is activated"
+          condition: state
+          entity_id: input_boolean.evse_schedule
+          state: "on"
+      action:
+        - alias: "Choose scheduled start or stop"
+          choose:
+            - conditions:
+                - condition: trigger
+                  id: start
+              sequence:
+                - alias: "Check if car is connected"
+                  condition: state
+                  entity_id: sensor.smartevse_car_connected
+                  state: "True"
+                - alias: "Select requested charging option"
+                  service: select.select_option
+                  target:
+                    entity_id: select.smartevse_mode_selector
+                  data:
+                    option: "{{ states('input_select.evse_charge_policy') | upper }}"
+                - alias: "Sending push notification"
+                  service: notify.mobile_app_sm_a526b
+                  data:
+                    title: "EV charging started"
+                    message: "De auto wordt opgeladen in {{ states('input_select.evse_charge_policy') }} modus"
+                    data:
+                      tag: "notification-ev"
+                      icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+                      notification_icon: mdi:ev-station
+            - conditions:
+                - condition: trigger
+                  id: stop
+              sequence:
+                - alias: "Select requested charging option"
+                  service: select.select_option
+                  target:
+                    entity_id: select.smartevse_mode_selector
+                  data:
+                    option: "{{ states('input_select.evse_charge_policy_when_done') | upper }}"
+                - alias: "Sending push notification"
+                  service: notify.mobile_app_sm_a526b
+                  data:
+                    title: "EV charging stopped"
+                    message: "Het opladen is gestopt. Het laadpunt staat in {{ states('input_select.evse_charge_policy_when_done') }} modus"
+                    data:
+                      tag: "notification-ev"
+                      icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+                      notification_icon: mdi:ev-station
+                - alias: "Disable scheduled charging"
+                  service: input_boolean.turn_off
+                  target:
+                    entity_id: input_boolean.evse_schedule
+
+    - id: ev_set_schedule_end_date
+      alias: "EV: Set date of end field to date of start field"
+      trigger:
+        - platform: state
+          entity_id: input_datetime.evse_charge_start
+      action:
+        - alias: Set date of scheduled charge end field
+          service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.evse_charge_end
+          data:
+            date: "{{states('input_datetime.evse_charge_start') | truncate(10, 'False', '') }}"
+
+    - id: ev_create_monthly_total_notification
+      alias: "EV: Create notification of monthly total"
+      variables:
+        title: EV charging monthly total
+        message: >
+          This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') }} kWh. 
+          The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_ev_total_kwh') }} kWh.
+      trigger:
+        - platform: time
+          at: "23:59:45"
+      condition:
+        - alias: "Only on last day of the month"
+          condition: template
+          value_template: "{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}"
+      action:
+        - alias: "Create a persistant notification with the monthly charged totals"
+          service: persistent_notification.create
+          data:
+            notification_id: ev_monthly_total
+            title: "{{ title }}"
+            message: "{{ message }}"
+        - alias: "Send an email with the monthly charged totals"
+          service: notify.email
+          data:
+            title: "{{ title }}"
+            message: "{{ message }}"
