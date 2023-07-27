@@ -1,0 +1,160 @@
+symfonisk_package:
+  automation:
+    - id: "symfonisk_remote_control"
+      alias: "Symfonisk: Remote control"
+      description: >
+        "Control my Symfonisk speaker with an IKEA E2123 remote control,
+        based on the blueprint by Shawsky found at https://community.home-assistant.io/t/z2m-ikea-symfonisk-gen2-e2123-media-control/559523"
+      mode: restart
+      max_exceeded: silent
+      variables:
+        player: media_player.sonos_woonkamer
+        steps: 10 # 25 is Sonos default
+        stepsize: "{{ 1.0 / steps }}"
+      trigger_variables:
+        basetopic: zigbee2mqtt
+        device_name: Afstandsbediening
+      trigger:
+        - platform: mqtt
+          topic: "{{basetopic}}/{{device_name}}/action"
+      action:
+        - choose:
+            - conditions:
+                - "{{ trigger.payload != '' }}"
+              sequence:
+                - choose:
+                    - conditions: "{{ trigger.payload == 'toggle' }}"
+                      sequence:
+                        - service: media_player.media_play_pause
+                          target:
+                            entity_id: "{{ player }}"
+                    - conditions: "{{ trigger.payload == 'track_next' }}"
+                      sequence:
+                        - service: media_player.media_next_track
+                          target:
+                            entity_id: "{{ player }}"
+                    - conditions: "{{ trigger.payload == 'track_previous' }}"
+                      sequence:
+                        - service: media_player.media_previous_track
+                          target:
+                            entity_id: "{{ player }}"
+                    - conditions: "{{ trigger.payload == 'volume_up' }}"
+                      sequence:
+                        - service: media_player.volume_set
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            volume_level: >-
+                              {% set volume = state_attr(player, "volume_level") + stepsize %} 
+                              {{ 1.0 if volume > 1.0 else volume }}
+                    - conditions: "{{ trigger.payload == 'volume_down' }}"
+                      sequence:
+                        - service: media_player.volume_set
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            volume_level: >-
+                              {% set volume = state_attr(player,"volume_level") - stepsize %} 
+                              {{ 0.0 if volume < 0.0 else volume }}
+                    - conditions: "{{ trigger.payload == 'volume_up_hold' }}"
+                      sequence:
+                        - service: media_player.volume_set
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            volume_level: >-
+                              {% set volume = state_attr(player, "volume_level") + stepsize %}
+                              {{ 1.0 if volume > 1.0 else volume }}
+                    - conditions: "{{ trigger.payload == 'volume_down_hold' }}"
+                      sequence:
+                        - service: media_player.volume_set
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            volume_level: >-
+                              {% set volume = state_attr(player, "volume_level") - stepsize %} 
+                              {{ 0.0 if volume < 0.0 else volume }}
+                    - conditions: "{{ trigger.payload == 'dots_1_short_release' }}"
+                      sequence:
+                        - service: media_player.play_media
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            media_content_id: FV:2/6
+                            media_content_type: favorite_item_id
+                          metadata:
+                            title: Radio 538
+                            thumbnail: >-
+                              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fctfimages.talparad.io%2F64snPocOjrU0AXQGcKW2Hu%2Fb14e14d0ad2aae08004e87969e6aa788%2F538_Radio.png%3Ff%3Dcenter%26fit%3Dfill&partnerId=talpa
+                            media_class: genre
+                            children_media_class: null
+                            navigateIds:
+                              - {}
+                              - media_content_type: favorites
+                                media_content_id: ""
+                              - media_content_type: favorites_folder
+                                media_content_id: object.item.audioItem.audioBroadcast
+                    - conditions: "{{ trigger.payload == 'dots_1_double_press' }}"
+                      sequence:
+                        - service: media_player.play_media
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            media_content_id: FV:2/5
+                            media_content_type: favorite_item_id
+                          metadata:
+                            title: Remix Party 2023
+                            thumbnail: >-
+                              https://i.scdn.co/image/ab67706f0000000240b4d98e0c924bedc2d9c216
+                            media_class: playlist
+                            children_media_class: null
+                            navigateIds:
+                              - {}
+                              - media_content_type: favorites
+                                media_content_id: ""
+                              - media_content_type: favorites_folder
+                                media_content_id: object.container.playlistContainer
+                    - conditions: "{{ trigger.payload == 'dots_1_long_press' }}"
+                      sequence: []
+                    - conditions: "{{ trigger.payload == 'dots_2_short_release' }}"
+                      sequence:
+                        - service: media_player.play_media
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            media_content_id: FV:2/8
+                            media_content_type: favorite_item_id
+                          metadata:
+                            title: Qmusic
+                            thumbnail: >-
+                              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fcdn-profiles.tunein.com%2Fs87683%2Fimages%2Flogog.png%3Ft%3D1&partnerId=tunein
+                            media_class: genre
+                            children_media_class: null
+                            navigateIds:
+                              - {}
+                              - media_content_type: favorites
+                                media_content_id: ""
+                              - media_content_type: favorites_folder
+                                media_content_id: object.item.audioItem.audioBroadcast
+                    - conditions: "{{ trigger.payload == 'dots_2_double_press' }}"
+                      sequence:
+                        - service: media_player.play_media
+                          target:
+                            entity_id: "{{ player }}"
+                          data:
+                            media_content_id: FV:2/7
+                            media_content_type: favorite_item_id
+                          metadata:
+                            title: !secret naam_mw
+                            thumbnail: >-
+                              https://mosaic.scdn.co/640/ab67616d0000b2730bd44f5ff9ecc99f7770acc5ab67616d0000b2734384b6976cadaec272114022ab67616d0000b27352f532df7ba3269b0242fed9ab67616d0000b273f4a2ccbe20d6d52f16816812
+                            media_class: playlist
+                            children_media_class: null
+                            navigateIds:
+                              - {}
+                              - media_content_type: favorites
+                                media_content_id: ""
+                              - media_content_type: favorites_folder
+                                media_content_id: object.container.playlistContainer
+                    - conditions: "{{ trigger.payload == 'dots_2_long_press' }}"
+                      sequence: []
