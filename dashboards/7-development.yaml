@@ -32,8 +32,16 @@ cards:
           - entity: input_datetime.solar_pv_off_end
             name: End PV off time
 
-      - id: e0571d1974a74ebb853a1a8fb849cec0 # Automatically created id
-        type: custom:auto-entities
+      - type: plant-status
+        entity: plant.ananas
+
+      - type: plant-status
+        entity: plant.hangplant
+
+      - type: plant-status
+        entity: plant.sanseveria
+
+      - type: custom:auto-entities
         card:
           type: entities
           title: Things that might be broken
@@ -48,8 +56,7 @@ cards:
         sort:
           method: name
 
-      - id: c78f07f54176407b928ef6923a45f10a # Automatically created id
-        type: entities
+      - type: entities
         title: PIR Sensors
         show_header_toggle: false
         state_color: true
@@ -82,8 +89,7 @@ cards:
 
   - type: vertical-stack
     cards:
-      - id: 13241d19712345bb853a1a8fb849cec0 # Automatically created id
-        type: entities
+      - type: entities
         title: All Mobile App sensors
         entities:
           - type: custom:auto-entities
@@ -119,8 +125,7 @@ cards:
                 - entity_id: "*schaduwspeler*"
             sort:
               method: name
-      - id: e0571d19712345bb853a1a8fb849cec0 # Automatically created id
-        type: entities
+      - type: entities
         title: All Input fields
         entities:
           - type: custom:auto-entities
@@ -148,8 +153,7 @@ cards:
 
   - type: vertical-stack
     cards:
-      - id: c915ccdf-3c20-402f-92fa-323541e56dd7 # Automatically created id
-        type: entities
+      - type: entities
         title: All weather entities
         entities:
           - type: custom:auto-entities
