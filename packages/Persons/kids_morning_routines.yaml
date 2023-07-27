@@ -1,12 +1,4 @@
 kids_morning_routines_package:
-  binary_sensor:
-    - platform: workday
-      name: "Schooldag"
-      country: NL
-      remove_holidays:
-        - "Goede Vrijdag"
-      add_holidays: !include /config/includes/holidays.yaml
-
   input_datetime:
     time_schooltijd:
       name: "Schooltijd: Toon & verlichting uit"
