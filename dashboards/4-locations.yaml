@@ -75,6 +75,7 @@ cards:
           - !secret person_mw
           - !secret person_mini
           - !secret person_puber
+          - zone.breda
           - zone.cz
           - zone.home
           - zone.mc

@@ -9,6 +9,7 @@ views:
           - entity: !secret person_mw
           - entity: !secret person_mini
           - entity: !secret person_puber
+          - entity: zone.breda
           - entity: zone.cz
           - entity: zone.home
           - entity: zone.mc
