@@ -76,24 +76,7 @@ symfonisk_package:
                               {{ 0.0 if volume < 0.0 else volume }}
                     - conditions: "{{ trigger.payload == 'dots_1_short_release' }}"
                       sequence:
-                        - service: media_player.play_media
-                          target:
-                            entity_id: "{{ player }}"
-                          data:
-                            media_content_id: FV:2/6
-                            media_content_type: favorite_item_id
-                          metadata:
-                            title: Radio 538
-                            thumbnail: >-
-                              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fctfimages.talparad.io%2F64snPocOjrU0AXQGcKW2Hu%2Fb14e14d0ad2aae08004e87969e6aa788%2F538_Radio.png%3Ff%3Dcenter%26fit%3Dfill&partnerId=talpa
-                            media_class: genre
-                            children_media_class: null
-                            navigateIds:
-                              - {}
-                              - media_content_type: favorites
-                                media_content_id: ""
-                              - media_content_type: favorites_folder
-                                media_content_id: object.item.audioItem.audioBroadcast
+                        - service: script.radio_538
                     - conditions: "{{ trigger.payload == 'dots_1_double_press' }}"
                       sequence:
                         - service: media_player.play_media
@@ -118,24 +101,7 @@ symfonisk_package:
                       sequence: []
                     - conditions: "{{ trigger.payload == 'dots_2_short_release' }}"
                       sequence:
-                        - service: media_player.play_media
-                          target:
-                            entity_id: "{{ player }}"
-                          data:
-                            media_content_id: FV:2/8
-                            media_content_type: favorite_item_id
-                          metadata:
-                            title: Qmusic
-                            thumbnail: >-
-                              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fcdn-profiles.tunein.com%2Fs87683%2Fimages%2Flogog.png%3Ft%3D1&partnerId=tunein
-                            media_class: genre
-                            children_media_class: null
-                            navigateIds:
-                              - {}
-                              - media_content_type: favorites
-                                media_content_id: ""
-                              - media_content_type: favorites_folder
-                                media_content_id: object.item.audioItem.audioBroadcast
+                        - service: script.qmusic
                     - conditions: "{{ trigger.payload == 'dots_2_double_press' }}"
                       sequence:
                         - service: media_player.play_media
@@ -157,4 +123,84 @@ symfonisk_package:
                               - media_content_type: favorites_folder
                                 media_content_id: object.container.playlistContainer
                     - conditions: "{{ trigger.payload == 'dots_2_long_press' }}"
-                      sequence: []
+                      sequence:
+                        - service: script.nashville
+
+  script:
+    radio_538:
+      alias: Radio 538
+      description: "Play Radio 538 on our Symfonisk speaker"
+      icon: mdi:cast-audio-variant
+      mode: single
+      max_exceeded: silent
+      sequence:
+        - service: media_player.play_media
+          target:
+            entity_id: media_player.sonos_woonkamer
+          data:
+            media_content_id: FV:2/6
+            media_content_type: favorite_item_id
+          metadata:
+            title: Radio 538
+            thumbnail: >-
+              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fctfimages.talparad.io%2F64snPocOjrU0AXQGcKW2Hu%2Fb14e14d0ad2aae08004e87969e6aa788%2F538_Radio.png%3Ff%3Dcenter%26fit%3Dfill&partnerId=talpa
+            media_class: genre
+            children_media_class: null
+            navigateIds:
+              - {}
+              - media_content_type: favorites
+                media_content_id: ""
+              - media_content_type: favorites_folder
+                media_content_id: object.item.audioItem.audioBroadcast
+
+    qmusic:
+      alias: Q Music
+      description: "Play Q Music on our Symfonisk"
+      icon: mdi:cast-audio-variant
+      mode: single
+      max_exceeded: silent
+      sequence:
+        - service: media_player.play_media
+          target:
+            entity_id: media_player.sonos_woonkamer
+          data:
+            media_content_id: FV:2/8
+            media_content_type: favorite_item_id
+          metadata:
+            title: Qmusic
+            thumbnail: >-
+              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fcdn-profiles.tunein.com%2Fs87683%2Fimages%2Flogog.png%3Ft%3D1&partnerId=tunein
+            media_class: genre
+            children_media_class: null
+            navigateIds:
+              - {}
+              - media_content_type: favorites
+                media_content_id: ""
+              - media_content_type: favorites_folder
+                media_content_id: object.item.audioItem.audioBroadcast
+
+    nashville:
+      alias: Nashville
+      description: "Play Nashville FM on our Symfonisk (Grandma's favorite!)"
+      icon: mdi:cast-audio-variant
+      mode: single
+      max_exceeded: silent
+      sequence:
+        - service: media_player.play_media
+          target:
+            entity_id: media_player.sonos_woonkamer
+          data:
+            media_content_id: FV:2/9
+            media_content_type: favorite_item_id
+          metadata:
+            title: Nashville FM
+            thumbnail: >-
+              https://sali.sonos.radio/image?w=60&image=https%3A%2F%2Fcdn-profiles.tunein.com%2Fs48081%2Fimages%2Flogod.jpg%3Ft%3D1&partnerId=tunein
+            media_class: genre
+            children_media_class: null
+            navigateIds:
+              - {}
+              - media_content_type: favorites
+                media_content_id: ""
+              - media_content_type: favorites_folder
+                media_content_id: object.item.audioItem.audioBroadcast
