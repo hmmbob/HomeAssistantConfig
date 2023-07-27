@@ -6,6 +6,7 @@ tts_system_package:
     tts_message:
       name: Bericht
       icon: mdi:message-processing-outline
+      max: 255
 
   input_select:
     tts_target:

@@ -11,6 +11,7 @@ bedroom_minicave_package:
 
   sensor:
     - platform: history_stats
+      unique_id: minicave_on_today
       name: Minicave ON today
       entity_id: binary_sensor.is_minicave_on
       state: "on"
