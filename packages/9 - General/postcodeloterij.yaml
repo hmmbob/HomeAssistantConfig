@@ -16,3 +16,33 @@ postcodeloterij_package:
               {% set ns.prizes = ns.prizes + [p.description ~ ' (€ ' ~'{:.2f}'.format(p.prizeValue / 100) ~ ')'] %}
             {% endfor %}
             {{ ns.prizes | join(', ') if ns.prizes else 'Helaas, pindakaas' }}
+
+  automation:
+    - id: postcodeloterij_winners_notification
+      alias: "Postcodeloterij: Gewonnen!"
+      mode: single
+      max_exceeded: silent
+      description: Send a notification when we win something in de Postcodeloterij
+      trigger:
+        - platform: state
+          entity_id: sensor.postcodeloterij_aantal_prijzen
+          not_to:
+            - "0"
+            - unavailable
+            - unknown
+      action:
+        - alias: "Send notification"
+          service: notify.mobile_devices_adults
+          data:
+            title: "🏆 Winnen doe je bij..."
+            message: >
+              {% set p = trigger.to_state.state | int %}
+              {% set m = 'prijs' if p == 1 else p ~ ' prijzen' %}
+              {% set prizes = states("sensor.postcodeloterij_prijzen") %}
+              We hebben {{ m }} in de Postcodeloterij: {{ prizes }}
+            data:
+              channel: LotteryPrize
+              ttl: 0
+              priority: high
+              notification_icon: mdi:trophy
+              tag: LotteryPrize
