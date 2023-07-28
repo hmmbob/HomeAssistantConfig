@@ -1,6 +1,7 @@
 postcodeloterij_package:
   rest:
     - resource_template: !secret postcodeloterij_url
+      # resource_template: https://www.postcodeloterij.nl/public/rest/drawresults/winnings/NPL/P_MT_P{{ (now().replace(day=1) - timedelta(days=1)).strftime("%Y%m")}}/?query=1111AA
       scan_interval: 43200
       headers:
         User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
