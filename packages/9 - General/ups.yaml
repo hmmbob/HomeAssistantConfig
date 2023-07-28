@@ -1,0 +1,75 @@
+ups_package:
+  automation:
+    - id: ups_notification
+      alias: "UPS: Send notification"
+      trigger:
+        - platform: state
+          entity_id:
+            - sensor.ups_battery_charge
+            - sensor.ups_status_data
+      variables:
+        runtime_left: >
+          {% set runtime = states("sensor.ups_battery_runtime") | int %}
+          {% set hours = runtime // 3600 %}
+          {% set minutes = (runtime % 3600) // 60 %}
+          {{ '%du' % hours if hours else '' }}{{ '%dm' % minutes if minutes else '' }}
+      condition:
+        - alias: "Previous state of triggers is not unavailable or unkown"
+          condition: template
+          value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
+      action:
+        - alias: "Choose our status"
+          choose:
+            - conditions:
+                - alias: "If we are On Battery DISCHaRGing"
+                  condition: state
+                  entity_id: sensor.ups_status_data
+                  state: "OB DISCHRG"
+              sequence:
+                - alias: "We're running on battery!"
+                  service: notify.mobile_app_sm_a526b
+                  data:
+                    title: 🪫 UPS ingeschakeld!
+                    message: >
+                      De servers draaien op UPS. Er is nog  {{ runtime_left }} runtime over.
+                    data:
+                      tag: "UPS"
+                      alert_once: true
+                      sticky: true
+                      persistent: true
+                      ttl: 0
+                      priority: high
+                      notification_icon: mdi:home-battery-outline
+                      car_ui: true
+            - conditions:
+                - alias: "If we are On Line CHaRGing"
+                  condition: state
+                  entity_id: sensor.ups_status_data
+                  state: "OL CHRG"
+              sequence:
+                - alias: "We're back online, charging the UPS battery!"
+                  service: notify.mobile_app_sm_a526b
+                  data:
+                    title: 🔋 UPS weer online & aan het opladen!
+                    message: >
+                      Er is weer stroom. De UPS laadt weer op en is {{ states("sensor.ups_battery_charge") }}% vol.
+                    data:
+                      tag: "UPS"
+                      alert_once: true
+                      sticky: true
+                      persistent: true
+                      ttl: 0
+                      priority: high
+                      notification_icon: mdi:power-plug-battery
+                      car_ui: true
+            - conditions:
+                - alias: "If we are back OnLine"
+                  condition: state
+                  entity_id: sensor.ups_status_data
+                  state: "OL"
+              sequence:
+                - service: notify.mobile_app_sm_a526b
+                  data:
+                    message: "clear_notification"
+                    data:
+                      tag: "UPS"
