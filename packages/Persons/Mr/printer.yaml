@@ -1,0 +1,45 @@
+printer_package:
+  automation:
+    - id: printer_low_toner_levels
+      alias: "Printer: low toner levels"
+      trigger:
+        - platform: numeric_state
+          entity_id:
+            - sensor.hp_printer_toner_black
+            - sensor.hp_printer_toner_cyan
+            - sensor.hp_printer_toner_magenta
+            - sensor.hp_printer_toner_yellow
+          below: 26
+        - platform: numeric_state
+          entity_id:
+            - sensor.hp_printer_toner_black
+            - sensor.hp_printer_toner_cyan
+            - sensor.hp_printer_toner_magenta
+            - sensor.hp_printer_toner_yellow
+          below: 11
+      variables:
+        color_descr:
+          sensor.hp_printer_toner_black: "zwarte"
+          sensor.hp_printer_toner_cyan: "blauwe"
+          sensor.hp_printer_toner_magenta: "rode"
+          sensor.hp_printer_toner_yellow: "gele"
+        color: >
+          {{ color_descr.get(trigger.entity_id, "unknown") }}
+      condition:
+        - alias: "Previous state is not unavailable or unkown"
+          condition: template
+          value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
+      action:
+        - variables:
+            message: >
+              De {{ color }} toner is nog maar voor {{ states(trigger.entity_id) }}% vol
+        - alias: "Send notification"
+          service: notify.mobile_app_sm_a526b
+          data:
+            title: "Printer is low on toner"
+            message: "{{ message }}"
+            data:
+              channel: Printer
+              ttl: 0
+              priority: high
+              notification_icon: mdi:printer
