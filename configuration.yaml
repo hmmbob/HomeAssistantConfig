@@ -119,8 +119,10 @@ recorder:
       - sensor.pv1_*
       - sensor.pv2_*
       - sensor.slimme_lezer*
+      - sensor.smartevse_11469_esp*
+      - sensor.smartevse_11469_evmeter*
+      - sensor.smartevse_11469_mains*
       - sensor.smartevse_mains_*
-      - sensor.smartevse_11469*
       - sensor.sun_*
       - sensor.voltage*
       - sensor.zonneplan_for*
@@ -133,6 +135,8 @@ recorder:
       - sensor.schaduwspeler_aantal_actieve_meldingen
       - sensor.schaduwspeler_laatste_notificatie
       - sensor.schaduwspeler_laatste_verwijderde_melding
+      - sensor.smartevse_11469_evchargepower
+      - sensor.smartevse_11469_evenergycharged
       - sensor.smartevse_total_mains
 
 #################################################################

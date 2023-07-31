@@ -67,9 +67,9 @@ ev_package:
                 - alias: "Select requested charging option"
                   service: select.select_option
                   target:
-                    entity_id: select.smartevse_mode_selector
+                    entity_id: select.smartevse_11469_modeselector
                   data:
-                    option: "{{ states('input_select.evse_charge_policy') | upper }}"
+                    option: "{{ states('input_select.evse_charge_policy') }}"
                 - alias: "Sending push notification"
                   service: notify.mobile_app_sm_a526b
                   data:
@@ -86,9 +86,9 @@ ev_package:
                 - alias: "Select requested charging option"
                   service: select.select_option
                   target:
-                    entity_id: select.smartevse_mode_selector
+                    entity_id: select.smartevse_11469_modeselector
                   data:
-                    option: "{{ states('input_select.evse_charge_policy_when_done') | upper }}"
+                    option: "{{ states('input_select.evse_charge_policy_when_done') }}"
                 - alias: "Sending push notification"
                   service: notify.mobile_app_sm_a526b
                   data:
