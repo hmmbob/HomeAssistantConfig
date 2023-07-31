@@ -2,6 +2,8 @@ ups_package:
   automation:
     - id: ups_notification
       alias: "UPS: Send notification"
+      mode: single
+      max_exceeded: silent
       trigger:
         - platform: state
           entity_id:

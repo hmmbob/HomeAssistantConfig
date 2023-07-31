@@ -182,6 +182,7 @@ vacuum_package:
                   title: "Keer terug naar je dock"
               ttl: 0
               priority: high
+              notification_icon: mdi:robot-vacuum
         - alias: "Wait for Rocky to return"
           wait_for_trigger:
             - platform: state
@@ -226,6 +227,10 @@ vacuum_package:
           data:
             title: "Rocky"
             message: "Rocky doet zijn rondje! 🧹🧹"
+            data:
+              tag: vacuum
+              channel: vacuum
+              notification_icon: mdi:robot-vacuum
 
     ##########################
     ## Capture errors
@@ -262,6 +267,7 @@ vacuum_package:
               channel: vacuum
               ttl: 0
               priority: high
+              notification_icon: mdi:robot-vacuum
         - service: notify.tts_woonkamer
           data:
             message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"

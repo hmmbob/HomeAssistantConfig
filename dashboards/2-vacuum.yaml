@@ -53,6 +53,18 @@ cards:
         chips:
           - type: entity
             entity: vacuum.rocky
+            name: Woonkamer, eetkamer & keuken
+            content_info: name
+            icon: mdi:vacuum
+            tap_action:
+              action: call-service
+              service: xiaomi_miio.vacuum_clean_segment
+              data:
+                segments: [18, 17]
+              target:
+                entity_id: vacuum.rocky
+          - type: entity
+            entity: vacuum.rocky
             name: Woonkamer
             content_info: name
             icon: mdi:sofa
@@ -65,7 +77,7 @@ cards:
                 entity_id: vacuum.rocky
           - type: entity
             entity: vacuum.rocky
-            name: Eetkamer
+            name: Eetkamer & keuken
             content_info: name
             icon: mdi:pot-steam
             tap_action:

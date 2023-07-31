@@ -65,18 +65,15 @@ travel_time_notifications_package:
             message: >
               Waze denkt dat hij om {{ (now() + timedelta(minutes=(3 + states("sensor.reistijd_bob_naar_huis") | int))).strftime("%H:%M") }} thuis is.
             data:
-              tag: "waze"
-              actions:
-                - action: "URI"
-                  title: "Check huidige locatie"
-                  uri: "/dashboards/locations"
               alert_once: true
-              sticky: true
-              persistent: true
-              ttl: 0
-              priority: high
-              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
               car_ui: true
+              clickAction: "/lovelace/locations"
+              notification_icon: mdi:car-side
+              persistent: true
+              priority: high
+              sticky: true
+              tag: "waze"
+              ttl: 0
 
     - id: location_update_traveltime_notification_hmmbob
       alias: "Location: Update reistijd notificatie"
@@ -96,17 +93,15 @@ travel_time_notifications_package:
             message: >
               Waze denkt dat hij om {{ (now() + timedelta(minutes=(2 + states("sensor.reistijd_bob_naar_huis") | int))).strftime("%H:%M") }} thuis is.
             data:
-              tag: "waze"
-              actions:
-                - action: "URI"
-                  title: "Check huidige locatie"
-                  uri: "/dashboards/locations"
               alert_once: true
-              sticky: true
+              car_ui: true
+              clickAction: "/lovelace/locations"
+              notification_icon: mdi:car-side
               persistent: true
-              ttl: 0
               priority: high
-              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              sticky: true
+              tag: "waze"
+              ttl: 0
 
     - id: location_clear_traveltime_notification
       alias: "Location: Bob is weer thuis"
