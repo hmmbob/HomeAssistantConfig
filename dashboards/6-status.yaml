@@ -83,11 +83,8 @@ cards:
             entities:
               - binary_sensor.hp_printer_connectivity
               - binary_sensor.kast_status
-              # - binary_sensor.overkapping_status
-              - binary_sensor.staande_lamp_status
               - binary_sensor.weerhuisje_status
               - binary_sensor.zigbee2mqtt_bridge
-              # - binary_sensor.zoutlamp_status
 
       - type: markdown ## Weerhuisje header
         content: |

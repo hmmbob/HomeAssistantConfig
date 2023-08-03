@@ -52,7 +52,7 @@ entity_config:
       - "Rocky"
 
   ## Salon
-  light.staande_lamp:
+  light.staande_lamp_switch:
     name: "Staande lamp"
     expose: true
     room: "Salon"

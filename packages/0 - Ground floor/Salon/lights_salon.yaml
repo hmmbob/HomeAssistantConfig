@@ -4,5 +4,5 @@ lights_salon_package:
       name: Verlichting Salon
       icon: mdi:lamps
       entities:
-        - light.staande_lamp
+        - light.staande_lamp_switch
         - light.tv_kastje

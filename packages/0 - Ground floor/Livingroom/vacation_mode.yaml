@@ -35,7 +35,7 @@ vacation_mode_package:
         - service: homeassistant.turn_on
           entity_id:
             - switch.grijze_lamp
-            - switch.staande_lamp
+            - light.staande_lamp_switch
         - service: logbook.log
           data:
             name: Vacation
@@ -62,7 +62,7 @@ vacation_mode_package:
         - service: homeassistant.turn_off
           entity_id:
             - switch.grijze_lamp
-            - switch.staande_lamp
+            - light.staande_lamp_switch
         - service: logbook.log
           data:
             name: Vacation

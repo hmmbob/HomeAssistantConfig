@@ -114,17 +114,14 @@ recorder:
       - sensor.dsmr_reading_phase_power_current_l*
       - sensor.dsmr_reading_phase_voltage_l*
       - sensor.on_grid_*
-      - sensor.power_consume*
-      - sensor.power_produce*
       - sensor.pv1_*
       - sensor.pv2_*
-      - sensor.slimme_lezer*
+      - sensor.slimmelezer*
       - sensor.smartevse_11469_esp*
       - sensor.smartevse_11469_evmeter*
       - sensor.smartevse_11469_mains*
       - sensor.smartevse_mains_*
       - sensor.sun_*
-      - sensor.voltage*
       - sensor.zonneplan_for*
     entities:
       - sensor.droger_dryer_completion_time
