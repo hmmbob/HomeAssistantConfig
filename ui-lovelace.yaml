@@ -7,11 +7,11 @@ views:
   - !include dashboards/3-temp.yaml
   - !include dashboards/10-energy.yaml
   - !include dashboards/4-locations.yaml
+  - !include dashboards/8-plants.yaml
   - !include dashboards/9-camera.yaml
   - !include dashboards/2-vacuum.yaml
   - !include dashboards/12-car.yaml
   - !include dashboards/5-settings.yaml
   - !include dashboards/6-status.yaml
   - !include dashboards/11-f1.yaml
-  - !include dashboards/7-development.yaml
-  - !include dashboards/8-dsmr_development.yaml
+  - !include dashboards/99-development.yaml

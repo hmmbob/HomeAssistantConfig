@@ -26,8 +26,6 @@
   type: module
 - url: /hacsfiles/lovelace-plotly-graph-card/plotly-graph-card.js
   type: module
-- url: /hacsfiles/simple-thermostat/simple-thermostat.js
-  type: module
 - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
   type: module
 - url: /hacsfiles/tabbed-card/tabbed-card.js
@@ -37,4 +35,8 @@
 - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
   type: module
 - url: /webrtc/webrtc-camera.js
+  type: module
+- url: /hacsfiles/lovelace-flower-card/flower-card.js
+  type: module
+- url: /hacsfiles/lovelace-card-tools/card-tools.js
   type: module

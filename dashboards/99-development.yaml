@@ -32,15 +32,6 @@ cards:
           - entity: input_datetime.solar_pv_off_end
             name: End PV off time
 
-      - type: plant-status
-        entity: plant.ananas
-
-      - type: plant-status
-        entity: plant.hangplant
-
-      - type: plant-status
-        entity: plant.sanseveria
-
       - type: custom:auto-entities
         card:
           type: entities

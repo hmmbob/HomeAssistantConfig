@@ -1,0 +1,71 @@
+####################
+# Plants Overview  #
+####################
+path: plants
+title: Plants
+icon: mdi:flower
+cards:
+  - type: markdown ## Plants header
+    content: |
+      # Planten
+    card_mod:
+      style:
+        .: |
+          ha-card {
+          margin: 12px 14px -5px 14px;
+          box-shadow: none;
+          --ha-card-background: rgba(0, 0, 0, 0.0)
+          }
+        ha-markdown$: |
+          h1 { 
+            font-size: 18px !important;
+            font-weight: 400 !important;
+            padding-left: 10px !important;
+            border-left: 3px solid rgba(81, 134, 236);
+            }
+
+  - type: vertical-stack
+    cards:
+      - type: custom:flower-card
+        entity: plant.ananas
+        battery_sensor: sensor.xiaomi_plant_sensor_1_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+          # - humidity
+          # - dli
+
+      - type: custom:flower-card
+        entity: plant.hangplant
+        battery_sensor: sensor.xiaomi_plant_sensor_2_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+          # - humidity
+          # - dli
+
+      - type: custom:flower-card
+        entity: plant.sansevieria
+        battery_sensor: sensor.xiaomi_plant_sensor_3_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+          # - humidity
+          # - dli
+
+      - type: custom:flower-card
+        entity: plant.pachira
+        battery_sensor: sensor.xiaomi_plant_sensor_4_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+          # - humidity
+          # - dli
