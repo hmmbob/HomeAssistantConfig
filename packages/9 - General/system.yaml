@@ -1,19 +1,4 @@
 system_package:
-  binary_sensor:
-    ##########################
-    ## Connectivity sensor
-    ##########################
-    - platform: group
-      name: Statussen
-      unique_id: statussen
-      device_class: connectivity
-      all: true
-      entities:
-        - binary_sensor.hp_printer_connectivity
-        - binary_sensor.kast_status
-        - binary_sensor.weerhuisje_status
-        - binary_sensor.zigbee2mqtt_bridge
-
   mqtt:
     binary_sensor: # Sensor for monitoring the bridge state
       - unique_id: zigbee2mqtt_bridge

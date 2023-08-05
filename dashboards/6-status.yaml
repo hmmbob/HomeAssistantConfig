@@ -27,30 +27,30 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
-      - type: custom:battery-state-card
-        card_mod:
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
-        sort_by_level: "asc"
-        collapse: 2
-        entities:
-          #- entity: sensor.pir_woonkamer_battery_level
-          #  tap_action: more-info
-          #- entity: sensor.pir_gang_battery_level
-          #  tap_action: more-info
-          - entity: sensor.slaapkamer_battery
-            tap_action: more-info
-          - entity: sensor.zolder_battery
-            tap_action: more-info
-          #- entity: sensor.door_sensor_1_battery
-          #  tap_action: more-info
-          #- entity: sensor.door_sensor_2_battery
-          #  tap_action: more-info
-          - entity: sensor.vacuum_battery
-            name: Stofzuiger batterij
-            tap_action: more-info
+      - type: custom:auto-entities
+        card:
+          type: custom:battery-state-card
+          show_header_toggle: false
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
+        filter:
+          include:
+            - attributes:
+                device_class: battery
+              options:
+                tap_action:
+                  action: more-info
+          exclude:
+            - domain: binary_sensor
+            - integration: mobile_app
+            - entity_id: "*tucson*"
+        sort:
+          method: state
+          numeric: true
+
       - type: markdown ## Statussen header
         content: |
           # Statussen
@@ -69,44 +69,8 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
-      - type: entities
-        card_mod:
-          style: |
-            ha-card {
-            margin: 0px 14px -5px 14px;
-            }
-        show_header_toggle: false
-        state_color: true
-        entities:
-          - type: custom:fold-entity-row
-            head: binary_sensor.statussen
-            entities:
-              - binary_sensor.hp_printer_connectivity
-              - binary_sensor.kast_status
-              - binary_sensor.weerhuisje_status
-              - binary_sensor.zigbee2mqtt_bridge
 
-      - type: markdown ## Weerhuisje header
-        content: |
-          # Weerhuisje
-        card_mod:
-          style:
-            .: |
-              ha-card {
-              margin: 12px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 { 
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-
-      - id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
-        type: custom:auto-entities
+      - type: custom:auto-entities
         card:
           type: entities
           show_header_toggle: false
@@ -114,12 +78,52 @@ cards:
           card_mod:
             style: |
               ha-card {
-                margin: 0px 14px -5px 14px;
-                --st-font-size-title: 18px;
+              margin: 0px 14px -5px 14px;
               }
         filter:
           include:
-            - entity_id: sensor.particulate*
-            - entity_id: sensor.bme280*
+            - attributes:
+                device_class: connectivity
+              options:
+                tap_action:
+                  action: more-info
+          exclude:
+            - entity_id: "*rocky*attached*"
         sort:
-          method: name
+          method: state
+      #- type: markdown ## Weerhuisje header
+      #  content: |
+      #    # Weerhuisje
+      #  card_mod:
+      #    style:
+      #      .: |
+      #        ha-card {
+      #        margin: 12px 14px -5px 14px;
+      #        box-shadow: none;
+      #        --ha-card-background: rgba(0, 0, 0, 0.0)
+      #        }
+      #      ha-markdown$: |
+      #        h1 {
+      #          font-size: 18px !important;
+      #          font-weight: 400 !important;
+      #          padding-left: 10px !important;
+      #          border-left: 3px solid rgba(81, 134, 236);
+      #          }
+      #- id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
+      #  type: custom:auto-entities
+      #  card:
+      #    type: entities
+      #    show_header_toggle: false
+      #    state_color: true
+      #    card_mod:
+      #      style: |
+      #        ha-card {
+      #          margin: 0px 14px -5px 14px;
+      #          --st-font-size-title: 18px;
+      #        }
+      #  filter:
+      #    include:
+      #      - entity_id: sensor.particulate*
+      #      - entity_id: sensor.bme280*
+      #  sort:
+      #    method: name
