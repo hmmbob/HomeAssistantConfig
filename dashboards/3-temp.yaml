@@ -7,63 +7,6 @@ icon: mdi:home-thermometer-outline
 cards:
   - type: vertical-stack
     cards:
-      #- type: markdown ## Temperatuur header
-      #  content: |
-      #    # Thermostaat
-      #  card_mod:
-      #    style:
-      #      .: |
-      #        ha-card {
-      #        margin: 12px 14px -5px 14px;
-      #        box-shadow: none;
-      #        --ha-card-background: rgba(0, 0, 0, 0.0)
-      #        }
-      #      ha-markdown$: |
-      #        h1 {
-      #          font-size: 18px !important;
-      #          font-weight: 400 !important;
-      #          padding-left: 10px !important;
-      #          border-left: 3px solid rgba(81, 134, 236);
-      #          }
-      #- type: "custom:simple-thermostat"
-      #  card_mod:
-      #    style: |
-      #      ha-card {
-      #      margin: 0px 14px -5px 14px;
-      #      --st-font-size-title: 18px;
-      #      --st-font-size-xl:
-      #      }
-      #  entity: climate.woonkamer
-      #  header: false
-      #  label:
-      #    temperature: Binnen
-      #  hide:
-      #    state: true
-      #  layout:
-      #    mode:
-      #      headings: false
-      #  control:
-      #    preset:
-      #      sleep:
-      #        icon: mdi:sleep
-      #      away:
-      #        icon: mdi:leaf
-      #      comfort:
-      #        icon: mdi:fire
-      #      home:
-      #        icon: mdi:home-thermometer
-      #      eco:
-      #        icon: mdi:thermometer-off
-      #  sensors:
-      #    - entity: sensor.bme280_temperature
-      #      name: Eigen tuin
-      #    - entity: weather.knmi_home
-      #      attribute: temperature
-      #      name: Volkel
-      #      unit: "°C"
-      #    - attribute: modulation_level
-      #      name: Brander
-      #      unit: "%"
       - type: markdown ## Temperatuur header
         content: |
           # Temperaturen
@@ -199,3 +142,34 @@ cards:
             points_per_hour: 1
             show:
               extrema: true
+
+      - type: markdown ## Aircos header
+        content: |
+          # Aircos
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 {
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: thermostat
+        entity: climate.airco_woonkamer
+
+      - type: thermostat
+        entity: climate.airco_master_bedroom
+
+      - type: thermostat
+        entity: climate.airco_slaapkamer_m
+
+      - type: thermostat
+        entity: climate.airco_slaapkamer_t
