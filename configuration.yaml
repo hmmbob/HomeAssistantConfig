@@ -79,6 +79,13 @@ lovelace:
   mode: yaml
   resources: !include dashboards/resources.yaml
   dashboards:
+    lovelace-admin:
+      mode: yaml
+      filename: dashboards/admin/admin.yaml
+      title: Admin
+      icon: mdi:security
+      show_in_sidebar: true
+      require_admin: true
     lovelace-cast:
       mode: yaml
       filename: dashboards/cast/cast.yaml

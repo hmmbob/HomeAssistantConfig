@@ -6,32 +6,14 @@
 # This file is not part of my regular setup, but still being used in development efforts.  #
 # It is included just for me, so I can have a quick dev look at some items.                #
 ############################################################################################
-path: overview
-title: Development overview
+path: development
+title: Development
 icon: mdi:magnify
 visible:
   - user: 510b1afef60640d7a220711c50b2192a # BL
 cards:
   - type: vertical-stack
     cards:
-      - type: entities
-        state_color: true
-        show_header_toggle: false
-        entities:
-          - entity: binary_sensor.negatieve_stroomprijs
-          - entity: number.grid_export_limit
-          - entity: sensor.pv_power
-          - type: divider
-          - entity: input_boolean.solar_pv_off_automatic
-            name: "Turn off PV automatically when negative prices"
-          - type: divider
-          - entity: input_boolean.solar_pv_off_schedule
-            name: "Enable scheduled turning on/off of solar"
-          - entity: input_datetime.solar_pv_off_start
-            name: Start PV off time
-          - entity: input_datetime.solar_pv_off_end
-            name: End PV off time
-
       - type: custom:auto-entities
         card:
           type: entities
@@ -44,6 +26,8 @@ cards:
             - domain: button
             - domain: group
             - domain: scene
+            - entity_id: "*picnic*"
+            - entity_id: "*smarttag*"
         sort:
           method: name
 
@@ -157,58 +141,3 @@ cards:
                 - entity_id: "sensor.knmi_*"
             sort:
               method: name
-      - id: bed7f2c9-56b2-47cf-8228-413c7cd7cae0 # Automatically created id
-        type: custom:auto-entities
-        card:
-          type: entities
-          title: Stofzuiger
-          show_header_toggle: false
-        filter:
-          include:
-            - entity_id: vacuum.*
-            - entity_id: sensor.vacuum_*
-        sort:
-          method: name
-      - type: "custom:vertical-stack-in-card"
-        cards:
-          - type: entities
-            show_header_toggle: false
-            title: HP Color Laser Jet Info
-            entities:
-              - binary_sensor.hp_printer_connectivity
-          - type: "custom:bar-card"
-            align: bottom
-            columns: 4
-            direction: up
-            height: 150px
-            icon_position: inside
-            max: 100
-            min: 0
-            padding: 3px
-            positions:
-              name: outside
-              indicator: "off"
-            target: 20
-            entities:
-              - color: MediumTurquoise
-                entity: sensor.hp_printer_toner_cyan
-                title: Cyan
-              - color: MediumOrchid
-                entity: sensor.hp_printer_toner_magenta
-                title: Magenta
-              - color: Gold
-                entity: sensor.hp_printer_toner_yellow
-                title: Yellow
-              - color: Black
-                entity: sensor.hp_printer_toner_black
-                title: Black
-          - type: markdown
-            content: >
-              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter: **{{ 
-              states('sensor.hp_printer_printer') }}** Pages
-
-              - <ha-icon icon="mdi:cancel"></ha-icon> Print Aborts: **{{ 
-              states('sensor.hp_printer_printer.attributes.Cancelled') }}** Pages
-
-              - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
-              states('sensor.hp_printer_scanner') }}** Pages

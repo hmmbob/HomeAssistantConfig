@@ -1,0 +1,6 @@
+title: Admin views
+views:
+  - !include 1-overview.yaml
+  - !include 2-status.yaml
+  - !include 3-solar-settings.yaml
+  - !include 99-development.yaml

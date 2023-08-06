@@ -6,6 +6,7 @@ title: Car
 icon: mdi:car-electric
 visible:
   - user: 510b1afef60640d7a220711c50b2192a # BL
+  - user: 40059eb4e4d142688185485ed2e1ebbb # BV
 cards:
   - type: vertical-stack
     cards:

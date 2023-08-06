@@ -10,6 +10,10 @@
   type: module
 - url: /hacsfiles/lovelace-card-mod/card-mod.js
   type: module
+- url: /hacsfiles/lovelace-card-tools/card-tools.js
+  type: module
+- url: /hacsfiles/lovelace-flower-card/flower-card.js?2
+  type: module
 - url: /hacsfiles/lovelace-fold-entity-row/fold-entity-row.js
   type: module
 - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
@@ -35,8 +39,4 @@
 - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
   type: module
 - url: /webrtc/webrtc-camera.js
-  type: module
-- url: /hacsfiles/lovelace-flower-card/flower-card.js
-  type: module
-- url: /hacsfiles/lovelace-card-tools/card-tools.js
   type: module
