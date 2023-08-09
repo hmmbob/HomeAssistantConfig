@@ -67,7 +67,7 @@ ev_package:
                 - alias: "Select requested charging option"
                   service: select.select_option
                   target:
-                    entity_id: select.smartevse_11469_modeselector
+                    entity_id: select.smartevse_11469_mode
                   data:
                     option: "{{ states('input_select.evse_charge_policy') }}"
                 - alias: "Sending push notification"
@@ -86,7 +86,7 @@ ev_package:
                 - alias: "Select requested charging option"
                   service: select.select_option
                   target:
-                    entity_id: select.smartevse_11469_modeselector
+                    entity_id: select.smartevse_11469_mode
                   data:
                     option: "{{ states('input_select.evse_charge_policy_when_done') }}"
                 - alias: "Sending push notification"
