@@ -46,6 +46,26 @@ system_package:
               data:
                 name: "Hmmbob Google Light Theme"
 
+    # Automation to set the date of the "end field" in the UI to the same value as the "start"
+    - id: ui_set_end_date
+      alias: "System: Fix the UI - set date of end field to date of start field"
+      trigger:
+        - platform: state
+          entity_id: input_datetime.solar_pv_off_start
+          variables:
+            end_entity_id: input_datetime.solar_pv_off_end
+        - platform: state
+          entity_id: input_datetime.evse_charge_start
+          variables:
+            end_entity_id: input_datetime.evse_charge_end
+      action:
+        - alias: Set date of desired end field
+          service: input_datetime.set_datetime
+          target:
+            entity_id: "{{ end_entity_id }}"
+          data:
+            date: "{{states(trigger.entity_id) | truncate(10, 'False', '') }}"
+
     ##########################
     ## System update notifications
     ##########################

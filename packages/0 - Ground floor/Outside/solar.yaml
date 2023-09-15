@@ -92,20 +92,6 @@ solar_package:
           data: {}
       mode: single
 
-    # Automation to set the date of the "end field" in the UI to the same value as the "start"
-    - id: solar_set_schedule_end_date
-      alias: "Solar: Set date of end field to date of start field"
-      trigger:
-        - platform: state
-          entity_id: input_datetime.solar_pv_off_start
-      action:
-        - alias: Set date of PV off end field
-          service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.solar_pv_off_end
-          data:
-            date: "{{states('input_datetime.solar_pv_off_start') | truncate(10, 'False', '') }}"
-
     # Automation to automatically turn off my solar system when electricity prices are below 0.
     # This can be done automatically or by time schedule based on input_datetime.
     # It works by setting the "grid_export_limit" in the GoodWe integration to 0%, effectively

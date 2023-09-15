@@ -103,19 +103,6 @@ ev_package:
                   target:
                     entity_id: input_boolean.evse_schedule
 
-    - id: ev_set_schedule_end_date
-      alias: "EV: Set date of end field to date of start field"
-      trigger:
-        - platform: state
-          entity_id: input_datetime.evse_charge_start
-      action:
-        - alias: Set date of scheduled charge end field
-          service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.evse_charge_end
-          data:
-            date: "{{states('input_datetime.evse_charge_start') | truncate(10, 'False', '') }}"
-
     - id: ev_create_monthly_total_notification
       alias: "EV: Create notification of monthly total"
       variables:
