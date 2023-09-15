@@ -1,0 +1,126 @@
+kids_notifications_package:
+  automation:
+    ##########################
+    ## Coming home notifications
+    ##########################
+    - id: notification_kid_left_location
+      alias: "Location: Notificatie dat een kind van een locatie vertrekt"
+      mode: parallel
+      trigger:
+        - platform: zone
+          entity_id: device_tracker.moto_g8
+          event: leave
+          zone: zone.school_mini
+          variables:
+            name: "{{states('input_text.naam_mini')}}"
+            location: school
+        - platform: zone
+          entity_id: device_tracker.moto_g8
+          event: leave
+          zone: zone.mc
+          variables:
+            name: "{{states('input_text.naam_mini')}}"
+            location: MC
+        - platform: zone
+          entity_id: device_tracker.moto_g8
+          event: leave
+          zone: zone.scouting
+          variables:
+            name: "{{states('input_text.naam_mini')}}"
+            location: scouting
+        - platform: zone
+          entity_id: device_tracker.schaduwspeler
+          event: leave
+          zone: zone.school
+          variables:
+            name: "{{states('input_text.naam_puber')}}"
+            location: school
+        - platform: zone
+          entity_id: device_tracker.schaduwspeler
+          event: leave
+          zone: zone.scouting
+          variables:
+            name: "{{states('input_text.naam_puber')}}"
+            location: scouting
+      action:
+        - service: notify.mobile_devices_adults
+          data:
+            title: ♥ {{ name }} is op weg naar huis!
+            message: >
+              {{ name }} is rond {{now().strftime("%H:%M")}} van {{ location }} vertrokken.
+            data:
+              actions:
+                - action: "URI"
+                  title: "Check huidige locatie"
+                  uri: "/lovelace-map/map"
+              ttl: 0
+              priority: high
+              notification_icon: mdi:map-marker-radius
+        - service: >-
+            {% if trigger.entity_id == "device_tracker.moto_g8" %}
+              notify.mobile_app_moto_g8
+            {% elif trigger.entity_id == "device_tracker.schaduwspeler" %}
+              notify.mobile_app_schaduwspeler
+            {% else %}
+              notify.bogus
+            {% endif %}
+          data:
+            title: Goede thuisreis
+            message: "Ik heb thuis laten weten dat je onderweg bent."
+            data:
+              ttl: 0
+              priority: high
+              notification_icon: mdi:map-marker-radius
+
+    ##########################
+    ## Battery level notifications
+    ##########################
+    - id: notification_kids_battery_low_parents
+      alias: "Notifications: Melding dat batterij van kind bijna leeg is"
+      mode: parallel
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.moto_g8_battery_level
+          below: 10
+          variables:
+            name: "{{states('input_text.naam_mini')}}"
+        - platform: numeric_state
+          entity_id: sensor.schaduwspeler_batterijniveau
+          below: 10
+          variables:
+            name: "{{states('input_text.naam_puber')}}"
+      condition:
+        # one of these needs to be true to continue
+        or:
+          - and: # only true if triggered by device and if this device is anywhere but home
+              - "{{ trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' }}"
+              - "{{ not is_state('device_tracker.schaduwspeler', 'home') }}"
+          - and:
+              - "{{ trigger.entity_id == 'sensor.moto_g8_battery_level' }}"
+              - "{{ not is_state('device_tracker.moto_g8', 'home') }}"
+      action:
+        - service: notify.mobile_devices_adults
+          data:
+            title: 🔋 Batterijwaarschuwing
+            message: >
+              De telefoon van {{ name }} is bijna leeg. Updates van zijn locatie zullen snel stoppen.
+            data:
+              ttl: 0
+              priority: high
+              notification_icon: mdi:battery-alert-variant
+        - service: >-
+            {% if trigger.entity_id == 'sensor.moto_g8_battery_level' %}
+              notify.mobile_app_moto_g8
+            {% elif trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' %}
+              notify.mobile_app_schaduwspeler
+            {% else %}
+              notify.bogus
+            {% endif %}
+          data:
+            title: 🔋 Batterijwaarschuwing
+            message: >
+              Je moet je telefoon even opladen....
+            data:
+              ttl: 0
+              priority: high
+              notification_icon: mdi:battery-alert-variant
