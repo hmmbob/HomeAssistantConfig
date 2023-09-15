@@ -2,7 +2,7 @@ lights_salon_package:
   group:
     lampen_salon:
       name: Verlichting Salon
-      icon: mdi:lamps
+      icon: mdi:sofa-single
       entities:
         - light.staande_lamp_switch
         - light.tv_kastje

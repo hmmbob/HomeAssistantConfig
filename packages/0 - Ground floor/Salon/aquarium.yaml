@@ -12,27 +12,23 @@ aquarium_package:
 
   automation:
     - id: aquarium_turn_on_time
-      alias: "Lights: Aquarium turn on weekday"
+      alias: "Lights: Aquarium turn on"
       trigger:
         - platform: time
           at: input_datetime.time_aquarium_on
-      condition:
-        - condition: state
-          entity_id: binary_sensor.schooldag
-          state: "on"
-      action:
-        - service: homeassistant.turn_on
-          entity_id: switch.aquarium
-
-    - id: aquarium_turn_on_time_weekend
-      alias: "Lights: Aquarium turn on weekend"
-      trigger:
+          id: weekday
         - platform: time
           at: input_datetime.time_aquarium_on_weekend
+          id: weekend
       condition:
-        - condition: state
-          entity_id: binary_sensor.schooldag
-          state: "off"
+        # one of these needs to be true to continue
+        or:
+          - and:
+              - "{{ trigger.id == 'weekday' }}"
+              - "{{ is_state('binary_sensor.schooldag', 'on') }}"
+          - and:
+              - "{{ trigger.id == 'weekend' }}"
+              - "{{ is_state('binary_sensor.schooldag', 'off') }}"
       action:
         - service: homeassistant.turn_on
           entity_id: switch.aquarium

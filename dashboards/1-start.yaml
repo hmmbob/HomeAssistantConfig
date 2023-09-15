@@ -315,17 +315,16 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            entity: light.spots_keuken
-            icon: mdi:countertop
-            fill_container: false
-            show_brightness_control: true
-            collapsible_controls: true
             card_mod:
               style: |
                 ha-card {
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 0px 0px 14px;
                 }
+            entity: light.spots_vaas
+            icon: mdi:lightbulb-spot
+            show_brightness_control: true
+            collapsible_controls: true
           - type: custom:mushroom-light-card
             card_mod:
               style: |
@@ -359,8 +358,33 @@ cards:
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 14px 0px 0px;
                 }
-            entity: light.spots_vaas
-            icon: mdi:lightbulb-spot
+            entity: light.eetkamer_tafel
+            icon: mdi:globe-light-outline
+            show_brightness_control: true
+            collapsible_controls: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.spots_keuken
+            icon: mdi:countertop
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: true
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entity: light.badkamer
             show_brightness_control: true
             collapsible_controls: true
 
@@ -405,16 +429,6 @@ cards:
             entity: switch.aquarium
             tap_action:
               action: toggle
-          - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                  margin: 0px 14px 0px 0px;
-                }
-            entity: light.badkamer
-            show_brightness_control: true
-            collapsible_controls: true
 
       - type: entities ## Oogopslag overview
         card_mod:
@@ -426,6 +440,8 @@ cards:
         entities:
           - type: custom:fold-entity-row
             head: group.lampen_woonkamer
+          - type: custom:fold-entity-row
+            head: group.lampen_eetkamer
           - type: custom:fold-entity-row
             head: group.lampen_salon
           - type: buttons

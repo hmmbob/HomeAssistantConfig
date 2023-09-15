@@ -1,4 +1,12 @@
-lights_dining_room_package: {}
+lights_dining_room_package:
+  group:
+    lampen_eetkamer:
+      name: Verlichting Eetkamer
+      icon: mdi:silverware-variant
+      entities:
+        - light.eetkamer_tafel
+        - light.kast
+        - light.spots_eetkamer
 #  scene:
 #    - name: Etenstijd
 #      id: etenstijd
