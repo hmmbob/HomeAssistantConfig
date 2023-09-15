@@ -25,6 +25,7 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
+
       - type: horizontal-stack
         cards:
           - type: custom:mini-graph-card ## Buiten
@@ -66,9 +67,10 @@ cards:
             points_per_hour: 1
             show:
               extrema: true
+
       - type: horizontal-stack
         cards:
-          - type: custom:mini-graph-card ## Slaapkamer
+          - type: custom:mini-graph-card ## MBR
             card_mod:
               style: |
                 ha-card {
@@ -77,7 +79,7 @@ cards:
                 }
             entities:
               - entity: sensor.slaapkamer_temperature
-                name: Slaapkamer
+                name: Master Bed Room
               - entity: sensor.slaapkamer_humidity
                 show_graph: false
                 show_state: true
@@ -116,6 +118,160 @@ cards:
               - entity: sensor.zolder_temperature
                 name: Zolder
               - entity: sensor.zolder_humidity
+                show_graph: false
+                show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
+            align_header: left
+            align_icon: left
+            animate: true
+            color_thresholds:
+              - value: 15
+                color: "#5f9bea"
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card ## Salon
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entities:
+              - entity: sensor.xiaomi_temperature_humidity_sensor_1_temperature
+                name: Salon
+              - entity: sensor.xiaomi_temperature_humidity_sensor_1_humidity
+                show_graph: false
+                show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
+            align_header: left
+            align_icon: left
+            animate: true
+            color_thresholds:
+              - value: 15
+                color: "#5f9bea"
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
+          - type: custom:mini-graph-card ## Zolder 2
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entities:
+              - entity: sensor.xiaomi_temperature_humidity_sensor_4_temperature
+                name: Zolder nieuw
+              - entity: sensor.xiaomi_temperature_humidity_sensor_4_humidity
+                show_graph: false
+                show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
+            align_header: left
+            align_icon: left
+            animate: true
+            color_thresholds:
+              - value: 15
+                color: "#5f9bea"
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card ## Kantoor
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entities:
+              - entity: sensor.xiaomi_temperature_humidity_sensor_2_temperature
+                name: Kantoor
+              - entity: sensor.xiaomi_temperature_humidity_sensor_2_humidity
+                show_graph: false
+                show_state: true
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
+            align_header: left
+            align_icon: left
+            animate: true
+            color_thresholds:
+              - value: 15
+                color: "#5f9bea"
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
+          - type: custom:mini-graph-card ## Slaapkamer T
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entities:
+              - entity: sensor.xiaomi_temperature_humidity_sensor_3_temperature
+                name: Slaapkamer T
+              - entity: sensor.xiaomi_temperature_humidity_sensor_3_humidity
                 show_graph: false
                 show_state: true
               - entity: sensor.nightstate

@@ -34,8 +34,9 @@ cards:
               card_type: next_race
               title: Komende race
               date_locale: nl
-              image_clickable: true
               f1_font: true
+              image_clickable: true
+              show_raceinfo: true
             attributes:
               icon: mdi:calendar-clock
           - card:

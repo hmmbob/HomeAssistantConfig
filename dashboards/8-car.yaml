@@ -49,7 +49,7 @@ cards:
             icon: mdi:car-electric
 
       - type: custom:mushroom-select-card
-        entity: select.smartevse_11469_modeselector
+        entity: select.smartevse_11469_mode
         name: Huidige laadmodus
         secondary_info: none
 

@@ -24,7 +24,6 @@ entities:
   - sensor.tucson_ev_battery
   - sensor.vacuum_error
   - sensor.vacuum_status
-  - sensor.wasmachine_power
   - sensor.zolder_humidity
   - sensor.zolder_temperature
   - sensor.zonneplan_gasprijs
