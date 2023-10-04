@@ -27,7 +27,7 @@ cards:
   - type: vertical-stack
     cards:
       - type: custom:flower-card
-        entity: plant.ananas
+        entity: plant.dracaena
         battery_sensor: sensor.xiaomi_plant_sensor_1_battery
         show_bars:
           - moisture
