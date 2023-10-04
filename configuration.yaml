@@ -211,6 +211,8 @@ notify:
     password: !secret smtp_sender_password
     recipient: !secret smtp_recipient
     server: !secret smtp_server
+    port: !secret smtp_server_port
+    encryption: tls
 
 spotcast:
   sp_dc: !secret spotcast_sp_dc

@@ -26,8 +26,58 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
+      - type: thermostat
+        entity: climate.woonkamer
+        card_mod:
+          style: |
+            ha-card {
+              box-shadow: var(--card-box-shadow);
+              margin: 0px 14px 0px 14px;
+            }
+
       - type: horizontal-stack
         cards:
+          - type: custom:mini-graph-card ## Woonkamer
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entities:
+              - entity: climate.woonkamer
+                attribute: current_temperature
+                name: Woonkamer
+                unit: "°C"
+              - entity: climate.woonkamer
+                attribute: current_humidity
+                show_graph: false
+                show_state: true
+                unit: "%"
+              - entity: sensor.nightstate
+                name: Night
+                color: gray
+                show_legend: false
+                show_line: false
+                show_points: false
+                y_axis: secondary
+            align_header: left
+            align_icon: left
+            animate: true
+            color_thresholds:
+              - value: 15
+                color: "#5f9bea"
+              - value: 19
+                color: "#e5ff00"
+              - value: 23
+                color: "#d35400"
+            font_size: 75
+            hour24: true
+            line_color: var(--accent-color)
+            line_width: 8
+            points_per_hour: 1
+            show:
+              extrema: true
           - type: custom:mini-graph-card ## Buiten
             card_mod:
               style: |
@@ -39,6 +89,7 @@ cards:
               - entity: weather.knmi_home
                 attribute: temperature
                 name: Buiten
+                unit: "°C"
               - entity: sensor.knmi_home_relatieve_luchtvochtigheid
                 show_graph: false
                 show_state: true
@@ -79,7 +130,9 @@ cards:
                 }
             entities:
               - entity: sensor.slaapkamer_temperature
-                name: Master Bed Room
+                name: Master bedroom
+              - entity: sensor.master_bedroom_temperatuur
+                name: Master bedroom radiator
               - entity: sensor.slaapkamer_humidity
                 show_graph: false
                 show_state: true
@@ -116,7 +169,7 @@ cards:
                 }
             entities:
               - entity: sensor.zolder_temperature
-                name: Zolder
+                name: Zolder badkamer
               - entity: sensor.zolder_humidity
                 show_graph: false
                 show_state: true
@@ -193,7 +246,7 @@ cards:
                 }
             entities:
               - entity: sensor.xiaomi_temperature_humidity_sensor_4_temperature
-                name: Zolder nieuw
+                name: Zolder slaapkamer
               - entity: sensor.xiaomi_temperature_humidity_sensor_4_humidity
                 show_graph: false
                 show_state: true
@@ -298,34 +351,3 @@ cards:
             points_per_hour: 1
             show:
               extrema: true
-
-      - type: markdown ## Aircos header
-        content: |
-          # Aircos
-        card_mod:
-          style:
-            .: |
-              ha-card {
-              margin: 12px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 {
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-
-      - type: thermostat
-        entity: climate.airco_woonkamer
-
-      - type: thermostat
-        entity: climate.airco_master_bedroom
-
-      - type: thermostat
-        entity: climate.airco_slaapkamer_m
-
-      - type: thermostat
-        entity: climate.airco_slaapkamer_t

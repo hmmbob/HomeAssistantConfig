@@ -1,0 +1,39 @@
+####################
+# Airco             #
+####################
+path: airco
+title: Airconditioners
+icon: mdi:snowflake-thermometer
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown ## Aircos header
+        content: |
+          # Aircos
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 {
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: thermostat
+        entity: climate.airco_woonkamer
+
+      - type: thermostat
+        entity: climate.airco_master_bedroom
+
+      - type: thermostat
+        entity: climate.airco_slaapkamer_m
+
+      - type: thermostat
+        entity: climate.airco_slaapkamer_t
