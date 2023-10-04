@@ -29,69 +29,69 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: horizontal-stack ### 1st row
-        cards:
-          - type: custom:button-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                  margin: 0px 0px 0px 14px;
-                }
-            entity: input_boolean.enable_pir_woonkamer_automations
-            name: Woonkamer
-            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
-            show_state: false
-            styles:
-              card:
-                - width: 90px
-                - height: 90px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: input_boolean.enable_pir_gang_automations
-            name: Gang
-            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
-            show_state: false
-            styles:
-              card:
-                - width: 90px
-                - height: 90px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
-
-          - type: custom:button-card
-            entity: input_boolean.disable_pir_sensor_automations
-            name: Couch sleeper
-            icon: mdi:sofa-outline
-            show_state: false
-            styles:
-              card:
-                - width: 90px
-                - height: 90px
-              name:
-                - font-size: 12px
-            state:
-              - value: "off"
-                styles:
-                  card:
-                    - filter: opacity(50%)
-                  icon:
-                    - filter: grayscale(100%)
+      #      - type: horizontal-stack ### 1st row
+      #        cards:
+      #          - type: custom:button-card
+      #            card_mod:
+      #              style: |
+      #                ha-card {
+      #                  box-shadow: var(--card-box-shadow);
+      #                  margin: 0px 0px 0px 14px;
+      #                }
+      #            entity: input_boolean.enable_pir_woonkamer_automations
+      #            name: Woonkamer
+      #            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
+      #            show_state: false
+      #            styles:
+      #              card:
+      #                - width: 90px
+      #                - height: 90px
+      #              name:
+      #                - font-size: 12px
+      #            state:
+      #              - value: "off"
+      #                styles:
+      #                  card:
+      #                    - filter: opacity(50%)
+      #                  icon:
+      #                    - filter: grayscale(100%)
+      #          - type: custom:button-card
+      #            entity: input_boolean.enable_pir_gang_automations
+      #            name: Gang
+      #            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
+      #            show_state: false
+      #            styles:
+      #              card:
+      #                - width: 90px
+      #                - height: 90px
+      #              name:
+      #                - font-size: 12px
+      #            state:
+      #              - value: "off"
+      #                styles:
+      #                  card:
+      #                    - filter: opacity(50%)
+      #                  icon:
+      #                    - filter: grayscale(100%)
+      #
+      #          - type: custom:button-card
+      #            entity: input_boolean.disable_pir_sensor_automations
+      #            name: Couch sleeper
+      #            icon: mdi:sofa-outline
+      #            show_state: false
+      #            styles:
+      #              card:
+      #                - width: 90px
+      #                - height: 90px
+      #              name:
+      #                - font-size: 12px
+      #            state:
+      #              - value: "off"
+      #                styles:
+      #                  card:
+      #                    - filter: opacity(50%)
+      #                  icon:
+      #                    - filter: grayscale(100%)
 
       - type: horizontal-stack #### 2nd row
         cards:
@@ -316,6 +316,97 @@ cards:
                   icon:
                     - filter: grayscale(100%)
 
+      - type: markdown ## MV header
+        content: |
+          # Mechanische ventilatie
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: custom:mushroom-fan-card
+        card_mod:
+          style: |
+            ha-card {
+            width: 380px;
+            margin: 0px 0px -5px 14px;
+            }
+        entity: fan.open_air_mini
+        name: Afzuiging
+        icon_animation: true
+        show_percentage_control: true
+        layout: horizontal
+
+      - type: custom:mushroom-chips-card
+        card_mod:
+          style: |
+            ha-card {
+            margin: 0px 14px -5px 14px;
+            width: 376px;
+            }
+        chips:
+          - type: template
+            content: "Boost:"
+          - type: action
+            icon: mdi:fast-forward-15
+            tap_action:
+              action: call-service
+              service: timer.start
+              target:
+                entity_id: timer.fan_runtime
+              data:
+                duration: "00:15:00"
+          - type: action
+            icon: mdi:fast-forward-30
+            tap_action:
+              action: call-service
+              service: timer.start
+              target:
+                entity_id: timer.fan_runtime
+              data:
+                duration: "00:30:00"
+          - type: action
+            icon: mdi:fast-forward-60
+            tap_action:
+              action: call-service
+              service: timer.start
+              target:
+                entity_id: timer.fan_runtime
+              data:
+                duration: "00:60:00"
+          - type: action
+            icon: mdi:timer-off-outline
+            tap_action:
+              action: call-service
+              service: timer.finish
+              target:
+                entity_id: timer.fan_runtime
+          - type: conditional
+            conditions:
+              - entity: timer.fan_runtime
+                state: active
+            chip:
+              type: template
+              entity: timer.fan_runtime
+              icon: mdi:timer-sand-empty
+              content: >-
+                {% from 'relative_time_plus.jinja' import relative_time_plus %}
+                {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
+                parts=2, week=false, time=true, abbr=true, language='nl') }}
+              tap_action:
+                action: none
+
       - type: markdown ## TTS header
         content: |
           # Speel een bericht af
@@ -351,33 +442,3 @@ cards:
               - entity: script.play_tts_message
                 icon: mdi:account-voice
                 name: "Speel bericht af"
-
-      - type: markdown ## Deurbel header
-        content: |
-          # Deurbel
-        card_mod:
-          style:
-            .: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 { 
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-
-      - type: custom:mushroom-select-card
-        card_mod:
-          style: |
-            ha-card {
-              width: 380px;
-              margin: 0px 0px 0px 14px;
-            }
-        entity: input_select.deurbel
-        icon: mdi:music
-        secondary_info: none

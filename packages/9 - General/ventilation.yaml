@@ -1,0 +1,90 @@
+ventilation_package:
+  timer:
+    fan_runtime:
+      restore: true
+
+  automation:
+    - id: boost_ventilation_speed
+      alias: "Ventilation: boost speed"
+      trigger:
+        - platform: event
+          event_type: timer.started
+          event_data:
+            entity_id: timer.fan_runtime
+      action:
+        - alias: Boost ventilation on request
+          service: fan.set_percentage
+          target:
+            entity_id: fan.open_air_mini
+          data:
+            percentage: 80
+
+    - id: set_ventilation_speed
+      alias: "Ventilation: set speed"
+      trigger:
+        - platform: time
+          id: "time"
+          at:
+            - "07:00:00"
+            - "09:00:00"
+            - "21:15:00"
+        - platform: homeassistant
+          event: start
+          id: "ha_start"
+        - platform: event
+          event_type: automation_reloaded
+          id: "automation_reload"
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.fan_runtime
+      action:
+        - alias: "Check if this is triggered by HA restart"
+          if:
+            condition: trigger
+            id: "ha_start"
+          then:
+            - delay:
+                minutes: 1
+        - alias: "Cancel any running timers"
+          service: timer.cancel
+          target:
+            entity_id: timer.fan_runtime
+        - alias: "Checking what time it is..."
+          choose:
+            - alias: "It's between 7hrs and 09:00"
+              conditions:
+                - condition: time
+                  after: "06:59:59"
+                  before: "09:00:00"
+              sequence:
+                - alias: Boost during morning hours because of showering
+                  service: fan.set_percentage
+                  target:
+                    entity_id: fan.open_air_mini
+                  data:
+                    percentage: 70
+            - alias: "It's between 09hrs and 21hrs"
+              conditions:
+                - condition: time
+                  after: "08:59:59"
+                  before: "21:00:00"
+              sequence:
+                - alias: Run at half speed during the day
+                  service: fan.set_percentage
+                  target:
+                    entity_id: fan.open_air_mini
+                  data:
+                    percentage: 50
+            - alias: "It's between 21hrs and 7hrs"
+              conditions:
+                - condition: time
+                  after: "20:59:59"
+                  before: "07:00:00"
+              sequence:
+                - alias: Sleep tight
+                  service: fan.set_percentage
+                  target:
+                    entity_id: fan.open_air_mini
+                  data:
+                    percentage: 0
