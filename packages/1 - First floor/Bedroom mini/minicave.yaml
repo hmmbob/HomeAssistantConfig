@@ -75,3 +75,32 @@ bedroom_minicave_package:
             entity_id: sensor.mini_cave_power
             message: >-
               {{ iif(states('sensor.mini_cave_power') | float > 22, "is aan", "is uit")}}
+
+    - id: warn_pc_time_over_minicave
+      alias: "Notifications: Mini te lang op de PC"
+      mode: queued
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.minicave_on_today
+          above: 1.5
+      condition:
+        - alias: "Is it a schoolday?"
+          condition: state
+          entity_id: binary_sensor.schooldag
+          state: "on"
+      action:
+        - service: notify.mobile_app_moto_g8
+          data:
+            title: Tijd is om
+            message: Je tijd is op. Sluit je af?
+            data:
+              tag: mini_pc
+              notification_icon: mdi:desktop-classic
+        - service: notify.mobile_devices_adults
+          data:
+            title: Tijd is om
+            message: >-
+              De Mini heeft nu 1u30 achter de PC gezeten ({{ now().strftime('%H:%M') }}).
+            data:
+              tag: mini_pc
+              notification_icon: mdi:desktop-classic

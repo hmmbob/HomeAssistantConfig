@@ -30,7 +30,7 @@ morning_briefing_package:
 
   automation:
     - id: morning_briefing
-      alias: "System: Morning briefing"
+      alias: "Notifications: Morning briefing"
       trigger:
         platform: time
         at: input_datetime.time_morning_briefing
