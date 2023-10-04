@@ -4,7 +4,6 @@ lights_livingroom_package:
       name: Verlichting Woonkamer
       icon: mdi:sofa-outline
       entities:
-        - light.grijze_lamp
         - light.spots_vaas
         - light.spots_woonkamer
 

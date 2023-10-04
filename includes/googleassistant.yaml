@@ -6,14 +6,6 @@ exposed_domains:
   - media_player
 entity_config:
   ## Woonkamer
-  light.grijze_lamp:
-    name: "Grijze lamp"
-    expose: true
-    room: "Woonkamer"
-  light.kast:
-    name: "Kast"
-    expose: true
-    room: "Woonkamer"
   light.spots_vaas:
     name: "Spots vaas"
     expose: true
@@ -52,6 +44,10 @@ entity_config:
       - "Rocky"
 
   ## Salon
+  light.grijze_lamp:
+    name: "Grijze lamp"
+    expose: true
+    room: "Salon"
   light.staande_lamp_switch:
     name: "Staande lamp"
     expose: true
@@ -66,6 +62,10 @@ entity_config:
     room: "Salon"
 
   ## Dining room
+  light.kast:
+    name: "Kast"
+    expose: true
+    room: "Eetkamer"
   light.spots_eetkamer:
     name: "Spots eetkamer"
     expose: true
