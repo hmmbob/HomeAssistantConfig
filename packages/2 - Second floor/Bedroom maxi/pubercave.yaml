@@ -1,4 +1,11 @@
 attic_pubercave_package:
+  binary_sensor:
+    - platform: ping
+      host: !secret pubercave_pc_ip
+      name: "Pubercave PC"
+      count: 3
+      scan_interval: 60
+
   input_boolean:
     enable_game_mode:
       name: Game mode
@@ -14,8 +21,15 @@ attic_pubercave_package:
 
   sensor:
     - platform: history_stats
-      name: Pubercave ON today
-      entity_id: binary_sensor.is_pubercave_on
+      name: Pubercave PC ON today
+      entity_id: binary_sensor.pubercave_pc
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      end: "{{ now() }}"
+    - platform: history_stats
+      name: Pubercave TV ON today
+      entity_id: binary_sensor.is_pubercave_tv_on
       state: "on"
       type: time
       start: "{{ now().replace(hour=0, minute=0, second=0) }}"
@@ -23,68 +37,84 @@ attic_pubercave_package:
 
   template:
     - binary_sensor:
-        - name: "Is pubercave on"
-          unique_id: is_pubercave_on
-          state: "{{ states('sensor.pubercave_power') | int(default=0) > 80 }}"
+        - name: "Is pubercave TV on"
+          unique_id: is_pubercave_TV_on
+          state: "{{ states('sensor.pubercave_power') | int(default=0) > 20 }}"
+        - name: "Is pubercave leeslampje on"
+          unique_id: is_pubercave_leeslampje_on
+          state: "{{ states('sensor.leeslampje_zolder_power') | int(default=0) > 3 }}"
+        - name: "Is pubercave PC on"
+          unique_id: is_pubercave_pc_on
+          state: "{{ states('binary_sensor.pubercave_pc') }}"
 
   automation:
-    #    ##########################
-    #    ## Turn on gaming mode if PS4 starts
-    #    ##########################
-    #    - id: turn_on_gaming_mode_when_ps4_starts
-    #      alias: "Lights: Game mode als PS4 aan gaat"
-    #      mode: single
-    #      max_exceeded: silent
-    #      initial: off
-    #      trigger:
-    #        - platform: numeric_state
-    #          entity_id: sensor.pubercave_power
-    #          above: 80
-    #          id: "on"
-    #        - platform: numeric_state
-    #          entity_id: sensor.pubercave_power
-    #          below: 30
-    #          id: "off"
-    #      condition:
-    #        - condition: state
-    #          entity_id: input_boolean.enable_game_mode
-    #          state: "on"
-    #        - condition: time
-    #          after: "07:30:00"
-    #          before: "21:00:00"
-    #      action:
-    #        - alias: "Choose based on trigger ID"
-    #          choose:
-    #            - conditions:
-    #                condition: trigger
-    #                id: "on"
-    #              sequence:
-    #                - alias: "Turn on LED strip"
-    #                  service: light.turn_on
-    #                  target:
-    #                    entity_id: light.sonoff_l1
-    #                  data:
-    #                    effect: RGB Gradient
-    #                - alias: "Close cover for darkness"
-    #                  service: cover.close_cover
-    #                  target:
-    #                    entity_id: cover.zolder
-    #            - conditions:
-    #                condition: trigger
-    #                id: "off"
-    #              sequence:
-    #                - alias: "Turn off LED strip"
-    #                  service: light.turn_off
-    #                  target:
-    #                    entity_id: light.sonoff_l1
-    #                - alias: "Only open cover again between set times"
-    #                  condition: time
-    #                  after: input_datetime.time_cover_up
-    #                  before: input_datetime.time_cover_down
-    #                - alias: "Open cover again"
-    #                  service: cover.open_cover
-    #                  target:
-    #                    entity_id: cover.zolder
+    - id: warn_pc_time_over_pubercave
+      alias: "Notifications: Pubercave PC time over"
+      mode: queued
+      trigger:
+        - platform: time
+          id: "weekday"
+          at:
+            - "20:45:00"
+        - platform: time
+          id: "weekend"
+          at:
+            - "21:30:00"
+      condition:
+        - condition: state
+          alias: "Check if PC is on"
+          entity_id: binary_sensor.pubercave_pc
+          state: "on"
+        - or:
+            - and:
+                - '{{ trigger.id == "weekday" }}'
+                - condition: time
+                  weekday:
+                    - mon
+                    - tue
+                    - wed
+                    - thu
+                    - fri
+            - and:
+                - '{{ trigger.id == "weekend" }}'
+                - condition: time
+                  weekday:
+                    - sat
+                    - sun
+      action:
+        - service: scene.create
+          data:
+            scene_id: snapshot_pubercave
+            snapshot_entities:
+              - light.sonoff_l1
+        - service: light.turn_on
+          target:
+            entity_id: light.sonoff_l1
+          data:
+            color_name: red
+        - delay:
+            seconds: 1
+            milliseconds: 200
+        - repeat:
+            count: 5
+            sequence:
+              - service: light.toggle
+                data: {}
+                target:
+                  entity_id: light.sonoff_l1
+              - delay:
+                  seconds: 1
+                  milliseconds: 200
+              - service: light.toggle
+                data: {}
+                target:
+                  entity_id: light.sonoff_l1
+              - delay:
+                  seconds: 1
+                  milliseconds: 200
+        - service: scene.turn_on
+          data:
+            entity_id: scene.snapshot_pubercave
 
     ##########################
     ## Warnings on power usage on kid's bedroom
@@ -92,7 +122,7 @@ attic_pubercave_package:
 
     # Reading light: the kid shouldn't be reading after bedtime, so we track
     # the power usage of his bedside light with an always on switch
-    # Pubercave: mancave for the adolescent kid. It has a TV and PS4 that obviously
+    # Pubercave: mancave for the adolescent kid. It has a TV that obviously
     # shouldn't be on after bedtime... So let's trigger a notification if it is :)
     - id: warn_power_usage_after_bedtime_attic
       alias: "Notifications: Power usage op zolder na bedtijd"
@@ -107,7 +137,7 @@ attic_pubercave_package:
         - platform: numeric_state
           entity_id: sensor.pubercave_power
           above: 25
-          id: Pubercave
+          id: TV
       condition:
         - condition: state
           entity_id: input_boolean.notify_power_use_attic
@@ -122,7 +152,7 @@ attic_pubercave_package:
               {% if trigger.id == "Leeslampje" %}
                 Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% else %}
-                De TV of PS4 op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
+                De TV op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% endif %}
             data:
               tag: "{{ trigger.id }}"

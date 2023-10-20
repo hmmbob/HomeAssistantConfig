@@ -424,7 +424,7 @@ cards:
               style: |
                 ha-card {
                   box-shadow: var(--card-box-shadow);
-                  margin: 0px 0px 0px 14px;
+                  margin: 0px 14px 0px 14px;
                 }
             entity: switch.aquarium
             tap_action:
@@ -454,18 +454,31 @@ cards:
             state_color: true
             name: Pubercave
             entities:
-              - entity: sensor.pubercave_power
-                name: "Playstation"
-              - entity: sensor.leeslampje_zolder_power
+              - entity: binary_sensor.is_pubercave_leeslampje_on
                 name: "Leeslampje"
-                tap_action:
-                  action: more-info
-              - entity: sensor.pubercave_on_today
-                name: "PS4 aan vandaag"
+              - entity: binary_sensor.is_pubercave_tv_on
+                name: "TV"
+              - entity: sensor.pubercave_tv_on_today
+                name: "Puber TV aan vandaag"
                 format: duration-h
                 hide_if: 0
+              - entity: binary_sensor.is_pubercave_pc_on
+                name: "PC"
+              - entity: sensor.pubercave_pc_on_today
+                name: "Puber PC aan vandaag"
+                format: duration-h
+                hide_if: 0
+
+          - type: custom:multiple-entity-row
+            entity: sensor.minicave_on_today
+            show_state: false
+            state_color: true
+            name: Minicave
+            entities:
+              - entity: binary_sensor.is_minicave_on
+                name: "PC"
               - entity: sensor.minicave_on_today
-                name: "PC aan vandaag"
+                name: "Mini PC aan vandaag"
                 format: duration-h
                 hide_if: 0
 

@@ -89,6 +89,38 @@ bedroom_minicave_package:
           entity_id: binary_sensor.schooldag
           state: "on"
       action:
+        - service: scene.create
+          data:
+            scene_id: snapshot_minicave
+            snapshot_entities:
+              - light.ledstrip_mini
+        - service: light.turn_on
+          target:
+            entity_id: light.ledstrip_mini
+          data:
+            color_name: red
+        - delay:
+            seconds: 2
+        - repeat:
+            count: 5
+            sequence:
+              - service: light.toggle
+                data: {}
+                target:
+                  entity_id: light.ledstrip_mini
+              - delay:
+                  seconds: 1
+                  milliseconds: 200
+              - service: light.toggle
+                data: {}
+                target:
+                  entity_id: light.ledstrip_mini
+              - delay:
+                  seconds: 1
+                  milliseconds: 200
+        - service: scene.turn_on
+          data:
+            entity_id: scene.snapshot_minicave
         - service: notify.mobile_app_moto_g8
           data:
             title: Tijd is om
