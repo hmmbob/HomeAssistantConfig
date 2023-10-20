@@ -55,6 +55,8 @@ logger:
     aioesphomeapi.reconnect_logic:
       # This device has weak wifi connection, just mute the reconnect logs
       - "weerhuisje"
+    custom_components.mitsubishi_wf_rac.wfrac.device:
+      - "something went wrong updating the airco"
     homeassistant.components.androidtv_remote.remote:
       - "Disconnected "
     homeassistant.components.esphome:

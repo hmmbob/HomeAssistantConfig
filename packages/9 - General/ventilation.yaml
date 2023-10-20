@@ -4,7 +4,25 @@ ventilation_package:
       restore: true
 
   automation:
-    - id: boost_ventilation_speed
+    - id: ventilation_handle_button
+      alias: "Ventilation: handle button"
+      trigger:
+        - platform: state
+          entity_id: sensor.drukknop_badkamer_zolder_action
+          to: "on"
+          id: short_press
+        - platform: state
+          entity_id: sensor.drukknop_badkamer_zolder_action
+          to: "brightness_move_up"
+          id: long_press
+      action:
+        - service: timer.start
+          target:
+            entity_id: timer.fan_runtime
+          data:
+            duration: "{{'00:30:00' if trigger.id == 'long_press' else '00:15:00'}}"
+
+    - id: ventilation_boost_speed
       alias: "Ventilation: boost speed"
       trigger:
         - platform: event
@@ -19,7 +37,7 @@ ventilation_package:
           data:
             percentage: 80
 
-    - id: set_ventilation_speed
+    - id: ventilation_set_speed
       alias: "Ventilation: set speed"
       trigger:
         - platform: time
