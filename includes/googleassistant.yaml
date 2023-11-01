@@ -114,4 +114,11 @@ entity_config:
     name: "Temperatuur zolder"
     expose: true
     room: "Zolder"
+
   ## Garden
+  light.tuinverlichting:
+    name: "Tuinverlichting"
+    expose: true
+    room: "Tuin"
+    aliases:
+      - "Buitenlampen"

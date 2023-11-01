@@ -1,31 +1,38 @@
-lights_garden_package: {}
-#  automation:
-#    - id: garden_turn_on
-#      alias: "Lights: Garden turn on"
-#      trigger:
-#        platform: sun
-#        event: sunset
-#      action:
-#        - service: switch.turn_on
-#          entity_id: switch.overkapping
-#
-#    - id: garden_switch_lights
-#      alias: "Lights: Garden switch between lights"
-#      trigger:
-#        - platform: time
-#          at: "22:00:00"
-#      action:
-#        - service: switch.turn_on
-#          entity_id: switch.schuur_1
-#        - service: switch.turn_off
-#          entity_id: switch.overkapping
-#
-#    - id: garden_turn_off
-#      alias: "Lights: Garden turn off"
-#      trigger:
-#        platform: sun
-#        event: sunrise
-#        offset: "-00:10:00"
-#      action:
-#        - service: switch.turn_off
-#          entity_id: switch.schuur_1
+lights_garden_package:
+  sensor:
+    - platform: schedule_state
+      name: Garden lights
+      default_state: "0"
+      extra_attributes:
+        unit_of_measurement: "%"
+      events:
+        - start: "6:30"
+          end: "{{ as_timestamp(state_attr('sun.sun', 'next_rising')) }}"
+          state: "90"
+          condition:
+            condition: sun
+            before: sunrise
+        - start: "{{ as_timestamp(state_attr('sun.sun', 'next_setting')) }}"
+          end: "20:30"
+          state: "100"
+        - start: "20:30"
+          end: "22:30"
+          state: "20"
+
+  automation:
+    - id: garden_turn_on
+      alias: "Lights: Garden turn on"
+      trigger:
+        - platform: state
+          entity_id: sensor.garden_lights
+        - platform: homeassistant
+          event: start
+        - platform: event
+          event_type: automation_reloaded
+      action:
+        - service: light.turn_on
+          data:
+            brightness_pct: "{{ states('sensor.garden_lights') }}"
+            transition: 5
+          target:
+            entity_id: light.tuinverlichting

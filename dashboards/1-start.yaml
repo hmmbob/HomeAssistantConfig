@@ -418,11 +418,24 @@ cards:
               style: |
                 ha-card {
                   box-shadow: var(--card-box-shadow);
-                  margin: 0px 14px 0px 14px;
+                  margin: 0px 0px 0px 14px;
                 }
             entity: switch.aquarium
             tap_action:
               action: toggle
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 0px 0px;
+                }
+            entity: light.tuinverlichting
+            icon: mdi:coach-lamp
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
 
       - type: entities ## Oogopslag overview
         card_mod:
