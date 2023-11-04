@@ -9,7 +9,7 @@ symfonisk_package:
       max_exceeded: silent
       variables:
         player: media_player.sonos_woonkamer
-        steps: 10 # 25 is Sonos default
+        steps: 20 # 25 is Sonos default
         stepsize: "{{ 1.0 / steps }}"
       trigger_variables:
         basetopic: zigbee2mqtt

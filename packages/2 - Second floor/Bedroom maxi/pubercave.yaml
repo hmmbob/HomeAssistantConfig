@@ -7,9 +7,6 @@ attic_pubercave_package:
       scan_interval: 60
 
   input_boolean:
-    enable_game_mode:
-      name: Game mode
-      icon: mdi:sony-playstation
     notify_power_use_attic:
       name: Waarschuwing leeslamp & pubercave
       icon: mdi:lightbulb-on-outline
