@@ -1,0 +1,18 @@
+light_frontdoor_package:
+  automation:
+    - id: lights_frontdoor
+      alias: "Lights: Front door"
+      trigger:
+        - platform: sun
+          event: sunset
+          offset: "-00:10:00"
+          variables:
+            action: turn_on
+        - platform: sun
+          event: sunrise
+          variables:
+            action: turn_off
+      action:
+        - service: switch.{{ action }}
+          target:
+            entity_id: switch.voordeur

@@ -1,0 +1,33 @@
+master_bedroom_package:
+  input_boolean:
+    enable_pir_inloopkast_automations:
+      name: "Verlichting inloopkast aan op beweging"
+      icon: mdi:motion-sensor
+
+  automation:
+    - id: lights_mbr_inloopkast
+      alias: "Lights: MBR Inloopkast"
+      mode: restart
+      max_exceeded: silent
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.pir_inloopkast_occupancy
+          to: "on"
+          from: "off"
+          variables:
+            action: turn_on
+        - platform: state
+          entity_id: binary_sensor.pir_inloopkast_occupancy
+          to: "off"
+          from: "on"
+          variables:
+            action: turn_off
+      condition:
+        - condition: state
+          entity_id: input_boolean.enable_pir_inloopkast_automations
+          state: "on"
+      action:
+        - alias: "Inloopkast lamp bedienen..."
+          service: switch.{{ action }}
+          target:
+            entity_id: switch.inloopkast

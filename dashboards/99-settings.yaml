@@ -298,9 +298,27 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.enable_game_mode
-            name: Game mode
-            icon: mdi:sony-playstation
+            entity: input_boolean.enable_pir_inloopkast_automations
+            name: Inloopkast
+            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:motion-sensor-off"; ]]]'
+            show_state: false
+            styles:
+              card:
+                - width: 90px
+                - height: 90px
+              name:
+                - font-size: 12px
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - filter: opacity(50%)
+                  icon:
+                    - filter: grayscale(100%)
+          - type: custom:button-card
+            entity: input_boolean.enable_pir_bijkeuken_automations
+            name: Bijkeuken
+            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:motion-sensor-off"; ]]]'
             show_state: false
             styles:
               card:
