@@ -68,39 +68,39 @@ cards:
             entity: !secret person_mini
             use_entity_picture: true
 
-      - type: conditional ## Conditional alerts
-        conditions:
-          - entity: sensor.knmi_weeralarm_noord_brabant
-            state_not: "Code Groen"
-        card:
-          type: custom:mushroom-template-card
-          card_mod:
-            style: |
-              ha-card {
-                margin: 0px 14px -5px 14px;
-              }
-          primary: "KNMI: {{ states('sensor.knmi_weeralarm_noord_brabant')}}"
-          secondary: "{{ state_attr('sensor.knmi_weeralarm_noord_brabant', 'warning') }}"
-          icon: |-
-            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
-              mdi:alert-circle
-            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
-              mdi:alert-decagram
-            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
-              mdi:alert
-            {% endif %}
-          icon_color: |-
-            {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
-              yellow
-            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
-              orange
-            {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
-              red
-            {% endif %}
-          tap_action:
-            action: url
-            url_path: https://www.knmi.nl/nederland-nu/weer/waarschuwingen/noord-brabant
-          multiline_secondary: true
+      #- type: conditional ## Conditional alerts
+      #  conditions:
+      #    - entity: sensor.knmi_weeralarm_noord_brabant
+      #      state_not: "Code Groen"
+      #  card:
+      #    type: custom:mushroom-template-card
+      #    card_mod:
+      #      style: |
+      #        ha-card {
+      #          margin: 0px 14px -5px 14px;
+      #        }
+      #    primary: "KNMI: {{ states('sensor.knmi_weeralarm_noord_brabant')}}"
+      #    secondary: "{{ state_attr('sensor.knmi_weeralarm_noord_brabant', 'warning') }}"
+      #    icon: |-
+      #      {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
+      #        mdi:alert-circle
+      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
+      #        mdi:alert-decagram
+      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
+      #        mdi:alert
+      #      {% endif %}
+      #    icon_color: |-
+      #      {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
+      #        yellow
+      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
+      #        orange
+      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
+      #        red
+      #      {% endif %}
+      #    tap_action:
+      #      action: url
+      #      url_path: https://www.knmi.nl/nederland-nu/weer/waarschuwingen/noord-brabant
+      #    multiline_secondary: true
 
       - type: conditional ## Conditional UV
         conditions:
