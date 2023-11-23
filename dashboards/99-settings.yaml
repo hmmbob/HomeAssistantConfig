@@ -420,7 +420,7 @@ cards:
               content: >-
                 {% from 'relative_time_plus.jinja' import relative_time_plus %}
                 {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
-                parts=2, week=false, time=true, abbr=true, language='nl') }}
+                    parts=2, time=true, abbr=true, language='nl') }}
               tap_action:
                 action: none
 
