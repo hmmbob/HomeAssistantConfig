@@ -3,8 +3,8 @@ symfonisk_package:
     - id: "symfonisk_remote_control"
       alias: "Symfonisk: Remote control"
       description: >
-        "Control my Symfonisk speaker with an IKEA E2123 remote control,
-        based on the blueprint by Shawsky found at https://community.home-assistant.io/t/z2m-ikea-symfonisk-gen2-e2123-media-control/559523"
+        Control my Symfonisk speaker with an IKEA E2123 remote control,
+        based on the blueprint by Shawsky found at https://community.home-assistant.io/t/z2m-ikea-symfonisk-gen2-e2123-media-control/559523
       mode: restart
       max_exceeded: silent
       variables:
@@ -13,7 +13,7 @@ symfonisk_package:
         stepsize: "{{ 1.0 / steps }}"
       trigger_variables:
         basetopic: zigbee2mqtt
-        device_name: Afstandsbediening
+        device_name: Afstandsbediening Sonos
       trigger:
         - platform: mqtt
           topic: "{{basetopic}}/{{device_name}}/action"

@@ -25,6 +25,9 @@ lights_garden_package:
       trigger:
         - platform: state
           entity_id: sensor.garden_lights
+        - platform: state
+          entity_id: light.tuinverlichting
+          from: unavailable
         - platform: homeassistant
           event: start
         - platform: event

@@ -1,0 +1,22 @@
+dining_room_airco_package:
+  input_datetime:
+    time_turn_off_airco:
+      name: Airco uit
+      has_time: true
+
+  automation:
+    - alias: "Airco: Automatisch uit einde avond"
+      id: airco_uit
+      description: "Turn off AC automatically so we won't forget"
+      trigger:
+        - platform: time
+          at: input_datetime.time_turn_off_airco
+      condition:
+        not:
+          - "{{ states('climate.airco_woonkamer') in ['off', 'unknown','unavailable'] }}"
+      action:
+        - service: climate.set_hvac_mode
+          target:
+            entity_id: climate.airco_woonkamer
+          data:
+            hvac_mode: "off"
