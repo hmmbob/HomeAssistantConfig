@@ -1,0 +1,35 @@
+whose_turn_is_it_package:
+  input_select:
+    tafeldekken_beurt:
+      name: Tafeldekken beurt
+      options:
+        - !secret naam_puber
+        - !secret naam_mini
+
+  automation:
+    - id: rotate_turns
+      alias: "System: wissel beurt tafeldekken"
+      trigger:
+        - platform: time
+          at:
+            - "00:01:00"
+      condition:
+        - condition: time
+          weekday:
+            - mon
+      action:
+        - service: input_select.select_next
+          target:
+            entity_id: input_select.tafeldekken_beurt
+
+  script:
+    whose_turn_is_it:
+      alias: Tafeldekken
+      description: "Wie moet er tafeldekken?"
+      mode: restart
+      sequence:
+        - alias: "Play TTS"
+          service: tts.microsoft_say
+          entity_id: media_player.nest_hub_woonkamer
+          data:
+            message: "Vandaag moet {{ states('input_select.tafeldekken_beurt') }} tafel dekken."

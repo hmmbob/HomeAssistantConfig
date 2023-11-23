@@ -42,6 +42,12 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "Rocky"
+  script.whose_turn_is_it:
+    name: "Tafeldekken"
+    expose: true
+    room: "Woonkamer"
+    aliases:
+      - "Tafel dekken"
 
   ## Salon
   light.grijze_lamp:
