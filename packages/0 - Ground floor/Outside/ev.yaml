@@ -1,37 +1,4 @@
 ev_package:
-  input_boolean:
-    evse_schedule:
-      name: EVSE Schedule
-      icon: mdi:calendar
-
-  input_datetime:
-    evse_charge_end:
-      name: EVSE Charge End
-      has_time: true
-      has_date: true
-    evse_charge_start:
-      name: EVSE Charge Start
-      has_time: true
-      has_date: true
-
-  input_select:
-    evse_charge_policy:
-      name: EVSE Charge Policy
-      options:
-        - "Off"
-        - Normal
-        - Solar
-        - Smart
-      icon: mdi:ev-station
-    evse_charge_policy_when_done:
-      name: EVSE Charge Policy when done
-      options:
-        - "Off"
-        - Normal
-        - Solar
-        - Smart
-      icon: mdi:ev-station
-
   utility_meter:
     ev_charged_energy:
       cycle: monthly
@@ -39,72 +6,93 @@ ev_package:
       source: sensor.smartevse_ev_total_kwh
 
   automation:
-    - id: ev_handle_scheduled_charge
-      alias: "EV: Handle scheduled charge"
+    - id: ev_handle_automatic_cheapest_charge
+      alias: "EV: Handle automatic cheapest charge"
+      description: "Automatically charge my car in the cheapest hours"
+      mode: single
       trigger:
-        - platform: time
-          at: input_datetime.evse_charge_start
-          id: start
-        - platform: time
-          at: input_datetime.evse_charge_end
-          id: stop
-      condition:
-        - alias: "Check if schedule is activated"
-          condition: state
-          entity_id: input_boolean.evse_schedule
-          state: "on"
+        - platform: state
+          entity_id: sensor.ev_smart_charging_charging
+          to: "on"
+          from: "off"
+          id: ev_cheapest_charge_start
+        - platform: state
+          entity_id: sensor.ev_smart_charging_charging
+          to: "off"
+          from: "on"
+          id: ev_cheapest_charge_stop
       action:
-        - alias: "Choose scheduled start or stop"
+        - alias: "Choose to start or stop charging"
           choose:
             - conditions:
                 - condition: trigger
-                  id: start
+                  id: ev_cheapest_charge_start
               sequence:
-                - alias: "Check if car is connected"
-                  condition: state
-                  entity_id: sensor.smartevse_car_connected
-                  state: "True"
-                - alias: "Select requested charging option"
+                - alias: "Select SMART charging option"
                   service: select.select_option
                   target:
                     entity_id: select.smartevse_11469_mode
                   data:
-                    option: "{{ states('input_select.evse_charge_policy') }}"
+                    option: Smart
                 - alias: "Sending push notification"
                   service: notify.mobile_app_sm_a526b
                   data:
-                    title: "EV charging started"
-                    message: "De auto wordt opgeladen in {{ states('input_select.evse_charge_policy') }} modus"
+                    title: "Automatic cheapest EV charging started"
+                    message: "De auto wordt opgeladen omdat de stroomprijzen nu laag zijn. ({{ now().strftime('%H:%M') }})."
                     data:
-                      tag: "notification-ev"
+                      # tag: "notification-ev"
                       icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
             - conditions:
                 - condition: trigger
-                  id: stop
+                  id: ev_cheapest_charge_stop
               sequence:
-                - alias: "Select requested charging option"
+                - alias: "Select charging option OFF"
                   service: select.select_option
                   target:
                     entity_id: select.smartevse_11469_mode
                   data:
-                    option: "{{ states('input_select.evse_charge_policy_when_done') }}"
+                    option: "Off"
                 - alias: "Sending push notification"
                   service: notify.mobile_app_sm_a526b
                   data:
-                    title: "EV charging stopped"
-                    message: "Het opladen is gestopt. Het laadpunt staat in {{ states('input_select.evse_charge_policy_when_done') }} modus"
+                    title: "Automatic cheapest EV charging stopped"
+                    message: "Het opladen is gestopt omdat de stroomprijs niet meer goedkoop is. ({{ now().strftime('%H:%M') }})"
                     data:
-                      tag: "notification-ev"
+                      # tag: "notification-ev"
                       icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
-                - alias: "Disable scheduled charging"
-                  service: input_boolean.turn_off
+
+    - alias: "EV: Set Smart Charging EV connected sensor"
+      id: "ev_set_smart_charging_connected_sensor"
+      description: "Set Smart Charging EV connected sensor"
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: sensor.smartevse_car_connected
+      action:
+        - if:
+            - condition: state
+              entity_id: sensor.smartevse_car_connected
+              state: "True"
+          then:
+            - service: switch.turn_on
+              target:
+                entity_id: switch.ev_smart_charging_ev_connected
+          else:
+            - if:
+                - condition: state
+                  entity_id: sensor.smartevse_car_connected
+                  state: "False"
+              then:
+                - service: switch.turn_off
                   target:
-                    entity_id: input_boolean.evse_schedule
+                    entity_id: switch.ev_smart_charging_ev_connected
 
     - id: ev_create_monthly_total_notification
       alias: "EV: Create notification of monthly total"
+      description: "Create a monthly overview of the amount of energy charged for billing purposes"
+      mode: single
       variables:
         title: EV charging monthly total
         message: >
@@ -129,3 +117,20 @@ ev_package:
           data:
             title: "{{ title }}"
             message: "{{ message }}"
+
+    - id: ev_force_update_while_charging
+      alias: "EV: Force Hyundai update while charging"
+      description: "Force update the values of the Hyundai component while charging"
+      mode: single
+      trigger:
+        - platform: time_pattern
+          minutes: "/15"
+      condition:
+        - alias: "Only when we are actually charging"
+          condition: state
+          entity_id: sensor.smartevse_11469_state
+          state: "Charging"
+      action:
+        - service: kia_uvo.force_update
+          data:
+            device_id: 5a94e1b7fbce614053e4f5b8dfd6209b

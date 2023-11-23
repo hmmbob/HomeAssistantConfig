@@ -40,3 +40,5 @@
   type: module
 - url: /webrtc/webrtc-camera.js
   type: module
+- url: /hacsfiles/apexcharts-card/apexcharts-card.js
+  type: module

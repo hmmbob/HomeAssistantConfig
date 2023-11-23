@@ -57,21 +57,112 @@ cards:
         secondary_info: none
 
       - type: custom:mushroom-title-card
-        title: Scheduled charge settings
+        title: Automatic cheapest charge settings
 
       - type: entities
         state_color: true
         show_header_toggle: false
         entities:
-          - entity: input_boolean.evse_schedule
-            name: Scheduled charging
-          - entity: input_datetime.evse_charge_start
-            name: Start Charging
-          - entity: input_datetime.evse_charge_end
-            name: End Charging
+          - entity: switch.ev_smart_charging_smart_charging_activated
+            name: Smart Charging activated
+          - entity: select.ev_smart_charging_charge_completion_time
+            name: Vertrektijd
 
-          - entity: input_select.evse_charge_policy
-            icon: mdi:ev-station
-            name: Scheduled Charge Policy
-          - entity: input_select.evse_charge_policy_when_done
-            name: Set Charging Policy When Done
+      - type: custom:mushroom-template-card
+        primary: "{{ states('sensor.ev_smart_charging_status') }} "
+        secondary: >
+          {% if is_state('sensor.ev_smart_charging_status','Smart charging not active') %}
+            Schakel smart charging in om automatisch te laden 
+          {% elif state_attr('sensor.ev_smart_charging_charging','Charging start time') is datetime %}
+            Gepland laden start om {{ state_attr('sensor.ev_smart_charging_charging','Charging start time').strftime('%H:%M') }} 
+            en eindigt om {{ state_attr('sensor.ev_smart_charging_charging','Charging stop time').strftime('%H:%M') }}
+          {% else %}
+            Automatisch laden niet ingepland
+          {% endif %}
+        entity: sensor.ev_smart_charging_status
+        icon: mdi:ev-station
+        tap_action:
+          action: more-info
+
+      - type: custom:apexcharts-card
+        now:
+          show: true
+          label: Now
+          color: "#ffc0cb"
+        locale: en
+        header:
+          show: true
+          title: EV Smart Charging
+          show_states: true
+        graph_span: 2d
+        yaxis:
+          - id: left
+            min: "|-0.1|"
+            max: "|+0.1|"
+            decimals: 2
+            apex_config:
+              forceNiceScale: true
+          - id: right
+            opposite: true
+            decimals: 2
+            min: 0
+            max: 0.2
+            apex_config:
+              tickAmount: 2
+        span:
+          start: day
+        apex_config:
+          legend:
+            show: false
+          xaxis:
+            labels:
+              show: true
+              format: HH:00
+              rotate: -45
+              rotateAlways: true
+              hideOverlappingLabels: true
+              style:
+                fontSize: 10
+                fontWeight: 10
+        series:
+          - entity: sensor.ev_smart_charging_charging
+            name: Electricty price
+            unit: "€/kWh"
+            data_generator: >
+              return entity.attributes.raw_two_days.map((entry) => { return [new
+              Date(entry.start), entry.value]; });
+            yaxis_id: left
+            type: line
+            float_precision: 3
+            show:
+              in_header: before_now
+            extend_to: false
+            color_threshold:
+              - value: -100
+                color: cyan
+              - value: 0
+                color: blue
+              - value: 0.18
+                color: green
+              - value: 0.33
+                color: orange
+              - value: 0.4
+                color: red
+              - value: 0.45
+                color: magenta
+              - value: 500
+                color: black
+          - entity: sensor.ev_smart_charging_charging
+            name: Charging
+            data_generator: >
+              return entity.attributes.charging_schedule.map((entry) => { return
+              [new Date(entry.start), entry.value]; });
+            yaxis_id: right
+            type: area
+            curve: stepline
+            color: black
+            show:
+              in_header: false
+            extend_to: false
+        experimental:
+          color_threshold: true

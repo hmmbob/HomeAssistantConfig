@@ -54,10 +54,6 @@ system_package:
           entity_id: input_datetime.solar_pv_off_start
           variables:
             end_entity_id: input_datetime.solar_pv_off_end
-        - platform: state
-          entity_id: input_datetime.evse_charge_start
-          variables:
-            end_entity_id: input_datetime.evse_charge_end
       action:
         - alias: Set date of desired end field
           service: input_datetime.set_datetime
