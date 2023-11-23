@@ -155,11 +155,10 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.vacation_mode_away
-            name: Vakantie mode
+            entity: input_boolean.notify_dishwasher
+            name: Vaatwasser
+            icon: '[[[ if (entity.state == "on") return "mdi:dishwasher"; else return "mdi:dishwasher-off"; ]]]'
             show_state: false
-            confirmation:
-              text: "[[[ return `Weet je zeker dat de vakantiemodus wil schakelen?` ]]]"
             styles:
               card:
                 - width: 90px

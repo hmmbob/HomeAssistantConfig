@@ -1,0 +1,38 @@
+dishwasher_cheapest_time_package:
+  input_boolean:
+    notify_dishwasher:
+      name: "Push-meldingen over vaatwasser"
+      icon: mdi:dishwasher-alert
+
+  input_datetime:
+    time_dishwasher_notification:
+      name: Melding vaatwasser
+      has_time: true
+
+  automation:
+    - alias: "Notifications: Vaatwasser"
+      id: vaatwasser_melding
+      trigger:
+        - platform: time
+          at: input_datetime.time_dishwasher_notification
+      condition:
+        - alias: "Do we want notifications?"
+          condition: state
+          entity_id: input_boolean.notify_dishwasher
+          state: "on"
+      action:
+        - alias: "Sending push notification"
+          service: notify.mobile_app_sm_a526b
+          data:
+            title: "Vaatwasser"
+            message: >-
+              {% set sensor = "sensor.zonneplan_current_electricity_tariff" %}
+              {% set attr_all = "forecast" %}
+              {% set value_key = "electricity_price" %}
+              {% from "cheapest_energy_hours.jinja" import cheapest_energy_hours %}
+              Het beste start je de vaatwasser om {{ cheapest_energy_hours(sensor, attr_all=attr_all, 
+                value_key=value_key, time_format="time24", no_weight_points=2, weight=[4, 4, 4, 0], 
+                include_tomorrow=true, start="18:00", end="06:30") }}
+            data:
+              tag: "notification-dishwasher"
+              notification_icon: mdi:dishwasher
