@@ -43,3 +43,9 @@ persons_package:
         - service: mobile_app_sm_a336b
         - service: mobile_app_schaduwspeler
         - service: mobile_app_moto_g8
+
+    - platform: group
+      name: mobile_devices_papa_and_mini
+      services:
+        - service: mobile_app_sm_a526b
+        - service: mobile_app_moto_g8

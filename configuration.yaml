@@ -52,24 +52,15 @@ logger:
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
   filters:
-    aioesphomeapi.reconnect_logic:
-      # This device has weak wifi connection, just mute the reconnect logs
-      - "weerhuisje"
+    #aioesphomeapi.reconnect_logic:
+    #  # This device has weak wifi connection, just mute the reconnect logs
+    #  - "weerhuisje"
     custom_components.mitsubishi_wf_rac.wfrac.device:
       - "something went wrong updating the airco"
-    homeassistant.components.androidtv_remote.remote:
-      - "Disconnected "
-    homeassistant.components.esphome:
-      - "Error getting initial data"
-      - "Timeout waiting for response"
-    homeassistant.components.rest_command:
-      # The other server isn't too stable
-      - "Connection reset by peer"
-      - "Server disconnected"
-      - "Status code 502"
-      - "Timeout call"
-    homeassistant.components.rituals_perfume_genie:
-      - "Cannot connect to host"
+    homeassistant.components.goodwe.coordinator:
+      - "No valid response received even after 10 retries"
+    #homeassistant.components.rituals_perfume_genie:
+    #  - "Cannot connect to host"
     pychromecast.socket_client:
       # Mute cast reconnection warnings/errors
       - "Error communicating with socket, resetting connection"

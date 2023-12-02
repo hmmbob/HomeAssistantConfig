@@ -121,6 +121,10 @@ bedroom_minicave_package:
         - service: scene.turn_on
           data:
             entity_id: scene.snapshot_minicave
+        - service: tts.microsoft_say
+          data:
+            entity_id: media_player.slaapkamer_t
+            message: "Je tijd is op. Sluit je af?"
         - service: notify.mobile_app_moto_g8
           data:
             title: Tijd is om
@@ -128,10 +132,6 @@ bedroom_minicave_package:
             data:
               tag: mini_pc
               notification_icon: mdi:desktop-classic
-        - service: tts.microsoft_say
-          data:
-            entity_id: media_player.slaapkamer_t
-            message: "Je tijd is op. Sluit je af?"
         - service: notify.mobile_devices_adults
           data:
             title: Tijd is om
