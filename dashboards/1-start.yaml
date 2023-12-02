@@ -420,7 +420,7 @@ cards:
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 0px 0px 14px;
                 }
-            entity: switch.aquarium
+            entity: switch.kerstboom
             tap_action:
               action: toggle
           - type: custom:mushroom-light-card
