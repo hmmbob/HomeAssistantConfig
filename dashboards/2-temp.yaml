@@ -34,6 +34,18 @@ cards:
               box-shadow: var(--card-box-shadow);
               margin: 0px 14px 0px 14px;
             }
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - 'off'
+              - auto
+              - heat
+          - type: climate-preset-modes
+            style: dropdown
+            preset_modes:
+              - away
+              - home
+
 
       - type: horizontal-stack
         cards:

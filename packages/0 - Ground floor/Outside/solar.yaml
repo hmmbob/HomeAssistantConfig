@@ -72,7 +72,7 @@ solar_package:
             {{ (((states('sensor.pv_power') | float(0)) / 1000 )
                   - (states('sensor.dsmr_reading_electricity_currently_returned') | float(0))
                   + (states('sensor.dsmr_reading_electricity_currently_delivered') | float(0))) 
-                  | round(3) }}
+                  | round(3, default=0) }}
 
   automation:
     # Automation to trigger the upload to PVOutput, using the rest_command defined above

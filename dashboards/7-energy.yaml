@@ -35,7 +35,7 @@ cards:
 
       - type: custom:mushroom-template-card
         primary: "Huidige productie: {{ states('sensor.pv_power')|float(0) }} W"
-        secondary: "Huidig netverbruik: {{((states('sensor.dsmr_reading_electricity_currently_delivered')  | float(0)) * 1000) | round(0) }} W"
+        secondary: "Huidig netverbruik: {{((states('sensor.dsmr_reading_electricity_currently_delivered')  | float(0)) * 1000) | round(0, default=0) }} W"
         entity: sensor.pv_power
         icon: mdi:solar-power
         icon_color: green
@@ -153,8 +153,8 @@ cards:
 
       - type: custom:mushroom-template-card
         entity: sensor.dsmr_day_consumption_electricity_merged
-        primary: "Electriciteitsverbruik deze maand: {{ states('sensor.dsmr_current_month_electricity_merged') | round(1) }} kWh"
-        secondary: "Gasverbruik deze maand: {{ states('sensor.dsmr_current_month_gas') | round(1) }} m³"
+        primary: "Electriciteitsverbruik deze maand: {{ states('sensor.dsmr_current_month_electricity_merged') | round(1, default=0) }} kWh"
+        secondary: "Gasverbruik deze maand: {{ states('sensor.dsmr_current_month_gas') | round(1, default=0) }} m³"
         icon: mdi:meter-electric
         icon_color: blue
         tap_action:

@@ -28,12 +28,48 @@ cards:
 
       - type: thermostat
         entity: climate.airco_woonkamer
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only
 
       - type: thermostat
         entity: climate.airco_master_bedroom
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only
 
       - type: thermostat
         entity: climate.airco_slaapkamer_m
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only
 
       - type: thermostat
         entity: climate.airco_slaapkamer_t
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only

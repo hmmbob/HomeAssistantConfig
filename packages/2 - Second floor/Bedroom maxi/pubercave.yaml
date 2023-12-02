@@ -1,11 +1,4 @@
 attic_pubercave_package:
-  binary_sensor:
-    - platform: ping
-      host: !secret pubercave_pc_ip
-      name: "Pubercave PC"
-      count: 3
-      scan_interval: 60
-
   input_boolean:
     notify_power_use_attic:
       name: Waarschuwing leeslamp & pubercave

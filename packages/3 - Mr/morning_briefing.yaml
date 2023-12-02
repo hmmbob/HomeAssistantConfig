@@ -16,7 +16,7 @@ morning_briefing_package:
         - platform: event
           event_type: event_template_reloaded
       action:
-        - service: weather.get_forecast
+        - service: weather.get_forecasts
           data:
             type: daily
           target:
@@ -25,8 +25,8 @@ morning_briefing_package:
       sensor:
         - name: KNMI max temp vandaag
           unique_id: knmi_max_temp_vandaag
-          state: "{{ forecast.forecast[0].temperature }}"
-          availability: "{{ is_number(forecast.forecast[0].temperature) }}"
+          state: "{{ forecast['weather.knmi_home'].forecast[0].temperature }}"
+          availability: "{{ is_number(forecast['weather.knmi_home'].forecast[0].temperature) }}"
 
   automation:
     - id: morning_briefing
@@ -34,12 +34,8 @@ morning_briefing_package:
       trigger:
         platform: time
         at: input_datetime.time_morning_briefing
-      condition:
-        - condition: state
-          entity_id: device_tracker.sm_a526b
-          state: home
       action:
-        - service: notify.mobile_app_sm_a526b
+        - service: notify.mobile_devices_papa_and_mini
           data:
             title: Good morning sunshine!
             message: |
