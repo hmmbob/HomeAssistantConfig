@@ -25,7 +25,7 @@ master_bedroom_package:
       condition:
         and:
           - condition: time
-            after: "06:29:00"
+            after: "06:15:00"
             before: "23:31:00"
           - condition: state
             entity_id: input_boolean.enable_pir_inloopkast_automations

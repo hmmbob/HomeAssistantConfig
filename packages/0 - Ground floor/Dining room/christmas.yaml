@@ -14,7 +14,7 @@ christmas_package:
           to: "on"
       condition:
         - condition: time
-          after: "06:45:00"
+          after: "06:20:00"
           before: "22:00:00"
         - condition: state
           entity_id: switch.kerstboom
