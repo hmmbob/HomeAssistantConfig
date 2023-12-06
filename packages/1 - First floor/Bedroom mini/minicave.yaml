@@ -125,7 +125,7 @@ bedroom_minicave_package:
           data:
             entity_id: media_player.slaapkamer_t
             message: "Je tijd is op. Sluit je af?"
-        - service: notify.mobile_app_moto_g8
+        - service: notify.mobile_app_sm_a236b
           data:
             title: Tijd is om
             message: Je tijd is op. Sluit je af?

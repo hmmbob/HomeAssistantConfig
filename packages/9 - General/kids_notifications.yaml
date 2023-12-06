@@ -8,21 +8,21 @@ kids_notifications_package:
       mode: parallel
       trigger:
         - platform: zone
-          entity_id: device_tracker.moto_g8
+          entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.school_mini
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: school
         - platform: zone
-          entity_id: device_tracker.moto_g8
+          entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.mc
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: MC
         - platform: zone
-          entity_id: device_tracker.moto_g8
+          entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.scouting
           variables:
@@ -92,7 +92,7 @@ kids_notifications_package:
       mode: parallel
       trigger:
         - platform: numeric_state
-          entity_id: sensor.moto_g8_battery_level
+          entity_id: sensor.sm_a236b_battery_level
           below: 10
           variables:
             name: "{{states('input_text.naam_mini')}}"
@@ -108,8 +108,8 @@ kids_notifications_package:
               - "{{ trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' }}"
               - "{{ not is_state('device_tracker.schaduwspeler', 'home') }}"
           - and:
-              - "{{ trigger.entity_id == 'sensor.moto_g8_battery_level' }}"
-              - "{{ not is_state('device_tracker.moto_g8', 'home') }}"
+              - "{{ trigger.entity_id == 'sensor.sm_a236b_battery_level' }}"
+              - "{{ not is_state('device_tracker.sm_a236b', 'home') }}"
       action:
         - service: notify.mobile_devices_adults
           data:
@@ -121,8 +121,8 @@ kids_notifications_package:
               priority: high
               notification_icon: mdi:battery-alert-variant
         - service: >-
-            {% if trigger.entity_id == 'sensor.moto_g8_battery_level' %}
-              notify.mobile_app_moto_g8
+            {% if trigger.entity_id == 'sensor.sm_a236b_battery_level' %}
+              notify.mobile_app_sm_a236b
             {% elif trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' %}
               notify.mobile_app_schaduwspeler
             {% else %}
