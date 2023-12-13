@@ -1,18 +1,4 @@
 trash_package:
-  sensor:
-    - platform: afvalinfo
-      resources:
-        - gft
-        - papier
-        - pbd
-        - restafval
-        - trash_type_today
-        - trash_type_tomorrow
-      location: !secret afvalinfo_location
-      postcode: !secret afvalinfo_postcode
-      streetnumber: !secret afvalinfo_streetnumber
-      locale: "nl"
-
   binary_sensor:
     - platform: tod
       name: Early Morning
@@ -76,7 +62,7 @@ trash_package:
           at: input_datetime.time_trash_warning_tomorrow
           id: morgen
       variables:
-        sensor: "sensor.afvalinfo_{{ trigger.id }}"
+        sensor: "sensor.afvalinfo_home_{{ trigger.id }}"
         trash_descr:
           pbd: "plastic"
           gft: "GFT"
