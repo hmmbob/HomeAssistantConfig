@@ -95,7 +95,6 @@ lovelace:
       require_admin: false
 
 recorder:
-  purge_keep_days: 31
   exclude:
     domains:
       - camera
