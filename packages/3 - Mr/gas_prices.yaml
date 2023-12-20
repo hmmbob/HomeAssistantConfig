@@ -1,16 +1,4 @@
 gas_prices_package:
-  input_text:
-    # I am using this workarond to hide sensitive information.
-    # As templates cannot handle secrets, but you can set these input_text items
-    # with !secret, so in this way the sensitive data is obfuscated. I don't mind
-    # having these in my HA instance, I just don't want them on Github.
-    woonplaats:
-      name: Woonplaats
-      initial: !secret woonplaats
-    esso_adres:
-      name: Esso adres
-      initial: !secret esso_adres
-
   multiscrape:
     ##########################
     ## Gas prices sensor
@@ -30,36 +18,6 @@ gas_prices_package:
           attribute: "content"
           device_class: monetary
           unit_of_measurement: EUR
-
-    - name: gasprices_multi
-      resource: https://www.tankplanner.nl/api/v1/price/euro95/
-      scan_interval: 3594 # little bit less than 1hr
-      sensor:
-        - unique_id: benzine_greenpoint
-          name: "Benzine Greenpoint"
-          icon: mdi:gas-station
-          device_class: monetary
-          unit_of_measurement: EUR
-          value_template: >-
-            {% set woonplaats = states('input_text.woonplaats') %}
-            {{ (value_json | selectattr('town', 'eq', woonplaats) | selectattr('organization', 'eq', 'Greenpoint') | list | first).price }}
-        - unique_id: benzine_esso
-          name: "Benzine Esso"
-          icon: mdi:gas-station
-          device_class: monetary
-          unit_of_measurement: EUR
-          value_template: >-
-            {% set woonplaats = states('input_text.woonplaats') %}
-            {% set address = states('input_text.esso_adres') %}
-            {{ (value_json | selectattr('town', 'eq', woonplaats) | selectattr('address', 'eq', address) | list | first).price }}
-        - unique_id: benzine_Tinq
-          name: "Benzine TinQ"
-          icon: mdi:gas-station
-          device_class: monetary
-          unit_of_measurement: EUR
-          value_template: >-
-            {% set woonplaats = states('input_text.woonplaats') %}
-            {{ (value_json | selectattr('town', 'eq', woonplaats) | selectattr('organization', 'eq', 'TinQ') | list | first).price }}
 
   automation:
     ##########################
