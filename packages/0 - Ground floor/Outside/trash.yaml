@@ -64,12 +64,12 @@ trash_package:
       variables:
         sensor: "sensor.afvalinfo_home_{{ trigger.id }}"
         trash_descr:
-          pbd: "plastic"
-          gft: "GFT"
-          restafval: "restafval"
-          papier: "oud papier"
-          "pbd, papier": "plastic en oud papier"
-          "papier, pbd": "plastic en oud papier"
+          PBD: "plastic"
+          GFT: "GFT"
+          Restafval: "restafval"
+          Papier: "oud papier"
+          "PBD, Papier": "plastic en oud papier"
+          "Papier, PBD": "plastic en oud papier"
         afval: >
           {{ trash_descr.get(states(sensor), "onbekend") }}
       condition:
@@ -79,7 +79,7 @@ trash_package:
           state: "on"
         - alias: "Do we have a valid state"
           condition: template
-          value_template: "{{ states(sensor) not in ['unknown','unavailable','none'] }}"
+          value_template: "{{ states(sensor) not in ['unknown','unavailable','none','geen'] }}"
       action:
         - alias: "Check if trash is outside already"
           choose:
