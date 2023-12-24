@@ -4,8 +4,6 @@
   type: module
 - url: /hacsfiles/button-card/button-card.js
   type: module
-- url: /hacsfiles/formulaone-card/formulaone-card.js
-  type: module
 - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
   type: module
 - url: /hacsfiles/lovelace-card-mod/card-mod.js
@@ -31,8 +29,6 @@
 - url: /hacsfiles/lovelace-plotly-graph-card/plotly-graph-card.js
   type: module
 - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
-  type: module
-- url: /hacsfiles/tabbed-card/tabbed-card.js
   type: module
 - url: /hacsfiles/text-element/text-element.js
   type: module

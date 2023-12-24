@@ -12,5 +12,4 @@ views:
   - !include dashboards/6-camera.yaml
   - !include dashboards/7-energy.yaml
   - !include dashboards/8-car.yaml
-  - !include dashboards/9-f1.yaml
   - !include dashboards/99-settings.yaml
