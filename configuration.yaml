@@ -24,7 +24,6 @@ frontend:
 history:
 
 http:
-  server_port: !secret http_server_port
   ip_ban_enabled: true
   login_attempts_threshold: 2
   use_x_forwarded_for: true
