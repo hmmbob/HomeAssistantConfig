@@ -413,16 +413,6 @@ cards:
 
       - type: horizontal-stack
         cards:
-          - type: custom:mushroom-entity-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                  margin: 0px 0px 0px 14px;
-                }
-            entity: switch.kerstboom
-            tap_action:
-              action: toggle
           - type: custom:mushroom-light-card
             card_mod:
               style: |
@@ -615,28 +605,7 @@ cards:
           scroll_info: true
           show_source: true
 
-      - type: conditional
-        conditions:
-          - entity: media_player.tv_woonkamer
-            state_not: "off"
-          - entity: media_player.tv_woonkamer
-            state_not: "unavailable"
-          - entity: media_player.tv_woonkamer
-            state_not: "idle"
-        card:
-          type: custom:mini-media-player
-          card_mod:
-            style: |
-              ha-card {
-              margin: 0px 14px -5px 14px;
-              }
-          entity: media_player.tv_woonkamer
-          icon: mdi:cast
-          artwork: cover
-          artwork_border: true
-          power_color: true
-          scroll_info: true
-          show_source: true
+ 
 
       - type: conditional
         conditions:

@@ -76,10 +76,6 @@ entity_config:
     name: "Spots eetkamer"
     expose: true
     room: "Eetkamer"
-  switch.kerstboom:
-    name: "Kerstboom"
-    expose: true
-    room: "Eetkamer"
 
   ## Kitchen
   light.spots_keuken:
