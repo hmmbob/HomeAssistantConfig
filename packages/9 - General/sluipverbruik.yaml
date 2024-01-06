@@ -1,9 +1,0 @@
-sluipverbruik_package:
-  sensor:
-    - platform: statistics
-      entity_id: sensor.filtered_netto_consumption
-      unique_id: sensor.sluipverbruik_24_uur
-      name: Sluipverbruik 24 uur
-      state_characteristic: value_min
-      max_age:
-        hours: 24

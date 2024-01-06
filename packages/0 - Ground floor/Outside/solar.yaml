@@ -31,6 +31,19 @@ solar_package:
       has_date: true
       icon: mdi:clock-start
 
+  sensor:
+    - platform: template
+      sensors:
+        todays_total_production_preserved:
+          friendly_name: Todays total production preserved
+          unit_of_measurement: "kWh"
+          value_template: >-
+            {% if states('sensor.today_s_pv_generation') not in ['unknown', 'unavailable'] %}
+              {{ states('sensor.today_s_pv_generation') | float(0)  }}
+            {% else %}
+              {{ states('sensor.todays_total_production_preserved') | float(0) }}
+            {% endif %}
+
   rest_command:
     # Rest Command to upload PV generation data to PVOutput
     update_pvoutput:
@@ -47,32 +60,6 @@ solar_package:
         &v2={{(states('sensor.pv_power')|float(0))|round(0)}}
         &v5={{state_attr('weather.knmi_home', 'temperature')|float(0)}}
         &v6={{states('sensor.on_grid_l1_voltage')|float(0)}}
-
-  sensor:
-    # Filtered netto consumption. Consumption is in kW
-    - platform: filter
-      name: "Filtered netto consumption"
-      entity_id: sensor.netto_consumption
-      filters:
-        - filter: outlier
-          window_size: 5
-          radius: 1.5
-        - filter: time_simple_moving_average
-          window_size: "00:00:30"
-          precision: 3
-        - filter: range
-          lower_bound: 0
-
-  template:
-    - sensor:
-        # netto consumption = solar_yield - solar_returned + grid_consumption
-        - name: "Netto consumption"
-          unit_of_measurement: "kW"
-          state: >-
-            {{ (((states('sensor.pv_power') | float(0)) / 1000 )
-                  - (states('sensor.dsmr_reading_electricity_currently_returned') | float(0))
-                  + (states('sensor.dsmr_reading_electricity_currently_delivered') | float(0))) 
-                  | round(3, default=0) }}
 
   automation:
     # Automation to trigger the upload to PVOutput, using the rest_command defined above
