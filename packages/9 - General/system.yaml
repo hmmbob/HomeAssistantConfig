@@ -105,3 +105,26 @@ system_package:
         - service: persistent_notification.dismiss
           data:
             notification_id: update_pending
+
+  script:
+    light_group_toggle_helper:
+      alias: Light group toggle helper
+      description: "System: Turn all lights in a group on or off based on status of the group"
+      icon: mdi:lightbulb-group
+      mode: single
+      max_exceeded: silent
+      fields:
+        group:
+          description: "The light group to turn on or off"
+      sequence:
+        - condition: "{{ true if group is defined and group != none else false }}"
+        - if:
+            - "{{ is_state(group, 'on') }}"
+          then:
+            - service: homeassistant.turn_off
+              target:
+                entity_id: "{{ group }}"
+          else:
+            - service: homeassistant.turn_on
+              target:
+                entity_id: "{{ group }}"
