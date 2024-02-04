@@ -1,4 +1,12 @@
 bedroom_minicave_package:
+  group:
+    lampen_minicave:
+      name: Verlichting Minicave
+      icon: mdi:lightbulb-multiple-outline
+      entities:
+        - light.ledstrip_mini
+        - light.battletron_ball_light_t
+
   input_boolean:
     notify_power_use_minicave:
       name: Waarschuwing Minicave
@@ -83,11 +91,28 @@ bedroom_minicave_package:
         - platform: numeric_state
           entity_id: sensor.minicave_on_today
           above: 1.5
+          id: weekday
+        - platform: numeric_state
+          entity_id: sensor.minicave_on_today
+          above: 4.0
+          id: weekend
       condition:
-        - alias: "Is it a schoolday?"
-          condition: state
-          entity_id: binary_sensor.schooldag
-          state: "on"
+        - or:
+            - and:
+                - '{{ trigger.id == "weekday" }}'
+                - condition: time
+                  weekday:
+                    - mon
+                    - tue
+                    - wed
+                    - thu
+                    - fri
+            - and:
+                - '{{ trigger.id == "weekend" }}'
+                - condition: time
+                  weekday:
+                    - sat
+                    - sun
       action:
         - service: scene.create
           data:
@@ -132,11 +157,16 @@ bedroom_minicave_package:
             data:
               tag: mini_pc
               notification_icon: mdi:desktop-classic
+              priority: high
+              ttl: 0
         - service: notify.mobile_devices_adults
           data:
-            title: Tijd is om
+            title: Mini's gametijd
             message: >-
-              De Mini heeft nu 1u30 achter de PC gezeten ({{ now().strftime('%H:%M') }}).
+              De Mini heeft nu {{ "1u30" if trigger.id == "weekday" else "4u" }} 
+              achter de PC gezeten ({{ now().strftime('%H:%M') }}).
             data:
               tag: mini_pc
               notification_icon: mdi:desktop-classic
+              priority: high
+              ttl: 0

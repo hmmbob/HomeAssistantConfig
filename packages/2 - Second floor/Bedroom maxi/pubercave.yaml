@@ -1,4 +1,12 @@
 attic_pubercave_package:
+  group:
+    lampen_pubercave:
+      name: Verlichting Pubercave
+      icon: mdi:lightbulb-multiple-outline
+      entities:
+        - light.sonoff_l1
+        - light.battletron_ball_light_m
+
   input_boolean:
     notify_power_use_attic:
       name: Waarschuwing leeslamp & pubercave
@@ -42,19 +50,15 @@ attic_pubercave_package:
       alias: "Notifications: Pubercave PC time over"
       mode: queued
       trigger:
-        - platform: time
-          id: "weekday"
-          at:
-            - "20:45:00"
-        - platform: time
-          id: "weekend"
-          at:
-            - "21:30:00"
+        - platform: numeric_state
+          entity_id: sensor.pubercave_pc_on_today
+          above: 2.0
+          id: weekday
+        - platform: numeric_state
+          entity_id: sensor.pubercave_pc_on_today
+          above: 4.0
+          id: weekend
       condition:
-        - condition: state
-          alias: "Check if PC is on"
-          entity_id: binary_sensor.pubercave_pc
-          state: "on"
         - or:
             - and:
                 - '{{ trigger.id == "weekday" }}'
@@ -72,39 +76,28 @@ attic_pubercave_package:
                     - sat
                     - sun
       action:
-        - service: scene.create
+        - service: notify.mobile_devices_adults
           data:
-            scene_id: snapshot_pubercave
-            snapshot_entities:
-              - light.sonoff_l1
-        - service: light.turn_on
-          target:
-            entity_id: light.sonoff_l1
+            title: Puber PC
+            message: >-
+              De puber zit al {{ "2" if trigger.id == "weekday" else "4" }} uur 
+              achter de PC vandaag ({{ now().strftime('%H:%M') }}).
+            data:
+              tag: puber_pc
+              notification_icon: mdi:desktop-classic
+              priority: high
+              ttl: 0
+        - service: notify.mobile_app_schaduwspeler
           data:
-            color_name: red
-        - delay:
-            seconds: 1
-            milliseconds: 200
-        - repeat:
-            count: 5
-            sequence:
-              - service: light.toggle
-                data: {}
-                target:
-                  entity_id: light.sonoff_l1
-              - delay:
-                  seconds: 1
-                  milliseconds: 200
-              - service: light.toggle
-                data: {}
-                target:
-                  entity_id: light.sonoff_l1
-              - delay:
-                  seconds: 1
-                  milliseconds: 200
-        - service: scene.turn_on
-          data:
-            entity_id: scene.snapshot_pubercave
+            title: Gametijd
+            message: >-
+              Je zit vandaag al {{ "2" if trigger.id == "weekday" else "4" }} uur 
+              achter de PC ({{ now().strftime('%H:%M') }}).
+            data:
+              tag: puber_pc
+              notification_icon: mdi:desktop-classic
+              priority: high
+              ttl: 0
 
     ##########################
     ## Warnings on power usage on kid's bedroom
