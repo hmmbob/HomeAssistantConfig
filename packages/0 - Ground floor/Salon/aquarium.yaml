@@ -11,8 +11,8 @@ aquarium_package:
       has_time: true
 
   automation:
-    - id: aquarium_turn_on_time
-      alias: "Lights: Aquarium turn on"
+    - id: aquarium_lights
+      alias: "Lights: Aquarium turn on/off"
       trigger:
         - platform: time
           at: input_datetime.time_aquarium_on
@@ -20,24 +20,25 @@ aquarium_package:
         - platform: time
           at: input_datetime.time_aquarium_on_weekend
           id: weekend
-      condition:
-        # one of these needs to be true to continue
-        or:
-          - and:
-              - "{{ trigger.id == 'weekday' }}"
-              - "{{ is_state('binary_sensor.schooldag', 'on') }}"
-          - and:
-              - "{{ trigger.id == 'weekend' }}"
-              - "{{ is_state('binary_sensor.schooldag', 'off') }}"
+        - platform: time
+          at: input_datetime.time_aquarium_off
+          id: turn_off
       action:
-        - service: homeassistant.turn_on
-          entity_id: switch.aquarium
-
-    - id: aquarium_turn_off_time
-      alias: "Lights: Aquarium turn off"
-      trigger:
-        platform: time
-        at: input_datetime.time_aquarium_off
-      action:
-        - service: homeassistant.turn_off
-          entity_id: switch.aquarium
+        - alias: "Check if we need to turn it on or off"
+          choose:
+            - conditions:
+                or: # one of these needs to be true to continue
+                  - and:
+                      - "{{ trigger.id == 'weekday' }}"
+                      - "{{ is_state('binary_sensor.schooldag', 'on') }}"
+                  - and:
+                      - "{{ trigger.id == 'weekend' }}"
+                      - "{{ is_state('binary_sensor.schooldag', 'off') }}"
+              sequence:
+                - service: homeassistant.turn_on
+                  entity_id: switch.aquarium
+            - conditions:
+                - "{{ trigger.id == 'turn_off' }}"
+              sequence:
+                - service: homeassistant.turn_off
+                  entity_id: switch.aquarium
