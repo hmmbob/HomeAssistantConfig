@@ -1,0 +1,23 @@
+airco_puber_package:
+  timer:
+    airco_puber_sleeptimer:
+      restore: true
+
+  automation:
+    - id: airco_sleeptimer_puber
+      alias: "Airco: Sleeptimer puber"
+      description: "Turn off AC at the end of the timer"
+      trigger:
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.airco_puber_sleeptimer
+      condition:
+        not:
+          - "{{ states('climate.airco_slaapkamer_m') in ['off', 'unknown','unavailable'] }}"
+      action:
+        - service: climate.set_hvac_mode
+          target:
+            entity_id: climate.airco_slaapkamer_m
+          data:
+            hvac_mode: "off"

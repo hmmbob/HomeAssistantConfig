@@ -1,0 +1,27 @@
+turn_off_when_away_package:
+  automation:
+    - id: turn_off_when_away
+      alias: "Climate: Turn off heating when away"
+      trigger:
+        - platform: state
+          entity_id: zone.home
+          to: "0"
+          for:
+            minutes: 30
+      action:
+        - alias: "Turn off Tado devices that are on (and leave others in current state)"
+          service: climate.set_hvac_mode
+          data:
+            hvac_mode: auto
+          target:
+            entity_id: "{{ integration_entities('tado') | select('is_state', 'heat') | list }}"
+        - alias: "Turn off A/Cs"
+          service: climate.set_hvac_mode
+          data:
+            hvac_mode: "off"
+          target:
+            entity_id:
+              - climate.airco_master_bedroom
+              - climate.airco_slaapkamer_m
+              - climate.airco_slaapkamer_t
+              - climate.airco_woonkamer
