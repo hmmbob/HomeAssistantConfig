@@ -13,20 +13,25 @@ morning_briefing_package:
           hours: "/1"
         - platform: homeassistant
           event: start
-        - platform: event
-          event_type: event_template_reloaded
+          id: ha_start
       action:
+        - if:
+            - condition: trigger
+              id: ha_start
+          then:
+            - delay: # give the weather entity some more time to settle at boot
+                minutes: 2
         - service: weather.get_forecasts
           data:
             type: daily
           target:
-            entity_id: weather.knmi_home
+            entity_id: weather.buienradar
           response_variable: forecast
       sensor:
         - name: KNMI max temp vandaag
           unique_id: knmi_max_temp_vandaag
-          state: "{{ forecast['weather.knmi_home'].forecast[0].temperature }}"
-          availability: "{{ is_number(forecast['weather.knmi_home'].forecast[0].temperature) }}"
+          state: "{{ forecast['weather.buienradar'].forecast[0].temperature }}"
+          availability: "{{ is_number(forecast['weather.buienradar'].forecast[0].temperature) }}"
 
   automation:
     - id: morning_briefing
@@ -40,7 +45,7 @@ morning_briefing_package:
             title: Good morning sunshine!
             message: |
               Vandaag komt de zon op om {{ as_timestamp(state_attr('sun.sun', 'next_rising'))  | timestamp_custom("%H:%M") }}. 
-              Momenteel is het {{ state_attr('weather.knmi_home','temperature') }}C en {{ states('sensor.knmi_home_omschrijving') | lower}}.
+              Momenteel is het {{ state_attr('weather.buienradar','temperature') }}C en {{ states('sensor.knmi_home_omschrijving') | lower}}.
               {{ states('sensor.knmi_home_korte_dagverwachting') }}.
               Max temperatuur wordt {{ states('sensor.knmi_max_temp_vandaag')}}C.
             data:

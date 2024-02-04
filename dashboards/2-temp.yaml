@@ -37,7 +37,7 @@ cards:
         features:
           - type: climate-hvac-modes
             hvac_modes:
-              - 'off'
+              - "off"
               - auto
               - heat
           - type: climate-preset-modes
@@ -45,7 +45,6 @@ cards:
             preset_modes:
               - away
               - home
-
 
       - type: horizontal-stack
         cards:
@@ -98,11 +97,11 @@ cards:
                   margin: 0px 14px 0px 0px;
                 }
             entities:
-              - entity: weather.knmi_home
+              - entity: weather.buienradar
                 attribute: temperature
                 name: Buiten
                 unit: "°C"
-              - entity: sensor.knmi_home_relatieve_luchtvochtigheid
+              - entity: sensor.luchtvochtigheid
                 show_graph: false
                 show_state: true
               - entity: sensor.nightstate

@@ -43,7 +43,7 @@ cards:
             alignment: end
             chips:
               - type: weather
-                entity: weather.knmi_home
+                entity: weather.buienradar
                 show_conditions: true
                 show_temperature: true
 
@@ -604,8 +604,6 @@ cards:
           power_color: true
           scroll_info: true
           show_source: true
-
- 
 
       - type: conditional
         conditions:
