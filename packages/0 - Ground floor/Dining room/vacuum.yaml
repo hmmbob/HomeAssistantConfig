@@ -1,42 +1,4 @@
 vacuum_package:
-  camera:
-    #############################
-    ## Roborock vacuum map      #
-    #############################
-    - platform: xiaomi_cloud_map_extractor
-      host: !secret xiaomi_vacuum_host
-      token: !secret xiaomi_vacuum_token
-      username: !secret xiaomi_cloud_username
-      password: !secret xiaomi_cloud_password
-      name: Stofzuiger
-      scan_interval: 30
-      draw: ["all"]
-      attributes:
-        - calibration_points
-        - charger
-        - cleaned_rooms
-        - country
-        - goto_path
-        - goto_predicted_path
-        - goto
-        - ignored_obstacles_with_photo
-        - ignored_obstacles
-        - image
-        - is_empty
-        - map_name
-        - no_go_areas
-        - no_mopping_areas
-        - obstacles_with_photo
-        - obstacles
-        - path
-        - room_numbers
-        - rooms
-        - vacuum_position
-        - vacuum_room_name
-        - vacuum_room
-        - walls
-        - zones
-
   input_boolean:
     vacuum_enable_ask_for_cleaning:
       name: "Stofzuiger herinnering"
@@ -47,35 +9,6 @@ vacuum_package:
       name: Stofzuiger herinnering tijdstip
       has_time: true
       has_date: false
-
-  template:
-    - sensor:
-        - name: "Vacuum status"
-          unique_id: "vacuum_status"
-          state: '{{ state_attr("vacuum.rocky", "status") }}'
-          icon: mdi:list-status
-
-        - name: "Vacuum error"
-          unique_id: "vacuum_error"
-          icon: mdi:robot-vacuum-alert
-          state: >-
-            {{ iif(is_state('vacuum.rocky', 'error'), state_attr("vacuum.rocky", "error"), "No error") }}
-
-        - name: "Vacuum battery"
-          unique_id: "vacuum_battery"
-          state: '{{ state_attr("vacuum.rocky", "battery_level") }}'
-          device_class: "battery"
-          unit_of_measurement: "%"
-          icon: >-
-            {% set battery_level = states('sensor.vacuum_battery')|int(default=0) %}
-            {% set battery_round = (battery_level / 10)|int * 10 %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
-            {% else %}
-              mdi:battery-alert
-            {% endif %}
 
   automation:
     ##########################
@@ -136,9 +69,8 @@ vacuum_package:
       initial_state: "on"
       trigger:
         - platform: state
-          entity_id: vacuum.rocky
-          from: "cleaning"
-          to: "returning"
+          entity_id: sensor.rocky_status
+          to: "returning_home"
           for:
             hours: 0
             minutes: 0
@@ -146,7 +78,7 @@ vacuum_package:
       condition:
         - alias: "Check if there was major cleaning done"
           condition: numeric_state
-          entity_id: sensor.rocky_current_clean_area
+          entity_id: sensor.rocky_schoonmaakgebied
           above: 3
       action:
         - alias: "Stop Rocky before sending goto command"
@@ -154,11 +86,14 @@ vacuum_package:
           entity_id: vacuum.rocky
         - delay: "00:00:02"
         - alias: "Send Rocky to the trash can"
-          service: xiaomi_miio.vacuum_goto
+          service: vacuum.send_command
           data:
+            command: app_goto_target
+            params:
+              - 30301
+              - 29421
+          target:
             entity_id: vacuum.rocky
-            x_coord: "30301"
-            y_coord: "29421"
         - alias: "Wait for Rocky to arrive at trash can"
           wait_for_trigger:
             - platform: state
@@ -247,47 +182,35 @@ vacuum_package:
           {% endif %}
       trigger:
         - platform: state
-          entity_id: sensor.vacuum_error
+          entity_id: sensor.rocky_vacuum_error
       condition:
         - condition: not
           conditions:
             - condition: state
-              entity_id: sensor.vacuum_error
-              state: "No error"
+              entity_id: sensor.rocky_vacuum_error
+              state: "none"
             - condition: state
-              entity_id: sensor.vacuum_error
+              entity_id: sensor.rocky_vacuum_error
               state: "unavailable"
       action:
         - service: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
-            message: "Foutmelding: {{states('sensor.vacuum_error')}}"
+            message: "Foutmelding: {{states('sensor.rocky_vacuum_error')}}"
             data:
               tag: vacuum
               channel: vacuum
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
-        - service: notify.tts_woonkamer
-          data:
-            message: "De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
-        - service: persistent_notification.create
-          data:
-            notification_id: vacuum_error
-            title: Rocky heeft een probleem
-            message: "⚠ De stofzuiger heeft een probleem. De foutmelding is: {{states('sensor.vacuum_error')}}"
-        - delay: "00:01:00"
-        - service: media_player.turn_off
-          entity_id:
-            - media_player.nest_hub_woonkamer
 
     - alias: "Vacuum: Clear Rocky error mode"
       id: vacuum_clear_notification_error
       description: Clear notification of Rocky error
       trigger:
         - platform: state
-          entity_id: sensor.vacuum_error
-          to: "No error"
+          entity_id: sensor.rocky_vacuum_error
+          to: "none"
       action:
         - service: notify.mobile_devices_adults
           data:
@@ -300,19 +223,3 @@ vacuum_package:
         - service: persistent_notification.dismiss
           data:
             notification_id: vacuum_error
-
-    ##########################
-    ## Disable vacuum camera when docked
-    ##########################
-    - alias: "Vacuum: Camera on/off"
-      id: vacuum_camera_onoff
-      mode: restart
-      trigger:
-        - platform: state
-          entity_id: vacuum.rocky
-        - platform: homeassistant
-          event: start
-      action:
-        - service: >-
-            {{ iif(states('vacuum.rocky') in ['unavailable', 'unknown', 'docked'], "camera.turn_off", "camera.turn_on") }}
-          entity_id: camera.stofzuiger

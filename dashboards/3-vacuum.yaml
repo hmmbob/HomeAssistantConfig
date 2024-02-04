@@ -58,9 +58,11 @@ cards:
             icon: mdi:vacuum
             tap_action:
               action: call-service
-              service: xiaomi_miio.vacuum_clean_segment
+              service: vacuum.send_command
               data:
-                segments: [18, 17]
+                command: app_segment_clean
+                params:
+                  - segments: [18, 17]
               target:
                 entity_id: vacuum.rocky
           - type: entity
@@ -70,9 +72,11 @@ cards:
             icon: mdi:sofa
             tap_action:
               action: call-service
-              service: xiaomi_miio.vacuum_clean_segment
+              service: vacuum.send_command
               data:
-                segments: [17]
+                command: app_segment_clean
+                params:
+                  - segments: [17]
               target:
                 entity_id: vacuum.rocky
           - type: entity
@@ -82,9 +86,11 @@ cards:
             icon: mdi:pot-steam
             tap_action:
               action: call-service
-              service: xiaomi_miio.vacuum_clean_segment
+              service: vacuum.send_command
               data:
-                segments: [18]
+                command: app_segment_clean
+                params:
+                  - segments: [18]
               target:
                 entity_id: vacuum.rocky
           - type: entity
@@ -94,9 +100,11 @@ cards:
             icon: mdi:stairs
             tap_action:
               action: call-service
-              service: xiaomi_miio.vacuum_clean_segment
+              service: vacuum.send_command
               data:
-                segments: [16]
+                command: app_segment_clean
+                params:
+                  - segments: [16]
               target:
                 entity_id: vacuum.rocky
           - type: entity
@@ -106,9 +114,11 @@ cards:
             icon: mdi:washing-machine
             tap_action:
               action: call-service
-              service: xiaomi_miio.vacuum_clean_segment
+              service: vacuum.send_command
               data:
-                segments: [19]
+                command: app_segment_clean
+                params:
+                  - segments: [19]
               target:
                 entity_id: vacuum.rocky
           - type: entity
@@ -118,8 +128,10 @@ cards:
             icon: mdi:television
             tap_action:
               action: call-service
-              service: xiaomi_miio.vacuum_clean_segment
+              service: vacuum.send_command
               data:
-                segments: [20]
+                command: app_segment_clean
+                params:
+                  - segments: [20]
               target:
                 entity_id: vacuum.rocky
