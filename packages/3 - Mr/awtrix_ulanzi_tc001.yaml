@@ -1,0 +1,136 @@
+awtrix_package:
+  mqtt:
+    - number:
+        name: Brightness
+        unique_id: awtrix_6caff8_brightness
+        min: 1
+        max: 255
+        state_topic: awtrix_6caff8/stats
+        value_template: "{{ value_json.bri }}"
+        availability_topic: awtrix_6caff8/10521c6caff8/avty_t
+        command_topic: awtrix_6caff8/settings
+        command_template: ' { "BRI": {{ value }} } '
+        device:
+          identifiers: 10521c6caff8
+          name: awtrix_6caff8
+          sw_version: "0.93" # Needs to be updated when upgrading software!
+          manufacturer: Blueforcer
+          model: AWTRIX Light
+
+  automation:
+    - id: awtrix_start_custom_apps_on_reboot
+      alias: "Awtrix: Start custom apps on Awtrix reboot"
+      description: "Start custom apps on Awtrix reboot"
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: switch.awtrix_6caff8_transition
+          from: "off"
+          to: "on"
+      condition: []
+      action:
+        - service: automation.trigger
+          target:
+            entity_id:
+              - automation.awtrix_send_outside_temperature_to_awtrix
+        - delay: 5
+        - service: automation.trigger
+          target:
+            entity_id:
+              - automation.awtrix_solar_energy_monitor
+        - delay: 5
+        - service: automation.trigger
+          target:
+            entity_id:
+              - automation.awtrix_send_today_s_energy_production_to_awtrix
+
+    - id: awtrix_temperature
+      alias: "Awtrix: Send outside temperature"
+      description: "Send outside temperature to Awtrix"
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: weather.buienradar
+          attribute: temperature
+      condition: []
+      action:
+        - service: mqtt.publish
+          data:
+            topic: awtrix_6caff8/custom/outside_temp
+            payload_template: ' { "text": "{{ state_attr(''weather.buienradar'',''temperature'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
+
+    - id: awtrix_production
+      alias: "Awtrix: Send today's energy production"
+      description: "Awtrix: Send today's energy production to Awtrix"
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: sensor.today_s_pv_generation
+      condition: []
+      action:
+        - service: mqtt.publish
+          data:
+            topic: awtrix_6caff8/custom/production_today
+            payload_template: ' { "text": "{{ states(''sensor.todays_total_production_preserved'') }} kWh", "icon": "52456", "color": "#7bf21f", "duration": 7} '
+
+    - id: awtrix_current_production
+      alias: "Awtrix: Solar Energy Monitor"
+      description: This will show the current solar energy received.
+      mode: single
+      variables:
+        device_topic: awtrix_6caff8/custom/current_production
+        power_sensor: sensor.pv_power
+        power_level: "{{ states[power_sensor].state | int(0) | abs }}"
+        threshold_low: 1500
+        threshold_high: 2500
+        power_level_icon: >-
+          {%- if power_level > threshold_high %}{{54156}}{%- endif %}
+          {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{50557}}{%- endif %}
+          {%- if power_level <= threshold_low %}{{50546}}{%- endif %}
+        power_level_color: >-
+          {%- if power_level > threshold_high %}{{"#04FE04"}}{%- endif %}
+          {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{"#FCFEFC"}}{%- endif %}
+          {%- if power_level <= threshold_low %}{{"#FF4E1A"}}{%- endif %}
+        power_level_text: >-
+          {%- if power_level > 1000  %}{{ ((power_level | float(default=0)) / 1000) | round(1)}} kW{%- else %}{{power_level | round(0)}} W{%- endif %}
+        skip_if_zero_watts: true
+        skip_during_night_hours: true
+        payload: >-
+          {"icon":"{{ power_level_icon }}", "text": "{{ power_level_text }}",  "color": "{{ power_level_color }}"}
+        night_start: >-
+          {{ as_timestamp(state_attr('sun.sun','next_setting'))| timestamp_custom("%H:%M:%S")}}
+        night_end: >-
+          {{ as_timestamp(state_attr('sun.sun','next_rising'))| timestamp_custom("%H:%M:%S")}}
+      trigger:
+        - platform: time_pattern
+          minutes: "/5"
+      condition: []
+      action:
+        - choose:
+            - alias: "Skipping if it is night time"
+              conditions:
+                - condition: template
+                  value_template: >
+                    {% set now_time = now().strftime("%H:%M") %}
+                    {% set night_start = night_start %}
+                    {% set night_end = night_end %}
+                    {{ (skip_during_night_hours and ((now_time < night_end) or (now_time > night_start))) or (skip_if_zero_watts and (power_level == 0)) }}
+              sequence:
+                - service: mqtt.publish
+                  data:
+                    topic: "{{ device_topic }}"
+                    payload: "{}"
+            - alias: "Not skipping when it is day time"
+              conditions:
+                - condition: template
+                  value_template: >
+                    {% set now_time = now().strftime("%H:%M") %}
+                    {% set night_start = night_start %}
+                    {% set night_end = night_end %}
+                    {{ not((skip_during_night_hours and ((now_time < night_end) or (now_time > night_start))) or (skip_if_zero_watts and (power_level == 0))) }}
+              sequence:
+                - service: mqtt.publish
+                  data:
+                    topic: "{{ device_topic }}"
+                    payload: >
+                      {{ payload }}
