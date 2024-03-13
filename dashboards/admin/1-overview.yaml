@@ -28,80 +28,24 @@ cards:
                 border-left: 3px solid rgba(81, 134, 236);
                 }
 
-      - type: custom:auto-entities
-        card:
-          type: entities
-          title: Stofzuiger
-          show_header_toggle: false
-        filter:
-          include:
-            - integration: xiaomi_miio
-        #            - entity_id: vacuum.*
-        #            - entity_id: sensor.vacuum_*
-        sort:
-          method: name
-
-      - type: "custom:vertical-stack-in-card"
-        cards:
-          - type: entities
-            show_header_toggle: false
-            title: HP Color Laser Jet Info
-            entities:
-              - binary_sensor.hp_printer_connectivity
-          - type: "custom:bar-card"
-            align: bottom
-            columns: 4
-            direction: up
-            height: 150px
-            icon_position: inside
-            max: 100
-            min: 0
-            padding: 3px
-            positions:
-              name: outside
-              indicator: "off"
-            target: 20
-            entities:
-              - color: MediumTurquoise
-                entity: sensor.hp_printer_toner_cyan
-                title: Cyan
-              - color: MediumOrchid
-                entity: sensor.hp_printer_toner_magenta
-                title: Magenta
-              - color: Gold
-                entity: sensor.hp_printer_toner_yellow
-                title: Yellow
-              - color: Black
-                entity: sensor.hp_printer_toner_black
-                title: Black
-          - type: markdown
-            content: >
-              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter: **{{ 
-              states('sensor.hp_printer_printer') }}** Pages
-
-              - <ha-icon icon="mdi:cancel"></ha-icon> Print Aborts: **{{ 
-              states('sensor.hp_printer_printer.attributes.Cancelled') }}** Pages
-
-              - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
-              states('sensor.hp_printer_scanner') }}** Pages
-          #- type: markdown ## Weerhuisje header
-          #  content: |
-          #    # Weerhuisje
-          #  card_mod:
-          #    style:
-          #      .: |
-          #        ha-card {
-          #        margin: 12px 14px -5px 14px;
-          #        box-shadow: none;
-          #        --ha-card-background: rgba(0, 0, 0, 0.0)
-          #        }
-          #      ha-markdown$: |
-          #        h1 {
-          #          font-size: 18px !important;
-          #          font-weight: 400 !important;
-          #          padding-left: 10px !important;
-          #          border-left: 3px solid rgba(81, 134, 236);
-          #          }
+      - type: markdown ## Weerhuisje header
+        content: |
+          # Weerhuisje
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 {
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
           #- id: 0bbfd384-57b8-42ae-b6cd-c2ca671f0be4 # Automatically created id
           #  type: custom:auto-entities
           #  card:

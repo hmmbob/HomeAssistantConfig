@@ -33,6 +33,7 @@ logbook:
   exclude:
     entities:
       - sensor.kamertemperatuur
+      - sensor.awtrix_6caff8_current_app
     entity_globs:
       - binary_sensor.pir*
       - binary_sensor.sm_a52*
@@ -58,19 +59,26 @@ logger:
       - "something went wrong updating the airco"
     homeassistant.components.goodwe.coordinator:
       - "No valid response received even after 10 retries"
-    #homeassistant.components.rituals_perfume_genie:
-    #  - "Cannot connect to host"
+    homeassistant.helpers.entity:
+      - "Update of fan.zhimi_cpa4_3bce_air_purifier is taking over 10 seconds"
     pychromecast.socket_client:
       # Mute cast reconnection warnings/errors
       - "Error communicating with socket, resetting connection"
       - "Error reading from socket"
-      - "Failed to connect to service ServiceInfo"
+      - "Failed to connect to service"
       - "Heartbeat timeout, resetting connection"
 
 lovelace:
   mode: yaml
   resources: !include dashboards/resources.yaml
   dashboards:
+    lovelace-rooms:
+      mode: yaml
+      filename: dashboards/room-based/room-based.yaml
+      title: Rooms
+      icon: mdi:home-assistant
+      show_in_sidebar: true
+      require_admin: true
     lovelace-admin:
       mode: yaml
       filename: dashboards/admin/admin.yaml
@@ -102,8 +110,6 @@ recorder:
       - update
     entity_globs:
       - sensor.*_geocoded_*
-      - sensor.*_last_notification
-      - sensor.*_last_removed_notification
       - sensor.*_last_seen
       - sensor.*_linkquality
       - sensor.*_uptime
@@ -122,17 +128,15 @@ recorder:
       - sensor.sun_*
       - sensor.zonneplan_for*
     entities:
+      - sensor.awtrix_6caff8_current_app
       - sensor.droger_dryer_completion_time
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
       - sensor.knmi_all_data
-      - sensor.netto_consumption
-      - sensor.schaduwspeler_aantal_actieve_meldingen
-      - sensor.schaduwspeler_laatste_notificatie
-      - sensor.schaduwspeler_laatste_verwijderde_melding
       - sensor.smartevse_11469_evchargepower
       - sensor.smartevse_11469_evenergycharged
       - sensor.smartevse_total_mains
+      - sensor.todays_total_production_preserved
 
 #################################################################
 ## Includes
@@ -152,18 +156,13 @@ cloud:
 dhcp:
 diagnostics:
 energy:
-hardware:
 homeassistant_alerts:
-input_button:
 media_source:
 mobile_app:
 my:
-network:
-person:
 ssdp:
 stream:
 sun:
-system_health:
 webhook:
 zeroconf:
 

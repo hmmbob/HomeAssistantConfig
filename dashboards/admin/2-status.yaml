@@ -42,6 +42,7 @@ cards:
             - domain: binary_sensor
             - integration: mobile_app
             - entity_id: "*tucson*"
+            - state: "100"
         sort:
           method: state
           numeric: true

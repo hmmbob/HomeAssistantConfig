@@ -38,3 +38,5 @@
   type: module
 - url: /hacsfiles/apexcharts-card/apexcharts-card.js
   type: module
+- url: /hacsfiles/purifier-card/purifier-card.js
+  type: module
