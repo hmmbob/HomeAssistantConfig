@@ -69,17 +69,9 @@ vacuum_package:
       initial_state: "on"
       trigger:
         - platform: state
-          entity_id: sensor.rocky_status
-          to: "returning_home"
-          for:
-            hours: 0
-            minutes: 0
-            seconds: 5
-      condition:
-        - alias: "Check if there was major cleaning done"
-          condition: numeric_state
-          entity_id: sensor.rocky_schoonmaakgebied
-          above: 3
+          entity_id: vacuum.rocky
+          from: "cleaning"
+          to: "returning"
       action:
         - alias: "Stop Rocky before sending goto command"
           service: vacuum.stop
@@ -101,10 +93,6 @@ vacuum_package:
               to: "idle"
           timeout: "00:05:00"
           continue_on_timeout: false
-        - alias: "Make some noise so people know I'm here"
-          service: vacuum.locate
-          target:
-            entity_id: vacuum.rocky
         - service: notify.mobile_devices_adults
           data:
             message: "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het legen op mijn 🏠 toets en ik ga terug naar mijn dock."
@@ -118,19 +106,6 @@ vacuum_package:
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
-        - alias: "Wait for Rocky to return"
-          wait_for_trigger:
-            - platform: state
-              entity_id: vacuum.rocky
-              from: "idle"
-              to: "returning"
-          timeout: "01:00:00"
-          continue_on_timeout: false
-        - service: notify.mobile_devices_adults
-          data:
-            message: clear_notification
-            data:
-              tag: "vacuum"
 
     - alias: "Vacuum: Return to dock"
       id: vacuum_return_to_dock
@@ -145,6 +120,11 @@ vacuum_package:
           alias: "Returning to dock"
           target:
             entity_id: vacuum.rocky
+        - service: notify.mobile_devices_adults
+          data:
+            message: clear_notification
+            data:
+              tag: "vacuum"
 
     ##########################
     ## Notifications
@@ -173,13 +153,13 @@ vacuum_package:
     - alias: "Vacuum: Rocky is in error mode"
       id: vacuum_notification_error
       initial_state: "on"
-      variables:
-        notification_service: >
-          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
-          {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
-          {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
-          {% else %}notify.bogus
-          {% endif %}
+      # variables:
+      #   notification_service: >
+      #     {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+      #     {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
+      #     {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+      #     {% else %}notify.bogus
+      #     {% endif %}
       trigger:
         - platform: state
           entity_id: sensor.rocky_vacuum_error
@@ -193,7 +173,8 @@ vacuum_package:
               entity_id: sensor.rocky_vacuum_error
               state: "unavailable"
       action:
-        - service: "{{ notification_service }}"
+        - service: notify.mobile_app_sm_a526b
+          # service: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
             message: "Foutmelding: {{states('sensor.rocky_vacuum_error')}}"
@@ -220,6 +201,3 @@ vacuum_package:
               ttl: 0
               channel: vacuum
               priority: high
-        - service: persistent_notification.dismiss
-          data:
-            notification_id: vacuum_error

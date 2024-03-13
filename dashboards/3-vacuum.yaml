@@ -135,3 +135,18 @@ cards:
                   - segments: [20]
               target:
                 entity_id: vacuum.rocky
+          - type: entity
+            entity: vacuum.rocky
+            name: Rocky legen
+            content_info: name
+            icon: mdi:delete-empty
+            tap_action:
+              action: call-service
+              service: vacuum.send_command
+              data:
+                command: app_goto_target
+                params:
+                  - 30301
+                  - 29421
+              target:
+                entity_id: vacuum.rocky
