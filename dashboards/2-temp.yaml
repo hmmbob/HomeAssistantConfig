@@ -97,11 +97,10 @@ cards:
                   margin: 0px 14px 0px 0px;
                 }
             entities:
-              - entity: weather.buienradar
-                attribute: temperature
+              - entity: sensor.knmi_temperatuur
                 name: Buiten
                 unit: "°C"
-              - entity: sensor.luchtvochtigheid
+              - entity: sensor.knmi_luchtvochtigheid
                 show_graph: false
                 show_state: true
               - entity: sensor.nightstate

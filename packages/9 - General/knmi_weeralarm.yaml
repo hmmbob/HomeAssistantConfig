@@ -1,0 +1,6 @@
+knmi_weeralarm_package:
+  binary_sensor:
+    - platform: meteoalarm
+      country: "netherlands"
+      province: "Brabant"
+      language: "nl-NL"

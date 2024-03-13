@@ -7,32 +7,6 @@ morning_briefing_package:
       name: Start morning briefing
       has_time: true
 
-  template:
-    - trigger:
-        - platform: time_pattern
-          hours: "/1"
-        - platform: homeassistant
-          event: start
-          id: ha_start
-      action:
-        - if:
-            - condition: trigger
-              id: ha_start
-          then:
-            - delay: # give the weather entity some more time to settle at boot
-                minutes: 2
-        - service: weather.get_forecasts
-          data:
-            type: daily
-          target:
-            entity_id: weather.buienradar
-          response_variable: forecast
-      sensor:
-        - name: KNMI max temp vandaag
-          unique_id: knmi_max_temp_vandaag
-          state: "{{ forecast['weather.buienradar'].forecast[0].temperature }}"
-          availability: "{{ is_number(forecast['weather.buienradar'].forecast[0].temperature) }}"
-
   automation:
     - id: morning_briefing
       alias: "Notifications: Morning briefing"
@@ -43,11 +17,11 @@ morning_briefing_package:
         - service: notify.mobile_devices_papa_and_mini
           data:
             title: Good morning sunshine!
-            message: |
-              Vandaag komt de zon op om {{ as_timestamp(state_attr('sun.sun', 'next_rising'))  | timestamp_custom("%H:%M") }}. 
-              Momenteel is het {{ state_attr('weather.buienradar','temperature') }}C en {{ states('sensor.knmi_home_omschrijving') | lower}}.
-              {{ states('sensor.knmi_home_korte_dagverwachting') }}.
-              Max temperatuur wordt {{ states('sensor.knmi_max_temp_vandaag')}}C.
+            message: >-
+              Vandaag komt de zon op om {{ as_timestamp(state_attr('sun.sun', 'next_rising'))  | timestamp_custom("%H:%M") }} en 
+              wordt het {{ states('sensor.knmi_max_temperatuur_vandaag', with_unit=True)}}.
+              Momenteel is het {{ states('sensor.knmi_temperatuur', with_unit=True) }} en {{ states('sensor.knmi_omschrijving') | lower}}.
+              {{ states('sensor.knmi_weersverwachting') }}.
             data:
               tag: "morning-brief"
               notification_icon: mdi:weather-sunset-up

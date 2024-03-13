@@ -50,14 +50,13 @@ awtrix_package:
       mode: single
       trigger:
         - platform: state
-          entity_id: weather.buienradar
-          attribute: temperature
+          entity_id: sensor.knmi_temperatuur
       condition: []
       action:
         - service: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/outside_temp
-            payload_template: ' { "text": "{{ state_attr(''weather.buienradar'',''temperature'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
+            payload_template: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
 
     - id: awtrix_production
       alias: "Awtrix: Send today's energy production"

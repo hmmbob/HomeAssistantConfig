@@ -43,7 +43,7 @@ cards:
             alignment: end
             chips:
               - type: weather
-                entity: weather.buienradar
+                entity: weather.knmi_home
                 show_conditions: true
                 show_temperature: true
 
@@ -68,39 +68,56 @@ cards:
             entity: !secret person_mini
             use_entity_picture: true
 
-      #- type: conditional ## Conditional alerts
-      #  conditions:
-      #    - entity: sensor.knmi_weeralarm_noord_brabant
-      #      state_not: "Code Groen"
-      #  card:
-      #    type: custom:mushroom-template-card
-      #    card_mod:
-      #      style: |
-      #        ha-card {
-      #          margin: 0px 14px -5px 14px;
-      #        }
-      #    primary: "KNMI: {{ states('sensor.knmi_weeralarm_noord_brabant')}}"
-      #    secondary: "{{ state_attr('sensor.knmi_weeralarm_noord_brabant', 'warning') }}"
-      #    icon: |-
-      #      {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
-      #        mdi:alert-circle
-      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
-      #        mdi:alert-decagram
-      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
-      #        mdi:alert
-      #      {% endif %}
-      #    icon_color: |-
-      #      {% if is_state('sensor.knmi_weeralarm_noord_brabant','Code Geel') %}
-      #        yellow
-      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Oranje') %}
-      #        orange
-      #      {% elif is_state('sensor.knmi_weeralarm_noord_brabant','Code Rood') %}
-      #        red
-      #      {% endif %}
-      #    tap_action:
-      #      action: url
-      #      url_path: https://www.knmi.nl/nederland-nu/weer/waarschuwingen/noord-brabant
-      #    multiline_secondary: true
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.meteoalarm
+            state_not: "off"
+          - entity: binary_sensor.meteoalarm
+            state_not: "unknown"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:mushroom-template-card
+              primary: >-
+                {{ (state_attr('binary_sensor.meteoalarm','senderName')).split()[0]  }} WeerCode :
+                {% if (state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'green' %}Groen {% endif %}
+                {% if (state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'yellow' %}Geel{% endif %}
+                {% if(state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'orange' %}Oranje{% endif %}
+                {% if(state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'red' %}Rood{% endif %}
+                  (Noord-Brabant)
+              secondary: >-
+                {{ (state_attr('binary_sensor.meteoalarm', 'description')) }}
+                Van {{ as_timestamp(state_attr('binary_sensor.meteoalarm','onset')) | timestamp_custom('%d-%m %H:%M') }} 
+                tot {{ as_timestamp(state_attr('binary_sensor.meteoalarm','expires')) | timestamp_custom('%d-%m %H:%M') }}
+              icon: |-
+                {% if is_state('sensor.knmi_weercode', 'Groen') %}
+                  mdi:alert-circle-check
+                {% elif is_state('sensor.knmi_weercode', 'Geel') %}
+                  mdi:alert-decagram
+                {% else %}
+                  mdi:alert
+                {% endif %}
+              icon_color: >-
+                {% if (state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'green' %}
+                  green
+                {% endif %}
+                {% if (state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'yellow' %}
+                  yellow
+                {% endif %}
+                {% if (state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'orange' %}
+                  orange
+                {% endif %}
+                {% if (state_attr('binary_sensor.meteoalarm','awareness_level')).split('; ')[1] == 'red' %}
+                  red
+                {% endif %}
+              fill_container: false
+              multiline_secondary: true
+              tap_action:
+                action: url
+                url_path: >-
+                  https://www.knmi.nl/nederland-nu/weer/waarschuwingen/noord-brabant
+              double_tap_action:
+                action: more-info
 
       - type: conditional ## Conditional UV
         conditions:

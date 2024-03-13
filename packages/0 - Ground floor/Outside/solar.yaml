@@ -58,7 +58,7 @@ solar_package:
         &t={{now().strftime("%H:%M")}}
         &v1={{(states('sensor.today_s_pv_generation')|float(0))*1000}}
         &v2={{(states('sensor.pv_power')|float(0))|round(0)}}
-        &v5={{state_attr('weather.buienradar', 'temperature')|float(0)}}
+        &v5={{states('sensor.knmi_temperatuur')|float(0)}}
         &v6={{states('sensor.on_grid_l1_voltage')|float(0)}}
 
   automation:
