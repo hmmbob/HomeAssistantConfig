@@ -67,7 +67,6 @@ google_home_volume_package:
                     entity_id:
                       - media_player.slaapkamer_t
                       - media_player.kantoor
-                      - media_player.zolder
                     volume_level: 0.2
             - alias: "It's between 20:30 and 7hrs"
               conditions:

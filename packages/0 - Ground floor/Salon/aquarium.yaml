@@ -13,6 +13,7 @@ aquarium_package:
   automation:
     - id: aquarium_lights
       alias: "Lights: Aquarium turn on/off"
+      mode: queued
       trigger:
         - platform: time
           at: input_datetime.time_aquarium_on

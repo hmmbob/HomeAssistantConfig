@@ -43,6 +43,7 @@ ventilation_package:
 
     - id: ventilation_set_speed
       alias: "Ventilation: set speed"
+      mode: queued
       trigger:
         - platform: time
           id: "time"
