@@ -1,0 +1,86 @@
+####################
+# Office           #
+####################
+path: office
+title: Kantoor
+icon: mdi:chair-school
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Kantoor
+        alignment: justify
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+          - type: entity
+            entity: sensor.xiaomi_temperature_humidity_sensor_2_temperature
+            icon_color: orange
+          - type: entity
+            entity: sensor.xiaomi_temperature_humidity_sensor_2_humidity
+            icon_color: indigo
+
+      - type: thermostat
+        entity: climate.kantoor
+        card_mod:
+          style: |
+            ha-card {
+              box-shadow: var(--card-box-shadow);
+            }
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - heat
+
+      - type: custom:mini-media-player
+        entity: media_player.kantoor
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - type: "custom:vertical-stack-in-card"
+        cards:
+          - type: entities
+            show_header_toggle: false
+            title: HP Color Laser Jet Info
+            entities:
+              - binary_sensor.hp_printer_connectivity
+          - type: "custom:bar-card"
+            align: bottom
+            columns: 4
+            direction: up
+            height: 150px
+            icon_position: inside
+            max: 100
+            min: 0
+            padding: 3px
+            positions:
+              name: outside
+              indicator: "off"
+            target: 20
+            entities:
+              - color: MediumTurquoise
+                entity: sensor.hp_printer_toner_cyan
+                title: Cyan
+              - color: MediumOrchid
+                entity: sensor.hp_printer_toner_magenta
+                title: Magenta
+              - color: Gold
+                entity: sensor.hp_printer_toner_yellow
+                title: Yellow
+              - color: Black
+                entity: sensor.hp_printer_toner_black
+                title: Black
+          - type: markdown
+            content: >
+              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter: **{{ 
+              states('sensor.hp_printer_printer') }}** Pages
+
+              - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
+              states('sensor.hp_printer_scanner') }}** Pages

@@ -1,0 +1,149 @@
+####################
+# Bed room maxi    #
+####################
+path: bed-room-maxi
+title: Bed room maxi
+icon: mdi:bed-queen
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Slaapkamer M
+        alignment: justify
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+          - type: entity
+            entity: sensor.slaapkamer_m_temperatuur
+            icon_color: orange
+          - type: entity
+            entity: sensor.slaapkamer_m_luchtvochtigheid
+            icon_color: indigo
+          - type: template
+            entity: group.lampen_pubercave
+            icon: mdi:led-strip-variant
+            icon_color: |-
+              {% set r = state_attr('light.battletron_ball_light_m', 'rgb_color')[0] %}
+              {% set g = state_attr('light.battletron_ball_light_m', 'rgb_color')[1] %}
+              {% set b = state_attr('light.battletron_ball_light_m', 'rgb_color')[2] %}
+              {% if is_state('light.battletron_ball_light_m', 'on') %}
+                #{{ '%02x%02x%02x' | format(r, g, b) }}
+              {% endif %}
+            content: |-
+              {{ expand(state_attr('group.lampen_pubercave', 'entity_id')) | selectattr('state','eq','on') |
+                  map(attribute='entity_id') | list | count }} lamp(en) aan
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: "De PC staat {{ 'aan' if is_state('binary_sensor.is_pubercave_pc_on','on') else 'uit' }}"
+            secondary: "Totaal vandaag: {{ ((states('sensor.pubercave_pc_on_today') | float) * 3600) | timestamp_custom('%H:%M:%S', false) }}"
+            entity: binary_sensor.is_pubercave_pc_on
+            icon: >-
+              {{ "mdi:monitor" if is_state('binary_sensor.is_pubercave_pc_on','on') else "mdi:monitor-off" }}
+            icon_color: >-
+              {{ "green" if is_state('binary_sensor.is_pubercave_pc_on','on') else "disabled" }}
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: "De TV staat {{ 'aan' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'uit' }}"
+            secondary: "Totaal vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%H:%M:%S', false) }}"
+            entity: binary_sensor.is_pubercave_tv_on
+            icon: >-
+              {{ "mdi:television" if is_state('binary_sensor.is_pubercave_tv_on','on') else "mdi:television-off" }}
+            icon_color: >-
+              {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
+            tap_action:
+              action: more-info
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: "Het leeslampje staat {{ 'aan' if is_state('binary_sensor.is_pubercave_leeslampje_on','on') else 'uit' }}"
+            entity: binary_sensor.is_pubercave_leeslampje_on
+            icon: >-
+              {{ "mdi:desk-lamp" if is_state('binary_sensor.is_pubercave_leeslampje_on','on') else "mdi:desk-lamp-off" }}
+            icon_color: >-
+              {{ "yellow" if is_state('binary_sensor.is_pubercave_leeslampje_on','on') else "disabled" }}
+            tap_action:
+              action: more-info
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.sonoff_l1
+            icon: mdi:led-strip-variant
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.battletron_ball_light_m
+            icon: mdi:circle
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
+
+      - type: thermostat
+        entity: climate.airco_slaapkamer_m
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only
+
+      - type: custom:flower-card
+        entity: plant.dracaena
+        battery_sensor: sensor.xiaomi_plant_sensor_1_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+
+      - type: custom:mini-media-player
+        entity: media_player.zolder
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - type: conditional
+        conditions:
+          - entity: media_player.tv_zolder
+            state_not:
+              - "off"
+              - "idle"
+              - "unavailable"
+        card:
+          type: custom:mini-media-player
+          card_mod:
+            style: |
+              ha-card {
+              margin: 0px 14px -5px 14px;
+              }
+          entity: media_player.tv_zolder
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true

@@ -1,0 +1,76 @@
+####################
+# Master bed room  #
+####################
+path: mbr
+title: master bed room
+icon: mdi:bed-double
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Master bed room
+        alignment: justify
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+          - type: entity
+            entity: sensor.master_bedroom_temperatuur
+            icon_color: orange
+          - type: entity
+            entity: sensor.master_bedroom_luchtvochtigheid
+            icon_color: indigo
+          - type: template
+            entity: switch.inloopkast
+            icon: mdi:lightbulb
+            icon_color: |-
+              {{ "orange" if is_state('switch.inloopkast', 'on') else "grey" }}
+            content: |-
+              {{ "1" if is_state('switch.inloopkast', 'on') else "0" }} lampen aan
+
+      - type: thermostat
+        entity: climate.airco_master_bedroom
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only
+
+      - type: "custom:purifier-card"
+        entity: fan.zhimi_cpa4_3bce_air_purifier
+        show_name: true
+        show_state: true
+        show_toolbar: true
+        compact_view: true
+        aqi:
+          entity_id: sensor.zhimi_cpa4_3bce_pm25_density
+        stats:
+          - entity_id: sensor.zhimi_cpa4_3bce_filter_used_time
+            subtitle: Filter used time
+            unit: hours
+          - entity_id: sensor.zhimi_cpa4_3bce_filter_life_level
+            unit: "%"
+            subtitle: Filter Remaining
+          - entity_id: sensor.zhimi_cpa4_3bce_filter_left_time
+            subtitle: Filter left time
+            unit: days
+        shortcuts:
+          - name: Sleep
+            icon: "mdi:weather-night"
+            preset_mode: Sleep
+          - name: Auto
+            icon: "mdi:brightness-auto"
+            preset_mode: Auto
+
+      - type: custom:mini-media-player
+        entity: media_player.tv_slaapkamer
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true

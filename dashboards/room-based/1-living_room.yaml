@@ -1,0 +1,136 @@
+####################
+# Living room      #
+####################
+path: living-room
+title: Living room
+icon: mdi:sofa-outline
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Woonkamer
+        alignment: justify
+        card_mod:
+          style: |
+            ha-card {
+              padding: 10px 12px 0px !important;
+            }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+          - type: entity
+            entity: sensor.woonkamer_temperature
+            icon_color: orange
+          - type: entity
+            entity: sensor.woonkamer_humidity
+            icon_color: indigo
+          - type: template
+            entity: group.lampen_woonkamer
+            icon: mdi:lightbulb-group
+            icon_color: |-
+              {{ "orange" if is_state('group.lampen_woonkamer', 'on') else "grey" }}
+            content: |-
+              {{ expand(state_attr('group.lampen_woonkamer', 'entity_id')) | selectattr('state','eq','on') |
+                  map(attribute='entity_id') | list | count }} lampen aan
+          - type: template
+            entity: switch.genie
+            icon: mdi:scent
+            icon_color: >-
+              {{ "green" if is_state('switch.genie', 'on') else "grey" }}
+            content: |-
+              Genie {{ "aan" if is_state('switch.genie', 'on') else "uit" }}
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.spots_vaas
+            icon: mdi:lightbulb-spot
+            show_brightness_control: true
+            collapsible_controls: true
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.spots_woonkamer
+            icon: mdi:sofa
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: true
+
+      - type: thermostat
+        entity: climate.airco_woonkamer
+        features:
+          - type: climate-hvac-modes
+            hvac_modes:
+              - "off"
+              - auto
+              - cool
+              - dry
+              - heat
+              - fan_only
+
+      - type: custom:flower-card
+        entity: plant.pachira
+        battery_sensor: sensor.xiaomi_plant_sensor_5_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+
+      - type: custom:flower-card
+        entity: plant.hangplant
+        battery_sensor: sensor.xiaomi_plant_sensor_2_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
+
+      - type: custom:mini-media-player
+        entity: media_player.sonos_woonkamer
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - type: conditional
+        conditions:
+          - entity: media_player.nest_hub_woonkamer
+            state_not: "off"
+        card:
+          type: custom:mini-media-player
+          entity: media_player.nest_hub_woonkamer
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+
+      - type: conditional
+        conditions:
+          - entity: media_player.tv_in_woonkamer
+            state_not:
+              - "off"
+              - "unavailable"
+              - "idle"
+        card:
+          type: custom:mini-media-player
+          entity: media_player.tv_in_woonkamer
+          icon: mdi:cast
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
