@@ -1,40 +1,25 @@
 dus_waiting_times_package:
-  rest:
+  multiscrape:
     ##########################
     ## DUS Waiting times
     ##########################
-    - resource: https://www.dus.com/api/sitecore/flightapi/WaitingTimes?lang=de
+    - name: dus_airport_waiting_times
+      resource: https://www.dus.com/api/sitecore/flightapi/WaitingTimes?lang=de
       headers:
         X-Requested-With: XMLHttpRequest
       scan_interval: 300
+      timeout: 5
+      parser: lxml
       sensor:
         - name: "Wachttijd A-gates"
           icon: mdi:airplane-clock
           value_template: "{{ value_json.data.0.waitingTime | default(0) }}"
-          json_attributes_path: "$.data.0"
-          json_attributes:
-            - name
-            - waitingTime
-            - gateTerminal
-            - waitingTimeText
           unit_of_measurement: min
         - name: "Wachttijd B-gates"
           icon: mdi:airplane-clock
           value_template: "{{ value_json.data.1.waitingTime | default(0)}}"
-          json_attributes_path: "$.data.1"
-          json_attributes:
-            - name
-            - waitingTime
-            - gateTerminal
-            - waitingTimeText
           unit_of_measurement: min
         - name: "Wachttijd C-gates"
           icon: mdi:airplane-clock
           value_template: "{{ value_json.data.2.waitingTime | default(0)}}"
-          json_attributes_path: "$.data.2"
-          json_attributes:
-            - name
-            - waitingTime
-            - gateTerminal
-            - waitingTimeText
           unit_of_measurement: min

@@ -10,6 +10,7 @@ gas_prices_package:
     - name: gasprices
       resource: !secret scrape_url_tinq
       scan_interval: 3594 # little bit less than 1hr
+      timeout: 5
       sensor:
         - unique_id: benzine
           name: "Benzine"
