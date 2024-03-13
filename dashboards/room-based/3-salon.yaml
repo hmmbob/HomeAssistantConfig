@@ -1,0 +1,103 @@
+####################
+# Salon    #
+####################
+path: salon
+title: Salon
+icon: mdi:sofa
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Salon
+        alignment: justify
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+          - type: entity
+            entity: sensor.salon_temperatuur
+            icon_color: orange
+          - type: entity
+            entity: sensor.salon_luchtvochtigheid
+            icon_color: indigo
+          - type: template
+            entity: group.lampen_salon
+            icon: mdi:lightbulb-group
+            icon_color: |-
+              {{ "orange" if is_state('group.lampen_salon', 'on') else "grey" }}
+            content: |-
+              {{ expand(state_attr('group.lampen_salon', 'entity_id')) | selectattr('state','eq','on') |
+                  map(attribute='entity_id') | list | count }} lampen aan
+          - type: template
+            entity: switch.aquarium
+            icon: mdi:fishbowl-outline
+            icon_color: |-
+              {{ "blue" if is_state('switch.aquarium', 'on') else "grey" }}
+            content: |-
+              Aquarium {{ "aan" if is_state('switch.aquarium', 'on') else "uit" }}
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.salon
+            icon: mdi:ceiling-light-multiple
+            show_brightness_control: true
+            collapsible_controls: true
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.staande_lamp_switch
+            icon: mdi:floor-lamp
+            fill_container: false
+            show_brightness_control: false
+            collapsible_controls: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.grijze_lamp
+            icon: mdi:lamp
+            show_brightness_control: false
+            collapsible_controls: true
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.tv_kastje
+            icon: mdi:television
+            fill_container: false
+            show_brightness_control: false
+            collapsible_controls: true
+
+      - type: custom:mini-media-player
+        entity: media_player.soundbar
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - type: custom:mini-media-player
+        entity: media_player.tv_salon
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true

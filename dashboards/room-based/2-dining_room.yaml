@@ -1,0 +1,86 @@
+####################
+# Dining room      #
+####################
+path: dining-room
+title: Dining room
+icon: mdi:table-chair
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Eetkamer
+        alignment: justify
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: back
+          - type: entity
+            entity: sensor.woonkamer_temperature
+            icon_color: orange
+          - type: entity
+            entity: sensor.woonkamer_humidity
+            icon_color: indigo
+          - type: template
+            entity: group.lampen_eetkamer
+            icon: mdi:lightbulb-group
+            icon_color: |-
+              {{ "orange" if is_state('group.lampen_eetkamer', 'on') else "grey" }}
+            content: |-
+              {{ expand(state_attr('group.lampen_eetkamer', 'entity_id')) | selectattr('state','eq','on') |
+                  map(attribute='entity_id') | list | count }} lampen aan
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.spots_eetkamer
+            icon: mdi:table-chair
+            show_brightness_control: true
+            collapsible_controls: true
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.eetkamer_tafel
+            icon: mdi:globe-light-outline
+            show_brightness_control: true
+            collapsible_controls: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.spots_keuken
+            icon: mdi:countertop
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: true
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.spots_vaas
+            icon: mdi:lightbulb-spot
+            show_brightness_control: true
+            collapsible_controls: true
+
+      - type: custom:flower-card
+        entity: plant.rubberboom
+        battery_sensor: sensor.xiaomi_plant_sensor_6_battery
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance

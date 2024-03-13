@@ -1,0 +1,87 @@
+####################
+# Locations        #
+####################
+path: locations
+title: Locatie
+icon: mdi:crosshairs-gps
+visible:
+  - user: 510b1afef60640d7a220711c50b2192a # BL
+  - user: 40059eb4e4d142688185485ed2e1ebbb # BV
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown ## Location header
+        content: |
+          # Location
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 {  
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: custom:mushroom-chips-card
+        card_mod:
+          style: |
+            ha-card {
+              margin: 0px 14px -5px 14px;
+            }
+        alignment: justify
+        chips:
+          - type: entity
+            entity: person.bob
+            use_entity_picture: true
+          - type: entity
+            entity: !secret person_mw
+            use_entity_picture: true
+          - type: entity
+            entity: !secret person_puber
+            use_entity_picture: true
+          - type: entity
+            entity: !secret person_mini
+            use_entity_picture: true
+
+      #          - type: custom:multiple-entity-row
+      #            entity: sensor.wachttijd_a_gates
+      #            icon: mdi:airplane-clock
+      #            show_state: false
+      #            name: Wachttijden DUS
+      #            entities:
+      #              - entity: sensor.wachttijd_a_gates
+      #                name: A-pier
+      #              - entity: sensor.wachttijd_b_gates
+      #                name: B-pier
+      #              - entity: sensor.wachttijd_c_gates
+      #                name: C-pier
+
+      - type: map
+        card_mod:
+          style: |
+            ha-card {
+              margin: 0px 14px -5px 14px;
+              width: 94% !important;
+            }
+        entities:
+          - person.bob
+          - !secret person_mw
+          - !secret person_mini
+          - !secret person_puber
+          - zone.breda
+          - zone.cz
+          - zone.home
+          - zone.mc
+          - zone.ploeterklas
+          - zone.school
+          - zone.school_mini
+          - zone.scouting
+          - zone.work
+          - zone.work_ms

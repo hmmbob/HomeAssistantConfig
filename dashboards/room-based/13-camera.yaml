@@ -1,0 +1,29 @@
+####################
+# Camera           #
+####################
+path: camera
+title: Camera
+icon: mdi:cctv
+cards:
+  - type: markdown ## Updates header
+    content: |
+      # Voordeur live video
+    card_mod:
+      style:
+        .: |
+          ha-card {
+          margin: 12px 14px -5px 14px;
+          box-shadow: none;
+          --ha-card-background: rgba(0, 0, 0, 0.0)
+          }
+        ha-markdown$: |
+          h1 { 
+            font-size: 18px !important;
+            font-weight: 400 !important;
+            padding-left: 10px !important;
+            border-left: 3px solid rgba(81, 134, 236);
+            }
+
+  - type: "custom:webrtc-camera"
+    url: "rtsp://192.168.88.32:8554/voordeur"
+    background: true # run stream when not displayed (ex. for quick video loading), default false
