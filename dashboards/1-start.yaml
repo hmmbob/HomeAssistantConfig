@@ -496,15 +496,14 @@ cards:
                 format: duration-h
                 hide_if: 0
 
-      #          - type: custom:multiple-entity-row
-      #            entity: binary_sensor.door_sensor_2_contact
-      #            show_state: false
-      #            state_color: true
-      #            name: Deuren
-      #            entities:
-      #              - binary_sensor.door_sensor_2_contact
-      #              - binary_sensor.door_sensor_1_contact
-      #          - cover.zolder
+          - type: custom:multiple-entity-row
+            entity: binary_sensor.poort_contact
+            show_state: false
+            state_color: true
+            name: Tuin
+            entities:
+              - binary_sensor.poort_contact
+              - binary_sensor.fietsenhok_contact
 
       - type: conditional ## Conditional media_players
         conditions:

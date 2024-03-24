@@ -1,4 +1,8 @@
 lights_garden_package:
+  input_boolean:
+    garden_lights_override:
+      name: "Tuinverlichting override"
+
   sensor:
     - platform: schedule_state
       name: Garden lights
@@ -31,7 +35,45 @@ lights_garden_package:
         - alias: "Do we have a valid state"
           condition: template
           value_template: "{{ states('sensor.garden_lights') not in ['unknown','unavailable','none'] }}"
+        - alias: "Only continue if not overridden"
+          condition: state
+          entity_id: input_boolean.garden_lights_override
+          state: "off"
       action:
         - service: light.turn_{{ states('sensor.garden_lights') }}
           target:
             entity_id: light.tuinverlichting
+
+    - id: garden_turn_on_coming_home
+      alias: "Lights: Garden turn on when coming home"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.poort_contact
+          from: "off"
+          to: "on"
+      condition:
+        - alias: "Are the lights off?"
+          condition: state
+          entity_id: light.tuinverlichting
+          state: "off"
+        - alias: "Is the sun down?"
+          condition: state
+          entity_id: sun.sun
+          state: "below_horizon"
+        - alias: "Did I just come home?"
+          condition: template
+          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.person.bob.last_changed)) < 120 }}"
+      action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.garden_lights_override
+        - service: light.turn_on
+          target:
+            entity_id: light.tuinverlichting
+        - delay: "00:03:00"
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.garden_lights_override
+        - service: automation.trigger
+          target:
+            entity_id: automation.lights_garden_turn_on
