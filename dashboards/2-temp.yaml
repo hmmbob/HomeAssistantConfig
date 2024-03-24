@@ -82,6 +82,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)
@@ -120,6 +121,7 @@ cards:
                 color: "#e5ff00"
               - value: 28
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             icon: "mdi:thermometer"
@@ -163,6 +165,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)
@@ -200,6 +203,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)
@@ -240,6 +244,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)
@@ -277,6 +282,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)
@@ -317,6 +323,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)
@@ -354,6 +361,7 @@ cards:
                 color: "#e5ff00"
               - value: 23
                 color: "#d35400"
+            decimals: 1
             font_size: 75
             hour24: true
             line_color: var(--accent-color)

@@ -105,7 +105,7 @@ attic_pubercave_package:
       trigger:
         - platform: time
           at:
-            - "20:45:00"
+            - "21:00:00"
       condition:
         - condition: state
           alias: "Check if PC is on"
