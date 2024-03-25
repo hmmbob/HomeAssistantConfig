@@ -31,10 +31,10 @@ aquarium_package:
                 or: # one of these needs to be true to continue
                   - and:
                       - "{{ trigger.id == 'weekday' }}"
-                      - "{{ is_state('binary_sensor.schooldag', 'on') }}"
+                      - "{{ is_state('binary_sensor.werkdag', 'on') }}"
                   - and:
                       - "{{ trigger.id == 'weekend' }}"
-                      - "{{ is_state('binary_sensor.schooldag', 'off') }}"
+                      - "{{ is_state('binary_sensor.werkdag', 'off') }}"
               sequence:
                 - service: homeassistant.turn_on
                   entity_id: switch.aquarium
