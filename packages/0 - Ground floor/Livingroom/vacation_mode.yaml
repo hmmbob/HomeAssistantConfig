@@ -72,37 +72,3 @@ vacation_mode_package:
           data:
             message: I turned your lights off at {{ now().strftime('%H:%M') }}.
             title: Vacation lights
-#    #############################
-#    ## Vacation alarm           #
-#    #############################
-#    - id: vacation_movement_inside
-#      alias: "System: movement while vacation mode is on"
-#      initial_state: on
-#      trigger:
-#        - platform: state
-#          entity_id:
-#            #            - binary_sensor.pir_woonkamer_motion
-#            - binary_sensor.pir_gang_sensor
-#          from: "off"
-#          to: "on"
-#      condition:
-#        - condition: state
-#          entity_id: input_boolean.vacation_mode_away
-#          state: "on"
-#      action:
-#        - service: notify.mobile_app_sm_a526b
-#          data:
-#            message: Someone is moving around your house.... ({{ now().strftime('%H:%M') }})
-#            title: Creepers
-#            data:
-#              tag: house-alarm
-#              ttl: 0
-#              channel: house-alarm
-#              priority: high
-#              icon_url: "https://alerts.home-assistant.io/images/favicon.png"
-#              notification_icon: "mdi:alert"
-#        - service: logbook.log
-#          data:
-#            name: Vacation
-#            message: Movement detected at {{ now().strftime('%H:%M') }}.
-#            domain: binary_sensor

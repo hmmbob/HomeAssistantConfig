@@ -153,13 +153,13 @@ vacuum_package:
     - alias: "Vacuum: Rocky is in error mode"
       id: vacuum_notification_error
       initial_state: "on"
-      # variables:
-      #   notification_service: >
-      #     {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
-      #     {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
-      #     {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
-      #     {% else %}notify.bogus
-      #     {% endif %}
+      variables:
+        notification_service: >
+          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+          {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
+          {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+          {% else %}notify.bogus
+          {% endif %}
       trigger:
         - platform: state
           entity_id: sensor.rocky_vacuum_error
@@ -173,8 +173,7 @@ vacuum_package:
               entity_id: sensor.rocky_vacuum_error
               state: "unavailable"
       action:
-        - service: notify.mobile_app_sm_a526b
-          # service: "{{ notification_service }}"
+        - service: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
             message: "Foutmelding: {{states('sensor.rocky_vacuum_error')}}"

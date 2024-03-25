@@ -61,8 +61,6 @@ logger:
       - "No valid response received even after 10 retries"
     homeassistant.helpers.entity:
       - "Update of fan.zhimi_cpa4_3bce_air_purifier is taking over 10 seconds"
-    hyundai_kia_connect_api.KiaUvoApiEU:
-      - "Failed to parse driving info"
     pychromecast.socket_client:
       # Mute cast reconnection warnings/errors
       - "Error communicating with socket, resetting connection"
