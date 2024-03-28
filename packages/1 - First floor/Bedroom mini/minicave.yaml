@@ -143,13 +143,13 @@ bedroom_minicave_package:
               - delay:
                   seconds: 1
                   milliseconds: 200
-        - service: scene.turn_on
-          data:
-            entity_id: scene.snapshot_minicave
         - service: tts.microsoft_say
           data:
             entity_id: media_player.slaapkamer_t
             message: "Je tijd is op. Sluit je af?"
+        - service: scene.turn_on
+          data:
+            entity_id: scene.snapshot_minicave
         - service: notify.mobile_app_sm_a236b
           data:
             title: Tijd is om
