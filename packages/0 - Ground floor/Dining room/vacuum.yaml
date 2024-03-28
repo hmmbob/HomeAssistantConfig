@@ -42,7 +42,6 @@ vacuum_package:
             title: "Rocky"
             data:
               tag: vacuum
-              channel: vacuum
               actions:
                 - action: "vacuum_start_yes"
                   title: "🧹 Ja, graag!"
@@ -99,7 +98,6 @@ vacuum_package:
             title: "Rocky"
             data:
               tag: vacuum
-              channel: vacuum
               actions:
                 - action: "vacuum_return_to_dock"
                   title: "Keer terug naar je dock"
@@ -120,6 +118,16 @@ vacuum_package:
           alias: "Returning to dock"
           target:
             entity_id: vacuum.rocky
+
+    - alias: "Vacuum: Clear messages when returned to dock"
+      id: vacuum_clear_messages_when_returned_to_dock
+      initial_state: "on"
+      trigger:
+        - platform: state
+          entity_id: vacuum.rocky
+          from: "returning"
+          to: "docked"
+      action:
         - service: notify.mobile_devices_adults
           data:
             message: clear_notification
@@ -144,7 +152,6 @@ vacuum_package:
             message: "Rocky doet zijn rondje! 🧹🧹"
             data:
               tag: vacuum
-              channel: vacuum
               notification_icon: mdi:robot-vacuum
 
     ##########################
@@ -179,7 +186,6 @@ vacuum_package:
             message: "Foutmelding: {{states('sensor.rocky_vacuum_error')}}"
             data:
               tag: vacuum
-              channel: vacuum
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
@@ -198,5 +204,4 @@ vacuum_package:
             data:
               tag: vacuum
               ttl: 0
-              channel: vacuum
               priority: high
