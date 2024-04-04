@@ -1,26 +1,4 @@
 air_quality_package:
-  alert:
-    weerhuisje:
-      name: "Weerhuisje"
-      title: "ALARM:"
-      message: "Het weerhuisje is offline"
-      entity_id: binary_sensor.weerhuisje_status
-      state: "off"
-      repeat: 10
-      can_acknowledge: true
-      skip_first: true
-      notifiers:
-        - mobile_app_sm_a526b
-      data:
-        tag: weerhuisje
-        ttl: 0
-        channel: alerts # For devices on Android 8.0+ only
-        priority: high
-        ledColor: "red" # Set the LED to red
-        actions:
-          - action: "mute_alert_weerhuisje"
-            title: "Alert dempen"
-
   input_text:
     ##################################
     ## OpenSensebox SensorIDs
@@ -160,40 +138,3 @@ air_quality_package:
           service: rest_command.send_madavi
         - alias: "Send PM to Luftdaten / Sensor.Community API"
           service: rest_command.send_luftdaten_pm
-
-    ##########################
-    ## Clear alerts
-    ##########################
-    # When alerts are cleared, mobile notifications aren't
-    # cleared automatically too. But we can automate that!
-
-    - alias: "Notifications: Clear weerhuisje alerts"
-      id: clear_weerhuisje_alert
-      trigger:
-        - platform: state
-          entity_id: alert.weerhuisje
-          from: "on"
-          to:
-            - "idle"
-            - "off"
-      action:
-        - service: notify.mobile_devices_adults
-          data:
-            message: clear_notification
-            data:
-              tag: weerhuisje
-
-    ##########################
-    ## Mute alerts
-    ##########################
-    - alias: "Notifications: Handle weerhuisje alert mute"
-      id: mute_weerhuisje_alerts
-      trigger:
-        - platform: event
-          event_type: mobile_app_notification_action
-          event_data:
-            action: "mute_alert_weerhuisje"
-      action:
-        - service: alert.turn_off
-          target:
-            entity_id: alert.weerhuisje

@@ -33,12 +33,12 @@ logbook:
   exclude:
     entities:
       - sensor.kamertemperatuur
-      - sensor.awtrix_6caff8_current_app
     entity_globs:
       - binary_sensor.pir*
       - binary_sensor.sm_a52*
       - binary_sensor.sm_a33_*
       - binary_sensor.schad*
+      - sensor.awtrix*
       - sensor.dsmr_*
       - sensor.*_last_seen
       - sensor.slimme_lezer*
@@ -84,13 +84,6 @@ lovelace:
       filename: dashboards/admin/admin.yaml
       title: Admin
       icon: mdi:security
-      show_in_sidebar: true
-      require_admin: true
-    lovelace-cast:
-      mode: yaml
-      filename: dashboards/cast/cast.yaml
-      title: Cast views
-      icon: mdi:cast
       show_in_sidebar: true
       require_admin: true
     lovelace-map:
