@@ -119,6 +119,8 @@ bedroom_minicave_package:
             scene_id: snapshot_minicave
             snapshot_entities:
               - light.ledstrip_mini
+        - delay:
+            seconds: 5
         - service: light.turn_on
           target:
             entity_id: light.ledstrip_mini
@@ -147,9 +149,6 @@ bedroom_minicave_package:
           data:
             entity_id: media_player.slaapkamer_t
             message: "Je tijd is op. Sluit je af?"
-        - service: scene.turn_on
-          data:
-            entity_id: scene.snapshot_minicave
         - service: notify.mobile_app_sm_a236b
           data:
             title: Tijd is om
@@ -163,10 +162,15 @@ bedroom_minicave_package:
           data:
             title: Mini's gametijd
             message: >-
-              De Mini heeft nu {{ "1u30" if trigger.id == "weekday" else "4u" }} 
+              De Mini heeft nu {{ "1u30" if trigger.id == "weekday" else "4u" }}
               achter de PC gezeten ({{ now().strftime('%H:%M') }}).
             data:
               tag: mini_pc
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
+        - delay:
+            seconds: 5
+        - service: scene.turn_on
+          data:
+            entity_id: scene.snapshot_minicave

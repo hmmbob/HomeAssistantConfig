@@ -118,6 +118,8 @@ attic_pubercave_package:
             snapshot_entities:
               - light.sonoff_l1
               - light.battletron_ball_light_m
+        - delay:
+            seconds: 5
         - service: light.turn_on
           target:
             entity_id:
@@ -149,6 +151,8 @@ attic_pubercave_package:
               - delay:
                   seconds: 1
                   milliseconds: 200
+        - delay:
+            seconds: 5
         - service: scene.turn_on
           data:
             entity_id: scene.snapshot_pubercave

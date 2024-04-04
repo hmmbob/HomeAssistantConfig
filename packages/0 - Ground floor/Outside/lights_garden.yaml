@@ -11,9 +11,7 @@ lights_garden_package:
         - start: "6:30"
           end: "{{ as_timestamp(state_attr('sun.sun', 'next_rising')) }}"
           state: "on"
-          condition:
-            condition: sun
-            before: sunrise
+          condition: "{{ (state_attr('sun.sun', 'next_rising') | as_datetime | as_local).time() > today_at('06:30').time() }}"
         - start: "{{ as_timestamp(state_attr('sun.sun', 'next_setting')) }}"
           end: "22:30"
           state: "on"

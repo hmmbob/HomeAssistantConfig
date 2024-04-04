@@ -409,6 +409,7 @@ cards:
                   margin: 0px 0px 0px 14px;
                 }
             entity: light.sonoff_l1
+            name: "Ledstrip pubercave"
             icon: mdi:led-strip-variant
             show_brightness_control: true
             collapsible_controls: true
@@ -421,8 +422,9 @@ cards:
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 14px 0px 0px;
                 }
-            entity: light.ledstrip_mini
-            icon: mdi:desk
+            entity: light.battletron_ball_light_m
+            name: "Ball light pubercave"
+            icon: mdi:globe-light-outline
             show_brightness_control: true
             collapsible_controls: true
             show_color_control: true
@@ -430,6 +432,20 @@ cards:
 
       - type: horizontal-stack
         cards:
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 0px 0px 14px;
+                }
+            entity: light.ledstrip_mini
+            name: "Bureau minicave"
+            icon: mdi:desk
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
           - type: custom:mushroom-light-card
             card_mod:
               style: |
