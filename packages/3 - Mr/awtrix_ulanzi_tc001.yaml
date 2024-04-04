@@ -13,11 +13,50 @@ awtrix_package:
         device:
           identifiers: 10521c6caff8
           name: awtrix_6caff8
-          sw_version: "0.93" # Needs to be updated when upgrading software!
+          sw_version: "0.96" # Needs to be updated when upgrading software!
           manufacturer: Blueforcer
           model: AWTRIX Light
 
   automation:
+    ##########################
+    ## System functions
+    ##########################
+    - id: awtrix_nightmode
+      alias: "Awtrix: Night Mode 🌛"
+      description: "Set Awtrix to clock only by pressing the middle button"
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.awtrix_6caff8_button_select
+          to: "on"
+      condition: []
+      action:
+        - choose:
+            - conditions:
+                - alias: "Transition is on, so we are in day mode: toggle to night mode"
+                  condition: state
+                  entity_id: switch.awtrix_6caff8_transition
+                  state: "on"
+              sequence:
+                - service: mqtt.publish
+                  data:
+                    topic: awtrix_6caff8/switch
+                    payload: '{"name":"Time"}'
+                - service: mqtt.publish
+                  data:
+                    topic: awtrix_6caff8/settings
+                    payload: '{ "WD": false, "TMODE":"0", "TIME_COL": [255,0,0], "BRI": 1, "ABRI": false, "ATRANS": false }'
+            - conditions:
+                - alias: "Transition is off, so we are in night mode: toggle to day mode"
+                  condition: state
+                  entity_id: switch.awtrix_6caff8_transition
+                  state: "off"
+              sequence:
+                - service: mqtt.publish
+                  data:
+                    topic: awtrix_6caff8/settings
+                    payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
+
     - id: awtrix_start_custom_apps_on_reboot
       alias: "Awtrix: Start custom apps on Awtrix reboot"
       description: "Start custom apps on Awtrix reboot"
@@ -43,7 +82,15 @@ awtrix_package:
           target:
             entity_id:
               - automation.awtrix_send_today_s_energy_production_to_awtrix
+        - delay: 5
+        - service: automation.trigger
+          target:
+            entity_id:
+              - automation.awtrix_send_ev_battery_level
 
+    ##########################
+    ## Custom apps
+    ##########################
     - id: awtrix_temperature
       alias: "Awtrix: Send outside temperature"
       description: "Send outside temperature to Awtrix"
@@ -133,3 +180,25 @@ awtrix_package:
                     topic: "{{ device_topic }}"
                     payload: >
                       {{ payload }}
+
+    - id: awtrix_ev_battery
+      alias: "Awtrix: Send EV battery level"
+      description: "Awtrix: Send the battery level of my EV to Awtrix"
+      mode: single
+      variables:
+        threshold_low: 30
+        threshold_high: 60
+        power_level: "{{ states('sensor.tucson_ev_battery_level') | int }}"
+        power_level_color: >-
+          {%- if power_level > threshold_high %}{{"#04FE04"}}{%- endif %}
+          {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{"#FCFEFC"}}{%- endif %}
+          {%- if power_level <= threshold_low %}{{"#FF4E1A"}}{%- endif %}
+      trigger:
+        - platform: state
+          entity_id: sensor.tucson_ev_battery_level
+      condition: []
+      action:
+        - service: mqtt.publish
+          data:
+            topic: awtrix_6caff8/custom/ev_battery
+            payload_template: ' { "text": "{{ states(''sensor.tucson_ev_battery_level'') }} %", "icon": "2817", "color": "{{ power_level_color }}", "duration": 7} '
