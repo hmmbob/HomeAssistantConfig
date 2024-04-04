@@ -1,0 +1,21 @@
+backgate_package:
+  automation:
+    - id: backgate_alert
+      alias: "Garden: Backgate alert"
+      description: "Alert when someone enters the backgate of our garden"
+      mode: single
+      max_exceeded: silent
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.poort_contact
+          from: "off"
+          to: "on"
+      action:
+        - alias: "Turn on speaker"
+          service: switch.turn_on
+          target:
+            entity_id: switch.alarmspeaker_alarm
+        # Sometimes the trigger fires multiple times in short period. The next step
+        # prevents multiple alerts in combination with 'mode: single' & 'max_exceeded: silent'
+        - alias: "Do nothing for 10 seconds to prevent bouncing triggers"
+          delay: "00:10:00"
