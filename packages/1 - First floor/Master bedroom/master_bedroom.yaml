@@ -6,7 +6,7 @@ master_bedroom_package:
 
   automation:
     - id: lights_mbr_inloopkast
-      alias: "Lights: MBR Inloopkast"
+      alias: "Zet de verlichting van de inloopkast op de MBR aan of uit"
       mode: restart
       max_exceeded: silent
       trigger:

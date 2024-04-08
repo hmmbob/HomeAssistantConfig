@@ -20,7 +20,7 @@ vacation_mode_package:
     ## Vacation lights          #
     #############################
     - id: vacation_turn_on_time
-      alias: "Lights: Vacation turn on"
+      alias: "Zet de verlichting aan (vacation mode)"
       initial_state: on
       trigger:
         platform: time
@@ -47,7 +47,7 @@ vacation_mode_package:
             title: Vacation lights
 
     - id: vacation_turn_off_time
-      alias: "Lights: Vacation turn off"
+      alias: "Zet de verlichting uit (vacation mode)"
       initial_state: on
       trigger:
         platform: time

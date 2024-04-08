@@ -117,7 +117,7 @@ air_quality_package:
     # sensors update at the same time, we only need to monitor one sensor to trigger
     # the automation. Temperature is the sensor that changes most often.
     - id: weerhuisje_update_air_quality_sensors
-      alias: "Weerhuisje: Update Air Quality Sensors"
+      alias: "Stuur Air Quality sensors van het weerhuisje door"
       mode: queued
       trigger:
         - platform: time_pattern

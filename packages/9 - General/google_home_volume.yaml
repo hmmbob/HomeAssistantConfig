@@ -1,7 +1,8 @@
 google_home_volume_package:
   automation:
     - id: set_google_home_volume
-      alias: "Volume: Set Google Home Volume"
+      alias: "Stel de Google Home volumes in"
+      description: "Volume: Set Google Home Volume"
       trigger:
         - platform: time
           id: "time"

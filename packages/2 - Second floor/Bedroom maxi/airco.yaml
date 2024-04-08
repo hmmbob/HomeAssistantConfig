@@ -5,7 +5,7 @@ airco_puber_package:
 
   automation:
     - id: airco_sleeptimer_puber
-      alias: "Airco: Sleeptimer puber"
+      alias: "Sleeptimer voor de airco van de puber"
       description: "Turn off AC at the end of the timer"
       trigger:
         - platform: event

@@ -10,7 +10,7 @@ dishwasher_cheapest_time_package:
       has_time: true
 
   automation:
-    - alias: "Notifications: Vaatwasser"
+    - alias: "Melding met de goedkoopste uren om de vaatwasser te gebruiken"
       id: vaatwasser_melding
       trigger:
         - platform: time

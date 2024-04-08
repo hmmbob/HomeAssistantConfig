@@ -20,7 +20,7 @@ lights_livingroom_package:
     ## Sunset lights woonkamer
     ##########################
     - id: set_lights_before_sunset
-      alias: "Lights: Sunset set lights"
+      alias: "Zet de verlichting aan bij zonsondergang"
       trigger:
         platform: sun
         event: sunset

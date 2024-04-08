@@ -5,7 +5,8 @@ doorbell_package:
       icon: mdi:doorbell
 
   automation:
-    - alias: "Doorbell: Send notification and show image"
+    - alias: "Stuur een notificatie met plaatje als de deurbel gaat"
+      description: "Doorbell: Send notification and show image"
       id: deurbel
       mode: restart
       trigger:

@@ -1,7 +1,7 @@
 light_frontdoor_package:
   automation:
     - id: lights_frontdoor
-      alias: "Lights: Front door"
+      alias: "Zet de voordeurlamp aan of uit"
       trigger:
         - platform: sun
           event: sunset

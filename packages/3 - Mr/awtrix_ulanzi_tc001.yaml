@@ -22,7 +22,7 @@ awtrix_package:
     ## System functions
     ##########################
     - id: awtrix_nightmode
-      alias: "Awtrix: Night Mode 🌛"
+      alias: "Night Mode voor Awtrix 🌛"
       description: "Set Awtrix to clock only by pressing the middle button"
       mode: single
       trigger:
@@ -58,7 +58,7 @@ awtrix_package:
                     payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
 
     - id: awtrix_start_custom_apps_on_reboot
-      alias: "Awtrix: Start custom apps on Awtrix reboot"
+      alias: "Start alle Awtrix apps na een reboot"
       description: "Start custom apps on Awtrix reboot"
       mode: single
       trigger:
@@ -92,7 +92,7 @@ awtrix_package:
     ## Custom apps
     ##########################
     - id: awtrix_temperature
-      alias: "Awtrix: Send outside temperature"
+      alias: "Stuur de buitentemperatuur naar Awtrix"
       description: "Send outside temperature to Awtrix"
       mode: single
       trigger:
@@ -106,7 +106,7 @@ awtrix_package:
             payload_template: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
 
     - id: awtrix_production
-      alias: "Awtrix: Send today's energy production"
+      alias: "Stuur vandaags productie van de zonnepanelen naar Awtrix"
       description: "Awtrix: Send today's energy production to Awtrix"
       mode: single
       trigger:
@@ -120,7 +120,7 @@ awtrix_package:
             payload_template: ' { "text": "{{ states(''sensor.todays_total_production_preserved'') }} kWh", "icon": "52456", "color": "#7bf21f", "duration": 7} '
 
     - id: awtrix_current_production
-      alias: "Awtrix: Solar Energy Monitor"
+      alias: "Stuur de huidige opbrengst van de zonnepanelen naar Awtrix"
       description: This will show the current solar energy received.
       mode: single
       variables:
@@ -182,7 +182,7 @@ awtrix_package:
                       {{ payload }}
 
     - id: awtrix_ev_battery
-      alias: "Awtrix: Send EV battery level"
+      alias: "Stuur het batterijniveau van de auto naar Awtrix"
       description: "Awtrix: Send the battery level of my EV to Awtrix"
       mode: single
       variables:

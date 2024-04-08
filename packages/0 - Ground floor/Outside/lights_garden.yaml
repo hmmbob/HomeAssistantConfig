@@ -18,12 +18,12 @@ lights_garden_package:
 
   automation:
     - id: garden_turn_on
-      alias: "Lights: Garden turn on"
+      alias: "Zet de tuinverlichting aan of uit"
       trigger:
         - platform: state
           entity_id: sensor.garden_lights
         - platform: state
-          entity_id: light.tuinverlichting
+          entity_id: switch.tuinverlichting
           from: unavailable
         - platform: homeassistant
           event: start
@@ -40,10 +40,10 @@ lights_garden_package:
       action:
         - service: light.turn_{{ states('sensor.garden_lights') }}
           target:
-            entity_id: light.tuinverlichting
+            entity_id: switch.tuinverlichting
 
     - id: garden_turn_on_coming_home
-      alias: "Lights: Garden turn on when coming home"
+      alias: "Zet de tuinverlichting aan als ik thuis kom"
       trigger:
         - platform: state
           entity_id: binary_sensor.poort_contact
@@ -52,7 +52,7 @@ lights_garden_package:
       condition:
         - alias: "Are the lights off?"
           condition: state
-          entity_id: light.tuinverlichting
+          entity_id: switch.tuinverlichting
           state: "off"
         - alias: "Is the sun down?"
           condition: state
@@ -67,7 +67,7 @@ lights_garden_package:
             entity_id: input_boolean.garden_lights_override
         - service: light.turn_on
           target:
-            entity_id: light.tuinverlichting
+            entity_id: switch.tuinverlichting
         - delay: "00:03:00"
         - service: input_boolean.turn_off
           target:

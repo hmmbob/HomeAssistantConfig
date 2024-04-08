@@ -5,7 +5,7 @@ airco_mini_package:
 
   automation:
     - id: airco_sleeptimer_mini
-      alias: "Airco: Sleeptimer mini"
+      alias: "Sleeptimer voor de airco van de mini"
       description: "Turn off AC at the end of the timer"
       trigger:
         - platform: event

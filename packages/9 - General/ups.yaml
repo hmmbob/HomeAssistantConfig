@@ -1,7 +1,7 @@
 ups_package:
   automation:
     - id: ups_notification
-      alias: "UPS: Send notification"
+      alias: "Verstuur een melding als we op de UPS draaien"
       mode: single
       max_exceeded: silent
       trigger:

@@ -1,7 +1,7 @@
 backgate_package:
   automation:
     - id: backgate_alert
-      alias: "Garden: Backgate alert"
+      alias: "Waarschuw als iemand door de poort komt"
       description: "Alert when someone enters the backgate of our garden"
       mode: single
       max_exceeded: silent

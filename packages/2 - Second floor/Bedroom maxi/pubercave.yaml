@@ -47,7 +47,7 @@ attic_pubercave_package:
 
   automation:
     - id: warn_pc_time_duration_pubercave
-      alias: "Notifications: Pubercave PC time duration"
+      alias: "Waarschuwing dat de puber te lang op de PC zit"
       mode: queued
       trigger:
         - platform: numeric_state
@@ -100,7 +100,7 @@ attic_pubercave_package:
               ttl: 0
 
     - id: warn_pc_time_over_pubercave
-      alias: "Notifications: Pubercave PC time over"
+      alias: "Knipper de lampen als de puber PC tijd over is"
       mode: queued
       trigger:
         - platform: time
@@ -160,13 +160,13 @@ attic_pubercave_package:
     ##########################
     ## Warnings on power usage on kid's bedroom
     ##########################
-
-    # Reading light: the kid shouldn't be reading after bedtime, so we track
-    # the power usage of his bedside light with an always on switch
-    # Pubercave: mancave for the adolescent kid. It has a TV that obviously
-    # shouldn't be on after bedtime... So let's trigger a notification if it is :)
     - id: warn_power_usage_after_bedtime_attic
-      alias: "Notifications: Power usage op zolder na bedtijd"
+      alias: "Waarschuwing dat de pubercave nog stroom verbruikt"
+      description: >-
+        Reading light: the kid shouldn't be reading after bedtime, so we track
+        the power usage of his bedside light with an always on switch
+        Pubercave: mancave for the adolescent kid. It has a TV that obviously
+        shouldn't be on after bedtime... So let's trigger a notification if it is :)
       mode: queued
       trigger:
         - platform: numeric_state
@@ -199,12 +199,13 @@ attic_pubercave_package:
               tag: "{{ trigger.id }}"
               icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
 
-    # Because the switch is always on and only used for power tracking,
-    # we need another way to track this switch in the logbook. We use
-    # 25 watts as crossover point, because the PS4 sometimes charges
-    # the controllers and thus consumes a bit of power.
     - id: power_logging_attic
-      alias: "Power: Logging pubercave en leeslampje"
+      alias: "Log stroomverbruik in de pubercave"
+      description: >-
+        Because the switch is always on and only used for power tracking,
+        we need another way to track this switch in the logbook. We use
+        25 watts as crossover point, because the PS4 sometimes charges
+        the controllers and thus consumes a bit of power.
       mode: queued
       trigger:
         - platform: numeric_state

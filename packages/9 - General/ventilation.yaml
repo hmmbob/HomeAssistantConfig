@@ -5,7 +5,7 @@ ventilation_package:
 
   automation:
     - id: ventilation_handle_button
-      alias: "Ventilation: handle button"
+      alias: "Start de ventilatie timer als we op een knop drukken"
       trigger:
         - platform: state
           entity_id:
@@ -27,7 +27,7 @@ ventilation_package:
             duration: "{{'00:30:00' if trigger.id == 'long_press' else '00:15:00'}}"
 
     - id: ventilation_boost_speed
-      alias: "Ventilation: boost speed"
+      alias: "Stel een hogere ventilatiesnelheid in als de timer start"
       trigger:
         - platform: event
           event_type: timer.started
@@ -42,7 +42,7 @@ ventilation_package:
             percentage: 80
 
     - id: ventilation_set_speed
-      alias: "Ventilation: set speed"
+      alias: "Stel de ventilatiesnelheid in"
       mode: queued
       trigger:
         - platform: time

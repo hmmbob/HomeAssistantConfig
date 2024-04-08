@@ -29,7 +29,7 @@ open_uv_package:
     ## Update OpenUV sensors
     ##########################
     - id: update_openuv
-      alias: "Update: OpenUV"
+      alias: "Vernieuw de OpenUV informatie"
       trigger:
         - platform: time_pattern
           minutes: "/45"
@@ -48,7 +48,7 @@ open_uv_package:
     ##########################
     ## UV Warnings
     ##########################
-    - alias: "Notifications: UV melding"
+    - alias: "Verstuur een waarschuwing bij hoge zonkracht / UV waarde"
       id: notifications_uv
       trigger:
         platform: time

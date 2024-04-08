@@ -64,7 +64,7 @@ solar_package:
   automation:
     # Automation to trigger the upload to PVOutput, using the rest_command defined above
     - id: solar_upload_to_pvoutput
-      alias: "Solar: PVOutput uploader"
+      alias: "Stuur solar informatie naar PVOutput"
       description: Upload values to PVOutput
       trigger:
         - platform: time_pattern
@@ -79,13 +79,14 @@ solar_package:
           data: {}
       mode: single
 
-    # Automation to automatically turn off my solar system when electricity prices are below 0.
-    # This can be done automatically or by time schedule based on input_datetime.
-    # It works by setting the "grid_export_limit" in the GoodWe integration to 0%, effectively
-    # instructing the inverter that it isn't allowed to export (produce) any power. Setting
-    # it back to 100% restarts the production again to the maximum capacity of the inverter.
     - id: solar_handle_pv_off
-      alias: "Solar: Handle PV off"
+      alias: "Zet de zonnepanelen uit"
+      description: >-
+        Automation to automatically turn off my solar system when electricity prices are below 0.
+        This can be done automatically or by time schedule based on input_datetime.
+        It works by setting the "grid_export_limit" in the GoodWe integration to 0%, effectively
+        instructing the inverter that it isn't allowed to export (produce) any power. Setting
+        it back to 100% restarts the production again to the maximum capacity of the inverter.
       trigger:
         # Triggers for automatic switching
         - platform: state

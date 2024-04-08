@@ -7,7 +7,7 @@ ev_package:
 
   automation:
     - id: ev_handle_automatic_cheapest_charge
-      alias: "EV: Handle automatic cheapest charge"
+      alias: "Laad de auto tijdens de goedkoopste uren"
       description: "Automatically charge my car in the cheapest hours"
       mode: single
       trigger:
@@ -63,7 +63,7 @@ ev_package:
                       icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
 
-    - alias: "EV: Set Smart Charging EV connected sensor"
+    - alias: "Stel in of de auto verbonden is"
       id: "ev_set_smart_charging_connected_sensor"
       description: "Set Smart Charging EV connected sensor"
       mode: single
@@ -90,7 +90,7 @@ ev_package:
                     entity_id: switch.ev_smart_charging_ev_connected
 
     - id: ev_create_monthly_total_notification
-      alias: "EV: Create notification of monthly total"
+      alias: "Stuur een maandelijks overzicht van de laadkosten van de auto"
       description: "Create a monthly overview of the amount of energy charged for billing purposes"
       mode: single
       variables:
@@ -119,7 +119,7 @@ ev_package:
             message: "{{ message }}"
 
     - id: ev_force_update_while_charging
-      alias: "EV: Force Hyundai update while charging"
+      alias: "Forceer nieuwe Hyundai informatie tijdens het laden"
       description: "Force update the values of the Hyundai component while charging"
       mode: single
       trigger:

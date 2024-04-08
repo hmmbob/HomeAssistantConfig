@@ -37,7 +37,7 @@ bedroom_minicave_package:
     ## Warnings on power usage on kid's bedroom
     ## The little one shouldn't be at his PC after bedtime.
     - id: warn_power_usage_after_bedtime_minicave
-      alias: "Notifications: Power usage na bedtijd minicave"
+      alias: "Waarschuwing dat de minicave nog stroom verbruikt"
       mode: queued
       trigger:
         - platform: numeric_state
@@ -60,12 +60,12 @@ bedroom_minicave_package:
               tag: "{{ trigger.id }}"
               icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
 
-    # Because the switch is always on and only used for power tracking,
-    # we need another way to track this switch in the logbook. We use
-    # 25 watts as crossover point, because the PS4 sometimes charges
-    # the controllers and thus consumes a bit of power.
     - id: power_logging_minicave
-      alias: "Power: Logging minicave"
+      alias: "Log stroomverbruik in de minicave"
+      description: >-
+        Because the switch is always on and only used for power tracking,
+        we need another way to track this switch in the logbook. We use
+        22 and 8 watts as crossover point.
       mode: queued
       trigger:
         - platform: numeric_state
@@ -85,7 +85,7 @@ bedroom_minicave_package:
               {{ iif(states('sensor.mini_cave_power') | float > 22, "is aan", "is uit")}}
 
     - id: warn_pc_time_over_minicave
-      alias: "Notifications: Mini te lang op de PC"
+      alias: "Waarschuwing dat de mini te lang op de PC zit"
       mode: queued
       trigger:
         - platform: numeric_state

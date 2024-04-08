@@ -52,7 +52,7 @@ trash_package:
     ##########################
     ## Trash notifications
     ##########################
-    - alias: "Afval: Meldingen"
+    - alias: "Verstuur melding welk afval opgehaald wordt"
       id: afval_meldingen
       trigger:
         - platform: time
@@ -132,7 +132,7 @@ trash_package:
                   target:
                     entity_id: input_boolean.trash_outside
 
-    - alias: "Afval: process reminder status"
+    - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status
       trigger:
         - platform: event

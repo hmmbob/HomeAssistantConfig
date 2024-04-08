@@ -8,7 +8,7 @@ whose_turn_is_it_package:
 
   automation:
     - id: rotate_turns
-      alias: "System: wissel beurt tafeldekken"
+      alias: "Wissel de beurt voor het tafeldekken"
       trigger:
         - platform: time
           at:

@@ -9,7 +9,8 @@ morning_briefing_package:
 
   automation:
     - id: morning_briefing
-      alias: "Notifications: Morning briefing"
+      alias: "Verstuur ochtendbriefing"
+      description: "Notifications: Morning briefing"
       trigger:
         platform: time
         at: input_datetime.time_morning_briefing

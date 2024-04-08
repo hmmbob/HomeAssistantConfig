@@ -1,7 +1,7 @@
 printer_package:
   automation:
     - id: printer_low_toner_levels
-      alias: "Printer: low toner levels"
+      alias: "Stuur waarschuwing dat de printer toner levels laag zijn"
       trigger:
         - platform: numeric_state
           entity_id:

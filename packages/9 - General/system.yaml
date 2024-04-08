@@ -13,7 +13,7 @@ system_package:
     ## Set theme
     ##########################
     - id: set_theme
-      alias: "System: Set theme"
+      alias: "Stel thema in"
       trigger:
         - platform: homeassistant
           event: start
@@ -36,7 +36,8 @@ system_package:
 
     # Automation to set the date of the "end field" in the UI to the same value as the "start"
     - id: ui_set_end_date
-      alias: "System: Fix the UI - set date of end field to date of start field"
+      alias: "Stel de datum van het eindveld op dezelfde dag in als de begindatum"
+      description: "System: Fix the UI - set date of end field to date of start field"
       trigger:
         - platform: state
           entity_id: input_datetime.solar_pv_off_start
@@ -53,7 +54,7 @@ system_package:
     ##########################
     ## System update notifications
     ##########################
-    - alias: "System: Upgrade Available Notification"
+    - alias: "Stuur een melding dat er een nieuwe Home Assistant versie is"
       id: system_update_available_notification
       description: Send notification on Home Assistant update available
       trigger:
@@ -91,7 +92,7 @@ system_package:
               Version {{ states('sensor.latest_version') }} just got released!
               [Changelog](https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}})
 
-    - alias: "System: Clear Upgrade Available Notification"
+    - alias: "Verwijder de Home Assistant update melding als we HA bijgewerkt hebben"
       id: system_clear_update_available_notification
       description: Clear notification of Home Assistant update available
       trigger:

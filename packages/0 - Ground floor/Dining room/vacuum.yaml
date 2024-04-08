@@ -14,7 +14,7 @@ vacuum_package:
     ##########################
     ## Schedule
     ##########################
-    - alias: "Vacuum: Ask to have Rocky do its cleaning"
+    - alias: "Vraag of Rocky moet stofzuigen"
       id: vacuum_ask_to_run
       variables:
         notification_service: >
@@ -63,7 +63,7 @@ vacuum_package:
           target:
             entity_id: vacuum.rocky
 
-    - alias: "Vacuum: Drive Rocky to trash can"
+    - alias: "Stuur Rocky naar de vuilnisbak"
       id: vacuum_drive_to_trash
       initial_state: "on"
       trigger:
@@ -105,7 +105,7 @@ vacuum_package:
               priority: high
               notification_icon: mdi:robot-vacuum
 
-    - alias: "Vacuum: Return to dock"
+    - alias: "Stuur Rocky terug naar het dock"
       id: vacuum_return_to_dock
       initial_state: "on"
       trigger:
@@ -119,7 +119,7 @@ vacuum_package:
           target:
             entity_id: vacuum.rocky
 
-    - alias: "Vacuum: Clear messages when returned to dock"
+    - alias: "Verwijder notificaties als Rocky weer gedockt is"
       id: vacuum_clear_messages_when_returned_to_dock
       initial_state: "on"
       trigger:
@@ -137,7 +137,7 @@ vacuum_package:
     ##########################
     ## Notifications
     ##########################
-    - alias: "Vacuum: Rocky started cleaning"
+    - alias: "Melding dat Rocky aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
       initial_state: "on"
       trigger:
@@ -157,7 +157,7 @@ vacuum_package:
     ##########################
     ## Capture errors
     ##########################
-    - alias: "Vacuum: Rocky is in error mode"
+    - alias: "Melding dat Rocky in foutmodus staat"
       id: vacuum_notification_error
       initial_state: "on"
       variables:
@@ -190,7 +190,7 @@ vacuum_package:
               priority: high
               notification_icon: mdi:robot-vacuum
 
-    - alias: "Vacuum: Clear Rocky error mode"
+    - alias: "Verwijder Rocky's foutmelding"
       id: vacuum_clear_notification_error
       description: Clear notification of Rocky error
       trigger:

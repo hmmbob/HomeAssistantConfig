@@ -1,7 +1,7 @@
 symfonisk_package:
   automation:
     - id: "symfonisk_remote_control"
-      alias: "Symfonisk: Remote control"
+      alias: "Symfonisk afstandsbediening"
       description: >
         Control my Symfonisk speaker with an IKEA E2123 remote control,
         based on the blueprint by Shawsky found at https://community.home-assistant.io/t/z2m-ikea-symfonisk-gen2-e2123-media-control/559523

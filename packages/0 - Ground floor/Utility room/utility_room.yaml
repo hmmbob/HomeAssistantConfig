@@ -6,7 +6,7 @@ utility_room_package:
 
   automation:
     - id: lights_bijkeuken
-      alias: "Lights: Bijkeuken"
+      alias: "Zet de verlichting in de bijkeuken aan of uit"
       mode: restart
       max_exceeded: silent
       trigger:

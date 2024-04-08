@@ -25,7 +25,7 @@ gas_prices_package:
     ## Gasprice notifications
     ##########################
     - id: notification_benzine_price_changed
-      alias: "Notifications: Benzine price changed"
+      alias: "Verstuur melding dat de benzineprijzen gewijzigd zijn"
       trigger:
         - platform: state
           entity_id: sensor.benzine

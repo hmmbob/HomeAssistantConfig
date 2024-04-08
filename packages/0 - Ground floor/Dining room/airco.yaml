@@ -6,7 +6,7 @@ dining_room_airco_package:
 
   automation:
     - id: airco_woonkamer_send_temperature
-      alias: "Airco: Werk temperaturen bij"
+      alias: "Stuur kamertemperatuur naar airco"
       description: "Send thermostat values to airco"
       mode: single
       trigger:
@@ -21,7 +21,7 @@ dining_room_airco_package:
             value: "{{ state_attr('climate.woonkamer','current_temperature') }}"
 
     - id: airco_uit
-      alias: "Airco: Automatisch uit einde avond"
+      alias: "Zet airco automatisch uit einde avond"
       description: "Turn off AC automatically so we won't forget"
       trigger:
         - platform: time

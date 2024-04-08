@@ -8,7 +8,8 @@ travel_time_notifications_package:
     ## Update Waze sensors
     ##########################
     - id: update_waze_to_home
-      alias: "Update: Waze travel time to home"
+      alias: "Werk Waze reistijd bij"
+      description: "Update: Waze travel time to home"
       trigger:
         - platform: time_pattern
           minutes: "/5"
@@ -27,7 +28,7 @@ travel_time_notifications_package:
     ## Coming home notifications
     ##########################
     - id: location_notification_hmmbob_left_work
-      alias: "Location: Notificatie dat Bob van het werk vertrekt"
+      alias: "Verstuur melding dat Bob van het werk vertrekt"
       trigger:
         - platform: zone
           entity_id: device_tracker.sm_a526b
@@ -76,7 +77,7 @@ travel_time_notifications_package:
               ttl: 0
 
     - id: location_update_traveltime_notification_hmmbob
-      alias: "Location: Update reistijd notificatie"
+      alias: "Werk reistijd notificatie bij met nieuwe gegevens"
       trigger:
         - platform: state
           entity_id: sensor.reistijd_bob_naar_huis
@@ -104,7 +105,7 @@ travel_time_notifications_package:
               ttl: 0
 
     - id: location_clear_traveltime_notification
-      alias: "Location: Bob is weer thuis"
+      alias: "Verwijder reistijd notificatie als ik weer thuis ben"
       trigger:
         - platform: zone
           entity_id: device_tracker.sm_a526b

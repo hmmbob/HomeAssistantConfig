@@ -1,7 +1,8 @@
 turn_off_when_away_package:
   automation:
     - id: turn_off_when_away
-      alias: "Climate: Turn off heating when away"
+      alias: "Zet de airco en verwarming uit als we weg zijn"
+      description: "Climate: Turn off heating when away"
       trigger:
         - platform: state
           entity_id: zone.home

@@ -4,7 +4,7 @@ kids_notifications_package:
     ## Coming home notifications
     ##########################
     - id: notification_kid_left_location
-      alias: "Location: Notificatie dat een kind van een locatie vertrekt"
+      alias: "Verstuur een melding dat een kind van een locatie vertrekt"
       mode: parallel
       trigger:
         - platform: zone
@@ -88,7 +88,7 @@ kids_notifications_package:
     ## Battery level notifications
     ##########################
     - id: notification_kids_battery_low_parents
-      alias: "Notifications: Melding dat batterij van kind bijna leeg is"
+      alias: "Verstuur een melding dat batterij van kind bijna leeg is"
       mode: parallel
       trigger:
         - platform: numeric_state

@@ -25,7 +25,7 @@ postcodeloterij_package:
 
   automation:
     - id: postcodeloterij_winners_notification
-      alias: "Postcodeloterij: Gewonnen!"
+      alias: "Verstuur een melding dat we iets in de Postcodeloterij hebben gewonnen!"
       mode: single
       max_exceeded: silent
       description: Send a notification when we win something in de Postcodeloterij
