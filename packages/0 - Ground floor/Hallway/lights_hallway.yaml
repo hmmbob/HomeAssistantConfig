@@ -1,0 +1,47 @@
+lights_hallway_package:
+  group:
+    pir_sensors_hallway:
+      name: PIR Gang
+      icon: mdi:motion-sensor
+      entities:
+        - binary_sensor.pir_gang_kapstok_motion_detection
+        - binary_sensor.pir_gang_meterkast_motion_detection
+
+  input_boolean:
+    enable_pir_gang_automations:
+      name: "Verlichting gang aan op beweging"
+      icon: mdi:motion-sensor
+
+  automation:
+    - id: lights_gang
+      alias: "Zet de gangverlichting aan of uit"
+      mode: restart
+      max_exceeded: silent
+      trigger:
+        - platform: state
+          entity_id: group.pir_sensors_hallway
+          from: "off"
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: input_boolean.enable_pir_gang_automations
+          state: "on"
+        - condition: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 5
+      action:
+        - alias: "Gang lamp aan..."
+          service: switch.turn_on
+          target:
+            entity_id: switch.gang
+        - alias: "Wacht tot er geen motion meer is..."
+          wait_for_trigger:
+            - platform: state
+              entity_id: group.pir_sensors_hallway
+              from: "on"
+              to: "off"
+        - alias: "Lamp uit.."
+          service: switch.turn_off
+          target:
+            entity_id: switch.gang

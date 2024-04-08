@@ -56,25 +56,6 @@ cards:
       #                  icon:
       #                    - filter: grayscale(100%)
       #          - type: custom:button-card
-      #            entity: input_boolean.enable_pir_gang_automations
-      #            name: Gang
-      #            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
-      #            show_state: false
-      #            styles:
-      #              card:
-      #                - width: 90px
-      #                - height: 90px
-      #              name:
-      #                - font-size: 12px
-      #            state:
-      #              - value: "off"
-      #                styles:
-      #                  card:
-      #                    - filter: opacity(50%)
-      #                  icon:
-      #                    - filter: grayscale(100%)
-      #
-      #          - type: custom:button-card
       #            entity: input_boolean.disable_pir_sensor_automations
       #            name: Couch sleeper
       #            icon: mdi:sofa-outline
@@ -138,8 +119,8 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_picnic_push
-            name: Picnic push
+            entity: input_boolean.notify_power_use_attic
+            name: Meldingen leeslampje, PS4
             show_state: false
             styles:
               card:
@@ -155,9 +136,8 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_dishwasher
-            name: Vaatwasser
-            icon: '[[[ if (entity.state == "on") return "mdi:dishwasher"; else return "mdi:dishwasher-off"; ]]]'
+            entity: input_boolean.notify_power_use_minicave
+            name: Meldingen minicave
             show_state: false
             styles:
               card:
@@ -257,15 +237,16 @@ cards:
       - type: horizontal-stack #### 4th row
         cards:
           - type: custom:button-card
-            entity: input_boolean.notify_power_use_attic
+            entity: input_boolean.notify_dishwasher
+            name: Vaatwasser
+            icon: '[[[ if (entity.state == "on") return "mdi:dishwasher"; else return "mdi:dishwasher-off"; ]]]'
+            show_state: false
             card_mod:
               style: |
                 ha-card {
                   box-shadow: var(--card-box-shadow);
                   margin: 0px 0px 0px 14px;
                 }
-            name: Meldingen leeslampje, PS4
-            show_state: false
             styles:
               card:
                 - width: 90px
@@ -280,8 +261,9 @@ cards:
                   icon:
                     - filter: grayscale(100%)
           - type: custom:button-card
-            entity: input_boolean.notify_power_use_minicave
-            name: Meldingen minicave
+            entity: input_boolean.enable_pir_gang_automations
+            name: Gang
+            icon: '[[[ if (entity.state == "on") return "mdi:motion-sensor"; else return "mdi:walk"; ]]]'
             show_state: false
             styles:
               card:
