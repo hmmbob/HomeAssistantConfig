@@ -81,56 +81,53 @@ trash_package:
           condition: template
           value_template: "{{ states(sensor) not in ['unknown','unavailable','none','geen'] }}"
       action:
-        - alias: "Check if trash is outside already"
-          choose:
-            - conditions:
-                - alias: "Trash is not marked as outside yet, so play messages"
-                  condition: state
-                  entity_id: input_boolean.trash_outside
-                  state: "off"
-              sequence:
-                - alias: "Sending push notification"
-                  service: notify.mobile_app_sm_a526b
-                  data:
-                    title: "Afvalinzameling"
-                    message: "{{ trigger.id | capitalize }} wordt het {{ afval }} opgehaald."
-                    data:
-                      tag: "notification-trash"
-                      icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
-                      notification_icon: mdi:delete
-                      actions:
-                        - action: "trash_outside"
-                          title: "Jep, staat buiten!"
-                - alias: "Check if TTS should be played"
-                  condition: state
-                  entity_id: input_boolean.notify_trash_voice
-                  state: "on"
-                - alias: "Play TTS"
-                  service: tts.microsoft_say
-                  entity_id: media_player.nest_hub_woonkamer
-                  data:
-                    message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
-                - delay: "00:00:15"
-                - alias: "Streaming image to Nest Hub"
-                  service: media_player.play_media
-                  data:
-                    entity_id: media_player.nest_hub_woonkamer
-                    media_content_id: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
-                    media_content_type: "image/png"
-                - delay: "00:15:00"
-                - service: media_player.turn_off
-                  entity_id: media_player.nest_hub_woonkamer
-            - conditions:
-                - alias: "Check if trash is outside already"
-                  condition: state
-                  entity_id: input_boolean.trash_outside
-                  state: "on"
-              sequence:
-                - delay: "00:00:05" #delay a bit for debouncing
-                - alias: "Trash is outside already so no reminder needed, resetting status for next round"
-                  service: input_boolean.turn_off
-                  target:
-                    entity_id: input_boolean.trash_outside
+        - if:
+            - '{{trigger.id == "morgen" }}'
+          then:
+            - alias: "New round of notifications, so resetting helper for next round"
+              service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.trash_outside
+        - if:
+            - '{{trigger.id == "vandaag" }}'
+            - alias: "Check if trash is outside already"
+              condition: state
+              entity_id: input_boolean.trash_outside
+              state: "on"
+          then:
+            - stop: "Stopping notification sequence as trash is already outside"
+          else:
+            - alias: "Sending push notification"
+              service: notify.mobile_app_sm_a526b
+              data:
+                title: "Afvalinzameling"
+                message: "{{ trigger.id | capitalize }} wordt het {{ afval }} opgehaald."
+                data:
+                  tag: "notification-trash"
+                  icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+                  notification_icon: mdi:delete
+                  actions:
+                    - action: "trash_outside"
+                      title: "Jep, staat buiten!"
+            - alias: "Check if TTS should be played"
+              condition: state
+              entity_id: input_boolean.notify_trash_voice
+              state: "on"
+            - alias: "Play TTS"
+              service: tts.microsoft_say
+              entity_id: media_player.nest_hub_woonkamer
+              data:
+                message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
+            - delay: "00:00:15"
+            - alias: "Streaming image to Nest Hub"
+              service: media_player.play_media
+              data:
+                entity_id: media_player.nest_hub_woonkamer
+                media_content_id: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
+                media_content_type: "image/png"
+            - delay: "00:15:00"
+            - service: media_player.turn_off
+              entity_id: media_player.nest_hub_woonkamer
 
     - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status
