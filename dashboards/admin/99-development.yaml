@@ -12,132 +12,93 @@ icon: mdi:magnify
 visible:
   - user: 510b1afef60640d7a220711c50b2192a # BL
 cards:
-  - type: vertical-stack
-    cards:
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Things that might be broken
+      show_header_toggle: false
+    filter:
+      include:
+        - state: unknown
+      exclude:
+        - domain: button
+        - domain: group
+        - domain: scene
+        - entity_id: "*picnic*"
+        - entity_id: "*smarttag*"
+    sort:
+      method: name
+
+  - type: entities
+    title: All Mobile App sensors
+    entities:
       - type: custom:auto-entities
         card:
-          type: entities
-          title: Things that might be broken
-          show_header_toggle: false
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: Mobile App A52
         filter:
           include:
-            - state: unknown
-          exclude:
-            - domain: button
-            - domain: group
-            - domain: scene
-            - entity_id: "*picnic*"
-            - entity_id: "*smarttag*"
+            - entity_id: "*sm_a526b*"
+        sort:
+          method: name
+      - type: custom:auto-entities
+        card:
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: Mobile App A33
+        filter:
+          include:
+            - entity_id: "*a336b*"
+        sort:
+          method: name
+      - type: custom:auto-entities
+        card:
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: Mobile App Schaduwspeler
+        filter:
+          include:
+            - entity_id: "*schaduwspeler*"
+        sort:
+          method: name
+      - type: custom:auto-entities
+        card:
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: Mobile App A23
+        filter:
+          include:
+            - entity_id: "*a236b*"
         sort:
           method: name
 
-      - type: entities
-        title: PIR Sensors
-        show_header_toggle: false
-        state_color: true
-        entities:
-          - input_boolean.disable_pir_sensor_automations
-          - type: divider
-          #- type: custom:fold-entity-row
-          #  head:
-          #    entity: binary_sensor.pir_woonkamer_motion
-          #  entities:
-          #    - sensor.pir_woonkamer_illuminance
-          #    - input_boolean.woonkamer_turned_on_by_movement
-          #    - input_boolean.enable_pir_woonkamer_automations
-          #- type: divider
-          #- type: custom:fold-entity-row
-          #  head:
-          #    entity: binary_sensor.pir_gang_sensor
-          #  entities:
-          #    - sensor.pir_gang_illuminance
-          #    - sensor.pir_gang_temperature
-          #    - input_boolean.enable_pir_gang_automations
-      #- type: entities
-      #  id: 478d3327-b5b0-4abd-a964-c3a6151ed6b4
-      #  title: Voordeur
-      #  show_header_toggle: false
-      #  state_color: true
-      #  entities:
-      #    - entity: binary_sensor.door_sensor_2_contact
-      #      secondary_info: last-changed
-
-  - type: vertical-stack
-    cards:
-      - type: entities
-        title: All Mobile App sensors
-        entities:
-          - type: custom:auto-entities
-            card:
-              type: custom:fold-entity-row
-              head:
-                type: section
-                label: Mobile App A52
-            filter:
-              include:
-                - entity_id: "*sm_a526b*"
-            sort:
-              method: name
-          - type: custom:auto-entities
-            card:
-              type: custom:fold-entity-row
-              head:
-                type: section
-                label: Mobile App A33
-            filter:
-              include:
-                - entity_id: "*a336b*"
-            sort:
-              method: name
-          - type: custom:auto-entities
-            card:
-              type: custom:fold-entity-row
-              head:
-                type: section
-                label: Mobile App Schaduwspeler
-            filter:
-              include:
-                - entity_id: "*schaduwspeler*"
-            sort:
-              method: name
-      - type: entities
-        title: All Input fields
-        entities:
-          - type: custom:auto-entities
-            card:
-              type: custom:fold-entity-row
-              head:
-                type: section
-                label: All input booleans
-            filter:
-              include:
-                - entity_id: input_boolean.*
-            sort:
-              method: name
-          - type: custom:auto-entities
-            card:
-              type: custom:fold-entity-row
-              head:
-                type: section
-                label: All input date_time
-            filter:
-              include:
-                - entity_id: input_datetime.*
-            sort:
-              method: name
-
-  - type: vertical-stack
-    cards:
-      - type: entities
-        title: All weather entities
-        entities:
-          - type: custom:auto-entities
-            card:
-              type: custom:fold-entity-row
-              head:
-                entity: weather.knmi_home
-            filter:
-              include:
-                - entity_id: "sensor.knmi_*"
-            sort:
-              method: name
+  - type: entities
+    title: All Input fields
+    entities:
+      - type: custom:auto-entities
+        card:
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: All input booleans
+        filter:
+          include:
+            - entity_id: input_boolean.*
+        sort:
+          method: name
+      - type: custom:auto-entities
+        card:
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: All input date_time
+        filter:
+          include:
+            - entity_id: input_datetime.*
+        sort:
+          method: name

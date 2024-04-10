@@ -38,6 +38,7 @@ logbook:
       - binary_sensor.sm_a52*
       - binary_sensor.sm_a33_*
       - binary_sensor.schad*
+      - number.awtrix_*
       - sensor.awtrix*
       - sensor.dsmr_*
       - sensor.*_last_seen
