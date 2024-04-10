@@ -3,9 +3,6 @@ aquarium_package:
     time_aquarium_on:
       name: Aquarium aan
       has_time: true
-    time_aquarium_on_weekend:
-      name: Aquarium aan weekend
-      has_time: true
     time_aquarium_off:
       name: Aquarium uit
       has_time: true
@@ -17,29 +14,10 @@ aquarium_package:
       trigger:
         - platform: time
           at: input_datetime.time_aquarium_on
-          id: weekday
-        - platform: time
-          at: input_datetime.time_aquarium_on_weekend
-          id: weekend
+          id: "on"
         - platform: time
           at: input_datetime.time_aquarium_off
-          id: turn_off
+          id: "off"
       action:
-        - alias: "Check if we need to turn it on or off"
-          choose:
-            - conditions:
-                or: # one of these needs to be true to continue
-                  - and:
-                      - "{{ trigger.id == 'weekday' }}"
-                      - "{{ is_state('binary_sensor.werkdag', 'on') }}"
-                  - and:
-                      - "{{ trigger.id == 'weekend' }}"
-                      - "{{ is_state('binary_sensor.werkdag', 'off') }}"
-              sequence:
-                - service: homeassistant.turn_on
-                  entity_id: switch.aquarium
-            - conditions:
-                - "{{ trigger.id == 'turn_off' }}"
-              sequence:
-                - service: homeassistant.turn_off
-                  entity_id: switch.aquarium
+        - service: switch.turn_{{trigger.id}}
+          entity_id: switch.aquarium
