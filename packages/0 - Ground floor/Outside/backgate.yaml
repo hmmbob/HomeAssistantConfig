@@ -5,6 +5,8 @@ backgate_package:
       description: "Alert when someone enters the backgate of our garden"
       mode: single
       max_exceeded: silent
+      trace:
+        stored_traces: 20
       trigger:
         - platform: state
           entity_id: binary_sensor.poort_contact

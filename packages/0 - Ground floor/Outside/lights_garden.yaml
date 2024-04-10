@@ -38,12 +38,14 @@ lights_garden_package:
           entity_id: input_boolean.garden_lights_override
           state: "off"
       action:
-        - service: light.turn_{{ states('sensor.garden_lights') }}
+        - service: switch.turn_{{ states('sensor.garden_lights') }}
           target:
             entity_id: switch.tuinverlichting
 
     - id: garden_turn_on_coming_home
       alias: "Zet de tuinverlichting aan als ik thuis kom"
+      trace:
+        stored_traces: 20
       trigger:
         - platform: state
           entity_id: binary_sensor.poort_contact
@@ -65,7 +67,7 @@ lights_garden_package:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.garden_lights_override
-        - service: light.turn_on
+        - service: switch.turn_on
           target:
             entity_id: switch.tuinverlichting
         - delay: "00:03:00"
