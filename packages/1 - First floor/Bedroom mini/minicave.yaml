@@ -6,6 +6,7 @@ bedroom_minicave_package:
       entities:
         - light.ledstrip_mini
         - light.battletron_ball_light_t
+        - light.ledstrip_bed_mini
 
   input_boolean:
     notify_power_use_minicave:
@@ -174,3 +175,19 @@ bedroom_minicave_package:
         - service: scene.turn_on
           data:
             entity_id: scene.snapshot_minicave
+
+    - id: minicave_lights
+      alias: "Zet de ledstrip achter Mini's bed aan of uit"
+      mode: queued
+      trigger:
+        - platform: state
+          entity_id: sensor.drukknop_t_action
+          to: "on"
+          id: "on"
+        - platform: state
+          entity_id: sensor.drukknop_t_action
+          to: "off"
+          id: "off"
+      action:
+        - service: light.turn_{{trigger.id}}
+          entity_id: light.ledstrip_bed_mini

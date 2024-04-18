@@ -46,6 +46,18 @@ cards:
               {{ "green" if is_state('binary_sensor.is_minicave_on','on') else "disabled" }}
             tap_action:
               action: more-info
+          - type: custom:mushroom-light-card
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: var(--card-box-shadow);
+                }
+            entity: light.battletron_ball_light_t
+            icon: mdi:circle
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
 
       - type: horizontal-stack
         cards:
@@ -67,8 +79,8 @@ cards:
                 ha-card {
                   box-shadow: var(--card-box-shadow);
                 }
-            entity: light.battletron_ball_light_t
-            icon: mdi:circle
+            entity: light.ledstrip_bed_mini
+            icon: mdi:bed
             show_brightness_control: true
             collapsible_controls: true
             show_color_control: true
