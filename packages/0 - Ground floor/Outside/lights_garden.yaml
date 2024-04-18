@@ -19,6 +19,8 @@ lights_garden_package:
   automation:
     - id: garden_turn_on
       alias: "Zet de tuinverlichting aan of uit"
+      mode: single
+      max_exceeded: silent
       trigger:
         - platform: state
           entity_id: sensor.garden_lights
@@ -44,6 +46,8 @@ lights_garden_package:
 
     - id: garden_turn_on_coming_home
       alias: "Zet de tuinverlichting aan als ik thuis kom"
+      mode: single
+      max_exceeded: silent
       trace:
         stored_traces: 20
       trigger:

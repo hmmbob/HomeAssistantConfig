@@ -52,7 +52,7 @@ google_home_volume_package:
                 - service: media_player.volume_set
                   data:
                     entity_id: media_player.kantoor
-                    volume_level: 0.4
+                    volume_level: 0.2
             - alias: "It's between 19hrs and 20:30"
               conditions:
                 - condition: time
@@ -67,7 +67,6 @@ google_home_volume_package:
                   data:
                     entity_id:
                       - media_player.slaapkamer_t
-                      - media_player.kantoor
                     volume_level: 0.2
             - alias: "It's between 20:30 and 7hrs"
               conditions:

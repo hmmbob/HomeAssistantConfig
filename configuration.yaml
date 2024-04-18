@@ -58,6 +58,8 @@ logger:
     #  - "weerhuisje"
     custom_components.mitsubishi_wf_rac.wfrac.device:
       - "something went wrong updating the airco"
+    custom_components.xiaomi_miot.fan:
+      - "Unable to discover the device"
     homeassistant.components.goodwe.coordinator:
       - "No valid response received even after 10 retries"
     homeassistant.helpers.entity:
@@ -115,9 +117,9 @@ recorder:
       - sensor.pv1_*
       - sensor.pv2_*
       - sensor.slimmelezer*
-      - sensor.smartevse_11469_esp*
-      - sensor.smartevse_11469_evmeter*
-      - sensor.smartevse_11469_mains*
+      - sensor.smartevse_6360_esp*
+      - sensor.smartevse_6360_evmeter*
+      - sensor.smartevse_6360_mains*
       - sensor.smartevse_mains_*
       - sensor.sun_*
       - sensor.zonneplan_for*
@@ -127,8 +129,8 @@ recorder:
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
       - sensor.knmi_all_data
-      - sensor.smartevse_11469_evchargepower
-      - sensor.smartevse_11469_evenergycharged
+      - sensor.smartevse_6360_evchargepower
+      - sensor.smartevse_6360_evenergycharged
       - sensor.smartevse_total_mains
       - sensor.todays_total_production_preserved
 
