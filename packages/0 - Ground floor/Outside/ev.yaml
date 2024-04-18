@@ -3,7 +3,7 @@ ev_package:
     ev_charged_energy:
       cycle: monthly
       name: SmartEVSE Monthly total
-      source: sensor.smartevse_ev_total_kwh
+      source: sensor.smartevse_6360_evtotalenergycharged
 
   automation:
     - id: ev_handle_automatic_cheapest_charge
@@ -31,7 +31,7 @@ ev_package:
                 - alias: "Select SMART charging option"
                   service: select.select_option
                   target:
-                    entity_id: select.smartevse_11469_mode
+                    entity_id: select.smartevse_6360_mode
                   data:
                     option: Smart
                 - alias: "Sending push notification"
@@ -50,7 +50,7 @@ ev_package:
                 - alias: "Select charging option OFF"
                   service: select.select_option
                   target:
-                    entity_id: select.smartevse_11469_mode
+                    entity_id: select.smartevse_6360_mode
                   data:
                     option: "Off"
                 - alias: "Sending push notification"
@@ -69,12 +69,12 @@ ev_package:
       mode: single
       trigger:
         - platform: state
-          entity_id: sensor.smartevse_car_connected
+          entity_id: sensor.smartevse_6360_evplugstate
       action:
         - if:
             - condition: state
-              entity_id: sensor.smartevse_car_connected
-              state: "True"
+              entity_id: sensor.smartevse_6360_evplugstate
+              state: "Connected"
           then:
             - service: switch.turn_on
               target:
@@ -82,8 +82,8 @@ ev_package:
           else:
             - if:
                 - condition: state
-                  entity_id: sensor.smartevse_car_connected
-                  state: "False"
+                  entity_id: sensor.smartevse_6360_evplugstate
+                  state: "Disconnected"
               then:
                 - service: switch.turn_off
                   target:
@@ -97,7 +97,7 @@ ev_package:
         title: EV charging monthly total
         message: >
           This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') }} kWh. 
-          The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_ev_total_kwh') }} kWh.
+          The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') }} kWh.
       trigger:
         - platform: time
           at: "23:59:45"
@@ -128,7 +128,7 @@ ev_package:
       condition:
         - alias: "Only when we are actually charging"
           condition: state
-          entity_id: sensor.smartevse_11469_state
+          entity_id: sensor.smartevse_6360_state
           state: "Charging"
       action:
         - service: kia_uvo.force_update
