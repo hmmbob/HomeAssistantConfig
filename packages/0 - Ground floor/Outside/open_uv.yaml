@@ -22,7 +22,30 @@ open_uv_package:
     - binary_sensor:
         - name: "UV index Warning level"
           unique_id: "uv_index_warning_level"
-          state: "{{ states('sensor.openuv_current_uv_index')| float(0) >= 5.0 }}"
+          state: "{{ states('sensor.calculated_uv')| float(0) >= 5.0 }}"
+    - trigger:
+        - platform: state
+          entity_id:
+            - sensor.openuv_current_uv_index
+            - sensor.knmi_omschrijving
+      sensor:
+        - name: "Calculated UV"
+          state: >-
+            {% set rawUV = states('sensor.openuv_current_uv_index') | float %}
+            {% if states('sensor.knmi_omschrijving') in ("Onbewolkt") %}
+              {% set factor = 1 %}
+            {% elif states('sensor.knmi_omschrijving') in ("Licht bewolkt")%}
+              {% set factor = 0.89 %}
+            {% elif states('sensor.knmi_omschrijving') in ("Half bewolkt")%}
+              {% set factor = 0.73 %}
+            {% elif states('sensor.knmi_omschrijving') in ("Geheel bewolkt",
+              "Zwaar bewolkt", "Motregen", "Lichte motregen", "Dichte motregen", "Lichte motregen en regen",
+              "Droog na motregen", "Motregen en regen", "Af en toe lichte regen", "Lichte regen", "Regen",
+              "Droog na regen")%}
+                {% set factor = 0.31 %}
+            {% endif %}
+            {{ (rawUV * factor) | round(0) }}
+          # Factors obtained from https://www.openuv.io/dashboard?tab=4
 
   automation:
     ##########################

@@ -134,7 +134,7 @@ cards:
           entities:
             - type: custom:fold-entity-row
               head:
-                entity: sensor.openuv_current_uv_index
+                entity: sensor.calculated_uv
                 icon: mdi:white-balance-sunny
                 name: "Huidige UV Index"
               entities:
