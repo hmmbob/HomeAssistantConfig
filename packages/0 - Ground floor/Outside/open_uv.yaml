@@ -32,17 +32,17 @@ open_uv_package:
         - name: "Calculated UV"
           state: >-
             {% set rawUV = states('sensor.openuv_current_uv_index') | float %}
+            {% set factor = 1 %}
             {% if states('sensor.knmi_omschrijving') in ("Onbewolkt") %}
-              {% set factor = 1 %}
+              {% set factor=1 %}
             {% elif states('sensor.knmi_omschrijving') in ("Licht bewolkt")%}
-              {% set factor = 0.89 %}
+              {% set factor=0.89 %}
             {% elif states('sensor.knmi_omschrijving') in ("Half bewolkt")%}
-              {% set factor = 0.73 %}
-            {% elif states('sensor.knmi_omschrijving') in ("Geheel bewolkt",
-              "Zwaar bewolkt", "Motregen", "Lichte motregen", "Dichte motregen", "Lichte motregen en regen",
-              "Droog na motregen", "Motregen en regen", "Af en toe lichte regen", "Lichte regen", "Regen",
-              "Droog na regen")%}
-                {% set factor = 0.31 %}
+              {% set factor=0.73 %}
+            {% elif states('sensor.knmi_omschrijving') is search("regen", ignorecase=True) or 
+                    states('sensor.knmi_omschrijving') is search("onweer", ignorecase=True) or
+                    states('sensor.knmi_omschrijving') in ("Geheel bewolkt","Zwaar bewolkt") %}
+                {% set factor=0.31 %}
             {% endif %}
             {{ (rawUV * factor) | round(0) }}
           # Factors obtained from https://www.openuv.io/dashboard?tab=4
