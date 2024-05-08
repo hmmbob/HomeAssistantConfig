@@ -24,7 +24,7 @@ awtrix_package:
     - id: awtrix_nightmode
       alias: "Night Mode voor Awtrix 🌛"
       description: "Set Awtrix to clock only by pressing the middle button"
-      mode: single
+      mode: queued
       trigger:
         - platform: state
           entity_id: binary_sensor.awtrix_6caff8_button_select
@@ -94,7 +94,7 @@ awtrix_package:
     - id: awtrix_temperature
       alias: "Stuur de buitentemperatuur naar Awtrix"
       description: "Send outside temperature to Awtrix"
-      mode: single
+      mode: queued
       trigger:
         - platform: state
           entity_id: sensor.knmi_temperatuur
@@ -108,7 +108,7 @@ awtrix_package:
     - id: awtrix_production
       alias: "Stuur vandaags productie van de zonnepanelen naar Awtrix"
       description: "Awtrix: Send today's energy production to Awtrix"
-      mode: single
+      mode: queued
       trigger:
         - platform: state
           entity_id: sensor.today_s_pv_generation
@@ -122,7 +122,7 @@ awtrix_package:
     - id: awtrix_current_production
       alias: "Stuur de huidige opbrengst van de zonnepanelen naar Awtrix"
       description: This will show the current solar energy received.
-      mode: single
+      mode: queued
       variables:
         device_topic: awtrix_6caff8/custom/current_production
         power_sensor: sensor.pv_power
@@ -184,7 +184,7 @@ awtrix_package:
     - id: awtrix_ev_battery
       alias: "Stuur het batterijniveau van de auto naar Awtrix"
       description: "Awtrix: Send the battery level of my EV to Awtrix"
-      mode: single
+      mode: queued
       variables:
         threshold_low: 30
         threshold_high: 60

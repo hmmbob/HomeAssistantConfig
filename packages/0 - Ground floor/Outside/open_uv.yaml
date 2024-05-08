@@ -31,7 +31,7 @@ open_uv_package:
       sensor:
         - name: "Calculated UV"
           state: >-
-            {% set rawUV = states('sensor.openuv_current_uv_index') | float %}
+            {% set rawUV = states('sensor.openuv_current_uv_index') | float(0) %}
             {% set factor = 1 %}
             {% if states('sensor.knmi_omschrijving') in ("Onbewolkt") %}
               {% set factor=1 %}
