@@ -42,7 +42,7 @@ gas_prices_package:
           condition: template
           value_template: "{{ trigger.to_state.state != trigger.from_state.state }}"
       action:
-        - service: notify.mobile_app_sm_a526b
+        - service: notify.mobile_app_sm_a556b
           data:
             title: >-
               {{ iif(trigger.to_state.state < trigger.from_state.state, "Benzine wordt goedkoper", "Benzine wordt duurder") }}

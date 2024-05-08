@@ -41,7 +41,7 @@ vacation_mode_package:
             name: Vacation
             message: Lights turned on at {{ now().strftime('%H:%M') }}.
             domain: light
-        - service: notify.mobile_app_sm_a526b
+        - service: notify.mobile_app_sm_a556b
           data:
             message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
             title: Vacation lights
@@ -68,7 +68,7 @@ vacation_mode_package:
             name: Vacation
             message: Lights turned off at {{ now().strftime('%H:%M') }}.
             domain: light
-        - service: notify.mobile_app_sm_a526b
+        - service: notify.mobile_app_sm_a556b
           data:
             message: I turned your lights off at {{ now().strftime('%H:%M') }}.
             title: Vacation lights

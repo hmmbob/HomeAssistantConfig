@@ -98,7 +98,7 @@ trash_package:
             - stop: "Stopping notification sequence as trash is already outside"
           else:
             - alias: "Sending push notification"
-              service: notify.mobile_app_sm_a526b
+              service: notify.mobile_app_sm_a556b
               data:
                 title: "Afvalinzameling"
                 message: "{{ trigger.id | capitalize }} wordt het {{ afval }} opgehaald."

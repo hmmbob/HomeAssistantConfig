@@ -13,7 +13,7 @@ homeassistant:
     - type: notify
       message: "Access token: {}"
       include:
-        - mobile_app_sm_a526b
+        - mobile_app_sm_a556b
   packages: !include_dir_merge_named packages/
 
 frontend:
@@ -35,7 +35,7 @@ logbook:
       - sensor.kamertemperatuur
     entity_globs:
       - binary_sensor.pir*
-      - binary_sensor.sm_a52*
+      - binary_sensor.sm_a55*
       - binary_sensor.sm_a33_*
       - binary_sensor.schad*
       - number.awtrix_*

@@ -18,9 +18,9 @@ vacuum_package:
       id: vacuum_ask_to_run
       variables:
         notification_service: >
-          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
           {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
-          {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+          {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
           {% else %}notify.bogus
           {% endif %}
       trigger:
@@ -146,7 +146,7 @@ vacuum_package:
           from: "docked"
           to: "cleaning"
       action:
-        - service: notify.mobile_app_sm_a526b
+        - service: notify.mobile_app_sm_a556b
           data:
             title: "Rocky"
             message: "Rocky doet zijn rondje! 🧹🧹"
@@ -162,9 +162,9 @@ vacuum_package:
       initial_state: "on"
       variables:
         notification_service: >
-          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a526b", "home") %}notify.mobile_devices_adults
+          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
           {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
-          {% elif is_state("device_tracker.sm_a526b", "home") %}notify.mobile_app_sm_a526b
+          {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
           {% else %}notify.bogus
           {% endif %}
       trigger:

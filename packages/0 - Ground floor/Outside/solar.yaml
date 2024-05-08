@@ -203,7 +203,7 @@ solar_package:
                   else:
                     - stop: "Stopping because scheduled turning on/off is not enabled"
         - alias: "Sending push notification"
-          service: notify.mobile_app_sm_a526b
+          service: notify.mobile_app_sm_a556b
           data:
             title: "Zonnepanelen update"
             message: "{{ message }}"

@@ -37,10 +37,10 @@ cards:
           type: custom:fold-entity-row
           head:
             type: section
-            label: Mobile App A52
+            label: Mobile App A55
         filter:
           include:
-            - entity_id: "*sm_a526b*"
+            - entity_id: "*sm_a556b*"
         sort:
           method: name
       - type: custom:auto-entities

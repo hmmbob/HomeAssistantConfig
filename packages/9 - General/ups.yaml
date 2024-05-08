@@ -29,7 +29,7 @@ ups_package:
                   state: "OB DISCHRG"
               sequence:
                 - alias: "We're running on battery!"
-                  service: notify.mobile_app_sm_a526b
+                  service: notify.mobile_app_sm_a556b
                   data:
                     title: 🪫 UPS ingeschakeld!
                     message: >
@@ -50,7 +50,7 @@ ups_package:
                   state: "OL CHRG"
               sequence:
                 - alias: "We're back online, charging the UPS battery!"
-                  service: notify.mobile_app_sm_a526b
+                  service: notify.mobile_app_sm_a556b
                   data:
                     title: 🔋 UPS weer online & aan het opladen!
                     message: >
@@ -70,7 +70,7 @@ ups_package:
                   entity_id: sensor.ups_status_data
                   state: "OL"
               sequence:
-                - service: notify.mobile_app_sm_a526b
+                - service: notify.mobile_app_sm_a556b
                   data:
                     message: "clear_notification"
                     data:

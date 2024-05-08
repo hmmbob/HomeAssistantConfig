@@ -31,11 +31,11 @@ travel_time_notifications_package:
       alias: "Verstuur melding dat Bob van het werk vertrekt"
       trigger:
         - platform: zone
-          entity_id: device_tracker.sm_a526b
+          entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.work
         - platform: zone
-          entity_id: device_tracker.sm_a526b
+          entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.breda
       condition:
@@ -108,7 +108,7 @@ travel_time_notifications_package:
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
       trigger:
         - platform: zone
-          entity_id: device_tracker.sm_a526b
+          entity_id: device_tracker.sm_a556b
           event: enter
           zone: zone.home
       condition:

@@ -35,7 +35,7 @@ ev_package:
                   data:
                     option: Smart
                 - alias: "Sending push notification"
-                  service: notify.mobile_app_sm_a526b
+                  service: notify.mobile_app_sm_a556b
                   data:
                     title: "Automatic cheapest EV charging started"
                     message: "Automatisch laden van de auto is gestart. ({{ now().strftime('%H:%M') }})."
@@ -54,7 +54,7 @@ ev_package:
                   data:
                     option: "Off"
                 - alias: "Sending push notification"
-                  service: notify.mobile_app_sm_a526b
+                  service: notify.mobile_app_sm_a556b
                   data:
                     title: "Automatic cheapest EV charging stopped"
                     message: "Automatisch laden van de auto is gestopt ({{ now().strftime('%H:%M') }})"
