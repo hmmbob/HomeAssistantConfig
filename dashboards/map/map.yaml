@@ -14,7 +14,6 @@ views:
           - entity: zone.cz
           - entity: zone.home
           - entity: zone.mc
-          - entity: zone.ploeterklas
           - entity: zone.school
           - entity: zone.school_mini
           - entity: zone.scouting
