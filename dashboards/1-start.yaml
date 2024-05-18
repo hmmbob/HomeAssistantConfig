@@ -144,7 +144,7 @@ cards:
 
       - type: conditional ## Conditional trash
         conditions:
-          - entity: binary_sensor.trash_helper_is_it_in_the_morning
+          - entity: binary_sensor.early_morning
             state: "on"
           - entity: sensor.afvalinfo_vandaag
             state_not: "none"

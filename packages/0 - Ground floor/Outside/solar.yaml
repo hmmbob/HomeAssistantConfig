@@ -210,3 +210,5 @@ solar_package:
             data:
               tag: "notification-solar"
               notification_icon: mdi:solar-power-variant
+              ttl: 0
+              priority: high

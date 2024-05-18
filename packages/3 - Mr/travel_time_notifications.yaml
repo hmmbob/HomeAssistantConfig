@@ -125,3 +125,5 @@ travel_time_notifications_package:
             message: "clear_notification"
             data:
               tag: "waze"
+              ttl: 0
+              priority: high

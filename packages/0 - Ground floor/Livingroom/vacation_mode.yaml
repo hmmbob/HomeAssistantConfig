@@ -45,7 +45,8 @@ vacation_mode_package:
           data:
             message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
             title: Vacation lights
-
+            ttl: 0
+            priority: high
     - id: vacation_turn_off_time
       alias: "Zet de verlichting uit (vacation mode)"
       initial_state: on
@@ -72,3 +73,5 @@ vacation_mode_package:
           data:
             message: I turned your lights off at {{ now().strftime('%H:%M') }}.
             title: Vacation lights
+            ttl: 0
+            priority: high

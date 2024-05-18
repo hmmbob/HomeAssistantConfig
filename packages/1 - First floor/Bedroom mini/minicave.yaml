@@ -60,6 +60,8 @@ bedroom_minicave_package:
             data:
               tag: "{{ trigger.id }}"
               icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              ttl: 0
+              priority: high
 
     - id: power_logging_minicave
       alias: "Log stroomverbruik in de minicave"

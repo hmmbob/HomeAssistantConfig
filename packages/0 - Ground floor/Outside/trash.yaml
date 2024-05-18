@@ -109,6 +109,8 @@ trash_package:
                   actions:
                     - action: "trash_outside"
                       title: "Jep, staat buiten!"
+                  ttl: 0
+                  priority: high
             - alias: "Check if TTS should be played"
               condition: state
               entity_id: input_boolean.notify_trash_voice

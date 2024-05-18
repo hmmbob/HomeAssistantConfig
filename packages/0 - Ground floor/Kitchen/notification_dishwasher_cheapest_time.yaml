@@ -36,3 +36,5 @@ dishwasher_cheapest_time_package:
             data:
               tag: "notification-dishwasher"
               notification_icon: mdi:dishwasher
+              ttl: 0
+              priority: high

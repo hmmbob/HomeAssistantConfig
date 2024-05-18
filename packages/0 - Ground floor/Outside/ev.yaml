@@ -43,6 +43,8 @@ ev_package:
                       # tag: "notification-ev"
                       icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
+                      ttl: 0
+                      priority: high
             - conditions:
                 - condition: trigger
                   id: ev_cheapest_charge_stop
@@ -62,6 +64,8 @@ ev_package:
                       # tag: "notification-ev"
                       icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
+                      ttl: 0
+                      priority: high
 
     - alias: "Stel in of de auto verbonden is"
       id: "ev_set_smart_charging_connected_sensor"
