@@ -46,11 +46,6 @@ cards:
 
       - type: "custom:vertical-stack-in-card"
         cards:
-          - type: entities
-            show_header_toggle: false
-            title: HP Color Laser Jet Info
-            entities:
-              - binary_sensor.hp_printer_connectivity
           - type: "custom:bar-card"
             align: bottom
             columns: 4
@@ -66,21 +61,22 @@ cards:
             target: 20
             entities:
               - color: MediumTurquoise
-                entity: sensor.hp_printer_toner_cyan
+                entity: sensor.hp_printer_cyan_toner_niveau
                 title: Cyan
               - color: MediumOrchid
-                entity: sensor.hp_printer_toner_magenta
+                entity: sensor.hp_printer_magenta_toner_niveau
                 title: Magenta
               - color: Gold
-                entity: sensor.hp_printer_toner_yellow
+                entity: sensor.hp_printer_yellow_toner_niveau
                 title: Yellow
               - color: Black
-                entity: sensor.hp_printer_toner_black
+                entity: sensor.hp_printer_black_toner_niveau
                 title: Black
           - type: markdown
             content: >
-              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter: **{{ 
-              states('sensor.hp_printer_printer') }}** Pages
+              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter:  
+              **{{states('sensor.hp_printer_printer_totaal_aantal_zwart_witpagina_s') }} black** and
+              **{{states('sensor.hp_printer_printer_totale_kleurpagina_s') }} color** pages
 
               - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
-              states('sensor.hp_printer_scanner') }}** Pages
+              states('sensor.hp_printer_scanner_totaal_aantal_pagina_s_van_scannerglas') }}** Pages

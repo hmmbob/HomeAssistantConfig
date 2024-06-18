@@ -5,24 +5,24 @@ printer_package:
       trigger:
         - platform: numeric_state
           entity_id:
-            - sensor.hp_printer_toner_black
-            - sensor.hp_printer_toner_cyan
-            - sensor.hp_printer_toner_magenta
-            - sensor.hp_printer_toner_yellow
+            - sensor.hp_printer_black_toner_niveau
+            - sensor.hp_printer_cyan_toner_niveau
+            - sensor.hp_printer_magenta_toner_niveau
+            - sensor.hp_printer_yellow_toner_niveau
           below: 26
         - platform: numeric_state
           entity_id:
-            - sensor.hp_printer_toner_black
-            - sensor.hp_printer_toner_cyan
-            - sensor.hp_printer_toner_magenta
-            - sensor.hp_printer_toner_yellow
+            - sensor.hp_printer_black_toner_niveau
+            - sensor.hp_printer_cyan_toner_niveau
+            - sensor.hp_printer_magenta_toner_niveau
+            - sensor.hp_printer_yellow_toner_niveau
           below: 11
       variables:
         color_descr:
-          sensor.hp_printer_toner_black: "zwarte"
-          sensor.hp_printer_toner_cyan: "blauwe"
-          sensor.hp_printer_toner_magenta: "rode"
-          sensor.hp_printer_toner_yellow: "gele"
+          sensor.hp_printer_black_toner_niveau: "zwarte"
+          sensor.hp_printer_cyan_toner_niveau: "blauwe"
+          sensor.hp_printer_magenta_toner_niveau: "rode"
+          sensor.hp_printer_yellow_toner_niveau: "gele"
         color: >
           {{ color_descr.get(trigger.entity_id, "unknown") }}
       condition:
