@@ -13,8 +13,7 @@ dining_room_airco_package:
         - platform: time_pattern
           minutes: /1
       condition:
-        not:
-          - "{{ states('climate.airco_woonkamer') in ['unknown','unavailable'] }}"
+        - "{{ states('climate.airco_woonkamer') not in ['unknown','unavailable'] }}"
       action:
         - service: esphome.airco_woonkamer_set_api_room_temperature
           data:
@@ -27,8 +26,7 @@ dining_room_airco_package:
         - platform: time
           at: input_datetime.time_turn_off_airco
       condition:
-        not:
-          - "{{ states('climate.airco_woonkamer') in ['off', 'unknown','unavailable'] }}"
+        - "{{ states('climate.airco_woonkamer') not in ['off', 'unknown','unavailable'] }}"
       action:
         - service: climate.set_hvac_mode
           target:
