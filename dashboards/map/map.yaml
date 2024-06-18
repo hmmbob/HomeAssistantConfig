@@ -17,6 +17,6 @@ views:
           - entity: zone.school
           - entity: zone.school_mini
           - entity: zone.scouting
-          - entity: zone.work
+          - entity: zone.vkl
           - entity: zone.work_ms
         default_zoom: 17
