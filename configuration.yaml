@@ -2,9 +2,6 @@
 ## Home Assistant Core
 #################################################################
 homeassistant:
-  customize:
-    zone.home: # Set home zone to 50m
-      radius: 50
   auth_providers:
     - type: homeassistant
   auth_mfa_modules:
