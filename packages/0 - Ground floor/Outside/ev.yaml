@@ -45,6 +45,7 @@ ev_package:
                       notification_icon: mdi:ev-station
                       ttl: 0
                       priority: high
+                      clickAction: "/lovelace/car"
             - conditions:
                 - condition: trigger
                   id: ev_cheapest_charge_stop
@@ -66,6 +67,7 @@ ev_package:
                       notification_icon: mdi:ev-station
                       ttl: 0
                       priority: high
+                      clickAction: "/lovelace/car"
 
     - alias: "Stel in of de auto verbonden is"
       id: "ev_set_smart_charging_connected_sensor"
