@@ -46,6 +46,10 @@ travel_time_notifications_package:
                 - condition: zone
                   entity_id: device_tracker.sm_a556b
                   zone: zone.vkl
+        - alias: "Don't run if we already sent a message"
+          condition: state
+          entity_id: input_boolean.location_bob_travelling_home
+          state: "on"
       action:
         - alias: "Sending push notification"
           service: notify.mobile_app_sm_a556b
@@ -59,26 +63,17 @@ travel_time_notifications_package:
               actions:
                 - action: "send_traveltime"
                   title: "Ja"
+              tag: "ask-waze"
               ttl: 0
               priority: high
 
-    - alias: "Verwerk verzoek voor traveltime update"
-      id: location_process_answer_to_send_notification_hmmbob_left
+    - id: location_notification_hmmbob_left_work
+      alias: "Verstuur melding dat Bob van het werk vertrekt"
       trigger:
         - platform: event
           event_type: mobile_app_notification_action
           event_data:
             action: "send_traveltime"
-      action:
-        - service: automation.trigger
-          target:
-            entity_id: automation.location_notificatie_dat_bob_van_het_werk_vertrekt
-          data:
-            skip_condition: true
-
-    - id: location_notification_hmmbob_left_work
-      alias: "Verstuur melding dat Bob van het werk vertrekt"
-      trigger:
         - platform: zone
           entity_id: device_tracker.sm_a556b
           event: leave
@@ -124,6 +119,13 @@ travel_time_notifications_package:
               sticky: true
               tag: "waze"
               ttl: 0
+        - service: notify.mobile_devices_adults
+          data:
+            message: "clear_notification"
+            data:
+              tag: "ask-waze"
+              ttl: 0
+              priority: high
 
     - id: location_update_traveltime_notification_hmmbob
       alias: "Werk reistijd notificatie bij met nieuwe gegevens"
