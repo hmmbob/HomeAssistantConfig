@@ -7,10 +7,11 @@ ev_package:
 
   template:
     - sensor:
-        - name: "zonneplan_template_price_sensor"
+        - name: "Zonneplan template price sensor"
+          unique_id: zonneplan_template_price_sensor
           unit_of_measurement: "€/kWh"
-          state: >
-            {{ states('sensor.zonneplan_current_electricity_tariff') | float }}
+          state: "{{ states('sensor.zonneplan_current_electricity_tariff') }}"
+          availability: "{{ 'sensor.zonneplan_current_electricity_tariff' | has_value }}"
           attributes:
             prices_today: >
               {%- set forecast = state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') %}
