@@ -5,6 +5,32 @@ ev_package:
       name: SmartEVSE Monthly total
       source: sensor.smartevse_6360_evtotalenergycharged
 
+  template:
+    - sensor:
+        - name: "zonneplan_template_price_sensor"
+          unit_of_measurement: "€/kWh"
+          state: >
+            {{ states('sensor.zonneplan_current_electricity_tariff') | float }}
+          attributes:
+            prices_today: >
+              {%- set forecast = state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') %}
+              {%- set time_key = 'datetime' %}
+              {%- set price_key = 'electricity_price' %}
+              {%- set ns = namespace(data=[]) %}
+              {%- for i in forecast | default([], true) if as_local(as_datetime(i[time_key])).date() == now().date() %}
+                {%- set ns.data = ns.data + [dict(time= as_local(as_datetime(i[time_key])).isoformat(), price = i[price_key] / 10000000 )] %}
+              {%- endfor %}
+              {{ ns.data }}
+            prices_tomorrow: >
+              {%- set forecast = state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') %}
+              {%- set time_key = 'datetime' %}
+              {%- set price_key = 'electricity_price' %}
+              {%- set ns = namespace(data=[]) %}
+              {%- for i in forecast | default([], true) if as_local(as_datetime(i[time_key])).date() == (now()+timedelta(days=1)).date() %}
+                {%- set ns.data = ns.data + [dict(time= as_local(as_datetime(i[time_key])).isoformat(), price = i[price_key] / 10000000 )] %}
+              {%- endfor %}
+              {{ ns.data }}
+
   automation:
     - id: ev_handle_automatic_cheapest_charge
       alias: "Laad de auto tijdens de goedkoopste uren"
