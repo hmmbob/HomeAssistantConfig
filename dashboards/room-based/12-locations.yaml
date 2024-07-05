@@ -67,7 +67,6 @@ cards:
           - zone.home
           - zone.mc
           - zone.school
-          - zone.school_mini
           - zone.scouting
           - zone.vkl
           - zone.work_ms

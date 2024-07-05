@@ -15,7 +15,6 @@ views:
           - entity: zone.home
           - entity: zone.mc
           - entity: zone.school
-          - entity: zone.school_mini
           - entity: zone.scouting
           - entity: zone.vkl
           - entity: zone.work_ms

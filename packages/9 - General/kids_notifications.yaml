@@ -10,7 +10,7 @@ kids_notifications_package:
         - platform: zone
           entity_id: device_tracker.sm_a236b
           event: leave
-          zone: zone.school_mini
+          zone: zone.school
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: school

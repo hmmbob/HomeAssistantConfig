@@ -68,7 +68,6 @@ cards:
           - zone.mc
           - zone.ploeterklas
           - zone.school
-          - zone.school_mini
           - zone.scouting
           - zone.work
           - zone.work_ms
