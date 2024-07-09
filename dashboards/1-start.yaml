@@ -87,7 +87,7 @@ cards:
                   (Noord-Brabant)
               secondary: >-
                 {{ (state_attr('binary_sensor.meteoalarm', 'description')) }}
-                Van {{ as_timestamp(state_attr('binary_sensor.meteoalarm','onset')) | timestamp_custom('%d-%m %H:%M') }} 
+                Van {{ as_timestamp(state_attr('binary_sensor.meteoalarm','onset')) | timestamp_custom('%d-%m %H:%M') }}
                 tot {{ as_timestamp(state_attr('binary_sensor.meteoalarm','expires')) | timestamp_custom('%d-%m %H:%M') }}
               icon: |-
                 {% if is_state('sensor.knmi_weercode', 'Groen') %}
