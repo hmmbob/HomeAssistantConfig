@@ -16,7 +16,7 @@ cards:
           - type: template
             tap_action:
               action: navigate
-              navigation_path: /lovelace-rooms/start
+              navigation_path: /lovelace/start
             icon: mdi:arrow-left
           - type: entity
             entity: sensor.slaapkamer_m_temperatuur
