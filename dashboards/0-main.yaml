@@ -78,7 +78,7 @@ cards:
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
@@ -89,28 +89,28 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/living-room
+                  navigation_path: /lovelace/living-room
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(128, 199, 149) !important;
                         --shape-color: rgba(128, 199, 149, 0.2) !important;
                       }
@@ -119,7 +119,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -138,8 +138,8 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
               - type: custom:mushroom-template-card
@@ -161,8 +161,8 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -176,8 +176,8 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -189,8 +189,8 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }
           ### Room card eetkamer ###
@@ -198,7 +198,7 @@ cards:
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
@@ -209,28 +209,28 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/dining-room
+                  navigation_path: /lovelace/dining-room
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(255, 167, 38) !important;
                         --shape-color: rgba(255, 167, 38, 0.2) !important;
                       }
@@ -239,7 +239,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -258,8 +258,8 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
               - type: custom:mushroom-template-card
@@ -281,8 +281,8 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -292,13 +292,13 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/dining-room
+                  navigation_path: /lovelace/dining-room
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -308,13 +308,13 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/dining-room
+                  navigation_path: /lovelace/dining-room
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }
 
@@ -328,7 +328,7 @@ cards:
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
@@ -339,28 +339,28 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/salon
+                  navigation_path: /lovelace/salon
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(219, 148, 228) !important;
                         --shape-color: rgb(219, 148, 228, 0.2) !important;
                       }
@@ -369,7 +369,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -388,8 +388,8 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
               - type: custom:mushroom-template-card
@@ -405,8 +405,8 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -416,13 +416,13 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/salon
+                  navigation_path: /lovelace/salon
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -432,174 +432,53 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/salon
+                  navigation_path: /lovelace/salon
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }
-
-          ### Room card kantoor ###
-          - type: custom:vertical-stack-in-card
-            card_mod:
-              style: |
-                ha-card {
-                  height: 240px !important;
-                }
-            cards:
-              - type: custom:mushroom-template-card
-                primary: Kantoor
-                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_2_temperature') | round(1, default=0) }} °C"
-                icon: mdi:desk
-                icon_color: blue
-                layout: horizontal
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/office
-                card_mod:
-                  style:
-                    mushroom-state-info$: |
-                      .primary {
-                        font-size: 16px !important;
-                        position: relative;
-                        top: -60px;
-                        left: -195px;
-                        overflow: visible !important;
-                      }
-                      .secondary {
-                        position: relative;
-                        overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
-                      }
-                    mushroom-shape-icon$: |
-                      .shape {
-                        position: relative;
-                        left: -50px;
-                        top: 80px;
-                        --icon-color: rgb(63, 81, 181) !important;
-                        --shape-color: rgb(63, 81, 181, 0.2) !important;
-                      }
-                    .: |
-                      ha-card {
-                        background: none;
-                      }
-                      :host {
-                        --mush-icon-size: 186px;
-                      }
-              - type: custom:mushroom-template-card
-                primary: none
-                secondary: none
-                icon: none
-                icon_color: none
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/office
-                card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
-                        background: none;
-                      }
-              - type: custom:mushroom-template-card
-                primary: none
-                secondary: none
-                entity: climate.kantoor
-                icon: mdi:radiator
-                icon_color: |-
-                  {{ "orange" if is_state(entity, 'heat') else "disabled" }}
-                tap_action:
-                  action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
-                      background: none;
-                    }
-              - type: custom:mushroom-template-card
-                primary: none
-                secondary: none
-                icon: none
-                icon_color: none
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/office
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
-                      background: none;
-                    }
-              - type: custom:mushroom-template-card
-                primary: none
-                secondary: none
-                icon: none
-                icon_color: none
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/office
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
-                      background: none;
-                    }
-
-      ###########################
-      # 3rd row of room cards   #
-      ###########################
-      - type: horizontal-stack
-        cards:
           ### Room card MBR ###
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
                 icon: mdi:bed-king-outline
                 icon_color: red
-                primary: Master bed room
+                primary: Master bedroom
                 secondary: "{{ states('sensor.master_bedroom_temperatuur') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/mbr
+                  navigation_path: /lovelace/mbr
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(229, 115, 115) !important;
                         --shape-color: rgba(229, 115, 115, 0.2) !important;
                       }
@@ -608,7 +487,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -628,8 +507,8 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
               - type: custom:mushroom-template-card
@@ -651,8 +530,8 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -662,13 +541,13 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/mbr
+                  navigation_path: /lovelace/mbr
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -678,22 +557,27 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/mbr
+                  navigation_path: /lovelace/mbr
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }
 
+      ###########################
+      # 3rd row of room cards   #
+      ###########################
+      - type: horizontal-stack
+        cards:
           ### Room card Slaapkamer M ###
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
@@ -704,28 +588,28 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/bed-room-maxi
+                  navigation_path: /lovelace/bed-room-maxi
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(27, 94, 32) !important;
                         --shape-color: rgb(27, 94, 32, 0.2) !important;
                       }
@@ -734,7 +618,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -754,11 +638,10 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
-
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
@@ -778,54 +661,65 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
-                icon: none
-                icon_color: none
+                entity: binary_sensor.is_pubercave_pc_on
+                icon: mdi:desktop-classic
+                icon_color: |-
+                  {{ "green" if is_state('binary_sensor.is_pubercave_pc_on', 'on') else "grey" }}
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/bed-room-maxi
+                  action: more-info
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
-                icon: none
-                icon_color: none
+                entity: binary_sensor.is_pubercave_tv_on
+                icon: mdi:television
+                icon_color: |-
+                  {{ "green" if is_state('binary_sensor.is_pubercave_tv_on', 'on') else "grey" }}
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/bed-room-maxi
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: TV Mini
+                      content:
+                        type: custom:mini-media-player
+                        entity: media_player.tv_zolder
+                        icon: mdi:cast
+                        artwork: cover
+                        artwork_border: true
+                        power_color: true
+                        scroll_info: true
+                        show_source: true
+                hold_action:
+                  action: more-info
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }
-
-      ###########################
-      # 4th row of room cards   #
-      ###########################
-      - type: horizontal-stack
-        cards:
           ### Room card mini ###
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
@@ -836,28 +730,28 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/bed-room-mini
+                  navigation_path: /lovelace/bed-room-mini
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(33, 150, 243) !important;
                         --shape-color: rgba(33, 150, 243, 0.2) !important;
                       }
@@ -866,7 +760,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -895,8 +789,8 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
               - type: custom:mushroom-template-card
@@ -918,49 +812,185 @@ cards:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
-                icon: none
-                icon_color: none
+                entity: binary_sensor.minicave_pc
+                icon: mdi:desktop-classic
+                icon_color: |-
+                  {{ "green" if is_state('binary_sensor.minicave_pc', 'on') else "grey" }}
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/bed-room-mini
+                  action: more-info
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
-                icon: none
-                icon_color: none
+                entity: binary_sensor.is_minicave_tv_on
+                icon: mdi:television
+                icon_color: |-
+                  {{ "green" if is_state('binary_sensor.is_minicave_tv_on', 'on') else "grey" }}
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace-rooms/bed-room-mini
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: TV Mini
+                      content:
+                        type: custom:mini-media-player
+                        entity: media_player.tv_t
+                        icon: mdi:cast
+                        artwork: cover
+                        artwork_border: true
+                        power_color: true
+                        scroll_info: true
+                        show_source: true
+                hold_action:
+                  action: more-info
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }
 
+      ###########################
+      # 4th row of room cards   #
+      ###########################
+      - type: horizontal-stack
+        cards:
+          ### Room card kantoor ###
+          - type: custom:vertical-stack-in-card
+            card_mod:
+              style: |
+                ha-card {
+                  height: 225px !important;
+                }
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Kantoor
+                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_2_temperature') | round(1, default=0) }} °C"
+                icon: mdi:desk
+                icon_color: blue
+                layout: horizontal
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/office
+                card_mod:
+                  style:
+                    mushroom-state-info$: |
+                      .primary {
+                        font-size: 16px !important;
+                        position: relative;
+                        top: -47px;
+                        left: -154px;
+                        overflow: visible !important;
+                      }
+                      .secondary {
+                        position: relative;
+                        overflow: visible !important;
+                        top: -49px;
+                        left: -154px;
+                      }
+                    mushroom-shape-icon$: |
+                      .shape {
+                        position: relative;
+                        left: -36px;
+                        top: 105px;
+                        --icon-color: rgb(63, 81, 181) !important;
+                        --shape-color: rgb(63, 81, 181, 0.2) !important;
+                      }
+                    .: |
+                      ha-card {
+                        background: none;
+                      }
+                      :host {
+                        --mush-icon-size: 140px;
+                      }
+              - type: custom:mushroom-template-card
+                primary: none
+                secondary: none
+                icon: none
+                icon_color: none
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/office
+                card_mod:
+                  style:
+                    .: |
+                      ha-card {
+                        width: 66px;
+                        margin-left: 66%;
+                        top: -163px;
+                        background: none;
+                      }
+              - type: custom:mushroom-template-card
+                primary: none
+                secondary: none
+                entity: climate.kantoor
+                icon: mdi:radiator
+                icon_color: |-
+                  {{ "orange" if is_state(entity, 'heat') else "disabled" }}
+                tap_action:
+                  action: more-info
+                card_mod:
+                  style: |
+                    ha-card {
+                      width: 66px;
+                      margin-left: 66%;
+                      top: -173px;
+                      background: none;
+                    }
+              - type: custom:mushroom-template-card
+                primary: none
+                secondary: none
+                icon: none
+                icon_color: none
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/office
+                card_mod:
+                  style: |
+                    ha-card {
+                      width: 66px;
+                      margin-left: 66%;
+                      top: -183px;
+                      background: none;
+                    }
+              - type: custom:mushroom-template-card
+                primary: none
+                secondary: none
+                icon: none
+                icon_color: none
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/office
+                card_mod:
+                  style: |
+                    ha-card {
+                      width: 66px;
+                      margin-left: 66%;
+                      top: -193px;
+                      background: none;
+                    }
           ### Room card bathroom ###
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
                 ha-card {
-                  height: 240px !important;
+                  height: 225px !important;
                 }
             cards:
               - type: custom:mushroom-template-card
@@ -971,28 +1001,28 @@ cards:
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/tbd
+                  navigation_path: /lovelace/tbd
                 card_mod:
                   style:
                     mushroom-state-info$: |
                       .primary {
                         font-size: 16px !important;
                         position: relative;
-                        top: -60px;
-                        left: -195px;
+                        top: -47px;
+                        left: -154px;
                         overflow: visible !important;
                       }
                       .secondary {
                         position: relative;
                         overflow: visible !important;
-                        top: -62px;
-                        left: -195px;
+                        top: -49px;
+                        left: -154px;
                       }
                     mushroom-shape-icon$: |
                       .shape {
                         position: relative;
-                        left: -50px;
-                        top: 80px;
+                        left: -36px;
+                        top: 105px;
                         --icon-color: rgb(255, 238, 88) !important;
                         --shape-color: rgb(255, 238, 88, 0.2) !important;
                       }
@@ -1001,7 +1031,7 @@ cards:
                         background: none;
                       }
                       :host {
-                        --mush-icon-size: 186px;
+                        --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
                 primary: none
@@ -1021,8 +1051,8 @@ cards:
                     .: |
                       ha-card {
                         width: 66px;
-                        margin-left: 70%;
-                        top: -205px;
+                        margin-left: 66%;
+                        top: -163px;
                         background: none;
                       }
               - type: custom:mushroom-template-card
@@ -1032,13 +1062,13 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/tbd
+                  navigation_path: /lovelace/tbd
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -215px;
+                      margin-left: 66%;
+                      top: -173px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -1048,13 +1078,13 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/tbd
+                  navigation_path: /lovelace/tbd
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -225px;
+                      margin-left: 66%;
+                      top: -183px;
                       background: none;
                     }
               - type: custom:mushroom-template-card
@@ -1064,12 +1094,12 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace-rooms/tbd
+                  navigation_path: /lovelace/tbd
                 card_mod:
                   style: |
                     ha-card {
                       width: 66px;
-                      margin-left: 70%;
-                      top: -235px;
+                      margin-left: 66%;
+                      top: -193px;
                       background: none;
                     }

@@ -1,0 +1,12 @@
+title: Old ui
+views:
+  - !include 1-start.yaml
+  - !include 2-temp.yaml
+  - !include 2.1-airco.yaml
+  - !include 3-vacuum.yaml
+  - !include 4-locations.yaml
+  - !include 5-plants.yaml
+  - !include 6-camera.yaml
+  - !include 7-energy.yaml
+  - !include 8-car.yaml
+  - !include 99-settings.yaml

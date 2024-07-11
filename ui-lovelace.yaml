@@ -3,13 +3,18 @@ swipe_nav:
 
 title: Home sweet home
 views:
-  - !include dashboards/1-start.yaml
-  - !include dashboards/2-temp.yaml
-  - !include dashboards/2.1-airco.yaml
-  - !include dashboards/3-vacuum.yaml
-  - !include dashboards/4-locations.yaml
-  - !include dashboards/5-plants.yaml
-  - !include dashboards/6-camera.yaml
-  - !include dashboards/7-energy.yaml
-  - !include dashboards/8-car.yaml
-  - !include dashboards/99-settings.yaml
+  - !include dashboards/0-main.yaml
+  - !include dashboards/1-living_room.yaml
+  - !include dashboards/2-dining_room.yaml
+  - !include dashboards/3-salon.yaml
+  - !include dashboards/4-office.yaml
+  - !include dashboards/5-mbr.yaml
+  - !include dashboards/6-bed_room_maxi.yaml
+  - !include dashboards/7-bed_room_mini.yaml
+  - !include dashboards/8-tbd.yaml
+  - !include dashboards/11-vacuum.yaml
+  - !include dashboards/12-locations.yaml
+  - !include dashboards/13-camera.yaml
+  - !include dashboards/14-energy.yaml
+  - !include dashboards/15-car.yaml
+  

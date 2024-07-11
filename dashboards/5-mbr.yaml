@@ -13,7 +13,11 @@ cards:
         alignment: justify
       - type: custom:mushroom-chips-card
         chips:
-          - type: back
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-rooms/start
+            icon: mdi:arrow-left
           - type: entity
             entity: sensor.master_bedroom_temperatuur
             icon_color: orange
@@ -26,7 +30,7 @@ cards:
             icon_color: |-
               {{ "orange" if is_state('switch.inloopkast', 'on') else "grey" }}
             content: |-
-              {{ "1" if is_state('switch.inloopkast', 'on') else "0" }} lampen aan
+              {{ "1" if is_state('switch.inloopkast', 'on') else "0" }}
 
       - type: thermostat
         entity: climate.airco_master_bedroom
@@ -67,7 +71,7 @@ cards:
             preset_mode: Auto
 
       - type: custom:mini-media-player
-        entity: media_player.tv_slaapkamer
+        entity: media_player.tv_master_bedroom
         icon: mdi:cast
         artwork: cover
         artwork_border: true

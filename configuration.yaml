@@ -72,10 +72,10 @@ lovelace:
   mode: yaml
   resources: !include dashboards/resources.yaml
   dashboards:
-    lovelace-rooms:
+    lovelace-old:
       mode: yaml
-      filename: dashboards/room-based/room-based.yaml
-      title: Rooms
+      filename: dashboards/old/old.yaml
+      title: Old UI
       icon: mdi:home-assistant
       show_in_sidebar: true
       require_admin: false

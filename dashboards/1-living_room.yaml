@@ -18,7 +18,11 @@ cards:
             }
       - type: custom:mushroom-chips-card
         chips:
-          - type: back
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-rooms/start
+            icon: mdi:arrow-left
           - type: entity
             entity: sensor.woonkamer_temperature
             icon_color: orange
@@ -32,14 +36,48 @@ cards:
               {{ "orange" if is_state('group.lampen_woonkamer', 'on') else "grey" }}
             content: |-
               {{ expand(state_attr('group.lampen_woonkamer', 'entity_id')) | selectattr('state','eq','on') |
-                  map(attribute='entity_id') | list | count }} lampen aan
+                  map(attribute='entity_id') | list | count }}
+            tap_action:
+              action: call-service
+              service: script.light_group_toggle_helper
+              data:
+                group: group.lampen_woonkamer
           - type: template
             entity: switch.genie
             icon: mdi:scent
             icon_color: >-
               {{ "green" if is_state('switch.genie', 'on') else "grey" }}
-            content: |-
-              Genie {{ "aan" if is_state('switch.genie', 'on') else "uit" }}
+            content: Genie
+          - type: template
+            entity: plant.hangplant
+            icon: mdi:sprout
+            icon_color: |-
+              {{ "green" if (is_state('plant.hangplant', 'ok') and is_state('plant.rubberboom', 'ok')) else "red" }}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Planten woonkamer
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:flower-card
+                        entity: plant.hangplant
+                        battery_sensor: sensor.xiaomi_plant_sensor_2_battery
+                        show_bars:
+                          - moisture
+                          - conductivity
+                          - temperature
+                          - illuminance
+                      - type: custom:flower-card
+                        entity: plant.rubberboom
+                        battery_sensor: sensor.xiaomi_plant_sensor_6_battery
+                        show_bars:
+                          - moisture
+                          - conductivity
+                          - temperature
+                          - illuminance
 
       - type: horizontal-stack
         cards:
@@ -77,24 +115,6 @@ cards:
               - heat
               - fan_only
 
-      - type: custom:flower-card
-        entity: plant.pachira
-        battery_sensor: sensor.xiaomi_plant_sensor_5_battery
-        show_bars:
-          - moisture
-          - conductivity
-          - temperature
-          - illuminance
-
-      - type: custom:flower-card
-        entity: plant.hangplant
-        battery_sensor: sensor.xiaomi_plant_sensor_2_battery
-        show_bars:
-          - moisture
-          - conductivity
-          - temperature
-          - illuminance
-
       - type: custom:mini-media-player
         entity: media_player.sonos_woonkamer
         icon: mdi:cast
@@ -120,14 +140,14 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: media_player.tv_in_woonkamer
+          - entity: media_player.tv_woonkamer
             state_not:
               - "off"
               - "unavailable"
               - "idle"
         card:
           type: custom:mini-media-player
-          entity: media_player.tv_in_woonkamer
+          entity: media_player.tv_woonkamer
           icon: mdi:cast
           artwork: cover
           artwork_border: true

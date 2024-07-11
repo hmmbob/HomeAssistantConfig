@@ -13,4 +13,8 @@ cards:
         alignment: justify
       - type: custom:mushroom-chips-card
         chips:
-          - type: back
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-rooms/start
+            icon: mdi:arrow-left

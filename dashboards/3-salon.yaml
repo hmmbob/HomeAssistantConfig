@@ -13,7 +13,11 @@ cards:
         alignment: justify
       - type: custom:mushroom-chips-card
         chips:
-          - type: back
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-rooms/start
+            icon: mdi:arrow-left
           - type: entity
             entity: sensor.salon_temperatuur
             icon_color: orange
@@ -27,7 +31,7 @@ cards:
               {{ "orange" if is_state('group.lampen_salon', 'on') else "grey" }}
             content: |-
               {{ expand(state_attr('group.lampen_salon', 'entity_id')) | selectattr('state','eq','on') |
-                  map(attribute='entity_id') | list | count }} lampen aan
+                  map(attribute='entity_id') | list | count }}
           - type: template
             entity: switch.aquarium
             icon: mdi:fishbowl-outline

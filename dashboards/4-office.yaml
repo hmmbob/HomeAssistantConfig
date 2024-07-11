@@ -13,7 +13,11 @@ cards:
         alignment: justify
       - type: custom:mushroom-chips-card
         chips:
-          - type: back
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-rooms/start
+            icon: mdi:arrow-left
           - type: entity
             entity: sensor.xiaomi_temperature_humidity_sensor_2_temperature
             icon_color: orange
