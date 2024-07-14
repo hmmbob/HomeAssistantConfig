@@ -1,0 +1,363 @@
+####################
+# Other settings   #
+####################
+path: other
+title: Other settings
+icon: mdi:help
+visible: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Overige instellingen
+        alignment: justify
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:arrow-left
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/start
+          - type: template
+            icon: mdi:account-voice
+            icon_color: "grey"
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Speel een bericht af
+                  content:
+                    type: entities
+                    state_color: true
+                    entities:
+                      - input_select.tts_target
+                      - input_text.tts_message
+                      - entity: script.play_tts_message
+                        icon: mdi:account-voice
+                        name: "Speel bericht af"
+          - type: template
+            icon: mdi:fan
+            icon_color: |-
+              {{ "green" if is_state('fan.open_air_mini', 'on') else "grey" }}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Mechanische afzuiging
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-fan-card
+                        entity: fan.open_air_mini
+                        name: Afzuiging
+                        icon_animation: true
+                        show_percentage_control: true
+                        layout: horizontal
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: template
+                            content: "Boost:"
+                          - type: action
+                            icon: mdi:fast-forward-15
+                            tap_action:
+                              action: call-service
+                              service: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:15:00"
+                          - type: action
+                            icon: mdi:fast-forward-30
+                            tap_action:
+                              action: call-service
+                              service: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:30:00"
+                          - type: action
+                            icon: mdi:fast-forward-60
+                            tap_action:
+                              action: call-service
+                              service: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:60:00"
+                          - type: action
+                            icon: mdi:timer-off-outline
+                            tap_action:
+                              action: call-service
+                              service: timer.finish
+                              target:
+                                entity_id: timer.fan_runtime
+                          - type: conditional
+                            conditions:
+                              - entity: timer.fan_runtime
+                                state: active
+                            chip:
+                              type: template
+                              entity: timer.fan_runtime
+                              icon: mdi:timer-sand-empty
+                              content: >-
+                                {% from 'relative_time_plus.jinja' import relative_time_plus %}
+                                {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
+                                    parts=2, time=true, abbr=true, language='nl') }}
+                              tap_action:
+                                action: none
+
+          - type: conditional
+            conditions:
+              - condition: user
+                users:
+                  - 40059eb4e4d142688185485ed2e1ebbb # BV
+                  - 510b1afef60640d7a220711c50b2192a # BL
+            chip:
+              type: template
+              icon: mdi:cog
+              icon_color: grey
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Instellingen
+                    content:
+                      type: vertical-stack
+                      cards:
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.enable_deurbel
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Zet deurbel aan/uit"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:bell-ring-outline" if is_state(entity, 'on') else "mdi:bell-off-outline" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.vacuum_enable_ask_for_cleaning
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Dagelijkse herinnering voor Rocky"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:robot-vacuum" if is_state(entity, 'on') else "mdi:robot-vacuum-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_power_use_attic
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Stroomverbruik op zolder"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:message-alert-outline" if is_state(entity, 'on') else "mdi:message-off-outline" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_power_use_minicave
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Stroomverbruik bij de mini"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:message-alert-outline" if is_state(entity, 'on') else "mdi:message-off-outline" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_trash
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Welke container moet er naar buiten?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:delete" if is_state(entity, 'on') else "mdi:delete-empty" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_trash_voice
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Welke container moet er naar buiten?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:account-voice" if is_state(entity, 'on') else "mdi:account-voice-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_uv
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Zonnekracht waarschuwingen"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:weather-sunny-alert" if is_state(entity, 'on') else "mdi:weather-sunny-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_uv_voice
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Zonnekracht waarschuwingen"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:account-voice" if is_state(entity, 'on') else "mdi:account-voice-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.notify_dishwasher
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Wanneer kan de vaatwasser aan?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:dishwasher" if is_state(entity, 'on') else "mdi:dishwasher-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.enable_pir_gang_automations
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Lamp gang automatisch aan?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:motion-sensor" if is_state(entity, 'on') else "mdi:motion-sensor-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.enable_pir_inloopkast_automations
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Lamp inloopkast automatisch aan?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:motion-sensor" if is_state(entity, 'on') else "mdi:motion-sensor-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.enable_pir_bijkeuken_automations
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Lamp bijkeuken automatisch aan?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:motion-sensor" if is_state(entity, 'on') else "mdi:motion-sensor-off" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
+        card_mod:
+          style:
+            mushroom-template-chip:nth-child(3)$: |
+              ha-state-icon {
+              {% if is_state('fan.open_air_mini', 'on')%}
+                  animation: rotate {{0.5 / (state_attr('fan.open_air_mini', 'percentage')/100) | round(1, default=1)}}s infinite linear }
+              @keyframes rotate {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(359deg); }
+              {% endif %}
+              }
+
+      - type: custom:mushroom-light-card
+        entity: light.badkamer
+        icon: mdi:shower
+        show_brightness_control: true
+        collapsible_controls: true
+
+      - type: custom:mushroom-light-card
+        entity: switch.tuinverlichting
+        icon: mdi:coach-lamp
+        show_brightness_control: true
+        collapsible_controls: true
+        show_color_control: true
+        use_light_color: true
+
+      - type: entities ## Oogopslag overview
+        state_color: true
+        entities:
+          - type: custom:multiple-entity-row
+            entity: binary_sensor.poort_contact
+            show_state: false
+            state_color: true
+            name: Tuin
+            entities:
+              - binary_sensor.poort_contact
+              - binary_sensor.fietsenhok_contact

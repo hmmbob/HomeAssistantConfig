@@ -99,8 +99,7 @@ cards:
             primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
             secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_pubercave_tv_on
-            icon: >-
-              {{ "mdi:television" if is_state('binary_sensor.is_pubercave_tv_on','on') else "mdi:television-off" }}
+            icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
             icon_color: >-
               {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
             tap_action:
@@ -108,16 +107,27 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  title: TV Mini
+                  title: TV Puber
                   content:
-                    type: custom:mini-media-player
-                    entity: media_player.tv_zolder
-                    icon: mdi:cast
-                    artwork: cover
-                    artwork_border: true
-                    power_color: true
-                    scroll_info: true
-                    show_source: true
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
+                        secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                        entity: binary_sensor.is_pubercave_tv_on
+                        icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
+                        icon_color: >-
+                          {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
+                        tap_action:
+                          action: more-info
+                      - type: custom:mini-media-player
+                        entity: media_player.tv_zolder
+                        icon: mdi:cast
+                        artwork: cover
+                        artwork_border: true
+                        power_color: true
+                        scroll_info: true
+                        show_source: true
             hold_action:
               action: more-info
 
@@ -228,3 +238,17 @@ cards:
                     parts=2, time=true, abbr=true, language='nl') }}
               tap_action:
                 action: none
+
+      - type: conditional
+        conditions:
+          - entity: media_player.spotify_m
+            state_not: "idle"
+        card:
+          type: custom:mini-media-player
+          entity: media_player.spotify_m
+          icon: mdi:spotify
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true

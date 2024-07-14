@@ -4,6 +4,7 @@ ev_package:
       cycle: monthly
       name: SmartEVSE Monthly total
       source: sensor.smartevse_6360_evtotalenergycharged
+      always_available: true
 
   template:
     - trigger:

@@ -26,4 +26,3 @@ cards:
 
   - type: "custom:webrtc-camera"
     url: "rtsp://192.168.88.32:8554/voordeur"
-    background: true # run stream when not displayed (ex. for quick video loading), default false

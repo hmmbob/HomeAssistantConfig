@@ -26,14 +26,6 @@ cards:
                 padding-left: 10px !important;
                 border-left: 3px solid rgba(81, 134, 236);
                 }
-      - type: gauge
-        entity: sensor.tucson_ev_battery_level
-        name: Tucson Accu
-        needle: false
-        severity:
-          green: 66
-          yellow: 33
-          red: 0
 
       - type: custom:mushroom-chips-card
         chips:
@@ -59,13 +51,37 @@ cards:
               target: {}
               data:
                 device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
-          - type: entity
+          - type: template
             entity: sensor.tucson_ev_battery_level
-            use_entity_picture: false
+            content: "{{ states(entity, with_unit=True) }}"
             icon: mdi:car-electric
+            icon_color: >
+              {% set battery_level = (states(entity)|int) %}
+              {% if battery_level | int > 66 %}
+                green
+              {% elif battery_level | int > 33 %}
+                amber
+              {% else %}
+                red
+              {% endif %}
+            tap_action:
+              action: more-info
           - type: entity
             entity: sensor.smartevse_6360_evplugstate
             icon: mdi:ev-plug-type2
+        card_mod:
+          style:
+            mushroom-template-chip:nth-child(5)$: |
+              {% set battery_level = (states('sensor.tucson_ev_battery_level')|int) %}
+              ha-card {
+                {% if battery_level | int > 66 %}
+                  background: green
+                {% elif battery_level | int > 33 %}
+                  background: amber
+                {% else %}
+                  background: red
+                {% endif %}
+              }
 
       - type: custom:mushroom-select-card
         entity: select.smartevse_6360_mode

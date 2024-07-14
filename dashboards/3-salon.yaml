@@ -38,7 +38,7 @@ cards:
             icon_color: |-
               {{ "blue" if is_state('switch.aquarium', 'on') else "grey" }}
             content: |-
-              Aquarium {{ "aan" if is_state('switch.aquarium', 'on') else "uit" }}
+              Aquarium {{ state_translated('switch.aquarium') | lower }}
 
       - type: horizontal-stack
         cards:

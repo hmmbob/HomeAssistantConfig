@@ -11,10 +11,7 @@ views:
   - !include dashboards/5-mbr.yaml
   - !include dashboards/6-bed_room_maxi.yaml
   - !include dashboards/7-bed_room_mini.yaml
-  - !include dashboards/8-tbd.yaml
-  - !include dashboards/11-vacuum.yaml
-  - !include dashboards/12-locations.yaml
+  - !include dashboards/8-other.yaml
   - !include dashboards/13-camera.yaml
   - !include dashboards/14-energy.yaml
   - !include dashboards/15-car.yaml
-  

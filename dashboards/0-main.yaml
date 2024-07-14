@@ -77,9 +77,7 @@ cards:
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 icon: mdi:sofa-outline
@@ -153,7 +151,7 @@ cards:
                   {% elif is_state(entity, 'cool') %}
                     blue
                   {% else %}
-                    disabled
+                    grey
                   {% endif %}
                 tap_action:
                   action: more-info
@@ -197,9 +195,7 @@ cards:
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 icon: mdi:silverware-variant
@@ -273,7 +269,7 @@ cards:
                   {% elif is_state(entity, 'cool') %}
                     blue
                   {% else %}
-                    disabled
+                    grey
                   {% endif %}
                 tap_action:
                   action: more-info
@@ -327,9 +323,7 @@ cards:
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 primary: Salon
@@ -384,21 +378,20 @@ cards:
                   data:
                     group: group.lampen_salon
                 card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 66%;
-                        top: -163px;
-                        background: none;
-                      }
+                  style: |
+                    ha-card {
+                      width: 66px;
+                      margin-left: 66%;
+                      top: -163px;
+                      background: none;
+                    }
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
                 entity: climate.salon
                 icon: mdi:radiator
                 icon_color: |-
-                  {{ "orange" if is_state(entity, 'heat') else "disabled" }}
+                  {{ "orange" if is_state(entity, 'heat') else "grey" }}
                 tap_action:
                   action: more-info
                 card_mod:
@@ -445,9 +438,7 @@ cards:
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 icon: mdi:bed-king-outline
@@ -493,9 +484,10 @@ cards:
                 primary: none
                 secondary: none
                 entity: switch.inloopkast
-                icon: mdi:lightbulb
+                icon: |-
+                  {{ "mdi:lightbulb-on" if is_state(entity, 'on') else "mdi:lightbulb" }}
                 icon_color: |-
-                  {{ "orange" if is_state('switch.inloopkast', 'on') else "grey" }}
+                  {{ "amber" if is_state(entity, 'on') else "grey" }}
                 tap_action:
                   action: call-service
                   service: switch.toggle
@@ -503,14 +495,17 @@ cards:
                   target:
                     entity_id: switch.inloopkast
                 card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 66%;
-                        top: -163px;
-                        background: none;
-                      }
+                  style: |
+                    ha-card {
+                      width: 66px;
+                      margin-left: 66%;
+                      top: -163px;
+                      background: none;
+                    }
+                    ha-state-icon {
+                      {{ "animation: illumination 3s infinite;" if is_state(config.entity, 'on') }}
+                    }
+
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
@@ -522,7 +517,7 @@ cards:
                   {% elif is_state(entity, 'cool') %}
                     blue
                   {% else %}
-                    disabled
+                    grey
                   {% endif %}
                 tap_action:
                   action: more-info
@@ -576,9 +571,7 @@ cards:
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 primary: Slaapkamer M
@@ -653,7 +646,7 @@ cards:
                   {% elif is_state(entity, 'cool') %}
                     blue
                   {% else %}
-                    disabled
+                    grey
                   {% endif %}
                 tap_action:
                   action: more-info
@@ -682,6 +675,13 @@ cards:
                       top: -183px;
                       background: none;
                     }
+                    ha-state-icon {
+                    {% if is_state(config.entity, 'on')%}
+                      animation: boing 3s ease infinite;
+                      transform-origin: 50% 90%;
+                    {% endif %}
+                    }
+
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
@@ -694,16 +694,27 @@ cards:
                   browser_mod:
                     service: browser_mod.popup
                     data:
-                      title: TV Mini
+                      title: TV Puber
                       content:
-                        type: custom:mini-media-player
-                        entity: media_player.tv_zolder
-                        icon: mdi:cast
-                        artwork: cover
-                        artwork_border: true
-                        power_color: true
-                        scroll_info: true
-                        show_source: true
+                        type: vertical-stack
+                        cards:
+                          - type: custom:mushroom-template-card
+                            primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
+                            secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                            entity: binary_sensor.is_pubercave_tv_on
+                            icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
+                            icon_color: >-
+                              {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "grey" }}
+                            tap_action:
+                              action: more-info
+                          - type: custom:mini-media-player
+                            entity: media_player.tv_zolder
+                            icon: mdi:cast
+                            artwork: cover
+                            artwork_border: true
+                            power_color: true
+                            scroll_info: true
+                            show_source: true
                 hold_action:
                   action: more-info
                 card_mod:
@@ -714,13 +725,18 @@ cards:
                       top: -193px;
                       background: none;
                     }
+                    ha-state-icon {
+                    {% if is_state(config.entity, 'on')%}
+                      animation: boing 3s ease infinite;
+                      transform-origin: 50% 90%;
+                    {% endif %}
+                    }
+
           ### Room card mini ###
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 icon: mdi:bed
@@ -768,7 +784,7 @@ cards:
                 entity: group.lampen_minicave
                 icon: >-
                   {{ "mdi:led-strip-variant" if is_state('light.ledstrip_mini','on') else "mdi:led-strip-variant-off" }}
-                icon_color: disabled
+                icon_color: grey
                 tap_action:
                   action: call-service
                   service: script.light_group_toggle_helper
@@ -804,7 +820,7 @@ cards:
                   {% elif is_state(entity, 'cool') %}
                     blue
                   {% else %}
-                    disabled
+                    grey
                   {% endif %}
                 tap_action:
                   action: more-info
@@ -832,6 +848,12 @@ cards:
                       margin-left: 66%;
                       top: -183px;
                       background: none;
+                    }
+                    ha-state-icon {
+                    {% if is_state(config.entity, 'on')%}
+                      animation: boing 3s ease infinite;
+                      transform-origin: 50% 90%;
+                    {% endif %}
                     }
               - type: custom:mushroom-template-card
                 primary: none
@@ -865,6 +887,12 @@ cards:
                       top: -193px;
                       background: none;
                     }
+                    ha-state-icon {
+                    {% if is_state(config.entity, 'on')%}
+                      animation: boing 3s ease infinite;
+                      transform-origin: 50% 90%;
+                    {% endif %}
+                    }
 
       ###########################
       # 4th row of room cards   #
@@ -875,9 +903,7 @@ cards:
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
                 primary: Kantoor
@@ -942,7 +968,7 @@ cards:
                 entity: climate.kantoor
                 icon: mdi:radiator
                 icon_color: |-
-                  {{ "orange" if is_state(entity, 'heat') else "disabled" }}
+                  {{ "orange" if is_state(entity, 'heat') else "grey" }}
                 tap_action:
                   action: more-info
                 card_mod:
@@ -985,23 +1011,21 @@ cards:
                       top: -193px;
                       background: none;
                     }
-          ### Room card bathroom ###
+          ### Room card other ###
           - type: custom:vertical-stack-in-card
             card_mod:
               style: |
-                ha-card {
-                  height: 225px !important;
-                }
+                ha-card { height: 225px !important; }
             cards:
               - type: custom:mushroom-template-card
-                primary: Overige ruimtes
-                secondary: "Nog aanpassen"
-                icon: mdi:shower
+                primary: Overig
+                secondary: "."
+                icon: mdi:cog
                 icon_color: yellow
                 layout: horizontal
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace/tbd
+                  navigation_path: /lovelace/other
                 card_mod:
                   style:
                     mushroom-state-info$: |
@@ -1037,7 +1061,7 @@ cards:
                 primary: none
                 secondary: none
                 entity: light.badkamer
-                icon: mdi:lightbulb-group
+                icon: mdi:shower
                 icon_color: |-
                   {{ "orange" if is_state('light.badkamer', 'on') else "grey" }}
                 tap_action:
@@ -1058,11 +1082,23 @@ cards:
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
-                icon: none
-                icon_color: none
+                icon: mdi:account-voice
+                icon_color: grey
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/tbd
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Speel een bericht af
+                      content:
+                        type: entities
+                        state_color: true
+                        entities:
+                          - input_select.tts_target
+                          - input_text.tts_message
+                          - entity: script.play_tts_message
+                            icon: mdi:account-voice
+                            name: "Speel bericht af"
                 card_mod:
                   style: |
                     ha-card {
@@ -1074,11 +1110,78 @@ cards:
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
-                icon: none
-                icon_color: none
+                entity: fan.open_air_mini
+                icon: mdi:fan
+                icon_color: |-
+                  {{ "green" if is_state('fan.open_air_mini', 'on') else "grey" }}
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/tbd
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Mechanische afzuiging
+                      content:
+                        type: vertical-stack
+                        cards:
+                          - type: custom:mushroom-fan-card
+                            entity: fan.open_air_mini
+                            name: Afzuiging
+                            icon_animation: true
+                            show_percentage_control: true
+                            layout: horizontal
+
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: template
+                                content: "Boost:"
+                              - type: action
+                                icon: mdi:fast-forward-15
+                                tap_action:
+                                  action: call-service
+                                  service: timer.start
+                                  target:
+                                    entity_id: timer.fan_runtime
+                                  data:
+                                    duration: "00:15:00"
+                              - type: action
+                                icon: mdi:fast-forward-30
+                                tap_action:
+                                  action: call-service
+                                  service: timer.start
+                                  target:
+                                    entity_id: timer.fan_runtime
+                                  data:
+                                    duration: "00:30:00"
+                              - type: action
+                                icon: mdi:fast-forward-60
+                                tap_action:
+                                  action: call-service
+                                  service: timer.start
+                                  target:
+                                    entity_id: timer.fan_runtime
+                                  data:
+                                    duration: "00:60:00"
+                              - type: action
+                                icon: mdi:timer-off-outline
+                                tap_action:
+                                  action: call-service
+                                  service: timer.finish
+                                  target:
+                                    entity_id: timer.fan_runtime
+                              - type: conditional
+                                conditions:
+                                  - entity: timer.fan_runtime
+                                    state: active
+                                chip:
+                                  type: template
+                                  entity: timer.fan_runtime
+                                  icon: mdi:timer-sand-empty
+                                  content: >-
+                                    {% from 'relative_time_plus.jinja' import relative_time_plus %}
+                                    {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
+                                        parts=2, time=true, abbr=true, language='nl') }}
+                                  tap_action:
+                                    action: none
                 card_mod:
                   style: |
                     ha-card {
@@ -1087,6 +1190,15 @@ cards:
                       top: -183px;
                       background: none;
                     }
+                    ha-state-icon {
+                    {% if is_state(config.entity, 'on')%}
+                        animation: rotate {{0.5 / (state_attr(config.entity, 'percentage')/100) | round(1, default=1)}}s infinite linear }
+                    @keyframes rotate {
+                      0% { transform: rotate(0deg); }
+                      100% { transform: rotate(359deg); }
+                    {% endif %}
+                    }
+
               - type: custom:mushroom-template-card
                 primary: none
                 secondary: none
@@ -1094,7 +1206,7 @@ cards:
                 icon_color: none
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace/tbd
+                  navigation_path: /lovelace/other
                 card_mod:
                   style: |
                     ha-card {

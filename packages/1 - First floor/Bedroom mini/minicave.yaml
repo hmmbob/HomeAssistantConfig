@@ -10,7 +10,7 @@ bedroom_minicave_package:
 
   input_boolean:
     notify_power_use_minicave:
-      name: Waarschuwing Minicave
+      name: Waarschuwing minicave
       icon: mdi:lightbulb-on-outline
 
   input_datetime:
@@ -20,9 +20,17 @@ bedroom_minicave_package:
 
   sensor:
     - platform: history_stats
-      unique_id: minicave_on_today
-      name: Minicave ON today
-      entity_id: binary_sensor.is_minicave_on
+      unique_id: minicave_pc_on_today
+      name: Minicave PC on today
+      entity_id: binary_sensor.minicave_pc
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      end: "{{ now() }}"
+    - platform: history_stats
+      unique_id: minicave_tv_on_today
+      name: Minicave TV on today
+      entity_id: binary_sensor.is_minicave_TV_on
       state: "on"
       type: time
       start: "{{ now().replace(hour=0, minute=0, second=0) }}"
@@ -30,9 +38,12 @@ bedroom_minicave_package:
 
   template:
     - binary_sensor:
-        - name: "Is minicave on"
-          unique_id: is_minicave_on
-          state: "{{ states('sensor.mini_cave_power') | int(default=0) > 22 }}"
+        - name: "Is minicave TV on"
+          unique_id: is_minicave_TV_on
+          state: "{{ 50 > states('sensor.mini_cave_power') | int(default=0) > 30 }}"
+        - name: "Is minicave PC on"
+          unique_id: is_minicave_pc_on
+          state: "{{ states('binary_sensor.minicave_pc') }}"
 
   automation:
     ## Warnings on power usage on kid's bedroom
@@ -43,8 +54,13 @@ bedroom_minicave_package:
       trigger:
         - platform: numeric_state
           entity_id: sensor.mini_cave_power
-          above: 22
-          id: Minicave
+          above: 80
+          id: PC
+        - platform: numeric_state
+          entity_id: sensor.mini_cave_power
+          above: 30
+          below: 80
+          id: TV
       condition:
         - condition: state
           entity_id: input_boolean.notify_power_use_minicave
@@ -54,11 +70,15 @@ bedroom_minicave_package:
       action:
         - service: notify.mobile_devices_adults
           data:
-            title: "{{ trigger.id }}"
+            title: "Minicave {{ trigger.id }}"
             message: >-
-              De computer op de slaapkamer van T staat nog aan... ({{ now().strftime('%H:%M') }}).
+              {% if trigger.id == "PC" %}
+                De computer van de mini staat nog aan... ({{ now().strftime('%H:%M') }}).
+              {% else %}
+                De TV van de mini staat nog aan... ({{ now().strftime('%H:%M') }}).
+              {% endif %}
             data:
-              tag: "{{ trigger.id }}"
+              tag: minicave
               icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
               ttl: 0
               priority: high
@@ -92,11 +112,11 @@ bedroom_minicave_package:
       mode: queued
       trigger:
         - platform: numeric_state
-          entity_id: sensor.minicave_on_today
+          entity_id: sensor.minicave_pc_on_today
           above: 1.5
           id: weekday
         - platform: numeric_state
-          entity_id: sensor.minicave_on_today
+          entity_id: sensor.minicave_pc_on_today
           above: 4.0
           id: weekend
       condition:
@@ -177,19 +197,3 @@ bedroom_minicave_package:
         - service: scene.turn_on
           data:
             entity_id: scene.snapshot_minicave
-
-    - id: minicave_lights
-      alias: "Zet de ledstrip achter Mini's bed aan of uit"
-      mode: queued
-      trigger:
-        - platform: state
-          entity_id: sensor.drukknop_t_action
-          to: "on"
-          id: "on"
-        - platform: state
-          entity_id: sensor.drukknop_t_action
-          to: "off"
-          id: "off"
-      action:
-        - service: light.turn_{{trigger.id}}
-          entity_id: light.ledstrip_bed_mini

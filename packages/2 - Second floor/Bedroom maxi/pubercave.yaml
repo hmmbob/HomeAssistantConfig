@@ -9,7 +9,7 @@ attic_pubercave_package:
 
   input_boolean:
     notify_power_use_attic:
-      name: Waarschuwing leeslamp & pubercave
+      name: Waarschuwing pubercave
       icon: mdi:lightbulb-on-outline
 
   input_datetime:
@@ -99,7 +99,7 @@ attic_pubercave_package:
               priority: high
               ttl: 0
 
-    - id: warn_pc_time_over_pubercave
+    - id: flash_lights_pc_time_over_pubercave
       alias: "Knipper de lampen als de puber PC tijd over is"
       mode: queued
       trigger:
@@ -188,7 +188,7 @@ attic_pubercave_package:
       action:
         - service: notify.mobile_devices_adults
           data:
-            title: "{{ trigger.id }}"
+            title: "Pubercave {{ trigger.id }}"
             message: >-
               {% if trigger.id == "Leeslampje" %}
                 Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
@@ -196,7 +196,7 @@ attic_pubercave_package:
                 De TV op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% endif %}
             data:
-              tag: "{{ trigger.id }}"
+              tag: pubercave
               icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
               ttl: 0
               priority: high
