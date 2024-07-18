@@ -8,8 +8,6 @@
   type: module
 - url: /hacsfiles/lovelace-fold-entity-row/fold-entity-row.js
   type: module
-- url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
-  type: module
 - url: /hacsfiles/lovelace-state-switch/state-switch.js
   type: module
 - url: /hacsfiles/hass-swipe-navigation/swipe-navigation.js
@@ -36,13 +34,3 @@
   type: module
 - url: /hacsfiles/battery-state-card/battery-state-card.js
   type: module
-
-### Old UI only
-- url: /hacsfiles/button-card/button-card.js
-  type: module
-- url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-  type: module
-### Archived
-#### Picnic
-#- url: /hacsfiles/text-element/text-element.js
-#  type: module

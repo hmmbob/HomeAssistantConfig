@@ -350,14 +350,9 @@ cards:
         show_color_control: true
         use_light_color: true
 
-      - type: entities ## Oogopslag overview
-        state_color: true
-        entities:
-          - type: custom:multiple-entity-row
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-entity-card
             entity: binary_sensor.poort_contact
-            show_state: false
-            state_color: true
-            name: Tuin
-            entities:
-              - binary_sensor.poort_contact
-              - binary_sensor.fietsenhok_contact
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.fietsenhok_contact
