@@ -43,21 +43,11 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.salon
             icon: mdi:ceiling-light-multiple
             show_brightness_control: true
             collapsible_controls: true
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.staande_lamp_switch
             icon: mdi:floor-lamp
             fill_container: false
@@ -67,21 +57,11 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.grijze_lamp
             icon: mdi:lamp
             show_brightness_control: false
             collapsible_controls: true
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.tv_kastje
             icon: mdi:television
             fill_container: false

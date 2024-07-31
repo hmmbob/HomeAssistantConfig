@@ -189,21 +189,11 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.spots_eetkamer
             icon: mdi:table-chair
             show_brightness_control: true
             collapsible_controls: true
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.eetkamer_tafel
             icon: mdi:globe-light-outline
             show_brightness_control: true
@@ -217,17 +207,7 @@ cards:
             fill_container: false
             show_brightness_control: true
             collapsible_controls: true
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.spots_vaas
             icon: mdi:lightbulb-spot
             show_brightness_control: true

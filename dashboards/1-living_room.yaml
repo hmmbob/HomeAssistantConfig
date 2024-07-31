@@ -11,11 +11,6 @@ cards:
       - type: custom:mushroom-title-card
         title: Woonkamer
         alignment: justify
-        card_mod:
-          style: |
-            ha-card {
-              padding: 10px 12px 0px !important;
-            }
       - type: custom:mushroom-chips-card
         chips:
           - type: template
@@ -204,21 +199,11 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.spots_vaas
             icon: mdi:lightbulb-spot
             show_brightness_control: true
             collapsible_controls: true
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.spots_woonkamer
             icon: mdi:sofa
             fill_container: false

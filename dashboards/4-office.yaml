@@ -27,11 +27,6 @@ cards:
 
       - type: thermostat
         entity: climate.kantoor
-        card_mod:
-          style: |
-            ha-card {
-              box-shadow: var(--card-box-shadow);
-            }
         features:
           - type: climate-hvac-modes
             hvac_modes:

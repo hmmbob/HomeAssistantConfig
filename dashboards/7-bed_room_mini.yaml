@@ -137,11 +137,6 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.ledstrip_mini
             icon: mdi:desk
             show_brightness_control: true
@@ -149,11 +144,6 @@ cards:
             show_color_control: true
             use_light_color: true
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.ledstrip_bed_mini
             icon: mdi:bed
             show_brightness_control: true
@@ -164,11 +154,6 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.battletron_ball_light_t
             icon: mdi:circle
             show_brightness_control: true

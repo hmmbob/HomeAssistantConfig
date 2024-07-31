@@ -158,11 +158,6 @@ cards:
             tap_action:
               action: more-info
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.sonoff_l1
             icon: mdi:led-strip-variant
             show_brightness_control: true
@@ -173,11 +168,6 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: var(--card-box-shadow);
-                }
             entity: light.battletron_ball_light_m
             name: Ball Light M
             icon: mdi:circle
