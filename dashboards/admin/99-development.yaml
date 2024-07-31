@@ -102,3 +102,14 @@ cards:
             - entity_id: input_datetime.*
         sort:
           method: name
+      - type: custom:auto-entities
+        card:
+          type: custom:fold-entity-row
+          head:
+            type: section
+            label: All input numbers
+        filter:
+          include:
+            - entity_id: input_number.*
+        sort:
+          method: name

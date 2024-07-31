@@ -17,6 +17,20 @@ attic_pubercave_package:
       name: Leeslampje zolder
       has_time: true
 
+  input_number:
+    maxi_pc_time_weekday:
+      name: PC tijd maxi weekdag
+      min: 0
+      max: 12
+      step: 0.5
+      icon: mdi:desktop-classic
+    maxi_pc_time_weekend:
+      name: PC tijd maxi weekend
+      min: 0
+      max: 12
+      step: 0.5
+      icon: mdi:desktop-classic
+
   sensor:
     - platform: history_stats
       name: Pubercave PC ON today
@@ -52,11 +66,11 @@ attic_pubercave_package:
       trigger:
         - platform: numeric_state
           entity_id: sensor.pubercave_pc_on_today
-          above: 2.0
+          above: input_number.maxi_pc_time_weekday
           id: weekday
         - platform: numeric_state
           entity_id: sensor.pubercave_pc_on_today
-          above: 4.0
+          above: input_number.maxi_pc_time_weekend
           id: weekend
       condition:
         - or:
@@ -76,12 +90,15 @@ attic_pubercave_package:
                     - sat
                     - sun
       action:
+        - service: tts.microsoft_say
+          data:
+            entity_id: media_player.zolder
+            message: "Je tijd is op. Sluit je af?"
         - service: notify.mobile_devices_adults
           data:
             title: Puber PC
             message: >-
-              De puber zit al {{ "2" if trigger.id == "weekday" else "4" }} uur 
-              achter de PC vandaag ({{ now().strftime('%H:%M') }}).
+              De puber heeft vandaag lang genoeg achter de PC gezeten ({{ now().strftime('%H:%M') }}).
             data:
               tag: puber_pc
               notification_icon: mdi:desktop-classic
@@ -90,14 +107,15 @@ attic_pubercave_package:
         - service: notify.mobile_app_schaduwspeler
           data:
             title: Gametijd
-            message: >-
-              Je zit vandaag al {{ "2" if trigger.id == "weekday" else "4" }} uur 
-              achter de PC ({{ now().strftime('%H:%M') }}).
+            message: Je zit vandaag al lang genoeg achter de PC ({{ now().strftime('%H:%M') }}).
             data:
               tag: puber_pc
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
+        - service: automation.trigger
+          target:
+            entity_id: automation.knipper_de_lampen_als_de_puber_pc_tijd_over_is
 
     - id: flash_lights_pc_time_over_pubercave
       alias: "Knipper de lampen als de puber PC tijd over is"

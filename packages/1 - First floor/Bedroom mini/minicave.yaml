@@ -18,6 +18,20 @@ bedroom_minicave_package:
       name: Tijd poweruse minicave
       has_time: true
 
+  input_number:
+    mini_pc_time_weekday:
+      name: PC tijd mini weekdag
+      min: 0
+      max: 12
+      step: 0.5
+      icon: mdi:desktop-classic
+    mini_pc_time_weekend:
+      name: PC tijd mini weekend
+      min: 0
+      max: 12
+      step: 0.5
+      icon: mdi:desktop-classic
+
   sensor:
     - platform: history_stats
       unique_id: minicave_pc_on_today
@@ -113,11 +127,11 @@ bedroom_minicave_package:
       trigger:
         - platform: numeric_state
           entity_id: sensor.minicave_pc_on_today
-          above: 1.5
+          above: input_number.mini_pc_time_weekday
           id: weekday
         - platform: numeric_state
           entity_id: sensor.minicave_pc_on_today
-          above: 4.0
+          above: input_number.mini_pc_time_weekend
           id: weekend
       condition:
         - or:
@@ -185,8 +199,7 @@ bedroom_minicave_package:
           data:
             title: Mini's gametijd
             message: >-
-              De Mini heeft nu {{ "1u30" if trigger.id == "weekday" else "4u" }}
-              achter de PC gezeten ({{ now().strftime('%H:%M') }}).
+              De Mini heeft nu lang genoeg achter de PC gezeten ({{ now().strftime('%H:%M') }}).
             data:
               tag: mini_pc
               notification_icon: mdi:desktop-classic

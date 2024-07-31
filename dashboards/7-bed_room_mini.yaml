@@ -87,17 +87,30 @@ cards:
         cards:
           - type: custom:mushroom-template-card
             primary: "PC staat {{ state_translated('binary_sensor.is_minicave_pc_on') | lower }}"
-            secondary: "Vandaag: {{ ((states('sensor.minicave_pc_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.minicave_pc_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_minicave_pc_on
             icon: >-
               {{ "mdi:desktop-classic" if is_state('binary_sensor.is_minicave_pc_on','on') else "mdi:monitor-off" }}
             icon_color: >-
               {{ "green" if is_state('binary_sensor.is_minicave_pc_on','on') else "disabled" }}
             tap_action:
-              action: more-info
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: PC Mini
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-entity-card
+                        entity: sensor.minicave_pc_on_today
+                        name: Totaal vandaag
+                      - type: custom:mushroom-entity-card
+                        entity: binary_sensor.is_minicave_pc_on
+                        name: PC aan of uit?
           - type: custom:mushroom-template-card
             primary: "TV staat {{ state_translated('binary_sensor.is_minicave_tv_on') | lower }}"
-            secondary: "Vandaag: {{ ((states('sensor.minicave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.minicave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_minicave_tv_on
             icon: >-
               {{ "mdi:television" if is_state('binary_sensor.is_minicave_tv_on','on') else "mdi:television-off" }}
