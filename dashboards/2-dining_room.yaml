@@ -51,7 +51,7 @@ cards:
                   content:
                     type: custom:flower-card
                     entity: plant.pachira
-                    battery_sensor: sensor.xiaomi_plant_sensor_5_battery
+                    battery_sensor: sensor.xiaomi_plant_sensor_7_battery
                     show_bars:
                       - moisture
                       - conductivity
