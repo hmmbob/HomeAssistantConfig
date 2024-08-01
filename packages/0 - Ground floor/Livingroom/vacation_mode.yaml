@@ -32,16 +32,16 @@ vacation_mode_package:
       action:
         - delay: "{{ range(30*60) | random }}"
           alias: "Random delay between now and 30mins"
-        - service: homeassistant.turn_on
+        - action: homeassistant.turn_on
           entity_id:
             - switch.grijze_lamp
             - light.staande_lamp_switch
-        - service: logbook.log
+        - action: logbook.log
           data:
             name: Vacation
             message: Lights turned on at {{ now().strftime('%H:%M') }}.
             domain: light
-        - service: notify.mobile_app_sm_a556b
+        - action: notify.mobile_app_sm_a556b
           data:
             message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
             title: Vacation lights
@@ -60,16 +60,16 @@ vacation_mode_package:
       action:
         - delay: "{{ range(15*60) | random }}"
           alias: "Random delay between now and 30mins"
-        - service: homeassistant.turn_off
+        - action: homeassistant.turn_off
           entity_id:
             - switch.grijze_lamp
             - light.staande_lamp_switch
-        - service: logbook.log
+        - action: logbook.log
           data:
             name: Vacation
             message: Lights turned off at {{ now().strftime('%H:%M') }}.
             domain: light
-        - service: notify.mobile_app_sm_a556b
+        - action: notify.mobile_app_sm_a556b
           data:
             message: I turned your lights off at {{ now().strftime('%H:%M') }}.
             title: Vacation lights

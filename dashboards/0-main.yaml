@@ -127,8 +127,8 @@ cards:
                 icon_color: |-
                   {{ "orange" if is_state('group.lampen_woonkamer', 'on') else "grey" }}
                 tap_action:
-                  action: call-service
-                  service: script.light_group_toggle_helper
+                  action: perform-action
+                  perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_woonkamer
                 card_mod:
@@ -245,8 +245,8 @@ cards:
                 icon_color: |-
                   {{ "orange" if is_state('group.lampen_eetkamer', 'on') else "grey" }}
                 tap_action:
-                  action: call-service
-                  service: script.light_group_toggle_helper
+                  action: perform-action
+                  perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_eetkamer
                 card_mod:
@@ -373,8 +373,8 @@ cards:
                 icon_color: |-
                   {{ "orange" if is_state('group.lampen_salon', 'on') else "grey" }}
                 tap_action:
-                  action: call-service
-                  service: script.light_group_toggle_helper
+                  action: perform-action
+                  perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_salon
                 card_mod:
@@ -489,8 +489,8 @@ cards:
                 icon_color: |-
                   {{ "amber" if is_state(entity, 'on') else "grey" }}
                 tap_action:
-                  action: call-service
-                  service: switch.toggle
+                  action: perform-action
+                  perform_action: switch.toggle
                   data: {}
                   target:
                     entity_id: switch.inloopkast
@@ -622,8 +622,8 @@ cards:
                 icon_color: |-
                   {{ "orange" if is_state('group.lampen_pubercave', 'on') else "grey" }}
                 tap_action:
-                  action: call-service
-                  service: script.light_group_toggle_helper
+                  action: perform-action
+                  perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_pubercave
                 card_mod:
@@ -786,8 +786,8 @@ cards:
                   {{ "mdi:led-strip-variant" if is_state('light.ledstrip_mini','on') else "mdi:led-strip-variant-off" }}
                 icon_color: grey
                 tap_action:
-                  action: call-service
-                  service: script.light_group_toggle_helper
+                  action: perform-action
+                  perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_minicave
                 card_mod:
@@ -1065,8 +1065,8 @@ cards:
                 icon_color: |-
                   {{ "orange" if is_state('light.badkamer', 'on') else "grey" }}
                 tap_action:
-                  action: call-service
-                  service: light.toggle
+                  action: perform-action
+                  perform_action: light.toggle
                   data: {}
                   target:
                     entity_id: light.badkamer
@@ -1137,8 +1137,8 @@ cards:
                               - type: action
                                 icon: mdi:fast-forward-15
                                 tap_action:
-                                  action: call-service
-                                  service: timer.start
+                                  action: perform-action
+                                  perform_action: timer.start
                                   target:
                                     entity_id: timer.fan_runtime
                                   data:
@@ -1146,8 +1146,8 @@ cards:
                               - type: action
                                 icon: mdi:fast-forward-30
                                 tap_action:
-                                  action: call-service
-                                  service: timer.start
+                                  action: perform-action
+                                  perform_action: timer.start
                                   target:
                                     entity_id: timer.fan_runtime
                                   data:
@@ -1155,8 +1155,8 @@ cards:
                               - type: action
                                 icon: mdi:fast-forward-60
                                 tap_action:
-                                  action: call-service
-                                  service: timer.start
+                                  action: perform-action
+                                  perform_action: timer.start
                                   target:
                                     entity_id: timer.fan_runtime
                                   data:
@@ -1164,8 +1164,8 @@ cards:
                               - type: action
                                 icon: mdi:timer-off-outline
                                 tap_action:
-                                  action: call-service
-                                  service: timer.finish
+                                  action: perform-action
+                                  perform_action: timer.finish
                                   target:
                                     entity_id: timer.fan_runtime
                               - type: conditional

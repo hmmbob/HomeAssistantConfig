@@ -62,8 +62,8 @@ cards:
                           - type: action
                             icon: mdi:fast-forward-15
                             tap_action:
-                              action: call-service
-                              service: timer.start
+                              action: perform-action
+                              perform_action: timer.start
                               target:
                                 entity_id: timer.fan_runtime
                               data:
@@ -71,8 +71,8 @@ cards:
                           - type: action
                             icon: mdi:fast-forward-30
                             tap_action:
-                              action: call-service
-                              service: timer.start
+                              action: perform-action
+                              perform_action: timer.start
                               target:
                                 entity_id: timer.fan_runtime
                               data:
@@ -80,8 +80,8 @@ cards:
                           - type: action
                             icon: mdi:fast-forward-60
                             tap_action:
-                              action: call-service
-                              service: timer.start
+                              action: perform-action
+                              perform_action: timer.start
                               target:
                                 entity_id: timer.fan_runtime
                               data:
@@ -89,8 +89,8 @@ cards:
                           - type: action
                             icon: mdi:timer-off-outline
                             tap_action:
-                              action: call-service
-                              service: timer.finish
+                              action: perform-action
+                              perform_action: timer.finish
                               target:
                                 entity_id: timer.fan_runtime
                           - type: conditional

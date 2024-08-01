@@ -75,7 +75,7 @@ solar_package:
           entity_id: sensor.work_mode
           state: "Normal"
       action:
-        - service: rest_command.update_pvoutput
+        - action: rest_command.update_pvoutput
           data: {}
       mode: single
 
@@ -137,7 +137,7 @@ solar_package:
                       state: "on"
                   then:
                     - alias: "Set grid export limit to 0% to turn off PV production"
-                      service: number.set_value
+                      action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
@@ -155,7 +155,7 @@ solar_package:
                       state: "on"
                   then:
                     - alias: "Set grid export limit to 100% to turn on PV production"
-                      service: number.set_value
+                      action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
@@ -173,7 +173,7 @@ solar_package:
                       state: "on"
                   then:
                     - alias: "Set grid export limit to 0% to turn off PV production"
-                      service: number.set_value
+                      action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
@@ -191,19 +191,19 @@ solar_package:
                       state: "on"
                   then:
                     - alias: "Set grid export limit to 100% to turn on PV production"
-                      service: number.set_value
+                      action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
                         value: "100"
                     - alias: "Disable PV off schedule"
-                      service: input_boolean.turn_off
+                      action: input_boolean.turn_off
                       target:
                         entity_id: input_boolean.solar_pv_off_schedule
                   else:
                     - stop: "Stopping because scheduled turning on/off is not enabled"
         - alias: "Sending push notification"
-          service: notify.mobile_app_sm_a556b
+          action: notify.mobile_app_sm_a556b
           data:
             title: "Zonnepanelen update"
             message: "{{ message }}"

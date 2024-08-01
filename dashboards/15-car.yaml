@@ -46,8 +46,8 @@ cards:
           - type: action
             icon: mdi:refresh
             tap_action:
-              action: call-service
-              service: kia_uvo.update
+              action: perform-action
+              perform_action: kia_uvo.update
               target: {}
               data:
                 device_id: 5a94e1b7fbce614053e4f5b8dfd6209b

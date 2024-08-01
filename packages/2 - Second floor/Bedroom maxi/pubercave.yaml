@@ -90,11 +90,11 @@ attic_pubercave_package:
                     - sat
                     - sun
       action:
-        - service: tts.microsoft_say
+        - action: tts.microsoft_say
           data:
             entity_id: media_player.zolder
             message: "Je tijd is op. Sluit je af?"
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             title: Puber PC
             message: >-
@@ -104,7 +104,7 @@ attic_pubercave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - service: notify.mobile_app_schaduwspeler
+        - action: notify.mobile_app_schaduwspeler
           data:
             title: Gametijd
             message: Je zit vandaag al lang genoeg achter de PC ({{ now().strftime('%H:%M') }}).
@@ -113,7 +113,7 @@ attic_pubercave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - service: automation.trigger
+        - action: automation.trigger
           target:
             entity_id: automation.knipper_de_lampen_als_de_puber_pc_tijd_over_is
 
@@ -130,7 +130,7 @@ attic_pubercave_package:
           entity_id: binary_sensor.pubercave_pc
           state: "on"
       action:
-        - service: scene.create
+        - action: scene.create
           data:
             scene_id: snapshot_pubercave
             snapshot_entities:
@@ -138,7 +138,7 @@ attic_pubercave_package:
               - light.battletron_ball_light_m
         - delay:
             seconds: 5
-        - service: light.turn_on
+        - action: light.turn_on
           target:
             entity_id:
               - light.sonoff_l1
@@ -151,7 +151,7 @@ attic_pubercave_package:
         - repeat:
             count: 5
             sequence:
-              - service: light.toggle
+              - action: light.toggle
                 data: {}
                 target:
                   entity_id:
@@ -160,7 +160,7 @@ attic_pubercave_package:
               - delay:
                   seconds: 1
                   milliseconds: 200
-              - service: light.toggle
+              - action: light.toggle
                 data: {}
                 target:
                   entity_id:
@@ -171,7 +171,7 @@ attic_pubercave_package:
                   milliseconds: 200
         - delay:
             seconds: 5
-        - service: scene.turn_on
+        - action: scene.turn_on
           data:
             entity_id: scene.snapshot_pubercave
 
@@ -204,7 +204,7 @@ attic_pubercave_package:
         - condition: time
           after: input_datetime.time_leeslampje_attic
       action:
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             title: "Pubercave {{ trigger.id }}"
             message: >-
@@ -250,7 +250,7 @@ attic_pubercave_package:
                 condition: trigger
                 id: pubercave
               sequence:
-                - service: logbook.log
+                - action: logbook.log
                   data:
                     name: Pubercave zolder
                     entity_id: sensor.pubercave_power
@@ -260,7 +260,7 @@ attic_pubercave_package:
                 condition: trigger
                 id: leeslampje
               sequence:
-                - service: logbook.log
+                - action: logbook.log
                   data:
                     name: Leeslampje zolder
                     entity_id: sensor.leeslampje_zolder_power

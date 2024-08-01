@@ -19,5 +19,5 @@ aquarium_package:
           at: input_datetime.time_aquarium_off
           id: "off"
       action:
-        - service: switch.turn_{{trigger.id}}
+        - action: switch.turn_{{trigger.id}}
           entity_id: switch.aquarium

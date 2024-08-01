@@ -73,7 +73,7 @@ kids_notifications_package:
                 - stop: "Likely false positive, stopping sequence"
           # In all other situations, just continue
           default:
-            - service: notify.mobile_devices_adults
+            - action: notify.mobile_devices_adults
               data:
                 title: ♥ {{ name }} is op weg naar huis!
                 message: >
@@ -111,7 +111,7 @@ kids_notifications_package:
               - "{{ trigger.entity_id == 'sensor.sm_a236b_battery_level' }}"
               - "{{ not is_state('device_tracker.sm_a236b', 'home') }}"
       action:
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             title: 🔋 Batterijwaarschuwing
             message: >
@@ -120,7 +120,7 @@ kids_notifications_package:
               ttl: 0
               priority: high
               notification_icon: mdi:battery-alert-variant
-        - service: >-
+        - action: >-
             {% if trigger.entity_id == 'sensor.sm_a236b_battery_level' %}
               notify.mobile_app_sm_a236b
             {% elif trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' %}

@@ -14,7 +14,7 @@ backgate_package:
           to: "on"
       action:
         - alias: "Turn on speaker"
-          service: switch.turn_on
+          action: switch.turn_on
           target:
             entity_id: switch.alarmspeaker_alarm
         # Sometimes the trigger fires multiple times in short period. The next step

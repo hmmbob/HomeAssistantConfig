@@ -32,7 +32,7 @@ lights_hallway_package:
           below: 5
       action:
         - alias: "Gang lamp aan..."
-          service: switch.turn_on
+          action: switch.turn_on
           target:
             entity_id: switch.gang
         - alias: "Wacht tot er geen motion meer is..."
@@ -42,6 +42,6 @@ lights_hallway_package:
               from: "on"
               to: "off"
         - alias: "Lamp uit.."
-          service: switch.turn_off
+          action: switch.turn_off
           target:
             entity_id: switch.gang

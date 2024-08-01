@@ -26,11 +26,11 @@ system_package:
       action:
         - if: "{{ is_state('sun.sun', 'below_horizon')}}"
           then:
-            - service: frontend.set_theme
+            - action: frontend.set_theme
               data:
                 name: "Hmmbob Google Dark Theme"
           else:
-            - service: frontend.set_theme
+            - action: frontend.set_theme
               data:
                 name: "Hmmbob Google Light Theme"
 
@@ -45,7 +45,7 @@ system_package:
             end_entity_id: input_datetime.solar_pv_off_end
       action:
         - alias: Set date of desired end field
-          service: input_datetime.set_datetime
+          action: input_datetime.set_datetime
           target:
             entity_id: "{{ end_entity_id }}"
           data:
@@ -69,7 +69,7 @@ system_package:
           value_template: >
             {{ states('sensor.latest_version') != states('sensor.current_version') }}
       action:
-        - service: notify.mobile_app_sm_a556b
+        - action: notify.mobile_app_sm_a556b
           data:
             title: Upgrade time!
             message: >
@@ -83,7 +83,7 @@ system_package:
                 - action: "URI"
                   title: "Open Changelog"
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
-        - service: persistent_notification.create
+        - action: persistent_notification.create
           data:
             notification_id: update_pending
             title: Upgrade time!
@@ -103,7 +103,7 @@ system_package:
           value_template: >
             {{ states('sensor.latest_version') == states('sensor.current_version') }}
       action:
-        - service: persistent_notification.dismiss
+        - action: persistent_notification.dismiss
           data:
             notification_id: update_pending
 
@@ -122,10 +122,10 @@ system_package:
         - if:
             - "{{ is_state(group, 'on') }}"
           then:
-            - service: homeassistant.turn_off
+            - action: homeassistant.turn_off
               target:
                 entity_id: "{{ group }}"
           else:
-            - service: homeassistant.turn_on
+            - action: homeassistant.turn_on
               target:
                 entity_id: "{{ group }}"

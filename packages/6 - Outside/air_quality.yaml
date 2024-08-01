@@ -131,10 +131,10 @@ air_quality_package:
           - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
       action:
         - alias: "Send TPH to Luftdaten / Sensor.Community API"
-          service: rest_command.send_luftdaten_tph
+          action: rest_command.send_luftdaten_tph
         - alias: "Send data to OpenSenseMap"
-          service: rest_command.post_opensensebox
+          action: rest_command.post_opensensebox
         - alias: "Send updates to Madavi.de for statistics."
-          service: rest_command.send_madavi
+          action: rest_command.send_madavi
         - alias: "Send PM to Luftdaten / Sensor.Community API"
-          service: rest_command.send_luftdaten_pm
+          action: rest_command.send_luftdaten_pm

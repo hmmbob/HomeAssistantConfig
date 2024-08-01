@@ -15,7 +15,7 @@ dining_room_airco_package:
       condition:
         - "{{ states('climate.airco_woonkamer') not in ['unknown','unavailable'] }}"
       action:
-        - service: esphome.airco_woonkamer_set_api_room_temperature
+        - action: esphome.airco_woonkamer_set_api_room_temperature
           data:
             value: "{{ state_attr('climate.woonkamer','current_temperature') }}"
 
@@ -28,7 +28,7 @@ dining_room_airco_package:
       condition:
         - "{{ states('climate.airco_woonkamer') not in ['off', 'unknown','unavailable'] }}"
       action:
-        - service: climate.set_hvac_mode
+        - action: climate.set_hvac_mode
           target:
             entity_id: climate.airco_woonkamer
           data:

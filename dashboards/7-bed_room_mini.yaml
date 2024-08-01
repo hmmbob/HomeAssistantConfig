@@ -38,8 +38,8 @@ cards:
               {{ expand(state_attr('group.lampen_minicave', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
             tap_action:
-              action: call-service
-              service: script.light_group_toggle_helper
+              action: perform-action
+              perform_action: script.light_group_toggle_helper
               data:
                 group: group.lampen_minicave
           - type: template
@@ -182,8 +182,8 @@ cards:
           - type: action
             icon: mdi:fast-forward-15
             tap_action:
-              action: call-service
-              service: timer.start
+              action: perform-action
+              perform_action: timer.start
               target:
                 entity_id: timer.airco_mini_sleeptimer
               data:
@@ -191,8 +191,8 @@ cards:
           - type: action
             icon: mdi:fast-forward-30
             tap_action:
-              action: call-service
-              service: timer.start
+              action: perform-action
+              perform_action: timer.start
               target:
                 entity_id: timer.airco_mini_sleeptimer
               data:
@@ -200,8 +200,8 @@ cards:
           - type: action
             icon: mdi:fast-forward-60
             tap_action:
-              action: call-service
-              service: timer.start
+              action: perform-action
+              perform_action: timer.start
               target:
                 entity_id: timer.airco_mini_sleeptimer
               data:
@@ -209,8 +209,8 @@ cards:
           - type: action
             icon: mdi:timer-off-outline
             tap_action:
-              action: call-service
-              service: timer.finish
+              action: perform-action
+              perform_action: timer.finish
               target:
                 entity_id: timer.airco_mini_sleeptimer
           - type: conditional

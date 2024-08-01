@@ -30,7 +30,7 @@ ventilation_package:
           to: "1_long_press"
           id: long_press
       action:
-        - service: timer.start
+        - action: timer.start
           target:
             entity_id: timer.fan_runtime
           data:
@@ -45,7 +45,7 @@ ventilation_package:
             entity_id: timer.fan_runtime
       action:
         - alias: Boost ventilation on request
-          service: fan.set_percentage
+          action: fan.set_percentage
           target:
             entity_id: fan.open_air_mini
           data:
@@ -80,7 +80,7 @@ ventilation_package:
             - delay:
                 minutes: 1
         - alias: "Cancel any running timers"
-          service: timer.cancel
+          action: timer.cancel
           target:
             entity_id: timer.fan_runtime
         - alias: "Checking what time it is..."
@@ -92,7 +92,7 @@ ventilation_package:
                   before: "09:00:00"
               sequence:
                 - alias: Boost during morning hours because of showering
-                  service: fan.set_percentage
+                  action: fan.set_percentage
                   target:
                     entity_id: fan.open_air_mini
                   data:
@@ -104,7 +104,7 @@ ventilation_package:
                   before: "21:00:00"
               sequence:
                 - alias: Run at half speed during the day
-                  service: fan.set_percentage
+                  action: fan.set_percentage
                   target:
                     entity_id: fan.open_air_mini
                   data:
@@ -116,7 +116,7 @@ ventilation_package:
                   before: "07:00:00"
               sequence:
                 - alias: Sleep tight
-                  service: fan.set_percentage
+                  action: fan.set_percentage
                   target:
                     entity_id: fan.open_air_mini
                   data:

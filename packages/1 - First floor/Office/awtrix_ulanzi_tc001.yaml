@@ -38,11 +38,11 @@ awtrix_package:
                   entity_id: switch.awtrix_6caff8_transition
                   state: "on"
               sequence:
-                - service: mqtt.publish
+                - action: mqtt.publish
                   data:
                     topic: awtrix_6caff8/switch
                     payload: '{"name":"Time"}'
-                - service: mqtt.publish
+                - action: mqtt.publish
                   data:
                     topic: awtrix_6caff8/settings
                     payload: '{ "WD": false, "TMODE":"0", "TIME_COL": [255,0,0], "BRI": 1, "ABRI": false, "ATRANS": false }'
@@ -52,7 +52,7 @@ awtrix_package:
                   entity_id: switch.awtrix_6caff8_transition
                   state: "off"
               sequence:
-                - service: mqtt.publish
+                - action: mqtt.publish
                   data:
                     topic: awtrix_6caff8/settings
                     payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
@@ -68,22 +68,22 @@ awtrix_package:
           to: "on"
       condition: []
       action:
-        - service: automation.trigger
+        - action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_send_outside_temperature_to_awtrix
         - delay: 5
-        - service: automation.trigger
+        - action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_solar_energy_monitor
         - delay: 5
-        - service: automation.trigger
+        - action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_send_today_s_energy_production_to_awtrix
         - delay: 5
-        - service: automation.trigger
+        - action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_send_ev_battery_level
@@ -100,7 +100,7 @@ awtrix_package:
           entity_id: sensor.knmi_temperatuur
       condition: []
       action:
-        - service: mqtt.publish
+        - action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/outside_temp
             payload: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
@@ -114,7 +114,7 @@ awtrix_package:
           entity_id: sensor.today_s_pv_generation
       condition: []
       action:
-        - service: mqtt.publish
+        - action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/production_today
             payload: ' { "text": "{{ states(''sensor.todays_total_production_preserved'') }} kWh", "icon": "52456", "color": "#7bf21f", "duration": 7} '
@@ -162,7 +162,7 @@ awtrix_package:
                     {% set night_end = night_end %}
                     {{ (skip_during_night_hours and ((now_time < night_end) or (now_time > night_start))) or (skip_if_zero_watts and (power_level == 0)) }}
               sequence:
-                - service: mqtt.publish
+                - action: mqtt.publish
                   data:
                     topic: "{{ device_topic }}"
                     payload: "{}"
@@ -175,7 +175,7 @@ awtrix_package:
                     {% set night_end = night_end %}
                     {{ not((skip_during_night_hours and ((now_time < night_end) or (now_time > night_start))) or (skip_if_zero_watts and (power_level == 0))) }}
               sequence:
-                - service: mqtt.publish
+                - action: mqtt.publish
                   data:
                     topic: "{{ device_topic }}"
                     payload: >
@@ -198,7 +198,7 @@ awtrix_package:
           entity_id: sensor.tucson_ev_battery_level
       condition: []
       action:
-        - service: mqtt.publish
+        - action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/ev_battery
             payload: ' { "text": "{{ states(''sensor.tucson_ev_battery_level'') }} %", "icon": "2817", "color": "{{ power_level_color }}", "duration": 7} '

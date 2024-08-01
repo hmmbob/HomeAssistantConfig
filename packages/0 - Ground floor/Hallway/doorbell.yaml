@@ -21,11 +21,11 @@ doorbell_package:
           state: "on"
       action:
         - alias: "Send a notification"
-          service: script.turn_on
+          action: script.turn_on
           entity_id:
             - script.send_doorbell_notification
         - alias: "Stream snapshotimage to Nest Hub"
-          service: media_player.play_media
+          action: media_player.play_media
           data:
             entity_id: media_player.nest_hub_woonkamer
             media_content_id: !secret camera_url
@@ -33,7 +33,7 @@ doorbell_package:
         - alias: "Wait before we clean up"
           delay: "00:01:00"
         - alias: "Turn off the Nest Hub"
-          service: media_player.turn_off
+          action: media_player.turn_off
           entity_id:
             - media_player.nest_hub_woonkamer
 
@@ -54,7 +54,7 @@ doorbell_package:
               }}
             sequence:
               - alias: Send doorbell notification
-                service: "{{ repeat.item }}"
+                action: "{{ repeat.item }}"
                 data:
                   title: Knock Knock!
                   message: Er staat iemand aan de deur!

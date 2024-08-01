@@ -21,7 +21,7 @@ travel_time_notifications_package:
         entity_id: person.bob
         state: not_home
       action:
-        - service: homeassistant.update_entity
+        - action: homeassistant.update_entity
           entity_id: sensor.reistijd_bob_naar_huis
 
     ##########################
@@ -52,7 +52,7 @@ travel_time_notifications_package:
           state: "on"
       action:
         - alias: "Sending push notification"
-          service: notify.mobile_app_sm_a556b
+          action: notify.mobile_app_sm_a556b
           data:
             title: "Reistijd"
             message: "Wil je een melding versturen?"
@@ -94,17 +94,17 @@ travel_time_notifications_package:
             - fri
       action:
         - alias: "Register that Bob is travelling home"
-          service: input_boolean.turn_on
+          action: input_boolean.turn_on
           target:
             entity_id: input_boolean.location_bob_travelling_home
         - alias: "Update Waze sensor (it doesn't update automatically)"
-          service: homeassistant.update_entity
+          action: homeassistant.update_entity
           entity_id: sensor.reistijd_bob_naar_huis
         - alias: "Wait for the update to finish"
           delay:
             seconds: 10
         - alias: "Ok, let's tell the people!"
-          service: notify.mobile_devices_adults
+          action: notify.mobile_devices_adults
           data:
             title: ♥ Bob is op weg naar huis!
             message: >
@@ -119,7 +119,7 @@ travel_time_notifications_package:
               sticky: true
               tag: "waze"
               ttl: 0
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             message: "clear_notification"
             data:
@@ -139,7 +139,7 @@ travel_time_notifications_package:
           state: "on"
       action:
         - alias: "Estimated time of arrival is updated, let's inform the people"
-          service: notify.mobile_devices_adults
+          action: notify.mobile_devices_adults
           data:
             title: ♥ Bob is op weg naar huis!
             message: >
@@ -168,10 +168,10 @@ travel_time_notifications_package:
           entity_id: input_boolean.location_bob_travelling_home
           state: "on"
       action:
-        - service: input_boolean.turn_off
+        - action: input_boolean.turn_off
           target:
             entity_id: input_boolean.location_bob_travelling_home
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             message: "clear_notification"
             data:

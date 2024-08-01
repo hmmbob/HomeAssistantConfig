@@ -37,12 +37,12 @@ tts_system_package:
           {% elif is_state("input_select.tts_target", "Kantoor") %} media_player.kantoor
           {% endif %}
       sequence:
-        - service: tts.microsoft_say
+        - action: tts.microsoft_say
           data:
             entity_id: "{{ target }}"
             message: "{{ states('input_text.tts_message') }}"
             cache: false
         - delay: 00:00:10
-        - service: media_player.turn_off
+        - action: media_player.turn_off
           data:
             entity_id: "{{ target }}"

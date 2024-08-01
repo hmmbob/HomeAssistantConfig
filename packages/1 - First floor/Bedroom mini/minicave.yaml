@@ -82,7 +82,7 @@ bedroom_minicave_package:
         - condition: time
           after: input_datetime.time_poweruse_minicave
       action:
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             title: "Minicave {{ trigger.id }}"
             message: >-
@@ -114,7 +114,7 @@ bedroom_minicave_package:
           below: 8
           id: minicave
       action:
-        - service: logbook.log
+        - action: logbook.log
           data:
             name: Minicave
             entity_id: sensor.mini_cave_power
@@ -151,14 +151,14 @@ bedroom_minicave_package:
                     - sat
                     - sun
       action:
-        - service: scene.create
+        - action: scene.create
           data:
             scene_id: snapshot_minicave
             snapshot_entities:
               - light.ledstrip_mini
         - delay:
             seconds: 5
-        - service: light.turn_on
+        - action: light.turn_on
           target:
             entity_id: light.ledstrip_mini
           data:
@@ -168,25 +168,25 @@ bedroom_minicave_package:
         - repeat:
             count: 5
             sequence:
-              - service: light.toggle
+              - action: light.toggle
                 data: {}
                 target:
                   entity_id: light.ledstrip_mini
               - delay:
                   seconds: 1
                   milliseconds: 200
-              - service: light.toggle
+              - action: light.toggle
                 data: {}
                 target:
                   entity_id: light.ledstrip_mini
               - delay:
                   seconds: 1
                   milliseconds: 200
-        - service: tts.microsoft_say
+        - action: tts.microsoft_say
           data:
             entity_id: media_player.slaapkamer_t
             message: "Je tijd is op. Sluit je af?"
-        - service: notify.mobile_app_sm_a236b
+        - action: notify.mobile_app_sm_a236b
           data:
             title: Tijd is om
             message: Je tijd is op. Sluit je af?
@@ -195,7 +195,7 @@ bedroom_minicave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             title: Mini's gametijd
             message: >-
@@ -207,6 +207,6 @@ bedroom_minicave_package:
               ttl: 0
         - delay:
             seconds: 5
-        - service: scene.turn_on
+        - action: scene.turn_on
           data:
             entity_id: scene.snapshot_minicave

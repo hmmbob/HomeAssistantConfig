@@ -28,6 +28,6 @@ utility_room_package:
           state: "on"
       action:
         - alias: "Bijkeuken lamp bedienen..."
-          service: switch.{{ action }}
+          action: switch.{{ action }}
           target:
             entity_id: switch.bijkeuken

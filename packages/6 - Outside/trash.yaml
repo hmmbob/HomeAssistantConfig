@@ -85,7 +85,7 @@ trash_package:
             - '{{trigger.id == "morgen" }}'
           then:
             - alias: "New round of notifications, so resetting helper for next round"
-              service: input_boolean.turn_off
+              action: input_boolean.turn_off
               target:
                 entity_id: input_boolean.trash_outside
         - if:
@@ -98,7 +98,7 @@ trash_package:
             - stop: "Stopping notification sequence as trash is already outside"
           else:
             - alias: "Sending push notification"
-              service: notify.mobile_app_sm_a556b
+              action: notify.mobile_app_sm_a556b
               data:
                 title: "Afvalinzameling"
                 message: "{{ trigger.id | capitalize }} wordt het {{ afval }} opgehaald."
@@ -116,19 +116,19 @@ trash_package:
               entity_id: input_boolean.notify_trash_voice
               state: "on"
             - alias: "Play TTS"
-              service: tts.microsoft_say
+              action: tts.microsoft_say
               entity_id: media_player.nest_hub_woonkamer
               data:
                 message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
             - delay: "00:00:15"
             - alias: "Streaming image to Nest Hub"
-              service: media_player.play_media
+              action: media_player.play_media
               data:
                 entity_id: media_player.nest_hub_woonkamer
                 media_content_id: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
                 media_content_type: "image/png"
             - delay: "00:15:00"
-            - service: media_player.turn_off
+            - action: media_player.turn_off
               entity_id: media_player.nest_hub_woonkamer
 
     - alias: "Verwerk dat het afval buitengezet is"
@@ -139,6 +139,6 @@ trash_package:
           event_data:
             action: "trash_outside"
       action:
-        - service: input_boolean.turn_on
+        - action: input_boolean.turn_on
           target:
             entity_id: input_boolean.trash_outside

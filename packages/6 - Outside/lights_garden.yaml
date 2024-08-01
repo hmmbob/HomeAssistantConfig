@@ -40,7 +40,7 @@ lights_garden_package:
           entity_id: input_boolean.garden_lights_override
           state: "off"
       action:
-        - service: switch.turn_{{ states('sensor.garden_lights') }}
+        - action: switch.turn_{{ states('sensor.garden_lights') }}
           target:
             entity_id: switch.tuinverlichting
 
@@ -68,16 +68,16 @@ lights_garden_package:
           condition: template
           value_template: "{{ (as_timestamp(now()) - as_timestamp(states.person.bob.last_changed)) < 120 }}"
       action:
-        - service: input_boolean.turn_on
+        - action: input_boolean.turn_on
           target:
             entity_id: input_boolean.garden_lights_override
-        - service: switch.turn_on
+        - action: switch.turn_on
           target:
             entity_id: switch.tuinverlichting
         - delay: "00:03:00"
-        - service: input_boolean.turn_off
+        - action: input_boolean.turn_off
           target:
             entity_id: input_boolean.garden_lights_override
-        - service: automation.trigger
+        - action: automation.trigger
           target:
             entity_id: automation.lights_garden_turn_on

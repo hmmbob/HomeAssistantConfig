@@ -37,7 +37,7 @@ lights_livingroom_package:
             entity_id: group.lampen_woonkamer
             state: "off"
       action:
-        - service: light.turn_on
+        - action: light.turn_on
           data:
             brightness_pct: 20
           target:

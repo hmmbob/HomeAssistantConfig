@@ -15,7 +15,7 @@ morning_briefing_package:
         platform: time
         at: input_datetime.time_morning_briefing
       action:
-        - service: notify.mobile_devices_papa_and_mini
+        - action: notify.mobile_devices_papa_and_mini
           data:
             title: Good morning sunshine!
             message: >-

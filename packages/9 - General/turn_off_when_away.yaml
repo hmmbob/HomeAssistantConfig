@@ -11,13 +11,13 @@ turn_off_when_away_package:
             minutes: 30
       action:
         - alias: "Turn off Tado devices that are on (and leave others in current state)"
-          service: climate.set_hvac_mode
+          action: climate.set_hvac_mode
           data:
             hvac_mode: auto
           target:
             entity_id: "{{ integration_entities('tado') | select('is_state', 'heat') | list }}"
         - alias: "Turn off A/Cs"
-          service: climate.set_hvac_mode
+          action: climate.set_hvac_mode
           data:
             hvac_mode: "off"
           target:

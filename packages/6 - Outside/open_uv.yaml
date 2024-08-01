@@ -63,7 +63,7 @@ open_uv_package:
           before: sunset
           before_offset: "-01:00:00"
       action:
-        service: homeassistant.update_entity
+        action: homeassistant.update_entity
         target:
           entity_id:
             - sensor.openuv_current_uv_index
@@ -91,7 +91,7 @@ open_uv_package:
                     - sun
               sequence:
                 - delay: "00:30:00" # Run at 08:30 in weekends
-        - service: notify.mobile_devices_all
+        - action: notify.mobile_devices_all
           data:
             title: "UV Waarschuwing"
             message: "Vandaag wordt zonkracht {{ states('sensor.openuv_max_uv_index') | round(1, default=0) }} verwacht. Vergeet niet te smeren!"
@@ -103,11 +103,11 @@ open_uv_package:
         - condition: state
           entity_id: input_boolean.notify_uv_voice
           state: "on"
-        - service: tts.microsoft_say
+        - action: tts.microsoft_say
           entity_id: media_player.nest_hub_woonkamer
           data:
             message: "Vandaag wordt zonkracht {{ states('sensor.openuv_max_uv_index')  }} verwacht. Goed insmeren dus!"
         - delay: "00:00:04"
         - wait_template: "{{ is_state('media_player.nest_hub_woonkamer', 'idle') }}" # Ensure Home Hub screen is back to photo mode
-        - service: media_player.turn_off
+        - action: media_player.turn_off
           entity_id: media_player.nest_hub_woonkamer

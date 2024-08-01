@@ -38,7 +38,7 @@ postcodeloterij_package:
             - unknown
       action:
         - alias: "Send notification"
-          service: notify.mobile_devices_adults
+          action: notify.mobile_devices_adults
           data:
             title: "🏆 Winnen doe je bij..."
             message: >

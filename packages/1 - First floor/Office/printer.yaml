@@ -34,7 +34,7 @@ printer_package:
             message: >
               De {{ color }} toner is nog maar voor {{ states(trigger.entity_id) }}% vol
         - alias: "Send notification"
-          service: notify.mobile_app_sm_a556b
+          action: notify.mobile_app_sm_a556b
           data:
             title: "Printer is low on toner"
             message: "{{ message }}"

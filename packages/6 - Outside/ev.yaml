@@ -64,13 +64,13 @@ ev_package:
                   id: ev_cheapest_charge_start
               sequence:
                 - alias: "Select SMART charging option"
-                  service: select.select_option
+                  action: select.select_option
                   target:
                     entity_id: select.smartevse_6360_mode
                   data:
                     option: Smart
                 - alias: "Sending push notification"
-                  service: notify.mobile_app_sm_a556b
+                  action: notify.mobile_app_sm_a556b
                   data:
                     title: "Automatic cheapest EV charging started"
                     message: "Automatisch laden van de auto is gestart. ({{ now().strftime('%H:%M') }})."
@@ -86,13 +86,13 @@ ev_package:
                   id: ev_cheapest_charge_stop
               sequence:
                 - alias: "Select charging option OFF"
-                  service: select.select_option
+                  action: select.select_option
                   target:
                     entity_id: select.smartevse_6360_mode
                   data:
                     option: "Off"
                 - alias: "Sending push notification"
-                  service: notify.mobile_app_sm_a556b
+                  action: notify.mobile_app_sm_a556b
                   data:
                     title: "Automatic cheapest EV charging stopped"
                     message: "Automatisch laden van de auto is gestopt ({{ now().strftime('%H:%M') }})"
@@ -117,7 +117,7 @@ ev_package:
               entity_id: sensor.smartevse_6360_evplugstate
               state: "Connected"
           then:
-            - service: switch.turn_on
+            - action: switch.turn_on
               target:
                 entity_id: switch.ev_smart_charging_ev_connected
           else:
@@ -126,7 +126,7 @@ ev_package:
                   entity_id: sensor.smartevse_6360_evplugstate
                   state: "Disconnected"
               then:
-                - service: switch.turn_off
+                - action: switch.turn_off
                   target:
                     entity_id: switch.ev_smart_charging_ev_connected
 
@@ -148,13 +148,13 @@ ev_package:
           value_template: "{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}"
       action:
         - alias: "Create a persistant notification with the monthly charged totals"
-          service: persistent_notification.create
+          action: persistent_notification.create
           data:
             notification_id: ev_monthly_total
             title: "{{ title }}"
             message: "{{ message }}"
         - alias: "Send an email with the monthly charged totals"
-          service: notify.email
+          action: notify.email
           data:
             title: "{{ title }}"
             message: "{{ message }}"
@@ -172,7 +172,7 @@ ev_package:
           entity_id: sensor.smartevse_6360_state
           state: "Charging"
       action:
-        - service: kia_uvo.force_update
+        - action: kia_uvo.force_update
           data:
             device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
 
@@ -195,7 +195,7 @@ ev_package:
                   id: start_debug_logging
               sequence:
                 - alias: "Start debug logging for ev_smart_charging"
-                  service: logger.set_level
+                  action: logger.set_level
                   data:
                     custom_components.ev_smart_charging: debug
                     # not sure if this also covers the next logger, so setting it explicitly
@@ -205,7 +205,7 @@ ev_package:
                   id: stop_debug_logging
               sequence:
                 - alias: "Stop debug logging for ev_smart_charging"
-                  service: logger.set_level
+                  action: logger.set_level
                   data:
                     custom_components.ev_smart_charging: warning
                     custom_components.ev_smart_charging.helpers.coordinator: warning

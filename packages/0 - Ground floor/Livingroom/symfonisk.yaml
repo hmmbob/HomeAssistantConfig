@@ -25,22 +25,22 @@ symfonisk_package:
                 - choose:
                     - conditions: "{{ trigger.payload == 'toggle' }}"
                       sequence:
-                        - service: media_player.media_play_pause
+                        - action: media_player.media_play_pause
                           target:
                             entity_id: "{{ player }}"
                     - conditions: "{{ trigger.payload == 'track_next' }}"
                       sequence:
-                        - service: media_player.media_next_track
+                        - action: media_player.media_next_track
                           target:
                             entity_id: "{{ player }}"
                     - conditions: "{{ trigger.payload == 'track_previous' }}"
                       sequence:
-                        - service: media_player.media_previous_track
+                        - action: media_player.media_previous_track
                           target:
                             entity_id: "{{ player }}"
                     - conditions: "{{ trigger.payload == 'volume_up' }}"
                       sequence:
-                        - service: media_player.volume_set
+                        - action: media_player.volume_set
                           target:
                             entity_id: "{{ player }}"
                           data:
@@ -49,7 +49,7 @@ symfonisk_package:
                               {{ 1.0 if volume > 1.0 else volume }}
                     - conditions: "{{ trigger.payload == 'volume_down' }}"
                       sequence:
-                        - service: media_player.volume_set
+                        - action: media_player.volume_set
                           target:
                             entity_id: "{{ player }}"
                           data:
@@ -58,7 +58,7 @@ symfonisk_package:
                               {{ 0.0 if volume < 0.0 else volume }}
                     - conditions: "{{ trigger.payload == 'volume_up_hold' }}"
                       sequence:
-                        - service: media_player.volume_set
+                        - action: media_player.volume_set
                           target:
                             entity_id: "{{ player }}"
                           data:
@@ -67,7 +67,7 @@ symfonisk_package:
                               {{ 1.0 if volume > 1.0 else volume }}
                     - conditions: "{{ trigger.payload == 'volume_down_hold' }}"
                       sequence:
-                        - service: media_player.volume_set
+                        - action: media_player.volume_set
                           target:
                             entity_id: "{{ player }}"
                           data:
@@ -76,10 +76,10 @@ symfonisk_package:
                               {{ 0.0 if volume < 0.0 else volume }}
                     - conditions: "{{ trigger.payload == 'dots_1_short_release' }}"
                       sequence:
-                        - service: script.radio_538
+                        - action: script.radio_538
                     - conditions: "{{ trigger.payload == 'dots_1_double_press' }}"
                       sequence:
-                        - service: media_player.play_media
+                        - action: media_player.play_media
                           target:
                             entity_id: "{{ player }}"
                           data:
@@ -101,10 +101,10 @@ symfonisk_package:
                       sequence: []
                     - conditions: "{{ trigger.payload == 'dots_2_short_release' }}"
                       sequence:
-                        - service: script.qmusic
+                        - action: script.qmusic
                     - conditions: "{{ trigger.payload == 'dots_2_double_press' }}"
                       sequence:
-                        - service: media_player.play_media
+                        - action: media_player.play_media
                           target:
                             entity_id: "{{ player }}"
                           data:
@@ -124,7 +124,7 @@ symfonisk_package:
                                 media_content_id: object.container.playlistContainer
                     - conditions: "{{ trigger.payload == 'dots_2_long_press' }}"
                       sequence:
-                        - service: script.nashville
+                        - action: script.nashville
 
   script:
     radio_538:
@@ -134,7 +134,7 @@ symfonisk_package:
       mode: single
       max_exceeded: silent
       sequence:
-        - service: media_player.play_media
+        - action: media_player.play_media
           target:
             entity_id: media_player.sonos_woonkamer
           data:
@@ -160,7 +160,7 @@ symfonisk_package:
       mode: single
       max_exceeded: silent
       sequence:
-        - service: media_player.play_media
+        - action: media_player.play_media
           target:
             entity_id: media_player.sonos_woonkamer
           data:
@@ -186,7 +186,7 @@ symfonisk_package:
       mode: single
       max_exceeded: silent
       sequence:
-        - service: media_player.play_media
+        - action: media_player.play_media
           target:
             entity_id: media_player.sonos_woonkamer
           data:

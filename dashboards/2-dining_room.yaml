@@ -33,8 +33,8 @@ cards:
               {{ expand(state_attr('group.lampen_eetkamer', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
             tap_action:
-              action: call-service
-              service: script.light_group_toggle_helper
+              action: perform-action
+              perform_action: script.light_group_toggle_helper
               data:
                 group: group.lampen_eetkamer
           - type: template
@@ -89,8 +89,8 @@ cards:
                             content_info: name
                             icon: mdi:vacuum
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_segment_clean
                                 params:
@@ -103,8 +103,8 @@ cards:
                             content_info: name
                             icon: mdi:sofa
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_segment_clean
                                 params:
@@ -117,8 +117,8 @@ cards:
                             content_info: name
                             icon: mdi:pot-steam
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_segment_clean
                                 params:
@@ -131,8 +131,8 @@ cards:
                             content_info: name
                             icon: mdi:stairs
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_segment_clean
                                 params:
@@ -145,8 +145,8 @@ cards:
                             content_info: name
                             icon: mdi:washing-machine
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_segment_clean
                                 params:
@@ -159,8 +159,8 @@ cards:
                             content_info: name
                             icon: mdi:television
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_segment_clean
                                 params:
@@ -176,8 +176,8 @@ cards:
                             content_info: name
                             icon: mdi:delete-empty
                             tap_action:
-                              action: call-service
-                              service: vacuum.send_command
+                              action: perform-action
+                              perform_action: vacuum.send_command
                               data:
                                 command: app_goto_target
                                 params:

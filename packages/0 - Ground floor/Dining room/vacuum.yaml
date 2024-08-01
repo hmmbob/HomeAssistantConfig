@@ -36,7 +36,7 @@ vacuum_package:
           state: "off"
       action:
         - alias: "Vraag of Rocky een rondje moet doen"
-          service: "{{ notification_service }}"
+          action: "{{ notification_service }}"
           data:
             message: "Het is langer dan 24u geleden dat ik mijn laatste rondje heb gedaan. Zal ik gaan stofzuigen? 🧹🧹"
             title: "Rocky"
@@ -59,7 +59,7 @@ vacuum_package:
           timeout: "01:00:00"
           continue_on_timeout: false
         - alias: "Start Rocky na bevestiging"
-          service: vacuum.start
+          action: vacuum.start
           target:
             entity_id: vacuum.rocky
 
@@ -73,11 +73,11 @@ vacuum_package:
           to: "returning"
       action:
         - alias: "Stop Rocky before sending goto command"
-          service: vacuum.stop
+          action: vacuum.stop
           entity_id: vacuum.rocky
         - delay: "00:00:02"
         - alias: "Send Rocky to the trash can"
-          service: vacuum.send_command
+          action: vacuum.send_command
           data:
             command: app_goto_target
             params:
@@ -92,7 +92,7 @@ vacuum_package:
               to: "idle"
           timeout: "00:05:00"
           continue_on_timeout: false
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             message: "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het legen op mijn 🏠 toets en ik ga terug naar mijn dock."
             title: "Rocky"
@@ -114,7 +114,7 @@ vacuum_package:
           event_data:
             action: "vacuum_return_to_dock"
       action:
-        - service: vacuum.return_to_base
+        - action: vacuum.return_to_base
           alias: "Returning to dock"
           target:
             entity_id: vacuum.rocky
@@ -128,7 +128,7 @@ vacuum_package:
           from: "returning"
           to: "docked"
       action:
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             message: clear_notification
             data:
@@ -146,7 +146,7 @@ vacuum_package:
           from: "docked"
           to: "cleaning"
       action:
-        - service: notify.mobile_app_sm_a556b
+        - action: notify.mobile_app_sm_a556b
           data:
             title: "Rocky"
             message: "Rocky doet zijn rondje! 🧹🧹"
@@ -180,7 +180,7 @@ vacuum_package:
               entity_id: sensor.rocky_vacuum_error
               state: "unavailable"
       action:
-        - service: "{{ notification_service }}"
+        - action: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
             message: "Foutmelding: {{states('sensor.rocky_vacuum_error')}}"
@@ -198,7 +198,7 @@ vacuum_package:
           entity_id: sensor.rocky_vacuum_error
           to: "none"
       action:
-        - service: notify.mobile_devices_adults
+        - action: notify.mobile_devices_adults
           data:
             message: clear_notification
             data:

@@ -18,7 +18,7 @@ whose_turn_is_it_package:
           weekday:
             - mon
       action:
-        - service: input_select.select_next
+        - action: input_select.select_next
           target:
             entity_id: input_select.tafeldekken_beurt
 
@@ -29,7 +29,7 @@ whose_turn_is_it_package:
       mode: restart
       sequence:
         - alias: "Play TTS"
-          service: tts.microsoft_say
+          action: tts.microsoft_say
           entity_id: media_player.nest_hub_woonkamer
           data:
             message: "Vandaag moet {{ states('input_select.tafeldekken_beurt') }} tafel dekken."
