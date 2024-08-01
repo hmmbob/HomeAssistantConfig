@@ -103,7 +103,7 @@ awtrix_package:
         - service: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/outside_temp
-            payload_template: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
+            payload: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
 
     - id: awtrix_production
       alias: "Stuur vandaags productie van de zonnepanelen naar Awtrix"
@@ -117,7 +117,7 @@ awtrix_package:
         - service: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/production_today
-            payload_template: ' { "text": "{{ states(''sensor.todays_total_production_preserved'') }} kWh", "icon": "52456", "color": "#7bf21f", "duration": 7} '
+            payload: ' { "text": "{{ states(''sensor.todays_total_production_preserved'') }} kWh", "icon": "52456", "color": "#7bf21f", "duration": 7} '
 
     - id: awtrix_current_production
       alias: "Stuur de huidige opbrengst van de zonnepanelen naar Awtrix"
@@ -201,4 +201,4 @@ awtrix_package:
         - service: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/ev_battery
-            payload_template: ' { "text": "{{ states(''sensor.tucson_ev_battery_level'') }} %", "icon": "2817", "color": "{{ power_level_color }}", "duration": 7} '
+            payload: ' { "text": "{{ states(''sensor.tucson_ev_battery_level'') }} %", "icon": "2817", "color": "{{ power_level_color }}", "duration": 7} '
