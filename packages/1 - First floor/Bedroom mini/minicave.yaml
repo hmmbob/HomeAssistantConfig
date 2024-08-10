@@ -5,7 +5,6 @@ bedroom_minicave_package:
       icon: mdi:lightbulb-multiple-outline
       entities:
         - light.ledstrip_mini
-        - light.battletron_ball_light_t
         - light.ledstrip_bed_mini
 
   input_boolean:

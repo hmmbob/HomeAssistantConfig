@@ -154,14 +154,6 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            entity: light.battletron_ball_light_t
-            name: Ball light T
-            icon: mdi:circle
-            show_brightness_control: true
-            collapsible_controls: true
-            show_color_control: true
-            use_light_color: true
-          - type: custom:mushroom-light-card
             entity: light.inloopkast_t
             icon: mdi:hanger
             show_brightness_control: true
