@@ -136,3 +136,78 @@ kids_notifications_package:
               ttl: 0
               priority: high
               notification_icon: mdi:battery-alert-variant
+
+    ##########################
+    ## Turn on high accuracy mode for the mini,
+    ## as otherwise updates don't come in regularly enough
+    ##########################
+    - alias: Turn on high accuracy mode
+      id: t_turn_on_gps
+      trigger:
+        - platform: zone
+          entity_id: device_tracker.sm_a236b
+          event: leave
+          zone: zone.home
+          id: home
+        - platform: zone
+          entity_id: device_tracker.sm_a236b
+          event: leave
+          zone: zone.school
+          id: school
+      action:
+        - choose:
+            - conditions:
+                - or:
+                    - and:
+                        - '{{ trigger.id == "home" }}'
+                        - not:
+                            - condition: time
+                              after: "7:00:00"
+                              before: "9:00:00"
+                              weekday:
+                                - mon
+                                - tue
+                                - wed
+                                - thu
+                                - fri
+                    - and:
+                        - '{{ trigger.id == "school" }}'
+                        - not:
+                            - condition: time
+                              after: "13:00:00"
+                              before: "17:00:00"
+                              weekday:
+                                - mon
+                                - tue
+                                - wed
+                                - thu
+                                - fri
+              sequence:
+                - stop: "Likely false positive, stopping sequence"
+        - action: notify.mobile_app_sm_a236b
+          data:
+            message: "command_high_accuracy_mode"
+            data:
+              command: "turn_on"
+              priority: high
+              ttl: 0
+
+    - alias: Turn off high accuracy mode
+      id: t_turn_off_gps
+      trigger:
+        - platform: zone
+          entity_id: device_tracker.sm_a236b
+          event: enter
+          zone: zone.home
+        - platform: zone
+          entity_id: device_tracker.sm_a236b
+          event: enter
+          zone: zone.school
+      action:
+        - action: notify.mobile_app_sm_a236b
+          data:
+            message: "command_high_accuracy_mode"
+            data:
+              command: "turn_off"
+              priority: high
+              ttl: 0
