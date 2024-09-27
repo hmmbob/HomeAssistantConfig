@@ -143,12 +143,23 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: climate.airco_woonkamer
-                icon: mdi:snowflake-thermometer
+                icon: |-
+                  {% if is_state(entity, 'heat') %}
+                    mdi:fire
+                  {% elif is_state(entity, 'cool') %}
+                    mdi:snowflake
+                  {% elif is_state(entity, 'dry') %}
+                    mdi:water-percent
+                  {% else %}
+                    mdi:snowflake-off
+                  {% endif %}
                 icon_color: |-
                   {% if is_state(entity, 'heat') %}
                     orange
                   {% elif is_state(entity, 'cool') %}
                     blue
+                  {% elif is_state(entity, 'dry') %}
+                    orange
                   {% else %}
                     grey
                   {% endif %}
@@ -264,12 +275,23 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: climate.airco_woonkamer
-                icon: mdi:snowflake-thermometer
+                icon: |-
+                  {% if is_state(entity, 'heat') %}
+                    mdi:fire
+                  {% elif is_state(entity, 'cool') %}
+                    mdi:snowflake
+                  {% elif is_state(entity, 'dry') %}
+                    mdi:water-percent
+                  {% else %}
+                    mdi:snowflake-off
+                  {% endif %}
                 icon_color: |-
                   {% if is_state(entity, 'heat') %}
                     orange
                   {% elif is_state(entity, 'cool') %}
                     blue
+                  {% elif is_state(entity, 'dry') %}
+                    orange
                   {% else %}
                     grey
                   {% endif %}
@@ -519,14 +541,24 @@ cards:
                     }
 
               - type: custom:mushroom-template-card
-
                 entity: climate.airco_master_bedroom
-                icon: mdi:snowflake-thermometer
+                icon: |-
+                  {% if is_state(entity, 'heat') %}
+                    mdi:fire
+                  {% elif is_state(entity, 'cool') %}
+                    mdi:snowflake
+                  {% elif is_state(entity, 'dry') %}
+                    mdi:water-percent
+                  {% else %}
+                    mdi:snowflake-off
+                  {% endif %}
                 icon_color: |-
                   {% if is_state(entity, 'heat') %}
                     orange
                   {% elif is_state(entity, 'cool') %}
                     blue
+                  {% elif is_state(entity, 'dry') %}
+                    orange
                   {% else %}
                     grey
                   {% endif %}
@@ -652,12 +684,23 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: climate.airco_slaapkamer_m
-                icon: mdi:snowflake-thermometer
+                icon: |-
+                  {% if is_state(entity, 'heat') %}
+                    mdi:fire
+                  {% elif is_state(entity, 'cool') %}
+                    mdi:snowflake
+                  {% elif is_state(entity, 'dry') %}
+                    mdi:water-percent
+                  {% else %}
+                    mdi:snowflake-off
+                  {% endif %}
                 icon_color: |-
                   {% if is_state(entity, 'heat') %}
                     orange
                   {% elif is_state(entity, 'cool') %}
                     blue
+                  {% elif is_state(entity, 'dry') %}
+                    orange
                   {% else %}
                     grey
                   {% endif %}
@@ -698,9 +741,7 @@ cards:
                     :host {
                       --mush-icon-size: 40px;
                     }
-
               - type: custom:mushroom-template-card
-
                 entity: binary_sensor.is_pubercave_tv_on
                 icon: mdi:television
                 icon_color: |-
@@ -829,12 +870,23 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: climate.airco_slaapkamer_t
-                icon: mdi:snowflake-thermometer
+                icon: |-
+                  {% if is_state(entity, 'heat') %}
+                    mdi:fire
+                  {% elif is_state(entity, 'cool') %}
+                    mdi:snowflake
+                  {% elif is_state(entity, 'dry') %}
+                    mdi:water-percent
+                  {% else %}
+                    mdi:snowflake-off
+                  {% endif %}
                 icon_color: |-
                   {% if is_state(entity, 'heat') %}
                     orange
                   {% elif is_state(entity, 'cool') %}
                     blue
+                  {% elif is_state(entity, 'dry') %}
+                    orange
                   {% else %}
                     grey
                   {% endif %}

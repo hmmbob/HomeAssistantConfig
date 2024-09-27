@@ -53,8 +53,8 @@ kids_notifications_package:
                         - '{{ location == "school" }}'
                         - not:
                             - condition: time
-                              after: "12:00:00"
-                              before: "17:00:00"
+                              after: "12:30:00"
+                              before: "17:30:00"
                               weekday:
                                 - mon
                                 - tue

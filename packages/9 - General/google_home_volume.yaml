@@ -8,7 +8,7 @@ google_home_volume_package:
           id: "time"
           at:
             - "07:00:00"
-            - "08:30:00"
+            - "09:00:00"
             - "19:30:00"
             - "20:30:00"
         - platform: homeassistant
@@ -27,20 +27,20 @@ google_home_volume_package:
                 minutes: 1
         - alias: "Checking what time it is..."
           choose:
-            - alias: "It's between 7hrs and 08:30"
+            - alias: "It's between 7hrs and 09:00"
               conditions:
                 - condition: time
                   after: "06:59:59"
-                  before: "08:30:00"
+                  before: "09:00:00"
               sequence:
                 - action: media_player.volume_set
                   data:
                     entity_id: media_player.nest_hub_woonkamer
                     volume_level: 0.7
-            - alias: "It's between 08:30 and 19hrs"
+            - alias: "It's between 09:00 and 19hrs"
               conditions:
                 - condition: time
-                  after: "08:29:59"
+                  after: "08:59:59"
                   before: "19:00:00"
               sequence:
                 - action: media_player.volume_set
@@ -67,6 +67,7 @@ google_home_volume_package:
                   data:
                     entity_id:
                       - media_player.slaapkamer_t
+                      - media_player.zolder
                     volume_level: 0.2
             - alias: "It's between 20:30 and 7hrs"
               conditions:

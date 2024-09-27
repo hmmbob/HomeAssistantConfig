@@ -86,13 +86,6 @@ lovelace:
       icon: mdi:map
       show_in_sidebar: true
       require_admin: false
-    lovelace-old:
-      mode: yaml
-      filename: .archive/dashboards/old/old.yaml
-      title: Old UI
-      icon: mdi:home-assistant
-      show_in_sidebar: true
-      require_admin: true
 
 recorder:
   exclude:

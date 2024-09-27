@@ -27,6 +27,16 @@ bedroom_mini_slaaptijd_package:
           data:
             entity_id: media_player.slaapkamer_t
             volume_level: 0.4
+        - if:
+            - condition: state
+              entity_id: light.ledstrip_bed_mini
+              state: "on"
+          then:
+            - action: light.turn_off
+              target:
+                entity_id: light.ledstrip_bed_mini
+              data:
+                transition: 5
         - delay: 00:40:00
         - action: media_player.volume_set
           data:
