@@ -50,7 +50,7 @@ cards:
                   title: Planten eetkamer
                   content:
                     type: custom:flower-card
-                    entity: plant.pachira
+                    entity: plant.palm
                     battery_sensor: sensor.xiaomi_plant_sensor_7_battery
                     show_bars:
                       - moisture
