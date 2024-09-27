@@ -1,4 +1,12 @@
 ev_package:
+  input_number:
+    ev_target_soc:
+      name: EV Target SOC
+      min: 0
+      max: 100
+      step: 5
+      unit_of_measurement: "%"
+
   utility_meter:
     ev_charged_energy:
       cycle: monthly
@@ -176,36 +184,20 @@ ev_package:
           data:
             device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
 
-    - id: ev_enable_debug_logging
-      alias: "Enable debug logging for ev_smart_charging component around midnight"
-      description: "Enable debug logging for ev_smart_charging component around midnight"
+    - id: ev_stuur_melding_bij_unavailable
+      alias: "Stuur melding als SmartEVSE unavailable is"
       mode: single
       trigger:
-        - platform: time
-          at: "23:55:00"
-          id: start_debug_logging
-        - platform: time
-          at: "00:05:00"
-          id: stop_debug_logging
+        - platform: state
+          entity_id: select.smartevse_6360_mode
+          to: "unavailable"
       action:
-        - alias: "Choose to start or stop debug logging"
-          choose:
-            - conditions:
-                - condition: trigger
-                  id: start_debug_logging
-              sequence:
-                - alias: "Start debug logging for ev_smart_charging"
-                  action: logger.set_level
-                  data:
-                    custom_components.ev_smart_charging: debug
-                    # not sure if this also covers the next logger, so setting it explicitly
-                    custom_components.ev_smart_charging.helpers.coordinator: debug
-            - conditions:
-                - condition: trigger
-                  id: stop_debug_logging
-              sequence:
-                - alias: "Stop debug logging for ev_smart_charging"
-                  action: logger.set_level
-                  data:
-                    custom_components.ev_smart_charging: warning
-                    custom_components.ev_smart_charging.helpers.coordinator: warning
+        - alias: "Sending push notification"
+          action: notify.mobile_app_sm_a556b
+          data:
+            title: "Sensor unavailable"
+            message: "De SmartEVSE was even unavailable"
+            data:
+              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              ttl: 0
+              priority: high

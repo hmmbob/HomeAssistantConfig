@@ -188,7 +188,7 @@ awtrix_package:
       variables:
         threshold_low: 30
         threshold_high: 60
-        power_level: "{{ states('sensor.tucson_ev_battery_level') | int }}"
+        power_level: "{{ states('sensor.tucson_ev_battery_level') | int(default=0) }}"
         power_level_color: >-
           {%- if power_level > threshold_high %}{{"#04FE04"}}{%- endif %}
           {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{"#FCFEFC"}}{%- endif %}
