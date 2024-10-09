@@ -11,13 +11,13 @@ aquarium_package:
     - id: aquarium_lights
       alias: "Zet de aquarium verlichting aan of uit"
       mode: queued
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: input_datetime.time_aquarium_on
           id: "on"
-        - platform: time
+        - trigger: time
           at: input_datetime.time_aquarium_off
           id: "off"
-      action:
+      actions:
         - action: switch.turn_{{trigger.id}}
           entity_id: switch.aquarium

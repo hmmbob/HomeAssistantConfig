@@ -9,15 +9,15 @@ whose_turn_is_it_package:
   automation:
     - id: rotate_turns
       alias: "Wissel de beurt voor het tafeldekken"
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at:
             - "00:01:00"
-      condition:
+      conditions:
         - condition: time
           weekday:
             - mon
-      action:
+      actions:
         - action: input_select.select_next
           target:
             entity_id: input_select.tafeldekken_beurt

@@ -2,15 +2,15 @@ printer_package:
   automation:
     - id: printer_low_toner_levels
       alias: "Stuur waarschuwing dat de printer toner levels laag zijn"
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id:
             - sensor.hp_printer_black_toner_niveau
             - sensor.hp_printer_cyan_toner_niveau
             - sensor.hp_printer_magenta_toner_niveau
             - sensor.hp_printer_yellow_toner_niveau
           below: 26
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id:
             - sensor.hp_printer_black_toner_niveau
             - sensor.hp_printer_cyan_toner_niveau
@@ -25,11 +25,11 @@ printer_package:
           sensor.hp_printer_yellow_toner_niveau: "gele"
         color: >
           {{ color_descr.get(trigger.entity_id, "unknown") }}
-      condition:
+      conditions:
         - alias: "Previous state is not unavailable or unkown"
           condition: template
           value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
-      action:
+      actions:
         - variables:
             message: >
               De {{ color }} toner is nog maar voor {{ states(trigger.entity_id) }}% vol

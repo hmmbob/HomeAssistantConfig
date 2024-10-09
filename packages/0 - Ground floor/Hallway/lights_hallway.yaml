@@ -17,12 +17,12 @@ lights_hallway_package:
       alias: "Zet de gangverlichting aan of uit"
       mode: restart
       max_exceeded: silent
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: group.pir_sensors_hallway
           from: "off"
           to: "on"
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.enable_pir_gang_automations
           state: "on"
@@ -30,14 +30,14 @@ lights_hallway_package:
           entity_id: sun.sun
           attribute: elevation
           below: 5
-      action:
+      actions:
         - alias: "Gang lamp aan..."
           action: switch.turn_on
           target:
             entity_id: switch.gang
         - alias: "Wacht tot er geen motion meer is..."
           wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: group.pir_sensors_hallway
               from: "on"
               to: "off"

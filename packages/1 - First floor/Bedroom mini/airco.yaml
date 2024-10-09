@@ -7,15 +7,15 @@ airco_mini_package:
     - id: airco_sleeptimer_mini
       alias: "Sleeptimer voor de airco van de mini"
       description: "Turn off AC at the end of the timer"
-      trigger:
-        - platform: event
+      triggers:
+        - trigger: event
           event_type: timer.finished
           event_data:
             entity_id: timer.airco_mini_sleeptimer
-      condition:
+      conditions:
         not:
           - "{{ states('climate.airco_slaapkamer_t') in ['off', 'unknown','unavailable'] }}"
-      action:
+      actions:
         - action: climate.set_hvac_mode
           target:
             entity_id: climate.airco_slaapkamer_t

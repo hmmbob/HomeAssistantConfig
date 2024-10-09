@@ -3,13 +3,13 @@ turn_off_when_away_package:
     - id: turn_off_when_away
       alias: "Zet de airco en verwarming uit als we weg zijn"
       description: "Climate: Turn off heating when away"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: zone.home
           to: "0"
           for:
             minutes: 30
-      action:
+      actions:
         - alias: "Turn off Tado devices that are on (and leave others in current state)"
           action: climate.set_hvac_mode
           data:

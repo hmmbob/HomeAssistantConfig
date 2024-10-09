@@ -11,10 +11,10 @@ morning_briefing_package:
     - id: morning_briefing
       alias: "Verstuur ochtendbriefing"
       description: "Notifications: Morning briefing"
-      trigger:
-        platform: time
+      triggers:
+        trigger: time
         at: input_datetime.time_morning_briefing
-      action:
+      actions:
         - action: notify.mobile_devices_papa_and_mini
           data:
             title: Good morning sunshine!

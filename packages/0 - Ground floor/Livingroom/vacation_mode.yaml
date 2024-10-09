@@ -22,14 +22,14 @@ vacation_mode_package:
     - id: vacation_turn_on_time
       alias: "Zet de verlichting aan (vacation mode)"
       initial_state: on
-      trigger:
-        platform: time
+      triggers:
+        trigger: time
         at: input_datetime.time_vacation_lights_start
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "on"
-      action:
+      actions:
         - delay: "{{ range(30*60) | random }}"
           alias: "Random delay between now and 30mins"
         - action: homeassistant.turn_on
@@ -50,14 +50,14 @@ vacation_mode_package:
     - id: vacation_turn_off_time
       alias: "Zet de verlichting uit (vacation mode)"
       initial_state: on
-      trigger:
-        platform: time
+      triggers:
+        trigger: time
         at: input_datetime.time_vacation_lights_end
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "on"
-      action:
+      actions:
         - delay: "{{ range(15*60) | random }}"
           alias: "Random delay between now and 30mins"
         - action: homeassistant.turn_off

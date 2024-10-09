@@ -63,16 +63,16 @@ attic_pubercave_package:
     - id: warn_pc_time_duration_pubercave
       alias: "Waarschuwing dat de puber te lang op de PC zit"
       mode: queued
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.pubercave_pc_on_today
           above: input_number.maxi_pc_time_weekday
           id: weekday
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.pubercave_pc_on_today
           above: input_number.maxi_pc_time_weekend
           id: weekend
-      condition:
+      conditions:
         - or:
             - and:
                 - '{{ trigger.id == "weekday" }}'
@@ -89,7 +89,7 @@ attic_pubercave_package:
                   weekday:
                     - sat
                     - sun
-      action:
+      actions:
         - action: tts.microsoft_say
           data:
             entity_id: media_player.zolder
@@ -120,16 +120,16 @@ attic_pubercave_package:
     - id: flash_lights_pc_time_over_pubercave
       alias: "Knipper de lampen als de puber PC tijd over is"
       mode: queued
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at:
             - "21:00:00"
-      condition:
+      conditions:
         - condition: state
           alias: "Check if PC is on"
           entity_id: binary_sensor.pubercave_pc
           state: "on"
-      action:
+      actions:
         - action: scene.create
           data:
             scene_id: snapshot_pubercave
@@ -186,24 +186,24 @@ attic_pubercave_package:
         Pubercave: mancave for the adolescent kid. It has a TV that obviously
         shouldn't be on after bedtime... So let's trigger a notification if it is :)
       mode: queued
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.leeslampje_zolder_power
           above: 3
           for:
             minutes: 2
           id: Leeslampje
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.pubercave_power
           above: 25
           id: TV
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.notify_power_use_attic
           state: "on"
         - condition: time
           after: input_datetime.time_leeslampje_attic
-      action:
+      actions:
         - action: notify.mobile_devices_adults
           data:
             title: "Pubercave {{ trigger.id }}"
@@ -227,24 +227,24 @@ attic_pubercave_package:
         25 watts as crossover point, because the PS4 sometimes charges
         the controllers and thus consumes a bit of power.
       mode: queued
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.pubercave_power
           above: 25
           id: pubercave
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.pubercave_power
           below: 25
           id: pubercave
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.leeslampje_zolder_power
           above: 3
           id: leeslampje
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.leeslampje_zolder_power
           below: 3
           id: leeslampje
-      action:
+      actions:
         - choose:
             - conditions:
                 condition: trigger

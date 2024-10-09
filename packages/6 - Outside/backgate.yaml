@@ -7,12 +7,12 @@ backgate_package:
       max_exceeded: silent
       trace:
         stored_traces: 20
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: binary_sensor.poort_contact
           from: "off"
           to: "on"
-      action:
+      actions:
         - alias: "Turn on speaker"
           action: switch.turn_on
           target:

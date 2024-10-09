@@ -66,15 +66,15 @@ solar_package:
     - id: solar_upload_to_pvoutput
       alias: "Stuur solar informatie naar PVOutput"
       description: Upload values to PVOutput
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: /5
           seconds: "0"
-      condition:
+      conditions:
         - condition: state
           entity_id: sensor.work_mode
           state: "Normal"
-      action:
+      actions:
         - action: rest_command.update_pvoutput
           data: {}
       mode: single
@@ -87,9 +87,9 @@ solar_package:
         It works by setting the "grid_export_limit" in the GoodWe integration to 0%, effectively
         instructing the inverter that it isn't allowed to export (produce) any power. Setting
         it back to 100% restarts the production again to the maximum capacity of the inverter.
-      trigger:
+      triggers:
         # Triggers for automatic switching
-        - platform: state
+        - trigger: state
           entity_id:
             - binary_sensor.negatieve_stroomprijs
           attribute: position
@@ -98,7 +98,7 @@ solar_package:
           id: automatic_start
           variables:
             message: "Je zonnepanelen zijn automatisch uitgeschakeld omdat de stroomprijs negatief is."
-        - platform: state
+        - trigger: state
           entity_id:
             - binary_sensor.negatieve_stroomprijs
           attribute: position
@@ -108,22 +108,22 @@ solar_package:
           variables:
             message: "Je zonnepanelen zijn weer ingeschakeld omdat de stroomprijs positief is."
         # Triggers for scheduled switching
-        - platform: time
+        - trigger: time
           at: input_datetime.solar_pv_off_start
           id: scheduled_start
           variables:
             message: "Je zonnepanelen zijn uitgeschakeld op basis van je schedule."
-        - platform: time
+        - trigger: time
           at: input_datetime.solar_pv_off_end
           id: scheduled_stop
           variables:
             message: "Je zonnepanelen zijn weer ingeschakeld op basis van je schedule."
-      condition:
+      conditions:
         - alias: "Check if inverter is actually working"
           condition: state
           entity_id: sensor.work_mode
           state: "Normal"
-      action:
+      actions:
         - alias: "Choose what to execute"
           choose:
             - conditions:

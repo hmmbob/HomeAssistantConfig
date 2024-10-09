@@ -9,24 +9,24 @@ utility_room_package:
       alias: "Zet de verlichting in de bijkeuken aan of uit"
       mode: restart
       max_exceeded: silent
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: binary_sensor.pir_bijkeuken_occupancy
           to: "on"
           from: "off"
           variables:
             action: turn_on
-        - platform: state
+        - trigger: state
           entity_id: binary_sensor.pir_bijkeuken_occupancy
           to: "off"
           from: "on"
           variables:
             action: turn_off
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.enable_pir_bijkeuken_automations
           state: "on"
-      action:
+      actions:
         - alias: "Bijkeuken lamp bedienen..."
           action: switch.{{ action }}
           target:

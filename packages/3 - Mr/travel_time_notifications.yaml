@@ -10,17 +10,17 @@ travel_time_notifications_package:
     - id: update_waze_to_home
       alias: "Werk Waze reistijd bij"
       description: "Update: Waze travel time to home"
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: "/5"
           seconds: 00
-        - platform: homeassistant
+        - trigger: homeassistant
           event: start
-      condition:
+      conditions:
         condition: state
         entity_id: person.bob
         state: not_home
-      action:
+      actions:
         - action: homeassistant.update_entity
           entity_id: sensor.reistijd_bob_naar_huis
 
@@ -29,12 +29,12 @@ travel_time_notifications_package:
     ##########################
     - id: location_ask_to_send_notification_hmmbob_left
       alias: "Vraag of we een melding moeten versturen dat Bob vertrekt"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: binary_sensor.sm_a556b_android_auto
           from: "off"
           to: "on"
-      condition:
+      conditions:
         - not:
             - or:
                 - condition: zone
@@ -50,7 +50,7 @@ travel_time_notifications_package:
           condition: state
           entity_id: input_boolean.location_bob_travelling_home
           state: "on"
-      action:
+      actions:
         - alias: "Sending push notification"
           action: notify.mobile_app_sm_a556b
           data:
@@ -69,20 +69,20 @@ travel_time_notifications_package:
 
     - id: location_notification_hmmbob_left_work
       alias: "Verstuur melding dat Bob van het werk vertrekt"
-      trigger:
-        - platform: event
+      triggers:
+        - trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: "send_traveltime"
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.breda
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.vkl
-      condition:
+      conditions:
         - condition: time
           after: "14:00:00"
           before: "19:00:00"
@@ -92,7 +92,7 @@ travel_time_notifications_package:
             - wed
             - thu
             - fri
-      action:
+      actions:
         - alias: "Register that Bob is travelling home"
           action: input_boolean.turn_on
           target:
@@ -129,15 +129,15 @@ travel_time_notifications_package:
 
     - id: location_update_traveltime_notification_hmmbob
       alias: "Werk reistijd notificatie bij met nieuwe gegevens"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.reistijd_bob_naar_huis
-      condition:
+      conditions:
         - alias: "Check if we still think he's travelling home"
           condition: state
           entity_id: input_boolean.location_bob_travelling_home
           state: "on"
-      action:
+      actions:
         - alias: "Estimated time of arrival is updated, let's inform the people"
           action: notify.mobile_devices_adults
           data:
@@ -157,17 +157,17 @@ travel_time_notifications_package:
 
     - id: location_clear_traveltime_notification
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
-      trigger:
-        - platform: zone
+      triggers:
+        - trigger: zone
           entity_id: device_tracker.sm_a556b
           event: enter
           zone: zone.home
-      condition:
+      conditions:
         - alias: "Check if we still think he's travelling home"
           condition: state
           entity_id: input_boolean.location_bob_travelling_home
           state: "on"
-      action:
+      actions:
         - action: input_boolean.turn_off
           target:
             entity_id: input_boolean.location_bob_travelling_home

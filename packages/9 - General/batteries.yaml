@@ -5,14 +5,14 @@ batteries_package:
       description: ""
       mode: restart
       max_exceeded: silent
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: "12:00:00"
-      condition:
+      conditions:
         - condition: time
           weekday:
             - sat
-      action:
+      actions:
         - choose:
             - alias: Low batteries have been found
               conditions:

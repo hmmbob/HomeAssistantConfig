@@ -17,10 +17,10 @@ ev_package:
   template:
     - trigger:
         # This generates triggers for all changes in the entity, both in its state and its attributes.
-        - platform: state
+        - trigger: state
           entity_id: sensor.zonneplan_current_electricity_tariff
         # This ensures the first data is filled.
-        - platform: event
+        - trigger: event
           event_type: event_template_reloaded
       sensor:
         - name: "Zonneplan template price sensor"
@@ -53,18 +53,18 @@ ev_package:
       alias: "Laad de auto tijdens de goedkoopste uren"
       description: "Automatically charge my car in the cheapest hours"
       mode: single
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.ev_smart_charging_charging
           to: "on"
           from: "off"
           id: ev_cheapest_charge_start
-        - platform: state
+        - trigger: state
           entity_id: sensor.ev_smart_charging_charging
           to: "off"
           from: "on"
           id: ev_cheapest_charge_stop
-      action:
+      actions:
         - alias: "Choose to start or stop charging"
           choose:
             - conditions:
@@ -116,10 +116,10 @@ ev_package:
       id: "ev_set_smart_charging_connected_sensor"
       description: "Set Smart Charging EV connected sensor"
       mode: single
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.smartevse_6360_evplugstate
-      action:
+      actions:
         - if:
             - condition: state
               entity_id: sensor.smartevse_6360_evplugstate
@@ -147,14 +147,14 @@ ev_package:
         message: >
           This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') | round(1) }} kWh. 
           The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') | round(1) }} kWh.
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: "23:59:45"
-      condition:
+      conditions:
         - alias: "Only on last day of the month"
           condition: template
           value_template: "{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}"
-      action:
+      actions:
         - alias: "Create a persistant notification with the monthly charged totals"
           action: persistent_notification.create
           data:
@@ -171,15 +171,15 @@ ev_package:
       alias: "Forceer nieuwe Hyundai informatie tijdens het laden"
       description: "Force update the values of the Hyundai component while charging"
       mode: single
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: "/15"
-      condition:
+      conditions:
         - alias: "Only when we are actually charging"
           condition: state
           entity_id: sensor.smartevse_6360_state
           state: "Charging"
-      action:
+      actions:
         - action: kia_uvo.force_update
           data:
             device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
@@ -187,11 +187,11 @@ ev_package:
     - id: ev_stuur_melding_bij_unavailable
       alias: "Stuur melding als SmartEVSE unavailable is"
       mode: single
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: select.smartevse_6360_mode
           to: "unavailable"
-      action:
+      actions:
         - alias: "Sending push notification"
           action: notify.mobile_app_sm_a556b
           data:

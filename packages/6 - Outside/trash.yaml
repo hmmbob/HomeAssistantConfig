@@ -54,11 +54,11 @@ trash_package:
     ##########################
     - alias: "Verstuur melding welk afval opgehaald wordt"
       id: afval_meldingen
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: input_datetime.time_trash_warning_today
           id: vandaag
-        - platform: time
+        - trigger: time
           at: input_datetime.time_trash_warning_tomorrow
           id: morgen
       variables:
@@ -72,7 +72,7 @@ trash_package:
           "Papier, PBD": "plastic en oud papier"
         afval: >
           {{ trash_descr.get(states(sensor), "onbekend") }}
-      condition:
+      conditions:
         - alias: "Do we want notifications?"
           condition: state
           entity_id: input_boolean.notify_trash
@@ -80,7 +80,7 @@ trash_package:
         - alias: "Do we have a valid state"
           condition: template
           value_template: "{{ states(sensor) not in ['unknown','unavailable','none','geen'] }}"
-      action:
+      actions:
         - if:
             - '{{trigger.id == "morgen" }}'
           then:
@@ -132,12 +132,12 @@ trash_package:
 
     - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status
-      trigger:
-        - platform: event
+      triggers:
+        - trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: "trash_outside"
-      action:
+      actions:
         - action: input_boolean.turn_on
           target:
             entity_id: input_boolean.trash_outside

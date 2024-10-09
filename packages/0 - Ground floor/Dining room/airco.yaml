@@ -9,12 +9,12 @@ dining_room_airco_package:
       alias: "Stuur kamertemperatuur naar airco"
       description: "Send thermostat values to airco"
       mode: single
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: /1
-      condition:
+      conditions:
         - "{{ states('climate.airco_woonkamer') not in ['unknown','unavailable'] }}"
-      action:
+      actions:
         - action: esphome.airco_woonkamer_set_api_room_temperature
           data:
             value: "{{ state_attr('climate.woonkamer','current_temperature') }}"
@@ -22,12 +22,12 @@ dining_room_airco_package:
     - id: airco_uit
       alias: "Zet airco automatisch uit einde avond"
       description: "Turn off AC automatically so we won't forget"
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: input_datetime.time_turn_off_airco
-      condition:
+      conditions:
         - "{{ states('climate.airco_woonkamer') not in ['off', 'unknown','unavailable'] }}"
-      action:
+      actions:
         - action: climate.set_hvac_mode
           target:
             entity_id: climate.airco_woonkamer

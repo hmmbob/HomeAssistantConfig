@@ -9,17 +9,17 @@ doorbell_package:
       description: "Doorbell: Send notification and show image"
       id: deurbel
       mode: restart
-      trigger:
-        - platform: webhook
+      triggers:
+        - trigger: webhook
           webhook_id: VD1buttonpressed
           allowed_methods:
             - GET
           local_only: true
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.enable_deurbel
           state: "on"
-      action:
+      actions:
         - alias: "Send a notification"
           action: script.turn_on
           entity_id:

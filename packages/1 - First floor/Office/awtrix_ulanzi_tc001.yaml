@@ -25,12 +25,12 @@ awtrix_package:
       alias: "Night Mode voor Awtrix 🌛"
       description: "Set Awtrix to clock only by pressing the middle button"
       mode: queued
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: binary_sensor.awtrix_6caff8_button_select
           to: "on"
       condition: []
-      action:
+      actions:
         - choose:
             - conditions:
                 - alias: "Transition is on, so we are in day mode: toggle to night mode"
@@ -61,13 +61,13 @@ awtrix_package:
       alias: "Start alle Awtrix apps na een reboot"
       description: "Start custom apps on Awtrix reboot"
       mode: single
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: switch.awtrix_6caff8_transition
           from: "off"
           to: "on"
       condition: []
-      action:
+      actions:
         - action: automation.trigger
           target:
             entity_id:
@@ -95,11 +95,11 @@ awtrix_package:
       alias: "Stuur de buitentemperatuur naar Awtrix"
       description: "Send outside temperature to Awtrix"
       mode: queued
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.knmi_temperatuur
       condition: []
-      action:
+      actions:
         - action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/outside_temp
@@ -109,11 +109,11 @@ awtrix_package:
       alias: "Stuur vandaags productie van de zonnepanelen naar Awtrix"
       description: "Awtrix: Send today's energy production to Awtrix"
       mode: queued
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.today_s_pv_generation
       condition: []
-      action:
+      actions:
         - action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/production_today
@@ -147,11 +147,11 @@ awtrix_package:
           {{ as_timestamp(state_attr('sun.sun','next_setting'))| timestamp_custom("%H:%M:%S")}}
         night_end: >-
           {{ as_timestamp(state_attr('sun.sun','next_rising'))| timestamp_custom("%H:%M:%S")}}
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: "/5"
       condition: []
-      action:
+      actions:
         - choose:
             - alias: "Skipping if it is night time"
               conditions:
@@ -193,11 +193,11 @@ awtrix_package:
           {%- if power_level > threshold_high %}{{"#04FE04"}}{%- endif %}
           {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{"#FCFEFC"}}{%- endif %}
           {%- if power_level <= threshold_low %}{{"#FF4E1A"}}{%- endif %}
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.tucson_ev_battery_level
       condition: []
-      action:
+      actions:
         - action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/ev_battery

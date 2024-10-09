@@ -24,7 +24,7 @@ open_uv_package:
           unique_id: "uv_index_warning_level"
           state: "{{ states('sensor.calculated_uv')| float(0) >= 5.0 }}"
     - trigger:
-        - platform: state
+        - trigger: state
           entity_id:
             - sensor.openuv_current_uv_index
             - sensor.knmi_omschrijving
@@ -53,16 +53,16 @@ open_uv_package:
     ##########################
     - id: update_openuv
       alias: "Vernieuw de OpenUV informatie"
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: "/45"
-      condition:
+      conditions:
         - condition: sun
           after: sunrise
           after_offset: "+01:00:00"
           before: sunset
           before_offset: "-01:00:00"
-      action:
+      actions:
         action: homeassistant.update_entity
         target:
           entity_id:
@@ -73,16 +73,16 @@ open_uv_package:
     ##########################
     - alias: "Verstuur een waarschuwing bij hoge zonkracht / UV waarde"
       id: notifications_uv
-      trigger:
-        platform: time
+      triggers:
+        trigger: time
         at: input_datetime.time_uv_warning
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.notify_uv
           state: "on"
         - condition: template
           value_template: "{{ states('sensor.openuv_max_uv_index') | float(0) >= 5.0 }}"
-      action:
+      actions:
         - choose:
             - conditions:
                 - condition: time

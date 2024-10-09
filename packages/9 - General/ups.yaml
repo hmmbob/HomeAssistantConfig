@@ -4,8 +4,8 @@ ups_package:
       alias: "Verstuur een melding als we op de UPS draaien"
       mode: single
       max_exceeded: silent
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id:
             - sensor.ups_battery_charge
             - sensor.ups_status_data
@@ -15,11 +15,11 @@ ups_package:
           {% set hours = runtime // 3600 %}
           {% set minutes = (runtime % 3600) // 60 %}
           {{ '%du' % hours if hours else '' }}{{ '%dm' % minutes if minutes else '' }}
-      condition:
+      conditions:
         - alias: "Previous state of triggers is not unavailable or unkown"
           condition: template
           value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
-      action:
+      actions:
         - alias: "Choose our status"
           choose:
             - conditions:

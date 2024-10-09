@@ -12,15 +12,15 @@ dishwasher_cheapest_time_package:
   automation:
     - alias: "Melding met de goedkoopste uren om de vaatwasser te gebruiken"
       id: vaatwasser_melding
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: input_datetime.time_dishwasher_notification
-      condition:
+      conditions:
         - alias: "Do we want notifications?"
           condition: state
           entity_id: input_boolean.notify_dishwasher
           state: "on"
-      action:
+      actions:
         - alias: "Sending push notification"
           action: notify.mobile_app_sm_a556b
           data:

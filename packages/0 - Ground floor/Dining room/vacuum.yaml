@@ -23,10 +23,10 @@ vacuum_package:
           {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
           {% else %}notify.bogus
           {% endif %}
-      trigger:
-        - platform: time
+      triggers:
+        - trigger: time
           at: input_datetime.vacuum_ask_for_cleaning_time
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.vacuum_enable_ask_for_cleaning
           state: "on"
@@ -34,7 +34,7 @@ vacuum_package:
         - condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "off"
-      action:
+      actions:
         - alias: "Vraag of Rocky een rondje moet doen"
           action: "{{ notification_service }}"
           data:
@@ -52,7 +52,7 @@ vacuum_package:
               notification_icon: mdi:robot-vacuum
         - alias: "Wacht op antwoord..."
           wait_for_trigger:
-            - platform: event
+            - trigger: event
               event_type: mobile_app_notification_action
               event_data:
                 action: "vacuum_start_yes"
@@ -66,12 +66,12 @@ vacuum_package:
     - alias: "Stuur Rocky naar de vuilnisbak"
       id: vacuum_drive_to_trash
       initial_state: "on"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: vacuum.rocky
           from: "cleaning"
           to: "returning"
-      action:
+      actions:
         - alias: "Stop Rocky before sending goto command"
           action: vacuum.stop
           entity_id: vacuum.rocky
@@ -87,7 +87,7 @@ vacuum_package:
             entity_id: vacuum.rocky
         - alias: "Wait for Rocky to arrive at trash can"
           wait_for_trigger:
-            - platform: state
+            - trigger: state
               entity_id: vacuum.rocky
               to: "idle"
           timeout: "00:05:00"
@@ -108,12 +108,12 @@ vacuum_package:
     - alias: "Stuur Rocky terug naar het dock"
       id: vacuum_return_to_dock
       initial_state: "on"
-      trigger:
-        - platform: event
+      triggers:
+        - trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: "vacuum_return_to_dock"
-      action:
+      actions:
         - action: vacuum.return_to_base
           alias: "Returning to dock"
           target:
@@ -122,12 +122,12 @@ vacuum_package:
     - alias: "Verwijder notificaties als Rocky weer gedockt is"
       id: vacuum_clear_messages_when_returned_to_dock
       initial_state: "on"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: vacuum.rocky
           from: "returning"
           to: "docked"
-      action:
+      actions:
         - action: notify.mobile_devices_adults
           data:
             message: clear_notification
@@ -140,12 +140,12 @@ vacuum_package:
     - alias: "Melding dat Rocky aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
       initial_state: "on"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: vacuum.rocky
           from: "docked"
           to: "cleaning"
-      action:
+      actions:
         - action: notify.mobile_app_sm_a556b
           data:
             title: "Rocky"
@@ -167,10 +167,10 @@ vacuum_package:
           {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
           {% else %}notify.bogus
           {% endif %}
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.rocky_vacuum_error
-      condition:
+      conditions:
         - condition: not
           conditions:
             - condition: state
@@ -179,7 +179,7 @@ vacuum_package:
             - condition: state
               entity_id: sensor.rocky_vacuum_error
               state: "unavailable"
-      action:
+      actions:
         - action: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
@@ -193,11 +193,11 @@ vacuum_package:
     - alias: "Verwijder Rocky's foutmelding"
       id: vacuum_clear_notification_error
       description: Clear notification of Rocky error
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.rocky_vacuum_error
           to: "none"
-      action:
+      actions:
         - action: notify.mobile_devices_adults
           data:
             message: clear_notification

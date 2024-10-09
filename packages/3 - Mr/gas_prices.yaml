@@ -26,8 +26,8 @@ gas_prices_package:
     ##########################
     - id: notification_benzine_price_changed
       alias: "Verstuur melding dat de benzineprijzen gewijzigd zijn"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.benzine
           not_from:
             - "unknown"
@@ -37,11 +37,11 @@ gas_prices_package:
             - "unknown"
             - "unavailable"
             - "none"
-      condition:
+      conditions:
         - alias: "Check if price really changed"
           condition: template
           value_template: "{{ trigger.to_state.state != trigger.from_state.state }}"
-      action:
+      actions:
         - action: notify.mobile_app_sm_a556b
           data:
             title: >-

@@ -14,16 +14,16 @@ system_package:
     ##########################
     - id: set_theme
       alias: "Stel thema in"
-      trigger:
-        - platform: homeassistant
+      triggers:
+        - trigger: homeassistant
           event: start
-        - platform: state
+        - trigger: state
           entity_id: sun.sun
           to: above_horizon
-        - platform: state
+        - trigger: state
           entity_id: sun.sun
           to: below_horizon
-      action:
+      actions:
         - if: "{{ is_state('sun.sun', 'below_horizon')}}"
           then:
             - action: frontend.set_theme
@@ -38,12 +38,12 @@ system_package:
     - id: ui_set_end_date
       alias: "Stel de datum van het eindveld op dezelfde dag in als de begindatum"
       description: "System: Fix the UI - set date of end field to date of start field"
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: input_datetime.solar_pv_off_start
           variables:
             end_entity_id: input_datetime.solar_pv_off_end
-      action:
+      actions:
         - alias: Set date of desired end field
           action: input_datetime.set_datetime
           target:
@@ -57,18 +57,18 @@ system_package:
     - alias: "Stuur een melding dat er een nieuwe Home Assistant versie is"
       id: system_update_available_notification
       description: Send notification on Home Assistant update available
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.latest_version
           not_to:
             - "unknown"
             - "unavailable"
             - "none"
-      condition:
+      conditions:
         - condition: template
           value_template: >
             {{ states('sensor.latest_version') != states('sensor.current_version') }}
-      action:
+      actions:
         - action: notify.mobile_app_sm_a556b
           data:
             title: Upgrade time!
@@ -95,14 +95,14 @@ system_package:
     - alias: "Verwijder de Home Assistant update melding als we HA bijgewerkt hebben"
       id: system_clear_update_available_notification
       description: Clear notification of Home Assistant update available
-      trigger:
-        - platform: homeassistant
+      triggers:
+        - trigger: homeassistant
           event: start
-      condition:
+      conditions:
         - condition: template
           value_template: >
             {{ states('sensor.latest_version') == states('sensor.current_version') }}
-      action:
+      actions:
         - action: persistent_notification.dismiss
           data:
             notification_id: update_pending

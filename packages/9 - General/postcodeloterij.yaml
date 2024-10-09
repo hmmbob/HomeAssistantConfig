@@ -29,14 +29,14 @@ postcodeloterij_package:
       mode: single
       max_exceeded: silent
       description: Send a notification when we win something in de Postcodeloterij
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: sensor.postcodeloterij_aantal_prijzen
           not_to:
             - "0"
             - unavailable
             - unknown
-      action:
+      actions:
         - alias: "Send notification"
           action: notify.mobile_devices_adults
           data:

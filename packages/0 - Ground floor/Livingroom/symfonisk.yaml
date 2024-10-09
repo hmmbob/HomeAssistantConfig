@@ -14,10 +14,10 @@ symfonisk_package:
       trigger_variables:
         basetopic: zigbee2mqtt
         device_name: Afstandsbediening Sonos
-      trigger:
-        - platform: mqtt
+      triggers:
+        - trigger: mqtt
           topic: "{{basetopic}}/{{device_name}}/action"
-      action:
+      actions:
         - choose:
             - conditions:
                 - "{{ trigger.payload != '' }}"

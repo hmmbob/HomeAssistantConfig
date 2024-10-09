@@ -64,23 +64,23 @@ bedroom_minicave_package:
     - id: warn_power_usage_after_bedtime_minicave
       alias: "Waarschuwing dat de minicave nog stroom verbruikt"
       mode: queued
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.mini_cave_power
           above: 80
           id: PC
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.mini_cave_power
           above: 30
           below: 80
           id: TV
-      condition:
+      conditions:
         - condition: state
           entity_id: input_boolean.notify_power_use_minicave
           state: "on"
         - condition: time
           after: input_datetime.time_poweruse_minicave
-      action:
+      actions:
         - action: notify.mobile_devices_adults
           data:
             title: "Minicave {{ trigger.id }}"
@@ -103,16 +103,16 @@ bedroom_minicave_package:
         we need another way to track this switch in the logbook. We use
         22 and 8 watts as crossover point.
       mode: queued
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.mini_cave_power
           above: 22
           id: minicave
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.mini_cave_power
           below: 8
           id: minicave
-      action:
+      actions:
         - action: logbook.log
           data:
             name: Minicave
@@ -123,16 +123,16 @@ bedroom_minicave_package:
     - id: warn_pc_time_over_minicave
       alias: "Waarschuwing dat de mini te lang op de PC zit"
       mode: queued
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.minicave_pc_on_today
           above: input_number.mini_pc_time_weekday
           id: weekday
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.minicave_pc_on_today
           above: input_number.mini_pc_time_weekend
           id: weekend
-      condition:
+      conditions:
         - or:
             - and:
                 - '{{ trigger.id == "weekday" }}'
@@ -149,7 +149,7 @@ bedroom_minicave_package:
                   weekday:
                     - sat
                     - sun
-      action:
+      actions:
         - action: scene.create
           data:
             scene_id: snapshot_minicave

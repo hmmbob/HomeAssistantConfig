@@ -6,43 +6,43 @@ kids_notifications_package:
     - id: notification_kid_left_location
       alias: "Verstuur een melding dat een kind van een locatie vertrekt"
       mode: parallel
-      trigger:
-        - platform: zone
+      triggers:
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.school
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: school
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.mc
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: MC
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.scouting
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: scouting
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.schaduwspeler
           event: leave
           zone: zone.school
           variables:
             name: "{{states('input_text.naam_puber')}}"
             location: school
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.schaduwspeler
           event: leave
           zone: zone.scouting
           variables:
             name: "{{states('input_text.naam_puber')}}"
             location: scouting
-      action:
+      actions:
         - choose:
             # Stop school notifications if not in afternoons on schooldays as they are likely false positives
             # because physical education lessons are offsite and in mornings.
@@ -90,18 +90,18 @@ kids_notifications_package:
     - id: notification_kids_battery_low_parents
       alias: "Verstuur een melding dat batterij van kind bijna leeg is"
       mode: parallel
-      trigger:
-        - platform: numeric_state
+      triggers:
+        - trigger: numeric_state
           entity_id: sensor.sm_a236b_battery_level
           below: 10
           variables:
             name: "{{states('input_text.naam_mini')}}"
-        - platform: numeric_state
+        - trigger: numeric_state
           entity_id: sensor.schaduwspeler_batterijniveau
           below: 10
           variables:
             name: "{{states('input_text.naam_puber')}}"
-      condition:
+      conditions:
         # one of these needs to be true to continue
         or:
           - and: # only true if triggered by device and if this device is anywhere but home
@@ -110,7 +110,7 @@ kids_notifications_package:
           - and:
               - "{{ trigger.entity_id == 'sensor.sm_a236b_battery_level' }}"
               - "{{ not is_state('device_tracker.sm_a236b', 'home') }}"
-      action:
+      actions:
         - action: notify.mobile_devices_adults
           data:
             title: 🔋 Batterijwaarschuwing
@@ -143,18 +143,18 @@ kids_notifications_package:
     ##########################
     - alias: Turn on high accuracy mode
       id: t_turn_on_gps
-      trigger:
-        - platform: zone
+      triggers:
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.home
           id: home
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: leave
           zone: zone.school
           id: school
-      action:
+      actions:
         - choose:
             - conditions:
                 - or:
@@ -194,16 +194,16 @@ kids_notifications_package:
 
     - alias: Turn off high accuracy mode
       id: t_turn_off_gps
-      trigger:
-        - platform: zone
+      triggers:
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: enter
           zone: zone.home
-        - platform: zone
+        - trigger: zone
           entity_id: device_tracker.sm_a236b
           event: enter
           zone: zone.school
-      action:
+      actions:
         - action: notify.mobile_app_sm_a236b
           data:
             message: "command_high_accuracy_mode"

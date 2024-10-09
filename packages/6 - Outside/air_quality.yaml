@@ -117,17 +117,17 @@ air_quality_package:
     - id: weerhuisje_update_air_quality_sensors
       alias: "Stuur Air Quality sensors van het weerhuisje door"
       mode: queued
-      trigger:
-        - platform: time_pattern
+      triggers:
+        - trigger: time_pattern
           minutes: "/1"
-      condition:
+      conditions:
         not:
           - "{{ states('sensor.weerhuisje_particulate_matter_2_5_m_concentration') in ['unknown','unavailable'] }}"
           - "{{ states('sensor.weerhuisje_particulate_matter_10_0_m_concentration') in ['unknown','unavailable'] }}"
           - "{{ states('sensor.weerhuisje_temperature') in ['unknown','unavailable'] }}"
           - "{{ states('sensor.weerhuisje_humidity') in ['unknown','unavailable'] }}"
           - "{{ states('sensor.weerhuisje_pressure') in ['unknown','unavailable'] }}"
-      action:
+      actions:
         - alias: "Send TPH to Luftdaten / Sensor.Community API"
           action: rest_command.send_luftdaten_tph
           continue_on_error: true

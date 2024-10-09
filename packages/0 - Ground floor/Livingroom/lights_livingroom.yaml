@@ -21,11 +21,11 @@ lights_livingroom_package:
     ##########################
     - id: set_lights_before_sunset
       alias: "Zet de verlichting aan bij zonsondergang"
-      trigger:
-        platform: sun
+      triggers:
+        trigger: sun
         event: sunset
         offset: "-00:15:00"
-      condition:
+      conditions:
         and:
           - condition: state
             entity_id: input_boolean.enable_pir_woonkamer_automations
@@ -36,7 +36,7 @@ lights_livingroom_package:
           - condition: state
             entity_id: group.lampen_woonkamer
             state: "off"
-      action:
+      actions:
         - action: light.turn_on
           data:
             brightness_pct: 20

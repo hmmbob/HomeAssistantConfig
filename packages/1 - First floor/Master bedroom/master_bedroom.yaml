@@ -9,20 +9,20 @@ master_bedroom_package:
       alias: "Zet de verlichting van de inloopkast op de MBR aan of uit"
       mode: restart
       max_exceeded: silent
-      trigger:
-        - platform: state
+      triggers:
+        - trigger: state
           entity_id: binary_sensor.pir_inloopkast_occupancy
           to: "on"
           from: "off"
           variables:
             action: turn_on
-        - platform: state
+        - trigger: state
           entity_id: binary_sensor.pir_inloopkast_occupancy
           to: "off"
           from: "on"
           variables:
             action: turn_off
-      condition:
+      conditions:
         and:
           - condition: time
             after: "06:15:00"
@@ -30,7 +30,7 @@ master_bedroom_package:
           - condition: state
             entity_id: input_boolean.enable_pir_inloopkast_automations
             state: "on"
-      action:
+      actions:
         - alias: "Inloopkast lamp bedienen..."
           action: switch.{{ action }}
           target:
