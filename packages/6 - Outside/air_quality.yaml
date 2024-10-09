@@ -36,10 +36,10 @@ air_quality_package:
 
     # Using the http endpoints, as the https endpoints error out more often.
     send_luftdaten_pm:
-      url: http://api.sensor.community/v1/push-sensor-data/
+      url: https://api.sensor.community/v1/push-sensor-data/
       method: POST
       content_type: "application/json"
-      timeout: 30
+      timeout: 20
       headers:
         X-Pin: 1 ## This tells Luftdaten that it is SDS011 data
         X-Sensor: !secret luftdaten_x_sensor
@@ -47,15 +47,15 @@ air_quality_package:
         {
           "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
           "sensordatavalues":[
-            {"value_type":"P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
-            {"value_type":"P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"}
+            {"value_type":"P1","value":"{{ states('sensor.weerhuisje_particulate_matter_10_0_m_concentration') }}"},
+            {"value_type":"P2","value":"{{ states('sensor.weerhuisje_particulate_matter_2_5_m_concentration') }}"}
           ]
         }
     send_luftdaten_tph:
-      url: http://api.sensor.community/v1/push-sensor-data/
+      url: https://api.sensor.community/v1/push-sensor-data/
       method: POST
       content_type: "application/json"
-      timeout: 30
+      timeout: 20
       headers:
         X-Pin: 11 ## This tells Luftdaten that it is BME280 data
         X-Sensor: !secret luftdaten_x_sensor
@@ -63,15 +63,15 @@ air_quality_package:
         {
           "software_version": "HomeAssistant-{{ states('sensor.current_version') }}",
           "sensordatavalues":[
-            {"value_type":"temperature","value":"{{ states('sensor.bme280_temperature') }}"},
-            {"value_type":"pressure","value":"{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}"},
-            {"value_type":"humidity","value":"{{ states('sensor.bme280_humidity') }}"}
+            {"value_type":"temperature","value":"{{ states('sensor.weerhuisje_temperature') }}"},
+            {"value_type":"pressure","value":"{{ ((states('sensor.weerhuisje_pressure') | float(default=0)) * 100) | round }}"},
+            {"value_type":"humidity","value":"{{ states('sensor.weerhuisje_humidity') }}"}
           ]
         }
 
     # Push to Madavi. This is related to Luftdaten and stores data for use in Grafana.
     send_madavi:
-      url: http://api-rrd.madavi.de/data.php
+      url: https://api-rrd.madavi.de/data.php
       method: POST
       content_type: "application/json"
       headers:
@@ -81,11 +81,11 @@ air_quality_package:
         {
           "software_version": "HomeAssistant-{{ states('sensor.current_version') }}", 
           "sensordatavalues":[
-            {"value_type":"SDS_P1","value":"{{ states('sensor.particulate_matter_10_0um_concentration') }}"},
-            {"value_type":"SDS_P2","value":"{{ states('sensor.particulate_matter_2_5um_concentration') }}"},
-            {"value_type":"BME280_temperature","value":"{{ states('sensor.bme280_temperature') }}"},
-            {"value_type":"BME280_pressure","value":"{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}"},
-            {"value_type":"BME280_humidity","value":"{{ states('sensor.bme280_humidity') }}"}
+            {"value_type":"SDS_P1","value":"{{ states('sensor.weerhuisje_particulate_matter_10_0_m_concentration') }}"},
+            {"value_type":"SDS_P2","value":"{{ states('sensor.weerhuisje_particulate_matter_2_5_m_concentration') }}"},
+            {"value_type":"BME280_temperature","value":"{{ states('sensor.weerhuisje_temperature') }}"},
+            {"value_type":"BME280_pressure","value":"{{ ((states('sensor.weerhuisje_pressure') | float(default=0)) * 100) | round }}"},
+            {"value_type":"BME280_humidity","value":"{{ states('sensor.weerhuisje_humidity') }}"}
           ]
         }
 
@@ -101,11 +101,11 @@ air_quality_package:
         content-type: "application/json; charset=utf-8"
       payload: >-
         {
-          "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.particulate_matter_2_5um_concentration') }}",
-          "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.particulate_matter_10_0um_concentration') }}",
-          "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.bme280_temperature') }}",
-          "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ ((states('sensor.bme280_pressure') | float(default=0)) * 100) | round }}",
-          "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.bme280_humidity') }}"
+          "{{ states('input_text.opensensebox_sensorid_pm25') }}": "{{ states('sensor.weerhuisje_particulate_matter_2_5_m_concentration') }}",
+          "{{ states('input_text.opensensebox_sensorid_pm10') }}": "{{ states('sensor.weerhuisje_particulate_matter_10_0_m_concentration') }}",
+          "{{ states('input_text.opensensebox_sensorid_temp') }}": "{{ states('sensor.weerhuisje_temperature') }}",
+          "{{ states('input_text.opensensebox_sensorid_press') }}": "{{ ((states('sensor.weerhuisje_pressure') | float(default=0)) * 100) | round }}",
+          "{{ states('input_text.opensensebox_sensorid_hum') }}": "{{ states('sensor.weerhuisje_humidity') }}"
         }
 
   automation:
@@ -113,9 +113,7 @@ air_quality_package:
     ## Push values to Air Quality APIs
     ##################################
     # Sensor uses a NodeMCUv2 and SDS011+BME280 sensors. NodeMCU is flashed with ESPHome
-    # software. SDS011 updates every 30 mins, the BME280 every 5 minutes. As all BME280
-    # sensors update at the same time, we only need to monitor one sensor to trigger
-    # the automation. Temperature is the sensor that changes most often.
+    # software. SDS011 updates every 30 mins, the BME280 every 5 minutes.
     - id: weerhuisje_update_air_quality_sensors
       alias: "Stuur Air Quality sensors van het weerhuisje door"
       mode: queued
@@ -124,17 +122,21 @@ air_quality_package:
           minutes: "/1"
       condition:
         not:
-          - "{{ states('sensor.particulate_matter_2_5um_concentration') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.particulate_matter_10_0um_concentration') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.bme280_temperature') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.bme280_humidity') in ['unknown','unavailable'] }}"
-          - "{{ states('sensor.bme280_pressure') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.weerhuisje_particulate_matter_2_5_m_concentration') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.weerhuisje_particulate_matter_10_0_m_concentration') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.weerhuisje_temperature') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.weerhuisje_humidity') in ['unknown','unavailable'] }}"
+          - "{{ states('sensor.weerhuisje_pressure') in ['unknown','unavailable'] }}"
       action:
         - alias: "Send TPH to Luftdaten / Sensor.Community API"
           action: rest_command.send_luftdaten_tph
+          continue_on_error: true
         - alias: "Send data to OpenSenseMap"
           action: rest_command.post_opensensebox
+          continue_on_error: true
         - alias: "Send updates to Madavi.de for statistics."
           action: rest_command.send_madavi
+          continue_on_error: true
         - alias: "Send PM to Luftdaten / Sensor.Community API"
           action: rest_command.send_luftdaten_pm
+          continue_on_error: true
