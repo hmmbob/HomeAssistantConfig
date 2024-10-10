@@ -85,7 +85,7 @@ cards:
         config:
           displayModeBar: false
         entities:
-          - entity: ""
+          - entity: "" # Price columns
             unit_of_measurement: $ex vars.unit_of_measurement
             name: ""
             showlegend: false
@@ -95,7 +95,7 @@ cards:
               color: $ex vars.color
             type: bar
             hovertemplate: $ex vars.hover
-          - entity: ""
+          - entity: "" # MIN marker + legend
             mode: markers
             textposition: top
             showlegend: true
@@ -110,7 +110,7 @@ cards:
               - $ex vars.min.t
             "y":
               - $ex vars.min.p
-          - entity: ""
+          - entity: "" # MAX marker + legend
             mode: markers
             textposition: top
             showlegend: true
@@ -125,7 +125,7 @@ cards:
               - $ex vars.max.t
             "y":
               - $ex vars.max.p
-          - entity: ""
+          - entity: "" # NOW Line
             name: Now
             yaxis: y0
             showlegend: false
@@ -137,7 +137,7 @@ cards:
             "y":
               - 0
               - 1
-          - entity: ""
+          - entity: "" # NOW Legend
             yaxis: y0
             mode: markers
             textposition: top
@@ -150,6 +150,26 @@ cards:
             x: $ex [Date.now(), Date.now()]
             "y":
               - $ex vars.p_now
+          - entity: sensor.ev_smart_charging_charging # Charging schedule
+            attribute: charging_schedule
+            yaxis: y0
+            name: EV Charging schedule
+            fill: tozeroy
+            line:
+              color: grey
+              dash: dot
+              width: 1
+            filters:
+              - fn: |-
+                  ({xs, ys, meta, states, statistics, hass, vars}) => {
+                    const forecasts = states[states.length-1].attributes.charging_schedule;
+                    res = {
+                      xs: forecasts.map(fc => fc["start"]),
+                      ys: forecasts.map(fc => fc["value"]),
+                      meta: meta
+                    };
+                    return res;
+                  }
 
       - type: custom:mushroom-template-card
         entity: sensor.dsmr_day_consumption_electricity_merged

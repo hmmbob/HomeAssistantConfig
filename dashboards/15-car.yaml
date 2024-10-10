@@ -147,85 +147,128 @@ cards:
           - entity: select.ev_smart_charging_charge_completion_time
             name: Vertrektijd
 
-      - type: custom:apexcharts-card
-        now:
-          show: true
-          label: Now
-          color: "#ffc0cb"
-        locale: en
-        header:
-          show: true
-          title: EV Smart Charging
-          show_states: true
-        graph_span: 2d
-        yaxis:
-          - id: left
-            min: "|-0.1|"
-            max: "|+0.1|"
-            decimals: 2
-            apex_config:
-              forceNiceScale: true
-          - id: right
-            opposite: true
-            decimals: 2
-            min: 0
-            max: 0.2
-            apex_config:
-              tickAmount: 2
-        span:
-          start: day
-        apex_config:
-          legend:
-            show: false
+      - type: custom:plotly-graph
+        title: Electriciteitsprijs
+        hours_to_show: 18
+        time_offset: 14h
+        fn: |
+          $fn ({ hass, vars }) => {
+            vars.x = []; vars.y = []; vars.color = []; vars.hover = [];
+            vars.min = {p: 999,t: null}; vars.max = {p:-999,t:null}
+            vars.ymin = 999; vars.ymax = -999
+            vars.p_now = parseFloat(hass.states['sensor.zonneplan_current_electricity_tariff'].state)
+            vars.unit_of_measurement = hass.states['sensor.zonneplan_current_electricity_tariff'].attributes.unit_of_measurement
+            hass.states['sensor.zonneplan_current_electricity_tariff']?.attributes?.forecast?.map(e => {
+              var t = new Date(e.datetime).getTime()+1800000 
+              var p = e.electricity_price/10000000
+              var c = e.tariff_group.replace("low", "#00a964").replace("normal", "#227153").replace("high","#ed5e18")
+              if (t>=Date.now()-1800000) {
+                if (p<vars.min.p) vars.min = {p,t,c}
+                if (p>vars.max.p) vars.max = {p,t,c}
+              }
+              if (p<vars.ymin) vars.ymin = p
+              if (p>vars.ymax) vars.ymax = p
+              vars.x.push(t)
+              vars.y.push(p)
+              vars.color.push(c)
+              vars.hover.push(String(new Date(t).getHours()).padStart(2,"0") + ":00-" + 
+                String(new Date((new Date(t).getTime()+3600000)).getHours()).padStart(2,"0") + ":00 : <b>" + 
+                p.toFixed(3) + "</b> " + vars.unit_of_measurement)
+            })
+            console.log(vars)
+          }
+        layout:
+          yaxis:
+            fixedrange: true
+            tickformat: .2f
+            range: $fn ({vars}) => [ vars.ymin-0.02, vars.ymax+0.02 ]
           xaxis:
-            labels:
-              show: true
-              format: HH:00
-              rotate: -45
-              rotateAlways: true
-              hideOverlappingLabels: true
-              style:
-                fontSize: 10
-                fontWeight: 10
-        series:
-          - entity: sensor.ev_smart_charging_charging
-            name: Electricty price
-            unit: "€/kWh"
-            data_generator: >
-              return entity.attributes.raw_two_days.map((entry) => { return [new
-              Date(entry.start), entry.value]; });
-            yaxis_id: left
-            type: line
-            float_precision: 3
-            show:
-              in_header: before_now
-            extend_to: false
-            color_threshold:
-              - value: -100
-                color: cyan
-              - value: 0
-                color: blue
-              - value: 0.18
-                color: green
-              - value: 0.33
-                color: orange
-              - value: 0.4
-                color: red
-              - value: 0.45
-                color: magenta
-              - value: 500
-                color: black
-          - entity: sensor.ev_smart_charging_charging
-            name: Charging
-            data_generator: >
-              return entity.attributes.charging_schedule.map((entry) => { return
-              [new Date(entry.start), entry.value]; });
-            yaxis_id: right
-            type: area
-            curve: stepline
-            color: black
-            show:
-              in_header: false
-            extend_to: false
-        experimental:
-          color_threshold: true
+            tickformat: "%H:%M"
+        config:
+          displayModeBar: false
+        entities:
+          - entity: "" # Price columns
+            unit_of_measurement: $ex vars.unit_of_measurement
+            name: ""
+            showlegend: false
+            x: $ex vars.x
+            "y": $ex vars.y
+            marker:
+              color: $ex vars.color
+            type: bar
+            hovertemplate: $ex vars.hover
+          - entity: "" # MIN marker + legend
+            mode: markers
+            textposition: top
+            showlegend: true
+            name: >-
+              $fn ({vars}) => vars.min.p.toFixed(3) + " " + vars.unit_of_measurement + "
+              @ " + new Date(vars.min.t).getHours() + ":00"
+            yaxis: y0
+            marker:
+              symbol: diamond
+              color: $ex vars.min.c
+            x:
+              - $ex vars.min.t
+            "y":
+              - $ex vars.min.p
+          - entity: "" # MAX marker + legend
+            mode: markers
+            textposition: top
+            showlegend: true
+            name: >-
+              $fn ({vars}) => vars.max.p.toFixed(3) + " " + vars.unit_of_measurement + "
+              @ " +  new Date(vars.max.t).getHours() + ":00"
+            yaxis: y0
+            marker:
+              symbol: diamond
+              color: $ex vars.max.c
+            x:
+              - $ex vars.max.t
+            "y":
+              - $ex vars.max.p
+          - entity: "" # NOW Line
+            name: Now
+            yaxis: y0
+            showlegend: false
+            line:
+              width: 2
+              dash: dot
+              color: deepskyblue
+            x: $ex [Date.now(), Date.now()]
+            "y":
+              - 0
+              - 1
+          - entity: "" # NOW Legend
+            yaxis: y0
+            mode: markers
+            textposition: top
+            showlegend: true
+            name: >-
+              $fn ({vars}) => "Nu: " + vars.p_now.toFixed(3) + " " + vars.unit_of_measurement
+            marker:
+              symbol: diamond
+              color: deepskyblue
+            x: $ex [Date.now(), Date.now()]
+            "y":
+              - $ex vars.p_now
+          - entity: sensor.ev_smart_charging_charging # Charging schedule
+            attribute: charging_schedule
+            yaxis: y0
+            name: EV Charging schedule
+            fill: tozeroy
+            line:
+              color: grey
+              dash: dot
+              width: 1
+            filters:
+              - fn: |-
+                  ({xs, ys, meta, states, statistics, hass, vars}) => {
+                    const forecasts = states[states.length-1].attributes.charging_schedule;
+                    res = {
+                      xs: forecasts.map(fc => fc["start"]),
+                      ys: forecasts.map(fc => fc["value"]),
+                      meta: meta
+                    };
+                    return res;
+                  }
