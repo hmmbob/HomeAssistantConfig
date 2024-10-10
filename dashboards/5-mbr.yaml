@@ -44,31 +44,28 @@ cards:
               - heat
               - fan_only
 
-      - type: "custom:purifier-card"
-        entity: fan.zhimi_cpa4_3bce_air_purifier
-        show_name: true
-        show_state: true
-        show_toolbar: true
-        compact_view: true
-        aqi:
-          entity_id: sensor.zhimi_cpa4_3bce_pm25_density
-        stats:
-          - entity_id: sensor.zhimi_cpa4_3bce_filter_used_time
-            subtitle: Filter used time
-            unit: hours
-          - entity_id: sensor.zhimi_cpa4_3bce_filter_life_level
-            unit: "%"
-            subtitle: Filter Remaining
-          - entity_id: sensor.zhimi_cpa4_3bce_filter_left_time
-            subtitle: Filter left time
-            unit: days
-        shortcuts:
-          - name: Sleep
-            icon: "mdi:weather-night"
-            preset_mode: Sleep
-          - name: Auto
-            icon: "mdi:brightness-auto"
-            preset_mode: Auto
+      - type: heading
+        heading: Luchtreiniger
+        icon: mdi:air-purifier
+        badges:
+          - type: entity
+            entity: sensor.zhimi_cpa4_3bce_filter_life_level
+            name: Filter Remaining
+            state_content:
+              - name
+              - state
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-fan-card
+            entity: fan.zhimi_cpa4_3bce_air_purifier
+            name: Air purifier
+            icon_animation: true
+            show_percentage_control: false
+            layout: horizontal
+          - type: custom:mushroom-entity-card
+            entity: sensor.zhimi_cpa4_3bce_pm25_density
+            name: Air Quality Index
 
       - type: custom:mini-media-player
         entity: media_player.tv_master_bedroom
