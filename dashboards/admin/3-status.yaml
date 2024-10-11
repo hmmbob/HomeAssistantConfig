@@ -1,0 +1,44 @@
+####################
+# Status           #
+####################
+path: status
+title: Status
+icon: mdi:check-network-outline
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown ## Statussen header
+        content: |
+          # Statussen
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          state_color: true
+        filter:
+          include:
+            - attributes:
+                device_class: connectivity
+              options:
+                tap_action:
+                  action: more-info
+          exclude:
+            - entity_id: "*rocky*attached*"
+        sort:
+          method: name

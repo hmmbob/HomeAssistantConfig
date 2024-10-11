@@ -9,8 +9,6 @@
 path: development
 title: Development
 icon: mdi:magnify
-visible:
-  - user: 510b1afef60640d7a220711c50b2192a # BL
 cards:
   - type: custom:auto-entities
     card:
@@ -28,54 +26,6 @@ cards:
         - entity_id: "*smarttag*"
     sort:
       method: name
-
-  - type: entities
-    title: All Mobile App sensors
-    entities:
-      - type: custom:auto-entities
-        card:
-          type: custom:fold-entity-row
-          head:
-            type: section
-            label: Mobile App A55
-        filter:
-          include:
-            - entity_id: "*sm_a556b*"
-        sort:
-          method: name
-      - type: custom:auto-entities
-        card:
-          type: custom:fold-entity-row
-          head:
-            type: section
-            label: Mobile App A33
-        filter:
-          include:
-            - entity_id: "*a336b*"
-        sort:
-          method: name
-      - type: custom:auto-entities
-        card:
-          type: custom:fold-entity-row
-          head:
-            type: section
-            label: Mobile App Schaduwspeler
-        filter:
-          include:
-            - entity_id: "*schaduwspeler*"
-        sort:
-          method: name
-      - type: custom:auto-entities
-        card:
-          type: custom:fold-entity-row
-          head:
-            type: section
-            label: Mobile App A23
-        filter:
-          include:
-            - entity_id: "*a236b*"
-        sort:
-          method: name
 
   - type: entities
     title: All Input fields

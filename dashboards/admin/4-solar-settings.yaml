@@ -4,8 +4,7 @@
 path: solar
 title: Solar overview
 icon: mdi:solar-power
-visible:
-  - user: 510b1afef60640d7a220711c50b2192a # BL
+
 cards:
   - type: markdown ## Header
     content: |
