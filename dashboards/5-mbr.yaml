@@ -51,6 +51,7 @@ cards:
           - type: entity
             entity: sensor.zhimi_cpa4_3bce_filter_life_level
             name: Filter Remaining
+            show_icon: false
             state_content:
               - name
               - state
