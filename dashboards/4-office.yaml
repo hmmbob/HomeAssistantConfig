@@ -43,39 +43,51 @@ cards:
         scroll_info: true
         show_source: true
 
-      - type: "custom:vertical-stack-in-card"
+      - type: heading
+        heading: Printer
+        icon: mdi:printer
+        badges:
+          - type: entity
+            entity: sensor.hp_printer_toestand
+            show_icon: false
+          - type: entity
+            entity: sensor.hp_printer_printer_totaal_aantal_zwart_witpagina_s
+            show_icon: true
+          - type: entity
+            entity: sensor.hp_printer_printer_totale_kleurpagina_s
+            color: blue
+            icon: mdi:palette
+            show_icon: true
+          - type: entity
+            entity: sensor.hp_printer_scanner_totaal_aantal_pagina_s_van_scannerglas
+            color: orange
+            icon: mdi:scanner
+            show_icon: true
+            state_content:
+              - state
+      - type: vertical-stack
         cards:
-          - type: "custom:bar-card"
-            align: bottom
-            columns: 4
-            direction: up
-            height: 150px
-            icon_position: inside
-            max: 100
-            min: 0
-            padding: 3px
-            positions:
-              name: outside
-              indicator: "off"
-            target: 20
-            entities:
-              - color: MediumTurquoise
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
                 entity: sensor.hp_printer_cyan_toner_niveau
-                title: Cyan
-              - color: MediumOrchid
-                entity: sensor.hp_printer_magenta_toner_niveau
-                title: Magenta
-              - color: Gold
+                icon: mdi:grain
+                icon_color: cyan
+                name: Cyan
+              - type: custom:mushroom-entity-card
                 entity: sensor.hp_printer_yellow_toner_niveau
-                title: Yellow
-              - color: Black
+                icon: mdi:grain
+                icon_color: yellow
+                name: Yellow
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.hp_printer_magenta_toner_niveau
+                icon: mdi:grain
+                icon_color: purple
+                name: Magenta
+              - type: custom:mushroom-entity-card
                 entity: sensor.hp_printer_black_toner_niveau
-                title: Black
-          - type: markdown
-            content: >
-              - <ha-icon icon="mdi:counter"></ha-icon> Print Counter:  
-              **{{states('sensor.hp_printer_printer_totaal_aantal_zwart_witpagina_s') }} black** and
-              **{{states('sensor.hp_printer_printer_totale_kleurpagina_s') }} color** pages
-
-              - <ha-icon icon="mdi:scanner"></ha-icon> Scan Jobs: **{{ 
-              states('sensor.hp_printer_scanner_totaal_aantal_pagina_s_van_scannerglas') }}** Pages
+                icon: mdi:grain
+                icon_color: black
+                name: Black
