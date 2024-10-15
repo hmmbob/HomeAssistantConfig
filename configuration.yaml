@@ -50,15 +50,16 @@ logger:
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
   filters:
-    #aioesphomeapi.reconnect_logic:
-    #  # This device has weak wifi connection, just mute the reconnect logs
-    #  - "weerhuisje"
+    custom_components.hpprinter.managers.rest_api:
+      - "Error: Cannot connect to host"
     custom_components.mitsubishi_wf_rac.wfrac.device:
       - "something went wrong updating the airco"
     custom_components.xiaomi_miot.fan:
       - "Unable to discover the device"
     homeassistant.components.goodwe.coordinator:
       - "No valid response received even after 10 retries"
+    homeassistant.components.automation.weerhuisje_update_air_quality_sensors:
+      - "Timeout"
     homeassistant.helpers.entity:
       - "Update of fan.zhimi_cpa4_3bce_air_purifier is taking over 10 seconds"
     pychromecast.socket_client:

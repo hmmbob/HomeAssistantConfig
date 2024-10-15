@@ -20,6 +20,10 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "Sonos"
+  sensor.woonkamer_temperature:
+    name: "Woonkamer temperatuur"
+    expose: true
+    room: "Woonkamer"
   script.radio_538:
     name: "Radio 538"
     expose: true
@@ -62,6 +66,10 @@ entity_config:
     name: "TV Kastje"
     expose: true
     room: "Salon"
+  sensor.salon_temperatuur:
+    name: "Salon temperatuur"
+    expose: true
+    room: "Salon"
   switch.aquarium:
     name: "Aquarium"
     expose: true
@@ -84,6 +92,10 @@ entity_config:
     room: "Keuken"
 
   ## Gang
+  switch.gang:
+    name: "Gang"
+    expose: true
+    room: "Gang"
 
   ## Badkamer
   light.badkamer:
@@ -98,12 +110,22 @@ entity_config:
     room: "Slaapkamer"
 
   ## Slaapkamer T
+  light.ledstrip_bed_mini:
+    name: "Ledstrip bed mini"
+    expose: true
+    room: "Slaapkamer T"
+    aliases:
+      - "Led strip bed mini"
   light.ledstrip_mini:
     name: "Ledstrip mini"
     expose: true
     room: "Slaapkamer T"
     aliases:
       - "Led strip mini"
+  sensor.slaapkamer_t_temperatuur:
+    name: "Slaapkamer T temperatuur"
+    expose: true
+    room: "Slaapkamer T"
   script.start_music_t:
     name: "Slaaptijd"
     expose: true
@@ -120,3 +142,9 @@ entity_config:
     name: "Temperatuur zolder"
     expose: true
     room: "Zolder"
+
+  ## Tuin
+  switch.tuinverlichting:
+    name: "Tuinverlichting"
+    expose: true
+    room: "Tuin"
