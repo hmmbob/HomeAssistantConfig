@@ -229,39 +229,6 @@ cards:
                         - type: horizontal-stack
                           cards:
                             - type: custom:mushroom-template-card
-                              entity: input_boolean.notify_uv
-                              primary: |-
-                                {{ state_attr(entity, 'friendly_name') }}
-                              secondary: "Zonnekracht waarschuwingen"
-                              multiline_secondary: true
-                              icon: |-
-                                {{ "mdi:weather-sunny-alert" if is_state(entity, 'on') else "mdi:weather-sunny-off" }}
-                              icon_color: |-
-                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                              layout: vertical
-                              tap_action:
-                                action: toggle
-                              hold_action:
-                                action: more-info
-                            - type: custom:mushroom-template-card
-                              entity: input_boolean.notify_uv_voice
-                              primary: |-
-                                {{ state_attr(entity, 'friendly_name') }}
-                              secondary: "Zonnekracht waarschuwingen"
-                              multiline_secondary: true
-                              icon: |-
-                                {{ "mdi:account-voice" if is_state(entity, 'on') else "mdi:account-voice-off" }}
-                              icon_color: |-
-                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                              layout: vertical
-                              tap_action:
-                                action: toggle
-                              hold_action:
-                                action: more-info
-
-                        - type: horizontal-stack
-                          cards:
-                            - type: custom:mushroom-template-card
                               entity: input_boolean.notify_dishwasher
                               primary: |-
                                 {{ state_attr(entity, 'friendly_name') }}
