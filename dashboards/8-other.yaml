@@ -342,13 +342,28 @@ cards:
         show_brightness_control: true
         collapsible_controls: true
 
-      - type: custom:mushroom-light-card
-        entity: switch.tuinverlichting
-        icon: mdi:coach-lamp
-        show_brightness_control: true
-        collapsible_controls: true
-        show_color_control: true
-        use_light_color: true
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: switch.tuinverlichting
+            icon: mdi:coach-lamp
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
+          - type: custom:mushroom-template-card
+            primary: "Fietslader T"
+            secondary: >-
+              {{ state_translated('switch.fietslader_t') }}
+              {{" - " ~ states('sensor.fietslader_t_power', with_unit=True) if is_state('switch.fietslader_t','on') }}
+            entity: switch.fietslader_t
+            icon: mdi:bicycle-electric
+            icon_color: >-
+              {{ "green" if is_state('switch.fietslader_t','on') else "disabled" }}
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
 
       - type: horizontal-stack
         cards:
