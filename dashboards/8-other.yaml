@@ -12,6 +12,17 @@ cards:
         title: Overige instellingen
         alignment: justify
       - type: custom:mushroom-chips-card
+        card_mod:
+          style:
+            mushroom-template-chip:nth-child(3)$: |
+              ha-state-icon {
+              {% if is_state('fan.open_air_mini', 'on')%}
+                  animation: rotate {{0.5 / (state_attr('fan.open_air_mini', 'percentage')/100) | round(1, default=1)}}s infinite linear }
+              @keyframes rotate {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(359deg); }
+              {% endif %}
+              }
         chips:
           - type: template
             icon: mdi:arrow-left
@@ -107,7 +118,6 @@ cards:
                                     parts=2, time=true, abbr=true, language='nl') }}
                               tap_action:
                                 action: none
-
           - type: conditional
             conditions:
               - condition: user
@@ -291,17 +301,24 @@ cards:
                                 action: toggle
                               hold_action:
                                 action: more-info
-        card_mod:
-          style:
-            mushroom-template-chip:nth-child(3)$: |
-              ha-state-icon {
-              {% if is_state('fan.open_air_mini', 'on')%}
-                  animation: rotate {{0.5 / (state_attr('fan.open_air_mini', 'percentage')/100) | round(1, default=1)}}s infinite linear }
-              @keyframes rotate {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(359deg); }
-              {% endif %}
-              }
+
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: input_boolean.enable_woonkamer_sunset_automations
+                              primary: |-
+                                {{ state_attr(entity, 'friendly_name') }}
+                              secondary: "Lamp vaas aan bij sunset?"
+                              multiline_secondary: true
+                              icon: |-
+                                {{ "mdi:weather-sunset-down" if is_state(entity, 'on') else "mdi:weather-sunset" }}
+                              icon_color: |-
+                                {{ "yellow" if is_state(entity, 'on') else "grey" }}
+                              layout: vertical
+                              tap_action:
+                                action: toggle
+                              hold_action:
+                                action: more-info
 
       - type: custom:mushroom-light-card
         entity: light.badkamer

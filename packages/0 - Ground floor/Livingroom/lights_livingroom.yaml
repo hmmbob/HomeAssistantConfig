@@ -8,12 +8,9 @@ lights_livingroom_package:
         - light.spots_woonkamer
 
   input_boolean:
-    enable_pir_woonkamer_automations:
-      name: "Verlichting woonkamer aan op beweging"
+    enable_woonkamer_sunset_automations:
+      name: "Vaas aan bij sunset"
       icon: mdi:motion-sensor
-    woonkamer_turned_on_by_movement:
-      name: "Woonkamer aan gedaan via PIR"
-      icon: mdi:lightbulb-on-outline
 
   automation:
     ##########################
@@ -24,11 +21,11 @@ lights_livingroom_package:
       triggers:
         trigger: sun
         event: sunset
-        offset: "-00:15:00"
+        offset: "-00:25:00"
       conditions:
         and:
           - condition: state
-            entity_id: input_boolean.enable_pir_woonkamer_automations
+            entity_id: input_boolean.enable_woonkamer_sunset_automations
             state: "on"
           - condition: state
             entity_id: group.all_adults
