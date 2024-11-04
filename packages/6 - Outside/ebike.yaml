@@ -10,7 +10,10 @@ ebike_package:
           for:
             minutes: 5
           below: 5
-      condition: []
+      conditions:
+        - alias: "Please, not on restarts"
+          condition: template
+          value_template: "{{ trigger.from_state.state | is_number }}"
       actions:
         - alias: "Lader uitschakelen"
           action: switch.turn_off
