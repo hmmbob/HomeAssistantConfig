@@ -320,21 +320,23 @@ cards:
                               hold_action:
                                 action: more-info
 
-      - type: custom:mushroom-light-card
-        entity: light.badkamer
-        icon: mdi:shower
-        show_brightness_control: true
-        collapsible_controls: true
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.badkamer
+            icon: mdi:shower
+            show_brightness_control: true
+            collapsible_controls: true
+          - type: custom:mushroom-light-card
+            entity: switch.tuinverlichting
+            icon: mdi:coach-lamp
 
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            entity: switch.tuinverlichting
-            icon: mdi:coach-lamp
-            show_brightness_control: true
-            collapsible_controls: true
-            show_color_control: true
-            use_light_color: true
+            entity: switch.sfeerverlichting_tuin
+            icon: mdi:string-lights
+            name: Winterversiering voorzijde
           - type: custom:mushroom-template-card
             primary: "Fietslader T"
             secondary: >-
