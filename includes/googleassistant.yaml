@@ -70,10 +70,6 @@ entity_config:
     name: "Salon temperatuur"
     expose: true
     room: "Salon"
-  switch.aquarium:
-    name: "Aquarium"
-    expose: true
-    room: "Salon"
 
   ## Dining room
   light.kast:
