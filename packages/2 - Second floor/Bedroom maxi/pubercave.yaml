@@ -51,7 +51,7 @@ attic_pubercave_package:
     - binary_sensor:
         - name: "Is pubercave TV on"
           unique_id: is_pubercave_TV_on
-          state: "{{ states('sensor.pubercave_power') | int(default=0) > 20 }}"
+          state: "{{ states('sensor.pubercave_tv_power') | int(default=0) > 20 }}"
         - name: "Is pubercave leeslampje on"
           unique_id: is_pubercave_leeslampje_on
           state: "{{ states('sensor.leeslampje_zolder_power') | int(default=0) > 3 }}"
@@ -194,7 +194,7 @@ attic_pubercave_package:
             minutes: 2
           id: Leeslampje
         - trigger: numeric_state
-          entity_id: sensor.pubercave_power
+          entity_id: sensor.pubercave_tv_power
           above: 25
           id: TV
       conditions:
@@ -229,11 +229,11 @@ attic_pubercave_package:
       mode: queued
       triggers:
         - trigger: numeric_state
-          entity_id: sensor.pubercave_power
+          entity_id: sensor.pubercave_tv_power
           above: 25
           id: pubercave
         - trigger: numeric_state
-          entity_id: sensor.pubercave_power
+          entity_id: sensor.pubercave_tv_power
           below: 25
           id: pubercave
         - trigger: numeric_state
@@ -253,9 +253,9 @@ attic_pubercave_package:
                 - action: logbook.log
                   data:
                     name: Pubercave zolder
-                    entity_id: sensor.pubercave_power
+                    entity_id: sensor.pubercave_tv_power
                     message: >-
-                      {{ iif(states('sensor.pubercave_power') | float(0) > 25, "is aan", "is uit" )}}
+                      {{ iif(states('sensor.pubercave_tv_power') | float(0) > 25, "is aan", "is uit" )}}
             - conditions:
                 condition: trigger
                 id: leeslampje
@@ -265,4 +265,4 @@ attic_pubercave_package:
                     name: Leeslampje zolder
                     entity_id: sensor.leeslampje_zolder_power
                     message: >-
-                      {{ iif(states('sensor.pubercave_power') | float(0) > 3, "is aan", "is uit" )}}
+                      {{ iif(states('sensor.leeslampje_zolder_power') | float(0) > 3, "is aan", "is uit" )}}

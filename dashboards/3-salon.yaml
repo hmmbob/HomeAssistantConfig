@@ -50,7 +50,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            entity: light.grijze_lamp
+            entity: switch.grijze_lamp
             icon: mdi:lamp
             show_brightness_control: false
             collapsible_controls: true

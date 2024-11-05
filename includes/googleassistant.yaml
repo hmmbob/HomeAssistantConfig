@@ -54,7 +54,7 @@ entity_config:
       - "Tafel dekken"
 
   ## Salon
-  light.grijze_lamp:
+  switch.grijze_lamp:
     name: "Grijze lamp"
     expose: true
     room: "Salon"
