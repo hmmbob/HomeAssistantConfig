@@ -21,7 +21,7 @@ lights_livingroom_package:
       triggers:
         trigger: sun
         event: sunset
-        offset: "-00:25:00"
+        offset: "-00:45:00"
       conditions:
         and:
           - condition: state
