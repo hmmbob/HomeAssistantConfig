@@ -222,14 +222,61 @@ cards:
               - heat
               - fan_only
 
-      - type: custom:sonos-card
-        sections:
-          - player
-          - media browser
-        hideBrowseMediaButton: true
-        heightPercentage: 80
-        mediaBrowserItemsPerRow: 3
-        showVolumeUpAndDownButtons: false
+      - type: custom:mini-media-player
+        entity: media_player.sonos_woonkamer
+        icon: mdi:cast
+        artwork: cover
+        artwork_border: true
+        power_color: true
+        scroll_info: true
+        show_source: true
+
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: "Radio 538"
+            icon_color: deep-purple
+            icon: mdi:numeric-5
+            tap_action:
+              action: perform-action
+              perform_action: media_player.select_source
+              target:
+                entity_id: media_player.sonos_woonkamer
+              data:
+                source: Radio 538
+          - type: template
+            content: "Q Music"
+            icon_color: red
+            icon: mdi:alpha-q
+            tap_action:
+              action: perform-action
+              perform_action: media_player.select_source
+              target:
+                entity_id: media_player.sonos_woonkamer
+              data:
+                source: Qmusic
+          - type: template
+            content: "Q - Foute uur"
+            icon_color: orange
+            icon: mdi:alpha-q
+            tap_action:
+              action: perform-action
+              perform_action: media_player.select_source
+              target:
+                entity_id: media_player.sonos_woonkamer
+              data:
+                source: Qmusic Het Foute Uur
+          - type: template
+            content: " Remix Party 2024"
+            icon: mdi:shuffle-variant
+            icon:color: blue
+            tap_action:
+              action: perform-action
+              perform_action: media_player.select_source
+              target:
+                entity_id: media_player.sonos_woonkamer
+              data:
+                source: Remix Party 2024
 
       - type: conditional
         conditions:
