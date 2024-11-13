@@ -215,7 +215,7 @@ attic_pubercave_package:
               {% endif %}
             data:
               tag: pubercave
-              icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
+              notification_icon: mdi:home-lightning-bolt
               ttl: 0
               priority: high
 

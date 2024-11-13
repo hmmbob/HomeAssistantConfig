@@ -83,8 +83,6 @@ ev_package:
                     title: "Automatic cheapest EV charging started"
                     message: "Automatisch laden van de auto is gestart. ({{ now().strftime('%H:%M') }})."
                     data:
-                      # tag: "notification-ev"
-                      icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
                       ttl: 0
                       priority: high
@@ -105,8 +103,6 @@ ev_package:
                     title: "Automatic cheapest EV charging stopped"
                     message: "Automatisch laden van de auto is gestopt ({{ now().strftime('%H:%M') }})"
                     data:
-                      # tag: "notification-ev"
-                      icon_url: "https://raw.githubusercontent.com/home-assistant/assets/master/logo/logo-pretty.png"
                       notification_icon: mdi:ev-station
                       ttl: 0
                       priority: high
