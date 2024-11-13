@@ -19,10 +19,10 @@ cards:
               navigation_path: /lovelace/start
             icon: mdi:arrow-left
           - type: entity
-            entity: sensor.slaapkamer_t_temperatuur
+            entity: sensor.xiaomi_temperature_humidity_sensor_3_temperature
             icon_color: orange
           - type: entity
-            entity: sensor.slaapkamer_t_luchtvochtigheid
+            entity: sensor.xiaomi_temperature_humidity_sensor_3_humidity
             icon_color: indigo
           - type: template
             entity: light.ledstrip_mini
@@ -241,6 +241,21 @@ cards:
                     parts=2, time=true, abbr=true, language='nl') }}
               tap_action:
                 action: none
+
+      - type: custom:mushroom-template-card
+        primary: Verwarming slaapkamer T
+        secondary: >-
+          {{ state_translated('climate.slaapkamer_t') }} - momenteel {{
+          states('sensor.slaapkamer_t_temperatuur', with_unit=true) }}
+        icon: mdi:thermostat
+        entity: climate.slaapkamer_t
+        tap_action:
+          action: more-info
+        visibility:
+          - condition: user
+            users:
+              - 40059eb4e4d142688185485ed2e1ebbb
+              - 510b1afef60640d7a220711c50b2192a
 
       - type: conditional
         conditions:

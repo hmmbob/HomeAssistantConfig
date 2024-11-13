@@ -623,7 +623,7 @@ cards:
             cards:
               - type: custom:mushroom-template-card
                 primary: Slaapkamer M
-                secondary: "{{ states('sensor.slaapkamer_m_temperatuur') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_4_temperature') | round(1, default=0) }} °C"
                 icon: mdi:bed-queen
                 icon_color: dark-green
                 layout: horizontal
@@ -802,7 +802,7 @@ cards:
                 icon: mdi:bed
                 icon_color: blue
                 primary: Slaapkamer T
-                secondary: "{{ states('sensor.slaapkamer_t_temperatuur') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_3_temperature') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate
@@ -1276,12 +1276,10 @@ cards:
                     }
 
               - type: custom:mushroom-template-card
-
-                icon: none
-                icon_color: none
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/other
+                entity: switch.sfeerverlichting_tuin
+                icon: mdi:string-lights
+                icon_color: |-
+                  {{ "orange" if is_state('switch.sfeerverlichting_tuin', 'on') else "grey" }}
                 card_mod:
                   style: |
                     ha-card {
