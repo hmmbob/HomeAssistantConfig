@@ -14,12 +14,6 @@ travel_time_notifications_package:
         - trigger: time_pattern
           minutes: "/5"
           seconds: 00
-        - trigger: homeassistant
-          event: start
-      conditions:
-        condition: state
-        entity_id: person.bob
-        state: not_home
       actions:
         - action: homeassistant.update_entity
           entity_id: sensor.reistijd_bob_naar_huis
@@ -125,6 +119,9 @@ travel_time_notifications_package:
               tag: "ask-waze"
               ttl: 0
               priority: high
+        - action: automation.turn_on
+          target:
+            entity_id: automation.update_waze_travel_time_to_home
 
     - id: location_update_traveltime_notification_hmmbob
       alias: "Werk reistijd notificatie bij met nieuwe gegevens"
@@ -177,3 +174,6 @@ travel_time_notifications_package:
               tag: "waze"
               ttl: 0
               priority: high
+        - action: automation.turn_off
+          target:
+            entity_id: automation.update_waze_travel_time_to_home
