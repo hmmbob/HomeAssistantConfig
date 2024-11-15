@@ -7,10 +7,10 @@ travel_time_notifications_package:
     ##########################
     ## Update Waze sensors
     ##########################
-    # I have disabled the polling of this integration, to reduce the
+    # I have disabled the polling of this integration to reduce the
     # amount of requests that are sent to the Waze server. This 1st
     # automation below takes care of updating the sensor, and is
-    # turned on/off by autoamtions below - normally it's off.
+    # turned on/off by automations below - normally it's off.
     - id: update_waze_to_home
       alias: "Werk Waze reistijd bij"
       description: "Update: Waze travel time to home"
@@ -25,6 +25,11 @@ travel_time_notifications_package:
     ##########################
     ## Coming home notifications
     ##########################
+    # I always connect my phone to my car through Android Auto,
+    # so it's a good way to detect if I start driving. If I do
+    # this outside three of my most used locations, HA will
+    # ask me if I'd like to send a "coming home" message.
+    # It's done by a actionable notification in the HA app.
     - id: location_ask_to_send_notification_hmmbob_left
       alias: "Vraag of we een melding moeten versturen dat Bob vertrekt"
       triggers:
@@ -64,6 +69,9 @@ travel_time_notifications_package:
               ttl: 0
               priority: high
 
+    # Either when I leave some pre-defined zones, or when I click
+    # the actionable notification that was sent to my HA app, HA will
+    # send a "coming home" persistent notification to my wife.
     - id: location_notification_hmmbob_left_work
       alias: "Verstuur melding dat Bob van het werk vertrekt"
       triggers:
@@ -127,6 +135,8 @@ travel_time_notifications_package:
           target:
             entity_id: automation.update_waze_travel_time_to_home
 
+    # Waze will update my tavel time every 5 minutes, so I use this
+    # to update the persistent notification
     - id: location_update_traveltime_notification_hmmbob
       alias: "Werk reistijd notificatie bij met nieuwe gegevens"
       triggers:
@@ -155,6 +165,9 @@ travel_time_notifications_package:
               tag: "waze"
               ttl: 0
 
+    # As the notifications are persistent (so, non-removable by the user),
+    # we need to remove the notification when I'm home through HA. It also
+    # turns off the automation that updates the Waze sensor.
     - id: location_clear_traveltime_notification
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
       triggers:
