@@ -1,0 +1,51 @@
+wc_boven_package:
+  automation:
+    - id: lights_wc_boven
+      alias: "Zet de verlichting van de WC boven aan of uit"
+      mode: restart
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: binary_sensor.pir_wc_boven_occupancy
+          to: "on"
+          from: "off"
+          id: turn_on
+        - trigger: state
+          entity_id: binary_sensor.pir_wc_boven_occupancy
+          to: "off"
+          from: "on"
+          id: turn_off
+      conditions: []
+      actions:
+        - alias: "Checking what to do"
+          choose:
+            - alias: "Do we need to turn on the lights?"
+              conditions:
+                - "{{ trigger.id == 'turn_on' }}"
+              sequence:
+                - if:
+                    - condition: time
+                      after: "22:30:00"
+                      before: "06:45:00"
+                  then:
+                    - alias: "Lamp WC boven gedimd aan..."
+                      action: light.turn_on
+                      target:
+                        entity_id: light.wc_boven
+                      data:
+                        brightness: 80
+                  else:
+                    - alias: "Lamp WC boven voluit aan..."
+                      action: light.turn_on
+                      target:
+                        entity_id: light.wc_boven
+                      data:
+                        brightness: 255
+            - alias: "Do we need to turn off the lights?"
+              conditions:
+                - "{{ trigger.id == 'turn_off' }}"
+              sequence:
+                - alias: "Lamp WC boven bedienen..."
+                  action: light.turn_off
+                  target:
+                    entity_id: light.wc_boven
