@@ -1,0 +1,25 @@
+shed_package:
+  automation:
+    - id: lights_schuur
+      alias: "Zet de verlichting van de schuur aan of uit"
+      mode: restart
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: binary_sensor.pir_schuur_occupancy
+          to: "on"
+          from: "off"
+          variables:
+            action: turn_on
+        - trigger: state
+          entity_id: binary_sensor.pir_schuur_occupancy
+          to: "off"
+          from: "on"
+          variables:
+            action: turn_off
+      conditions: []
+      actions:
+        - alias: "Lamp schuur bedienen..."
+          action: switch.{{ action }}
+          target:
+            entity_id: switch.schuur
