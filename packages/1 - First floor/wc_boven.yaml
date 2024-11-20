@@ -24,7 +24,8 @@ wc_boven_package:
                 - "{{ trigger.id == 'turn_on' }}"
               sequence:
                 - if:
-                    - condition: time
+                    - alias: "Is het tijdens de donkere uren?"
+                      condition: time
                       after: "22:30:00"
                       before: "06:45:00"
                   then:
@@ -41,11 +42,23 @@ wc_boven_package:
                         entity_id: light.wc_boven
                       data:
                         brightness: 255
+                    - if:
+                        - alias: "Als de ventilatie timer nog niet loopt"
+                          condition: state
+                          entity_id: timer.fan_runtime
+                          state: "idle"
+                      then:
+                        - alias: "Afzuiging aanzetten"
+                          action: timer.start
+                          target:
+                            entity_id: timer.fan_runtime
+                          data:
+                            duration: "00:10:00"
             - alias: "Do we need to turn off the lights?"
               conditions:
                 - "{{ trigger.id == 'turn_off' }}"
               sequence:
-                - alias: "Lamp WC boven bedienen..."
+                - alias: "Lamp WC boven uitzetten..."
                   action: light.turn_off
                   target:
                     entity_id: light.wc_boven
