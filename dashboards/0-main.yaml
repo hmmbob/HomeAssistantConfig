@@ -477,7 +477,7 @@ cards:
                 icon: mdi:bed-king-outline
                 icon_color: red
                 primary: Master bedroom
-                secondary: "{{ states('sensor.master_bedroom_temperatuur') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_5_temperature') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate

@@ -246,8 +246,9 @@ cards:
       - type: custom:mushroom-template-card
         primary: Verwarming slaapkamer M
         secondary: >-
-          {{ state_translated('climate.slaapkamer_m') }} - momenteel {{
-          states('sensor.slaapkamer_m_temperatuur', with_unit=true) }}
+          {{ state_translated('climate.slaapkamer_m') }} - 
+          Ingesteld op {{ state_attr('climate.slaapkamer_m','temperature') }} °C, 
+          momenteel {{ states('sensor.slaapkamer_m_temperatuur') |round(1) }} °C
         icon: mdi:thermostat
         entity: climate.slaapkamer_m
         tap_action:

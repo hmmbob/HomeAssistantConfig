@@ -19,10 +19,10 @@ cards:
               navigation_path: /lovelace/start
             icon: mdi:arrow-left
           - type: entity
-            entity: sensor.master_bedroom_temperatuur
+            entity: sensor.xiaomi_temperature_humidity_sensor_5_temperature
             icon_color: orange
           - type: entity
-            entity: sensor.master_bedroom_luchtvochtigheid
+            entity: sensor.xiaomi_temperature_humidity_sensor_5_humidity
             icon_color: indigo
           - type: template
             entity: switch.inloopkast
@@ -43,6 +43,22 @@ cards:
               - dry
               - heat
               - fan_only
+
+      - type: custom:mushroom-template-card
+        primary: Verwarming MBR
+        secondary: >-
+          {{ state_translated('climate.master_bedroom') }} - 
+          Ingesteld op {{ state_attr('climate.master_bedroom','temperature') }} °C, 
+          momenteel {{ states('sensor.master_bedroom_temperatuur') |round(1) }} °C
+        icon: mdi:thermostat
+        entity: climate.master_bedroom
+        tap_action:
+          action: more-info
+        visibility:
+          - condition: user
+            users:
+              - 40059eb4e4d142688185485ed2e1ebbb
+              - 510b1afef60640d7a220711c50b2192a
 
       - type: heading
         heading: Luchtreiniger
