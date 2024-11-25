@@ -21,41 +21,76 @@ awtrix_package:
     ##########################
     ## System functions
     ##########################
-    - id: awtrix_nightmode
-      alias: "Night Mode voor Awtrix 🌛"
-      description: "Set Awtrix to clock only by pressing the middle button"
+    - id: awtrix_turn_on_or_off
+      alias: "Zet Awtrix aan of uit  🌛"
+      description: "Set Awtrix to clock only by pressing the middle button or when I turn off my monitor"
       mode: queued
       triggers:
         - trigger: state
           entity_id: binary_sensor.awtrix_6caff8_button_select
           to: "on"
+          id: "toggle"
+        - trigger: numeric_state
+          entity_id: sensor.bureau_kantoor_power
+          above: 25
+          id: "turn_on"
+        - trigger: numeric_state
+          entity_id: sensor.bureau_kantoor_power
+          below: 25
+          for: "00:05:00"
+          id: "turn_off"
       condition: []
       actions:
-        - choose:
-            - conditions:
-                - alias: "Transition is on, so we are in day mode: toggle to night mode"
-                  condition: state
-                  entity_id: switch.awtrix_6caff8_transition
-                  state: "on"
-              sequence:
-                - action: mqtt.publish
-                  data:
-                    topic: awtrix_6caff8/switch
-                    payload: '{"name":"Time"}'
-                - action: mqtt.publish
-                  data:
-                    topic: awtrix_6caff8/settings
-                    payload: '{ "WD": false, "TMODE":"0", "TIME_COL": [255,0,0], "BRI": 1, "ABRI": false, "ATRANS": false }'
-            - conditions:
-                - alias: "Transition is off, so we are in night mode: toggle to day mode"
-                  condition: state
-                  entity_id: switch.awtrix_6caff8_transition
-                  state: "off"
-              sequence:
-                - action: mqtt.publish
-                  data:
-                    topic: awtrix_6caff8/settings
-                    payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
+        choose:
+          - alias: "Do we need to turn on Awtrix?"
+            conditions:
+              - "{{ trigger.id == 'turn_on' }}"
+            sequence:
+              - alias: "Start transition and set time color to white again"
+                action: mqtt.publish
+                data:
+                  topic: awtrix_6caff8/settings
+                  payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
+          - alias: "Do we need to turn off Awtrix?"
+            conditions:
+              - "{{ trigger.id == 'turn_off' }}"
+            sequence:
+              - alias: "Swith to time"
+                action: mqtt.publish
+                data:
+                  topic: awtrix_6caff8/switch
+                  payload: '{"name":"Time"}'
+              - alias: "Set low brightness and red color and fix to time app"
+                action: mqtt.publish
+                data:
+                  topic: awtrix_6caff8/settings
+                  payload: '{ "WD": false, "TMODE":"0", "TIME_COL": [255,0,0], "BRI": 1, "ABRI": false, "ATRANS": false }'
+          - alias: "Do we need to toggle Awtrix?"
+            conditions:
+              - "{{ trigger.id == 'toggle' }}"
+            sequence:
+              - if:
+                  - alias: "Transition is on, so we are in day mode: toggle to night mode"
+                    condition: state
+                    entity_id: switch.awtrix_6caff8_transition
+                    state: "on"
+                then:
+                  - alias: "Swith to time"
+                    action: mqtt.publish
+                    data:
+                      topic: awtrix_6caff8/switch
+                      payload: '{"name":"Time"}'
+                  - alias: "Set low brightness and red color and fix to time app"
+                    action: mqtt.publish
+                    data:
+                      topic: awtrix_6caff8/settings
+                      payload: '{ "WD": false, "TMODE":"0", "TIME_COL": [255,0,0], "BRI": 1, "ABRI": false, "ATRANS": false }'
+                else:
+                  - alias: "Start transition and set time color to white again"
+                    action: mqtt.publish
+                    data:
+                      topic: awtrix_6caff8/settings
+                      payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
 
     - id: awtrix_start_custom_apps_on_reboot
       alias: "Start alle Awtrix apps na een reboot"
