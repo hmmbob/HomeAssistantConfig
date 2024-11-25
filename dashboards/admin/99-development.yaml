@@ -20,10 +20,12 @@ cards:
         - state: unknown
       exclude:
         - domain: button
+        - domain: conversation
         - domain: group
         - domain: scene
         - entity_id: "*picnic*"
         - entity_id: "*smarttag*"
+        - entity_id: "*_action"
     sort:
       method: name
 

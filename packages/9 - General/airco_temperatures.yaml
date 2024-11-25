@@ -5,7 +5,7 @@ airco_temperatures_package:
       mode: single
       triggers:
         - trigger: time_pattern
-          minutes: /1
+          seconds: /30
       actions:
         - if: # Woonkamer
             - "{{ state_attr('climate.woonkamer','current_temperature') | is_number }}"
