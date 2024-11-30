@@ -144,6 +144,7 @@ cloud:
 dhcp:
 diagnostics:
 energy:
+go2rtc:
 homeassistant_alerts:
 media_source:
 mobile_app:

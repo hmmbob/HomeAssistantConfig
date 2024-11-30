@@ -24,5 +24,6 @@ cards:
             border-left: 3px solid rgba(81, 134, 236);
             }
 
-  - type: "custom:webrtc-camera"
-    url: "rtsp://192.168.88.32:8554/voordeur"
+  - type: custom:frigate-card
+    cameras:
+      - camera_entity: camera.voordeur_vloeiend

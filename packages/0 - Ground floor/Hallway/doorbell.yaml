@@ -10,26 +10,51 @@ doorbell_package:
       id: deurbel
       mode: restart
       triggers:
-        - trigger: webhook
-          webhook_id: VD1buttonpressed
-          allowed_methods:
-            - GET
-          local_only: true
+        - trigger: state
+          entity_id: binary_sensor.voordeur_bezoeker
+          from: "off"
+          to: "on"
       conditions:
         - condition: state
           entity_id: input_boolean.enable_deurbel
           state: "on"
       actions:
-        - alias: "Send a notification"
-          action: script.turn_on
-          entity_id:
-            - script.send_doorbell_notification
-        - alias: "Stream snapshotimage to Nest Hub"
-          action: media_player.play_media
+        - service: camera.snapshot
+          target:
+            entity_id: camera.voordeur_vloeiend
           data:
-            entity_id: media_player.nest_hub_woonkamer
-            media_content_id: !secret camera_url
-            media_content_type: image/jpeg
+            filename: /config/www/doorbell/snapshot-doorbell.jpg
+        - parallel:
+            - repeat:
+                for_each: >
+                  {{
+                    expand(state_attr('zone.home', 'persons'))
+                      | map(attribute='attributes.source')
+                      | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                      | list
+                  }}
+                sequence:
+                  - alias: Send doorbell notification
+                    action: "{{ repeat.item }}"
+                    data:
+                      title: Knock Knock!
+                      message: Er staat iemand aan de deur!
+                      data:
+                        channel: doorbell
+                        clickAction: "/lovelace/camera"
+                        image: /local/doorbell/snapshot-doorbell.jpg
+                        notification_icon: mdi:doorbell-video
+                        priority: high
+                        tag: deurbel
+                        timeout: 60
+                        ttl: 0
+                        visibility: public
+            - alias: "Stream snapshotimage to Nest Hub"
+              action: media_player.play_media
+              data:
+                entity_id: media_player.nest_hub_woonkamer
+                media_content_id: /local/doorbell/snapshot-doorbell.jpg
+                media_content_type: image/jpeg
         - alias: "Wait before we clean up"
           delay: "00:01:00"
         - alias: "Turn off the Nest Hub"
@@ -37,34 +62,121 @@ doorbell_package:
           entity_id:
             - media_player.nest_hub_woonkamer
 
-  script:
-    send_doorbell_notification:
-      alias: "Doorbell: Send doorbell notification"
-      description: "Send a notification when the doorbell rings"
-      icon: mdi:doorbell
-      mode: restart
-      sequence:
-        - repeat:
-            for_each: >
-              {{
-                expand(state_attr('zone.home', 'persons'))
-                  | map(attribute='attributes.source')
-                  | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                  | list
-              }}
-            sequence:
-              - alias: Send doorbell notification
-                action: "{{ repeat.item }}"
-                data:
-                  title: Knock Knock!
-                  message: Er staat iemand aan de deur!
+    - id: "deurbel_met_ai_beschrijving"
+      alias: Deurbel met AI beschrijving
+      description: Stuur een notificatie met beschrijving als iemand aanbelt
+      variables:
+        camera_entity: "camera.voordeur_duidelijk"
+        tag: "{{ camera_entity + int(as_timestamp(now()))|string }}"
+        group: "{{ camera_entity }}"
+        title: "De deurbel gaat"
+        image: '/local/llmvision/{{camera_entity.replace("camera.", "")}}.jpg'
+      triggers:
+        - trigger: state
+          entity_id: binary_sensor.voordeur_bezoeker
+          from: "off"
+          to: "on"
+      conditions:
+        - condition: state
+          entity_id: input_boolean.enable_deurbel
+          state: "on"
+      actions:
+        - parallel:
+            - sequence:
+                - repeat:
+                    for_each: >
+                      {{
+                        (expand(state_attr('zone.home', 'persons'))
+                        | map(attribute='attributes.source')
+                        | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                        | list + ['notify.mobile_app_sm_a556b'])
+                        | unique | list
+                      }}
+                    sequence:
+                      - alias: Send initial notification to device
+                        action: "{{ repeat.item }}"
+                        data:
+                          title: "{{ title }}"
+                          message: "Er wordt aangebeld. Ik vraag Gemini AI wie er aan de deur staat."
+                          data:
+                            image: "{{ image }}"
+                            url: /lovelace/camera
+                            clickAction: /lovelace/camera
+                            tag: "{{ tag }}"
+                            group: "{{ group }}"
+                            notification_icon: mdi:doorbell-video
+                            priority: high
+                            timeout: 60
+                            ttl: 0
+                            visibility: public
+                - alias: Analyze event
+                  action: llmvision.image_analyzer
+                  response_variable: response
                   data:
-                    channel: doorbell
-                    clickAction: "/lovelace/camera"
-                    image: !secret camera_url
-                    notification_icon: mdi:doorbell-video
-                    priority: high
-                    tag: deurbel
-                    timeout: 60
-                    ttl: 0
-                    visibility: public
+                    image_entity: "{{[camera_entity]}}"
+                    provider: 01JDVWVP7N8E70XMH6HMYWBCAN
+                    model: gemini-1.5-pro
+                    message:
+                      "Dit is een foto van mijn voordeur camera. Help me door te beschrijven of dit
+                      een bezorger of bezoeker is. Beschrijf de scène niet!
+                      Als de persoon een pakje of doos vast heeft is het vrijwel zeker
+                      een bezorger. Als je denkt dat het een bezorger is probeer dan in te schatten
+                      van welk bedrijf de bezorger is. Als de persoon kleding met oranje accenten aan
+                      heeft is het een PostNL bezorger. Heeft de persoon gele bovenkleding dan is
+                      het een DHL bezorger. Heeft de persoon rode kleding aan en in plaats van een pakje
+                      of doos plastic tassen in zijn/haar hand, dan is het een bezorger van Picnic.
+                      Misschien zie je een bestelauto in de foto: PostNL bezorgers rijden vaak in een witte bestelbus, terwijl
+                      DHL bezorgers vaak een gele bestelwagen rijden. Wij rijden zelf een kleine gele personenauto,
+                      verwar die niet met een bestelbus. Weet je niet zeker van welk bedrijf het is?
+                      Zeg dat dan. Antwoord met een korte zin in het Nederlands en begin je zin met de waarschijnlijkheid
+                      van het juiste antwoord (bijvoorbeeld 'Waarschijnlijk een bezoeker' of 'Vrijwel zeker een bezorger van PostNL').
+                      Als je denkt dat het een bezoeker is, geef dan ook informatie over hoe de persoon eruit ziet."
+                    remember: false
+                    include_filename: false
+                    max_tokens: 25
+                    temperature: 0.1
+                    expose_images: true
+                - repeat:
+                    for_each: >
+                      {{
+                        (expand(state_attr('zone.home', 'persons'))
+                        | map(attribute='attributes.source')
+                        | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                        | list + ['notify.mobile_app_sm_a556b'])
+                        | unique | list
+                      }}
+                    sequence:
+                      - alias: Update notification to notify devices
+                        action: "{{ repeat.item }}"
+                        data:
+                          title: "{{ title }}"
+                          message: "{{ response.response_text }}"
+                          data:
+                            image: "{{ image }}"
+                            url: /lovelace/camera
+                            clickAction: /lovelace/camera
+                            tag: "{{ tag }}"
+                            group: "{{ group }}"
+                            notification_icon: mdi:doorbell-video
+                            priority: high
+                            timeout: 60
+                            ttl: 0
+                            visibility: public
+            - sequence:
+                - service: camera.snapshot
+                  target:
+                    entity_id: "{{ camera_entity }}"
+                  data:
+                    filename: /config/www/doorbell/snapshot-doorbell.jpg
+                - alias: "Stream snapshotimage to Nest Hub"
+                  action: media_player.play_media
+                  data:
+                    entity_id: media_player.nest_hub_woonkamer
+                    media_content_id: /local/doorbell/snapshot-doorbell.jpg
+                    media_content_type: image/jpeg
+                - alias: "Wait before we clean up"
+                  delay: "00:01:00"
+                - alias: "Turn off the Nest Hub"
+                  action: media_player.turn_off
+                  entity_id:
+                    - media_player.nest_hub_woonkamer
