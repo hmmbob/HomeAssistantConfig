@@ -97,11 +97,16 @@ recorder:
       - sun
       - update
     entity_globs:
+      - number.alarmspeaker_*
+      - select.alarmspeaker_*
       - sensor.*_geocoded_*
       - sensor.*_last_seen
       - sensor.*_linkquality
       - sensor.*_uptime
+      - sensor.*_wifi_signaal
+      - sensor.*_voltage
       - sensor.afvalinfo_*
+      - sensor.alarmspeaker_*
       - sensor.dsmr_reading_phase_currently_delivered_l*
       - sensor.dsmr_reading_phase_power_current_l*
       - sensor.dsmr_reading_phase_voltage_l*
@@ -115,14 +120,19 @@ recorder:
       - sensor.smartevse_mains_*
       - sensor.sun_*
       - sensor.zonneplan_for*
+      - switch.alarmspeaker_*
     entities:
+      - automation.stuur_kamertemperatuur_naar_airco_s
       - sensor.awtrix_6caff8_current_app
+      - sensor.awtrix_6caff8_free_ram
+      - sensor.awtrix_6caff8_wifi_strength
       - sensor.droger_dryer_completion_time
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
       - sensor.knmi_all_data
       - sensor.smartevse_6360_evchargepower
       - sensor.smartevse_6360_evenergycharged
+      - sensor.smartevse_6360_wifirssi
       - sensor.smartevse_total_mains
       - sensor.todays_total_production_preserved
 
