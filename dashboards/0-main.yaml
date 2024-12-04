@@ -193,8 +193,10 @@ cards:
                         --mush-icon-size: 40px;
                       }
               - type: custom:mushroom-template-card
-                icon: none
-                icon_color: none
+                entity: switch.kerstboom
+                icon: mdi:pine-tree
+                icon_color: >
+                  {{ "green" if is_state('switch.kerstboom', 'on') else "grey" }}
                 card_mod:
                   style: |
                     ha-card {
@@ -1276,10 +1278,10 @@ cards:
                     }
 
               - type: custom:mushroom-template-card
-                entity: switch.sfeerverlichting_tuin
+                entity: group.sfeerverlichting_voorzijde
                 icon: mdi:string-lights
                 icon_color: |-
-                  {{ "orange" if is_state('switch.sfeerverlichting_tuin', 'on') else "grey" }}
+                  {{ "orange" if is_state('group.sfeerverlichting_voorzijde', 'on') else "grey" }}
                 card_mod:
                   style: |
                     ha-card {
