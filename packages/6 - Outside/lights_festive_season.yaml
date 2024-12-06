@@ -27,8 +27,6 @@ lights_festive_season_package:
       triggers:
         - trigger: state
           entity_id: sensor.festive_season_lights
-        - trigger: homeassistant
-          event: start
         - trigger: event
           event_type: automation_reloaded
       conditions:

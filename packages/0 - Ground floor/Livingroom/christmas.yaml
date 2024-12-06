@@ -16,9 +16,6 @@ christmas_package:
         - condition: time
           after: "06:20:00"
           before: "22:00:00"
-        - condition: state
-          entity_id: switch.kerstboom
-          state: "off"
       action:
         - service: homeassistant.turn_on
           entity_id: switch.kerstboom
