@@ -11,33 +11,30 @@ symfonisk_package:
         player: media_player.sonos_woonkamer
         steps: 20 # 25 is Sonos default
         stepsize: "{{ 1.0 / steps }}"
-      trigger_variables:
-        basetopic: zigbee2mqtt
-        device_name: Afstandsbediening Sonos
       triggers:
-        - trigger: mqtt
-          topic: "{{basetopic}}/{{device_name}}/action"
-      conditions:
-        - condition: template
-          value_template: "{{ trigger.payload != '' }}"
+        - trigger: state
+          entity_id: event.afstandsbediening_sonos_action
+          to: ~
+          variables:
+            event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:
         - choose:
-            - conditions: "{{ trigger.payload == 'toggle' }}"
+            - conditions: "{{ event == 'toggle' }}"
               sequence:
                 - action: media_player.media_play_pause
                   target:
                     entity_id: "{{ player }}"
-            - conditions: "{{ trigger.payload == 'track_next' }}"
+            - conditions: "{{ event == 'track_next' }}"
               sequence:
                 - action: media_player.media_next_track
                   target:
                     entity_id: "{{ player }}"
-            - conditions: "{{ trigger.payload == 'track_previous' }}"
+            - conditions: "{{ event == 'track_previous' }}"
               sequence:
                 - action: media_player.media_previous_track
                   target:
                     entity_id: "{{ player }}"
-            - conditions: "{{ trigger.payload == 'volume_up' }}"
+            - conditions: "{{ event == 'volume_up' }}"
               sequence:
                 - action: media_player.volume_set
                   target:
@@ -46,7 +43,7 @@ symfonisk_package:
                     volume_level: >-
                       {% set volume = state_attr(player, "volume_level") + stepsize %} 
                       {{ 1.0 if volume > 1.0 else volume }}
-            - conditions: "{{ trigger.payload == 'volume_down' }}"
+            - conditions: "{{ event == 'volume_down' }}"
               sequence:
                 - action: media_player.volume_set
                   target:
@@ -55,7 +52,7 @@ symfonisk_package:
                     volume_level: >-
                       {% set volume = state_attr(player,"volume_level") - stepsize %} 
                       {{ 0.0 if volume < 0.0 else volume }}
-            - conditions: "{{ trigger.payload == 'volume_up_hold' }}"
+            - conditions: "{{ event == 'volume_up_hold' }}"
               sequence:
                 - action: media_player.volume_set
                   target:
@@ -64,7 +61,7 @@ symfonisk_package:
                     volume_level: >-
                       {% set volume = state_attr(player, "volume_level") + stepsize %}
                       {{ 1.0 if volume > 1.0 else volume }}
-            - conditions: "{{ trigger.payload == 'volume_down_hold' }}"
+            - conditions: "{{ event == 'volume_down_hold' }}"
               sequence:
                 - action: media_player.volume_set
                   target:
@@ -73,10 +70,10 @@ symfonisk_package:
                     volume_level: >-
                       {% set volume = state_attr(player, "volume_level") - stepsize %} 
                       {{ 0.0 if volume < 0.0 else volume }}
-            - conditions: "{{ trigger.payload == 'dots_1_short_release' }}"
+            - conditions: "{{ event == 'dots_1_short_release' }}"
               sequence:
                 - action: script.radio_538
-            - conditions: "{{ trigger.payload == 'dots_1_double_press' }}"
+            - conditions: "{{ event == 'dots_1_double_press' }}"
               sequence:
                 - action: media_player.play_media
                   target:
@@ -84,12 +81,12 @@ symfonisk_package:
                   data:
                     media_content_id: FV:2/12
                     media_content_type: favorite_item_id
-            - conditions: "{{ trigger.payload == 'dots_1_long_press' }}"
+            - conditions: "{{ event == 'dots_1_long_press' }}"
               sequence: []
-            - conditions: "{{ trigger.payload == 'dots_2_short_release' }}"
+            - conditions: "{{ event == 'dots_2_short_release' }}"
               sequence:
                 - action: script.qmusic
-            - conditions: "{{ trigger.payload == 'dots_2_double_press' }}"
+            - conditions: "{{ event == 'dots_2_double_press' }}"
               sequence:
                 - action: media_player.play_media
                   target:
@@ -97,7 +94,7 @@ symfonisk_package:
                   data:
                     media_content_id: FV:2/7
                     media_content_type: favorite_item_id
-            - conditions: "{{ trigger.payload == 'dots_2_long_press' }}"
+            - conditions: "{{ event == 'dots_2_long_press' }}"
               sequence:
                 - action: script.nashville
 

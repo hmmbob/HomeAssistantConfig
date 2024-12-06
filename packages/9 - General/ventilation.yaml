@@ -7,54 +7,22 @@ ventilation_package:
     - id: ventilation_handle_button
       alias: "Start de ventilatie timer als we op een knop drukken"
       triggers:
-        - trigger: device
-          alias: "Drukknop badkamer korte druk"
-          domain: mqtt
-          device_id: 1c98ab078004d920f387ebd2c83a16d5
-          type: action
-          subtype: "on"
-          id: short_press
-        - trigger: device
-          alias: "Drukknop zolder korte druk"
-          domain: mqtt
-          device_id: fe2c91b5b74f285c46f17c3ab6cce8a4
-          type: action
-          subtype: "on"
-          id: short_press
-        - trigger: device
-          alias: "Drukknop bijkeuken knop 1 kort"
-          domain: mqtt
-          device_id: b8cc3669262c669ece55a8ea35f85330
-          type: action
-          subtype: 1_short_release
-          id: short_press
-        - trigger: device
-          alias: "Drukknop badkamer lange druk"
-          domain: mqtt
-          device_id: 1c98ab078004d920f387ebd2c83a16d5
-          type: action
-          subtype: brightness_move_up
-          id: long_press
-        - trigger: device
-          alias: "Drukknop zolder lange druk"
-          domain: mqtt
-          device_id: fe2c91b5b74f285c46f17c3ab6cce8a4
-          type: action
-          subtype: brightness_move_up
-          id: long_press
-        - trigger: device
-          alias: "Drukknop bijkeuken knop 1 lang"
-          domain: mqtt
-          device_id: b8cc3669262c669ece55a8ea35f85330
-          type: action
-          subtype: 1_long_press
-          id: long_press
+        - trigger: state
+          entity_id:
+            - event.drukknop_badkamer_action
+            - event.drukknop_badkamer_zolder_action
+            - event.drukknop_bijkeuken_action
+          to: ~
+          variables:
+            event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
+      conditions:
+        - "{{ event not in ['unknown','unavailable'] }}"
       actions:
         - action: timer.start
           target:
             entity_id: timer.fan_runtime
           data:
-            duration: "{{'00:30:00' if trigger.id == 'long_press' else '00:15:00'}}"
+            duration: "{{'00:30:00' if event in ['brightness_move_up','1_long_press'] else '00:15:00'}}"
 
     - id: ventilation_boost_speed
       alias: "Stel een hogere ventilatiesnelheid in als de timer start"
