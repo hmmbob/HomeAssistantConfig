@@ -1,7 +1,7 @@
 title: Admin views
 views:
-  - !include 1-plants.yaml
   - !include 2-batterij.yaml
   - !include 3-status.yaml
   - !include 4-solar-settings.yaml
+  - !include 5-aircos.yaml
   - !include 99-development.yaml

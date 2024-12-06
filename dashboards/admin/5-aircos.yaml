@@ -1,0 +1,69 @@
+####################
+# Airco's           #
+####################
+path: Airco's
+title: Airco'
+icon: mdi:snowflake
+cards:
+  - type: markdown ## Airco's  header
+    content: |
+      # Airco's
+    card_mod:
+      style:
+        .: |
+          ha-card {
+          margin: 12px 14px -5px 14px;
+          box-shadow: none;
+          --ha-card-background: rgba(0, 0, 0, 0.0)
+          }
+        ha-markdown$: |
+          h1 { 
+            font-size: 18px !important;
+            font-weight: 400 !important;
+            padding-left: 10px !important;
+            border-left: 3px solid rgba(81, 134, 236);
+            }
+
+  - type: custom:auto-entities
+    card:
+      type: entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - device: "Airco woonkamer"
+    sort:
+      method: name
+
+  - type: custom:auto-entities
+    card:
+      type: entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - device: "Airco master bedroom"
+    sort:
+      method: name
+
+  - type: custom:auto-entities
+    card:
+      type: entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - device: "Airco slaapkamer T"
+    sort:
+      method: name
+
+  - type: custom:auto-entities
+    card:
+      type: entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - device: "Airco slaapkamer M"
+    sort:
+      method: name

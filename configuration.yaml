@@ -81,6 +81,13 @@ lovelace:
       icon: mdi:security
       show_in_sidebar: true
       require_admin: true
+    lovelace-plants:
+      mode: yaml
+      filename: dashboards/plants/plants.yaml
+      title: Planten
+      icon: mdi:flower
+      show_in_sidebar: true
+      require_admin: false
     lovelace-map:
       mode: yaml
       filename: dashboards/map/map.yaml
