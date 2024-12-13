@@ -1,0 +1,24 @@
+wakeup_light_maxi_package:
+  automation:
+    - id: wakeup_light_maxi
+      alias: "Wakeup light maxi"
+      mode: single
+      triggers:
+        - trigger: time
+          at: sensor.zolder_alarms
+      conditions: []
+      actions:
+        - action: light.turn_on
+          data:
+            brightness_pct: 100
+            kelvin: 3500
+          target:
+            entity_id: light.sonoff_l1
+        - action: light.turn_on
+          target:
+            entity_id: light.battletron_ball_light_m
+        - delay: 00:05:00
+        - service: light.turn_off
+          entity_id:
+            - light.battletron_ball_light_m
+            - light.sonoff_l1
