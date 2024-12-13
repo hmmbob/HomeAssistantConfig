@@ -1,0 +1,123 @@
+airco_package:
+  timer:
+    airco_mini_sleeptimer:
+      restore: true
+    airco_puber_sleeptimer:
+      restore: true
+
+  automation:
+    ###########################################
+    ## Update ESPHome based airco controllers #
+    ## with up to date room temperatures      #
+    ###########################################
+    - id: airco_send_temperature
+      alias: "Stuur kamertemperatuur naar airco's"
+      mode: single
+      triggers:
+        - trigger: time_pattern
+          seconds: /30
+      actions:
+        - if: # Woonkamer
+            - "{{ state_attr('climate.woonkamer','current_temperature') | is_number }}"
+          then:
+            - action: esphome.airco_woonkamer_set_api_room_temperature
+              data:
+                value: "{{ state_attr('climate.woonkamer','current_temperature') }}"
+        - if: # MBR
+            - "{{ states('sensor.xiaomi_temperature_humidity_sensor_5_temperature') | is_number }}"
+          then:
+            - action: esphome.airco_mbr_set_api_room_temperature
+              data:
+                value: "{{ states('sensor.xiaomi_temperature_humidity_sensor_5_temperature') }}"
+        - if: # Slaapkamer T
+            - "{{ states('sensor.xiaomi_temperature_humidity_sensor_3_temperature') | is_number }}"
+          then:
+            - action: esphome.airco_slaapkamer_t_set_api_room_temperature
+              data:
+                value: "{{ states('sensor.xiaomi_temperature_humidity_sensor_3_temperature') }}"
+        - if: # Slaapkamer M
+            - "{{ states('sensor.xiaomi_temperature_humidity_sensor_4_temperature') | is_number }}"
+          then:
+            - action: esphome.airco_slaapkamer_m_set_api_room_temperature
+              data:
+                value: "{{ states('sensor.xiaomi_temperature_humidity_sensor_4_temperature') }}"
+
+    ###########################################
+    ## Sleeptimer for kids aircos             #
+    ###########################################
+    - id: airco_sleeptimer_kinderen
+      alias: "Sleeptimer voor de aircos van de kinderen"
+      description: "Turn off AC at the end of the timer"
+      triggers:
+        - trigger: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.airco_mini_sleeptimer
+          variables:
+            entity: climate.airco_slaapkamer_t
+        - trigger: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.airco_puber_sleeptimer
+          variables:
+            entity: climate.airco_slaapkamer_m
+      actions:
+        - action: climate.set_hvac_mode
+          target:
+            entity_id: "{{entity}}"
+          data:
+            hvac_mode: "off"
+
+    ###########################################
+    ## Automatic shut down of kid's aircos    #
+    ###########################################
+    - id: airco_kinderen_uit
+      alias: "Zet airco kinderen automatisch uit einde avond"
+      description: "Turn off kid's AC automatically so we won't forget"
+      triggers:
+        - trigger: time
+          at: "23:00:00"
+      actions:
+        - if:
+            - "{{ states('timer.airco_mini_sleeptimer') != 'active' }}"
+          then:
+            - action: climate.set_hvac_mode
+              target:
+                entity_id: climate.airco_slaapkamer_t
+              data:
+                hvac_mode: "off"
+        - if:
+            - "{{ states('timer.airco_puber_sleeptimer') != 'active' }}"
+          then:
+            - action: climate.set_hvac_mode
+              target:
+                entity_id: climate.airco_slaapkamer_m
+              data:
+                hvac_mode: "off"
+
+    ###########################################
+    ## Limit high setpoint of kids aircos     #
+    ###########################################
+    - id: airco_kinderen_niet_te_heet
+      alias: "Zet airco kinderen automatisch op een normale temperatuur"
+      description: "Set the kid's AC automatically to a more normal temperature (to prevent user error)"
+      triggers:
+        - trigger: numeric_state
+          entity_id: climate.airco_slaapkamer_t
+          attribute: temperature
+          above: 21
+          variables:
+            entity: climate.airco_slaapkamer_t
+        - trigger: numeric_state
+          entity_id: climate.airco_slaapkamer_m
+          attribute: temperature
+          above: 21
+          variables:
+            entity: climate.airco_slaapkamer_m
+      conditions: "{{ states(entity) != 'cool' }}"
+      actions:
+        - action: climate.set_temperature
+          target:
+            entity_id: "{{entity}}"
+          data:
+            temperature: 19.5
