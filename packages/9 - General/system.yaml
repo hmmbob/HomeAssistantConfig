@@ -19,10 +19,6 @@ system_package:
           event: start
         - trigger: state
           entity_id: sun.sun
-          to: above_horizon
-        - trigger: state
-          entity_id: sun.sun
-          to: below_horizon
       actions:
         - if: "{{ is_state('sun.sun', 'below_horizon')}}"
           then:
@@ -83,29 +79,6 @@ system_package:
                 - action: "URI"
                   title: "Open Changelog"
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
-        - action: persistent_notification.create
-          data:
-            notification_id: update_pending
-            title: Upgrade time!
-            message: >
-              There is an upgrade for Home Assistant container pending!
-              Version {{ states('sensor.latest_version') }} just got released!
-              [Changelog](https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}})
-
-    - alias: "Verwijder de Home Assistant update melding als we HA bijgewerkt hebben"
-      id: system_clear_update_available_notification
-      description: Clear notification of Home Assistant update available
-      triggers:
-        - trigger: homeassistant
-          event: start
-      conditions:
-        - condition: template
-          value_template: >
-            {{ states('sensor.latest_version') == states('sensor.current_version') }}
-      actions:
-        - action: persistent_notification.dismiss
-          data:
-            notification_id: update_pending
 
   script:
     light_group_toggle_helper:

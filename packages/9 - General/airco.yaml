@@ -1,4 +1,9 @@
 airco_package:
+  input_datetime:
+    time_turn_off_airco_livingroom:
+      name: Airco woonkamer uit
+      has_time: true
+
   timer:
     airco_mini_sleeptimer:
       restore: true
@@ -69,31 +74,74 @@ airco_package:
             hvac_mode: "off"
 
     ###########################################
-    ## Automatic shut down of kid's aircos    #
+    ## Automatic shut down of aircos          #
     ###########################################
-    - id: airco_kinderen_uit
-      alias: "Zet airco kinderen automatisch uit einde avond"
-      description: "Turn off kid's AC automatically so we won't forget"
+    - id: airco_automatisch_uit
+      alias: "Zet airco automatisch uit einde avond"
+      description: "Turn off ACs automatically so we won't forget"
       triggers:
         - trigger: time
           at: "23:00:00"
+          variables:
+            target: airco_children
+        - trigger: time
+          at: input_datetime.time_turn_off_airco
+          variables:
+            target: climate.airco_woonkamer
       actions:
-        - if:
-            - "{{ states('timer.airco_mini_sleeptimer') != 'active' }}"
-          then:
-            - action: climate.set_hvac_mode
-              target:
-                entity_id: climate.airco_slaapkamer_t
-              data:
-                hvac_mode: "off"
-        - if:
-            - "{{ states('timer.airco_puber_sleeptimer') != 'active' }}"
-          then:
-            - action: climate.set_hvac_mode
-              target:
-                entity_id: climate.airco_slaapkamer_m
-              data:
-                hvac_mode: "off"
+        - choose:
+            - conditions: "{{ target == 'airco_children' }}"
+              sequence:
+                - if:
+                    - "{{ states('timer.airco_mini_sleeptimer') != 'active' }}"
+                  then:
+                    - action: climate.set_hvac_mode
+                      target:
+                        entity_id: climate.airco_slaapkamer_t
+                      data:
+                        hvac_mode: "off"
+                - if:
+                    - "{{ states('timer.airco_puber_sleeptimer') != 'active' }}"
+                  then:
+                    - action: climate.set_hvac_mode
+                      target:
+                        entity_id: climate.airco_slaapkamer_m
+                      data:
+                        hvac_mode: "off"
+            - conditions: "{{ target == 'climate.airco_woonkamer' }}"
+              sequence:
+                - action: climate.set_hvac_mode
+                  target:
+                    entity_id: "{{target}}"
+                  data:
+                    hvac_mode: "off"
+
+    - id: turn_off_when_away
+      alias: "Zet de airco en verwarming uit als we weg zijn"
+      description: "Climate: Turn off heating when away"
+      triggers:
+        - trigger: state
+          entity_id: zone.home
+          to: "0"
+          for:
+            minutes: 30
+      actions:
+        - alias: "Turn off Tado devices that are on (and leave others in current state)"
+          action: climate.set_hvac_mode
+          data:
+            hvac_mode: auto
+          target:
+            entity_id: "{{ integration_entities('tado') | select('is_state', 'heat') | list }}"
+        - alias: "Turn off A/Cs"
+          action: climate.set_hvac_mode
+          data:
+            hvac_mode: "off"
+          target:
+            entity_id:
+              - climate.airco_master_bedroom
+              - climate.airco_slaapkamer_m
+              - climate.airco_slaapkamer_t
+              - climate.airco_woonkamer
 
     ###########################################
     ## Limit high setpoint of kids aircos     #

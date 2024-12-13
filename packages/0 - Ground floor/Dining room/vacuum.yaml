@@ -119,23 +119,8 @@ vacuum_package:
           target:
             entity_id: vacuum.rocky
 
-    - alias: "Verwijder notificaties als Rocky weer gedockt is"
-      id: vacuum_clear_messages_when_returned_to_dock
-      initial_state: "on"
-      triggers:
-        - trigger: state
-          entity_id: vacuum.rocky
-          from: "returning"
-          to: "docked"
-      actions:
-        - action: notify.mobile_devices_adults
-          data:
-            message: clear_notification
-            data:
-              tag: "vacuum"
-
     ##########################
-    ## Notifications
+    ## Vacuum notifications
     ##########################
     - alias: "Melding dat Rocky aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
@@ -153,6 +138,26 @@ vacuum_package:
             data:
               tag: vacuum
               notification_icon: mdi:robot-vacuum
+
+    - alias: "Verwijder notificaties van Rocky"
+      id: vacuum_clear_messages
+      initial_state: "on"
+      triggers:
+        - trigger: state
+          entity_id: sensor.rocky_vacuum_error
+          to: "none"
+        - trigger: state
+          entity_id: vacuum.rocky
+          from: "returning"
+          to: "docked"
+      actions:
+        - action: notify.mobile_devices_adults
+          data:
+            message: clear_notification
+            data:
+              tag: "vacuum"
+              ttl: 0
+              priority: high
 
     ##########################
     ## Capture errors
@@ -189,19 +194,3 @@ vacuum_package:
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
-
-    - alias: "Verwijder Rocky's foutmelding"
-      id: vacuum_clear_notification_error
-      description: Clear notification of Rocky error
-      triggers:
-        - trigger: state
-          entity_id: sensor.rocky_vacuum_error
-          to: "none"
-      actions:
-        - action: notify.mobile_devices_adults
-          data:
-            message: clear_notification
-            data:
-              tag: vacuum
-              ttl: 0
-              priority: high
