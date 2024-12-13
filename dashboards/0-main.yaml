@@ -129,7 +129,7 @@ cards:
                   perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_woonkamer
-                card_mod:
+                card_mod: &1st_button_style
                   style:
                     .: |
                       ha-card {
@@ -143,29 +143,11 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: climate.airco_woonkamer
-                icon: |-
-                  {% if is_state(entity, 'heat') %}
-                    mdi:fire
-                  {% elif is_state(entity, 'cool') %}
-                    mdi:snowflake
-                  {% elif is_state(entity, 'dry') %}
-                    mdi:water-percent
-                  {% else %}
-                    mdi:snowflake-off
-                  {% endif %}
-                icon_color: |-
-                  {% if is_state(entity, 'heat') %}
-                    orange
-                  {% elif is_state(entity, 'cool') %}
-                    blue
-                  {% elif is_state(entity, 'dry') %}
-                    orange
-                  {% else %}
-                    grey
-                  {% endif %}
+                icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
+                icon_color: "{{state_attr('sensor.template_airco_woonkamer_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod:
+                card_mod: &2nd_button_style
                   style: |
                     ha-card {
                       width: 66px;
@@ -181,7 +163,7 @@ cards:
                 icon: mdi:scent
                 icon_color: |-
                   {{ "green" if is_state('switch.genie', 'on') else "grey" }}
-                card_mod:
+                card_mod: &3rd_button_style
                   style: |
                     ha-card {
                       width: 66px;
@@ -197,7 +179,7 @@ cards:
                 icon: mdi:pine-tree
                 icon_color: >
                   {{ "green" if is_state('switch.kerstboom', 'on') else "grey" }}
-                card_mod:
+                card_mod: &4th_button_style
                   style: |
                     ha-card {
                       width: 66px;
@@ -264,86 +246,28 @@ cards:
                   perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_eetkamer
-                card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 66%;
-                        top: -155px;
-                      }
-                      :host {
-                        --mush-icon-size: 40px;
-                      }
+                card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.airco_woonkamer
-                icon: |-
-                  {% if is_state(entity, 'heat') %}
-                    mdi:fire
-                  {% elif is_state(entity, 'cool') %}
-                    mdi:snowflake
-                  {% elif is_state(entity, 'dry') %}
-                    mdi:water-percent
-                  {% else %}
-                    mdi:snowflake-off
-                  {% endif %}
-                icon_color: |-
-                  {% if is_state(entity, 'heat') %}
-                    orange
-                  {% elif is_state(entity, 'cool') %}
-                    blue
-                  {% elif is_state(entity, 'dry') %}
-                    orange
-                  {% else %}
-                    grey
-                  {% endif %}
+                icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
+                icon_color: "{{state_attr('sensor.template_airco_woonkamer_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/dining-room
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -163px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *3rd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/dining-room
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -167px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *4th_button_style
 
       ###########################
       # 2nd row of room cards   #
@@ -406,17 +330,7 @@ cards:
                   perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_salon
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -155px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.salon
                 icon: mdi:radiator
@@ -424,51 +338,21 @@ cards:
                   {{ "orange" if is_state(entity, 'heat') else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/salon
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -163px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *3rd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/salon
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -167px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *4th_button_style
           ### Room card MBR ###
           - type: custom:vertical-stack-in-card
             card_mod:
@@ -544,73 +428,25 @@ cards:
 
               - type: custom:mushroom-template-card
                 entity: climate.airco_master_bedroom
-                icon: |-
-                  {% if is_state(entity, 'heat') %}
-                    mdi:fire
-                  {% elif is_state(entity, 'cool') %}
-                    mdi:snowflake
-                  {% elif is_state(entity, 'dry') %}
-                    mdi:water-percent
-                  {% else %}
-                    mdi:snowflake-off
-                  {% endif %}
-                icon_color: |-
-                  {% if is_state(entity, 'heat') %}
-                    orange
-                  {% elif is_state(entity, 'cool') %}
-                    blue
-                  {% elif is_state(entity, 'dry') %}
-                    orange
-                  {% else %}
-                    grey
-                  {% endif %}
+                icon: "{{states('sensor.template_airco_mbr_icon')}}"
+                icon_color: "{{state_attr('sensor.template_airco_mbr_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/mbr
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -163px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *3rd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/mbr
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -167px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *4th_button_style
 
       ###########################
       # 3rd row of room cards   #
@@ -674,51 +510,14 @@ cards:
                   perform_action: script.light_group_toggle_helper
                   data:
                     group: group.lampen_pubercave
-                card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 66%;
-                        top: -155px;
-                      :host {
-                        --mush-icon-size: 40px;
-                      }
+                card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.airco_slaapkamer_m
-                icon: |-
-                  {% if is_state(entity, 'heat') %}
-                    mdi:fire
-                  {% elif is_state(entity, 'cool') %}
-                    mdi:snowflake
-                  {% elif is_state(entity, 'dry') %}
-                    mdi:water-percent
-                  {% else %}
-                    mdi:snowflake-off
-                  {% endif %}
-                icon_color: |-
-                  {% if is_state(entity, 'heat') %}
-                    orange
-                  {% elif is_state(entity, 'cool') %}
-                    blue
-                  {% elif is_state(entity, 'dry') %}
-                    orange
-                  {% else %}
-                    grey
-                  {% endif %}
+                icon: "{{states('sensor.template_airco_slaapkamer_m_icon')}}"
+                icon_color: "{{state_attr('sensor.template_airco_slaapkamer_m_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 entity: binary_sensor.is_pubercave_pc_on
                 icon: mdi:desktop-classic
@@ -872,39 +671,11 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: climate.airco_slaapkamer_t
-                icon: |-
-                  {% if is_state(entity, 'heat') %}
-                    mdi:fire
-                  {% elif is_state(entity, 'cool') %}
-                    mdi:snowflake
-                  {% elif is_state(entity, 'dry') %}
-                    mdi:water-percent
-                  {% else %}
-                    mdi:snowflake-off
-                  {% endif %}
-                icon_color: |-
-                  {% if is_state(entity, 'heat') %}
-                    orange
-                  {% elif is_state(entity, 'cool') %}
-                    blue
-                  {% elif is_state(entity, 'dry') %}
-                    orange
-                  {% else %}
-                    grey
-                  {% endif %}
+                icon: "{{states('sensor.template_airco_slaapkamer_t_icon')}}"
+                icon_color: "{{state_attr('sensor.template_airco_slaapkamer_t_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 entity: binary_sensor.minicave_pc
                 icon: mdi:desktop-classic
@@ -1026,16 +797,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 66%;
-                        top: -155px;
-                      :host {
-                        --mush-icon-size: 40px;
-                      }
+                card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.kantoor
                 icon: mdi:radiator
@@ -1043,51 +805,21 @@ cards:
                   {{ "orange" if is_state(entity, 'heat') else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -163px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *3rd_button_style
               - type: custom:mushroom-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -167px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *4th_button_style
           ### Room card other ###
           - type: custom:vertical-stack-in-card
             card_mod:
@@ -1145,16 +877,7 @@ cards:
                   data: {}
                   target:
                     entity_id: light.badkamer
-                card_mod:
-                  style:
-                    .: |
-                      ha-card {
-                        width: 66px;
-                        margin-left: 66%;
-                        top: -155px;
-                      :host {
-                        --mush-icon-size: 40px;
-                      }
+                card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 icon: mdi:account-voice
                 icon_color: grey
@@ -1173,17 +896,7 @@ cards:
                           - entity: script.play_tts_message
                             icon: mdi:account-voice
                             name: "Speel bericht af"
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -159px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
                 entity: fan.open_air_mini
                 icon: mdi:fan
@@ -1265,6 +978,9 @@ cards:
                       top: -163px;
                       background: none;
                     }
+                    :host {
+                      --mush-icon-size: 40px;
+                    }
                     ha-state-icon {
                     {% if is_state(config.entity, 'on')%}
                         animation: rotate {{0.5 / (state_attr(config.entity, 'percentage')/100) | round(1, default=1)}}s infinite linear }
@@ -1273,23 +989,10 @@ cards:
                       100% { transform: rotate(359deg); }
                     {% endif %}
                     }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
 
               - type: custom:mushroom-template-card
                 entity: group.sfeerverlichting_voorzijde
                 icon: mdi:string-lights
                 icon_color: |-
                   {{ "orange" if is_state('group.sfeerverlichting_voorzijde', 'on') else "grey" }}
-                card_mod:
-                  style: |
-                    ha-card {
-                      width: 66px;
-                      margin-left: 66%;
-                      top: -167px;
-                      background: none;
-                    }
-                    :host {
-                      --mush-icon-size: 40px;
-                    }
+                card_mod: *4th_button_style

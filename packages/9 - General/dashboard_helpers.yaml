@@ -1,0 +1,35 @@
+dashboard_helpers_package:
+  template:
+    - sensor:
+        - unique_id: airco_woonkamer_icon
+          state: >-
+            {% from 'airco_helper.jinja' import airco_icon %}
+            {{ airco_icon("climate.airco_woonkamer") }}
+          attributes:
+            color: >-
+              {% from 'airco_helper.jinja' import airco_icon %}
+              {{ airco_icon("climate.airco_woonkamer","color") }}
+        - unique_id: airco_mbr_icon
+          state: >-
+            {% from 'airco_helper.jinja' import airco_icon %}
+            {{ airco_icon("climate.airco_master_bedroom") }}
+          attributes:
+            color: >-
+              {% from 'airco_helper.jinja' import airco_icon %}
+              {{ airco_icon("climate.airco_master_bedroom","color") }}
+        - unique_id: airco_slaapkamer_m_icon
+          state: >-
+            {% from 'airco_helper.jinja' import airco_icon %}
+            {{ airco_icon("climate.airco_slaapkamer_m") }}
+          attributes:
+            color: >-
+              {% from 'airco_helper.jinja' import airco_icon %}
+              {{ airco_icon("climate.airco_slaapkamer_m","color") }}
+        - unique_id: airco_slaapkamer_t_icon
+          state: >-
+            {% from 'airco_helper.jinja' import airco_icon %}
+            {{ airco_icon("climate.airco_slaapkamer_t") }}
+          attributes:
+            color: >-
+              {% from 'airco_helper.jinja' import airco_icon %}
+              {{ airco_icon("climate.airco_slaapkamer_t","color") }}
