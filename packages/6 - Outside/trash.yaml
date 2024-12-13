@@ -1,11 +1,4 @@
 trash_package:
-  binary_sensor:
-    - platform: tod
-      name: Early Morning
-      after: "00:00"
-      before: "12:00"
-      unique_id: early_morning_sensor
-
   input_boolean:
     notify_trash:
       name: "Push-meldingen over afval"
