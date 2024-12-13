@@ -22,7 +22,7 @@ ventilation_package:
           target:
             entity_id: timer.fan_runtime
           data:
-            duration: "{{'00:30:00' if event in ['brightness_move_up','1_long_press'] else '00:15:00'}}"
+            duration: "{{'01:00:00' if event in ['brightness_move_up','1_long_press'] else '00:30:00'}}"
 
     - id: ventilation_boost_speed
       alias: "Stel een hogere ventilatiesnelheid in als de timer start"
@@ -73,11 +73,14 @@ ventilation_package:
             entity_id: timer.fan_runtime
         - alias: "Checking what time it is..."
           choose:
-            - alias: "It's between 7hrs and 09:00"
+            - alias: "It's between 7hrs and 09:00 and on a working day"
               conditions:
                 - condition: time
                   after: "06:59:59"
                   before: "09:00:00"
+                - condition: state
+                  entity_id: binary_sensor.werkdag
+                  state: "on"
               sequence:
                 - alias: Boost during morning hours because of showering
                   action: fan.set_percentage
