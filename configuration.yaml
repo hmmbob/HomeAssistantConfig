@@ -175,14 +175,16 @@ zeroconf:
 #################################################################
 ## Components not using includes
 #################################################################
+battery_notes:
+  default_battery_low_threshold: 20
+  round_battery: true
+
 command_line:
   notify:
     # Notify bogus service
     # Used to let automations not error out
     name: bogus
     command: ":" # bash no-op command
-
-ffmpeg: # Used by doorbell
 
 sonos:
   media_player:

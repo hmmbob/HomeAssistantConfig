@@ -1,10 +1,9 @@
 batteries_package:
   automation:
-    - id: "1721758402199"
-      alias: Low Battery Notifications & Actions
-      description: ""
-      mode: restart
-      max_exceeded: silent
+    - id: battery_low_check
+      alias: Wekelijkse check voor lege batterijen
+      description: Check whether a battery is low
+      mode: single
       triggers:
         - trigger: time
           at: "12:00:00"
@@ -12,119 +11,67 @@ batteries_package:
         - condition: time
           weekday:
             - sat
+      action:
+        - service: battery_notes.check_battery_low
+
+    - id: battery_low_notification
+      alias: Bericht over lege batterijen
+      description: Battery Low Notification with auto dismiss
+      mode: queued
+      variables:
+        title: "{{ trigger.event.data.device_name }}"
+        message: >-
+          🪫 {{ trigger.event.data.device_name }} 
+          {%- if trigger.event.data.battery_level is defined -%}
+            heeft een batterijniveau van {{trigger.event.data.battery_level}}%.
+          {%- else -%}
+            is leeg.
+          {%- endif %}
+          Je hebt {{trigger.event.data.battery_quantity }}× 
+          {{trigger.event.data.battery_type }} nodig om de batterij te vervangen.
+        id: "{{ trigger.event.data.device_id }}"
+        navigate: "/config/devices/device/{{id}}"
+      triggers:
+        - trigger: event
+          event_type: battery_notes_battery_threshold
+          event_data:
+            battery_low: true
+          id: low
+          alias: Battery went low
+        - trigger: event
+          event_type: battery_notes_battery_threshold
+          event_data:
+            battery_low: false
+          id: high
+          alias: Battery went high
       actions:
         - choose:
-            - alias: Low batteries have been found
-              conditions:
-                - condition: template
-                  value_template: "{{ easy_notify_message != '' }}"
+            - conditions:
+                - condition: trigger
+                  id: low
               sequence:
                 - action: notify.mobile_app_sm_a556b
                   data:
-                    title: Low Battery Notification
-                    message: "{{easy_notify_message}}"
+                    title: "{{title}}"
+                    message: "{{message}}"
+                    data:
+                      notification_icon: mdi:battery-alert-variant
+                      clickAction: "{{navigate}}"
+                      tag: "{{id}}"
                 - action: persistent_notification.create
                   data:
-                    title: "\U0001FAAB {{notify_title}}"
-                    message: "{{easy_notify_message}}"
-            - alias: No low batteries have been found
-              conditions:
-                - condition: template
-                  value_template: "{{ easy_notify_message == '' }}"
+                    title: "{{title}}"
+                    notification_id: "{{id}}"
+                    message: "{{message}} {{ '\n\n' -}} [Link naar apparaat pagina]({{navigate}})"
+            - conditions:
+                - condition: trigger
+                  id: high
               sequence:
                 - action: notify.mobile_app_sm_a556b
                   data:
-                    title: Low Battery Notification
-                    message: YES! All batteries are okay :)
-                - action: persistent_notification.create
+                    message: "clear_notification"
+                    data:
+                      tag: "{{id}}"
+                - action: persistent_notification.dismiss
                   data:
-                    title: "\U0001FAAB {{notify_title}}"
-                    message: YES! All batteries are okay :)
-      variables:
-        battery_level: 20
-        exclude_sensors:
-          entity_id:
-            - sensor.sm_a236b_battery_level
-            - sensor.sm_a336b_battery_level
-            - sensor.sm_a556b_battery_level
-            - sensor.schaduwspeler_batterijniveau
-            - sensor.tucson_ev_battery_level
-            - sensor.rocky_batterij
-            - sensor.galaxy_watch4_ty3d_battery_level
-            - sensor.galaxy_watch6_classic_jtad_battery_level
-        notify_title: Low Battery Notification
-        all_sensors: '{% set low_battery = namespace(sensors=[]) %}
-          {% for state in states.sensor | rejectattr(''attributes.device_class'', ''undefined'') | selectattr(''attributes.device_class'', ''=='', ''battery'') %}
-          {% if 0 <= state.state | int(-1) <= battery_level | int and not state.entity_id in exclude_sensors.entity_id %}
-          {% set low_battery.sensors = low_battery.sensors + [state.name ~ '' @ '' ~ state.state ~ ''%''] %}
-          {% endif %}
-          {% endfor %}
-          {% for state in states.binary_sensor | rejectattr(''attributes.device_class'', ''undefined'') | selectattr(''attributes.device_class'', ''=='', ''battery'')
-          | selectattr(''state'', ''in'', [''on'', ''low'']) %}
-          {% if not state.entity_id in exclude_sensors.entity_id %}
-          {% set low_battery.sensors = low_battery.sensors + [state.name ~ '' is low'' ~ ''!''] %}
-          {% endif %}
-          {% endfor %}
-          {% for state in states.sensor | rejectattr(''attributes.device_class'', ''undefined'') | selectattr(''attributes.device_class'', ''=='', ''battery'') %}
-          {% if "unavailable" in state | string and not state.entity_id in exclude_sensors.entity_id %}
-          {% set low_battery.sensors = low_battery.sensors + [state.name ~ '' is '' ~ state.state ~ ''!''] %}
-          {% endif %}
-          {% endfor %}
-          {% for state in states.binary_sensor | rejectattr(''attributes.device_class'', ''undefined'')
-          | selectattr(''attributes.device_class'', ''=='', ''battery'') | selectattr(''state'', ''in'', ''unavailable'') %}
-          {% if not state.entity_id in exclude_sensors.entity_id %}
-          {% set low_battery.sensors = low_battery.sensors + [state.name ~ '' is '' ~ state.state ~ ''!''] %}
-          {% endif %}
-          {% endfor %}
-          {{low_battery.sensors | sort(attribute=''battery_level'') | join('', '')}}'
-        sensors: "{% set low_battery = namespace(sensors=[]) %}
-          {% for state in states.sensor | rejectattr('attributes.device_class', 'undefined') | selectattr('attributes.device_class', '==', 'battery') %}
-          {% if 0 <= state.state | int(-1) <= battery_level | int and not state.entity_id in exclude_sensors.entity_id %}
-          {% set low_battery.sensors = low_battery.sensors + [state.name ~ ' @ ' ~ state.state ~ '%'] %}
-          {% endif %}
-          {% endfor %}
-          {% for state in states.binary_sensor | rejectattr('attributes.device_class', 'undefined') | selectattr('attributes.device_class', '==', 'battery')
-          | selectattr('state', 'in', ['on', 'low']) %}
-          {% if not state.entity_id in exclude_sensors.entity_id %}
-          {% set low_battery.sensors = low_battery.sensors + [state.name ~ ' is low' ~ '!'] %}
-          {% endif %}
-          {% endfor %}
-          {{low_battery.sensors |sort(attribute='battery_level') | join(', ')}}"
-        unavailable_sensors:
-          "{% set low_battery = namespace(sensors=[]) %} {% for state
-          in states.sensor | rejectattr('attributes.device_class', 'undefined') | selectattr('attributes.device_class',
-          '==', 'battery') %}\n  {% if \"unavailable\" in state | string and not state.entity_id
-          in exclude_sensors.entity_id %}\n    {% set low_battery.sensors = low_battery.sensors
-          + [state.name ~ ' is ' ~ state.state ~ '!'] %}\n  {% endif %}\n{% endfor %}
-          {% for state in states.binary_sensor | rejectattr('attributes.device_class',
-          'undefined') | selectattr('attributes.device_class', '==', 'battery') | selectattr('state',
-          'in', 'unavailable') %}\n  {% if not state.entity_id in exclude_sensors.entity_id
-          %}\n    {% set low_battery.sensors = low_battery.sensors + [state.name ~ ' is
-          ' ~ state.state ~ '!'] %}\n  {% endif %}\n{% endfor %} {{low_battery.sensors
-          |sort(attribute='battery_level') | join(', ')}}"
-        sensors_names:
-          "{% set low_battery = namespace(sensors=[]) %} {% for state in
-          states.sensor | rejectattr('attributes.device_class', 'undefined') | selectattr('attributes.device_class',
-          '==', 'battery') %}\n  {% if 0 <= state.state | int(-1) <= battery_level | int
-          and not state.entity_id in exclude_sensors.entity_id %}\n    {% set low_battery.sensors
-          = low_battery.sensors + [state.name] %}\n  {% endif %}\n{% endfor %} {% for
-          state in states.binary_sensor | rejectattr('attributes.device_class', 'undefined')
-          | selectattr('attributes.device_class', '==', 'battery') | selectattr('state',
-          'in', ['on', 'low']) %}\n  {% if not state.entity_id in exclude_sensors.entity_id
-          %}\n    {% set low_battery.sensors = low_battery.sensors + [state.name] %}\n
-          \ {% endif %}\n{% endfor %} {{low_battery.sensors | sort(attribute='battery_level')
-          | join(', ')}}"
-        unavailable_sensors_names:
-          "{% set low_battery = namespace(sensors=[]) %} {% for
-          state in states.sensor | rejectattr('attributes.device_class', 'undefined')
-          | selectattr('attributes.device_class', '==', 'battery') %}\n  {% if \"unavailable\"
-          in state | string and not state.entity_id in exclude_sensors.entity_id %}\n
-          \   {% set low_battery.sensors = low_battery.sensors + [state.name] %}\n  {%
-          endif %}\n{% endfor %} {% for state in states.binary_sensor | rejectattr('attributes.device_class',
-          'undefined') | selectattr('attributes.device_class', '==', 'battery') | selectattr('state',
-          'in', 'unavailable') %}\n  {% if not state.entity_id in exclude_sensors.entity_id
-          %}\n    {% set low_battery.sensors = low_battery.sensors + [state.name] %}\n
-          \ {% endif %}\n{% endfor %} {{low_battery.sensors |sort(attribute='battery_level')
-          | join(', ')}}"
-        easy_notify_message: "{% set low_battery = namespace(sensors=[]) %}
-          {{all_sensors|replace(', ', '\\n')}}"
+                    notification_id: "{{id}}"
