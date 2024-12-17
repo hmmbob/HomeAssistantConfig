@@ -91,7 +91,7 @@ lovelace:
     lovelace-map:
       mode: yaml
       filename: dashboards/map/map.yaml
-      title: Map
+      title: Kaart
       icon: mdi:map
       show_in_sidebar: true
       require_admin: false

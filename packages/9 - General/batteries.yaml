@@ -23,7 +23,7 @@ batteries_package:
         message: >-
           🪫 {{ trigger.event.data.device_name }} 
           {%- if trigger.event.data.battery_level is defined -%}
-            heeft een batterijniveau van {{trigger.event.data.battery_level}}%.
+              heeft een batterijniveau van {{trigger.event.data.battery_level}}%.
           {%- else -%}
             is leeg.
           {%- endif %}
