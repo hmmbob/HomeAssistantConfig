@@ -8,3 +8,62 @@ lights_salon_package:
         - light.staande_lamp_switch
         - light.tv_kastje
         - switch.grijze_lamp
+
+  automation:
+    - id: "salon_remote_control"
+      alias: "Schakelaar salon"
+      description: >
+        Control some lights with an Aqara H1 double wireless remote switch (WRS-R02 / WXKG15LM)
+      mode: restart
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: event.schakelaar_salon_action
+          to: ~
+          variables:
+            event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
+      actions:
+        - choose:
+            - conditions: "{{ event == 'single_left' }}"
+              sequence:
+                - action: light.toggle
+                  target:
+                    entity_id:
+                      - light.staande_lamp_switch
+                      - light.grijze_lamp
+            - conditions: "{{ event == 'single_right' }}"
+              sequence:
+                - action: light.toggle
+                  target:
+                    entity_id:
+                      - light.tv_kastje
+            - conditions: "{{ event == 'single_both' }}"
+              sequence: []
+            - conditions: "{{ event == 'double_left' }}"
+              sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: light.salon
+                  data:
+                    brightness_pct: 100
+            - conditions: "{{ event == 'double_right' }}"
+              sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: light.salon
+                  data:
+                    brightness_pct: 25
+            - conditions: "{{ event == 'double_both' }}"
+              sequence: []
+            - conditions: "{{ event == 'triple_left' }}"
+              sequence: []
+            - conditions: "{{ event == 'triple_right' }}"
+              sequence: []
+            - conditions: "{{ event == 'triple_both' }}"
+              sequence: []
+            - conditions: "{{ event == 'hold_left' }}"
+              sequence: []
+            - conditions: "{{ event == 'hold_right' }}"
+              sequence: []
+            - conditions: "{{ event == 'hold_both' }}"
+              sequence: []
