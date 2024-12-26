@@ -1,13 +1,19 @@
 lights_salon_package:
   group:
     lampen_salon:
-      name: Verlichting Salon
+      name: Alle lampen salon
       icon: mdi:sofa-single
       entities:
         - light.salon
         - light.staande_lamp_switch
         - light.tv_kastje
-        - switch.grijze_lamp
+        - light.grijze_lamp
+    sfeerverlichting_salon:
+      name: Sfeerverlichting salon
+      icon: mdi:sofa-single
+      entities:
+        - light.staande_lamp_switch
+        - light.grijze_lamp
 
   automation:
     - id: "salon_remote_control"
@@ -26,11 +32,9 @@ lights_salon_package:
         - choose:
             - conditions: "{{ event == 'single_left' }}"
               sequence:
-                - action: light.toggle
-                  target:
-                    entity_id:
-                      - light.staande_lamp_switch
-                      - light.grijze_lamp
+                - action: script.light_group_toggle_helper
+                  data:
+                    group: group.sfeerverlichting_salon
             - conditions: "{{ event == 'single_right' }}"
               sequence:
                 - action: light.toggle
