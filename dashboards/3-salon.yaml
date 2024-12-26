@@ -68,6 +68,8 @@ cards:
           Ingesteld op {{ state_attr('climate.kacheltje','heater.target_temperature') }} °C, 
           momenteel {{ states('sensor.kacheltje_temperature') }} °C
         icon: mdi:thermostat
+        icon_color: |-
+          {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
         entity: climate.kacheltje
         tap_action:
           action: more-info
@@ -84,6 +86,8 @@ cards:
           Ingesteld op {{ state_attr('climate.salon','temperature') }} °C, 
           momenteel {{ states('sensor.salon_temperatuur') |round(1) }} °C
         icon: mdi:thermostat
+        icon_color: |-
+          {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.salon
         tap_action:
           action: more-info

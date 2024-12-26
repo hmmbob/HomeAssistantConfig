@@ -340,11 +340,12 @@ cards:
                   action: more-info
                 card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
-                icon: none
-                icon_color: none
+                entity: climate.kacheltje
+                icon: mdi:heat-wave
+                icon_color: |-
+                  {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
                 tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/salon
+                  action: more-info
                 card_mod: *3rd_button_style
               - type: custom:mushroom-template-card
                 icon: none

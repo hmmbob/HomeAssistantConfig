@@ -51,6 +51,8 @@ cards:
           Ingesteld op {{ state_attr('climate.master_bedroom','temperature') }} °C, 
           momenteel {{ states('sensor.master_bedroom_temperatuur') |round(1) }} °C
         icon: mdi:thermostat
+        icon_color: |-
+          {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.master_bedroom
         tap_action:
           action: more-info
