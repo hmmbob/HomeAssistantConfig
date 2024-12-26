@@ -75,3 +75,21 @@ batteries_package:
                 - action: persistent_notification.dismiss
                   data:
                     notification_id: "{{id}}"
+
+    - id: battery_replaced
+      alias: Battery Replaced
+      mode: queued
+      triggers:
+        - trigger: event
+          event_type: battery_notes_battery_increased
+      actions:
+        - action: battery_notes.set_battery_replaced
+          data:
+            device_id: "{{ trigger.event.data.device_id }}"
+            source_entity_id: "{{ trigger.event.data.source_entity_id }}"
+        - action: persistent_notification.create
+          data:
+            title: |
+              {{ trigger.event.data.device_name }} Battery Increased
+            message: >
+              The device has increased its battery level, I've marked it as replaced
