@@ -90,6 +90,8 @@ system_package:
       fields:
         group:
           description: "The light group to turn on or off"
+          example: "group.lampen_eetkamer"
+          required: true
       sequence:
         - condition: "{{ true if group is defined and group != none else false }}"
         - if:
