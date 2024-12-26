@@ -52,6 +52,10 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "Tafel dekken"
+  switch.kerstboom:
+    name: "Kerstboom"
+    expose: true
+    room: "Woonkamer"
 
   ## Salon
   switch.grijze_lamp:

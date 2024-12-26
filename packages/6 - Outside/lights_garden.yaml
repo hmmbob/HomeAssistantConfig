@@ -48,8 +48,6 @@ lights_garden_package:
       alias: "Zet de tuinverlichting aan als ik thuis kom"
       mode: single
       max_exceeded: silent
-      trace:
-        stored_traces: 20
       triggers:
         - trigger: state
           entity_id: binary_sensor.poort_contact

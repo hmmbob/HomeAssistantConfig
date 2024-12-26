@@ -239,7 +239,18 @@ cards:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
-            content: "Radio 538"
+            content: "Top 2000"
+            icon_color: red
+            icon: mdi:numeric-2
+            tap_action:
+              action: perform-action
+              perform_action: media_player.select_source
+              target:
+                entity_id: media_player.sonos_woonkamer
+              data:
+                source: NPO Radio 2
+          - type: template
+            content: "538"
             icon_color: deep-purple
             icon: mdi:numeric-5
             tap_action:
@@ -261,7 +272,7 @@ cards:
               data:
                 source: Qmusic
           - type: template
-            content: "Q - Foute uur"
+            content: "Q Foute uur"
             icon_color: orange
             icon: mdi:alpha-q
             tap_action:
@@ -272,7 +283,7 @@ cards:
               data:
                 source: Qmusic Het Foute Uur
           - type: template
-            content: " Remix Party 2024"
+            content: "Remix Party"
             icon: mdi:shuffle-variant
             icon:color: blue
             tap_action:
