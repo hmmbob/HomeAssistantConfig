@@ -68,11 +68,6 @@ cards:
                           - temperature
                           - illuminance
           - type: template
-            entity: switch.kerstboom
-            icon: mdi:pine-tree
-            icon_color: |-
-              {{ "green" if is_state('switch.kerstboom', 'on') else "grey" }}
-          - type: template
             entity: vacuum.rocky
             icon: mdi:robot-vacuum
             icon_color: >-
@@ -238,17 +233,6 @@ cards:
 
       - type: custom:mushroom-chips-card
         chips:
-          - type: template
-            content: "Top 2000"
-            icon_color: red
-            icon: mdi:numeric-2
-            tap_action:
-              action: perform-action
-              perform_action: media_player.select_source
-              target:
-                entity_id: media_player.sonos_woonkamer
-              data:
-                source: NPO Radio 2
           - type: template
             content: "538"
             icon_color: deep-purple

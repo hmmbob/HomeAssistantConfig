@@ -58,11 +58,6 @@ cards:
                       - temperature
                       - illuminance
           - type: template
-            entity: switch.kerstboom
-            icon: mdi:pine-tree
-            icon_color: |-
-              {{ "green" if is_state('switch.kerstboom', 'on') else "grey" }}
-          - type: template
             entity: vacuum.rocky
             icon: mdi:robot-vacuum
             icon_color: >-

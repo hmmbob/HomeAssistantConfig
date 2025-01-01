@@ -175,10 +175,11 @@ cards:
                         --mush-icon-size: 40px;
                       }
               - type: custom:mushroom-template-card
-                entity: switch.kerstboom
-                icon: mdi:pine-tree
-                icon_color: >
-                  {{ "green" if is_state('switch.kerstboom', 'on') else "grey" }}
+                icon: none
+                icon_color: none
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/woonkamer
                 card_mod: &4th_button_style
                   style: |
                     ha-card {
