@@ -1,0 +1,45 @@
+wc_beneden_package:
+  automation:
+    - id: lights_wc_beneden
+      alias: "Zet de verlichting van de WC beneden aan of uit"
+      mode: restart
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: binary_sensor.pir_wc_beneden_occupancy
+          to: "on"
+          from: "off"
+          variables:
+            action: turn_on
+        - trigger: state
+          entity_id: binary_sensor.pir_wc_beneden_occupancy
+          to: "off"
+          from: "on"
+          variables:
+            action: turn_off
+      conditions: []
+      actions:
+        - alias: "Lamp WC beneden bedienen..."
+          action: switch.{{ action }}
+          target:
+            entity_id: switch.wc_beneden
+
+    - id: ventilation_wc_beneden
+      alias: "Ventilatie aan als iemand lang op de WC beneden zit"
+      triggers:
+        - trigger: state
+          entity_id: switch.wc_beneden
+          to: "on"
+          for: "00:03:00"
+      conditions:
+        - alias: "Als de ventilatie timer nog niet loopt"
+          condition: state
+          entity_id: timer.fan_runtime
+          state: "idle"
+      actions:
+        - alias: "Afzuiging aanzetten"
+          action: timer.start
+          target:
+            entity_id: timer.fan_runtime
+          data:
+            duration: "00:10:00"
