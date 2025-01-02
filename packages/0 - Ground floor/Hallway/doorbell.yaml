@@ -21,7 +21,7 @@ doorbell_package:
       actions:
         - service: camera.snapshot
           target:
-            entity_id: camera.voordeur_vloeiend
+            entity_id: camera.voordeur_duidelijk
           data:
             filename: /config/www/doorbell/snapshot-doorbell.jpg
         - parallel:

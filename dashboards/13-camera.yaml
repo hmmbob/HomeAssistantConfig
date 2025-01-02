@@ -26,4 +26,4 @@ cards:
 
   - type: custom:frigate-card
     cameras:
-      - camera_entity: camera.voordeur_vloeiend
+      - camera_entity: camera.voordeur_duidelijk
