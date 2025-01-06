@@ -32,6 +32,28 @@ cards:
             content: |-
               {{ expand(state_attr('group.lampen_salon', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
+          - type: template
+            entity: plant.palm
+            icon: mdi:sprout
+            icon_color: |-
+              {{ "green" if is_state('plant.palm', 'ok') else "red" }}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Planten eetkamer
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:flower-card
+                        entity: plant.palm
+                        battery_sensor: sensor.xiaomi_plant_sensor_7_battery
+                        show_bars:
+                          - moisture
+                          - conductivity
+                          - temperature
+                          - illuminance
 
       - type: horizontal-stack
         cards:

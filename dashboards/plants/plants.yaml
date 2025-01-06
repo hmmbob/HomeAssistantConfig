@@ -30,8 +30,8 @@ views:
       - type: vertical-stack
         cards:
           - type: custom:flower-card
-            entity: plant.dracaena
-            battery_sensor: sensor.xiaomi_plant_sensor_1_battery
+            entity: plant.rubberboom
+            battery_sensor: sensor.xiaomi_plant_sensor_6_battery
             show_bars:
               - moisture
               - conductivity
@@ -48,8 +48,17 @@ views:
               - illuminance
 
           - type: custom:flower-card
-            entity: plant.sansevieria
-            battery_sensor: sensor.xiaomi_plant_sensor_3_battery
+            entity: plant.paradijsvogelplant
+            battery_sensor: sensor.xiaomi_plant_sensor_8_battery
+            show_bars:
+              - moisture
+              - conductivity
+              - temperature
+              - illuminance
+
+          - type: custom:flower-card
+            entity: plant.aglaonema
+            battery_sensor: sensor.xiaomi_plant_sensor_9_battery
             show_bars:
               - moisture
               - conductivity
@@ -66,8 +75,17 @@ views:
               - illuminance
 
           - type: custom:flower-card
-            entity: plant.rubberboom
-            battery_sensor: sensor.xiaomi_plant_sensor_6_battery
+            entity: plant.dracaena
+            battery_sensor: sensor.xiaomi_plant_sensor_1_battery
+            show_bars:
+              - moisture
+              - conductivity
+              - temperature
+              - illuminance
+
+          - type: custom:flower-card
+            entity: plant.sansevieria
+            battery_sensor: sensor.xiaomi_plant_sensor_3_battery
             show_bars:
               - moisture
               - conductivity
