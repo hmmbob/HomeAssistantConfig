@@ -25,7 +25,9 @@ lights_salon_package:
       triggers:
         - trigger: state
           entity_id: event.schakelaar_salon_action
-          to: ~
+          not_from:
+            - unavailable
+            - unknown
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:

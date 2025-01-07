@@ -14,7 +14,9 @@ symfonisk_package:
       triggers:
         - trigger: state
           entity_id: event.afstandsbediening_sonos_action
-          to: ~
+          not_from:
+            - unavailable
+            - unknown
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:
