@@ -89,7 +89,7 @@ postcodeloterij_package:
             }}
           then:
             - alias: "Send notification"
-              action: notify.mobile_app_pixel_7_pro
+              action: notify.mobile_devices_adults
               data:
                 title: "🎁 Winnen doe je bij..."
                 message: "{{ prize_text_full }}"
