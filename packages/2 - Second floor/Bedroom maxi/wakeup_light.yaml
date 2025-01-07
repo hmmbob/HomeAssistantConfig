@@ -11,7 +11,7 @@ wakeup_light_maxi_package:
         - action: light.turn_on
           data:
             brightness_pct: 100
-            kelvin: 3500
+            color_temp_kelvin: 3500
           target:
             entity_id: light.sonoff_l1
         - action: light.turn_on
