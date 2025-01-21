@@ -4,7 +4,7 @@ lights_festive_season_package:
       name: Sfeerverlichting voorzijde
       icon: mdi:string-lights
       entities:
-        - switch.kerstversiering_afdak
+        # - switch.kerstversiering_afdak
         - switch.sfeerverlichting_tuin
 
   sensor:
@@ -13,9 +13,9 @@ lights_festive_season_package:
       default_state: "off"
       events:
         - start: "6:40"
-          end: "{{ states('sensor.sun_next_rising') | as_datetime + timedelta(minutes=30) }}"
+          end: "{{ state_attr('sun.sun','next_rising') | as_datetime + timedelta(minutes=30) }}"
           state: "on"
-        - start: "{{ states('sensor.sun_next_setting') | as_datetime - timedelta(hours=1) }}"
+        - start: "{{ state_attr('sun.sun','next_setting') | as_datetime - timedelta(hours=1) }}"
           end: "23:00"
           state: "on"
 

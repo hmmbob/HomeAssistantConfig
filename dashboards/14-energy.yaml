@@ -162,7 +162,7 @@ cards:
             filters:
               - fn: |-
                   ({xs, ys, meta, states, statistics, hass, vars}) => {
-                    const forecasts = states[states.length-1].attributes.charging_schedule;
+                    const forecasts = hass.states['sensor.ev_smart_charging_charging'].attributes.charging_schedule;
                     res = {
                       xs: forecasts.map(fc => fc["start"]),
                       ys: forecasts.map(fc => fc["value"]),

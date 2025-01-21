@@ -177,7 +177,7 @@ zeroconf:
 #################################################################
 battery_notes:
   battery_increase_threshold: 75
-  default_battery_low_threshold: 20
+  default_battery_low_threshold: 10
   round_battery: true
 
 command_line:
@@ -192,16 +192,6 @@ sonos:
     advertise_addr: !secret sonos_host
 
 notify:
-  - platform: tts
-    name: tts_woonkamer
-    tts_service: tts.microsoft_say
-    media_player: media_player.nest_hub_woonkamer
-
-  - platform: tts
-    name: tts_hele_huis
-    tts_service: tts.microsoft_say
-    media_player: media_player.hele_huis
-
   - platform: smtp
     name: "Email"
     sender: !secret smtp_sender
