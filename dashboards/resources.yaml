@@ -20,3 +20,17 @@
   type: module
 - url: /hacsfiles/battery-state-card/battery-state-card.js
   type: module
+
+### TSV dashboards
+- url: https://fonts.googleapis.com/css2?family=Oswald&display=swap
+  type: css
+- url: /hacsfiles/clock-weather-card/clock-weather-card.js
+  type: module
+- url: /hacsfiles/lovelace-layout-card/layout-card.js
+  type: module
+- url: /hacsfiles/lovelace-more-info-card/more-info-card.js
+  type: module
+- url: /hacsfiles/pqina-flip-clock-card/pqina-flip-clock-card.js
+  type: module
+- url: /hacsfiles/swipe-card/swipe-card.js
+  type: module

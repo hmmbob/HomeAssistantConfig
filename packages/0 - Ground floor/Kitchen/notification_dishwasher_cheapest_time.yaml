@@ -9,6 +9,28 @@ dishwasher_cheapest_time_package:
       name: Melding vaatwasser
       has_time: true
 
+  template:
+    - trigger:
+        # This generates triggers for all changes in the entity, both in its state and its attributes.
+        - trigger: state
+          entity_id: sensor.zonneplan_current_electricity_tariff
+        # This ensures the first data is filled.
+        - trigger: event
+          event_type: event_template_reloaded
+      sensor:
+        - name: "Vaatwasser goedkoopste tijd"
+          unique_id: vaatwasser_goedkoopste_tijd
+          state: >-
+            {% set sensor = "sensor.zonneplan_current_electricity_tariff" %}
+            {% set attr_all = "forecast" %}
+            {% set value_key = "electricity_price" %}
+            {% from "cheapest_energy_hours.jinja" import cheapest_energy_hours %}
+            {% set best_time = cheapest_energy_hours(sensor, attr_all=attr_all, value_key=value_key, 
+              time_format="time24", no_weight_points=2, weight=[4, 4, 4, 0], 
+              include_tomorrow=true, start="18:00", end="06:30") %}
+            {{ best_time }}
+          availability: "{{ 'sensor.zonneplan_current_electricity_tariff' | has_value }}"
+
   automation:
     - alias: "Melding met de goedkoopste uren om de vaatwasser te gebruiken"
       id: vaatwasser_melding
@@ -25,14 +47,7 @@ dishwasher_cheapest_time_package:
           action: notify.mobile_app_sm_a556b
           data:
             title: "Vaatwasser"
-            message: >-
-              {% set sensor = "sensor.zonneplan_current_electricity_tariff" %}
-              {% set attr_all = "forecast" %}
-              {% set value_key = "electricity_price" %}
-              {% from "cheapest_energy_hours.jinja" import cheapest_energy_hours %}
-              Het beste start je de vaatwasser om {{ cheapest_energy_hours(sensor, attr_all=attr_all, 
-                value_key=value_key, time_format="time24", no_weight_points=2, weight=[4, 4, 4, 0], 
-                include_tomorrow=true, start="18:00", end="06:30") }}
+            message: "Het beste start je de vaatwasser om {{states('sensor.vaatwasser_goedkoopste_tijd')}}"
             data:
               tag: "notification-dishwasher"
               notification_icon: mdi:dishwasher

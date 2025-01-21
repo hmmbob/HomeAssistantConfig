@@ -1,0 +1,72 @@
+####################
+# Batterij           #
+####################
+icon: mdi:tablet
+title: Panel maintenance
+path: panel-maintenance
+type: custom:vertical-layout
+cards:
+  - type: markdown ## Kiosk panel maintenance header
+    content: |
+      # Kiosk panel maintenance
+    card_mod:
+      style:
+        .: |
+          ha-card {
+          margin: 12px 14px -5px 14px;
+          box-shadow: none;
+          --ha-card-background: rgba(0, 0, 0, 0.0)
+          }
+        ha-markdown$: |
+          h1 { 
+            font-size: 18px !important;
+            font-weight: 400 !important;
+            padding-left: 10px !important;
+            border-left: 3px solid rgba(81, 134, 236);
+            }
+
+  - square: false
+    type: grid
+    columns: 2
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Hide headers
+        secondary: All devices
+        icon: mdi:table-headers-eye
+        entity: input_boolean.kiosk_hide_header_and_sidebar
+        icon_color: >-
+          {{ 'light-green' if
+          states('input_boolean.kiosk_hide_header_and_sidebar') == 'on' else
+          'dark-grey' }}
+        fill_container: false
+
+      - type: custom:mushroom-template-card
+        primary: Restart browser
+        secondary: All devices
+        icon: mdi:web-refresh
+        entity: script.kiosk_restart_browser
+        tap_action:
+          action: call-service
+          service: script.kiosk_restart_browser
+
+  - type: custom:auto-entities
+    card:
+      type: entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - device: Kiosk1
+    sort:
+      method: name
+
+  - type: custom:auto-entities
+    card:
+      type: entities
+      show_header_toggle: false
+      state_color: true
+    filter:
+      include:
+        - device: Kiosk2
+    sort:
+      method: name

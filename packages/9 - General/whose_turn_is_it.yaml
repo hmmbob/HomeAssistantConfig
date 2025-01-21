@@ -30,6 +30,6 @@ whose_turn_is_it_package:
       sequence:
         - alias: "Play TTS"
           action: tts.microsoft_say
-          entity_id: media_player.nest_hub_woonkamer
+          entity_id: media_player.kiosk1_fkb
           data:
             message: "Vandaag moet {{ states('input_select.tafeldekken_beurt') }} tafel dekken."

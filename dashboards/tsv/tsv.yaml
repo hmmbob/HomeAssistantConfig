@@ -1,0 +1,19 @@
+kiosk_mode:
+  user_settings:
+    - users:
+        - Bob
+      ignore_entity_settings: true
+  entity_settings:
+    - entity:
+        input_boolean.kiosk_hide_header_and_sidebar: "on"
+      hide_sidebar: true
+      hide_header: true
+    - entity:
+        input_boolean.kiosk_hide_header_and_sidebar: "off"
+      hide_sidebar: false
+      hide_header: false
+
+title: TSV 1
+views:
+  - !include tsv1.yaml
+  - !include screensaver.yaml

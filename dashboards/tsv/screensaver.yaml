@@ -1,0 +1,28 @@
+title: Screensaver
+path: screensaver
+theme: Hmmbob Google Dark Theme TSV
+type: panel
+
+cards:
+  - type: custom:pqina-flip-clock-card
+    twentyFourHourFormat: true
+    hideBackground: true
+    showSeconds: false
+    tap_action:
+      action: navigate
+      navigation_path: /tsv-dashboards/tsv1
+    styles:
+      height: 55cqw
+      textColor: rgb(255, 255, 255)
+      font: Oswald
+      font-size: 38cqw
+      textOffsetVertical: "-0.05em"
+      frontFlapColor: rgb(40, 40, 40)
+      rearFlapColor: rgb(40, 40, 40)
+    card_mod:
+      style: |
+        ha-card {
+          background-color: transparent;
+          border-color: transparent;
+          box-shadow: none;
+        }

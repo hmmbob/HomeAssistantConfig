@@ -1,5 +1,6 @@
 title: Admin views
 views:
+  - !include 1-tsv.yaml
   - !include 2-batterij.yaml
   - !include 3-status.yaml
   - !include 4-solar-settings.yaml

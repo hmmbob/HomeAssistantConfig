@@ -41,6 +41,27 @@ trash_package:
       name: Trash URL restafval
       initial: !secret image_url_restafval
 
+  template:
+    sensor:
+      - name: Afvalinfo volgende inzameling en datum
+        unique_id: afvalinfo_home_next_trash_type_and_date
+        state: >-
+          {% set ns = namespace(minimum=365) %}
+          {% set list = ['gft', 'pbd', 'papier', 'restafval'] %}
+          {% set friendly_list = ['GFT', 'PBD', 'Oud Papier', 'Restafval'] %}
+          {%- for l in list %}
+            {%- set days = state_attr('sensor.afvalinfo_home_' ~l, 'days_until_collection_date')%}
+            {%- if days != None and days < ns.minimum %}
+              {%- set ns.minimum = days %}
+            {%- endif %}
+          {%- endfor %}
+          {%- for l in list %}
+            {%- set days = state_attr('sensor.afvalinfo_home_' ~l, 'days_until_collection_date')%}
+            {%- if days == ns.minimum %}
+              {{friendly_list[loop.index0]}} · {{ states('sensor.afvalinfo_home_' ~l) }}
+            {%- endif %}
+          {%- endfor %}
+
   automation:
     ##########################
     ## Trash notifications
@@ -107,21 +128,36 @@ trash_package:
               condition: state
               entity_id: input_boolean.notify_trash_voice
               state: "on"
+            - action: media_player.volume_set
+              data:
+                entity_id: media_player.kiosk1_fkb
+                volume_level: 0.9
             - alias: "Play TTS"
               action: tts.microsoft_say
-              entity_id: media_player.nest_hub_woonkamer
+              entity_id: media_player.kiosk1_fkb
               data:
                 message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
-            - delay: "00:00:15"
-            - alias: "Streaming image to Nest Hub"
-              action: media_player.play_media
+            - action: browser_mod.popup
               data:
-                entity_id: media_player.nest_hub_woonkamer
-                media_content_id: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
-                media_content_type: "image/png"
-            - delay: "00:15:00"
-            - action: media_player.turn_off
-              entity_id: media_player.nest_hub_woonkamer
+                dismissable: true
+                autoclose: false
+                browser_id:
+                  - kiosk1
+                  - kiosk2
+                timeout: 60000
+                size: fullscreen
+                content:
+                  type: picture
+                  image: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
+                card_mod:
+                  style:
+                    ha-dialog$: |
+                      div.mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                        background: black !important;
+                        border: none !important;
+                        border-style: solid !important;
+                        border-color: black !important;
+                      }
 
     - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status
