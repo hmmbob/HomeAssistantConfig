@@ -23,6 +23,25 @@ awtrix_package:
     ##########################
     - id: awtrix_turn_on_or_off
       alias: "Zet Awtrix aan of uit  🌛"
+      description: "Turn off the Awtrix screen when the lights are off or at 23:00 and turn it back on at 06:30"
+      triggers:
+        - alias: "Ga sowieso uit om 21u"
+          trigger: time
+          at: "21:00:00"
+          id: "turn_off"
+        - alias: "Ga weer aan om 8u"
+          trigger: time
+          at: "08:00:00"
+          id: "turn_on"
+      condition: []
+      actions:
+        - action: homeassistant.{{trigger.id}}
+          data:
+            entity_id:
+              - light.awtrix_6caff8_matrix
+
+    - id: awtrix_switch_between_clock_and_apps
+      alias: "Schakel Awtrix tussen de klok en de apps"
       description: "Set Awtrix to clock only by pressing the middle button or when I turn off my monitor"
       mode: queued
       triggers:
