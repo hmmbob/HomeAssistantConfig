@@ -87,7 +87,7 @@ cards:
         cards:
           - type: custom:mushroom-template-card
             primary: "PC staat {{ state_translated('binary_sensor.is_minicave_pc_on') | lower }}"
-            secondary: "{{ ((states('sensor.minicave_pc_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.minicave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_minicave_pc_on
             icon: >-
               {{ "mdi:desktop-classic" if is_state('binary_sensor.is_minicave_pc_on','on') else "mdi:monitor-off" }}
@@ -110,7 +110,7 @@ cards:
                         name: PC aan of uit?
           - type: custom:mushroom-template-card
             primary: "TV staat {{ state_translated('binary_sensor.is_minicave_tv_on') | lower }}"
-            secondary: "{{ ((states('sensor.minicave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.minicave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_minicave_tv_on
             icon: >-
               {{ "mdi:television" if is_state('binary_sensor.is_minicave_tv_on','on') else "mdi:television-off" }}

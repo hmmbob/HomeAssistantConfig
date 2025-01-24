@@ -96,7 +96,7 @@ cards:
         cards:
           - type: custom:mushroom-template-card
             primary: "PC staat {{ state_translated('binary_sensor.is_pubercave_pc_on') | lower }}"
-            secondary: "{{ ((states('sensor.pubercave_pc_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.pubercave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: sensor.pubercave_pc_on_today
             icon: >-
               {{ "mdi:desktop-classic" if is_state('binary_sensor.is_pubercave_pc_on','on') else "mdi:monitor-off" }}
@@ -120,7 +120,7 @@ cards:
 
           - type: custom:mushroom-template-card
             primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
-            secondary: "{{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_pubercave_tv_on
             icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
             icon_color: >-
@@ -136,7 +136,7 @@ cards:
                     cards:
                       - type: custom:mushroom-template-card
                         primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
-                        secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                        secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
                         entity: binary_sensor.is_pubercave_tv_on
                         icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
                         icon_color: >-

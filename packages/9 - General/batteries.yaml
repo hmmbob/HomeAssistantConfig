@@ -77,7 +77,7 @@ batteries_package:
                     notification_id: "{{id}}"
 
     - id: battery_replaced
-      alias: Battery Replaced
+      alias: Batterijen vervangen
       mode: queued
       triggers:
         - trigger: event

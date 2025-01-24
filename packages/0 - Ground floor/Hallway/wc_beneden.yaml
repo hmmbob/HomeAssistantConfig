@@ -15,6 +15,7 @@ wc_beneden_package:
           entity_id: binary_sensor.pir_wc_beneden_occupancy
           to: "off"
           from: "on"
+          for: "00:01:00"
           variables:
             action: turn_off
       conditions: []
