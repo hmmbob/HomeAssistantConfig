@@ -54,6 +54,31 @@ airco_package:
     ###########################################
     ## Sleeptimer for kids aircos             #
     ###########################################
+    - id: airco_kinderen_start_on_timer_start
+      alias: "Start de airco van de kinderen als de timer start"
+      description: "Turn on the AC when the timer starts"
+      triggers:
+        - trigger: event
+          event_type: timer.started
+          event_data:
+            entity_id: timer.airco_mini_sleeptimer
+          variables:
+            airco: climate.airco_slaapkamer_t
+            temp_sensor: sensor.xiaomi_temperature_humidity_sensor_3_temperature
+        - trigger: event
+          event_type: timer.started
+          event_data:
+            entity_id: timer.airco_puber_sleeptimer
+          variables:
+            airco: climate.airco_slaapkamer_m
+            temp_sensor: sensor.xiaomi_temperature_humidity_sensor_4_temperature
+      actions:
+        - action: climate.set_hvac_mode
+          target:
+            entity_id: "{{airco}}"
+          data:
+            hvac_mode: "{{ 'heat' if (states(temp_sensor) | float(0)) < 21 else 'cool' }}"
+
     - id: airco_sleeptimer_kinderen
       alias: "Sleeptimer voor de aircos van de kinderen"
       description: "Turn off AC at the end of the timer"
