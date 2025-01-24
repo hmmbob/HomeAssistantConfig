@@ -2,6 +2,10 @@ kiosk_package:
   input_boolean:
     kiosk_hide_header_and_sidebar:
       name: "Kiosk mode hide header and sidebar"
+    kiosk_5min_warning_running:
+      name: "Kiosk 5min warning running"
+    kiosk_dinner_time_running:
+      name: "Kiosk dinner time running"
 
   script:
     kiosk_restart_browser:
@@ -99,7 +103,7 @@ kiosk_package:
                 - condition: time
                   after: "21:00:00"
               sequence:
-                - service: homeassistant.turn_off
+                - action: homeassistant.turn_off
                   data:
                     entity_id:
                       - switch.kiosk1_bewegingsdetectie
@@ -108,12 +112,12 @@ kiosk_package:
               conditions:
                 - "{{ trigger.id == 'turn_on' }}"
               sequence:
-                - service: homeassistant.turn_on
+                - action: homeassistant.turn_on
                   data:
                     entity_id:
                       - switch.kiosk1_bewegingsdetectie
                       - switch.kiosk1_scherm
-                - service: homeassistant.turn_off
+                - action: homeassistant.turn_off
                   data:
                     entity_id:
                       - switch.kiosk1_screensaver
@@ -137,7 +141,7 @@ kiosk_package:
               conditions:
                 - "{{ trigger.id == 'turn_on' }}"
               sequence:
-                - service: homeassistant.turn_on
+                - action: homeassistant.turn_on
                   data:
                     entity_id:
                       - switch.kiosk2_bewegingsdetectie
@@ -146,12 +150,12 @@ kiosk_package:
               conditions:
                 - "{{ trigger.id == 'turn_off' }}"
               sequence:
-                - service: homeassistant.turn_off
+                - action: homeassistant.turn_off
                   data:
                     entity_id:
                       - switch.kiosk2_bewegingsdetectie
                       - switch.kiosk2_scherm
-                - service: homeassistant.turn_off
+                - action: homeassistant.turn_off
                   data:
                     entity_id:
                       - switch.kiosk2_screensaver

@@ -36,24 +36,13 @@ cards:
             data:
               timeout: 20000
               content:
-                type: custom:clock-weather-card
+                type: weather-forecast
                 entity: weather.knmi_home
-                sun_entity: sun.sun
-                temperature_sensor: sensor.knmi_temperatuur
-                animated_icon: true
-                hide_clock: true
-                hide_date: true
-                hide_forecast_section: false
-                hide_today_section: false
-                hourly_forecast: false
-                locale: nl
-                show_decimal: false
-                show_humidity: true
-                time_format: 24
-                time_pattern: HH:mm
-                time_zone: null
-                use_browser_time: false
-                weather_icon_type: fill
+                forecast_type: daily
+                name: " "
+                secondary_info_attribute: humidity
+                show_current: true
+                show_forecast: true
         card_mod:
           style: |
             ha-card {
@@ -113,24 +102,44 @@ cards:
                       - camera_entity: camera.voordeur_foto_s_duidelijk
                     dimensions:
                       height: 470px
-          - type: action
+          - type: template
             icon: mdi:numeric-5-circle
+            icon_color: |-
+              {{ "yellow" if is_state('input_boolean.kiosk_5min_warning_running', 'on')  else "var(--color)" }}
             tap_action:
               action: perform-action
-              perform_action: tts.microsoft_say
+              perform_action: script.multiple_tap_actions
               data:
-                entity_id: media_player.boven
-                message: Het eten is over 5 minuten klaar.
-                language: nl-nl
-          - type: action
+                actions:
+                  - action: input_boolean.turn_on
+                    entity_id: input_boolean.kiosk_5min_warning_running
+                  - action: tts.microsoft_say
+                    data:
+                      entity_id: media_player.boven
+                      message: Het eten is over 5 minuten klaar.
+                      language: nl-nl
+                  - wait: 5
+                  - action: input_boolean.turn_off
+                    entity_id: input_boolean.kiosk_5min_warning_running
+          - type: template
             icon: mdi:food-turkey
+            icon_color: |-
+              {{ "yellow" if is_state('input_boolean.kiosk_dinner_time_running', 'on')  else "var(--color)" }}
             tap_action:
               action: perform-action
-              perform_action: tts.microsoft_say
+              perform_action: script.multiple_tap_actions
               data:
-                entity_id: media_player.boven
-                message: Het eten is klaar. Komen jullie naar beneden?
-                language: nl-nl
+                actions:
+                  - action: input_boolean.turn_on
+                    entity_id: input_boolean.kiosk_dinner_time_running
+                  - action: tts.microsoft_say
+                    data:
+                      entity_id: media_player.boven
+                      message: Het eten is klaar. Komen jullie naar beneden?
+                      language: nl-nl
+                  - wait: 5
+                  - action: input_boolean.turn_off
+                    entity_id: input_boolean.kiosk_dinner_time_running
 
   - type: grid
     columns: 5
@@ -401,7 +410,7 @@ cards:
         cards:
           - type: custom:mushroom-template-card
             primary: "PC {{states('input_text.naam_puber')}}"
-            secondary: "{{ ((states('sensor.pubercave_pc_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.pubercave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: sensor.pubercave_pc_on_today
             icon: >-
               {{ "mdi:desktop-classic" if is_state('binary_sensor.is_pubercave_pc_on','on') else "mdi:monitor-off" }}
@@ -418,7 +427,7 @@ cards:
                 }
           - type: custom:mushroom-template-card
             primary: "TV {{states('input_text.naam_puber')}}"
-            secondary: "{{ ((states('sensor.pubercave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_pubercave_tv_on
             icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
             icon_color: >-
@@ -437,7 +446,7 @@ cards:
         cards:
           - type: custom:mushroom-template-card
             primary: "PC {{states('input_text.naam_mini')}}"
-            secondary: "{{ ((states('sensor.minicave_pc_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.minicave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_minicave_pc_on
             icon: >-
               {{ "mdi:desktop-classic" if is_state('binary_sensor.is_minicave_pc_on','on') else "mdi:monitor-off" }}
@@ -454,7 +463,7 @@ cards:
                 }
           - type: custom:mushroom-template-card
             primary: "TV {{states('input_text.naam_mini')}}"
-            secondary: "{{ ((states('sensor.minicave_tv_on_today') | float) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+            secondary: "{{ ((states('sensor.minicave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
             entity: binary_sensor.is_minicave_tv_on
             icon: >-
               {{ "mdi:television" if is_state('binary_sensor.is_minicave_tv_on','on') else "mdi:television-off" }}
