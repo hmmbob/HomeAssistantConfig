@@ -138,76 +138,93 @@ kids_notifications_package:
               notification_icon: mdi:battery-alert-variant
 
     ##########################
-    ## Turn on high accuracy mode for the mini,
+    ## Turn on high accuracy mode for the kids,
     ## as otherwise updates don't come in regularly enough
     ##########################
-    - alias: Turn on high accuracy mode
-      id: t_turn_on_gps
+    - alias: Schakel high accuracy mode in of uit
+      id: kids_turn_gps_on_or_off
+      mode: parallel
       triggers:
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id:
+            - device_tracker.schaduwspeler
+            - device_tracker.sm_a236b
           event: leave
           zone: zone.home
           id: home
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id:
+            - device_tracker.schaduwspeler
+            - device_tracker.sm_a236b
           event: leave
           zone: zone.school
           id: school
-      actions:
-        - choose:
-            - conditions:
-                - or:
-                    - and:
-                        - '{{ trigger.id == "home" }}'
-                        - not:
-                            - condition: time
-                              after: "7:00:00"
-                              before: "9:00:00"
-                              weekday:
-                                - mon
-                                - tue
-                                - wed
-                                - thu
-                                - fri
-                    - and:
-                        - '{{ trigger.id == "school" }}'
-                        - not:
-                            - condition: time
-                              after: "12:00:00"
-                              before: "17:00:00"
-                              weekday:
-                                - mon
-                                - tue
-                                - wed
-                                - thu
-                                - fri
-              sequence:
-                - stop: "Likely false positive, stopping sequence"
-        - action: notify.mobile_app_sm_a236b
-          data:
-            message: "command_high_accuracy_mode"
-            data:
-              command: "turn_on"
-              priority: high
-              ttl: 0
-
-    - alias: Turn off high accuracy mode
-      id: t_turn_off_gps
-      triggers:
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id:
+            - device_tracker.schaduwspeler
+            - device_tracker.sm_a236b
           event: enter
           zone: zone.home
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id:
+            - device_tracker.schaduwspeler
+            - device_tracker.sm_a236b
           event: enter
           zone: zone.school
+      variables:
+        target: >
+          {% if trigger.entity_id == "device_tracker.schaduwspeler" %}notify.mobile_app_schaduwspeler
+          {% elif trigger.entity_id == "device_tracker.sm_a236b" %}notify.mobile_app_sm_a236b
+          {% else %}notify.bogus
+          {% endif %}
       actions:
-        - action: notify.mobile_app_sm_a236b
-          data:
-            message: "command_high_accuracy_mode"
-            data:
-              command: "turn_off"
-              priority: high
-              ttl: 0
+        - choose:
+            - conditions:
+                - '{{ trigger.event == "leave" }}'
+              sequence:
+                - choose:
+                    - conditions:
+                        - or:
+                            - and:
+                                - '{{ trigger.zone == "zone.home" }}'
+                                - not:
+                                    - condition: time
+                                      after: "7:00:00"
+                                      before: "9:00:00"
+                                      weekday:
+                                        - mon
+                                        - tue
+                                        - wed
+                                        - thu
+                                        - fri
+                            - and:
+                                - '{{ trigger.zone == "zone.school" }}'
+                                - not:
+                                    - condition: time
+                                      after: "12:00:00"
+                                      before: "17:00:00"
+                                      weekday:
+                                        - mon
+                                        - tue
+                                        - wed
+                                        - thu
+                                        - fri
+                      sequence:
+                        - stop: "Likely false positive, stopping sequence"
+                - action: "{{ target }}"
+                  data:
+                    message: "command_high_accuracy_mode"
+                    data:
+                      command: "turn_on"
+                      priority: high
+                      ttl: 0
+            - conditions:
+                - '{{ trigger.event == "enter" }}'
+              sequence:
+                - action: "{{ target }}"
+                  data:
+                    message: "command_high_accuracy_mode"
+                    data:
+                      command: "turn_off"
+                      priority: high
+                      ttl: 0
