@@ -41,7 +41,7 @@ cards:
             entity: plant.paradijsvogelplant
             icon: mdi:sprout
             icon_color: |-
-              {{ "green" if (is_state('plant.paradijsvogelplant', 'ok') and is_state('plant.aglaonema', 'ok')) else "red" }}
+              {{ "green" if (is_state('plant.palm', 'ok') and is_state('plant.aglaonema', 'ok')) else "red" }}
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -52,8 +52,8 @@ cards:
                     type: vertical-stack
                     cards:
                       - type: custom:flower-card
-                        entity: plant.paradijsvogelplant
-                        battery_sensor: sensor.xiaomi_plant_sensor_8_battery
+                        entity: plant.palm
+                        battery_sensor: sensor.xiaomi_plant_sensor_7_battery
                         show_bars:
                           - moisture
                           - conductivity

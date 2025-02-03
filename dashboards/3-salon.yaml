@@ -36,7 +36,7 @@ cards:
             entity: plant.palm
             icon: mdi:sprout
             icon_color: |-
-              {{ "green" if is_state('plant.palm', 'ok') else "red" }}
+              {{ "green" if is_state('plant.paradijsvogelplant', 'ok') else "red" }}
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -47,8 +47,8 @@ cards:
                     type: vertical-stack
                     cards:
                       - type: custom:flower-card
-                        entity: plant.palm
-                        battery_sensor: sensor.xiaomi_plant_sensor_7_battery
+                        entity: plant.paradijsvogelplant
+                        battery_sensor: sensor.xiaomi_plant_sensor_8_battery
                         show_bars:
                           - moisture
                           - conductivity
@@ -84,15 +84,15 @@ cards:
             collapsible_controls: true
 
       - type: custom:mushroom-template-card
-        primary: Kacheltje
+        primary: Duux Edge
         secondary: >-
-          {{ state_translated('climate.kacheltje') }} - 
-          Ingesteld op {{ state_attr('climate.kacheltje','heater.target_temperature') }} °C, 
-          momenteel {{ states('sensor.kacheltje_temperature') }} °C
+          {{ state_translated('climate.duux_edge') }} - 
+          Ingesteld op {{ state_attr('climate.duux_edge','temperature') }} °C, 
+          momenteel {{ states('sensor.duux_edge_temperatuur') }} °C
         icon: mdi:thermostat
         icon_color: |-
-          {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
-        entity: climate.kacheltje
+          {{ "orange" if is_state('climate.duux_edge','heat') else "grey" }}
+        entity: climate.duux_edge
         tap_action:
           action: more-info
         visibility:
