@@ -1,0 +1,104 @@
+duux_edge_package:
+  mqtt:
+    climate:
+      - unique_id: duux_edge
+        name: null
+        modes: ["off", "heat"]
+        # format: mode_state_topic: "sensor/<MAC address>/in"
+        mode_state_topic: !secret duux_sensor_topic
+        mode_state_template: >-
+          {% if value_json.sub is defined %}
+            {{ 'off' if value_json.sub.Tune[0].power == 0 else 'heat' }}
+          {% else %}
+            None
+          {% endif %}
+        # format: mode_command_topic: "sensor/<MAC address>/command"
+        mode_command_topic: !secret duux_command_topic
+        mode_command_template: "tune set power {{ iif(value == 'off', 0, 1) }}"
+        payload_on: 1
+        payload_off: 0
+        temperature_state_topic: !secret duux_sensor_topic
+        temperature_state_template: >-
+          {{ value_json.sub.Tune[0].sp if value_json.sub is defined else none }}
+        temperature_unit: "C"
+        temp_step: 1
+        max_temp: 25
+        min_temp: 15
+        temperature_command_topic: !secret duux_command_topic
+        temperature_command_template: "tune set sp {{ value }}"
+        current_temperature_topic: !secret duux_sensor_topic
+        current_temperature_template: >-
+          {{ value_json.sub.Tune[0].temp if value_json.sub is defined else none}}
+        device:
+          &device # As 'device' is a mapping, it can be reused with the '&'
+          identifiers: "24:dc:c3:ae:5e:bc"
+          manufacturer: "Duux"
+          model: "Edge"
+          name: "Duux Edge"
+        availability:
+          &availability # As 'availability' is a mapping, it can be reused with the '&'
+          - topic: "sensor/24:dc:c3:ae:5e:bc/online"
+            value_template: "{{ value_json.online }}"
+            payload_available: true
+            payload_not_available: false
+    sensor:
+      - unique_id: "duux_edge_temperature"
+        name: "Temperatuur"
+        state_topic: !secret duux_sensor_topic
+        unit_of_measurement: "°C"
+        value_template: >-
+          {{ value_json.sub.Tune[0].temp if value_json.sub is defined else '0'}}
+        device_class: temperature
+        device: *device # Reuse the 'device' mapping
+        availability: *availability # Reuse the 'availability' mapping
+    binary_sensor:
+      - unique_id: "duux_edge_error"
+        name: "Probleem"
+        state_topic: !secret duux_sensor_topic
+        value_template: >-
+          {{ ('0' if value_json.sub.Tune[0].err == 0 else '1') if value_json.sub is defined else none}}
+        payload_off: "0"
+        payload_on: "1"
+        device_class: problem
+        device: *device
+        availability: *availability
+    switch:
+      - unique_id: duux_edge_nightmode
+        name: "Nachtmodus"
+        state_topic: !secret duux_sensor_topic
+        value_template: >-
+          {{ value_json.sub.Tune[0].night if value_json.sub is defined else none}}
+        state_on: 1
+        state_off: 0
+        command_topic: !secret duux_command_topic
+        command_template: "tune set night {{ value }}"
+        payload_on: 1
+        payload_off: 0
+        device: *device
+        availability: *availability
+      - unique_id: duux_edge_childlock
+        name: "Kinderslot"
+        state_topic: !secret duux_sensor_topic
+        value_template: >-
+          {{ value_json.sub.Tune[0].lock if value_json.sub is defined else none}}
+        state_on: 1
+        state_off: 0
+        command_topic: !secret duux_command_topic
+        command_template: "tune set lock {{ value }}"
+        payload_on: 1
+        payload_off: 0
+        device: *device
+        availability: *availability
+      - unique_id: duux_edge_eco_mode
+        name: "ECO mode"
+        state_topic: !secret duux_sensor_topic
+        value_template: >-
+          {{ value_json.sub.Tune[0].heatin if value_json.sub is defined else none}}
+        state_on: 1
+        state_off: 2
+        command_topic: !secret duux_command_topic
+        command_template: "tune set heatin {{ value }}"
+        payload_on: 1
+        payload_off: 2
+        device: *device
+        availability: *availability

@@ -341,10 +341,10 @@ cards:
                   action: more-info
                 card_mod: *2nd_button_style
               - type: custom:mushroom-template-card
-                entity: climate.kacheltje
+                entity: climate.duux_edge
                 icon: mdi:heat-wave
                 icon_color: |-
-                  {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
+                  {{ "orange" if is_state('climate.duux_edge','heat') else "grey" }}
                 tap_action:
                   action: more-info
                 card_mod: *3rd_button_style
