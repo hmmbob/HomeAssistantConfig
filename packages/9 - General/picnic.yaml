@@ -1,0 +1,182 @@
+picnic_package:
+  input_boolean:
+    notify_picnic_push:
+      name: "Push meldingen over Picnic"
+      icon: mdi:cart
+
+  template:
+    - sensor:
+        - name: "Picnic next delivery ETA start time"
+          unique_id: picnic_next_delivery_eta_start_time
+          state: >-
+            {{ iif(is_state("sensor.picnic_verwacht_begin_van_de_volgende_bestelling", "unknown"), "unknown", 
+                    as_timestamp(states("sensor.picnic_verwacht_begin_van_de_volgende_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
+
+        - name: "Picnic next delivery ETA end time"
+          unique_id: picnic_next_delivery_eta_end_time
+          state: >-
+            {{ iif(is_state("sensor.picnic_verwacht_einde_van_de_volgende_bestelling", "unknown"), "unknown", 
+                    as_timestamp(states("sensor.picnic_verwacht_einde_van_de_volgende_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
+
+        - name: "Picnic last order max order time only"
+          unique_id: picnic_last_order_max_order_time_only
+          state: >-
+            {{ iif(is_state("sensor.picnic_einde_van_het_tijdslot_van_de_laatste_bestelling", "unknown"), "unknown", 
+                    as_timestamp(states("sensor.picnic_einde_van_het_tijdslot_van_de_laatste_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
+
+  timer:
+    picnic:
+      restore: true
+
+  automation:
+    - id: picnic_order_window_closing
+      alias: "Picnic: Order window closing"
+      mode: single
+      max_exceeded: silent
+      description: Send a notification when there are 2 hours left to submit the current order
+      trigger:
+        - platform: template
+          value_template: >-
+            {% if states('sensor.picnic_maximale_besteltijd_voor_het_geselecteerde_tijdslot') not in ['unknown','unavailable','none'] %}
+              {{ 7200 > (as_timestamp(states('sensor.picnic_maximale_besteltijd_voor_het_geselecteerde_tijdslot')) - as_timestamp(now(), 0)) > 0}}
+            {% endif %}
+          variables:
+            message: >-
+              De Picnic bestelling is nog niet verzonden! Na 
+              {{ as_timestamp(states("sensor.picnic_maximale_besteltijd_voor_het_geselecteerde_tijdslot")) | timestamp_custom("%H:%M") }} kan het niet meer.
+        - platform: template
+          value_template: >-
+            {% if states('sensor.picnic_einde_van_het_tijdslot_van_de_laatste_bestelling') not in ['unknown','unavailable','none'] %}
+              {{ 7200 > (as_timestamp(states('sensor.picnic_einde_van_het_tijdslot_van_de_laatste_bestelling')) - as_timestamp(now(), 0)) > 0}}
+            {% endif %}
+          variables:
+            message: >-
+              Wil je nog iets toevoegen aan je volgende Picnic bestelling? Na 
+              {{ as_timestamp(states("sensor.picnic_einde_van_het_tijdslot_van_de_laatste_bestelling")) | timestamp_custom("%H:%M") }} kan het niet meer.
+      action:
+        - alias: "Laat dashboard zien op kiosk"
+          action: browser_mod.navigate
+          data:
+            path: "/tsv-dashboards/picnic-order-closing"
+            browser_id:
+              - kiosk1
+              - kiosk2
+        - alias: "Zet schermhelderheid op goed leesbaar niveau"
+          action: number.set_value
+          data:
+            value: "{{255 if is_state('sun.sun', 'above_horizon') else 125}}"
+          target:
+            entity_id:
+              - number.kiosk1_schermhelderheid
+              - number.kiosk2_schermhelderheid
+        - alias: "Schakel bewegingsdetectie uit"
+          action: homeassistant.turn_off
+          data:
+            entity_id:
+              - switch.kiosk1_bewegingsdetectie
+              - switch.kiosk2_bewegingsdetectie
+        - action: timer.start
+          target:
+            entity_id: timer.picnic
+          data:
+            duration: "00:30:00"
+
+    - id: picnic_delivery_known
+      alias: "Picnic: Delivery soon"
+      mode: single
+      max_exceeded: silent
+      description: Send a notification when the short window of the picnic delivery is near
+      trigger:
+        - platform: template # Trigger 15 minutes before eta start time.
+          value_template: >-
+            {% if states('sensor.picnic_verwacht_begin_van_de_volgende_bestelling') not in ['unknown','unavailable','none'] %}
+              {{ 901 > (as_timestamp(states('sensor.picnic_verwacht_begin_van_de_volgende_bestelling'), 0) - as_timestamp(now(), 0)) > 840}}
+            {% endif %}
+      action:
+        - if:
+            - alias: "Check if push message should be sent"
+              condition: state
+              entity_id: input_boolean.notify_picnic_push
+              state: "on"
+          then:
+            - service: notify.mobile_devices_adults
+              data:
+                title: Picnic komt eraan!
+                message: >
+                  Picnic bezorgt tussen {{ states('sensor.picnic_next_delivery_eta_start_time') }}
+                  en {{ states('sensor.picnic_next_delivery_eta_end_time') }}!
+                data:
+                  clickAction: "app://com.picnic.android"
+                  icon_url: "https://d2jxuf8ovdiw8x.cloudfront.net/uploads/sites/18/2020/11/logo.svg"
+                  notification_icon: mdi:cart
+                  tag: "picnic_alert"
+                  timeout: 1800
+                  color: "#eb4034"
+                  ttl: 0
+                  priority: high
+        - alias: "Laat dashboard zien op kiosk"
+          action: browser_mod.navigate
+          data:
+            path: "/tsv-dashboards/picnic-eta"
+            browser_id:
+              - kiosk1
+              - kiosk2
+        - alias: "Zet schermhelderheid op goed leesbaar niveau"
+          action: number.set_value
+          data:
+            value: "{{255 if is_state('sun.sun', 'above_horizon') else 125}}"
+          target:
+            entity_id:
+              - number.kiosk1_schermhelderheid
+              - number.kiosk2_schermhelderheid
+        - alias: "Schakel bewegingsdetectie uit"
+          action: homeassistant.turn_off
+          data:
+            entity_id:
+              - switch.kiosk1_bewegingsdetectie
+              - switch.kiosk2_bewegingsdetectie
+        - action: timer.start
+          target:
+            entity_id: timer.picnic
+          data:
+            duration: "00:30:00"
+
+    - id: picnic_reset_view
+      alias: "Kiosk: terug vanaf Picnic naar startscherm"
+      mode: queued
+      triggers:
+        - trigger: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.picnic
+      actions:
+        - alias: "Ga weer terug naar startscherm"
+          action: browser_mod.navigate
+          data:
+            path: "/tsv-dashboards/tsv1"
+            browser_id:
+              - kiosk1
+              - kiosk2
+        - alias: "Schakel bewegingsdetectie in"
+          action: homeassistant.turn_on
+          data:
+            entity_id:
+              - switch.kiosk1_bewegingsdetectie
+              - switch.kiosk2_bewegingsdetectie
+
+    ##########################
+    ## Update Picnic ETA sensors
+    ##########################
+    - id: picnic_update_eta
+      alias: "Picnic: update ETA"
+      mode: single
+      max_exceeded: silent
+      description: Update ETA sensors more frequently if delivery is near
+      trigger:
+        - platform: time_pattern
+          minutes: "/2"
+      condition:
+        - "{{ 901 > (as_timestamp(states('sensor.picnic_verwacht_begin_van_de_volgende_bestelling'), 0) - as_timestamp(now(), 0)) > 0}}"
+      action:
+        - service: homeassistant.update_entity
+          entity_id: sensor.picnic_verwacht_begin_van_de_volgende_bestelling

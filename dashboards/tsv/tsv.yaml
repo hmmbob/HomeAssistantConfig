@@ -17,3 +17,5 @@ title: TSV 1
 views:
   - !include tsv1.yaml
   - !include screensaver.yaml
+  - !include 90-cast-picnic-delivery-eta.yaml
+  - !include 91-cast-picnic-order-closing.yaml
