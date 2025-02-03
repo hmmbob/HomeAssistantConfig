@@ -20,15 +20,17 @@ system_package:
         - trigger: state
           entity_id: sun.sun
       actions:
-        - if: "{{ is_state('sun.sun', 'below_horizon')}}"
+        - if: "{{ is_state('sun.sun', 'above_horizon')}}"
           then:
             - action: frontend.set_theme
               data:
-                name: "Hmmbob Google Dark Theme"
+                name: "Hmmbob light theme"
+                mode: dark
           else:
             - action: frontend.set_theme
               data:
-                name: "Hmmbob Google Light Theme"
+                name: "Hmmbob dark theme"
+                mode: dark
 
     # Automation to set the date of the "end field" in the UI to the same value as the "start"
     - id: ui_set_end_date
