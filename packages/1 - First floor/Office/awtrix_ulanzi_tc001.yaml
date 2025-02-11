@@ -13,7 +13,6 @@ awtrix_package:
         device:
           identifiers: 10521c6caff8
           name: awtrix_6caff8
-          sw_version: "0.96" # Needs to be updated when upgrading software!
           manufacturer: Blueforcer
           model: AWTRIX Light
 
