@@ -65,10 +65,10 @@ cards:
             content: "{{ states(entity, with_unit=True) }}"
             icon: mdi:car-electric
             icon_color: >
-              {% set battery_level = (states(entity)|int) %}
-              {% if battery_level | int > 66 %}
+              {% set battery_level = (states(entity)|int(default=0)) %}
+              {% if battery_level > 66 %}
                 green
-              {% elif battery_level | int > 33 %}
+              {% elif battery_level > 33 %}
                 amber
               {% else %}
                 red
@@ -81,11 +81,11 @@ cards:
         card_mod:
           style:
             mushroom-template-chip:nth-child(5)$: |
-              {% set battery_level = (states('sensor.tucson_ev_battery_level')|int) %}
+              {% set battery_level = (states('sensor.tucson_ev_battery_level')|int(default=0)) %}
               ha-card {
-                {% if battery_level | int > 66 %}
+                {% if battery_level > 66 %}
                   background: green
-                {% elif battery_level | int > 33 %}
+                {% elif battery_level > 33 %}
                   background: amber
                 {% else %}
                   background: red
