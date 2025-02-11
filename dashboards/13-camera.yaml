@@ -24,6 +24,6 @@ cards:
             border-left: 3px solid rgba(81, 134, 236);
             }
 
-  - type: custom:frigate-card
+  - type: custom:advanced-camera-card
     cameras:
       - camera_entity: camera.voordeur_duidelijk

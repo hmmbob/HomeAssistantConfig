@@ -97,7 +97,7 @@ cards:
                   autoclose: true
                   timeout: 60000
                   content:
-                    type: custom:frigate-card
+                    type: custom:advanced-camera-card
                     cameras:
                       - camera_entity: camera.voordeur_foto_s_duidelijk
                     dimensions:
@@ -194,14 +194,16 @@ cards:
             card:
               type: custom:mushroom-template-card
               entity: sensor.afvalinfo_home_vandaag
-              primary: "Vandaag wordt het {{states('sensor.afvalinfo_home_vandaag')}} opgehaald."
+              primary: >-
+                Vandaag wordt het {{ states(entity)|lower if (states(entity)|length > 3) 
+                  else states(entity) }} opgehaald
               icon: mdi:trash-can
               icon_color: |-
                 {% if is_state('sensor.afvalinfo_home_vandaag', 'GFT') %}
                   green
                 {% elif is_state('sensor.afvalinfo_home_vandaag', 'PBD') %}
                   orange
-                {% elif is_state('sensor.afvalinfo_home_vandaag', 'oud papier') %}
+                {% elif is_state('sensor.afvalinfo_home_vandaag', 'Papier') %}
                   blue
                 {% elif is_state('sensor.afvalinfo_home_vandaag', 'Restafval') %}
                   red
@@ -218,14 +220,16 @@ cards:
             card:
               type: custom:mushroom-template-card
               entity: sensor.afvalinfo_home_morgen
-              primary: "Morgen wordt het {{states('sensor.afvalinfo_home_morgen')}} opgehaald."
+              primary: >-
+                Morgen wordt het {{ states(entity)|lower if (states(entity)|length > 3) 
+                  else states(entity) }} opgehaald
               icon: mdi:trash-can
               icon_color: |-
                 {% if is_state('sensor.afvalinfo_home_morgen', 'GFT') %}
                   green
                 {% elif is_state('sensor.afvalinfo_home_morgen', 'PBD') %}
                   orange
-                {% elif is_state('sensor.afvalinfo_home_morgen', 'oud papier') %}
+                {% elif is_state('sensor.afvalinfo_home_morgen', 'Papier') %}
                   blue
                 {% elif is_state('sensor.afvalinfo_home_morgen', 'Restafval') %}
                   red

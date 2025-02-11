@@ -125,7 +125,7 @@ doorbell_package:
             timeout: 60000
             size: fullscreen
             content:
-              type: custom:frigate-card
+              type: custom:advanced-camera-card
               cameras:
                 - camera_entity: camera.voordeur_foto_s_duidelijk
         - action: number.set_value
