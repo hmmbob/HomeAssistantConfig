@@ -993,8 +993,9 @@ cards:
                     }
 
               - type: custom:mushroom-template-card
-                entity: group.sfeerverlichting_voorzijde
-                icon: mdi:string-lights
-                icon_color: |-
-                  {{ "orange" if is_state('group.sfeerverlichting_voorzijde', 'on') else "grey" }}
+                icon: none
+                icon_color: none
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/other
                 card_mod: *4th_button_style
