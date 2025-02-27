@@ -62,26 +62,6 @@ cards:
                     power_color: true
                     scroll_info: true
                     show_source: true
-          - type: template
-            entity: plant.sansevieria
-            icon: mdi:sprout-outline
-            icon_color: |-
-              {{ "green" if is_state('plant.sansevieria', 'ok') else "red" }}
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Sansevieria
-                  content:
-                    type: custom:flower-card
-                    entity: plant.sansevieria
-                    battery_sensor: sensor.xiaomi_plant_sensor_3_battery
-                    show_bars:
-                      - moisture
-                      - conductivity
-                      - temperature
-                      - illuminance
 
       - type: horizontal-stack
         cards:
