@@ -87,6 +87,104 @@ cards:
                   --chip-border-color: transparent;
                   --chip-box-shadow: none;
                 }
+
+          - type: template
+            entity: fan.open_air_mini
+            icon: mdi:fan
+            icon_color: |-
+              {{ "green" if is_state('fan.open_air_mini', 'on') else "grey" }}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Mechanische afzuiging
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-fan-card
+                        entity: fan.open_air_mini
+                        name: Afzuiging
+                        icon_animation: true
+                        show_percentage_control: true
+                        layout: horizontal
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent;
+                              border-color: transparent;
+                              box-shadow: none;
+                            }
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: template
+                            content: "Boost:"
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-background: transparent;
+                                  --chip-border-color: transparent;
+                                  --chip-box-shadow: none;
+                                }
+                          - type: action
+                            icon: mdi:fast-forward-15
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:15:00"
+                          - type: action
+                            icon: mdi:fast-forward-30
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:30:00"
+                          - type: action
+                            icon: mdi:fast-forward-60
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:60:00"
+                          - type: action
+                            icon: mdi:timer-off-outline
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.finish
+                              target:
+                                entity_id: timer.fan_runtime
+                          - type: conditional
+                            conditions:
+                              - entity: timer.fan_runtime
+                                state: active
+                            chip:
+                              type: template
+                              entity: timer.fan_runtime
+                              icon: mdi:timer-sand-empty
+                              content: >-
+                                {% from 'relative_time_plus.jinja' import relative_time_plus %}
+                                {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
+                                    parts=2, time=true, abbr=true, language='nl') }}
+                              tap_action:
+                                action: none
+            card_mod:
+              style: |
+                .content {
+                {% if is_state(config.entity, 'on')%}
+                    animation: rotate {{0.5 / (state_attr(config.entity, 'percentage')/100) | round(1, default=1)}}s infinite linear }
+                @keyframes rotate {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(359deg); }
+                {% endif %}
+                }
+
           - type: action
             icon: mdi:cctv
             tap_action:

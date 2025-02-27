@@ -159,3 +159,11 @@ kiosk_package:
                   data:
                     entity_id:
                       - switch.kiosk2_screensaver
+
+    - id: kiosk_restart_at_9
+      alias: Kiosk herstart browser om 09:00
+      triggers:
+        - trigger: time
+          at: "09:00:00"
+      actions:
+        - action: script.kiosk_restart_browser

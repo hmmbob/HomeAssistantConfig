@@ -29,7 +29,7 @@ tts_system_package:
       max_exceeded: silent
       variables:
         target: >
-          {% if is_state("input_select.tts_target", "Woonkamer") %} media_player.kiosk1_fkb
+          {% if is_state("input_select.tts_target", "Woonkamer") %} media_player.nest_hub_woonkamer
           {% elif is_state("input_select.tts_target", "Hele huis") %} media_player.hele_huis
           {% elif is_state("input_select.tts_target", "Bovenverdieping") %} media_player.boven
           {% elif is_state("input_select.tts_target", "Slaapkamer T") %} media_player.slaapkamer_t

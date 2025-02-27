@@ -35,7 +35,9 @@ google_home_volume_package:
               sequence:
                 - action: media_player.volume_set
                   data:
-                    entity_id: media_player.kiosk1_fkb
+                    entity_id:
+                      - media_player.kiosk1_fkb
+                      - media_player.nest_hub_woonkamer
                     volume_level: 0.7
             - alias: "It's between 09:00 and 19hrs"
               conditions:
@@ -61,7 +63,9 @@ google_home_volume_package:
               sequence:
                 - action: media_player.volume_set
                   data:
-                    entity_id: media_player.kiosk1_fkb
+                    entity_id:
+                      - media_player.kiosk1_fkb
+                      - media_player.nest_hub_woonkamer
                     volume_level: 0.6
                 - action: media_player.volume_set
                   data:
@@ -77,7 +81,9 @@ google_home_volume_package:
               sequence:
                 - action: media_player.volume_set
                   data:
-                    entity_id: media_player.kiosk1_fkb
+                    entity_id:
+                      - media_player.kiosk1_fkb
+                      - media_player.nest_hub_woonkamer
                     volume_level: 0.4
                 - action: media_player.volume_set
                   data:
