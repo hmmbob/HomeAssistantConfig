@@ -359,21 +359,3 @@ cards:
               action: toggle
             hold_action:
               action: more-info
-
-      - type: custom:mushroom-template-card
-        primary: Kacheltje
-        secondary: >-
-          {{ state_translated('climate.xiaomi_heater') }} - 
-          Ingesteld op {{ state_attr('climate.xiaomi_heater','heater.target_temperature') }} °C, 
-          momenteel {{ states('sensor.xiaomi_heater_temperature') }} °C
-        icon: mdi:thermostat
-        icon_color: |-
-          {{ "orange" if states('climate.xiaomi_heater') in ['heat','auto'] else "grey" }}
-        entity: climate.xiaomi_heater
-        tap_action:
-          action: more-info
-        visibility:
-          - condition: user
-            users:
-              - 40059eb4e4d142688185485ed2e1ebbb
-              - 510b1afef60640d7a220711c50b2192a
