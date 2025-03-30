@@ -228,3 +228,36 @@ kids_notifications_package:
                       command: "turn_off"
                       priority: high
                       ttl: 0
+
+  script:
+    high_accuracy_mode:
+      alias: Schakel high accuracy mode in of uit
+      mode: single
+      max_exceeded: silent
+      fields:
+        target:
+          name: "Doel"
+          description: "Welk device"
+          required: true
+          selector:
+            select:
+              options:
+                - label: Maxi
+                  value: notify.mobile_app_schaduwspeler
+                - label: Mini
+                  value: notify.mobile_app_sm_a236b
+      variables:
+        command: >-
+          {% if target == 'notify.mobile_app_schaduwspeler' %}
+            {{ 'turn_off' if is_state('binary_sensor.schaduwspeler_high_accuracy_mode', 'on') else 'turn_on' }}
+          {% elif target == 'notify.mobile_app_sm_a236b' %}
+            {{ 'turn_off' if is_state('binary_sensor.sm_a236b_high_accuracy_mode', 'on') else 'turn_on' }}
+          {% endif %}
+      sequence:
+        action: "{{ target }}"
+        data:
+          message: "command_high_accuracy_mode"
+          data:
+            command: "{{ command }}"
+            priority: high
+            ttl: 0

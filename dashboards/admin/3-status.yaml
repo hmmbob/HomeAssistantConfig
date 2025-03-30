@@ -7,6 +7,56 @@ icon: mdi:check-network-outline
 cards:
   - type: vertical-stack
     cards:
+      - type: markdown ## High accuracy header
+        content: |
+          # Locatienauwkeurigheid
+        card_mod:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - square: false
+        type: grid
+        columns: 2
+        cards:
+          - type: custom:mushroom-template-card
+            primary: High accuracy maxi
+            secondary: "{{states('input_text.naam_puber')}}"
+            entity: binary_sensor.schaduwspeler_high_accuracy_mode
+            icon: mdi:crosshairs-gps
+            icon_color: >-
+              {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
+            fill_container: false
+            tap_action:
+              action: call-service
+              service: script.high_accuracy_mode
+              data:
+                target: notify.mobile_app_schaduwspeler
+
+          - type: custom:mushroom-template-card
+            primary: High accuracy mini
+            secondary: "{{states('input_text.naam_mini')}}"
+            entity: binary_sensor.sm_a236b_high_accuracy_mode
+            icon: mdi:crosshairs-gps
+            icon_color: >-
+              {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
+            tap_action:
+              action: call-service
+              service: script.high_accuracy_mode
+              data:
+                target: notify.mobile_app_sm_a236b
+
       - type: markdown ## Statussen header
         content: |
           # Statussen
