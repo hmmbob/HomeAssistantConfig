@@ -23,13 +23,9 @@ master_bedroom_package:
           variables:
             action: turn_off
       conditions:
-        and:
-          - condition: time
-            after: "06:15:00"
-            before: "23:31:00"
-          - condition: state
-            entity_id: input_boolean.enable_pir_inloopkast_automations
-            state: "on"
+        - condition: state
+          entity_id: input_boolean.enable_pir_inloopkast_automations
+          state: "on"
       actions:
         - alias: "Inloopkast lamp bedienen..."
           action: switch.{{ action }}

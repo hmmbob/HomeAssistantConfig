@@ -42,6 +42,10 @@ dishwasher_cheapest_time_package:
           condition: state
           entity_id: input_boolean.notify_dishwasher
           state: "on"
+        - alias: "Don't send when we're not at home"
+          condition: state
+          entity_id: input_boolean.vacation_mode_away
+          state: "off"
       actions:
         - alias: "Sending push notification"
           action: notify.mobile_app_sm_a556b
