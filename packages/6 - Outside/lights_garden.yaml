@@ -1,4 +1,13 @@
 lights_garden_package:
+  group:
+    lampen_tuin:
+      name: Verlichting tuin
+      icon: mdi:coach-lamp
+      entities:
+        - light.tuin_spot_boom
+        - light.tuin_wandverlichting_muren
+        - light.tuin_wandverlichting_schutting
+
   input_boolean:
     garden_lights_override:
       name: "Tuinverlichting override"
@@ -24,9 +33,6 @@ lights_garden_package:
       triggers:
         - trigger: state
           entity_id: sensor.garden_lights
-        - trigger: state
-          entity_id: switch.tuinverlichting
-          from: unavailable
         - trigger: homeassistant
           event: start
         - trigger: event
@@ -40,9 +46,9 @@ lights_garden_package:
           entity_id: input_boolean.garden_lights_override
           state: "off"
       actions:
-        - action: switch.turn_{{ states('sensor.garden_lights') }}
+        - action: homeassistant.turn_{{ states('sensor.garden_lights') }}
           target:
-            entity_id: switch.tuinverlichting
+            entity_id: group.lampen_tuin
 
     - id: garden_turn_on_coming_home
       alias: "Zet de tuinverlichting aan als ik thuis kom"
@@ -56,22 +62,19 @@ lights_garden_package:
       conditions:
         - alias: "Are the lights off?"
           condition: state
-          entity_id: switch.tuinverlichting
+          entity_id: group.lampen_tuin
           state: "off"
         - alias: "Is the sun down?"
           condition: state
           entity_id: sun.sun
           state: "below_horizon"
-        - alias: "Did I just come home?"
-          condition: template
-          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.person.bob.last_changed)) < 120 }}"
       actions:
         - action: input_boolean.turn_on
           target:
             entity_id: input_boolean.garden_lights_override
-        - action: switch.turn_on
+        - action: homeassistant.turn_on
           target:
-            entity_id: switch.tuinverlichting
+            entity_id: group.lampen_tuin
         - delay: "00:03:00"
         - action: input_boolean.turn_off
           target:

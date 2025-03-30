@@ -9,7 +9,9 @@ backgate_package:
         stored_traces: 20
       triggers:
         - trigger: state
-          entity_id: binary_sensor.poort_contact
+          entity_id:
+            - binary_sensor.poort_contact
+            - binary_sensor.fietsenhok_contact
           from: "off"
           to: "on"
       actions:

@@ -144,7 +144,7 @@ entity_config:
     room: "Zolder"
 
   ## Tuin
-  switch.tuinverlichting:
+  group.lampen_tuin:
     name: "Tuinverlichting"
     expose: true
     room: "Tuin"
