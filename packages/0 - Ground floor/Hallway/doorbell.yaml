@@ -13,7 +13,7 @@ doorbell_package:
         tag: "{{ camera_entity + int(as_timestamp(now()))|string }}"
         group: "{{ camera_entity }}"
         title: "De deurbel gaat"
-        image: '/local/llmvision/{{camera_entity.replace("camera.", "")}}.jpg'
+        image: "/local/doorbell/snapshot-doorbell.jpg"
       triggers:
         - trigger: state
           entity_id: binary_sensor.voordeur_bezoeker
@@ -24,84 +24,89 @@ doorbell_package:
           entity_id: input_boolean.enable_deurbel
           state: "on"
       actions:
-        - sequence:
-            - repeat:
-                for_each: >
-                  {{
-                    (expand(state_attr('zone.home', 'persons'))
-                    | map(attribute='attributes.source')
-                    | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                    | list + ['notify.mobile_app_sm_a556b'])
-                    | unique | list
-                  }}
-                sequence:
-                  - alias: Send initial notification to device
-                    action: "{{ repeat.item }}"
-                    data:
-                      title: "{{ title }}"
-                      message: "Er wordt aangebeld. Ik vraag Gemini AI wie er aan de deur staat."
-                      data:
-                        image: "{{ image }}"
-                        url: /lovelace/camera
-                        clickAction: /lovelace/camera
-                        tag: "{{ tag }}"
-                        group: "{{ group }}"
-                        notification_icon: mdi:doorbell-video
-                        priority: high
-                        timeout: 60
-                        ttl: 0
-                        visibility: public
-            - alias: Analyze event
-              action: llmvision.image_analyzer
-              response_variable: response
-              data:
-                image_entity: "{{[camera_entity]}}"
-                provider: 01JDVWVP7N8E70XMH6HMYWBCAN
-                model: gemini-1.5-pro
-                message:
-                  "Dit is een foto van mijn voordeur camera. Help me door te beschrijven of dit
-                  een bezorger of bezoeker is. Beschrijf de scène niet!
-                  Als de persoon een pakje of doos vast heeft is het vrijwel zeker
-                  een bezorger. Als je denkt dat het een bezorger is probeer dan in te schatten
-                  van welk bedrijf de bezorger is. Als de persoon kleding met oranje accenten aan
-                  heeft is het een PostNL bezorger. Heeft de persoon gele bovenkleding dan is
-                  het een DHL bezorger. Heeft de persoon rode kleding aan en in plaats van een pakje
-                  of doos plastic tassen in zijn/haar hand, dan is het een bezorger van Picnic.
-                  Misschien zie je een bestelauto in de foto: PostNL bezorgers rijden vaak in een witte bestelbus, terwijl
-                  DHL bezorgers vaak een gele bestelwagen rijden. Wij rijden zelf een kleine gele personenauto,
-                  verwar die niet met een bestelbus. Weet je niet zeker van welk bedrijf het is?
-                  Zeg dat dan. Antwoord met een korte zin in het Nederlands."
-                remember: false
-                include_filename: false
-                max_tokens: 25
-                temperature: 0.1
-                expose_images: true
-            - repeat:
-                for_each: >
-                  {{
-                    (expand(state_attr('zone.home', 'persons'))
-                    | map(attribute='attributes.source')
-                    | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                    | list + ['notify.mobile_app_sm_a556b'])
-                    | unique | list
-                  }}
-                sequence:
-                  - alias: Update notification to notify devices
-                    action: "{{ repeat.item }}"
-                    data:
-                      title: "{{ title }}"
-                      message: "{{ response.response_text }}"
-                      data:
-                        image: "{{ image }}"
-                        url: /lovelace/camera
-                        clickAction: /lovelace/camera
-                        tag: "{{ tag }}"
-                        group: "{{ group }}"
-                        notification_icon: mdi:doorbell-video
-                        priority: high
-                        timeout: 60
-                        ttl: 0
-                        visibility: public
+        - service: camera.snapshot
+          data:
+            filename: /config/www/doorbell/snapshot-doorbell.jpg
+          target:
+            entity_id: "{{ camera_entity }}"
+        - delay: "00:00:01"
+        - repeat:
+            for_each: >
+              {{
+                (expand(state_attr('zone.home', 'persons'))
+                | map(attribute='attributes.source')
+                | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                | list + ['notify.mobile_app_sm_a556b'])
+                | unique | list
+              }}
+            sequence:
+              - alias: Send initial notification to device
+                action: "{{ repeat.item }}"
+                data:
+                  title: "{{ title }}"
+                  message: "Er wordt aangebeld. Ik vraag Gemini AI wie er aan de deur staat."
+                  data:
+                    image: "{{ image }}"
+                    url: /lovelace/camera
+                    clickAction: /lovelace/camera
+                    tag: "{{ tag }}"
+                    group: "{{ group }}"
+                    notification_icon: mdi:doorbell-video
+                    priority: high
+                    timeout: 60
+                    ttl: 0
+                    visibility: public
+        - alias: Analyze event
+          action: llmvision.image_analyzer
+          response_variable: response
+          data:
+            image_file: "/config/www/doorbell/snapshot-doorbell.jpg"
+            provider: 01JDVWVP7N8E70XMH6HMYWBCAN
+            model: gemini-1.5-pro
+            message:
+              "Dit is een foto van mijn voordeur camera. Help me door te beschrijven of dit
+              een bezorger of bezoeker is. Beschrijf de scène niet!
+              Als de persoon een pakje of doos vast heeft is het vrijwel zeker
+              een bezorger. Als je denkt dat het een bezorger is probeer dan in te schatten
+              van welk bedrijf de bezorger is. Als de persoon kleding met oranje accenten aan
+              heeft is het een PostNL bezorger. Heeft de persoon gele bovenkleding dan is
+              het een DHL bezorger. Heeft de persoon rode kleding aan en in plaats van een pakje
+              of doos plastic tassen in zijn/haar hand, dan is het een bezorger van Picnic.
+              Misschien zie je een bestelauto in de foto: PostNL bezorgers rijden vaak in een witte bestelbus, terwijl
+              DHL bezorgers vaak een gele bestelwagen rijden. Wij rijden zelf een kleine gele personenauto,
+              verwar die niet met een bestelbus. Weet je niet zeker van welk bedrijf het is?
+              Zeg dat dan. Antwoord met een korte zin in het Nederlands."
+            remember: false
+            include_filename: false
+            max_tokens: 25
+            temperature: 0.1
+            expose_images: false
+        - repeat:
+            for_each: >
+              {{
+                (expand(state_attr('zone.home', 'persons'))
+                | map(attribute='attributes.source')
+                | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                | list + ['notify.mobile_app_sm_a556b'])
+                | unique | list
+              }}
+            sequence:
+              - alias: Update notification to notify devices
+                action: "{{ repeat.item }}"
+                data:
+                  title: "{{ title }}"
+                  message: "{{ response.response_text }}"
+                  data:
+                    image: "{{ image }}"
+                    url: /lovelace/camera
+                    clickAction: /lovelace/camera
+                    tag: "{{ tag }}"
+                    group: "{{ group }}"
+                    notification_icon: mdi:doorbell-video
+                    priority: high
+                    timeout: 60
+                    ttl: 0
+                    visibility: public
 
     - id: "deurbel_stream_to_kiosk"
       alias: Stream de deurbel naar de kiosks
