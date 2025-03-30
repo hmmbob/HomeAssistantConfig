@@ -2,10 +2,16 @@ kiosk_package:
   input_boolean:
     kiosk_hide_header_and_sidebar:
       name: "Kiosk mode hide header and sidebar"
-    kiosk_5min_warning_running:
-      name: "Kiosk 5min warning running"
-    kiosk_dinner_time_running:
-      name: "Kiosk dinner time running"
+
+  input_select:
+    kiosk_announcement:
+      name: "Kiosk announcement playing"
+      options:
+        - tafeldekken
+        - dinner_time
+        - 5min_warning
+        - stairs
+        - geen
 
   script:
     kiosk_restart_browser:
@@ -33,6 +39,52 @@ kiosk_package:
             hvac_mode: "{{ 'heat' if is_state('climate.airco_woonkamer', 'off') else 'off' }}"
           target:
             entity_id: climate.airco_woonkamer
+
+    kiosk_announcement:
+      alias: Omroep vanaf de kiosk
+      mode: single
+      max_exceeded: silent
+      fields:
+        announcement:
+          description: "Welk omroepbericht"
+          example: "tafeldekken"
+      variables:
+        message: >-
+          {% if announcement == 'tafeldekken' %}
+            {{ states('input_select.tafeldekken_beurt') }}, kom je tafel dekken?
+          {% elif announcement == 'dinner_time' %}
+            Het eten is klaar. Komen jullie naar beneden?
+          {% elif announcement == '5min_warning' %}
+            Over 5 minuten is het eten klaar.
+          {% elif announcement == 'stairs' %}
+            Komen jullie naar beneden?
+          {% endif %}
+        player: >-
+          {% if announcement == 'tafeldekken' %}
+            {{'media_player.zolder' if states('input_select.tafeldekken_beurt')[0] == 'M' else 
+                'media_player.slaapkamer_t' if states('input_select.tafeldekken_beurt')[0] == 'T' else
+                'media_player.boven'}}
+          {% elif announcement == 'dinner_time' or '5min_warning' or 'stairs' %}
+            media_player.boven
+          {% endif %}
+      sequence:
+        - action: input_select.select_option
+          target:
+            entity_id: input_select.kiosk_announcement
+          data:
+            option: "{{ announcement }}"
+        - alias: "Play TTS"
+          action: tts.microsoft_say
+          data:
+            entity_id: "{{ player }}"
+            message: "{{ message }}"
+        - delay:
+            seconds: 5
+        - action: input_select.select_option
+          target:
+            entity_id: input_select.kiosk_announcement
+          data:
+            option: "geen"
 
   automation:
     - id: kiosk_screensaver
