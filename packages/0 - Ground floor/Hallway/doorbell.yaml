@@ -9,11 +9,9 @@ doorbell_package:
       alias: Deurbel met AI beschrijving
       description: Stuur een notificatie met beschrijving als iemand aanbelt
       variables:
-        camera_entity: "camera.voordeur_duidelijk"
-        tag: "{{ camera_entity + int(as_timestamp(now()))|string }}"
-        group: "{{ camera_entity }}"
+        group: "deurbel_camera"
+        tag: "{{ group + int(as_timestamp(now()))|string }}"
         title: "De deurbel gaat"
-        image: "/local/doorbell/snapshot-doorbell.jpg"
       triggers:
         - trigger: state
           entity_id: binary_sensor.voordeur_bezoeker
@@ -24,45 +22,14 @@ doorbell_package:
           entity_id: input_boolean.enable_deurbel
           state: "on"
       actions:
-        - service: camera.snapshot
-          data:
-            filename: /config/www/doorbell/snapshot-doorbell.jpg
-          target:
-            entity_id: "{{ camera_entity }}"
-        - delay: "00:00:01"
-        - repeat:
-            for_each: >
-              {{
-                (expand(state_attr('zone.home', 'persons'))
-                | map(attribute='attributes.source')
-                | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                | list + ['notify.mobile_app_sm_a556b'])
-                | unique | list
-              }}
-            sequence:
-              - alias: Send initial notification to device
-                action: "{{ repeat.item }}"
-                data:
-                  title: "{{ title }}"
-                  message: "Er wordt aangebeld. Ik vraag Gemini AI wie er aan de deur staat."
-                  data:
-                    image: "{{ image }}"
-                    url: /lovelace/camera
-                    clickAction: /lovelace/camera
-                    tag: "{{ tag }}"
-                    group: "{{ group }}"
-                    notification_icon: mdi:doorbell-video
-                    priority: high
-                    timeout: 60
-                    ttl: 0
-                    visibility: public
         - alias: Analyze event
           action: llmvision.image_analyzer
           response_variable: response
           data:
-            image_file: "/config/www/doorbell/snapshot-doorbell.jpg"
+            image_entity:
+              - camera.voordeur_vloeiend
             provider: 01JDVWVP7N8E70XMH6HMYWBCAN
-            model: gemini-1.5-pro
+            model: gemini-2.0-flash
             message:
               "Dit is een foto van mijn voordeur camera. Help me door te beschrijven of dit
               een bezorger of bezoeker is. Beschrijf de scène niet!
@@ -80,7 +47,7 @@ doorbell_package:
             include_filename: false
             max_tokens: 25
             temperature: 0.1
-            expose_images: false
+            expose_images: true
         - repeat:
             for_each: >
               {{
@@ -97,7 +64,7 @@ doorbell_package:
                   title: "{{ title }}"
                   message: "{{ response.response_text }}"
                   data:
-                    image: "{{ image }}"
+                    image: "{{response.key_frame.replace('/config/www/','/local/') }}"
                     url: /lovelace/camera
                     clickAction: /lovelace/camera
                     tag: "{{ tag }}"
@@ -132,7 +99,7 @@ doorbell_package:
             content:
               type: custom:advanced-camera-card
               cameras:
-                - camera_entity: camera.voordeur_foto_s_duidelijk
+                - camera_entity: camera.voordeur_vloeiend
         - action: number.set_value
           data:
             value: "255"
