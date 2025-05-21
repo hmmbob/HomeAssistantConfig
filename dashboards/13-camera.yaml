@@ -7,7 +7,7 @@ icon: mdi:cctv
 cards:
   - type: markdown ## Updates header
     content: |
-      # Voordeur live video
+      # Camera live video
     card_mod:
       style:
         .: |
@@ -24,6 +24,17 @@ cards:
             border-left: 3px solid rgba(81, 134, 236);
             }
 
-  - type: custom:advanced-camera-card
-    cameras:
-      - camera_entity: camera.voordeur_duidelijk
+  - type: grid
+    columns: 1
+    square: false
+    cards:
+      - type: custom:advanced-camera-card
+        cameras:
+          - camera_entity: camera.voordeur_vloeiend
+      - type: custom:advanced-camera-card
+        cameras:
+          - camera_entity: camera.achtertuin_vloeiend
+        live:
+          controls:
+            ptz:
+              hide_pan_tilt: true

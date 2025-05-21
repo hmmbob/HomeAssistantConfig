@@ -12,6 +12,8 @@ kiosk_package:
         - 5min_warning
         - stairs
         - geen
+        - maxi
+        - mini
 
   script:
     kiosk_restart_browser:
@@ -58,14 +60,22 @@ kiosk_package:
             Over 5 minuten is het eten klaar.
           {% elif announcement == 'stairs' %}
             Komen jullie naar beneden?
+          {% elif announcement == 'maxi' %}
+            "{{states('input_text.naam_puber')}}, kom je naar beneden?"
+          {% elif announcement == 'mini' %}
+            "{{states('input_text.naam_mini')}}, kom je naar beneden?"
           {% endif %}
         player: >-
           {% if announcement == 'tafeldekken' %}
             {{'media_player.zolder' if states('input_select.tafeldekken_beurt')[0] == 'M' else 
                 'media_player.slaapkamer_t' if states('input_select.tafeldekken_beurt')[0] == 'T' else
                 'media_player.boven'}}
-          {% elif announcement == 'dinner_time' or '5min_warning' or 'stairs' %}
+          {% elif announcement in ['dinner_time','5min_warning','stairs'] %}
             media_player.boven
+          {% elif announcement == 'maxi' %}
+            media_player.zolder
+          {% elif announcement == 'mini' %}
+            media_player.slaapkamer_t
           {% endif %}
       sequence:
         - action: input_select.select_option
@@ -213,9 +223,11 @@ kiosk_package:
                       - switch.kiosk2_screensaver
 
     - id: kiosk_restart_at_9
-      alias: Kiosk herstart browser om 09:00
+      alias: Kiosk herstart browser om 09:00 of bij HA herstart
       triggers:
         - trigger: time
           at: "09:00:00"
+        - trigger: homeassistant
+          event: start
       actions:
         - action: script.kiosk_restart_browser

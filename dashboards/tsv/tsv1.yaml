@@ -192,14 +192,23 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  autoclose: true
                   timeout: 60000
+                  right_button: Sluiten
+                  right_button_action: browser_mod.close_popup
                   content:
                     type: custom:advanced-camera-card
                     cameras:
-                      - camera_entity: camera.voordeur_duidelijk # camera.voordeur_foto_s_duidelijk
+                      - camera_entity: camera.voordeur_vloeiend
+                      - camera_entity: camera.achtertuin_vloeiend
                     dimensions:
-                      height: 470px
+                      height: 460px
+                    live:
+                      controls:
+                        ptz:
+                          hide_pan_tilt: true
+                      display:
+                        mode: grid
+                      transition_effect: none
 
           - type: action
             icon: mdi:bullhorn
@@ -265,6 +274,32 @@ cards:
                           perform_action: script.kiosk_announcement
                           data:
                             announcement: stairs
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "{{states('input_text.naam_puber')}}, kom je naar beneden?"
+                        icon: mdi:human-male-male
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'maxi')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: maxi
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "{{states('input_text.naam_mini')}}, kom je naar beneden?"
+                        icon: mdi:human-male-boy
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'mini')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: mini
                         hold_action:
                           action: more-info
 
