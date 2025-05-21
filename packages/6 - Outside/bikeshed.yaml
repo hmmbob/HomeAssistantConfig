@@ -9,8 +9,8 @@ bikeshed_package:
       message: "Het fietsenhok staat nog open"
       entity_id: binary_sensor.alert_bikeshed_door
       state: "on"
-      repeat: 2
-      can_acknowledge: false
+      repeat: 5
+      can_acknowledge: true
       skip_first: false
       notifiers:
         - mobile_app_sm_a556b
@@ -73,10 +73,19 @@ bikeshed_package:
       mode: single
       triggers:
         - trigger: numeric_state
-          entity_id: sensor.fietslader_t_power
+          entity_id: sensor.fietslader_links_power
           for:
             minutes: 5
           below: 5
+          variables:
+            switch: switch.fietslader_links
+        - trigger: numeric_state
+          entity_id: sensor.fietslader_rechts_power
+          for:
+            minutes: 5
+          below: 5
+          variables:
+            switch: switch.fietslader_rechts
       conditions:
         - alias: "Please, not on restarts"
           condition: template
@@ -85,12 +94,12 @@ bikeshed_package:
         - alias: "Lader uitschakelen"
           action: switch.turn_off
           target:
-            entity_id: switch.fietslader_t
+            entity_id: "{{ switch }}"
         - alias: "Sending push notification"
           action: notify.mobile_app_sm_a556b
           data:
             title: "Fietslader uitgeschakeld"
-            message: "De fietslader is automatisch uitgeschakeld ({{ now().strftime('%H:%M') }})"
+            message: "De {{ state_attr(switch, 'friendly_name') }} is automatisch uitgeschakeld ({{ now().strftime('%H:%M') }})"
             data:
               notification_icon: mdi:bicycle-electric
               ttl: 0

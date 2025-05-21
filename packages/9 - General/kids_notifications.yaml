@@ -1,4 +1,15 @@
 kids_notifications_package:
+  template:
+    - sensor:
+        - name: "Puber speed"
+          unique_id: maxi_speed
+          unit_of_measurement: "km/h"
+          state: "{{ (state_attr('device_tracker.schaduwspeler', 'speed') | float(0)) * 3.6 }}"
+        - name: "Mini speed"
+          unique_id: mini_speed
+          unit_of_measurement: "km/h"
+          state: "{{ (state_attr('device_tracker.sm_a236b', 'speed') | float(0)) * 3.6 }}"
+
   automation:
     ##########################
     ## Coming home notifications
