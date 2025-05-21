@@ -4,7 +4,6 @@ lights_garden_package:
       name: Verlichting tuin
       icon: mdi:coach-lamp
       entities:
-        - light.tuin_spot_boom
         - light.tuin_wandverlichting_muren
         - light.tuin_wandverlichting_schutting
 
@@ -48,7 +47,9 @@ lights_garden_package:
       actions:
         - action: homeassistant.turn_{{ states('sensor.garden_lights') }}
           target:
-            entity_id: group.lampen_tuin
+            entity_id:
+              - group.lampen_tuin
+              - light.tuin_spot_boom
 
     - id: garden_turn_on_coming_home
       alias: "Zet de tuinverlichting aan als ik thuis kom"
@@ -57,6 +58,10 @@ lights_garden_package:
       triggers:
         - trigger: state
           entity_id: binary_sensor.poort_contact
+          from: "off"
+          to: "on"
+        - trigger: state
+          entity_id: group.beweging_achtertuin
           from: "off"
           to: "on"
       conditions:
@@ -82,3 +87,60 @@ lights_garden_package:
         - action: automation.trigger
           target:
             entity_id: automation.lights_garden_turn_on
+
+    - id: backgate_alert
+      alias: "Waarschuw als iemand door de poort komt of het fietsenhok opent"
+      description: "Alert when someone enters the backgate of our garden or opens the bike shed"
+      mode: single
+      max_exceeded: silent
+      trace:
+        stored_traces: 20
+      triggers:
+        - trigger: state
+          entity_id:
+            - binary_sensor.poort_contact
+            - binary_sensor.fietsenhok_contact
+          from: "off"
+          to: "on"
+      actions:
+        - alias: "Turn on speaker"
+          action: switch.turn_on
+          target:
+            entity_id: switch.alarmspeaker_alarm
+        # Sometimes the trigger fires multiple times in short period. The next step
+        # prevents multiple alerts in combination with 'mode: single' & 'max_exceeded: silent'
+        - alias: "Do nothing for 10 seconds to prevent bouncing triggers"
+          delay: "00:10:00"
+
+    - id: "achtertuin_stream_to_kiosk"
+      alias: Stream de achtertuin naar de kiosks
+      mode: single
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: binary_sensor.achtertuin_persoon
+          from: "off"
+          to: "on"
+      actions:
+        - action: browser_mod.popup
+          data:
+            dismissable: true
+            autoclose: true
+            browser_id:
+              - kiosk1
+              - kiosk2
+            timeout: 90000
+            size: fullscreen
+            content:
+              type: custom:advanced-camera-card
+              cameras:
+                - camera_entity: camera.achtertuin_vloeiend
+        - action: number.set_value
+          data:
+            value: "255"
+          target:
+            entity_id:
+              - number.kiosk1_schermhelderheid
+              - number.kiosk2_schermhelderheid
+        - alias: "Do nothing for 92 seconds to prevent bouncing triggers"
+          delay: "00:01:32"
