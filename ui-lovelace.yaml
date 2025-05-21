@@ -15,3 +15,4 @@ views:
   - !include dashboards/13-camera.yaml
   - !include dashboards/14-energy.yaml
   - !include dashboards/15-car.yaml
+  - !include dashboards/16-plants.yaml
