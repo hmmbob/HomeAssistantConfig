@@ -44,10 +44,8 @@ cards:
       - type: icon
         icon: mdi:close-circle
         tap_action:
-          action: perform-action
-          perform_action: timer.finish
-          target:
-            entity_id: timer.picnic
+          action: navigate
+          navigation_path: "/tsv-dashboards/tsv1"
         style:
           top: 10%
           left: 90%
