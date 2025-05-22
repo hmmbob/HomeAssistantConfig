@@ -14,7 +14,6 @@ cards:
           style:
             .: |
               ha-card {
-                margin: 12px 14px -5px 14px;
                 box-shadow: none;
                 --ha-card-background: rgba(0, 0, 0, 0.0)
               }
@@ -170,12 +169,3 @@ cards:
                     };
                     return res;
                   }
-
-      - type: custom:mushroom-template-card
-        entity: sensor.dsmr_day_consumption_electricity_merged
-        primary: "Electriciteitsverbruik deze maand: {{ states('sensor.dsmr_current_month_electricity_merged') | round(1, default=0) }} kWh"
-        secondary: "Gasverbruik deze maand: {{ states('sensor.dsmr_current_month_gas') | round(1, default=0) }} m³"
-        icon: mdi:meter-electric
-        icon_color: blue
-        tap_action:
-          action: more-info

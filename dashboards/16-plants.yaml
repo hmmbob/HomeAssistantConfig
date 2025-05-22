@@ -14,7 +14,6 @@ cards:
           style:
             .: |
               ha-card {
-              margin: 12px 14px -5px 14px;
               box-shadow: none;
               --ha-card-background: rgba(0, 0, 0, 0.0)
               }
@@ -27,6 +26,12 @@ cards:
                 }
       - type: custom:mushroom-chips-card
         alignment: end
+        card_mod:
+          style:
+            .: |
+              ha-card {
+                margin-top: 10px;
+              }
         chips:
           - type: action
             icon: mdi:restart

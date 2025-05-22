@@ -12,7 +12,6 @@ cards:
       style:
         .: |
           ha-card {
-          margin: 12px 14px -5px 14px;
           box-shadow: none;
           --ha-card-background: rgba(0, 0, 0, 0.0)
           }
