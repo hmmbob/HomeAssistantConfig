@@ -10,107 +10,290 @@ visible:
 cards:
   - type: vertical-stack
     cards:
-      - type: markdown ## Auto header
-        content: |
-          # Auto
-        card_mod:
-          style:
-            .: |
-              ha-card {
-                box-shadow: none;
-                --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 { 
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: entity
-            entity: sensor.smartevse_6360_state
-            icon_color: green
-            icon: mdi:ev-station
-            tap_action:
-              action: url
-              url_path: http://192.168.88.216
-          - type: entity
-            entity: select.smartevse_6360_mode
-            icon: mdi:ev-plug-type2
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: EV Charge mode
-                  content:
-                    type: custom:mushroom-select-card
-                    entity: select.smartevse_6360_mode
-                    name: Huidige laadmodus
-                    secondary_info: none
-          - type: spacer
-          - type: action
-            icon: mdi:refresh
-            tap_action:
-              action: perform-action
-              perform_action: kia_uvo.update
-              target: {}
-              data:
-                device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
-          - type: template
-            entity: sensor.tucson_ev_battery_level
-            content: "{{ states(entity, with_unit=True) }}"
-            icon: mdi:car-electric
-            icon_color: >
-              {% set battery_level = (states(entity)|int(default=0)) %}
-              {% if battery_level > 66 %}
-                green
-              {% elif battery_level > 33 %}
-                amber
-              {% else %}
-                red
-              {% endif %}
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.smartevse_6360_evplugstate
-            icon: mdi:ev-plug-type2
-        card_mod:
-          style:
-            mushroom-template-chip:nth-child(5)$: |
-              {% set battery_level = (states('sensor.tucson_ev_battery_level')|int(default=0)) %}
-              ha-card {
-                {% if battery_level > 66 %}
-                  background: green
-                {% elif battery_level > 33 %}
-                  background: amber
-                {% else %}
-                  background: red
-                {% endif %}
-              }
-
       - type: horizontal-stack
         cards:
-          - type: custom:mushroom-entity-card
-            entity: button.ev_smart_charging_manually_start_charging
-            name: Start laden
-            icon_color: green
-            secondary_info: none
-            tap_action:
-              action: toggle
-          - type: custom:mushroom-entity-card
-            entity: button.ev_smart_charging_manually_stop_charging
-            name: Stop laden
-            icon_color: red
-            secondary_info: none
-            tap_action:
-              action: toggle
+          - type: markdown ## Auto header
+            content: |
+              # Auto
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    box-shadow: none;
+                    --ha-card-background: rgba(0, 0, 0, 0.0)
+                  }
+                ha-markdown$: |
+                  h1 { 
+                    font-size: 18px !important;
+                    font-weight: 400 !important;
+                    padding-left: 10px !important;
+                    border-left: 3px solid rgba(81, 134, 236);
+                    }
+          - type: custom:mushroom-chips-card
+            alignment: end
+            card_mod:
+              style:
+                .: |
+                  ha-card {
+                    margin-top: 10px;
+                  }
+            chips:
+              - type: template
+                icon: mdi:cog
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Instellingen
+                      content:
+                        type: grid
+                        columns: 1
+                        square: false
+                        cards:
+                          - type: heading
+                            heading: SmartEVSE instellingen
+                          - type: custom:mushroom-template-card
+                            entity: sensor.smartevse_6360_state
+                            icon_color: green
+                            icon: mdi:ev-station
+                            primary: "{{ state_translated('sensor.smartevse_6360_state') }} "
+                            secondary: Klik voor de webinterface
+                            tap_action:
+                              action: url
+                              url_path: http://192.168.88.216
+                          - type: custom:mushroom-select-card
+                            entity: select.smartevse_6360_mode
+                            name: Huidige laadmodus
+                            secondary_info: none
+                            icon: mdi:ev-plug-type2
+                            layout: horizontal
+                          - type: horizontal-stack
+                            cards:
+                              - type: custom:mushroom-entity-card
+                                entity: button.ev_smart_charging_manually_start_charging
+                                name: Start nu met laden
+                                icon_color: green
+                                secondary_info: none
+                                tap_action:
+                                  action: toggle
+                              - type: custom:mushroom-entity-card
+                                entity: button.ev_smart_charging_manually_stop_charging
+                                name: Stop laden
+                                icon_color: red
+                                secondary_info: none
+                                tap_action:
+                                  action: toggle
+                          - type: heading
+                            heading: Automatisch slim laden
+                          - type: custom:mushroom-entity-card
+                            entity: switch.ev_smart_charging_smart_charging_activated
+                            name: Slim laden geactiveerd
+                            icon_color: yellow
+                            secondary_info: none
+                            tap_action:
+                              action: toggle
+                          - type: horizontal-stack
+                            cards:
+                              - type: custom:mushroom-number-card
+                                entity: input_number.ev_target_soc
+                                name: Doelpercentage
+                              - type: custom:mushroom-select-card
+                                entity: select.ev_smart_charging_charge_completion_time
+                                name: Vertrektijd
 
-      - type: custom:mushroom-title-card
-        title: Automatic cheapest charge settings
+              - type: action
+                icon: mdi:refresh
+                tap_action:
+                  action: perform-action
+                  perform_action: kia_uvo.update
+                  target: {}
+                  data:
+                    device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
+
+      - type: custom:ultra-vehicle-card
+        action_image_priority: newest
+        action_image_width: 100
+        formatted_entities: true
+        layout_type: full_half
+        show_car_state: true
+        show_info_icons: true
+        show_location: true
+        show_mileage: true
+        show_units: true
+        status_image_type: none
+        title: Hyundai Tucson
+        title_alignment: center
+        title_size: 24
+        vehicle_image: /api/image/serve/c710ed32cf693c855cde91ce3985f4cf
+        vehicle_image_type: upload
+        vehicle_image_width: 100
+        sections_order:
+          - title
+          - info_row_ep1qvj0
+          - image
+          - info
+          - info_row_07q9igt
+          - info_row_jbstp00
+          - bar_0
+          - bar_1
+        section_styles:
+          image:
+            marginBottom: -50
+            marginTop: -50
+        sections_columns:
+          bar_0: full_half_row2_left
+          bar_1: full_half_row2_right
+        bars:
+          - entity: sensor.tucson_ev_battery_level
+            left_title: Batterij
+            use_gradient: true
+            show_percentage: false
+            gradient_stops:
+              - id: "1"
+                position: 0
+                color: "#ff0000"
+              - id: "2"
+                position: 100
+                color: "#00ff00"
+            gradient_display_mode: value_based
+            show_left: true
+            percentage_type: entity
+            percentage_amount_entity: ""
+            percentage_total_entity: ""
+            percentage_attribute: ""
+            percentage_template: ""
+            right_condition:
+              type: none
+              entity: ""
+              state: ""
+            show_right: true
+            left_condition:
+              type: none
+              entity: ""
+              state: ""
+            animation_entity: binary_sensor.tucson_ev_battery_charge
+            animation_state: "on"
+            animation_type: charging-lines
+            width: "95"
+            right_template_mode: false
+            right_template: "{{ states('sensor.tucson_ev_range') | int }} km / 123"
+            right_entity: sensor.tucson_ev_range
+            right_title: Bereik
+            left_entity: sensor.tucson_ev_battery_level
+          - entity: sensor.tucson_fuel_level
+            left_entity: sensor.tucson_fuel_level
+            left_title: Benzine
+            use_gradient: true
+            gradient_stops:
+              - color: "#ff0000"
+                position: 0
+              - color: "#ffff00"
+                position: 50
+              - color: "#00ff00"
+                position: 100
+            right_condition:
+              type: none
+              entity: ""
+              state: ""
+            show_percentage: false
+            gradient_display_mode: value_based
+            show_left: true
+            show_right: true
+            percentage_type: entity
+            percentage_amount_entity: ""
+            percentage_total_entity: ""
+            percentage_attribute: ""
+            percentage_template: ""
+            right_title: Bereik
+            right_entity: sensor.tucson_fuel_driving_range
+            width: "98"
+        icon_rows: []
+        info_rows:
+          - id: ep1qvj0
+            width: "100"
+            alignment: center
+            vertical_alignment: center
+            columns: 0
+            allow_wrap: false
+            info_entities:
+              - id: 5hi4vmp
+                entity: device_tracker.tucson_location
+                name: ""
+                icon: mdi:map-marker-outline
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                template_mode: true
+                value_template: "{{ state_translated('device_tracker.tucson_location') }}"
+              - id: wmmsrlr
+                entity: sensor.tucson_odometer
+                name: ""
+                icon: mdi:speedometer
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+          - id: 07q9igt
+            width: "100"
+            alignment: center
+            spacing: medium
+            columns: 0
+            allow_wrap: false
+            info_entities:
+              - id: ipezix2
+                entity: sensor.tucson_total_driving_range
+                name: Bereik
+                icon: mdi:road-variant
+                show_icon: true
+                show_name: true
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+          - id: jbstp00
+            width: "100"
+            alignment: center
+            vertical_alignment: center
+            spacing: medium
+            columns: 0
+            allow_wrap: false
+            info_entities:
+              - id: x3d9kdg
+                entity: binary_sensor.tucson_ev_battery_plug
+                name: ""
+                icon: mdi:power-plug
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+              - id: cp4ktb1
+                entity: binary_sensor.tucson_ev_battery_charge
+                name: ""
+                icon: mdi:battery-charging
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
 
       - type: custom:mushroom-template-card
         primary: "{{ state_translated('sensor.ev_smart_charging_status') }} "
@@ -135,140 +318,3 @@ cards:
           {% endif %}
         tap_action:
           action: more-info
-
-      - type: entities
-        state_color: true
-        show_header_toggle: false
-        entities:
-          - entity: switch.ev_smart_charging_smart_charging_activated
-            name: Slim laden geactiveerd
-          - entity: input_number.ev_target_soc
-            name: Doelpercentage
-          - entity: select.ev_smart_charging_charge_completion_time
-            name: Vertrektijd
-
-      - type: custom:plotly-graph
-        title: Electriciteitsprijs
-        hours_to_show: 18
-        time_offset: 14h
-        fn: |
-          $fn ({ hass, vars }) => {
-            vars.x = []; vars.y = []; vars.color = []; vars.hover = [];
-            vars.min = {p: 999,t: null}; vars.max = {p:-999,t:null}
-            vars.ymin = 999; vars.ymax = -999
-            vars.p_now = parseFloat(hass.states['sensor.zonneplan_current_electricity_tariff'].state)
-            vars.unit_of_measurement = hass.states['sensor.zonneplan_current_electricity_tariff'].attributes.unit_of_measurement
-            hass.states['sensor.zonneplan_current_electricity_tariff']?.attributes?.forecast?.map(e => {
-              var t = new Date(e.datetime).getTime()+1800000 
-              var p = e.electricity_price/10000000
-              var c = e.tariff_group.replace("low", "#00a964").replace("normal", "#227153").replace("high","#ed5e18")
-              if (t>=Date.now()-1800000) {
-                if (p<vars.min.p) vars.min = {p,t,c}
-                if (p>vars.max.p) vars.max = {p,t,c}
-              }
-              if (p<vars.ymin) vars.ymin = p
-              if (p>vars.ymax) vars.ymax = p
-              vars.x.push(t)
-              vars.y.push(p)
-              vars.color.push(c)
-              vars.hover.push(String(new Date(t).getHours()).padStart(2,"0") + ":00-" + 
-                String(new Date((new Date(t).getTime()+3600000)).getHours()).padStart(2,"0") + ":00 : <b>" + 
-                p.toFixed(3) + "</b> " + vars.unit_of_measurement)
-            })
-            console.log(vars)
-          }
-        layout:
-          yaxis:
-            fixedrange: true
-            tickformat: .2f
-            range: $fn ({vars}) => [ vars.ymin-0.02, vars.ymax+0.02 ]
-          xaxis:
-            tickformat: "%H:%M"
-        config:
-          displayModeBar: false
-        entities:
-          - entity: "" # Price columns
-            unit_of_measurement: $ex vars.unit_of_measurement
-            name: ""
-            showlegend: false
-            x: $ex vars.x
-            "y": $ex vars.y
-            marker:
-              color: $ex vars.color
-            type: bar
-            hovertemplate: $ex vars.hover
-          - entity: "" # MIN marker + legend
-            mode: markers
-            textposition: top
-            showlegend: true
-            name: >-
-              $fn ({vars}) => vars.min.p.toFixed(3) + " " + vars.unit_of_measurement + "
-              @ " + new Date(vars.min.t).getHours() + ":00"
-            yaxis: y0
-            marker:
-              symbol: diamond
-              color: $ex vars.min.c
-            x:
-              - $ex vars.min.t
-            "y":
-              - $ex vars.min.p
-          - entity: "" # MAX marker + legend
-            mode: markers
-            textposition: top
-            showlegend: true
-            name: >-
-              $fn ({vars}) => vars.max.p.toFixed(3) + " " + vars.unit_of_measurement + "
-              @ " +  new Date(vars.max.t).getHours() + ":00"
-            yaxis: y0
-            marker:
-              symbol: diamond
-              color: $ex vars.max.c
-            x:
-              - $ex vars.max.t
-            "y":
-              - $ex vars.max.p
-          - entity: "" # NOW Line
-            name: Now
-            yaxis: y0
-            showlegend: false
-            line:
-              width: 2
-              dash: dot
-              color: deepskyblue
-            x: $ex [Date.now(), Date.now()]
-            "y":
-              - 0
-              - 1
-          - entity: "" # NOW Legend
-            yaxis: y0
-            mode: markers
-            textposition: top
-            showlegend: true
-            name: >-
-              $fn ({vars}) => "Nu: " + vars.p_now.toFixed(3) + " " + vars.unit_of_measurement
-            marker:
-              symbol: diamond
-              color: deepskyblue
-            x: $ex [Date.now(), Date.now()]
-            "y":
-              - $ex vars.p_now
-          - entity: sensor.ev_smart_charging_charging # Charging schedule
-            attribute: charging_schedule
-            yaxis: y0
-            name: EV Charging schedule
-            fill: tozeroy
-            line:
-              color: grey
-              dash: dot
-              width: 1
-            filters:
-              - fn: |-
-                  ({xs, ys, meta, states, statistics, hass, vars}) => {
-                    const forecasts = hass.states['sensor.ev_smart_charging_charging'].attributes.charging_schedule;
-                    res = {
-                      xs: forecasts.map(fc => fc["start"]),
-                      ys: forecasts.map(fc => fc["value"]),
-                      meta: meta
-                    };
-                    return res;
-                  }

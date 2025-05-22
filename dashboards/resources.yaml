@@ -14,6 +14,8 @@
   type: module
 - url: /hacsfiles/advanced-camera-card/advanced-camera-card.js
   type: module
+- url: /hacsfiles/Ultra-Vehicle-Card/ultra-vehicle-card.js
+  type: module
 
 ### Admin dashboard only
 - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
