@@ -126,10 +126,6 @@ entity_config:
     name: "Slaapkamer T temperatuur"
     expose: true
     room: "Slaapkamer T"
-  script.start_music_t:
-    name: "Slaaptijd"
-    expose: true
-    room: "Slaapkamer T"
 
   ## Zolder
   light.sonoff_l1:
