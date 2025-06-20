@@ -128,15 +128,6 @@ cards:
         vehicle_image: /api/image/serve/c710ed32cf693c855cde91ce3985f4cf
         vehicle_image_type: upload
         vehicle_image_width: 100
-        sections_order:
-          - title
-          - info_row_ep1qvj0
-          - image
-          - info
-          - info_row_07q9igt
-          - info_row_jbstp00
-          - bar_0
-          - bar_1
         section_styles:
           image:
             marginBottom: -50
@@ -144,6 +135,25 @@ cards:
         sections_columns:
           bar_0: full_half_row2_left
           bar_1: full_half_row2_right
+        section_conditions:
+          info_row_jbstp00:
+            type: hide
+            entity: sensor.smartevse_6360_evplugstate
+            state: Connected
+          info_row_y0706qc:
+            type: show
+            entity: sensor.smartevse_6360_evplugstate
+            state: Connected
+        sections_order:
+          - title
+          - info_row_ep1qvj0
+          - image
+          - info
+          - info_row_07q9igt
+          - info_row_jbstp00
+          - info_row_y0706qc
+          - bar_0
+          - bar_1
         bars:
           - entity: sensor.tucson_ev_battery_level
             left_title: Batterij
@@ -153,6 +163,12 @@ cards:
               - id: "1"
                 position: 0
                 color: "#ff0000"
+              - id: "3"
+                position: 20
+                color: "#ff0000"
+              - id: "4"
+                position: 60
+                color: "#d4d416"
               - id: "2"
                 position: 100
                 color: "#00ff00"
@@ -172,15 +188,16 @@ cards:
               type: none
               entity: ""
               state: ""
-            animation_entity: binary_sensor.tucson_ev_battery_charge
-            animation_state: "on"
-            animation_type: charging-lines
             width: "95"
-            right_template_mode: false
-            right_template: "{{ states('sensor.tucson_ev_range') | int }} km / 123"
-            right_entity: sensor.tucson_ev_range
-            right_title: Bereik
+            animation_entity: sensor.smartevse_6360_state
+            animation_state: Charging
+            animation_type: charging-lines
             left_entity: sensor.tucson_ev_battery_level
+            limit_entity: input_number.ev_target_soc
+            right_entity: sensor.tucson_ev_range
+            right_template: "{{ states('sensor.tucson_ev_range') | int }} km / 123"
+            right_template_mode: false
+            right_title: Bereik
           - entity: sensor.tucson_fuel_level
             left_entity: sensor.tucson_fuel_level
             left_title: Benzine
@@ -271,7 +288,7 @@ cards:
             allow_wrap: false
             info_entities:
               - id: x3d9kdg
-                entity: binary_sensor.tucson_ev_battery_plug
+                entity: sensor.smartevse_6360_evplugstate
                 name: ""
                 icon: mdi:power-plug
                 show_icon: true
@@ -282,10 +299,67 @@ cards:
                 icon_color: var(--secondary-text-color)
                 text_color: var(--primary-text-color)
                 on_click_action: more-info
-              - id: cp4ktb1
-                entity: binary_sensor.tucson_ev_battery_charge
+                template_mode: true
+                value_template: >
+                  {{ "Aangesloten" if is_state('sensor.smartevse_6360_evplugstate','Connected')
+                      else "Niet aangesloten"}}
+          - id: y0706qc
+            width: "100"
+            alignment: center
+            vertical_alignment: center
+            spacing: medium
+            columns: 0
+            allow_wrap: false
+            info_entities:
+              - id: x3d9kdg
+                entity: sensor.smartevse_6360_evplugstate
                 name: ""
-                icon: mdi:battery-charging
+                icon: mdi:power-plug
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                template_mode: true
+                value_template: >
+                  {{ "Aangesloten" if is_state('sensor.smartevse_6360_evplugstate','Connected')
+                      else "Niet aangesloten"}}
+              - id: cp4ktb1
+                name: ""
+                icon: mdi:ev-station
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+                entity: sensor.smartevse_6360_state
+                template_mode: true
+                value_template: >-
+                  {{ "Laden" if is_state('sensor.smartevse_6360_state','Charging') else
+                  "Verbonden" if is_state('sensor.smartevse_6360_state','Connected to
+                  EV') else "Gestopt"}}
+              - id: 32iptii
+                entity: sensor.smartevse_6360_evchargepower
+                name: ""
+                icon: mdi:flash
+                show_icon: true
+                show_name: false
+                text_size: 14
+                name_size: 14
+                icon_size: 24
+                icon_color: var(--secondary-text-color)
+                text_color: var(--primary-text-color)
+                on_click_action: more-info
+              - id: x1fr6q4
+                entity: sensor.smartevse_6360_evcurrentl1
+                name: ""
+                icon: mdi:current-ac
                 show_icon: true
                 show_name: false
                 text_size: 14
