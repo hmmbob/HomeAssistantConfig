@@ -1,8 +1,7 @@
 lights_hallway_package:
-  group:
-    pir_sensors_hallway:
-      name: PIR Gang
-      icon: mdi:motion-sensor
+  binary_sensor:
+    - platform: group
+      name: "PIR Gang"
       entities:
         - binary_sensor.pir_gang_kapstok_motion_detection
         - binary_sensor.pir_gang_meterkast_motion_detection
@@ -19,7 +18,7 @@ lights_hallway_package:
       max_exceeded: silent
       triggers:
         - trigger: state
-          entity_id: group.pir_sensors_hallway
+          entity_id: binary_sensor.pir_gang
           from: "off"
           to: "on"
       conditions:
@@ -38,7 +37,7 @@ lights_hallway_package:
         - alias: "Wacht tot er geen motion meer is..."
           wait_for_trigger:
             - trigger: state
-              entity_id: group.pir_sensors_hallway
+              entity_id: binary_sensor.pir_gang
               from: "on"
               to: "off"
         - alias: "Lamp uit.."
