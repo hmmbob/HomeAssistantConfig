@@ -1,9 +1,10 @@
 lights_dining_room_package:
-  group:
-    lampen_eetkamer:
-      name: Verlichting Eetkamer
-      icon: mdi:silverware-variant
+  light:
+    - platform: group
+      name: "Verlichting Eetkamer"
+      unique_id: lampen_eetkamer
       entities:
         - light.eetkamer_tafel
         - light.kast
         - light.spots_eetkamer
+        - light.spots_keuken

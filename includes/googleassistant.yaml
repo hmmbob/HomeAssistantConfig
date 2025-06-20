@@ -140,7 +140,7 @@ entity_config:
     room: "Zolder"
 
   ## Tuin
-  group.lampen_tuin:
+  light.verlichting_tuin:
     name: "Tuinverlichting"
     expose: true
     room: "Tuin"

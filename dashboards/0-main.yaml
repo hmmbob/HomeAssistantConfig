@@ -120,15 +120,10 @@ cards:
                         --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
-                entity: group.lampen_woonkamer
+                entity: light.verlichting_woonkamer
                 icon: mdi:lightbulb-group
                 icon_color: |-
-                  {{ "orange" if is_state('group.lampen_woonkamer', 'on') else "grey" }}
-                tap_action:
-                  action: perform-action
-                  perform_action: script.light_group_toggle_helper
-                  data:
-                    group: group.lampen_woonkamer
+                  {{ "orange" if is_state('light.verlichting_woonkamer', 'on') else "grey" }}
                 card_mod: &1st_button_style
                   style:
                     .: |
@@ -238,15 +233,10 @@ cards:
                         --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
-                entity: group.lampen_eetkamer
+                entity: light.verlichting_eetkamer
                 icon: mdi:lightbulb-group
                 icon_color: |-
-                  {{ "orange" if is_state('group.lampen_eetkamer', 'on') else "grey" }}
-                tap_action:
-                  action: perform-action
-                  perform_action: script.light_group_toggle_helper
-                  data:
-                    group: group.lampen_eetkamer
+                  {{ "orange" if is_state('light.verlichting_eetkamer', 'on') else "grey" }}
                 card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.airco_woonkamer
@@ -322,15 +312,10 @@ cards:
                         --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
-                entity: group.lampen_salon
+                entity: light.alle_lampen_salon
                 icon: mdi:lightbulb-group
                 icon_color: |-
-                  {{ "orange" if is_state('group.lampen_salon', 'on') else "grey" }}
-                tap_action:
-                  action: perform-action
-                  perform_action: script.light_group_toggle_helper
-                  data:
-                    group: group.lampen_salon
+                  {{ "orange" if is_state('light.alle_lampen_salon', 'on') else "grey" }}
                 card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.salon
@@ -502,16 +487,11 @@ cards:
                         --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
-                entity: group.lampen_pubercave
+                entity: light.verlichting_pubercave
                 icon: >-
-                  {{ "mdi:led-strip-variant" if is_state('group.lampen_pubercave','on') else "mdi:led-strip-variant-off" }}
+                  {{ "mdi:led-strip-variant" if is_state('light.verlichting_pubercave','on') else "mdi:led-strip-variant-off" }}
                 icon_color: |-
-                  {{ "orange" if is_state('group.lampen_pubercave', 'on') else "grey" }}
-                tap_action:
-                  action: perform-action
-                  perform_action: script.light_group_toggle_helper
-                  data:
-                    group: group.lampen_pubercave
+                  {{ "orange" if is_state('light.verlichting_pubercave', 'on') else "grey" }}
                 card_mod: *1st_button_style
               - type: custom:mushroom-template-card
                 entity: climate.airco_slaapkamer_m
@@ -642,15 +622,10 @@ cards:
                         --mush-icon-size: 140px;
                       }
               - type: custom:mushroom-template-card
-                entity: group.lampen_minicave
+                entity: light.verlichting_minicave
                 icon: >-
                   {{ "mdi:led-strip-variant" if is_state('light.ledstrip_mini','on') else "mdi:led-strip-variant-off" }}
                 icon_color: grey
-                tap_action:
-                  action: perform-action
-                  perform_action: script.light_group_toggle_helper
-                  data:
-                    group: group.lampen_minicave
                 card_mod:
                   style:
                     mushroom-shape-icon$: |
@@ -919,7 +894,6 @@ cards:
                             icon_animation: true
                             show_percentage_control: true
                             layout: horizontal
-
                           - type: custom:mushroom-chips-card
                             chips:
                               - type: template

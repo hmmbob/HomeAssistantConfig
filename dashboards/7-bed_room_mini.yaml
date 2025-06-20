@@ -35,13 +35,8 @@ cards:
                 #{{ '%02x%02x%02x' | format(r, g, b) }}
               {% endif %}
             content: |-
-              {{ expand(state_attr('group.lampen_minicave', 'entity_id')) | selectattr('state','eq','on') |
+              {{ expand(state_attr('light.verlichting_minicave', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
-            tap_action:
-              action: perform-action
-              perform_action: script.light_group_toggle_helper
-              data:
-                group: group.lampen_minicave
           - type: template
             entity: media_player.slaapkamer_t
             icon: mdi:cast-audio

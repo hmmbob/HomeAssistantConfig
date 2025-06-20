@@ -39,14 +39,101 @@ cards:
                 data:
                   title: Speel een bericht af
                   content:
-                    type: entities
-                    state_color: true
-                    entities:
-                      - input_select.tts_target
-                      - input_text.tts_message
-                      - entity: script.play_tts_message
-                        icon: mdi:account-voice
-                        name: "Speel bericht af"
+                    type: vertical-stack
+                    cards:
+                      - type: entities
+                        state_color: true
+                        entities:
+                          - input_select.tts_target
+                          - input_text.tts_message
+                          - entity: script.play_tts_message
+                            icon: mdi:account-voice
+                            name: "Speel bericht af"
+                      - type: heading
+                        heading: Standaard meldingen
+                      - type: grid
+                        columns: 2
+                        square: false
+                        cards:
+                          - type: custom:mushroom-template-card
+                            primary: "Het eten is over 5 minuten klaar"
+                            icon: mdi:fast-forward-5
+                            icon_color: |-
+                              {{ "yellow" if is_state('input_select.kiosk_announcement', '5min_warning')  else "var(--color)" }}
+                            layout: vertical
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.kiosk_announcement
+                              data:
+                                announcement: 5min_warning
+                            hold_action:
+                              action: more-info
+                          - type: custom:mushroom-template-card
+                            primary: "Het eten is klaar"
+                            icon: mdi:food-turkey
+                            icon_color: |-
+                              {{ "yellow" if is_state('input_select.kiosk_announcement', 'dinner_time')  else "var(--color)" }}
+                            layout: vertical
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.kiosk_announcement
+                              data:
+                                announcement: dinner_time
+                            hold_action:
+                              action: more-info
+                          - type: custom:mushroom-template-card
+                            primary: "Tafeldekken"
+                            icon: mdi:silverware-variant
+                            icon_color: |-
+                              {{ "yellow" if is_state('input_select.kiosk_announcement', 'tafeldekken')  else "var(--color)" }}
+                            layout: vertical
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.kiosk_announcement
+                              data:
+                                announcement: tafeldekken
+                            hold_action:
+                              action: more-info
+                          - type: custom:mushroom-template-card
+                            primary: "Komen jullie naar beneden?"
+                            icon: mdi:stairs-down
+                            icon_color: |-
+                              {{ "yellow" if is_state('input_select.kiosk_announcement', 'stairs')  else "var(--color)" }}
+                            layout: vertical
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.kiosk_announcement
+                              data:
+                                announcement: stairs
+                            hold_action:
+                              action: more-info
+                          - type: custom:mushroom-template-card
+                            primary: "{{states('input_text.naam_puber')}}, kom je naar beneden?"
+                            icon: mdi:human-male-male
+                            icon_color: |-
+                              {{ "yellow" if is_state('input_select.kiosk_announcement', 'maxi')  else "var(--color)" }}
+                            layout: vertical
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.kiosk_announcement
+                              data:
+                                announcement: maxi
+                            hold_action:
+                              action: more-info
+                          - type: custom:mushroom-template-card
+                            primary: "{{states('input_text.naam_mini')}}, kom je naar beneden?"
+                            icon: mdi:human-male-boy
+                            icon_color: |-
+                              {{ "yellow" if is_state('input_select.kiosk_announcement', 'mini')  else "var(--color)" }}
+                            layout: vertical
+                            tap_action:
+                              action: perform-action
+                              perform_action: script.kiosk_announcement
+                              data:
+                                announcement: mini
+                            hold_action:
+                              action: more-info
+
           - type: template
             icon: mdi:fan
             icon_color: |-
@@ -349,7 +436,7 @@ cards:
             show_brightness_control: true
             collapsible_controls: true
           - type: custom:mushroom-light-card
-            entity: group.lampen_tuin
+            entity: light.verlichting_tuin
             icon: mdi:coach-lamp
           - type: custom:mushroom-light-card
             entity: switch.schuur
@@ -359,7 +446,7 @@ cards:
           - type: custom:mushroom-entity-card
             entity: binary_sensor.fietsenhok_contact
           - type: custom:mushroom-template-card
-            primary: "Fietslader T"
+            primary: "Fietslader links"
             secondary: >-
               {{ state_translated('switch.fietslader_links') }}
               {{" - " ~ states('sensor.fietslader_links_power', with_unit=True) if is_state('switch.fietslader_links','on') }}

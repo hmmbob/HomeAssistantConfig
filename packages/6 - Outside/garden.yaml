@@ -1,8 +1,8 @@
 lights_garden_package:
-  group:
-    lampen_tuin:
-      name: Verlichting tuin
-      icon: mdi:coach-lamp
+  light:
+    - platform: group
+      name: "Verlichting tuin"
+      unique_id: lampen_tuin
       entities:
         - light.tuin_wandverlichting_muren
         - light.tuin_wandverlichting_schutting
@@ -48,7 +48,7 @@ lights_garden_package:
         - action: homeassistant.turn_{{ states('sensor.garden_lights') }}
           target:
             entity_id:
-              - group.lampen_tuin
+              - light.verlichting_tuin
               - light.tuin_spot_boom
 
     - id: garden_turn_on_coming_home
@@ -60,14 +60,10 @@ lights_garden_package:
           entity_id: binary_sensor.poort_contact
           from: "off"
           to: "on"
-        - trigger: state
-          entity_id: group.beweging_achtertuin
-          from: "off"
-          to: "on"
       conditions:
         - alias: "Are the lights off?"
           condition: state
-          entity_id: group.lampen_tuin
+          entity_id: light.verlichting_tuin
           state: "off"
         - alias: "Is the sun down?"
           condition: state
@@ -79,7 +75,7 @@ lights_garden_package:
             entity_id: input_boolean.garden_lights_override
         - action: homeassistant.turn_on
           target:
-            entity_id: group.lampen_tuin
+            entity_id: light.verlichting_tuin
         - delay: "00:03:00"
         - action: input_boolean.turn_off
           target:

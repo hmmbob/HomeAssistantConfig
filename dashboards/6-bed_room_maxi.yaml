@@ -25,7 +25,7 @@ cards:
             entity: sensor.xiaomi_temperature_humidity_sensor_4_humidity
             icon_color: indigo
           - type: template
-            entity: group.lampen_pubercave
+            entity: light.verlichting_pubercave
             icon: mdi:led-strip-variant
             icon_color: |-
               {% set r = state_attr('light.battletron_ball_light_m', 'rgb_color')[0] %}
@@ -35,13 +35,8 @@ cards:
                 #{{ '%02x%02x%02x' | format(r, g, b) }}
               {% endif %}
             content: |-
-              {{ expand(state_attr('group.lampen_pubercave', 'entity_id')) | selectattr('state','eq','on') |
+              {{ expand(state_attr('light.verlichting_pubercave', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
-            tap_action:
-              action: perform-action
-              perform_action: script.light_group_toggle_helper
-              data:
-                group: group.lampen_pubercave
           - type: template
             entity: media_player.zolder
             icon: mdi:cast-audio

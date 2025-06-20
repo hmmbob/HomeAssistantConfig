@@ -1,16 +1,16 @@
 lights_salon_package:
-  group:
-    lampen_salon:
-      name: Alle lampen salon
-      icon: mdi:sofa-single
+  light:
+    - platform: group
+      name: "Alle lampen salon"
+      unique_id: lampen_salon
       entities:
         - light.salon
         - light.staande_lamp_switch
         - light.tv_kastje
         - light.grijze_lamp
-    sfeerverlichting_salon:
-      name: Sfeerverlichting salon
-      icon: mdi:sofa-single
+    - platform: group
+      name: "Sfeerverlichting salon"
+      unique_id: sfeerverlichting_salon
       entities:
         - light.staande_lamp_switch
         - light.grijze_lamp
@@ -34,9 +34,9 @@ lights_salon_package:
         - choose:
             - conditions: "{{ event == 'single_left' }}"
               sequence:
-                - action: script.light_group_toggle_helper
-                  data:
-                    group: group.sfeerverlichting_salon
+                - action: light.toggle
+                  target:
+                    entity_id: light.sfeerverlichting_salon
             - conditions: "{{ event == 'single_right' }}"
               sequence:
                 - action: light.toggle

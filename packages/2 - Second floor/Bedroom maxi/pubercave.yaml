@@ -1,8 +1,8 @@
 attic_pubercave_package:
-  group:
-    lampen_pubercave:
-      name: Verlichting Pubercave
-      icon: mdi:lightbulb-multiple-outline
+  light:
+    - platform: group
+      name: "Verlichting Pubercave"
+      unique_id: lampen_pubercave
       entities:
         - light.sonoff_l1
         - light.battletron_ball_light_m

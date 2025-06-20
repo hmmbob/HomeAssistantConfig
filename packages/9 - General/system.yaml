@@ -83,30 +83,6 @@ system_package:
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
 
   script:
-    light_group_toggle_helper:
-      alias: Light group toggle helper
-      description: "System: Turn all lights in a group on or off based on status of the group"
-      icon: mdi:lightbulb-group
-      mode: single
-      max_exceeded: silent
-      fields:
-        group:
-          description: "The light group to turn on or off"
-          example: "group.lampen_eetkamer"
-          required: true
-      sequence:
-        - condition: "{{ true if group is defined and group != none else false }}"
-        - if:
-            - "{{ is_state(group, 'on') }}"
-          then:
-            - action: homeassistant.turn_off
-              target:
-                entity_id: "{{ group }}"
-          else:
-            - action: homeassistant.turn_on
-              target:
-                entity_id: "{{ group }}"
-
     multiple_tap_actions:
       alias: Multi Tap Action
       mode: parallel

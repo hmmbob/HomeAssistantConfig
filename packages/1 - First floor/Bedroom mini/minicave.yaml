@@ -1,8 +1,8 @@
 bedroom_minicave_package:
-  group:
-    lampen_minicave:
-      name: Verlichting Minicave
-      icon: mdi:lightbulb-multiple-outline
+  light:
+    - platform: group
+      name: "Verlichting Minicave"
+      unique_id: lampen_minicave
       entities:
         - light.ledstrip_mini
         - light.ledstrip_bed_mini

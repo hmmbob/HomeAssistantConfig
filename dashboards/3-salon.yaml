@@ -25,12 +25,12 @@ cards:
             entity: sensor.salon_luchtvochtigheid
             icon_color: indigo
           - type: template
-            entity: group.lampen_salon
+            entity: light.alle_lampen_salon
             icon: mdi:lightbulb-group
             icon_color: |-
-              {{ "orange" if is_state('group.lampen_salon', 'on') else "grey" }}
+              {{ "orange" if is_state('light.alle_lampen_salon', 'on') else "grey" }}
             content: |-
-              {{ expand(state_attr('group.lampen_salon', 'entity_id')) | selectattr('state','eq','on') |
+              {{ expand(state_attr('light.alle_lampen_salon', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
           - type: template
             entity: plant.palm

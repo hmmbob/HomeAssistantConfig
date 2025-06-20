@@ -25,18 +25,13 @@ cards:
             entity: sensor.woonkamer_humidity
             icon_color: indigo
           - type: template
-            entity: group.lampen_woonkamer
+            entity: light.verlichting_woonkamer
             icon: mdi:lightbulb-group
             icon_color: |-
-              {{ "orange" if is_state('group.lampen_woonkamer', 'on') else "grey" }}
+              {{ "orange" if is_state('light.verlichting_woonkamer', 'on') else "grey" }}
             content: |-
-              {{ expand(state_attr('group.lampen_woonkamer', 'entity_id')) | selectattr('state','eq','on') |
+              {{ expand(state_attr('light.verlichting_woonkamer', 'entity_id')) | selectattr('state','eq','on') |
                   map(attribute='entity_id') | list | count }}
-            tap_action:
-              action: perform-action
-              perform_action: script.light_group_toggle_helper
-              data:
-                group: group.lampen_woonkamer
           - type: template
             entity: plant.hangplant
             icon: mdi:sprout

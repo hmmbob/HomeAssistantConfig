@@ -145,7 +145,7 @@ kiosk_package:
       trigger:
         - alias: "Schakel uit als we de lampen uitzetten"
           trigger: state
-          entity_id: group.lampen_woonkamer
+          entity_id: light.verlichting_woonkamer
           to: "off"
           id: "turn_off"
         - alias: "Ga sowieso uit om 23:00"

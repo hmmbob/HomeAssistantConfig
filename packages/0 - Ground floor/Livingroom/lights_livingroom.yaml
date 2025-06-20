@@ -1,8 +1,8 @@
 lights_livingroom_package:
-  group:
-    lampen_woonkamer:
-      name: Verlichting Woonkamer
-      icon: mdi:sofa-outline
+  light:
+    - platform: group
+      name: "Verlichting Woonkamer"
+      unique_id: lampen_woonkamer
       entities:
         - light.spots_vaas
         - light.spots_woonkamer
@@ -31,7 +31,7 @@ lights_livingroom_package:
             entity_id: group.all_adults
             state: home
           - condition: state
-            entity_id: group.lampen_woonkamer
+            entity_id: light.verlichting_woonkamer
             state: "off"
       actions:
         - action: light.turn_on
