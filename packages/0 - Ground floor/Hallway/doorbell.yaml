@@ -107,3 +107,21 @@ doorbell_package:
             entity_id:
               - number.kiosk1_schermhelderheid
               - number.kiosk2_schermhelderheid
+
+    - id: deurbel_turn_off_chime
+      description: "Zet de deurbel boven uit na bepaalde tijd"
+      mode: single
+      triggers:
+        - trigger: time
+          at: "21:00:00"
+          id: "off"
+        - trigger: time
+          at: "09:00:00"
+          id: "hophop"
+      conditions: []
+      actions:
+        - action: select.select_option
+          data:
+            option: "{{ trigger.id }}"
+          target:
+            entity_id: select.reolink_chime_boven_beltoon_bij_bezoeker
