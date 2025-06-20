@@ -24,10 +24,12 @@ dishwasher_cheapest_time_package:
             {% set sensor = "sensor.zonneplan_current_electricity_tariff" %}
             {% set attr_all = "forecast" %}
             {% set value_key = "electricity_price" %}
+            {% set start_later = (now().hour > 18) or (now().hour == 18 and now().minute > 0) %}
+            {% set start = (now().strftime('%H:%M') if start_later else '18:00') %}
             {% from "cheapest_energy_hours.jinja" import cheapest_energy_hours %}
             {% set best_time = cheapest_energy_hours(sensor, attr_all=attr_all, value_key=value_key, 
               time_format="time24", no_weight_points=6, weight=[1, 1, 4, 4, 4, 4, 1, 1, 1, 4, 4, 1], 
-              include_tomorrow=true, start="18:00", end="06:30") %}
+              include_tomorrow=true, start=start, end="06:30") %}
             {{ best_time }}
           availability: "{{ 'sensor.zonneplan_current_electricity_tariff' | has_value }}"
 
