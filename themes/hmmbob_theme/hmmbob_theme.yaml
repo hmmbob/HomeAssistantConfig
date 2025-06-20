@@ -79,8 +79,8 @@ Hmmbob light theme:
   paper-card-background-color: var(--card-background-color)
 
   # Buttons
-  paper-item-icon-color: rgb(95, 99, 104)
-  paper-item-icon-active-color: rgb(26, 115, 232)
+  state-icon-color: rgb(95, 99, 104)
+  paper-item-icon-active-color: rgb(26, 115, 232) # Removed in HA 2025.5
 
   # Checkboxes
   mdc-select-fill-color: rgb(255, 255, 255)
@@ -173,8 +173,8 @@ Hmmbob dark theme:
       paper-card-background-color: var(--card-background-color)
 
       # Buttons
-      paper-item-icon-color: rgb(169, 177, 188)
-      paper-item-icon-active-color: rgb(138, 180, 248)
+      state-icon-color: rgb(169, 177, 188)
+      paper-item-icon-active-color: rgb(138, 180, 248) # Removed in HA 2025.5
 
       # Checkboxes
       mdc-select-fill-color: rgb(32, 33, 36)

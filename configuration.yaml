@@ -29,8 +29,6 @@ http:
 
 logbook:
   exclude:
-    entities:
-      - sensor.kamertemperatuur
     entity_globs:
       - binary_sensor.pir*
       - binary_sensor.sm_a55*
@@ -133,15 +131,12 @@ recorder:
       - automation.stuur_kamertemperatuur_naar_airco_s
       - sensor.awtrix_6caff8_current_app
       - sensor.awtrix_6caff8_free_ram
-      - sensor.awtrix_6caff8_wifi_strength
       - sensor.droger_dryer_completion_time
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
-      - sensor.knmi_all_data
       - sensor.smartevse_6360_evchargepower
       - sensor.smartevse_6360_evenergycharged
       - sensor.smartevse_6360_wifirssi
-      - sensor.smartevse_total_mains
       - sensor.todays_total_production_preserved
 
 #################################################################
