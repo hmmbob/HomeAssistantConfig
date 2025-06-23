@@ -57,7 +57,7 @@ kids_notifications_package:
         - choose:
             # Stop school notifications if not in afternoons on schooldays as they are likely false positives
             # because physical education lessons are offsite and in mornings.
-            # Scouting notifications only valid on saturdays.
+            # Scouting notifications only valid on mondays or saturdays.
             - conditions:
                 - or:
                     - and:
@@ -75,11 +75,17 @@ kids_notifications_package:
                     - and:
                         - '{{ location == "scouting" }}'
                         - not:
-                            - condition: time
-                              after: "12:00:00"
-                              before: "14:00:00"
-                              weekday:
-                                - sat
+                            - or:
+                                - condition: time
+                                  after: "12:00:00"
+                                  before: "14:00:00"
+                                  weekday:
+                                    - sat
+                                - condition: time
+                                  after: "21:00:00"
+                                  before: "22:00:00"
+                                  weekday:
+                                    - mon
               sequence:
                 - stop: "Likely false positive, stopping sequence"
           # In all other situations, just continue
