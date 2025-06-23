@@ -58,6 +58,41 @@ cards:
                     scroll_info: true
                     show_source: true
 
+          - type: conditional
+            conditions:
+              - condition: user
+                users:
+                  - 40059eb4e4d142688185485ed2e1ebbb # BV
+                  - 510b1afef60640d7a220711c50b2192a # BL
+            chip:
+              type: template
+              icon: mdi:cog
+              icon_color: grey
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Instellingen
+                    content:
+                      type: grid
+                      columns: 2
+                      square: false
+                      cards:
+                        - type: custom:mushroom-number-card
+                          entity: input_number.mini_pc_time_weekday
+                          name: Mini PC tijd weekdag (uren)
+                          display_mode: buttons
+                          secondary_info: none
+                        - type: custom:mushroom-number-card
+                          entity: input_number.mini_pc_time_weekend
+                          name: Mini PC tijd weekend (uren)
+                          display_mode: buttons
+                          secondary_info: none
+                        - type: custom:mushroom-entity-card
+                          entity: input_datetime.time_mini_gametime_over
+                          name: Eindtijd gamen mini
+
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-template-card

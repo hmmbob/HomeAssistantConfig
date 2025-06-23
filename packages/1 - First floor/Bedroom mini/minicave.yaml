@@ -16,6 +16,9 @@ bedroom_minicave_package:
     time_poweruse_minicave:
       name: Tijd poweruse minicave
       has_time: true
+    time_mini_gametime_over:
+      name: Mini gametijd over
+      has_time: true
 
   input_number:
     mini_pc_time_weekday:
@@ -132,6 +135,9 @@ bedroom_minicave_package:
           entity_id: sensor.minicave_pc_on_today
           above: input_number.mini_pc_time_weekend
           id: weekend
+        - trigger: time
+          at: input_datetime.time_maxi_gametime_over
+          id: all_days
       conditions:
         - or:
             - and:
@@ -149,6 +155,11 @@ bedroom_minicave_package:
                   weekday:
                     - sat
                     - sun
+            - and:
+                - '{{ trigger.id == "all_days" }}'
+                - condition: state
+                  entity_id: binary_sensor.minicave_pc
+                  state: "on"
       actions:
         - action: scene.create
           data:
