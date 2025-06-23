@@ -24,6 +24,26 @@ cards:
           - type: entity
             entity: sensor.xiaomi_temperature_humidity_sensor_2_humidity
             icon_color: indigo
+          - type: template
+            entity: plant.dracaena
+            icon: mdi:sprout-outline
+            icon_color: |-
+              {{ "green" if is_state('plant.dracaena', 'ok') else "red" }}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Dracaena
+                  content:
+                    type: custom:flower-card
+                    entity: plant.dracaena
+                    battery_sensor: sensor.xiaomi_plant_sensor_1_battery
+                    show_bars:
+                      - moisture
+                      - conductivity
+                      - temperature
+                      - illuminance
 
       - type: thermostat
         entity: climate.kantoor
