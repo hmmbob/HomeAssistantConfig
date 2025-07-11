@@ -68,6 +68,9 @@ logger:
       - "Error reading from socket"
       - "Failed to connect to service"
       - "Heartbeat timeout, resetting connection"
+    py.warnings:
+      - "functools.partial"
+      - "Protobuf gencode"
 
 lovelace:
   mode: yaml
