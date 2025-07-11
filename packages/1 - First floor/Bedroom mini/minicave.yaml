@@ -4,8 +4,9 @@ bedroom_minicave_package:
       name: "Verlichting Minicave"
       unique_id: lampen_minicave
       entities:
-        - light.ledstrip_mini
+        - light.ledstrip_bureau_mini
         - light.ledstrip_bed_mini
+        - light.plafondlamp_t
 
   input_boolean:
     notify_power_use_minicave:
@@ -46,20 +47,11 @@ bedroom_minicave_package:
     - platform: history_stats
       unique_id: minicave_tv_on_today
       name: Minicave TV on today
-      entity_id: binary_sensor.is_minicave_TV_on
+      entity_id: binary_sensor.minicave_tv
       state: "on"
       type: time
       start: "{{ now().replace(hour=0, minute=0, second=0) }}"
       end: "{{ now() }}"
-
-  template:
-    - binary_sensor:
-        - name: "Is minicave TV on"
-          unique_id: is_minicave_TV_on
-          state: "{{ 50 > states('sensor.mini_cave_power') | int(default=0) > 30 }}"
-        - name: "Is minicave PC on"
-          unique_id: is_minicave_pc_on
-          state: "{{ states('binary_sensor.minicave_pc') }}"
 
   automation:
     ## Warnings on power usage on kid's bedroom
@@ -72,10 +64,9 @@ bedroom_minicave_package:
           entity_id: sensor.mini_cave_power
           above: 80
           id: PC
-        - trigger: numeric_state
-          entity_id: sensor.mini_cave_power
-          above: 30
-          below: 80
+        - trigger: state
+          entity_id: binary_sensor.minicave_tv
+          to: "on"
           id: TV
       conditions:
         - condition: state
@@ -98,30 +89,6 @@ bedroom_minicave_package:
               notification_icon: mdi:home-lightning-bolt
               ttl: 0
               priority: high
-
-    - id: power_logging_minicave
-      alias: "Log stroomverbruik in de minicave"
-      description: >-
-        Because the switch is always on and only used for power tracking,
-        we need another way to track this switch in the logbook. We use
-        22 and 8 watts as crossover point.
-      mode: queued
-      triggers:
-        - trigger: numeric_state
-          entity_id: sensor.mini_cave_power
-          above: 22
-          id: minicave
-        - trigger: numeric_state
-          entity_id: sensor.mini_cave_power
-          below: 8
-          id: minicave
-      actions:
-        - action: logbook.log
-          data:
-            name: Minicave
-            entity_id: sensor.mini_cave_power
-            message: >-
-              {{ iif(states('sensor.mini_cave_power') | float > 22, "is aan", "is uit")}}
 
     - id: warn_pc_time_over_minicave
       alias: "Waarschuwing dat de mini te lang op de PC zit"
@@ -161,41 +128,33 @@ bedroom_minicave_package:
                   entity_id: binary_sensor.minicave_pc
                   state: "on"
       actions:
-        - action: scene.create
-          data:
-            scene_id: snapshot_minicave
-            snapshot_entities:
-              - light.ledstrip_mini
-        - delay:
-            seconds: 5
-        - action: light.turn_on
-          target:
-            entity_id: light.ledstrip_mini
-          data:
-            color_name: red
-        - delay:
-            seconds: 2
-        - repeat:
-            count: 5
-            sequence:
-              - action: light.toggle
-                data: {}
-                target:
-                  entity_id: light.ledstrip_mini
-              - delay:
-                  seconds: 1
-                  milliseconds: 200
-              - action: light.toggle
-                data: {}
-                target:
-                  entity_id: light.ledstrip_mini
-              - delay:
-                  seconds: 1
-                  milliseconds: 200
-        - action: tts.microsoft_say
-          data:
-            entity_id: media_player.slaapkamer_t
-            message: "Je tijd is op. Sluit je af?"
+        - parallel:
+            - sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id:
+                      - light.ledstrip_bureau_mini
+                      - light.plafondlamp_t
+                  data:
+                    color_name: red
+                - delay:
+                    seconds: 2
+                - repeat:
+                    count: 10
+                    sequence:
+                      - action: light.toggle
+                        data: {}
+                        target:
+                          entity_id:
+                            - light.ledstrip_bureau_mini
+                            - light.plafondlamp_t
+                      - delay:
+                          seconds: 1
+                          milliseconds: 500
+            - action: tts.microsoft_say
+              data:
+                entity_id: media_player.slaapkamer_t
+                message: "Je tijd is op. Sluit je af?"
         - action: notify.mobile_app_sm_a236b
           data:
             title: Tijd is om
@@ -215,8 +174,3 @@ bedroom_minicave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - delay:
-            seconds: 5
-        - action: scene.turn_on
-          data:
-            entity_id: scene.snapshot_minicave

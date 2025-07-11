@@ -52,14 +52,14 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "Tafel dekken"
-  switch.kerstboom:
-    name: "Kerstboom"
-    expose: true
-    room: "Woonkamer"
 
   ## Salon
   switch.grijze_lamp:
     name: "Grijze lamp"
+    expose: true
+    room: "Salon"
+  light.salon:
+    name: "Salon plafondlamp"
     expose: true
     room: "Salon"
   light.staande_lamp_switch:
@@ -116,12 +116,16 @@ entity_config:
     room: "Slaapkamer T"
     aliases:
       - "Led strip bed mini"
-  light.ledstrip_mini:
-    name: "Ledstrip mini"
+  light.ledstrip_bureau_mini:
+    name: "Ledstrip bureau mini"
     expose: true
     room: "Slaapkamer T"
     aliases:
       - "Led strip mini"
+  light.plafondlamp_t:
+    name: "Plafondlamp slaapkamer T"
+    expose: true
+    room: "Slaapkamer T"
   sensor.slaapkamer_t_temperatuur:
     name: "Slaapkamer T temperatuur"
     expose: true
@@ -140,6 +144,10 @@ entity_config:
     room: "Zolder"
 
   ## Tuin
+  light.tuin_spot_boom:
+    name: "Tuin spot boom"
+    expose: true
+    room: "Tuin"
   light.verlichting_tuin:
     name: "Tuinverlichting"
     expose: true

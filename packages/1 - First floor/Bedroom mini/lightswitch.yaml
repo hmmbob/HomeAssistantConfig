@@ -1,0 +1,117 @@
+lightswitch_t_package:
+  automation:
+    - id: "lights_t_remote_control"
+      alias: "Mini's afstandsbediening"
+      mode: restart
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: event.drukknop_t_action
+          not_from:
+            - unavailable
+            - unknown
+          variables:
+            event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
+      actions:
+        - choose:
+            - conditions: "{{ event == 'on' }}"
+              sequence:
+                - action: scene.turn_on
+                  target:
+                    entity_id: scene.plafondlamp_t_kleurige_verlichting
+                - delay:
+                    seconds: 2
+                - action: light.turn_on
+                  target:
+                    entity_id: light.ledstrip_bureau_mini
+                  data:
+                    rgb_color:
+                      - 89
+                      - 255
+                      - 0
+                - action: light.turn_on
+                  target:
+                    entity_id:
+                      - light.plafondlamp_t_1
+                      - light.plafondlamp_t_2
+                      - light.plafondlamp_t_3
+                  data:
+                    effect: colorloop
+            - conditions: "{{ event == 'off' }}"
+              sequence:
+                - action: light.turn_off
+                  target:
+                    entity_id: light.plafondlamp_t
+
+    - id: "lights_t_lightswitch"
+      alias: "Lichtschakelaar mini"
+      mode: restart
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: event.lichtschakelaar_t_action
+          not_from:
+            - unavailable
+            - unknown
+          variables:
+            event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
+      actions:
+        - choose:
+            - conditions: "{{ event == 'single_left' }}"
+              sequence:
+                - choose:
+                    - conditions: "{{ is_state('light.ledstrip_bed_mini', 'on') }}"
+                      sequence:
+                        - action: light.turn_off
+                          target:
+                            entity_id: light.ledstrip_bed_mini
+                    - conditions: "{{ is_state('light.ledstrip_bed_mini', 'off') }}"
+                      sequence:
+                        - action: light.turn_on
+                          data:
+                            color_temp_kelvin: 2500
+                          target:
+                            entity_id: light.ledstrip_bed_mini
+            - conditions: "{{ event == 'single_right' }}"
+              sequence:
+                - choose:
+                    - conditions: "{{ is_state('light.plafondlamp_t', 'on') }}"
+                      sequence:
+                        - action: light.turn_off
+                          target:
+                            entity_id: light.plafondlamp_t
+                    - conditions: "{{ is_state('light.plafondlamp_t', 'off') }}"
+                      sequence:
+                        - action: scene.turn_on
+                          target:
+                            entity_id: scene.plafondlamp_t_wit
+            - conditions: "{{ event == 'single_both' }}"
+              sequence: []
+            - conditions: "{{ event == 'double_left' }}"
+              sequence:
+                - action: light.turn_on
+                  data:
+                    rgb_color:
+                      - 0
+                      - 255
+                      - 30
+                    brightness_pct: 100
+                  target:
+                    entity_id: light.ledstrip_bed_mini
+            - conditions: "{{ event == 'double_right' }}"
+              sequence:
+                - action: scene.turn_on
+                  target:
+                    entity_id: scene.plafondlamp_t_kleurige_verlichting
+                - delay:
+                    seconds: 2
+                - action: light.turn_on
+                  target:
+                    entity_id:
+                      - light.plafondlamp_t_1
+                      - light.plafondlamp_t_2
+                      - light.plafondlamp_t_3
+                  data:
+                    effect: colorloop
+            - conditions: "{{ event == 'double_both' }}"
+              sequence: []

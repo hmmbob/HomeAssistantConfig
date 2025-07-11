@@ -25,13 +25,13 @@ cards:
             entity: sensor.xiaomi_temperature_humidity_sensor_3_humidity
             icon_color: indigo
           - type: template
-            entity: light.ledstrip_mini
+            entity: light.ledstrip_bureau_mini
             icon: mdi:lightbulb-group
             icon_color: |-
-              {% set r = state_attr('light.ledstrip_mini', 'rgb_color')[0] %}
-              {% set g = state_attr('light.ledstrip_mini', 'rgb_color')[1] %}
-              {% set b = state_attr('light.ledstrip_mini', 'rgb_color')[2] %}
-              {% if is_state('light.ledstrip_mini', 'on') %}
+              {% set r = state_attr('light.ledstrip_bureau_mini', 'rgb_color')[0] %}
+              {% set g = state_attr('light.ledstrip_bureau_mini', 'rgb_color')[1] %}
+              {% set b = state_attr('light.ledstrip_bureau_mini', 'rgb_color')[2] %}
+              {% if is_state('light.ledstrip_bureau_mini', 'on') %}
                 #{{ '%02x%02x%02x' | format(r, g, b) }}
               {% endif %}
             content: |-
@@ -96,13 +96,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-template-card
-            primary: "PC staat {{ state_translated('binary_sensor.is_minicave_pc_on') | lower }}"
+            primary: "PC staat {{ 'aan' if is_state('binary_sensor.minicave_pc', 'on') else 'uit' }}"
             secondary: "{{ ((states('sensor.minicave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-            entity: binary_sensor.is_minicave_pc_on
+            entity: binary_sensor.minicave_pc
             icon: >-
-              {{ "mdi:desktop-classic" if is_state('binary_sensor.is_minicave_pc_on','on') else "mdi:monitor-off" }}
+              {{ "mdi:desktop-classic" if is_state('binary_sensor.minicave_pc','on') else "mdi:monitor-off" }}
             icon_color: >-
-              {{ "green" if is_state('binary_sensor.is_minicave_pc_on','on') else "disabled" }}
+              {{ "green" if is_state('binary_sensor.minicave_pc','on') else "disabled" }}
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -116,16 +116,16 @@ cards:
                         entity: sensor.minicave_pc_on_today
                         name: Totaal vandaag
                       - type: custom:mushroom-entity-card
-                        entity: binary_sensor.is_minicave_pc_on
+                        entity: binary_sensor.minicave_pc
                         name: PC aan of uit?
           - type: custom:mushroom-template-card
-            primary: "TV staat {{ state_translated('binary_sensor.is_minicave_tv_on') | lower }}"
+            primary: "TV staat {{ 'aan' if is_state('binary_sensor.minicave_tv', 'on') else 'uit' }}"
             secondary: "{{ ((states('sensor.minicave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-            entity: binary_sensor.is_minicave_tv_on
+            entity: binary_sensor.minicave_tv
             icon: >-
-              {{ "mdi:television" if is_state('binary_sensor.is_minicave_tv_on','on') else "mdi:television-off" }}
+              {{ "mdi:television" if is_state('binary_sensor.minicave_tv','on') else "mdi:television-off" }}
             icon_color: >-
-              {{ "green" if is_state('binary_sensor.is_minicave_tv_on','on') else "disabled" }}
+              {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -133,21 +133,32 @@ cards:
                 data:
                   title: TV Mini
                   content:
-                    type: custom:mini-media-player
-                    entity: media_player.tv_t
-                    icon: mdi:cast
-                    artwork: cover
-                    artwork_border: true
-                    power_color: true
-                    scroll_info: true
-                    show_source: true
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        primary: "TV staat {{ 'aan' if is_state('binary_sensor.minicave_tv', 'on') else 'uit' }}"
+                        secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                        entity: binary_sensor.minicave_tv
+                        icon: "{{ 'mdi:television' if is_state('binary_sensor.minicave_tv','on') else 'mdi:television-off' }}"
+                        icon_color: >-
+                          {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
+                        tap_action:
+                          action: more-info
+                      - type: custom:mini-media-player
+                        entity: media_player.tv_t
+                        icon: mdi:cast
+                        artwork: cover
+                        artwork_border: true
+                        power_color: true
+                        scroll_info: true
+                        show_source: true
             hold_action:
               action: more-info
 
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-light-card
-            entity: light.ledstrip_mini
+            entity: light.ledstrip_bureau_mini
             icon: mdi:desk
             show_brightness_control: true
             collapsible_controls: true
@@ -163,6 +174,13 @@ cards:
 
       - type: horizontal-stack
         cards:
+          - type: custom:mushroom-light-card
+            entity: light.plafondlamp_t
+            icon: mdi:ceiling-light
+            show_brightness_control: true
+            collapsible_controls: true
+            show_color_control: true
+            use_light_color: true
           - type: custom:mushroom-light-card
             entity: light.inloopkast_t
             icon: mdi:hanger
@@ -184,6 +202,29 @@ cards:
                     type: custom:mushroom-entity-card
                     entity: binary_sensor.deursensor_inloopkast_t_contact
                     name: Inloopkast T
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-entity-card
+            entity: scene.plafondlamp_t_wit
+            name: Witte verlichting
+            tap_action:
+              action: call-service
+              service: scene.turn_on
+              service_data: {}
+              target:
+                entity_id: scene.plafondlamp_t_wit
+            secondary_info: none
+          - type: custom:mushroom-entity-card
+            entity: scene.plafondlamp_t_kleurige_verlichting
+            name: Kleurige verlichting
+            tap_action:
+              action: call-service
+              service: scene.turn_on
+              service_data: {}
+              target:
+                entity_id: scene.plafondlamp_t_kleurige_verlichting
+            secondary_info: none
 
       - type: thermostat
         entity: climate.airco_slaapkamer_t

@@ -624,16 +624,16 @@ cards:
               - type: custom:mushroom-template-card
                 entity: light.verlichting_minicave
                 icon: >-
-                  {{ "mdi:led-strip-variant" if is_state('light.ledstrip_mini','on') else "mdi:led-strip-variant-off" }}
+                  {{ "mdi:led-strip-variant" if is_state('light.ledstrip_bureau_mini','on') else "mdi:led-strip-variant-off" }}
                 icon_color: grey
                 card_mod:
                   style:
                     mushroom-shape-icon$: |
                       .shape {
-                        {% set r = state_attr('light.ledstrip_mini', 'rgb_color')[0] %}
-                        {% set g = state_attr('light.ledstrip_mini', 'rgb_color')[1] %}
-                        {% set b = state_attr('light.ledstrip_mini', 'rgb_color')[2] %}
-                      {% if is_state('light.ledstrip_mini', 'on') %}
+                        {% set r = state_attr('light.ledstrip_bureau_mini', 'rgb_color')[0] %}
+                        {% set g = state_attr('light.ledstrip_bureau_mini', 'rgb_color')[1] %}
+                        {% set b = state_attr('light.ledstrip_bureau_mini', 'rgb_color')[2] %}
+                      {% if is_state('light.ledstrip_bureau_mini', 'on') %}
                         --icon-color: rgb( {{r}}, {{g}}, {{b}} ) !important;
                         --shape-color: rgba( {{r}}, {{g}}, {{b}}, 0.2 ) !important;
                       {% endif %}
@@ -678,10 +678,10 @@ cards:
                       --mush-icon-size: 40px;
                     }
               - type: custom:mushroom-template-card
-                entity: binary_sensor.is_minicave_tv_on
+                entity: binary_sensor.minicave_tv
                 icon: mdi:television
                 icon_color: |-
-                  {{ "green" if is_state('binary_sensor.is_minicave_tv_on', 'on') else "grey" }}
+                  {{ "green" if is_state('binary_sensor.minicave_tv', 'on') else "grey" }}
                 tap_action:
                   action: fire-dom-event
                   browser_mod:
