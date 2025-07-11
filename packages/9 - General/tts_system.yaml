@@ -42,7 +42,7 @@ tts_system_package:
             entity_id: "{{ target }}"
             message: "{{ states('input_text.tts_message') }}"
             cache: false
-        - delay: 00:00:10
+        - delay: 00:00:30
         - action: media_player.turn_off
           data:
             entity_id: "{{ target }}"
