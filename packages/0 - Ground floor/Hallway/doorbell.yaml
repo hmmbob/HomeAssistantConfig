@@ -109,6 +109,7 @@ doorbell_package:
               - number.kiosk2_schermhelderheid
 
     - id: deurbel_turn_off_chime
+      alias: Zet de deurbel boven uit na bepaalde tijd
       description: "Zet de deurbel boven uit na bepaalde tijd"
       mode: single
       triggers:

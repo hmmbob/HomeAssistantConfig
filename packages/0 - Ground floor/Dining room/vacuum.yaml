@@ -30,7 +30,7 @@ vacuum_package:
         - condition: state
           entity_id: input_boolean.vacuum_enable_ask_for_cleaning
           state: "on"
-        - "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86400 }}"
+        - "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 82800 }}"
         - condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "off"
@@ -38,7 +38,7 @@ vacuum_package:
         - alias: "Vraag of Rocky een rondje moet doen"
           action: "{{ notification_service }}"
           data:
-            message: "Het is langer dan 24u geleden dat ik mijn laatste rondje heb gedaan. Zal ik gaan stofzuigen? 🧹🧹"
+            message: "Zal ik gaan stofzuigen? 🧹🧹"
             title: "Rocky"
             data:
               tag: vacuum
