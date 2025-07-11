@@ -133,28 +133,34 @@ airco_package:
               - climate.airco_woonkamer
 
     ###########################################
-    ## Limit high setpoint of kids aircos     #
+    ## Limit setpoint of kids aircos     #
     ###########################################
-    - id: airco_kinderen_niet_te_heet
+    - id: airco_kinderen_limit_setpoint
       alias: "Zet airco kinderen automatisch op een normale temperatuur"
-      description: "Set the kid's AC automatically to a more normal temperature (to prevent user error)"
+      description: "Set the kid's AC automatically to a more normal temperature (to prevent user error and save energy)"
       triggers:
-        - trigger: numeric_state
-          entity_id: climate.airco_slaapkamer_t
+        - trigger: state
+          entity_id:
+            - climate.airco_slaapkamer_m
+            - climate.airco_slaapkamer_t
           attribute: temperature
-          above: 21
-          variables:
-            entity: climate.airco_slaapkamer_t
-        - trigger: numeric_state
-          entity_id: climate.airco_slaapkamer_m
-          attribute: temperature
-          above: 21
-          variables:
-            entity: climate.airco_slaapkamer_m
-      conditions: "{{ states(entity) != 'cool' }}"
+      variables:
+        current_mode: "{{ states(trigger.entity_id) }}"
+        set_temp: "{{ state_attr(trigger.entity_id, 'temperature') | float(0) }}"
+      condition: []
       actions:
-        - action: climate.set_temperature
-          target:
-            entity_id: "{{entity}}"
-          data:
-            temperature: 19.5
+        - choose:
+            - conditions: "{{ current_mode in ['cool', 'dry'] and set_temp < 20 }}"
+              sequence:
+                - action: climate.set_temperature
+                  target:
+                    entity_id: "{{ trigger.entity_id }}"
+                  data:
+                    temperature: 22
+            - conditions: "{{ current_mode == 'heat' and set_temp > 21 }}"
+              sequence:
+                - action: climate.set_temperature
+                  target:
+                    entity_id: "{{ trigger.entity_id }}"
+                  data:
+                    temperature: 19.5
