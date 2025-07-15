@@ -11,13 +11,11 @@ picnic_package:
           state: >-
             {{ iif(is_state("sensor.picnic_verwacht_begin_van_de_volgende_bestelling", "unknown"), "unknown", 
                     as_timestamp(states("sensor.picnic_verwacht_begin_van_de_volgende_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-
         - name: "Picnic next delivery ETA end time"
           unique_id: picnic_next_delivery_eta_end_time
           state: >-
             {{ iif(is_state("sensor.picnic_verwacht_einde_van_de_volgende_bestelling", "unknown"), "unknown", 
                     as_timestamp(states("sensor.picnic_verwacht_einde_van_de_volgende_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-
         - name: "Picnic last order max order time only"
           unique_id: picnic_last_order_max_order_time_only
           state: >-

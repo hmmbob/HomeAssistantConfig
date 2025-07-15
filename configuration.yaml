@@ -31,14 +31,11 @@ logbook:
   exclude:
     entity_globs:
       - binary_sensor.pir*
-      - binary_sensor.sm_a55*
-      - binary_sensor.sm_a33_*
-      - binary_sensor.schad*
       - number.awtrix_*
       - sensor.awtrix*
       - sensor.dsmr_*
       - sensor.*_last_seen
-      - sensor.slimme_lezer*
+      - sensor.slimmelezer*
     domains:
       - automation
       - input_boolean
@@ -49,10 +46,6 @@ logger:
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
   filters:
-    custom_components.hpprinter.managers.rest_api:
-      - "Error: Cannot connect to host"
-    custom_components.mitsubishi_wf_rac.wfrac.device:
-      - "something went wrong updating the airco"
     custom_components.xiaomi_miot.fan:
       - "Unable to discover the device"
     homeassistant.components.goodwe.coordinator:
@@ -102,39 +95,29 @@ recorder:
   exclude:
     domains:
       - camera
-      - media_player
       - sun
       - update
     entity_globs:
-      - number.alarmspeaker_*
-      - select.alarmspeaker_*
       - sensor.*_geocoded_*
       - sensor.*_last_seen
-      - sensor.*_linkquality
       - sensor.*_uptime
       - sensor.*_wifi_signaal
       - sensor.*_voltage
       - sensor.afvalinfo_*
-      - sensor.alarmspeaker_*
-      - sensor.dsmr_reading_phase_currently_delivered_l*
-      - sensor.dsmr_reading_phase_power_current_l*
-      - sensor.dsmr_reading_phase_voltage_l*
+      - sensor.dsmr_reading_phase_*
       - sensor.on_grid_*
       - sensor.pv1_*
       - sensor.pv2_*
       - sensor.slimmelezer*
       - sensor.smartevse_6360_esp*
-      - sensor.smartevse_6360_evmeter*
       - sensor.smartevse_6360_mains*
       - sensor.smartevse_mains_*
       - sensor.sun_*
       - sensor.zonneplan_for*
-      - switch.alarmspeaker_*
     entities:
-      - automation.stuur_kamertemperatuur_naar_airco_s
       - sensor.awtrix_6caff8_current_app
       - sensor.awtrix_6caff8_free_ram
-      - sensor.droger_dryer_completion_time
+      - sensor.droger_completion_time
       - sensor.dsmr_consumption_gas_currently_delivered
       - sensor.dsmr_reading_electricity_currently_delivered
       - sensor.smartevse_6360_evchargepower

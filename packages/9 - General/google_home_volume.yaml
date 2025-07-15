@@ -14,9 +14,6 @@ google_home_volume_package:
         - trigger: homeassistant
           event: start
           id: "ha_start"
-        - trigger: event
-          event_type: automation_reloaded
-          id: "automation_reload"
       actions:
         - alias: "Check if this is triggered by HA restart"
           if:

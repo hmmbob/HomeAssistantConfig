@@ -1,13 +1,4 @@
 system_package:
-  template:
-    ##############################
-    ## Night template sensors   #
-    ##############################
-    - sensor:
-        - name: "Nightstate"
-          unique_id: nightstate
-          state: "{{ iif(is_state('sun.sun', 'below_horizon'), 1, 0) }}"
-
   automation:
     ##########################
     ## Set theme
@@ -81,46 +72,3 @@ system_package:
                 - action: "URI"
                   title: "Open Changelog"
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
-
-  script:
-    multiple_tap_actions:
-      alias: Multi Tap Action
-      mode: parallel
-      sequence:
-        - repeat:
-            for_each: "{{actions}}"
-            sequence:
-              - if:
-                  - condition: template
-                    value_template: "{{repeat.item.wait is defined}}"
-                then:
-                  - delay:
-                      hours: 0
-                      minutes: 0
-                      seconds: "{{repeat.item.wait | float}}"
-              - if:
-                  - condition: template
-                    value_template: "{{repeat.item.entity_id is not defined and repeat.item.data is not defined and repeat.item.wait is not defined }}"
-                then:
-                  action: "{{ repeat.item.action }}"
-              - if:
-                  - condition: template
-                    value_template: "{{repeat.item.entity_id is defined and repeat.item.data is not defined }}"
-                then:
-                  action: "{{ repeat.item.action }}"
-                  target:
-                    entity_id: "{{repeat.item.entity_id}}"
-              - if:
-                  - condition: template
-                    value_template: "{{repeat.item.entity_id is not defined and repeat.item.data is defined }}"
-                then:
-                  action: "{{ repeat.item.action }}"
-                  data: "{{ repeat.item.data }}"
-              - if:
-                  - condition: template
-                    value_template: "{{repeat.item.entity_id is defined and repeat.item.data is defined }}"
-                then:
-                  action: "{{ repeat.item.action }}"
-                  target:
-                    entity_id: "{{repeat.item.entity_id}}"
-                  data: "{{ repeat.item.data }}"

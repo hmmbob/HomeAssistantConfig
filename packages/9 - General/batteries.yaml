@@ -27,7 +27,7 @@ batteries_package:
           {%- else -%}
             is leeg.
           {%- endif %}
-          Je hebt {{trigger.event.data.battery_quantity }}× 
+          Je hebt {{trigger.event.data.battery_quantity }}x 
           {{trigger.event.data.battery_type }} nodig om de batterij te vervangen.
         id: "{{ trigger.event.data.device_id }}"
         navigate: "/config/devices/device/{{id}}"
