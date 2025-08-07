@@ -94,6 +94,9 @@ trash_package:
         - alias: "Do we have a valid state"
           condition: template
           value_template: "{{ states(sensor) not in ['unknown','unavailable','none','geen'] }}"
+        - condition: state
+          entity_id: input_boolean.vacation_mode_away
+          state: "off"
       actions:
         - if:
             - '{{trigger.id == "morgen" }}'

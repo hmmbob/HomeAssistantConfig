@@ -14,6 +14,10 @@ morning_briefing_package:
       triggers:
         trigger: time
         at: input_datetime.time_morning_briefing
+      conditions:
+        - condition: state
+          entity_id: input_boolean.vacation_mode_away
+          state: "off"
       actions:
         - action: notify.mobile_devices_papa_and_mini
           data:
