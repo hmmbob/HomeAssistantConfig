@@ -41,7 +41,9 @@ lightswitch_t_package:
               sequence:
                 - action: light.turn_off
                   target:
-                    entity_id: light.plafondlamp_t
+                    entity_id:
+                      - light.plafondlamp_t
+                      - light.ledstrip_bureau_mini
 
     - id: "lights_t_lightswitch"
       alias: "Lichtschakelaar mini"
