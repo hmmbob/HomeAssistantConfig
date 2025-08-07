@@ -7,10 +7,8 @@ batteries_package:
       triggers:
         - trigger: time
           at: "12:00:00"
-      conditions:
-        - condition: time
           weekday:
-            - sat
+            - "sat"
       action:
         - service: battery_notes.check_battery_low
 

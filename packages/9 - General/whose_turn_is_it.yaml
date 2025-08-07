@@ -13,10 +13,8 @@ whose_turn_is_it_package:
         - trigger: time
           at:
             - "00:01:00"
-      conditions:
-        - condition: time
           weekday:
-            - mon
+            - "mon"
       actions:
         - action: input_select.select_next
           target:
