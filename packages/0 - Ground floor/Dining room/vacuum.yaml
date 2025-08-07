@@ -18,8 +18,8 @@ vacuum_package:
       id: vacuum_ask_to_run
       variables:
         notification_service: >
-          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
-          {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
+          {% if is_state("device_tracker.sm_a566b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
+          {% elif is_state("device_tracker.sm_a566b", "home") %}notify.mobile_app_sm_a566b
           {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
           {% else %}notify.bogus
           {% endif %}
@@ -167,8 +167,8 @@ vacuum_package:
       initial_state: "on"
       variables:
         notification_service: >
-          {% if is_state("device_tracker.sm_a336b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
-          {% elif is_state("device_tracker.sm_a336b", "home") %}notify.mobile_app_sm_a336b
+          {% if is_state("device_tracker.sm_a566b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
+          {% elif is_state("device_tracker.sm_a566b", "home") %}notify.mobile_app_sm_a566b
           {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
           {% else %}notify.bogus
           {% endif %}

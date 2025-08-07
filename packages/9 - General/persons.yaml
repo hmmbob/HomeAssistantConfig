@@ -34,13 +34,13 @@ persons_package:
       name: mobile_devices_adults
       services:
         - service: mobile_app_sm_a556b
-        - service: mobile_app_sm_a336b
+        - service: mobile_app_sm_a566b
 
     - platform: group
       name: mobile_devices_all
       services:
         - service: mobile_app_sm_a556b
-        - service: mobile_app_sm_a336b
+        - service: mobile_app_sm_a566b
         - service: mobile_app_schaduwspeler
         - service: mobile_app_sm_a236b
 
