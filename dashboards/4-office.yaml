@@ -62,3 +62,18 @@ cards:
         power_color: true
         scroll_info: true
         show_source: true
+
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            content: "Speel Radio538"
+            icon_color: deep-purple
+            icon: mdi:numeric-5
+            tap_action:
+              action: perform-action
+              perform_action: media_player.play_media
+              target:
+                entity_id: media_player.kantoor
+              data:
+                media_content_id: https://22333.live.streamtheworld.com/RADIO538.mp3
+                media_content_type: music
