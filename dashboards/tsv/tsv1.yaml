@@ -97,6 +97,7 @@ cards:
               action: fire-dom-event
               browser_mod:
                 service: browser_mod.popup
+                timeout: 20000
                 data:
                   title: Mechanische afzuiging
                   content:
@@ -217,7 +218,7 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  timeout: 15000
+                  timeout: 20000
                   title: Omroepbericht
                   content:
                     type: grid
@@ -304,343 +305,412 @@ cards:
                           action: more-info
 
   - type: grid
-    columns: 5
-    square: false
-    cards:
-      - type: custom:mushroom-light-card
-        entity: light.spots_keuken
-        name: Keuken
-        icon: mdi:countertop
-        fill_container: false
-        show_brightness_control: false
-      - type: custom:mushroom-light-card
-        entity: light.eetkamer_tafel
-        name: Tafel
-        icon: mdi:globe-light-outline
-        show_brightness_control: false
-      - type: custom:mushroom-light-card
-        entity: light.spots_eetkamer
-        name: Eetkamer
-        icon: mdi:table-chair
-        show_brightness_control: false
-      - type: custom:mushroom-light-card
-        entity: light.spots_woonkamer
-        name: Woonkamer
-        icon: mdi:sofa
-        fill_container: false
-        show_brightness_control: false
-      - type: custom:mushroom-light-card
-        entity: light.spots_vaas
-        name: Vaas
-        icon: mdi:lightbulb-spot
-        show_brightness_control: false
-
-  - type: grid
     columns: 2
     square: false
     cards:
-      - type: custom:swipe-card
-        parameters:
-          effect: fade
-          autoplay:
-            delay: 5000
-            disableOnInteraction: false
-          rewind: true
-          slidesPerView: 1
+      - type: vertical-stack
         cards:
-          - type: conditional
-            conditions:
-              - condition: state
-                entity: sensor.afvalinfo_home_vandaag
-                state_not: "geen"
-            card:
-              type: custom:mushroom-template-card
-              entity: sensor.afvalinfo_home_vandaag
-              primary: >-
-                Vandaag wordt het {{ states(entity)|lower if (states(entity)|length > 3) 
-                  else states(entity) }} opgehaald
-              icon: mdi:trash-can
-              icon_color: |-
-                {% if is_state('sensor.afvalinfo_home_vandaag', 'GFT') %}
-                  green
-                {% elif is_state('sensor.afvalinfo_home_vandaag', 'PBD') %}
-                  orange
-                {% elif is_state('sensor.afvalinfo_home_vandaag', 'Papier') %}
-                  blue
-                {% elif is_state('sensor.afvalinfo_home_vandaag', 'Restafval') %}
-                  red
-                {% else %}
-                  dark-grey
-                {% endif %}
-              tap_action:
-                action: none
-          - type: conditional
-            conditions:
-              - condition: state
-                entity: sensor.afvalinfo_home_morgen
-                state_not: "geen"
-            card:
-              type: custom:mushroom-template-card
-              entity: sensor.afvalinfo_home_morgen
-              primary: >-
-                Morgen wordt het {{ states(entity)|lower if (states(entity)|length > 3) 
-                  else states(entity) }} opgehaald
-              icon: mdi:trash-can
-              icon_color: |-
-                {% if is_state('sensor.afvalinfo_home_morgen', 'GFT') %}
-                  green
-                {% elif is_state('sensor.afvalinfo_home_morgen', 'PBD') %}
-                  orange
-                {% elif is_state('sensor.afvalinfo_home_morgen', 'Papier') %}
-                  blue
-                {% elif is_state('sensor.afvalinfo_home_morgen', 'Restafval') %}
-                  red
-                {% else %}
-                  dark-grey
-                {% endif %}
-              tap_action:
-                action: none
-          - type: conditional
-            condition: and
-            conditions:
-              - condition: state
-                entity: sensor.afvalinfo_home_vandaag
-                state: "geen"
-              - condition: state
-                entity: sensor.afvalinfo_home_morgen
-                state: "geen"
-            card:
-              type: custom:mushroom-template-card
-              primary: "Volgende inzameling"
-              secondary: "{{states('sensor.afval_info_volgende_inzameling_en_datum')}}"
-              icon: mdi:trash-can
-              icon_color: dark-grey
-              tap_action:
-                action: none
-
-      - type: custom:swipe-card
-        parameters:
-          effect: fade
-          autoplay:
-            delay: 5000
-            disableOnInteraction: false
-          rewind: true
-          slidesPerView: 1
-        cards:
-          - type: custom:mushroom-template-card
-            primary: Vaatwasser
-            secondary: "Het beste start je de vaatwasser om {{states('sensor.vaatwasser_goedkoopste_tijd')}}"
-            icon: mdi:dishwasher
-            icon_color: green
-            hold_action:
-              action: more-info
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Energieprijzen
-                  content:
-                    type: custom:plotly-graph
-                    title: Electriciteitsprijs
-                    hours_to_show: 18
-                    time_offset: 14h
-                    fn: |
-                      $fn ({ hass, vars }) => {
-                        vars.x = []; vars.y = []; vars.color = []; vars.hover = [];
-                        vars.min = {p: 999,t: null}; vars.max = {p:-999,t:null}
-                        vars.ymin = 999; vars.ymax = -999
-                        vars.p_now = parseFloat(hass.states['sensor.zonneplan_current_electricity_tariff'].state)
-                        vars.unit_of_measurement = hass.states['sensor.zonneplan_current_electricity_tariff'].attributes.unit_of_measurement
-                        hass.states['sensor.zonneplan_current_electricity_tariff']?.attributes?.forecast?.map(e => {
-                          var t = new Date(e.datetime).getTime()+1800000 
-                          var p = e.electricity_price/10000000
-                          var c = e.tariff_group.replace("low", "#00a964").replace("normal", "#227153").replace("high","#ed5e18")
-                          if (t>=Date.now()-1800000) {
-                            if (p<vars.min.p) vars.min = {p,t,c}
-                            if (p>vars.max.p) vars.max = {p,t,c}
-                          }
-                          if (p<vars.ymin) vars.ymin = p
-                          if (p>vars.ymax) vars.ymax = p
-                          vars.x.push(t)
-                          vars.y.push(p)
-                          vars.color.push(c)
-                          vars.hover.push(String(new Date(t).getHours()).padStart(2,"0") + ":00-" + 
-                            String(new Date((new Date(t).getTime()+3600000)).getHours()).padStart(2,"0") + ":00 : <b>" + 
-                            p.toFixed(3) + "</b> " + vars.unit_of_measurement)
-                        })
-                        console.log(vars)
+          - type: "custom:vertical-stack-in-card"
+            card_mod:
+              style: |
+                ha-card { height: 55px !important; }
+            cards:
+              - type: custom:mushroom-template-card
+                primary: >-
+                  {% set light_count = (expand(state_attr('light.verlichting_voor_gebruik_op_kiosk', 'entity_id')) | 
+                      selectattr('state','eq','on') | list | count) %}
+                  Bedien verlichting ({{ light_count }} aan)
+                icon: |-
+                  {{ "mdi:lightbulb-on" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "mdi:lightbulb-off" }}
+                icon_color: |-
+                  {{ "orange" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "grey" }}
+                card_mod:
+                  style: |
+                    ha-state-icon {
+                      {{ "animation: illumination 3s infinite;" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') }}
+                    }
+                hold_action: none
+                tap_action: &light_popup
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Verlichting
+                      timeout: 20000
+                      content:
+                        type: grid
+                        columns: 2
+                        square: false
+                        cards:
+                          - type: custom:mushroom-light-card
+                            entity: light.spots_keuken
+                            name: Keuken
+                            icon: mdi:countertop
+                            fill_container: false
+                            show_brightness_control: false
+                          - type: custom:mushroom-light-card
+                            entity: light.eetkamer_tafel
+                            name: Tafel
+                            icon: mdi:globe-light-outline
+                            show_brightness_control: false
+                          - type: custom:mushroom-light-card
+                            entity: light.spots_eetkamer
+                            name: Eetkamer
+                            icon: mdi:table-chair
+                            show_brightness_control: false
+                          - type: custom:mushroom-light-card
+                            entity: light.spots_woonkamer
+                            name: Woonkamer
+                            icon: mdi:sofa
+                            fill_container: false
+                            show_brightness_control: false
+                          - type: custom:mushroom-light-card
+                            entity: light.spots_vaas
+                            name: Vaas
+                            icon: mdi:lightbulb-spot
+                            show_brightness_control: false
+              - type: custom:mushroom-template-card
+                icon: mdi:chevron-right
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        background: transparent !important;
                       }
-                    layout:
-                      yaxis:
-                        fixedrange: true
-                        tickformat: .2f
-                        range: $fn ({vars}) => [ vars.ymin-0.02, vars.ymax+0.02 ]
-                      xaxis:
-                        tickformat: "%H:%M"
-                    config:
-                      displayModeBar: false
-                    entities:
-                      - entity: "" # Price columns
-                        unit_of_measurement: $ex vars.unit_of_measurement
-                        name: ""
-                        showlegend: false
-                        x: $ex vars.x
-                        "y": $ex vars.y
-                        marker:
-                          color: $ex vars.color
-                        type: bar
-                        hovertemplate: $ex vars.hover
-                      - entity: "" # MIN marker + legend
-                        mode: markers
-                        textposition: top
-                        showlegend: true
-                        name: >-
-                          $fn ({vars}) => vars.min.p.toFixed(3) + " " + vars.unit_of_measurement + "
-                          @ " + new Date(vars.min.t).getHours() + ":00"
-                        yaxis: y0
-                        marker:
-                          symbol: diamond
-                          color: $ex vars.min.c
-                        x:
-                          - $ex vars.min.t
-                        "y":
-                          - $ex vars.min.p
-                      - entity: "" # MAX marker + legend
-                        mode: markers
-                        textposition: top
-                        showlegend: true
-                        name: >-
-                          $fn ({vars}) => vars.max.p.toFixed(3) + " " + vars.unit_of_measurement + "
-                          @ " +  new Date(vars.max.t).getHours() + ":00"
-                        yaxis: y0
-                        marker:
-                          symbol: diamond
-                          color: $ex vars.max.c
-                        x:
-                          - $ex vars.max.t
-                        "y":
-                          - $ex vars.max.p
-                      - entity: "" # NOW Line
-                        name: Now
-                        yaxis: y0
-                        showlegend: false
-                        line:
-                          width: 2
-                          dash: dot
-                          color: deepskyblue
-                        x: $ex [Date.now(), Date.now()]
-                        "y":
-                          - 0
-                          - 1
-                      - entity: "" # NOW Legend
-                        yaxis: y0
-                        mode: markers
-                        textposition: top
-                        showlegend: true
-                        name: >-
-                          $fn ({vars}) => "Nu: " + vars.p_now.toFixed(3) + " " + vars.unit_of_measurement
-                        marker:
-                          symbol: diamond
-                          color: deepskyblue
-                        x: $ex [Date.now(), Date.now()]
-                        "y":
-                          - $ex vars.p_now
+                    .: |
+                      ha-card {
+                        background: none;
+                        margin-left: 320px;
+                        top: -54px;
+                        width: 40px;
+                      }
+                tap_action: *light_popup
 
-  - type: grid
-    columns: 3
-    square: false
-    cards:
-      - type: custom:mushroom-climate-card
-        entity: climate.airco_woonkamer
-        show_temperature_control: true
-        tap_action:
-          action: perform-action
-          perform_action: script.kiosk_toggle_airco
-        hold_action:
-          action: fire-dom-event
-          browser_mod:
-            service: browser_mod.popup
-            data:
-              timeout: 30000
-              content:
-                type: custom:more-info-card
+          - type: custom:swipe-card
+            parameters:
+              effect: fade
+              autoplay:
+                delay: 5000
+                disableOnInteraction: false
+              rewind: true
+              slidesPerView: 1
+            cards:
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: binary_sensor.vaatwasser_periode
+                    state: "on"
+                card:
+                  type: custom:mushroom-template-card
+                  primary: Vaatwasser
+                  secondary: "Het beste start je de vaatwasser om {{states('sensor.vaatwasser_goedkoopste_tijd')}}"
+                  icon: mdi:dishwasher
+                  icon_color: green
+                  tap_action:
+                    action: more-info
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: sensor.afvalinfo_home_vandaag
+                    state_not: "geen"
+                card:
+                  type: custom:mushroom-template-card
+                  entity: sensor.afvalinfo_home_vandaag
+                  primary: >-
+                    Vandaag wordt het {{ states(entity)|lower if (states(entity)|length > 3) 
+                      else states(entity) }} opgehaald
+                  icon: mdi:trash-can
+                  icon_color: |-
+                    {% if is_state('sensor.afvalinfo_home_vandaag', 'GFT') %}
+                      green
+                    {% elif is_state('sensor.afvalinfo_home_vandaag', 'PBD') %}
+                      orange
+                    {% elif is_state('sensor.afvalinfo_home_vandaag', 'Papier') %}
+                      blue
+                    {% elif is_state('sensor.afvalinfo_home_vandaag', 'Restafval') %}
+                      red
+                    {% else %}
+                      dark-grey
+                    {% endif %}
+                  tap_action:
+                    action: none
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: sensor.afvalinfo_home_morgen
+                    state_not: "geen"
+                card:
+                  type: custom:mushroom-template-card
+                  entity: sensor.afvalinfo_home_morgen
+                  primary: >-
+                    Morgen wordt het {{ states(entity)|lower if (states(entity)|length > 3) 
+                      else states(entity) }} opgehaald
+                  icon: mdi:trash-can
+                  icon_color: |-
+                    {% if is_state('sensor.afvalinfo_home_morgen', 'GFT') %}
+                      green
+                    {% elif is_state('sensor.afvalinfo_home_morgen', 'PBD') %}
+                      orange
+                    {% elif is_state('sensor.afvalinfo_home_morgen', 'Papier') %}
+                      blue
+                    {% elif is_state('sensor.afvalinfo_home_morgen', 'Restafval') %}
+                      red
+                    {% else %}
+                      dark-grey
+                    {% endif %}
+                  tap_action:
+                    action: none
+              - type: conditional
+                condition: and
+                conditions:
+                  - condition: state
+                    entity: sensor.afvalinfo_home_vandaag
+                    state: "geen"
+                  - condition: state
+                    entity: sensor.afvalinfo_home_morgen
+                    state: "geen"
+                card:
+                  type: custom:mushroom-template-card
+                  primary: "Volgende inzameling"
+                  secondary: "{{states('sensor.afval_info_volgende_inzameling_en_datum')}}"
+                  icon: mdi:trash-can
+                  icon_color: dark-grey
+                  tap_action:
+                    action: none
+
+          - type: "custom:vertical-stack-in-card"
+            card_mod:
+              style: |
+                ha-card { height: 55px !important; }
+            cards:
+              - type: custom:mushroom-climate-card
                 entity: climate.airco_woonkamer
-        card_mod:
+                show_temperature_control: true
+                layout: horizontal
+                hold_action:
+                  action: perform-action
+                  perform_action: script.kiosk_toggle_airco
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      timeout: 20000
+                      content:
+                        type: custom:more-info-card
+                        entity: climate.airco_woonkamer
+
+              - type: custom:mushroom-template-card
+                icon: mdi:power
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        {% if is_state('climate.airco_woonkamer', 'off') %}
+                          {{ '--icon-color: var(--orange-color);' 
+                            if (states('sensor.woonkamer_temperature') | float(0)) < 21 
+                            else '--icon-color: var(--blue-color);' }}
+                        {% else %}
+                          --icon-color: var(--red-color);
+                        {% endif %}
+                      }
+                    .: |
+                      ha-card {
+                        background: none;
+                        margin-left: 185px;
+                        top: -53px;
+                        width: 50px;
+                      }
+                tap_action:
+                  action: perform-action
+                  perform_action: script.kiosk_toggle_airco
+
+          - type: horizontal-stack
+            cards:
+              - type: "custom:vertical-stack-in-card"
+                card_mod:
+                  style: |
+                    ha-card { height: 55px !important; }
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: "{{states('input_text.naam_puber')}}"
+                    secondary: >-
+                      {{ ((states('sensor.pubercave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                       - {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                    entity: sensor.pubercave_pc_on_today
+                    icon: mdi:desktop-classic
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.is_pubercave_pc_on','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style:
+                        mushroom-state-info$: |
+                          .primary {
+                            margin-left: 15px ;
+                              }
+                        .: |
+                          ha-card {
+                            background-color: transparent;
+                            border-color: transparent;
+                            box-shadow: none;
+                          }
+                          ha-state-icon {
+                          {% if is_state('binary_sensor.is_pubercave_pc_on', 'on')%}
+                            animation: boing 3s ease infinite;
+                            transform-origin: 50% 90%;
+                          {% endif %}
+                          }
+                  - type: custom:mushroom-template-card
+                    entity: binary_sensor.is_pubercave_tv_on
+                    icon: mdi:television-play
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          margin-left: 66%;
+                          top: -55px;
+                          width: 66px;
+                        }
+                        ha-state-icon {
+                        {% if is_state('binary_sensor.is_pubercave_tv_on', 'on')%}
+                          animation: boing 3s ease infinite;
+                          transform-origin: 50% 90%;
+                        {% endif %}
+                        }
+
+              - type: "custom:vertical-stack-in-card"
+                card_mod:
+                  style: |
+                    ha-card { height: 55px !important; }
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: "{{states('input_text.naam_mini')}}"
+                    secondary: >-
+                      {{ ((states('sensor.minicave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                       - {{ ((states('sensor.minicave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                    entity: binary_sensor.minicave_pc
+                    icon: mdi:desktop-classic
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.minicave_pc','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style:
+                        mushroom-state-info$: |
+                          .primary {
+                            margin-left: 12px ;
+                              }
+                        .: |
+                          ha-card {
+                            background-color: transparent;
+                            border-color: transparent;
+                            box-shadow: none;
+                          }
+                          ha-state-icon {
+                          {% if is_state('binary_sensor.minicave_pc', 'on') %}
+                            animation: boing 3s ease infinite;
+                            transform-origin: 50% 90%;
+                          {% endif %}
+                          }
+                  - type: custom:mushroom-template-card
+                    entity: binary_sensor.minicave_tv
+                    icon: mdi:television-play
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          margin-left: 66%;
+                          top: -55px;
+                          width: 66px;
+                        }
+                        ha-state-icon {
+                        {% if is_state('binary_sensor.minicave_tv', 'on')%}
+                          animation: boing 3s ease infinite;
+                          transform-origin: 50% 90%;
+                        {% endif %}
+                        }
+
+      ### Right column
+      - type: custom:calendar-card-pro
+        entities:
+          - entity: calendar.bl
+            accent_color: "#0911e8"
+            blocklist: "restafval|gft|plasticinzameling"
+          - entity: calendar.bv
+            accent_color: "#f266eb"
+          - entity: calendar.m
+            accent_color: "#8607f5"
+          - entity: calendar.t
+            accent_color: "#20572f"
+          - entity: calendar.familie
+            accent_color: "#d98b04"
+            allowlist: "verjaardag|trouwdag" # Celebration events
+            label: "🎉" # Add celebration label to these events
+          - entity: calendar.familie
+            accent_color: "#d98b04"
+            allowlist: "Picnic|Jumbo" # Grocery delivery events
+            label: "🛒" # Add shopping cart
+          - entity: calendar.familie
+            accent_color: "#f266eb" # Apply pinks color to wife's work schedule
+            allowlist: "B[a-zA-Z]{5}\\s(vrij|werken)"
+          - entity: calendar.familie
+            accent_color: "#d98b04" # Exclude everything included above
+            blocklist: "tafel dekken|vakantie|verjaardag|trouwdag|B[a-zA-Z]{5}\\s(vrij|werken)|Picnic"
+        date_vertical_alignment: top
+        day_font_size: "24px"
+        day_separator_color: "#03a9f430"
+        day_separator_width: "1px"
+        days_to_show: 3
+        event_background_opacity: 40
+        event_font_size: "13px"
+        event_spacing: 6px
+        filter_duplicates: true
+        first_day_of_week: monday
+        refresh_interval: 10
+        show_location: false
+        show_single_allday_time: false
+        split_multiday_events: true
+        today_indicator: glow
+        today_indicator_position: "7px 27px"
+        vertical_line_width: 5px
+        card_mod: # Show time inline
           style: |
-            ha-card {
-              height: 110px !important;
+            div.event-content {
+              display: grid;
+              grid-template-areas: 
+                "title time"
+                "location location";
+              grid-template-columns: 1fr auto;
+              column-gap: 10px;
+              row-gap: 0px;
             }
-
-      - type: "custom:vertical-stack-in-card"
-        cards:
-          - type: custom:mushroom-template-card
-            primary: "PC {{states('input_text.naam_puber')}}"
-            secondary: "{{ ((states('sensor.pubercave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-            entity: sensor.pubercave_pc_on_today
-            icon: >-
-              {{ "mdi:desktop-classic" if is_state('binary_sensor.is_pubercave_pc_on','on') else "mdi:monitor-off" }}
-            icon_color: >-
-              {{ "green" if is_state('binary_sensor.is_pubercave_pc_on','on') else "disabled" }}
-            tap_action:
-              action: none
-            card_mod:
-              style: |
-                ha-card {
-                  background-color: transparent;
-                  border-color: transparent;
-                  box-shadow: none;
-                }
-          - type: custom:mushroom-template-card
-            primary: "TV {{states('input_text.naam_puber')}}"
-            secondary: "{{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-            entity: binary_sensor.is_pubercave_tv_on
-            icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
-            icon_color: >-
-              {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
-            tap_action:
-              action: none
-            card_mod:
-              style: |
-                ha-card {
-                  background-color: transparent;
-                  border-color: transparent;
-                  box-shadow: none;
-                }
-
-      - type: "custom:vertical-stack-in-card"
-        cards:
-          - type: custom:mushroom-template-card
-            primary: "PC {{states('input_text.naam_mini')}}"
-            secondary: "{{ ((states('sensor.minicave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-            entity: binary_sensor.minicave_pc
-            icon: >-
-              {{ "mdi:desktop-classic" if is_state('binary_sensor.minicave_pc','on') else "mdi:monitor-off" }}
-            icon_color: >-
-              {{ "green" if is_state('binary_sensor.minicave_pc','on') else "disabled" }}
-            tap_action:
-              action: none
-            card_mod:
-              style: |
-                ha-card {
-                  background-color: transparent;
-                  border-color: transparent;
-                  box-shadow: none;
-                }
-          - type: custom:mushroom-template-card
-            primary: "TV {{states('input_text.naam_mini')}}"
-            secondary: "{{ ((states('sensor.minicave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-            entity: binary_sensor.minicave_tv
-            icon: >-
-              {{ "mdi:television" if is_state('binary_sensor.minicave_tv','on') else "mdi:television-off" }}
-            icon_color: >-
-              {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
-            tap_action:
-              action: none
-            card_mod:
-              style: |
-                ha-card {
-                  background-color: transparent;
-                  border-color: transparent;
-                  box-shadow: none;
-                }
+            div.summary {
+              grid-area: title;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            div.time {
+              grid-area: time;
+              white-space: nowrap;
+            }
+            div.location {
+              grid-area: location;
+              white-space: normal;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            div.time-location {
+              display: contents;
+            }
+        tap_action:
+          action: navigate
+          navigation_path: /tsv-dashboards/calendar

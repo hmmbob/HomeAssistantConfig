@@ -1,4 +1,11 @@
 kiosk_package:
+  binary_sensor:
+    - platform: tod
+      name: Vaatwasser periode
+      after: "17:00"
+      before: "22:00"
+      unique_id: vaatwasser_periode
+
   input_boolean:
     kiosk_hide_header_and_sidebar:
       name: "Kiosk mode hide header and sidebar"
@@ -14,6 +21,17 @@ kiosk_package:
         - geen
         - maxi
         - mini
+
+  light:
+    - platform: group
+      name: "Verlichting voor gebruik op kiosk"
+      unique_id: groep_verlichting_voor_kiosk
+      entities:
+        - light.eetkamer_tafel
+        - light.spots_eetkamer
+        - light.spots_keuken
+        - light.spots_vaas
+        - light.spots_woonkamer
 
   script:
     kiosk_restart_browser:
@@ -38,7 +56,12 @@ kiosk_package:
       sequence:
         - action: climate.set_hvac_mode
           data:
-            hvac_mode: "{{ 'heat' if is_state('climate.airco_woonkamer', 'off') else 'off' }}"
+            hvac_mode: >-
+              {% if is_state('climate.airco_woonkamer', 'off') %}
+                {{ 'heat' if (states('sensor.woonkamer_temperature') | float(0)) < 21 else 'cool' }}
+              {% else %}
+                off
+              {% endif %}
           target:
             entity_id: climate.airco_woonkamer
 

@@ -1,0 +1,57 @@
+title: Calendar
+path: calendar
+theme: Hmmbob dark theme
+type: panel
+
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /tsv-dashboards/tsv1
+            icon: mdi:arrow-left
+      - type: custom:calendar-card-pro
+        entities:
+          - entity: calendar.bl
+            accent_color: "#0911e8"
+            blocklist: "restafval|gft|plasticinzameling"
+          - entity: calendar.bv
+            accent_color: "#f266eb"
+          - entity: calendar.m
+            accent_color: "#8607f5"
+          - entity: calendar.t
+            accent_color: "#20572f"
+          - entity: calendar.familie
+            accent_color: "#d98b04"
+            allowlist: "verjaardag|trouwdag" # Celebration events
+            label: "🎉" # Add celebration label to these events
+          - entity: calendar.familie
+            accent_color: "#d98b04"
+            allowlist: "Picnic|Jumbo" # Grocery delivery events
+            label: "🛒" # Add shopping cart
+          - entity: calendar.familie
+            accent_color: "#f266eb" # Apply pinks color to wife's work schedule
+            allowlist: "B[a-zA-Z]{5}\\s(vrij|werken)"
+          - entity: calendar.familie
+            accent_color: "#d98b04" # Exclude everything included above
+            blocklist: "tafel dekken|vakantie|verjaardag|trouwdag|B[a-zA-Z]{5}\\s(vrij|werken)|Picnic"
+        date_vertical_alignment: top
+        day_font_size: "24px"
+        day_separator_color: "#03a9f430"
+        day_separator_width: "1px"
+        days_to_show: 7
+        event_background_opacity: 40
+        event_font_size: "13px"
+        event_spacing: 6px
+        filter_duplicates: false
+        first_day_of_week: monday
+        refresh_interval: 10
+        show_location: true
+        show_single_allday_time: false
+        split_multiday_events: true
+        today_indicator: glow
+        today_indicator_position: "7px 27px"
+        vertical_line_width: 5px
