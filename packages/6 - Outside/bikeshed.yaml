@@ -104,3 +104,4 @@ bikeshed_package:
               notification_icon: mdi:bicycle-electric
               ttl: 0
               priority: high
+              clickAction: "/lovelace/other"

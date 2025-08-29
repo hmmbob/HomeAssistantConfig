@@ -65,7 +65,6 @@ doorbell_package:
                   message: "{{ response.response_text }}"
                   data:
                     image: "{{response.key_frame.replace('/config/www/','/local/') }}"
-                    url: /lovelace/camera
                     clickAction: /lovelace/camera
                     tag: "{{ tag }}"
                     group: "{{ group }}"

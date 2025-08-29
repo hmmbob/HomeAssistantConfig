@@ -55,7 +55,9 @@ dishwasher_cheapest_time_package:
             title: "Vaatwasser"
             message: "Het beste start je de vaatwasser om {{states('sensor.vaatwasser_goedkoopste_tijd')}}"
             data:
+              channel: "notification-dishwasher"
               tag: "notification-dishwasher"
               notification_icon: mdi:dishwasher
               ttl: 0
-              priority: high
+              importance: low
+              clickAction: "/lovelace/energy"

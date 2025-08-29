@@ -212,3 +212,4 @@ solar_package:
               notification_icon: mdi:solar-power-variant
               ttl: 0
               priority: high
+              clickAction: "/lovelace-admin/solar"
