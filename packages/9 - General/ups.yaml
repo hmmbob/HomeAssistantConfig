@@ -75,3 +75,29 @@ ups_package:
                     message: "clear_notification"
                     data:
                       tag: "UPS"
+
+    - id: warn_for_power_fail
+      description: "Stuur notificatie als een van de fases wegvalt"
+      mode: parallel
+      triggers:
+        - trigger: state
+          entity_id:
+            - binary_sensor.slimmelezer_power_failure_l1
+            - binary_sensor.slimmelezer_power_failure_l2
+            - binary_sensor.slimmelezer_power_failure_l3
+          to: "on"
+          from: "off"
+      conditions: []
+      actions:
+        - alias: "Power failure"
+          action: notify.mobile_app_sm_a556b
+          data:
+            title: Power failure
+            message: >
+              {{ state_attr(trigger.entity_id, 'friendly_name') }}
+            data:
+              tag: "power_failure"
+              ttl: 0
+              priority: high
+              notification_icon: mdi:transmission-tower-off
+              car_ui: true
