@@ -63,7 +63,6 @@ logger:
       - "Heartbeat timeout, resetting connection"
     py.warnings:
       - "functools.partial"
-      - "Protobuf gencode"
 
 lovelace:
   mode: yaml
@@ -144,12 +143,14 @@ dhcp:
 diagnostics:
 energy:
 go2rtc:
+  debug_ui: true
 homeassistant_alerts:
 media_source:
 mobile_app:
 my:
 ssdp:
 stream:
+  ll_hls: true
 sun:
 webhook:
 zeroconf:

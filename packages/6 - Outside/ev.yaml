@@ -57,12 +57,10 @@ ev_package:
         - trigger: state
           entity_id: sensor.ev_smart_charging_charging
           to: "on"
-          from: "off"
           id: ev_cheapest_charge_start
         - trigger: state
           entity_id: sensor.ev_smart_charging_charging
           to: "off"
-          from: "on"
           id: ev_cheapest_charge_stop
       actions:
         - alias: "Choose to start or stop charging"

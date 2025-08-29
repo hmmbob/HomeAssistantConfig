@@ -22,11 +22,11 @@ awtrix_package:
     ##########################
     - id: awtrix_turn_on_or_off
       alias: "Zet Awtrix aan of uit  🌛"
-      description: "Turn off the Awtrix screen when the lights are off or at 23:00 and turn it back on at 06:30"
+      description: "Turn off the Awtrix screen at 20:30 and turn it back on at 08:00"
       triggers:
-        - alias: "Ga sowieso uit om 21u"
+        - alias: "Ga sowieso uit om 20u30"
           trigger: time
-          at: "21:00:00"
+          at: "20:30:00"
           id: "turn_off"
         - alias: "Ga weer aan om 8u"
           trigger: time

@@ -10,12 +10,14 @@ views:
           - entity: !secret person_mw
           - entity: !secret person_mini
           - entity: !secret person_puber
+          - entity: zone.aldi
           - entity: zone.breda
           - entity: zone.cz
           - entity: zone.home
           - entity: zone.mc
           - entity: zone.school
           - entity: zone.scouting
+          - entity: zone.sportschool
           - entity: zone.vkl
           - entity: zone.work_ms
         default_zoom: 17
