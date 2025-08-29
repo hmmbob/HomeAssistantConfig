@@ -100,6 +100,29 @@ cards:
                         - type: custom:mushroom-entity-card
                           entity: input_datetime.time_maxi_gametime_over
                           name: Eindtijd gamen maxi
+                        - type: custom:mushroom-template-card
+                          primary: "Schoollaptop staat {{ 'aan' if is_state('binary_sensor.schoollaptop_m','on') else 'uit' }}"
+                          secondary: "{{ ((states('sensor.schoollaptop_puber_aan') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                          entity: sensor.schoollaptop_puber_aan
+                          icon: >-
+                            {{ "mdi:laptop" if is_state('binary_sensor.schoollaptop_m','on') else "mdi:laptop-off" }}
+                          icon_color: >-
+                            {{ "green" if is_state('binary_sensor.schoollaptop_m','on') else "disabled" }}
+                          tap_action:
+                            action: fire-dom-event
+                            browser_mod:
+                              service: browser_mod.popup
+                              data:
+                                title: Schoollaptop Puber
+                                content:
+                                  type: vertical-stack
+                                  cards:
+                                    - type: custom:mushroom-entity-card
+                                      entity: sensor.schoollaptop_puber_aan
+                                      name: Totaal vandaag
+                                    - type: custom:mushroom-entity-card
+                                      entity: binary_sensor.schoollaptop_m
+                                      name: Schoollaptop aan of uit?
 
       - type: horizontal-stack
         cards:
