@@ -16,6 +16,8 @@
   type: module
 - url: /hacsfiles/Ultra-Vehicle-Card/ultra-vehicle-card.js
   type: module
+- url: /hacsfiles/custom-brand-icons/custom-brand-icons.js
+  type: module
 
 ### Admin dashboard only
 - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
@@ -29,8 +31,6 @@
 - url: /hacsfiles/clock-weather-card/clock-weather-card.js
   type: module
 - url: /hacsfiles/lovelace-layout-card/layout-card.js
-  type: module
-- url: /hacsfiles/lovelace-more-info-card/more-info-card.js
   type: module
 - url: /hacsfiles/pqina-flip-clock-card/pqina-flip-clock-card.js
   type: module

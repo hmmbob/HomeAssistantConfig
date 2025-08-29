@@ -155,9 +155,9 @@ cards:
                       }
               - type: custom:mushroom-template-card
                 entity: switch.genie
-                icon: mdi:scent
+                icon: phu:rituals
                 icon_color: |-
-                  {{ "green" if is_state('switch.genie', 'on') else "grey" }}
+                  {{ "green" if is_state('switch.genie', 'on') else "dark-grey" }}
                 card_mod: &3rd_button_style
                   style: |
                     ha-card {

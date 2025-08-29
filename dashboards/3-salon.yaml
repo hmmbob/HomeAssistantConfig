@@ -107,7 +107,7 @@ cards:
           {{ state_translated('climate.salon') }} - 
           Ingesteld op {{ state_attr('climate.salon','temperature') }} °C, 
           momenteel {{ states('sensor.salon_temperatuur') |round(1) }} °C
-        icon: mdi:thermostat
+        icon: phu:tado
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.salon
@@ -121,7 +121,7 @@ cards:
 
       - type: custom:mini-media-player
         entity: media_player.tv_salon
-        icon: mdi:cast
+        icon: phu:youtube-tv
         artwork: cover
         artwork_border: true
         power_color: true
@@ -130,7 +130,7 @@ cards:
 
       - type: custom:mini-media-player
         entity: media_player.soundbar
-        icon: mdi:cast
+        icon: phu:play-bar-one
         artwork: cover
         artwork_border: true
         power_color: true

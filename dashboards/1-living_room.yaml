@@ -219,7 +219,7 @@ cards:
 
       - type: custom:mini-media-player
         entity: media_player.sonos_woonkamer
-        icon: mdi:cast
+        icon: mdi:cast-audio
         artwork: cover
         artwork_border: true
         power_color: true
@@ -242,7 +242,7 @@ cards:
           - type: template
             content: "Q Music"
             icon_color: red
-            icon: mdi:alpha-q
+            icon: phu:qmusic_radio
             tap_action:
               action: perform-action
               perform_action: media_player.select_source
@@ -253,7 +253,7 @@ cards:
           - type: template
             content: "Q Foute uur"
             icon_color: orange
-            icon: mdi:alpha-q
+            icon: phu:qmusic_radio
             tap_action:
               action: perform-action
               perform_action: media_player.select_source
@@ -263,7 +263,7 @@ cards:
                 source: Qmusic Het Foute Uur
           - type: template
             content: "Remix Party"
-            icon: mdi:shuffle-variant
+            icon: phu:spotify
             icon:color: blue
             tap_action:
               action: perform-action
