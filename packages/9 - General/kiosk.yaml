@@ -188,6 +188,7 @@ kiosk_package:
                 - condition: time
                   after: "21:00:00"
               sequence:
+                - delay: "00:00:10" # Give time for last actions on screen when turning off lights
                 - action: homeassistant.turn_off
                   data:
                     entity_id:
@@ -249,8 +250,9 @@ kiosk_package:
       alias: Kiosk herstart browser om 09:00 of bij HA herstart
       triggers:
         - trigger: time
-          at: "09:00:00"
+          at: "08:59:30"
         - trigger: homeassistant
           event: start
       actions:
+        - delay: "00:00:30" # Prevent race with HA startup & screen on automation
         - action: script.kiosk_restart_browser

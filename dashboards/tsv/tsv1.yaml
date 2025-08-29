@@ -338,37 +338,55 @@ cards:
                       title: Verlichting
                       timeout: 20000
                       content:
-                        type: grid
-                        columns: 2
-                        square: false
+                        type: vertical-stack
                         cards:
-                          - type: custom:mushroom-light-card
-                            entity: light.spots_keuken
-                            name: Keuken
-                            icon: mdi:countertop
-                            fill_container: false
-                            show_brightness_control: false
-                          - type: custom:mushroom-light-card
-                            entity: light.eetkamer_tafel
-                            name: Tafel
-                            icon: mdi:globe-light-outline
-                            show_brightness_control: false
-                          - type: custom:mushroom-light-card
-                            entity: light.spots_eetkamer
-                            name: Eetkamer
-                            icon: mdi:table-chair
-                            show_brightness_control: false
-                          - type: custom:mushroom-light-card
-                            entity: light.spots_woonkamer
-                            name: Woonkamer
+                          - type: heading
+                            heading: Keuken en eetkamer
+                            icon: mdi:silverware-variant
+                          - type: grid
+                            columns: 2
+                            square: false
+                            cards:
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_keuken
+                                icon: mdi:countertop
+                                name: Keuken spots
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_eetkamer
+                                icon: mdi:table-chair
+                                name: Eetkamer spots
+                              - type: custom:mushroom-light-card
+                                entity: light.eetkamer_tafel
+                                icon: mdi:globe-light-outline
+                                name: Tafel
+                          - type: heading
+                            heading: Woonkamer
                             icon: mdi:sofa
-                            fill_container: false
-                            show_brightness_control: false
-                          - type: custom:mushroom-light-card
-                            entity: light.spots_vaas
-                            name: Vaas
-                            icon: mdi:lightbulb-spot
-                            show_brightness_control: false
+                          - type: grid
+                            columns: 2
+                            square: false
+                            cards:
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_woonkamer
+                                icon: mdi:sofa
+                                name: Woonkamer
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_vaas
+                                icon: mdi:lightbulb-spot
+                                name: Vaas
+                          - type: heading
+                            heading: Tuin
+                            icon: mdi:sprout
+                          - type: grid
+                            columns: 2
+                            square: false
+                            cards:
+                              - type: custom:mushroom-light-card
+                                entity: light.tuin_spot_boom
+                              - type: custom:mushroom-light-card
+                                entity: light.verlichting_tuin
+                                icon: mdi:coach-lamp
+
               - type: custom:mushroom-template-card
                 icon: mdi:chevron-right
                 card_mod:
@@ -409,10 +427,14 @@ cards:
                   tap_action:
                     action: more-info
               - type: conditional
+                condition: and
                 conditions:
                   - condition: state
                     entity: sensor.afvalinfo_home_vandaag
                     state_not: "geen"
+                  - condition: state
+                    entity: binary_sensor.vaatwasser_periode
+                    state: "off"
                 card:
                   type: custom:mushroom-template-card
                   entity: sensor.afvalinfo_home_vandaag
@@ -493,12 +515,9 @@ cards:
                 tap_action:
                   action: fire-dom-event
                   browser_mod:
-                    service: browser_mod.popup
+                    service: browser_mod.more_info
                     data:
-                      timeout: 20000
-                      content:
-                        type: custom:more-info-card
-                        entity: climate.airco_woonkamer
+                      entity: climate.airco_woonkamer
 
               - type: custom:mushroom-template-card
                 icon: mdi:power
