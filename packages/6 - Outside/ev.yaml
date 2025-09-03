@@ -68,6 +68,10 @@ ev_package:
             - conditions:
                 - condition: trigger
                   id: ev_cheapest_charge_start
+                - not:
+                    - condition: state
+                      entity_id: select.smartevse_6360_mode
+                      state: "Smart"
               sequence:
                 - alias: "Select SMART charging option"
                   action: select.select_option
@@ -88,6 +92,10 @@ ev_package:
             - conditions:
                 - condition: trigger
                   id: ev_cheapest_charge_stop
+                - not:
+                    - condition: state
+                      entity_id: select.smartevse_6360_mode
+                      state: "Off"
               sequence:
                 - alias: "Select charging option OFF"
                   action: select.select_option
