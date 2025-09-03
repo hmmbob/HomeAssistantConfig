@@ -30,9 +30,6 @@ lights_livingroom_package:
           - condition: state
             entity_id: group.all_adults
             state: home
-          - condition: state
-            entity_id: light.verlichting_woonkamer
-            state: "off"
       actions:
         - action: light.turn_on
           data:

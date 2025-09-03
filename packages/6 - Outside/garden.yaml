@@ -17,10 +17,24 @@ lights_garden_package:
       default_state: "off"
       events:
         - start: "6:30"
-          end: "{{ as_timestamp(state_attr('sun.sun', 'next_rising')) }}"
+          end: "{{ as_timestamp(states('sensor.sun_next_rising')) }}"
+          end_offset: 15
           state: "on"
-          condition: "{{ (state_attr('sun.sun', 'next_rising') | as_datetime | as_local).time() > today_at('06:30').time() }}"
-        - start: "{{ as_timestamp(state_attr('sun.sun', 'next_setting')) }}"
+          condition: "{{ (states('sensor.sun_next_rising') | as_datetime | as_local).time() > today_at('06:30').time() }}"
+        - start: "{{ as_timestamp(states('sensor.sun_next_setting')) }}"
+          end: "22:30"
+          state: "on"
+    - platform: schedule_state
+      name: Tree lights
+      default_state: "off"
+      events:
+        - start: "6:30"
+          end: "{{ as_timestamp(states('sensor.sun_next_rising')) }}"
+          end_offset: 30
+          state: "on"
+          condition: "{{ (states('sensor.sun_next_rising') | as_datetime | as_local).time() > today_at('06:30').time() }}"
+        - start: "{{ as_timestamp(states('sensor.sun_next_setting')) }}"
+          start_offset: -30
           end: "22:30"
           state: "on"
 
@@ -49,6 +63,30 @@ lights_garden_package:
           target:
             entity_id:
               - light.verlichting_tuin
+
+    - id: garden_turn_on_tree_lights
+      alias: "Zet de boomverlichting aan of uit"
+      mode: single
+      max_exceeded: silent
+      triggers:
+        - trigger: state
+          entity_id: sensor.tree_lights
+        - trigger: homeassistant
+          event: start
+        - trigger: event
+          event_type: automation_reloaded
+      conditions:
+        - alias: "Do we have a valid state"
+          condition: template
+          value_template: "{{ states('sensor.tree_lights') not in ['unknown','unavailable','none'] }}"
+        - alias: "Only continue if not overridden"
+          condition: state
+          entity_id: input_boolean.garden_lights_override
+          state: "off"
+      actions:
+        - action: homeassistant.turn_{{ states('sensor.tree_lights') }}
+          target:
+            entity_id:
               - light.tuin_spot_boom
 
     - id: garden_turn_on_coming_home
@@ -105,8 +143,8 @@ lights_garden_package:
             entity_id: switch.alarmspeaker_alarm
         # Sometimes the trigger fires multiple times in short period. The next step
         # prevents multiple alerts in combination with 'mode: single' & 'max_exceeded: silent'
-        - alias: "Do nothing for 10 seconds to prevent bouncing triggers"
-          delay: "00:10:00"
+        - alias: "Do nothing for 1 minute to prevent bouncing triggers"
+          delay: "00:01:00"
 
     - id: "achtertuin_stream_to_kiosk"
       alias: Stream de achtertuin naar de kiosks
