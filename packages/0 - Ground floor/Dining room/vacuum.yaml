@@ -188,9 +188,75 @@ vacuum_package:
         - action: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
-            message: "Foutmelding: {{states('sensor.rocky_vacuum_error')}}"
+            message: "Foutmelding: {{state_translated('sensor.rocky_vacuum_error')}}"
             data:
               tag: vacuum
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
+
+    - alias: "Waarschuw als Rocky onderhoud nodig heeft"
+      id: vacuum_consumable_warning
+      initial_state: "on"
+      mode: queued
+      variables:
+        consumables:
+          - sensor: sensor.rocky_filter_time_left
+            button: button.rocky_reset_air_filter_consumable
+            name: "filter"
+          - sensor: sensor.rocky_main_brush_time_left
+            button: button.rocky_reset_main_brush_consumable
+            name: "hoofd borstel"
+          - sensor: sensor.rocky_sensor_time_left
+            button: button.rocky_reset_sensor_consumable
+            name: "sensor"
+          - sensor: sensor.rocky_side_brush_time_left
+            button: button.rocky_reset_side_brush_consumable
+            name: "zijborstel"
+      trigger:
+        - platform: numeric_state
+          entity_id:
+            - sensor.rocky_filter_time_left
+            - sensor.rocky_main_brush_time_left
+            - sensor.rocky_sensor_time_left
+            - sensor.rocky_side_brush_time_left
+          below: 0
+      action:
+        - variables:
+            triggered_sensor: "{{ trigger.entity_id }}"
+            consumable: >-
+              {{ consumables | selectattr('sensor', 'eq', triggered_sensor) | list | first }}
+        - service: notify.mobile_app_sm_a556b
+          data:
+            title: "Rocky onderhoud nodig"
+            message: "De {{ consumable.name }} van Rocky moet worden vervangen of schoongemaakt. Wil je de teller resetten?"
+            data:
+              tag: rocky_maintenance
+              notification_icon: mdi:robot-vacuum
+              actions:
+                - action: "reset_consumable"
+                  title: "Reset teller"
+                - action: "ignore"
+                  title: "Later"
+              ttl: 0
+              priority: high
+        - wait_for_trigger:
+            - platform: event
+              event_type: mobile_app_notification_action
+              event_data:
+                action: "reset_consumable"
+          timeout: "01:00:00"
+          continue_on_timeout: false
+        - choose:
+            - conditions: "{{ wait.trigger is not none }}"
+              sequence:
+                - service: button.press
+                  target:
+                    entity_id: "{{ consumable.button }}"
+            - conditions: "{{ wait.trigger is none }}"
+              sequence:
+                - service: persistent_notification.create
+                  data:
+                    title: "Rocky onderhoud niet gereset"
+                    message: "De {{ consumable.name }} teller is niet gereset. Vergeet het niet als je onderhoud hebt gedaan!"
+                    notification_id: "rocky_maintenance_{{ consumable.name }}"

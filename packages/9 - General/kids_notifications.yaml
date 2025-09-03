@@ -110,14 +110,20 @@ kids_notifications_package:
       triggers:
         - trigger: numeric_state
           entity_id: sensor.sm_a236b_battery_level
-          below: 10
+          below: 15
           variables:
             name: "{{states('input_text.naam_mini')}}"
         - trigger: numeric_state
           entity_id: sensor.schaduwspeler_batterijniveau
-          below: 10
+          below: 15
           variables:
             name: "{{states('input_text.naam_puber')}}"
+      variables:
+        target: >
+          {% if trigger.entity_id == "sensor.schaduwspeler_batterijniveau" %}notify.mobile_app_schaduwspeler
+          {% elif trigger.entity_id == "sensor.sm_a236b_battery_level" %}notify.mobile_app_sm_a236b
+          {% else %}notify.bogus
+          {% endif %}
       conditions:
         # one of these needs to be true to continue
         or:
@@ -137,14 +143,14 @@ kids_notifications_package:
               ttl: 0
               priority: high
               notification_icon: mdi:battery-alert-variant
-        - action: >-
-            {% if trigger.entity_id == 'sensor.sm_a236b_battery_level' %}
-              notify.mobile_app_sm_a236b
-            {% elif trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' %}
-              notify.mobile_app_schaduwspeler
-            {% else %}
-              notify.bogus
-            {% endif %}
+        - action: "{{ target }}"
+          data:
+            message: "command_high_accuracy_mode"
+            data:
+              command: "turn_off"
+              priority: high
+              ttl: 0
+        - action: "{{ target }}"
           data:
             title: 🔋 Batterijwaarschuwing
             message: >
@@ -160,34 +166,23 @@ kids_notifications_package:
     ##########################
     - alias: Schakel high accuracy mode in of uit
       id: kids_turn_gps_on_or_off
-      mode: parallel
+      mode: queued
       triggers:
-        - trigger: zone
+        - trigger: state
           entity_id:
             - device_tracker.schaduwspeler
             - device_tracker.sm_a236b
-          event: leave
-          zone: zone.home
-          id: home
-        - trigger: zone
+          to:
+            - not_home
+          id: leave
+        - trigger: state
           entity_id:
             - device_tracker.schaduwspeler
             - device_tracker.sm_a236b
-          event: leave
-          zone: zone.school
-          id: school
-        - trigger: zone
-          entity_id:
-            - device_tracker.schaduwspeler
-            - device_tracker.sm_a236b
-          event: enter
-          zone: zone.home
-        - trigger: zone
-          entity_id:
-            - device_tracker.schaduwspeler
-            - device_tracker.sm_a236b
-          event: enter
-          zone: zone.school
+          not_to:
+            - not_home
+            - unavailable
+          id: enter
       variables:
         target: >
           {% if trigger.entity_id == "device_tracker.schaduwspeler" %}notify.mobile_app_schaduwspeler
@@ -195,62 +190,18 @@ kids_notifications_package:
           {% else %}notify.bogus
           {% endif %}
       actions:
-        - choose:
-            - conditions:
-                - '{{ trigger.event == "leave" }}'
-              sequence:
-                - choose:
-                    - conditions:
-                        - or:
-                            - and:
-                                - '{{ trigger.zone == "zone.home" }}'
-                                - not:
-                                    - condition: time
-                                      after: "7:00:00"
-                                      before: "9:00:00"
-                                      weekday:
-                                        - mon
-                                        - tue
-                                        - wed
-                                        - thu
-                                        - fri
-                            - and:
-                                - '{{ trigger.zone == "zone.school" }}'
-                                - not:
-                                    - condition: time
-                                      after: "12:00:00"
-                                      before: "17:00:00"
-                                      weekday:
-                                        - mon
-                                        - tue
-                                        - wed
-                                        - thu
-                                        - fri
-                      sequence:
-                        - stop: "Likely false positive, stopping sequence"
-                - action: "{{ target }}"
-                  data:
-                    message: "command_high_accuracy_mode"
-                    data:
-                      command: "turn_on"
-                      priority: high
-                      ttl: 0
-            - conditions:
-                - '{{ trigger.event == "enter" }}'
-              sequence:
-                - action: "{{ target }}"
-                  data:
-                    message: "command_high_accuracy_mode"
-                    data:
-                      command: "turn_off"
-                      priority: high
-                      ttl: 0
+        - action: "{{ target }}"
+          data:
+            message: "command_high_accuracy_mode"
+            data:
+              command: "{{ 'turn_on' if trigger.id == 'leave' else 'turn_off' }}"
+              priority: high
+              ttl: 0
 
   script:
     high_accuracy_mode:
       alias: Schakel high accuracy mode in of uit
-      mode: single
-      max_exceeded: silent
+      mode: queued
       fields:
         target:
           name: "Doel"

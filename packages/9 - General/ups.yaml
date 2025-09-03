@@ -77,7 +77,7 @@ ups_package:
                       tag: "UPS"
 
     - id: warn_for_power_fail
-      description: "Stuur notificatie als een van de fases wegvalt"
+      alias: "Stuur notificatie als een van de fases wegvalt"
       mode: parallel
       triggers:
         - trigger: state

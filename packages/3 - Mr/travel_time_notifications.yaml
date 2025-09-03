@@ -27,7 +27,7 @@ travel_time_notifications_package:
     ##########################
     # I always connect my phone to my car through Android Auto,
     # so it's a good way to detect if I start driving. If I do
-    # this outside three of my most used locations, HA will
+    # this outside some of my most used locations, HA will
     # ask me if I'd like to send a "coming home" message.
     # It's done by a actionable notification in the HA app.
     - id: location_ask_to_send_notification_hmmbob_left
@@ -49,6 +49,12 @@ travel_time_notifications_package:
                 - condition: zone
                   entity_id: device_tracker.sm_a556b
                   zone: zone.vkl
+                - condition: zone
+                  entity_id: device_tracker.sm_a556b
+                  zone: zone.adr
+                - condition: zone
+                  entity_id: device_tracker.sm_a556b
+                  zone: zone.amc
         - alias: "Don't run if we already sent a message"
           condition: state
           entity_id: input_boolean.location_bob_travelling_home
@@ -87,6 +93,14 @@ travel_time_notifications_package:
           entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.vkl
+        - trigger: zone
+          entity_id: device_tracker.sm_a556b
+          event: leave
+          zone: zone.adr
+        - trigger: zone
+          entity_id: device_tracker.sm_a556b
+          event: leave
+          zone: zone.amc
       conditions:
         - condition: time
           after: "14:00:00"
@@ -124,7 +138,7 @@ travel_time_notifications_package:
               sticky: true
               tag: "waze"
               ttl: 0
-        - action: notify.mobile_devices_adults
+        - action: notify.mobile_app_sm_a556b
           data:
             message: "clear_notification"
             data:
@@ -166,7 +180,7 @@ travel_time_notifications_package:
               ttl: 0
 
     # As the notifications are persistent (so, non-removable by the user),
-    # we need to remove the notification when I'm home through HA. It also
+    # we need to remove the notification through HA when I'm home. It also
     # turns off the automation that updates the Waze sensor.
     - id: location_clear_traveltime_notification
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
