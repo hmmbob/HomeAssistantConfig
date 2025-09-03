@@ -6,8 +6,10 @@ airco_package:
 
   timer:
     airco_mini_sleeptimer:
+      name: "Airco sleeptimer mini"
       restore: true
     airco_puber_sleeptimer:
+      name: "Airco sleeptimer puber"
       restore: true
 
   automation:

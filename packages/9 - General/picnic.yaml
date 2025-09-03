@@ -24,6 +24,7 @@ picnic_package:
 
   timer:
     picnic:
+      name: "Timer Picnic kiosk"
       restore: true
 
   automation:

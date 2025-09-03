@@ -1,6 +1,7 @@
 ventilation_package:
   timer:
     fan_runtime:
+      name: "Ventilatie looptijd"
       restore: true
 
   automation:
