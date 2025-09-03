@@ -1,0 +1,650 @@
+title: TSV 2
+path: tsv2
+theme: Hmmbob dark theme
+type: custom:vertical-layout
+layout:
+  width: 500
+
+cards:
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:clock-weather-card
+        entity: weather.knmi_home
+        sun_entity: sun.sun
+        temperature_sensor: sensor.knmi_temperatuur
+        animated_icon: true
+        date_pattern: cccc dd LLLL yyyy
+        hide_clock: false
+        hide_date: false
+        hide_forecast_section: true
+        hide_today_section: false
+        hourly_forecast: false
+        locale: nl
+        show_decimal: false
+        show_humidity: false
+        time_format: 24
+        time_pattern: HH:mm
+        time_zone: null
+        use_browser_time: false
+        weather_icon_type: fill
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              timeout: 20000
+              content:
+                type: weather-forecast
+                entity: weather.knmi_home
+                forecast_type: daily
+                name: " "
+                secondary_info_attribute: humidity
+                show_current: true
+                show_forecast: true
+        card_mod:
+          style: |
+            ha-card {
+              background-color: transparent;
+              border-color: transparent;
+              box-shadow: none;
+              height: 120px !important;  /* Ensure the height is set */
+              width: 300px !important;
+              overflow: hidden;  /* Hide overflow if content exceeds height */
+            }
+            .card-content {
+              height: 100%;  /* Ensure content fills the card height */
+            }
+            clock-weather-card-today-right-wrap-top {
+              display: none;
+              visibility: hidden;
+            }
+      - type: custom:mushroom-chips-card
+        alignment: end
+        chips:
+          - type: entity
+            entity: sensor.knmi_temperatuur
+            icon: mdi:thermometer
+            tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-background: transparent;
+                  --chip-border-color: transparent;
+                  --chip-box-shadow: none;
+                }
+          - type: entity
+            entity: sensor.xiaomi_temperature_humidity_sensor_2_temperature
+            icon: mdi:home-thermometer
+            tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-background: transparent;
+                  --chip-border-color: transparent;
+                  --chip-box-shadow: none;
+                }
+
+          - type: template
+            entity: fan.open_air_mini
+            icon: mdi:fan
+            icon_color: |-
+              {{ "green" if is_state('fan.open_air_mini', 'on') else "grey" }}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                timeout: 20000
+                data:
+                  title: Mechanische afzuiging
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-fan-card
+                        entity: fan.open_air_mini
+                        name: Afzuiging
+                        icon_animation: true
+                        show_percentage_control: true
+                        layout: horizontal
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent;
+                              border-color: transparent;
+                              box-shadow: none;
+                            }
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: template
+                            content: "Boost:"
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-background: transparent;
+                                  --chip-border-color: transparent;
+                                  --chip-box-shadow: none;
+                                }
+                          - type: action
+                            icon: mdi:fast-forward-15
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:15:00"
+                          - type: action
+                            icon: mdi:fast-forward-30
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:30:00"
+                          - type: action
+                            icon: mdi:fast-forward-60
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.start
+                              target:
+                                entity_id: timer.fan_runtime
+                              data:
+                                duration: "00:60:00"
+                          - type: action
+                            icon: mdi:timer-off-outline
+                            tap_action:
+                              action: perform-action
+                              perform_action: timer.finish
+                              target:
+                                entity_id: timer.fan_runtime
+                          - type: conditional
+                            conditions:
+                              - entity: timer.fan_runtime
+                                state: active
+                            chip:
+                              type: template
+                              entity: timer.fan_runtime
+                              icon: mdi:timer-sand-empty
+                              content: >-
+                                {% from 'relative_time_plus.jinja' import relative_time_plus %}
+                                {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
+                                    parts=2, time=true, abbr=true, language='nl') }}
+                              tap_action:
+                                action: none
+            card_mod:
+              style: |
+                .content {
+                {% if is_state(config.entity, 'on')%}
+                    animation: rotate {{0.5 / (state_attr(config.entity, 'percentage')/100) | round(1, default=1)}}s infinite linear }
+                @keyframes rotate {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(359deg); }
+                {% endif %}
+                }
+
+          - type: action
+            icon: mdi:cctv
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  timeout: 60000
+                  right_button: Sluiten
+                  right_button_action: browser_mod.close_popup
+                  content:
+                    type: custom:advanced-camera-card
+                    cameras:
+                      - camera_entity: camera.voordeur_vloeiend
+                      - camera_entity: camera.achtertuin_vloeiend
+                    dimensions:
+                      height: 460px
+                    live:
+                      controls:
+                        ptz:
+                          hide_pan_tilt: true
+                      display:
+                        mode: grid
+                      transition_effect: none
+
+          - type: action
+            icon: mdi:bullhorn
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  timeout: 20000
+                  title: Omroepbericht
+                  content:
+                    type: grid
+                    columns: 2
+                    square: false
+                    cards:
+                      - type: custom:mushroom-template-card
+                        primary: "Het eten is over 5 minuten klaar"
+                        icon: mdi:fast-forward-5
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', '5min_warning')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: 5min_warning
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "Het eten is klaar"
+                        icon: mdi:food-turkey
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'dinner_time')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: dinner_time
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "Tafeldekken"
+                        icon: mdi:silverware-variant
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'tafeldekken')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: tafeldekken
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "Komen jullie naar beneden?"
+                        icon: mdi:stairs-down
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'stairs')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: stairs
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "{{states('input_text.naam_puber')}}, kom je naar beneden?"
+                        icon: mdi:human-male-male
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'maxi')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: maxi
+                        hold_action:
+                          action: more-info
+                      - type: custom:mushroom-template-card
+                        primary: "{{states('input_text.naam_mini')}}, kom je naar beneden?"
+                        icon: mdi:human-male-boy
+                        icon_color: |-
+                          {{ "yellow" if is_state('input_select.kiosk_announcement', 'mini')  else "var(--color)" }}
+                        layout: vertical
+                        tap_action:
+                          action: perform-action
+                          perform_action: script.kiosk_announcement
+                          data:
+                            announcement: mini
+                        hold_action:
+                          action: more-info
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: "custom:vertical-stack-in-card"
+            card_mod:
+              style: |
+                ha-card { height: 55px !important; }
+            cards:
+              - type: custom:mushroom-template-card
+                primary: >-
+                  {% set light_count = (expand(state_attr('light.verlichting_voor_gebruik_op_kiosk', 'entity_id')) | 
+                      selectattr('state','eq','on') | list | count) %}
+                  Bedien verlichting ({{ light_count }} aan)
+                icon: |-
+                  {{ "mdi:lightbulb-on" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "mdi:lightbulb-off" }}
+                icon_color: |-
+                  {{ "orange" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "grey" }}
+                card_mod:
+                  style: |
+                    ha-state-icon {
+                      {{ "animation: illumination 3s infinite;" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') }}
+                    }
+                hold_action: none
+                tap_action: &light_popup
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Verlichting
+                      timeout: 20000
+                      content:
+                        type: vertical-stack
+                        cards:
+                          - type: heading
+                            heading: Keuken en eetkamer
+                            icon: mdi:silverware-variant
+                          - type: grid
+                            columns: 2
+                            square: false
+                            cards:
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_keuken
+                                icon: mdi:countertop
+                                name: Keuken spots
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_eetkamer
+                                icon: mdi:table-chair
+                                name: Eetkamer spots
+                              - type: custom:mushroom-light-card
+                                entity: light.eetkamer_tafel
+                                icon: mdi:globe-light-outline
+                                name: Tafel
+                          - type: heading
+                            heading: Woonkamer
+                            icon: mdi:sofa
+                          - type: grid
+                            columns: 2
+                            square: false
+                            cards:
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_woonkamer
+                                icon: mdi:sofa
+                                name: Woonkamer
+                              - type: custom:mushroom-light-card
+                                entity: light.spots_vaas
+                                icon: mdi:lightbulb-spot
+                                name: Vaas
+                          - type: heading
+                            heading: Tuin
+                            icon: mdi:sprout
+                          - type: grid
+                            columns: 2
+                            square: false
+                            cards:
+                              - type: custom:mushroom-light-card
+                                entity: light.tuin_spot_boom
+                              - type: custom:mushroom-light-card
+                                entity: light.verlichting_tuin
+                                icon: mdi:coach-lamp
+
+              - type: custom:mushroom-template-card
+                icon: mdi:chevron-right
+                card_mod:
+                  style:
+                    mushroom-shape-icon$: |
+                      .shape {
+                        background: transparent !important;
+                      }
+                    .: |
+                      ha-card {
+                        background: none;
+                        margin-left: 320px;
+                        top: -54px;
+                        width: 40px;
+                      }
+                tap_action: *light_popup
+
+          - type: horizontal-stack
+            cards:
+              - type: "custom:vertical-stack-in-card"
+                card_mod:
+                  style: |
+                    ha-card { height: 55px !important; }
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: "{{states('input_text.naam_puber')}}"
+                    secondary: >-
+                      {{ ((states('sensor.pubercave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                       - {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                    entity: sensor.pubercave_pc_on_today
+                    icon: mdi:desktop-classic
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.is_pubercave_pc_on','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style:
+                        mushroom-state-info$: |
+                          .primary {
+                            margin-left: 15px ;
+                              }
+                        .: |
+                          ha-card {
+                            background-color: transparent;
+                            border-color: transparent;
+                            box-shadow: none;
+                          }
+                          ha-state-icon {
+                          {% if is_state('binary_sensor.is_pubercave_pc_on', 'on')%}
+                            animation: boing 3s ease infinite;
+                            transform-origin: 50% 90%;
+                          {% endif %}
+                          }
+                  - type: custom:mushroom-template-card
+                    entity: binary_sensor.is_pubercave_tv_on
+                    icon: mdi:television-play
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          margin-left: 66%;
+                          top: -55px;
+                          width: 66px;
+                        }
+                        ha-state-icon {
+                        {% if is_state('binary_sensor.is_pubercave_tv_on', 'on')%}
+                          animation: boing 3s ease infinite;
+                          transform-origin: 50% 90%;
+                        {% endif %}
+                        }
+
+              - type: "custom:vertical-stack-in-card"
+                card_mod:
+                  style: |
+                    ha-card { height: 55px !important; }
+                cards:
+                  - type: custom:mushroom-template-card
+                    primary: "{{states('input_text.naam_mini')}}"
+                    secondary: >-
+                      {{ ((states('sensor.minicave_pc_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                       - {{ ((states('sensor.minicave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}
+                    entity: binary_sensor.minicave_pc
+                    icon: mdi:desktop-classic
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.minicave_pc','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style:
+                        mushroom-state-info$: |
+                          .primary {
+                            margin-left: 12px ;
+                              }
+                        .: |
+                          ha-card {
+                            background-color: transparent;
+                            border-color: transparent;
+                            box-shadow: none;
+                          }
+                          ha-state-icon {
+                          {% if is_state('binary_sensor.minicave_pc', 'on') %}
+                            animation: boing 3s ease infinite;
+                            transform-origin: 50% 90%;
+                          {% endif %}
+                          }
+                  - type: custom:mushroom-template-card
+                    entity: binary_sensor.minicave_tv
+                    icon: mdi:television-play
+                    icon_color: >-
+                      {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
+                    tap_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: none;
+                          margin-left: 66%;
+                          top: -55px;
+                          width: 66px;
+                        }
+                        ha-state-icon {
+                        {% if is_state('binary_sensor.minicave_tv', 'on')%}
+                          animation: boing 3s ease infinite;
+                          transform-origin: 50% 90%;
+                        {% endif %}
+                        }
+
+          - type: vertical-stack
+            cards:
+              - type: "custom:vertical-stack-in-card"
+                card_mod:
+                  style: |
+                    ha-card { height: 55px !important; }
+                cards:
+                  - type: custom:mushroom-media-player-card
+                    entity: media_player.kantoor
+                    media_controls:
+                      - on_off
+                      - previous
+                      - play_pause_stop
+                      - next
+                    volume_controls:
+                      - volume_mute
+                      - volume_set
+                      - volume_buttons
+                    collapsible_controls: true
+                    layout: horizontal
+                    show_volume_level: true
+                    use_media_info: true
+                  - type: conditional
+                    conditions:
+                      - condition: state
+                        entity: media_player.kantoor
+                        state: "off"
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: solid 0px;
+                          box-shadow: none;
+                        }
+                    card:
+                      type: custom:mushroom-template-card
+                      icon_color: deep-purple
+                      icon: mdi:numeric-5
+                      card_mod:
+                        style:
+                          .: |
+                            ha-card {
+                              background: none;
+                              margin-left: 315px;
+                              top: -54px;
+                              width: 40px;
+                            }
+                      tap_action:
+                        action: perform-action
+                        perform_action: media_player.play_media
+                        target:
+                          entity_id: media_player.kantoor
+                        data:
+                          media_content_id: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538.mp3
+                          media_content_type: music
+
+      ### Right column
+      - type: custom:calendar-card-pro
+        entities:
+          - entity: calendar.bl
+            accent_color: "#0911e8"
+            blocklist: "restafval|gft|plasticinzameling"
+          - entity: calendar.bv
+            accent_color: "#f266eb"
+          - entity: calendar.m
+            accent_color: "#8607f5"
+          - entity: calendar.t
+            accent_color: "#20572f"
+          - entity: calendar.familie
+            accent_color: "#d98b04"
+            allowlist: "verjaardag|trouwdag" # Celebration events
+            label: "🎉" # Add celebration label to these events
+          - entity: calendar.familie
+            accent_color: "#d98b04"
+            allowlist: "Picnic|Jumbo" # Grocery delivery events
+            label: "🛒" # Add shopping cart
+          - entity: calendar.familie
+            accent_color: "#f266eb" # Apply pinks color to wife's work schedule
+            allowlist: "B[a-zA-Z]{5}\\s(vrij|werken)"
+          - entity: calendar.familie
+            accent_color: "#d98b04" # Exclude everything included above
+            blocklist: "tafel dekken|vakantie|verjaardag|trouwdag|B[a-zA-Z]{5}\\s(vrij|werken)|Picnic"
+        date_vertical_alignment: top
+        day_font_size: "24px"
+        day_separator_color: "#03a9f430"
+        day_separator_width: "1px"
+        days_to_show: 2
+        event_background_opacity: 40
+        event_font_size: "13px"
+        event_spacing: 6px
+        filter_duplicates: true
+        first_day_of_week: monday
+        refresh_interval: 10
+        show_location: false
+        show_single_allday_time: false
+        split_multiday_events: true
+        today_indicator: glow
+        today_indicator_position: "7px 27px"
+        vertical_line_width: 5px
+        card_mod: # Show time inline
+          style: |
+            div.event-content {
+              display: grid;
+              grid-template-areas: 
+                "title time"
+                "location location";
+              grid-template-columns: 1fr auto;
+              column-gap: 10px;
+              row-gap: 0px;
+            }
+            div.summary {
+              grid-area: title;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            div.time {
+              grid-area: time;
+              white-space: nowrap;
+            }
+            div.location {
+              grid-area: location;
+              white-space: normal;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            div.time-location {
+              display: contents;
+            }
+        tap_action:
+          action: navigate
+          navigation_path: /tsv-dashboards/calendar

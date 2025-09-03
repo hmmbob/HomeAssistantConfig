@@ -129,11 +129,13 @@ kiosk_package:
           variables:
             device: kiosk1
             brightness: number.kiosk1_schermhelderheid
+            path: "/tsv-dashboards/tsv1"
         - trigger: state
           entity_id: switch.kiosk2_screensaver
           variables:
             device: kiosk2
             brightness: number.kiosk2_schermhelderheid
+            path: "/tsv-dashboards/tsv2"
       actions:
         - choose:
             - conditions: "{{ trigger.to_state.state == 'on' }}"
@@ -154,7 +156,7 @@ kiosk_package:
                 - alias: "Schakel de screensaver uit"
                   action: browser_mod.navigate
                   data:
-                    path: "/tsv-dashboards/tsv1"
+                    path: "{{ path }}"
                     browser_id:
                       - "{{ device }}"
                 - action: number.set_value

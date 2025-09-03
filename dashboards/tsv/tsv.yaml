@@ -13,9 +13,10 @@ kiosk_mode:
       hide_sidebar: false
       hide_header: false
 
-title: TSV 1
+title: TSV
 views:
   - !include tsv1.yaml
+  - !include tsv2.yaml
   - !include calendar.yaml
   - !include screensaver.yaml
   - !include 90-cast-picnic-delivery-eta.yaml
