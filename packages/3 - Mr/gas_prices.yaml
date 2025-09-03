@@ -28,7 +28,9 @@ gas_prices_package:
       alias: "Verstuur melding dat de benzineprijzen gewijzigd zijn"
       triggers:
         - trigger: state
-          entity_id: sensor.benzine
+          entity_id:
+            - sensor.benzine
+            - input_number.benzineprijs_esso
           not_from:
             - "unknown"
             - "unavailable"
@@ -37,6 +39,8 @@ gas_prices_package:
             - "unknown"
             - "unavailable"
             - "none"
+      variables:
+        station: "{{ 'Tinq' if trigger.entity_id == 'sensor.benzine' else 'Esso' }}"
       conditions:
         - alias: "Check if price really changed"
           condition: template
@@ -50,10 +54,39 @@ gas_prices_package:
             title: >-
               {{ iif(trigger.to_state.state < trigger.from_state.state, "Benzine wordt goedkoper", "Benzine wordt duurder") }}
             message: >-
-              ⛽ De benzineprijs is {{ iif(trigger.to_state.state < trigger.from_state.state,  "gezakt.", "gestegen.") }}
+              ⛽ De {{ station }} benzineprijs is {{ iif(trigger.to_state.state < trigger.from_state.state,  "gezakt.", "gestegen.") }}
               Nieuwe prijs: {{ trigger.to_state.state }}. 
               Oude prijs: {{ trigger.from_state.state }}.
             data:
               tag: benzine
               channel: benzine
               notification_icon: mdi:gas-station
+
+    - id: update_benzineprijs
+      alias: "Werk de Esso benzine prijs bij"
+      triggers:
+        trigger: time
+        at:
+          - "06:45:00"
+          - "18:45:00"
+      conditions: []
+      actions:
+        - delay: "{{ range(30*60) | random }}"
+          alias: "Random delay between now and 30mins"
+        - action: downloader.download_file
+          data:
+            overwrite: true
+            url: !secret scrape_url_esso
+            filename: esso.png
+        - action: llmvision.data_analyzer
+          data:
+            provider: 01JDVWVP7N8E70XMH6HMYWBCAN
+            message: >-
+              Wat kost Euro95 bij dit tankstation? Geef me alleen de prijs, zonder het
+              euroteken en verdere tekst - echt alleen de prijs. Gebruik een . als
+              decimaalteken.
+            image_file: /config/downloads/esso.png
+            sensor_entity: input_number.benzineprijs_esso
+            include_filename: true
+            max_tokens: 1000
+          response_variable: response
