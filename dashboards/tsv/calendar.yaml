@@ -18,8 +18,8 @@ cards:
           - entity: calendar.bl
             accent_color: "#0911e8"
             blocklist: "restafval|gft|plasticinzameling"
-          - entity: calendar.bv
-            accent_color: "#f266eb"
+          #- entity: calendar.bv
+          #  accent_color: "#f266eb"
           - entity: calendar.m
             accent_color: "#8607f5"
           - entity: calendar.t
