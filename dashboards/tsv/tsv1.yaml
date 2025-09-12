@@ -97,9 +97,9 @@ cards:
               action: fire-dom-event
               browser_mod:
                 service: browser_mod.popup
-                timeout: 20000
                 data:
                   title: Mechanische afzuiging
+                  timeout: 10000
                   content:
                     type: vertical-stack
                     cards:
