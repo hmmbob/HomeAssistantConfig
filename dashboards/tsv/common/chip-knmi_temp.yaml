@@ -1,0 +1,12 @@
+type: entity
+entity: sensor.knmi_temperatuur
+icon: mdi:thermometer
+tap_action:
+  action: none
+card_mod:
+  style: |
+    ha-card {
+      --chip-background: transparent;
+      --chip-border-color: transparent;
+      --chip-box-shadow: none;
+    }

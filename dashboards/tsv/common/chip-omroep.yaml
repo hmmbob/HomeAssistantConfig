@@ -1,0 +1,92 @@
+type: action
+icon: mdi:bullhorn
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      timeout: 20000
+      title: Omroepbericht
+      content:
+        type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:mushroom-template-card
+            primary: "Het eten is over 5 minuten klaar"
+            icon: mdi:fast-forward-5
+            icon_color: |-
+              {{ "yellow" if is_state('input_select.kiosk_announcement', '5min_warning')  else "var(--color)" }}
+            layout: vertical
+            tap_action:
+              action: perform-action
+              perform_action: script.kiosk_announcement
+              data:
+                announcement: 5min_warning
+            hold_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: "Het eten is klaar"
+            icon: mdi:food-turkey
+            icon_color: |-
+              {{ "yellow" if is_state('input_select.kiosk_announcement', 'dinner_time')  else "var(--color)" }}
+            layout: vertical
+            tap_action:
+              action: perform-action
+              perform_action: script.kiosk_announcement
+              data:
+                announcement: dinner_time
+            hold_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: "Tafeldekken"
+            icon: mdi:silverware-variant
+            icon_color: |-
+              {{ "yellow" if is_state('input_select.kiosk_announcement', 'tafeldekken')  else "var(--color)" }}
+            layout: vertical
+            tap_action:
+              action: perform-action
+              perform_action: script.kiosk_announcement
+              data:
+                announcement: tafeldekken
+            hold_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: "Komen jullie naar beneden?"
+            icon: mdi:stairs-down
+            icon_color: |-
+              {{ "yellow" if is_state('input_select.kiosk_announcement', 'stairs')  else "var(--color)" }}
+            layout: vertical
+            tap_action:
+              action: perform-action
+              perform_action: script.kiosk_announcement
+              data:
+                announcement: stairs
+            hold_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: "{{states('input_text.naam_puber')}}, kom je naar beneden?"
+            icon: mdi:human-male-male
+            icon_color: |-
+              {{ "yellow" if is_state('input_select.kiosk_announcement', 'maxi')  else "var(--color)" }}
+            layout: vertical
+            tap_action:
+              action: perform-action
+              perform_action: script.kiosk_announcement
+              data:
+                announcement: maxi
+            hold_action:
+              action: more-info
+          - type: custom:mushroom-template-card
+            primary: "{{states('input_text.naam_mini')}}, kom je naar beneden?"
+            icon: mdi:human-male-boy
+            icon_color: |-
+              {{ "yellow" if is_state('input_select.kiosk_announcement', 'mini')  else "var(--color)" }}
+            layout: vertical
+            tap_action:
+              action: perform-action
+              perform_action: script.kiosk_announcement
+              data:
+                announcement: mini
+            hold_action:
+              action: more-info

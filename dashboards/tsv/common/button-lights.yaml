@@ -1,0 +1,89 @@
+type: "custom:vertical-stack-in-card"
+card_mod:
+  style: |
+    ha-card { height: 55px !important; }
+cards:
+  - type: custom:mushroom-template-card
+    primary: >-
+      {% set light_count = (expand(state_attr('light.verlichting_voor_gebruik_op_kiosk', 'entity_id')) | 
+          selectattr('state','eq','on') | list | count) %}
+      Bedien verlichting ({{ light_count }} aan)
+    icon: |-
+      {{ "mdi:lightbulb-on" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "mdi:lightbulb-off" }}
+    icon_color: |-
+      {{ "orange" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "grey" }}
+    card_mod:
+      style: |
+        ha-state-icon {
+          {{ "animation: illumination 3s infinite;" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') }}
+        }
+    hold_action: none
+    tap_action: &light_popup
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          title: Verlichting
+          timeout: 20000
+          content:
+            type: vertical-stack
+            cards:
+              - type: heading
+                heading: Keuken en eetkamer
+                icon: mdi:silverware-variant
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.spots_keuken
+                    icon: mdi:countertop
+                    name: Keuken spots
+                  - type: custom:mushroom-light-card
+                    entity: light.spots_eetkamer
+                    icon: mdi:table-chair
+                    name: Eetkamer spots
+                  - type: custom:mushroom-light-card
+                    entity: light.eetkamer_tafel
+                    icon: mdi:globe-light-outline
+                    name: Tafel
+              - type: heading
+                heading: Woonkamer
+                icon: mdi:sofa
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.spots_woonkamer
+                    icon: mdi:sofa
+                    name: Woonkamer
+                  - type: custom:mushroom-light-card
+                    entity: light.spots_vaas
+                    icon: mdi:lightbulb-spot
+                    name: Vaas
+              - type: heading
+                heading: Tuin
+                icon: mdi:sprout
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.tuin_spot_boom
+                  - type: custom:mushroom-light-card
+                    entity: light.verlichting_tuin
+                    icon: mdi:coach-lamp
+
+  - type: custom:mushroom-template-card
+    icon: mdi:chevron-right
+    card_mod:
+      style:
+        .: |
+          ha-card {
+            background: none;
+            margin-left: 310px;
+            top: -54px;
+            width: 40px;
+          }
+    tap_action: *light_popup

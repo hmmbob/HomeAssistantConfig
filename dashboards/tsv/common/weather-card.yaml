@@ -1,0 +1,50 @@
+type: custom:clock-weather-card
+entity: weather.knmi_home
+sun_entity: sun.sun
+temperature_sensor: sensor.knmi_temperatuur
+animated_icon: true
+date_pattern: cccc dd LLLL yyyy
+hide_clock: false
+hide_date: false
+hide_forecast_section: true
+hide_today_section: false
+hourly_forecast: false
+locale: nl
+show_decimal: false
+show_humidity: false
+time_format: 24
+time_pattern: HH:mm
+time_zone: null
+use_browser_time: false
+weather_icon_type: fill
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      timeout: 20000
+      content:
+        type: weather-forecast
+        entity: weather.knmi_home
+        forecast_type: daily
+        name: " "
+        secondary_info_attribute: humidity
+        show_current: true
+        show_forecast: true
+card_mod:
+  style: |
+    ha-card {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      height: 120px !important;  /* Ensure the height is set */
+      width: 300px !important;
+      overflow: hidden;  /* Hide overflow if content exceeds height */
+    }
+    .card-content {
+      height: 100%;  /* Ensure content fills the card height */
+    }
+    clock-weather-card-today-right-wrap-top {
+      display: none;
+      visibility: hidden;
+    }

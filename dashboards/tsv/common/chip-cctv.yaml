@@ -1,0 +1,24 @@
+type: action
+icon: mdi:cctv
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      timeout: 60000
+      right_button: Sluiten
+      right_button_action: browser_mod.close_popup
+      content:
+        type: custom:advanced-camera-card
+        cameras:
+          - camera_entity: camera.voordeur_vloeiend
+          - camera_entity: camera.achtertuin_vloeiend
+        dimensions:
+          height: 460px
+        live:
+          controls:
+            ptz:
+              hide_pan_tilt: true
+          display:
+            mode: grid
+          transition_effect: non
