@@ -16,11 +16,6 @@ lightswitch_t_package:
         - choose:
             - conditions: "{{ event == 'on' }}"
               sequence:
-                - action: scene.turn_on
-                  target:
-                    entity_id: scene.plafondlamp_t_kleurige_verlichting
-                - delay:
-                    seconds: 2
                 - action: light.turn_on
                   target:
                     entity_id: light.ledstrip_bureau_mini
@@ -29,6 +24,19 @@ lightswitch_t_package:
                       - 89
                       - 255
                       - 0
+                - choose:
+                    - conditions: "{{ is_state('switch.lichtschakelaar_t_right', 'off') }}"
+                      sequence:
+                        - action: switch.turn_on
+                          target:
+                            entity_id: switch.lichtschakelaar_t_right
+                - delay:
+                    seconds: 1
+                - action: scene.turn_on
+                  target:
+                    entity_id: scene.plafondlamp_t_kleurige_verlichting
+                - delay:
+                    seconds: 2
                 - action: light.turn_on
                   target:
                     entity_id:
@@ -39,11 +47,11 @@ lightswitch_t_package:
                     effect: colorloop
             - conditions: "{{ event == 'off' }}"
               sequence:
-                - action: light.turn_off
+                - action: homeassistant.turn_off
                   target:
                     entity_id:
-                      - light.plafondlamp_t
                       - light.ledstrip_bureau_mini
+                      - switch.lichtschakelaar_t_right
 
     - id: "lights_t_lightswitch"
       alias: "Lichtschakelaar mini"
@@ -75,19 +83,6 @@ lightswitch_t_package:
                           target:
                             entity_id: light.ledstrip_bed_mini
             - conditions: "{{ event == 'single_right' }}"
-              sequence:
-                - choose:
-                    - conditions: "{{ is_state('light.plafondlamp_t', 'on') }}"
-                      sequence:
-                        - action: light.turn_off
-                          target:
-                            entity_id: light.plafondlamp_t
-                    - conditions: "{{ is_state('light.plafondlamp_t', 'off') }}"
-                      sequence:
-                        - action: scene.turn_on
-                          target:
-                            entity_id: scene.plafondlamp_t_wit
-            - conditions: "{{ event == 'single_both' }}"
               sequence: []
             - conditions: "{{ event == 'double_left' }}"
               sequence:
