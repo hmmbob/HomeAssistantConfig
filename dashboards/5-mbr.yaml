@@ -54,8 +54,6 @@ cards:
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.master_bedroom
-        tap_action:
-          action: more-info
         visibility:
           - condition: user
             users:

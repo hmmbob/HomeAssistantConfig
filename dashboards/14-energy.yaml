@@ -38,8 +38,6 @@ cards:
         entity: sensor.pv_power
         icon: mdi:solar-power
         icon_color: green
-        tap_action:
-          action: more-info
 
       - type: energy-distribution
         link_dashboard: true

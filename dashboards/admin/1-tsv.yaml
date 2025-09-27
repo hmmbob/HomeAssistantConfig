@@ -39,6 +39,8 @@ cards:
           states('input_boolean.kiosk_hide_header_and_sidebar') == 'on' else
           'dark-grey' }}
         fill_container: false
+        tap_action:
+          action: toggle
 
       - type: custom:mushroom-template-card
         primary: Restart browser

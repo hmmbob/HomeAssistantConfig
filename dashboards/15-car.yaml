@@ -390,5 +390,3 @@ cards:
           {% else %}
             grey
           {% endif %}
-        tap_action:
-          action: more-info

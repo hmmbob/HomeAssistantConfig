@@ -173,8 +173,6 @@ cards:
                         icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
                         icon_color: >-
                           {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
-                        tap_action:
-                          action: more-info
                       - type: custom:mini-media-player
                         entity: media_player.tv_zolder
                         icon: mdi:cast
@@ -196,8 +194,6 @@ cards:
               {{ "mdi:desk-lamp" if is_state('binary_sensor.is_pubercave_leeslampje_on','on') else "mdi:desk-lamp-off" }}
             icon_color: >-
               {{ "yellow" if is_state('binary_sensor.is_pubercave_leeslampje_on','on') else "disabled" }}
-            tap_action:
-              action: more-info
           - type: custom:mushroom-light-card
             entity: light.sonoff_l1
             icon: mdi:led-strip-variant
@@ -294,8 +290,6 @@ cards:
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.slaapkamer_m
-        tap_action:
-          action: more-info
         visibility:
           - condition: user
             users:
@@ -313,8 +307,6 @@ cards:
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.badkamer_zolder
-        tap_action:
-          action: more-info
         visibility:
           - condition: user
             users:

@@ -79,7 +79,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: mdi:sofa-outline
                 icon_color: green
                 primary: Woonkamer
@@ -136,7 +136,7 @@ cards:
                       :host {
                         --mush-icon-size: 40px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_woonkamer
                 icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_woonkamer_icon', 'color')}}"
@@ -153,7 +153,7 @@ cards:
                     :host {
                         --mush-icon-size: 40px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: switch.genie
                 icon: phu:rituals
                 icon_color: |-
@@ -169,7 +169,7 @@ cards:
                     :host {
                         --mush-icon-size: 40px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
@@ -192,7 +192,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: mdi:silverware-variant
                 icon_color: yellow
                 primary: Eetkamer
@@ -232,27 +232,27 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: light.verlichting_eetkamer
                 icon: mdi:lightbulb-group
                 icon_color: |-
                   {{ "orange" if is_state('light.verlichting_eetkamer', 'on') else "grey" }}
                 card_mod: *1st_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_woonkamer
                 icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_woonkamer_icon', 'color')}}"
                 tap_action:
                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/dining-room
                 card_mod: *3rd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
@@ -271,7 +271,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 primary: Salon
                 secondary: "{{ states('sensor.salon_temperatuur') | round(1, default=0) }} °C"
                 icon: mdi:sofa
@@ -311,13 +311,13 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: light.alle_lampen_salon
                 icon: mdi:lightbulb-group
                 icon_color: |-
                   {{ "orange" if is_state('light.alle_lampen_salon', 'on') else "grey" }}
                 card_mod: *1st_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.salon
                 icon: mdi:radiator
                 icon_color: |-
@@ -325,7 +325,7 @@ cards:
                 tap_action:
                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.kacheltje
                 icon: mdi:heat-wave
                 icon_color: |-
@@ -333,7 +333,7 @@ cards:
                 tap_action:
                   action: more-info
                 card_mod: *3rd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
@@ -346,7 +346,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: mdi:bed-king-outline
                 icon_color: red
                 primary: Master bedroom
@@ -386,7 +386,7 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: switch.inloopkast
                 icon: |-
                   {{ "mdi:lightbulb-on" if is_state(entity, 'on') else "mdi:lightbulb" }}
@@ -413,21 +413,21 @@ cards:
                       {{ "animation: illumination 3s infinite;" if is_state(config.entity, 'on') }}
                     }
 
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_master_bedroom
                 icon: "{{states('sensor.template_airco_mbr_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_mbr_icon', 'color')}}"
                 tap_action:
                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/mbr
                 card_mod: *3rd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
@@ -446,7 +446,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 primary: Slaapkamer M
                 secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_4_temperature') | round(1, default=0) }} °C"
                 icon: mdi:bed-queen
@@ -486,21 +486,21 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: light.verlichting_pubercave
                 icon: >-
                   {{ "mdi:led-strip-variant" if is_state('light.verlichting_pubercave','on') else "mdi:led-strip-variant-off" }}
                 icon_color: |-
                   {{ "orange" if is_state('light.verlichting_pubercave', 'on') else "grey" }}
                 card_mod: *1st_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_slaapkamer_m
                 icon: "{{states('sensor.template_airco_slaapkamer_m_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_slaapkamer_m_icon', 'color')}}"
                 tap_action:
                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: binary_sensor.is_pubercave_pc_on
                 icon: mdi:desktop-classic
                 icon_color: |-
@@ -524,7 +524,7 @@ cards:
                     :host {
                       --mush-icon-size: 40px;
                     }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: binary_sensor.is_pubercave_tv_on
                 icon: mdi:television
                 icon_color: |-
@@ -538,7 +538,7 @@ cards:
                       content:
                         type: vertical-stack
                         cards:
-                          - type: custom:mushroom-template-card
+                          - type: custom:mushroom-legacy-template-card
                             primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
                             secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
                             entity: binary_sensor.is_pubercave_tv_on
@@ -581,7 +581,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: mdi:bed
                 icon_color: blue
                 primary: Slaapkamer T
@@ -621,7 +621,7 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: light.verlichting_minicave
                 icon: >-
                   {{ "mdi:led-strip-variant" if is_state('light.ledstrip_bureau_mini','on') else "mdi:led-strip-variant-off" }}
@@ -646,14 +646,14 @@ cards:
                       :host {
                         --mush-icon-size: 40px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_slaapkamer_t
                 icon: "{{states('sensor.template_airco_slaapkamer_t_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_slaapkamer_t_icon', 'color')}}"
                 tap_action:
                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: binary_sensor.minicave_pc
                 icon: mdi:desktop-classic
                 icon_color: |-
@@ -677,7 +677,7 @@ cards:
                     :host {
                       --mush-icon-size: 40px;
                     }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: binary_sensor.minicave_tv
                 icon: mdi:television
                 icon_color: |-
@@ -728,7 +728,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 primary: Kantoor
                 secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_2_temperature') | round(1, default=0) }} °C"
                 icon: mdi:desk
@@ -768,14 +768,14 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
                 card_mod: *1st_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: climate.kantoor
                 icon: mdi:radiator
                 icon_color: |-
@@ -783,14 +783,14 @@ cards:
                 tap_action:
                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
                 card_mod: *3rd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
@@ -803,7 +803,7 @@ cards:
               style: |
                 ha-card { height: 225px !important; }
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 primary: Overig
                 secondary: "."
                 icon: mdi:cog
@@ -843,7 +843,7 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: light.badkamer
                 icon: mdi:shower
                 icon_color: |-
@@ -855,7 +855,7 @@ cards:
                   target:
                     entity_id: light.badkamer
                 card_mod: *1st_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: mdi:account-voice
                 icon_color: grey
                 tap_action:
@@ -881,7 +881,7 @@ cards:
                             columns: 2
                             square: false
                             cards:
-                              - type: custom:mushroom-template-card
+                              - type: custom:mushroom-legacy-template-card
                                 primary: "Het eten is over 5 minuten klaar"
                                 icon: mdi:fast-forward-5
                                 icon_color: |-
@@ -894,7 +894,7 @@ cards:
                                     announcement: 5min_warning
                                 hold_action:
                                   action: more-info
-                              - type: custom:mushroom-template-card
+                              - type: custom:mushroom-legacy-template-card
                                 primary: "Het eten is klaar"
                                 icon: mdi:food-turkey
                                 icon_color: |-
@@ -907,7 +907,7 @@ cards:
                                     announcement: dinner_time
                                 hold_action:
                                   action: more-info
-                              - type: custom:mushroom-template-card
+                              - type: custom:mushroom-legacy-template-card
                                 primary: "Tafeldekken"
                                 icon: mdi:silverware-variant
                                 icon_color: |-
@@ -920,7 +920,7 @@ cards:
                                     announcement: tafeldekken
                                 hold_action:
                                   action: more-info
-                              - type: custom:mushroom-template-card
+                              - type: custom:mushroom-legacy-template-card
                                 primary: "Komen jullie naar beneden?"
                                 icon: mdi:stairs-down
                                 icon_color: |-
@@ -933,7 +933,7 @@ cards:
                                     announcement: stairs
                                 hold_action:
                                   action: more-info
-                              - type: custom:mushroom-template-card
+                              - type: custom:mushroom-legacy-template-card
                                 primary: "{{states('input_text.naam_puber')}}, kom je naar beneden?"
                                 icon: mdi:human-male-male
                                 icon_color: |-
@@ -946,7 +946,7 @@ cards:
                                     announcement: maxi
                                 hold_action:
                                   action: more-info
-                              - type: custom:mushroom-template-card
+                              - type: custom:mushroom-legacy-template-card
                                 primary: "{{states('input_text.naam_mini')}}, kom je naar beneden?"
                                 icon: mdi:human-male-boy
                                 icon_color: |-
@@ -960,7 +960,7 @@ cards:
                                 hold_action:
                                   action: more-info
                 card_mod: *2nd_button_style
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: fan.open_air_mini
                 icon: mdi:fan
                 icon_color: |-
@@ -1052,7 +1052,7 @@ cards:
                     {% endif %}
                     }
 
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:

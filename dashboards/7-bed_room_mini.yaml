@@ -142,8 +142,6 @@ cards:
                         icon: "{{ 'mdi:television' if is_state('binary_sensor.minicave_tv','on') else 'mdi:television-off' }}"
                         icon_color: >-
                           {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
-                        tap_action:
-                          action: more-info
                       - type: custom:mini-media-player
                         entity: media_player.tv_t
                         icon: mdi:cast
@@ -305,8 +303,6 @@ cards:
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
         entity: climate.slaapkamer_t
-        tap_action:
-          action: more-info
         visibility:
           - condition: user
             users:
