@@ -28,10 +28,10 @@ cards:
             entity: light.verlichting_pubercave
             icon: mdi:led-strip-variant
             icon_color: |-
-              {% set r = state_attr('light.battletron_ball_light_m', 'rgb_color')[0] %}
-              {% set g = state_attr('light.battletron_ball_light_m', 'rgb_color')[1] %}
-              {% set b = state_attr('light.battletron_ball_light_m', 'rgb_color')[2] %}
-              {% if is_state('light.battletron_ball_light_m', 'on') %}
+              {% set r = state_attr('light.sonoff_l1', 'rgb_color')[0] %}
+              {% set g = state_attr('light.sonoff_l1', 'rgb_color')[1] %}
+              {% set b = state_attr('light.sonoff_l1', 'rgb_color')[2] %}
+              {% if is_state('light.sonoff_l1', 'on') %}
                 #{{ '%02x%02x%02x' | format(r, g, b) }}
               {% endif %}
             content: |-
@@ -197,17 +197,6 @@ cards:
           - type: custom:mushroom-light-card
             entity: light.sonoff_l1
             icon: mdi:led-strip-variant
-            show_brightness_control: true
-            collapsible_controls: true
-            show_color_control: true
-            use_light_color: true
-
-      - type: horizontal-stack
-        cards:
-          - type: custom:mushroom-light-card
-            entity: light.battletron_ball_light_m
-            name: Ball Light M
-            icon: mdi:circle
             show_brightness_control: true
             collapsible_controls: true
             show_color_control: true
