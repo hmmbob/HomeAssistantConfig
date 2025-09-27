@@ -133,9 +133,9 @@ travel_time_notifications_package:
               car_ui: true
               clickAction: "/lovelace/locations"
               notification_icon: mdi:car-side
-              persistent: true
+              persistent: false
               priority: high
-              sticky: true
+              sticky: false
               tag: "waze"
               ttl: 0
         - action: notify.mobile_app_sm_a556b
@@ -145,43 +145,7 @@ travel_time_notifications_package:
               tag: "ask-waze"
               ttl: 0
               priority: high
-        - action: automation.turn_on
-          target:
-            entity_id: automation.update_waze_travel_time_to_home
 
-    # Waze will update my tavel time every 5 minutes, so I use this
-    # to update the persistent notification
-    - id: location_update_traveltime_notification_hmmbob
-      alias: "Werk reistijd notificatie bij met nieuwe gegevens"
-      triggers:
-        - trigger: state
-          entity_id: sensor.reistijd_bob_naar_huis
-      conditions:
-        - alias: "Check if we still think he's travelling home"
-          condition: state
-          entity_id: input_boolean.location_bob_travelling_home
-          state: "on"
-      actions:
-        - alias: "Estimated time of arrival is updated, let's inform the people"
-          action: notify.mobile_devices_adults
-          data:
-            title: ♥ Bob is op weg naar huis!
-            message: >
-              Waze denkt dat hij om {{ (now() + timedelta(minutes=(3 + states("sensor.reistijd_bob_naar_huis") | int))).strftime("%H:%M") }} thuis is.
-            data:
-              alert_once: true
-              car_ui: true
-              clickAction: "/lovelace/locations"
-              notification_icon: mdi:car-side
-              persistent: true
-              priority: high
-              sticky: true
-              tag: "waze"
-              ttl: 0
-
-    # As the notifications are persistent (so, non-removable by the user),
-    # we need to remove the notification through HA when I'm home. It also
-    # turns off the automation that updates the Waze sensor.
     - id: location_clear_traveltime_notification
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
       triggers:
@@ -205,9 +169,6 @@ travel_time_notifications_package:
               tag: "waze"
               ttl: 0
               priority: high
-        - action: automation.turn_off
-          target:
-            entity_id: automation.update_waze_travel_time_to_home
 
     ##########################
     ## EV Charger notifications
