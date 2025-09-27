@@ -90,6 +90,9 @@ bikeshed_package:
         - alias: "Please, not on restarts"
           condition: template
           value_template: "{{ trigger.from_state.state | is_number }}"
+        - alias: "Only if the switch is still on"
+          condition: template
+          value_template: "{{ is_state(switch, 'on') }}"
       actions:
         - alias: "Lader uitschakelen"
           action: switch.turn_off
@@ -105,3 +108,52 @@ bikeshed_package:
               ttl: 0
               priority: high
               clickAction: "/lovelace/other"
+
+    - alias: "Fietslader aan, maar geen stroomverbruik"
+      id: fietslader_links_aan_maar_geen_verbruik
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: switch.fietslader_links
+          to: "on"
+          from: "off"
+          id: links
+        - platform: state
+          entity_id: switch.fietslader_rechts
+          to: "on"
+          from: "off"
+          id: rechts
+      action:
+        - alias: "Checking what sensor to use"
+          choose:
+            - conditions:
+                - "{{ trigger.id == 'links' }}"
+              sequence:
+                - wait_for_trigger:
+                    - platform: numeric_state
+                      entity_id: sensor.fietslader_links_power
+                      above: 5
+                  timeout: "00:05:00"
+                  continue_on_timeout: true
+            - conditions:
+                - "{{ trigger.id == 'rechts' }}"
+              sequence:
+                - wait_for_trigger:
+                    - platform: numeric_state
+                      entity_id: sensor.fietslader_rechts_power
+                      above: 5
+                  timeout: "00:05:00"
+                  continue_on_timeout: true
+          default:
+            - stop: "Cannot determine power sensor to use - trigger.id did not match"
+        - choose:
+            - conditions: "{{ wait.trigger is none }}"
+              sequence:
+                - service: notify.mobile_app_sm_a556b
+                  data:
+                    title: "Let op: Fietslader {{trigger.id}}"
+                    message: "De fietslader {{trigger.id}} is aangezet, maar er is na 5 minuten nog geen stroomverbruik gedetecteerd."
+                    data:
+                      notification_icon: mdi:bicycle-electric
+                      ttl: 0
+                      priority: high
