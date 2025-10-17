@@ -11,9 +11,6 @@ homeassistant:
       message: "Access token: {}"
       include:
         - mobile_app_sm_a556b
-  media_dirs:
-    media: /media
-    llmvision: /config/media/llmvision
   packages: !include_dir_merge_named packages/
 
 frontend:

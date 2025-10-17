@@ -45,7 +45,7 @@ doorbell_package:
               Zeg dat dan. Antwoord met een korte zin in het Nederlands."
             remember: false
             include_filename: false
-            max_tokens: 25
+            max_tokens: 100
             temperature: 0.1
             expose_images: true
         - repeat:
@@ -64,7 +64,7 @@ doorbell_package:
                   title: "{{ title }}"
                   message: "{{ response.response_text }}"
                   data:
-                    image: "{{response.key_frame.replace('/config/media/','/media/') }}"
+                    image: "{{ response.key_frame.replace('/media','/media/local') }}"
                     clickAction: /lovelace/camera
                     tag: "{{ tag }}"
                     group: "{{ group }}"
