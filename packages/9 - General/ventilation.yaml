@@ -14,6 +14,7 @@ ventilation_package:
             - event.drukknop_badkamer_zolder_action
             - event.drukknop_bijkeuken_action
           to: ~
+          not_from: "unavailable"
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       conditions:

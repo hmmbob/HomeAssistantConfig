@@ -34,7 +34,11 @@ cards:
 
       - type: custom:mushroom-template-card
         primary: "Huidige productie: {{ states('sensor.pv_power')|float(0) }} W"
-        secondary: "Huidig netverbruik: {{((states('sensor.dsmr_reading_electricity_currently_delivered')  | float(0)) * 1000) | round(0, default=0) }} W"
+        secondary: |-
+          {% set netverbruik = ((states('sensor.dsmr_reading_electricity_currently_delivered')  | float(0)) * 1000) | round(0, default=0) %}
+          {% set teruglevering = ((states('sensor.dsmr_reading_electricity_currently_returned')  | float(0)) * 1000) | round(0, default=0) %}
+          {% set verbruik = netverbruik - teruglevering %}
+          Huidige  {{ 'afname' if verbruik > 0 else 'teruglevering' }}: {{ verbruik }} W
         entity: sensor.pv_power
         icon: mdi:solar-power
         icon_color: green

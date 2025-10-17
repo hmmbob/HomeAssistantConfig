@@ -103,7 +103,7 @@ bedroom_minicave_package:
           above: input_number.mini_pc_time_weekend
           id: weekend
         - trigger: time
-          at: input_datetime.time_maxi_gametime_over
+          at: input_datetime.time_mini_gametime_over
           id: all_days
       conditions:
         - or:

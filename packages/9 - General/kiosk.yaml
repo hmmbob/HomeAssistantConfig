@@ -58,7 +58,7 @@ kiosk_package:
           data:
             hvac_mode: >-
               {% if is_state('climate.airco_woonkamer', 'off') %}
-                {{ 'heat' if (states('sensor.woonkamer_temperature') | float(0)) < 21 else 'cool' }}
+                {{ 'heat' if (states('sensor.woonkamer_temperature') | float(0)) < 22 else 'cool' }}
               {% else %}
                 off
               {% endif %}

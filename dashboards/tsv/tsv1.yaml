@@ -157,7 +157,7 @@ cards:
                 color: >-
                   {% if is_state('climate.airco_woonkamer', 'off') %}
                     {{ 'orange' 
-                      if (states('sensor.woonkamer_temperature') | float(0)) < 21 
+                      if (states('sensor.woonkamer_temperature') | float(0)) < 22 
                       else 'blue' }}
                   {% else %}
                     'red'

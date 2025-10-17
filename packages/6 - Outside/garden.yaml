@@ -22,7 +22,7 @@ lights_garden_package:
           state: "on"
           condition: "{{ (states('sensor.sun_next_rising') | as_datetime | as_local).time() > today_at('06:30').time() }}"
         - start: "{{ as_timestamp(states('sensor.sun_next_setting')) }}"
-          end: "22:30"
+          end: "23:30"
           state: "on"
     - platform: schedule_state
       name: Tree lights
@@ -35,7 +35,7 @@ lights_garden_package:
           condition: "{{ (states('sensor.sun_next_rising') | as_datetime | as_local).time() > today_at('06:30').time() }}"
         - start: "{{ as_timestamp(states('sensor.sun_next_setting')) }}"
           start_offset: -30
-          end: "22:30"
+          end: "23:30"
           state: "on"
 
   automation:

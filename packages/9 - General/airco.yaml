@@ -79,6 +79,13 @@ airco_package:
           at: input_datetime.time_turn_off_airco
           variables:
             target: climate.airco_woonkamer
+        - alias: "Schakel uit als we de lampen uitzetten"
+          trigger: state
+          entity_id: light.verlichting_woonkamer
+          to: "off"
+          id: "lights_turned_off"
+          variables:
+            target: climate.airco_woonkamer
       actions:
         - choose:
             - conditions: "{{ target == 'airco_children' }}"
@@ -101,11 +108,19 @@ airco_package:
                         hvac_mode: "off"
             - conditions: "{{ target == 'climate.airco_woonkamer' }}"
               sequence:
-                - action: climate.set_hvac_mode
-                  target:
-                    entity_id: "{{target}}"
-                  data:
-                    hvac_mode: "off"
+                - if:
+                    - "{{ trigger.id == 'lights_turned_off' }}"
+                    - not:
+                        - condition: time
+                          after: "21:00:00"
+                  then:
+                    - stop: "Stopping sequence because it is before 21:00"
+                  else:
+                    - action: climate.set_hvac_mode
+                      target:
+                        entity_id: "{{target}}"
+                      data:
+                        hvac_mode: "off"
 
     - id: turn_off_when_away
       alias: "Zet de airco en verwarming uit als we weg zijn"
