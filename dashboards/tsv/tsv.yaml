@@ -3,15 +3,8 @@ kiosk_mode:
     - users:
         - Bob
       ignore_entity_settings: true
-  entity_settings:
-    - entity:
-        input_boolean.kiosk_hide_header_and_sidebar: "on"
-      hide_sidebar: true
-      hide_header: true
-    - entity:
-        input_boolean.kiosk_hide_header_and_sidebar: "off"
-      hide_sidebar: false
-      hide_header: false
+  hide_sidebar: '[[[ is_state("input_boolean.kiosk_hide_header_and_sidebar", "on") ]]]'
+  hide_header: '[[[ is_state("input_boolean.kiosk_hide_header_and_sidebar", "on") ]]]'
 
 title: TSV
 views:
