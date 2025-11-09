@@ -177,6 +177,116 @@ cards:
 
           - !include common/kids-devices.yaml
 
+          - type: custom:plotly-graph
+            # title: Electriciteitsprijs
+            hours_to_show: 18
+            time_offset: 17h
+            fn: |
+              $fn ({ hass, vars }) => {
+                vars.x = []; vars.y = []; vars.color = []; vars.hover = [];
+                vars.min = {p: 999,t: null}; vars.max = {p:-999,t:null}
+                vars.ymin = 999; vars.ymax = -999
+                vars.p_now = parseFloat(hass.states['sensor.zonneplan_current_electricity_tariff'].state)
+                vars.unit_of_measurement = hass.states['sensor.zonneplan_current_electricity_tariff'].attributes.unit_of_measurement
+                const cutoff = Date.now() - 3600000;
+                hass.states['sensor.zonneplan_current_electricity_tariff']?.attributes?.forecast?.map(e => {
+                  var t = new Date(e.datetime).getTime()+1800000 
+                  if (t < cutoff) return;
+                  var p = e.electricity_price/10000000
+                  var c = e.tariff_group.replace("low", "#00a964").replace("normal", "#227153").replace("high","#ed5e18")
+                  if (t>=Date.now()-1800000) {
+                    if (p<vars.min.p) vars.min = {p,t,c}
+                    if (p>vars.max.p) vars.max = {p,t,c}
+                  }
+                  if (p<vars.ymin) vars.ymin = p
+                  if (p>vars.ymax) vars.ymax = p
+                  vars.x.push(t)
+                  vars.y.push(p)
+                  vars.color.push(c)
+                  vars.hover.push(String(new Date(t).getHours()).padStart(2,"0") + ":00-" + 
+                    String(new Date((new Date(t).getTime()+3600000)).getHours()).padStart(2,"0") + ":00 : <b>" + 
+                    p.toFixed(3) + "</b> " + vars.unit_of_measurement)
+                })
+                console.log(vars)
+              }
+            layout:
+              height: 100
+              yaxis:
+                fixedrange: true
+                tickformat: .2f
+                range: $fn ({vars}) => [ vars.ymin-0.02, vars.ymax+0.02 ]
+              xaxis:
+                tickformat: "%H:%M"
+                # range: $fn () => [ Date.now() - 3600000, Date.now() + (12 * 3600000) ]
+            config:
+              displayModeBar: false
+            entities:
+              - entity: "" # Price columns
+                unit_of_measurement: $ex vars.unit_of_measurement
+                name: ""
+                showlegend: false
+                x: $ex vars.x
+                "y": $ex vars.y
+                marker:
+                  color: $ex vars.color
+                type: bar
+                hovertemplate: $ex vars.hover
+              - entity: "" # MIN marker + legend
+                mode: markers
+                textposition: top
+                showlegend: false
+                name: >-
+                  $fn ({vars}) => vars.min.p.toFixed(3) + " " + vars.unit_of_measurement + "
+                  @ " + new Date(vars.min.t).getHours() + ":00"
+                yaxis: y0
+                marker:
+                  symbol: diamond
+                  color: $ex vars.min.c
+                x:
+                  - $ex vars.min.t
+                "y":
+                  - $ex vars.min.p
+              - entity: "" # MAX marker + legend
+                mode: markers
+                textposition: top
+                showlegend: false
+                name: >-
+                  $fn ({vars}) => vars.max.p.toFixed(3) + " " + vars.unit_of_measurement + "
+                  @ " +  new Date(vars.max.t).getHours() + ":00"
+                yaxis: y0
+                marker:
+                  symbol: diamond
+                  color: $ex vars.max.c
+                x:
+                  - $ex vars.max.t
+                "y":
+                  - $ex vars.max.p
+              - entity: "" # NOW Line
+                name: Now
+                yaxis: y0
+                showlegend: false
+                line:
+                  width: 2
+                  dash: dot
+                  color: deepskyblue
+                x: $ex [Date.now(), Date.now()]
+                "y":
+                  - 0
+                  - 1
+              - entity: "" # NOW Legend
+                yaxis: y0
+                mode: markers
+                textposition: top
+                showlegend: false
+                name: >-
+                  $fn ({vars}) => "Nu: " + vars.p_now.toFixed(3) + " " + vars.unit_of_measurement
+                marker:
+                  symbol: diamond
+                  color: deepskyblue
+                x: $ex [Date.now(), Date.now()]
+                "y":
+                  - $ex vars.p_now
+
       ### Right column
       - type: custom:calendar-card-pro
         entities:
