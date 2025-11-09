@@ -21,26 +21,39 @@ lights_hallway_package:
           entity_id: binary_sensor.pir_gang
           from: "off"
           to: "on"
+          id: turn_on
+        - trigger: state
+          entity_id: binary_sensor.pir_gang
+          from: "on"
+          to: "off"
+          id: turn_off
       conditions:
         - condition: state
           entity_id: input_boolean.enable_pir_gang_automations
           state: "on"
-        - condition: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 5
       actions:
-        - alias: "Gang lamp aan..."
-          action: switch.turn_on
-          target:
-            entity_id: switch.gang
-        - alias: "Wacht tot er geen motion meer is..."
-          wait_for_trigger:
-            - trigger: state
-              entity_id: binary_sensor.pir_gang
-              from: "on"
-              to: "off"
-        - alias: "Lamp uit.."
-          action: switch.turn_off
-          target:
-            entity_id: switch.gang
+        - alias: "Controleren wat er moet gebeuren"
+          choose:
+            - alias: "Moeten we de verlichting inschakelen?"
+              conditions:
+                - "{{ trigger.id == 'turn_on' }}"
+              sequence:
+                - if:
+                    - alias: "Is het donker genoeg buiten?"
+                      condition: numeric_state
+                      entity_id: sun.sun
+                      attribute: elevation
+                      below: 5
+                  then:
+                    - alias: "Gang lamp aan..."
+                      action: switch.turn_on
+                      target:
+                        entity_id: switch.gang
+            - alias: "Moeten we de verlichting uitschakelen?"
+              conditions:
+                - "{{ trigger.id == 'turn_off' }}"
+              sequence:
+                - alias: "Gang lamp uit.."
+                  action: switch.turn_off
+                  target:
+                    entity_id: switch.gang
