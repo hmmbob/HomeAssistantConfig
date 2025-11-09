@@ -95,7 +95,9 @@ ev_package:
                 - not:
                     - condition: state
                       entity_id: select.smartevse_6360_mode
-                      state: "Off"
+                      state:
+                        - "Off"
+                        - "unavailable"
               sequence:
                 - alias: "Select charging option OFF"
                   action: select.select_option

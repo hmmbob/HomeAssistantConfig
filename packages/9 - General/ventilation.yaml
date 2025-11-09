@@ -50,13 +50,7 @@ ventilation_package:
           at:
             - "07:00:00"
             - "09:00:00"
-            - "21:15:00"
-        - trigger: homeassistant
-          event: start
-          id: "ha_start"
-        - trigger: event
-          event_type: automation_reloaded
-          id: "automation_reload"
+            - "21:30:00"
         - trigger: event
           event_type: timer.finished
           event_data:

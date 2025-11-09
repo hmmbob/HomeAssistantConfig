@@ -10,7 +10,9 @@ views:
           - entity: !secret person_mw
           - entity: !secret person_mini
           - entity: !secret person_puber
+          - entity: zone.adr
           - entity: zone.aldi
+          - entity: zone.amc
           - entity: zone.breda
           - entity: zone.cz
           - entity: zone.home

@@ -11,9 +11,6 @@ google_home_volume_package:
             - "09:00:00"
             - "19:30:00"
             - "20:30:00"
-        - trigger: homeassistant
-          event: start
-          id: "ha_start"
       actions:
         - alias: "Check if this is triggered by HA restart"
           if:

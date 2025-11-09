@@ -174,10 +174,10 @@ airco_package:
                     entity_id: "{{ trigger.entity_id }}"
                   data:
                     temperature: 22
-            - conditions: "{{ current_mode == 'heat' and set_temp > 21 }}"
+            - conditions: "{{ current_mode == 'heat' and set_temp > 22 }}"
               sequence:
                 - action: climate.set_temperature
                   target:
                     entity_id: "{{ trigger.entity_id }}"
                   data:
-                    temperature: 19.5
+                    temperature: 22
