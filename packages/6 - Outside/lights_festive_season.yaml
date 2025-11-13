@@ -12,7 +12,7 @@ lights_festive_season_package:
       name: Festive season lights
       default_state: "off"
       events:
-        - start: "6:40"
+        - start: "6:30"
           end: "{{ state_attr('sun.sun','next_rising') | as_datetime + timedelta(minutes=30) }}"
           state: "on"
         - start: "{{ state_attr('sun.sun','next_setting') | as_datetime - timedelta(hours=1) }}"
