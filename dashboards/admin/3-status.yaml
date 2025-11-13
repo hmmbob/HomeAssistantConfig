@@ -47,7 +47,7 @@ cards:
           - type: custom:mushroom-template-card
             primary: High accuracy mini
             secondary: "{{states('input_text.naam_mini')}}"
-            entity: binary_sensor.sm_a236b_high_accuracy_mode
+            entity: binary_sensor.sm_a566b_t_high_accuracy_mode
             icon: mdi:crosshairs-gps
             icon_color: >-
               {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
@@ -55,7 +55,7 @@ cards:
               action: call-service
               service: script.high_accuracy_mode
               data:
-                target: notify.mobile_app_sm_a236b
+                target: notify.mobile_app_sm_a566b_t
 
       - type: markdown ## Statussen header
         content: |

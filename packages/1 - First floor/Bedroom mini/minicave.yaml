@@ -155,7 +155,7 @@ bedroom_minicave_package:
               data:
                 entity_id: media_player.slaapkamer_t
                 message: "Je tijd is op. Sluit je af?"
-        - action: notify.mobile_app_sm_a236b
+        - action: notify.mobile_app_sm_a566b_t
           data:
             title: Tijd is om
             message: Je tijd is op. Sluit je af?

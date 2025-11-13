@@ -8,7 +8,7 @@ kids_notifications_package:
         - name: "Mini speed"
           unique_id: mini_speed
           unit_of_measurement: "km/h"
-          state: "{{ (state_attr('device_tracker.sm_a236b', 'speed') | float(0)) * 3.6 }}"
+          state: "{{ (state_attr('device_tracker.sm_a566b_t', 'speed') | float(0)) * 3.6 }}"
 
   automation:
     ##########################
@@ -19,21 +19,21 @@ kids_notifications_package:
       mode: parallel
       triggers:
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id: device_tracker.sm_a566b_t
           event: leave
           zone: zone.school
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: school
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id: device_tracker.sm_a566b_t
           event: leave
           zone: zone.mc
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: MC
         - trigger: zone
-          entity_id: device_tracker.sm_a236b
+          entity_id: device_tracker.sm_a566b_t
           event: leave
           zone: zone.scouting
           variables:
@@ -109,7 +109,7 @@ kids_notifications_package:
       mode: parallel
       triggers:
         - trigger: numeric_state
-          entity_id: sensor.sm_a236b_battery_level
+          entity_id: sensor.sm_a566b_t_battery_level
           below: 15
           variables:
             name: "{{states('input_text.naam_mini')}}"
@@ -121,7 +121,7 @@ kids_notifications_package:
       variables:
         target: >
           {% if trigger.entity_id == "sensor.schaduwspeler_batterijniveau" %}notify.mobile_app_schaduwspeler
-          {% elif trigger.entity_id == "sensor.sm_a236b_battery_level" %}notify.mobile_app_sm_a236b
+          {% elif trigger.entity_id == "sensor.sm_a566b_t_battery_level" %}notify.mobile_app_sm_a566b_t
           {% else %}notify.bogus
           {% endif %}
       conditions:
@@ -131,8 +131,8 @@ kids_notifications_package:
               - "{{ trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' }}"
               - "{{ not is_state('device_tracker.schaduwspeler', 'home') }}"
           - and:
-              - "{{ trigger.entity_id == 'sensor.sm_a236b_battery_level' }}"
-              - "{{ not is_state('device_tracker.sm_a236b', 'home') }}"
+              - "{{ trigger.entity_id == 'sensor.sm_a566b_t_battery_level' }}"
+              - "{{ not is_state('device_tracker.sm_a566b_t', 'home') }}"
       actions:
         - action: notify.mobile_devices_adults
           data:
@@ -171,14 +171,14 @@ kids_notifications_package:
         - trigger: state
           entity_id:
             - device_tracker.schaduwspeler
-            - device_tracker.sm_a236b
+            - device_tracker.sm_a566b_t
           to:
             - not_home
           id: leave
         - trigger: state
           entity_id:
             - device_tracker.schaduwspeler
-            - device_tracker.sm_a236b
+            - device_tracker.sm_a566b_t
           not_to:
             - not_home
             - unavailable
@@ -186,7 +186,7 @@ kids_notifications_package:
       variables:
         target: >
           {% if trigger.entity_id == "device_tracker.schaduwspeler" %}notify.mobile_app_schaduwspeler
-          {% elif trigger.entity_id == "device_tracker.sm_a236b" %}notify.mobile_app_sm_a236b
+          {% elif trigger.entity_id == "device_tracker.sm_a566b_t" %}notify.mobile_app_sm_a566b_t
           {% else %}notify.bogus
           {% endif %}
       actions:
@@ -213,13 +213,13 @@ kids_notifications_package:
                 - label: Maxi
                   value: notify.mobile_app_schaduwspeler
                 - label: Mini
-                  value: notify.mobile_app_sm_a236b
+                  value: notify.mobile_app_sm_a566b_t
       variables:
         command: >-
           {% if target == 'notify.mobile_app_schaduwspeler' %}
             {{ 'turn_off' if is_state('binary_sensor.schaduwspeler_high_accuracy_mode', 'on') else 'turn_on' }}
-          {% elif target == 'notify.mobile_app_sm_a236b' %}
-            {{ 'turn_off' if is_state('binary_sensor.sm_a236b_high_accuracy_mode', 'on') else 'turn_on' }}
+          {% elif target == 'notify.mobile_app_sm_a566b_t' %}
+            {{ 'turn_off' if is_state('binary_sensor.sm_a566b_t_high_accuracy_mode', 'on') else 'turn_on' }}
           {% endif %}
       sequence:
         action: "{{ target }}"
