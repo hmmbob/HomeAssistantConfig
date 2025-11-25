@@ -114,13 +114,13 @@ kids_notifications_package:
           variables:
             name: "{{states('input_text.naam_mini')}}"
         - trigger: numeric_state
-          entity_id: sensor.schaduwspeler_batterijniveau
+          entity_id: sensor.schaduwspeler_battery_level
           below: 15
           variables:
             name: "{{states('input_text.naam_puber')}}"
       variables:
         target: >
-          {% if trigger.entity_id == "sensor.schaduwspeler_batterijniveau" %}notify.mobile_app_schaduwspeler
+          {% if trigger.entity_id == "sensor.schaduwspeler_battery_level" %}notify.mobile_app_schaduwspeler
           {% elif trigger.entity_id == "sensor.sm_a566b_t_battery_level" %}notify.mobile_app_sm_a566b_t
           {% else %}notify.bogus
           {% endif %}
@@ -128,7 +128,7 @@ kids_notifications_package:
         # one of these needs to be true to continue
         or:
           - and: # only true if triggered by device and if this device is anywhere but home
-              - "{{ trigger.entity_id == 'sensor.schaduwspeler_batterijniveau' }}"
+              - "{{ trigger.entity_id == 'sensor.schaduwspeler_battery_level' }}"
               - "{{ not is_state('device_tracker.schaduwspeler', 'home') }}"
           - and:
               - "{{ trigger.entity_id == 'sensor.sm_a566b_t_battery_level' }}"
