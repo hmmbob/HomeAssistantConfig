@@ -158,11 +158,6 @@ zeroconf:
 #################################################################
 ## Components not using includes
 #################################################################
-battery_notes:
-  battery_increase_threshold: 75
-  default_battery_low_threshold: 10
-  round_battery: true
-
 command_line:
   notify:
     # Notify bogus service
