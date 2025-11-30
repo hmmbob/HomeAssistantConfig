@@ -31,13 +31,12 @@ solar_package:
       has_date: true
       icon: mdi:clock-start
 
-  sensor:
-    - platform: template
-      sensors:
-        todays_total_production_preserved:
-          friendly_name: Todays total production preserved
-          unit_of_measurement: "kWh"
-          value_template: >-
+  template:
+    - sensor:
+        - unit_of_measurement: kWh
+          default_entity_id: sensor.todays_total_production_preserved
+          name: Todays total production preserved
+          state: >-
             {% if states('sensor.today_s_pv_generation') not in ['unknown', 'unavailable'] %}
               {{ states('sensor.today_s_pv_generation') | float(0)  }}
             {% else %}
