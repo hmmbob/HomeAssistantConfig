@@ -119,7 +119,7 @@ cards:
                       :host {
                         --mush-icon-size: 140px;
                       }
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-legacy-template-card
                 entity: light.verlichting_woonkamer
                 icon: mdi:lightbulb-group
                 icon_color: |-
@@ -170,11 +170,13 @@ cards:
                         --mush-icon-size: 40px;
                       }
               - type: custom:mushroom-legacy-template-card
-                icon: none
-                icon_color: none
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/woonkamer
+                entity: light.twinkly_kerstboom_boven
+                icon: mdi:pine-tree
+                icon_color: |-
+                  {{ "orange" if is_state('light.twinkly_kerstboom_boven', 'on') else "grey" }}
+                #tap_action:
+                #  action: navigate
+                #  navigation_path: /lovelace/woonkamer
                 card_mod: &4th_button_style
                   style: |
                     ha-card {
