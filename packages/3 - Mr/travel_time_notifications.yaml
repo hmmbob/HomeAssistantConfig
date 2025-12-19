@@ -45,12 +45,6 @@ travel_time_notifications_package:
                   zone: zone.home
                 - condition: zone
                   entity_id: device_tracker.sm_a556b
-                  zone: zone.breda
-                - condition: zone
-                  entity_id: device_tracker.sm_a556b
-                  zone: zone.vkl
-                - condition: zone
-                  entity_id: device_tracker.sm_a556b
                   zone: zone.adr
                 - condition: zone
                   entity_id: device_tracker.sm_a556b
@@ -85,14 +79,6 @@ travel_time_notifications_package:
           event_type: mobile_app_notification_action
           event_data:
             action: "send_traveltime"
-        - trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: leave
-          zone: zone.breda
-        - trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: leave
-          zone: zone.vkl
         - trigger: zone
           entity_id: device_tracker.sm_a556b
           event: leave
@@ -167,39 +153,5 @@ travel_time_notifications_package:
             message: "clear_notification"
             data:
               tag: "waze"
-              ttl: 0
-              priority: high
-
-    ##########################
-    ## EV Charger notifications
-    ##########################
-    - id: location_send_ev_charger_status
-      alias: "Verstuur een melding om te laten weten of de laadpaal vrij is"
-      triggers:
-        - trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: enter
-          zone: zone.laadpaal_waarschuwing
-      actions:
-        - variables:
-            laadpalen_werk:
-              - sensor.laadpaal_werk_1
-              - sensor.laadpaal_werk_2
-            laadpalen_extra:
-              - sensor.laadpaal_werk_3
-              - sensor.laadpaal_werk_4
-            message: >-
-              {{'Er is een laadpaal vrij bij het station!' if (laadpalen_werk | select('is_state', 'Available') | list | count > 0) 
-                else 'Er is een laadpaal vrij in de wijk!' if (laadpalen_extra | select('is_state', 'Available') | list | count > 0) 
-                else 'Helaas, geen laadpaal vrij.'}}
-        - alias: "Sending push notification"
-          action: notify.mobile_app_sm_a556b
-          data:
-            title: "Laadpaal"
-            message: "{{ message }}"
-            data:
-              car_ui: true
-              notification_icon: mdi:ev-station
-              tag: "charger_available"
               ttl: 0
               priority: high
