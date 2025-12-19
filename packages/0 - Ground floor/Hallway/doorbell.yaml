@@ -29,20 +29,12 @@ doorbell_package:
             image_entity:
               - camera.voordeur_vloeiend
             provider: 01JDVWVP7N8E70XMH6HMYWBCAN
-            model: gemini-2.0-flash
+            model: gemini-2.5-flash
             message:
-              "Dit is een foto van mijn voordeur camera. Help me door te beschrijven of dit
-              een bezorger of bezoeker is. Beschrijf de scène niet!
-              Als de persoon een pakje of doos vast heeft is het vrijwel zeker
-              een bezorger. Als je denkt dat het een bezorger is probeer dan in te schatten
-              van welk bedrijf de bezorger is. Als de persoon kleding met oranje accenten aan
-              heeft is het een PostNL bezorger. Heeft de persoon gele bovenkleding dan is
-              het een DHL bezorger. Heeft de persoon rode kleding aan en in plaats van een pakje
-              of doos plastic tassen in zijn/haar hand, dan is het een bezorger van Picnic.
-              Misschien zie je een bestelauto in de foto: PostNL bezorgers rijden vaak in een witte bestelbus, terwijl
-              DHL bezorgers vaak een gele bestelwagen rijden. Wij rijden zelf een kleine gele personenauto,
-              verwar die niet met een bestelbus. Weet je niet zeker van welk bedrijf het is?
-              Zeg dat dan. Antwoord met een korte zin in het Nederlands."
+              "Beoordeel de bijgevoegde deurbelfoto. Is het een bezorger (heeft de persoon een pakket/doos vast?) of een bezoeker?
+              Als het een bezorger is, schat dan het bedrijf in op basis van kleding (PostNL: oranje; DHL: geel; Picnic: rood/tassen)
+              en/of voertuig (PostNL: witte bus; DHL: gele bus). Antwoord kort in het Nederlands. Zeg 'Geen persoon te zien' of 'Onbekend'
+              indien nodig. Beschrijf de scene niet"
             remember: false
             include_filename: false
             max_tokens: 100

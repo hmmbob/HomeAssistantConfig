@@ -111,7 +111,8 @@ bikeshed_package:
 
     - alias: "Fietslader aan, maar geen stroomverbruik"
       id: fietslader_links_aan_maar_geen_verbruik
-      mode: single
+      mode: parallel
+      max: 2
       trigger:
         - platform: state
           entity_id: switch.fietslader_links
@@ -149,6 +150,9 @@ bikeshed_package:
         - choose:
             - conditions: "{{ wait.trigger is none }}"
               sequence:
+                - alias: "Only if the switch is still on"
+                  condition: template
+                  value_template: "{{ is_state(trigger.entity_id, 'on') }}"
                 - service: notify.mobile_app_sm_a556b
                   data:
                     title: "Let op: Fietslader {{trigger.id}}"

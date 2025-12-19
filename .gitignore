@@ -26,6 +26,7 @@ ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 googleassistant_serviceaccount.json
+includes/googleassistant_serviceaccount.json.backup
 includes/googleassistant_serviceaccount.json
 .google.token
 .spotify-token-cache

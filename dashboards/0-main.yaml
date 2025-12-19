@@ -157,7 +157,7 @@ cards:
                 entity: switch.genie
                 icon: phu:rituals
                 icon_color: |-
-                  {{ "green" if is_state('switch.genie', 'on') else "dark-grey" }}
+                  {{ "green" if is_state('switch.genie', 'on') else "grey" }}
                 card_mod: &3rd_button_style
                   style: |
                     ha-card {
