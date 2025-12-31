@@ -2,8 +2,6 @@ project_id: !secret google_assistant_project_id
 service_account: !include googleassistant_serviceaccount.json
 expose_by_default: false
 report_state: true
-exposed_domains:
-  - media_player
 entity_config:
   ## Woonkamer
   light.spots_vaas:
@@ -12,16 +10,6 @@ entity_config:
     room: "Woonkamer"
   light.spots_woonkamer:
     name: "Spots woonkamer"
-    expose: true
-    room: "Woonkamer"
-  media_player.sonos_woonkamer:
-    name: "Sonos woonkamer"
-    expose: true
-    room: "Woonkamer"
-    aliases:
-      - "Sonos"
-  sensor.woonkamer_temperature:
-    name: "Woonkamer temperatuur"
     expose: true
     room: "Woonkamer"
   script.radio_538:
@@ -46,15 +34,8 @@ entity_config:
     room: "Woonkamer"
     aliases:
       - "Rocky"
-  script.whose_turn_is_it:
-    name: "Tafeldekken"
-    expose: true
-    room: "Woonkamer"
-    aliases:
-      - "Tafel dekken"
-
   ## Salon
-  switch.grijze_lamp:
+  light.grijze_lamp:
     name: "Grijze lamp"
     expose: true
     room: "Salon"
@@ -70,11 +51,6 @@ entity_config:
     name: "TV Kastje"
     expose: true
     room: "Salon"
-  sensor.salon_temperatuur:
-    name: "Salon temperatuur"
-    expose: true
-    room: "Salon"
-
   ## Dining room
   light.kast:
     name: "Kast"
@@ -84,31 +60,22 @@ entity_config:
     name: "Spots eetkamer"
     expose: true
     room: "Eetkamer"
-
   ## Kitchen
   light.spots_keuken:
     name: "Spots keuken"
     expose: true
     room: "Keuken"
-
   ## Gang
-  switch.gang:
+  light.gang:
     name: "Gang"
     expose: true
     room: "Gang"
-
   ## Badkamer
   light.badkamer:
     name: "Badkamer"
     expose: true
     room: "Badkamer"
-
-  ## Slaapkamer MBR
-  sensor.slaapkamer_temperature:
-    name: "Temperatuur slaapkamer"
-    expose: true
-    room: "Slaapkamer"
-
+  ## Master bedroom
   ## Slaapkamer T
   light.ledstrip_bed_mini:
     name: "Ledstrip bed mini"
@@ -126,11 +93,6 @@ entity_config:
     name: "Plafondlamp slaapkamer T"
     expose: true
     room: "Slaapkamer T"
-  sensor.slaapkamer_t_temperatuur:
-    name: "Slaapkamer T temperatuur"
-    expose: true
-    room: "Slaapkamer T"
-
   ## Zolder
   light.sonoff_l1:
     name: "Ledstrip zolder"
@@ -138,11 +100,6 @@ entity_config:
     room: "Zolder"
     aliases:
       - "Led strip zolder"
-  sensor.zolder_temperature:
-    name: "Temperatuur zolder"
-    expose: true
-    room: "Zolder"
-
   ## Tuin
   light.tuin_spot_boom:
     name: "Tuin spot boom"
