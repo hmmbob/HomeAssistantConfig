@@ -1,0 +1,39 @@
+create_calendar_events:
+  automation:
+    - id: calendar_hmmbob_gym
+      alias: "Maak een afspraak in de agenda voor sporten"
+      variables:
+        # round current time to nearest 15 minutes
+        rounded_timestamp: >
+          {% set now_ts = now().timestamp() | int %}
+          {% set step = 15 * 60 %}
+          {{ ((now_ts + (step/2)) // step) * step }}
+        start_time: >
+          {{ (rounded_timestamp | int) | timestamp_custom("%Y-%m-%d %H:%M:%S", true) }}
+        end_time: >
+          {{ (rounded_timestamp | int + 3600) | timestamp_custom("%Y-%m-%d %H:%M:%S", true) }}
+      trigger:
+        - trigger: zone
+          entity_id: device_tracker.sm_a556b
+          event: enter
+          zone: zone.sportschool
+      action:
+        - alias: "Ververs de agenda om dubbele afspraken te voorkomen"
+          action: homeassistant.update_entity
+          data:
+            entity_id:
+              - calendar.bl
+        - delay: "00:00:15"
+        - alias: "Geen dubbele afspraken"
+          condition: template
+          value_template: >
+            {% set msg = (state_attr('calendar.bl','message') or '') | lower %}
+            {{ msg not in ['sport', 'sporten', 'sportschool'] }}
+        - alias: "Maak een afspraak in de agenda voor sporten"
+          action: google.create_event
+          data:
+            summary: "Sporten"
+            start_date_time: "{{ start_time }}"
+            end_date_time: "{{ end_time }}"
+          target:
+            entity_id: calendar.bl
