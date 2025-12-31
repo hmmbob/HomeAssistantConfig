@@ -5,8 +5,7 @@ symfonisk_package:
       description: >
         Control my Symfonisk speaker with an IKEA E2123 remote control,
         based on the blueprint by Shawsky found at https://community.home-assistant.io/t/z2m-ikea-symfonisk-gen2-e2123-media-control/559523
-      mode: restart
-      max_exceeded: silent
+      mode: queued
       variables:
         player: media_player.sonos_woonkamer
         steps: 20 # 25 is Sonos default

@@ -2,6 +2,8 @@ christmas_package:
   automation:
     - id: kerstboom_verlichting
       alias: "Zet de Kerstboomverlichting aan of uit"
+      mode: single
+      max_exceeded: silent
       trigger:
         - alias: "Schakel in als iemand thuis komt"
           platform: state
