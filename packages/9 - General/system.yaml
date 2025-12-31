@@ -72,29 +72,3 @@ system_package:
                 - action: "URI"
                   title: "Open Changelog"
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
-
-    ##########################
-    ## Tado goes offline notifications
-    ##########################
-    - alias: "Stuur een melding dat Tado opnieuw geauthenticeerd moet worden"
-      id: system_tado_notification
-      description: Send notification on Tado reauth needed
-      triggers:
-        - trigger: state
-          entity_id: binary_sensor.woonkamer_connectiviteit
-          to: "unavailable"
-          for:
-            minutes: 1
-      actions:
-        - action: notify.mobile_app_sm_a556b
-          data:
-            title: Tado reauth needed!
-            message: >
-              Tado is offline and possibly needs to be reauthenticated!
-            data:
-              tag: tado
-              channel: tado
-              notification_icon: mdi:radiator-off
-              clickAction: "/config/dashboard"
-              ttl: 0
-              priority: high
