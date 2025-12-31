@@ -248,11 +248,11 @@ kiosk_package:
                     entity_id:
                       - switch.kiosk2_screensaver
 
-    - id: kiosk_restart_at_9
-      alias: Kiosk herstart browser om 09:00 of bij HA herstart
+    - id: kiosk_restart_browser
+      alias: Kiosk herstart browser om 08:45 of bij HA herstart
       triggers:
         - trigger: time
-          at: "08:59:30"
+          at: "08:44:30"
         - trigger: homeassistant
           event: start
       actions:
