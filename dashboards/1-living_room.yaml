@@ -190,11 +190,6 @@ cards:
                                   - 29421
                               target:
                                 entity_id: vacuum.rocky
-          - type: template
-            entity: light.twinkly_kerstboom_boven
-            icon: mdi:pine-tree
-            icon_color: |-
-              {{ "orange" if is_state('light.twinkly_kerstboom_boven', 'on') else "grey" }}
 
       - type: horizontal-stack
         cards:
