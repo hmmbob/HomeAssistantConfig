@@ -1,0 +1,16 @@
+pool_package:
+  automation:
+    - id: zwembad_apparatuur_aan
+      alias: "Zet zwembad apparatuur aan of uit"
+      mode: single
+      triggers:
+        - trigger: state
+          entity_id: schedule.zwembad
+      conditions:
+        - alias: "Do we have a valid state?"
+          condition: template
+          value_template: "{{ states('schedule.zwembad') in ['on','off'] }}"
+      actions:
+        - action: switch.turn_{{ states('schedule.zwembad') }}
+          target:
+            entity_id: switch.zwembad_apparatuur
