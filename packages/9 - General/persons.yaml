@@ -43,9 +43,3 @@ persons_package:
         - service: mobile_app_sm_a566b
         - service: mobile_app_schaduwspeler
         - service: mobile_app_sm_a566b_t
-
-    - platform: group
-      name: mobile_devices_papa_and_mini
-      services:
-        - service: mobile_app_sm_a556b
-        - service: mobile_app_sm_a566b_t
