@@ -1,0 +1,18 @@
+tado_package:
+  automations:
+    ##########################
+    ## Update Tado sensors
+    ##########################
+    - id: tado_update_sensors
+      alias: "Tado: update sensors"
+      mode: single
+      max_exceeded: silent
+      description: Update Tado sensors
+      triggers:
+        - trigger: time_pattern
+          minutes: "10"
+      actions:
+        - action: homeassistant.update_entity
+          data:
+            entity_id:
+              - climate.woonkamer
