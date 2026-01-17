@@ -7,13 +7,9 @@ lights_garden_package:
         - light.tuin_wandverlichting_muren
         - light.tuin_wandverlichting_schutting
 
-  input_boolean:
-    garden_lights_override:
-      name: "Tuinverlichting override"
-
   sensor:
     - platform: schedule_state
-      name: Garden lights
+      name: Garden lights schedule
       default_state: "off"
       events:
         - start: "6:30"
@@ -25,7 +21,7 @@ lights_garden_package:
           end: "23:30"
           state: "on"
     - platform: schedule_state
-      name: Tree lights
+      name: Tree lights schedule
       default_state: "off"
       events:
         - start: "6:30"
@@ -45,21 +41,13 @@ lights_garden_package:
       max_exceeded: silent
       triggers:
         - trigger: state
-          entity_id: sensor.garden_lights
-        - trigger: homeassistant
-          event: start
-        - trigger: event
-          event_type: automation_reloaded
+          entity_id: sensor.garden_lights_schedule
       conditions:
         - alias: "Do we have a valid state"
           condition: template
-          value_template: "{{ states('sensor.garden_lights') not in ['unknown','unavailable','none'] }}"
-        - alias: "Only continue if not overridden"
-          condition: state
-          entity_id: input_boolean.garden_lights_override
-          state: "off"
+          value_template: "{{ states('sensor.garden_lights_schedule') in ['on','off'] }}"
       actions:
-        - action: homeassistant.turn_{{ states('sensor.garden_lights') }}
+        - action: homeassistant.turn_{{ states('sensor.garden_lights_schedule') }}
           target:
             entity_id:
               - light.verlichting_tuin
@@ -70,21 +58,13 @@ lights_garden_package:
       max_exceeded: silent
       triggers:
         - trigger: state
-          entity_id: sensor.tree_lights
-        - trigger: homeassistant
-          event: start
-        - trigger: event
-          event_type: automation_reloaded
+          entity_id: sensor.tree_lights_schedule
       conditions:
         - alias: "Do we have a valid state"
           condition: template
-          value_template: "{{ states('sensor.tree_lights') not in ['unknown','unavailable','none'] }}"
-        - alias: "Only continue if not overridden"
-          condition: state
-          entity_id: input_boolean.garden_lights_override
-          state: "off"
+          value_template: "{{ states('sensor.tree_lights_schedule') in ['on','off'] }}"
       actions:
-        - action: homeassistant.turn_{{ states('sensor.tree_lights') }}
+        - action: homeassistant.turn_{{ states('sensor.tree_lights_schedule') }}
           target:
             entity_id:
               - light.tuin_spot_boom
@@ -108,19 +88,12 @@ lights_garden_package:
           entity_id: sun.sun
           state: "below_horizon"
       actions:
-        - action: input_boolean.turn_on
+        - action: schedule_state.set_override
           target:
-            entity_id: input_boolean.garden_lights_override
-        - action: homeassistant.turn_on
-          target:
-            entity_id: light.verlichting_tuin
-        - delay: "00:03:00"
-        - action: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.garden_lights_override
-        - action: automation.trigger
-          target:
-            entity_id: automation.lights_garden_turn_on
+            entity_id: sensor.garden_lights_schedule
+          data:
+            state: "on"
+            duration: 3
 
     - id: backgate_alert
       alias: "Waarschuw als iemand door de poort komt of het fietsenhok opent"
