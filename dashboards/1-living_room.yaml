@@ -90,6 +90,20 @@ cards:
                         chips:
                           - type: entity
                             entity: vacuum.rocky
+                            name: Woonkamer, eetkamer, keuken & gang
+                            content_info: name
+                            icon: mdi:vacuum
+                            tap_action:
+                              action: perform-action
+                              perform_action: vacuum.send_command
+                              data:
+                                command: app_segment_clean
+                                params:
+                                  - segments: [18, 17, 16]
+                              target:
+                                entity_id: vacuum.rocky
+                          - type: entity
+                            entity: vacuum.rocky
                             name: Woonkamer, eetkamer & keuken
                             content_info: name
                             icon: mdi:vacuum
