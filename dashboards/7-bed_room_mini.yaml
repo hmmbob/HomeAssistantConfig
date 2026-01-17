@@ -298,7 +298,7 @@ cards:
         secondary: >-
           {{ state_translated('climate.slaapkamer_t') }} - 
           Ingesteld op {{ state_attr('climate.slaapkamer_t','temperature') }} °C, 
-          momenteel {{ states('sensor.slaapkamer_t_temperatuur') |round(1) }} °C
+          momenteel {{ states('sensor.slaapkamer_t_temperatuur') |round(1, default=0) }} °C
         icon: mdi:thermostat
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}

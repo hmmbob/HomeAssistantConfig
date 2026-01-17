@@ -149,8 +149,8 @@ ev_package:
       variables:
         title: EV charging monthly total
         message: >
-          This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') | round(1) }} kWh. 
-          The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') | round(1) }} kWh.
+          This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') | round(1, default=0) }} kWh. 
+          The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') | round(1, default=0) }} kWh.
       triggers:
         - trigger: time
           at: "23:59:45"

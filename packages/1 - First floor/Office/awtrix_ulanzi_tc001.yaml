@@ -191,7 +191,7 @@ awtrix_package:
           {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{"#FCFEFC"}}{%- endif %}
           {%- if power_level <= threshold_low %}{{"#FF4E1A"}}{%- endif %}
         power_level_text: >-
-          {%- if power_level > 1000  %}{{ ((power_level | float(default=0)) / 1000) | round(1)}} kW{%- else %}{{power_level | round(0)}} W{%- endif %}
+          {%- if power_level > 1000  %}{{ ((power_level | float(default=0)) / 1000) | round(1, default=0)}} kW{%- else %}{{power_level | round(0)}} W{%- endif %}
         skip_if_zero_watts: true
         skip_during_night_hours: true
         payload: >-

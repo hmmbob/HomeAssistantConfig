@@ -104,7 +104,7 @@ cards:
         secondary: >-
           {{ state_translated('climate.salon') }} - 
           Ingesteld op {{ state_attr('climate.salon','temperature') }} °C, 
-          momenteel {{ states('sensor.salon_temperatuur') |round(1) }} °C
+          momenteel {{ states('sensor.salon_temperatuur') |round(1, default=0) }} °C
         icon: phu:tado
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
