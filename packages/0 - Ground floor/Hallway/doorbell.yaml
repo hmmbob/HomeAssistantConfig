@@ -22,49 +22,80 @@ doorbell_package:
           entity_id: input_boolean.enable_deurbel
           state: "on"
       actions:
-        - alias: Analyze event
-          action: llmvision.image_analyzer
-          response_variable: response
-          data:
-            image_entity:
-              - camera.voordeur_vloeiend
-            provider: 01JDVWVP7N8E70XMH6HMYWBCAN
-            model: gemini-3-flash-preview
-            message:
-              "Beoordeel de bijgevoegde deurbelfoto. Is het een bezorger (heeft de persoon een pakket/doos vast?) of een bezoeker?
-              Als het een bezorger is, schat dan het bedrijf in op basis van kleding (PostNL: oranje; DHL: geel; Picnic: rood/tassen)
-              en/of voertuig (PostNL: witte bus; DHL: gele bus). Antwoord kort in het Nederlands. Zeg 'Geen persoon te zien' of 'Onbekend'
-              indien nodig. Beschrijf de scene niet"
-            remember: false
-            include_filename: false
-            max_tokens: 1000
-            temperature: 0.1
-            expose_images: true
-        - repeat:
-            for_each: >
-              {{
-                (expand(state_attr('zone.home', 'persons'))
-                | map(attribute='attributes.source')
-                | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                | list + ['notify.mobile_app_sm_a556b'])
-                | unique | list
-              }}
-            sequence:
-              - alias: Update notification to notify devices
-                action: "{{ repeat.item }}"
-                data:
-                  title: "{{ title }}"
-                  message: "{{ response.response_text }}"
+        - parallel:
+            - repeat:
+                for_each: >
+                  {{
+                    (expand(state_attr('zone.home', 'persons'))
+                    | map(attribute='attributes.source')
+                    | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                    | list + ['notify.mobile_app_sm_a556b'])
+                    | unique | list
+                  }}
+                sequence:
+                  - alias: Send notification to notify devices
+                    action: "{{ repeat.item }}"
+                    data:
+                      title: "{{ title }}"
+                      message: "AI text wordt geladen..."
+                      data:
+                        image: /api/camera_proxy/camera.voordeur_vloeiend
+                        clickAction: /lovelace/camera
+                        tag: "{{ tag }}"
+                        group: "{{ group }}"
+                        notification_icon: mdi:doorbell-video
+                        priority: high
+                        timeout: 60
+                        ttl: 0
+                        visibility: public
+            - sequence:
+                - alias: Analyze event
+                  action: ai_task.generate_data
+                  response_variable: response
                   data:
-                    image: "{{ response.key_frame.replace('/media','/media/local') }}"
-                    clickAction: /lovelace/camera
-                    tag: "{{ tag }}"
-                    group: "{{ group }}"
-                    notification_icon: mdi:doorbell-video
-                    priority: high
-                    timeout: 60
-                    ttl: 0
-                    visibility: public
+                    entity_id: ai_task.google_ai_task_gemini_3_flash_preview
+                    task_name: Voordeur AI analyse
+                    instructions: |2-
+                      Beoordeel de bijgevoegde deurbelfoto. Is het een bezorger (heeft de persoon een pakket/doos vast?) of een bezoeker?
+                      Als het een bezorger is, schat dan het bedrijf in op basis van kleding (PostNL: oranje; DHL: geel; Picnic: rood/tassen)
+                      en/of voertuig (PostNL: witte bus; DHL: gele bus). Antwoord kort in het Nederlands. Zeg 'Geen persoon te zien' of 'Onbekend'
+                      indien nodig. Beschrijf de scene niet
+                    attachments:
+                      media_content_id: media-source://camera/camera.voordeur_vloeiend
+                      media_content_type: application/vnd.apple.mpegurl
+                      metadata:
+                        title: Voordeur Vloeiend
+                        thumbnail: /api/camera_proxy/camera.voordeur_vloeiend
+                        media_class: video
+                        children_media_class: null
+                        navigateIds:
+                          - media_content_type: app
+                            media_content_id: media-source://camera
+                - repeat:
+                    for_each: >
+                      {{
+                        (expand(state_attr('zone.home', 'persons'))
+                        | map(attribute='attributes.source')
+                        | map('replace', 'device_tracker.', 'notify.mobile_app_')
+                        | list + ['notify.mobile_app_sm_a556b'])
+                        | unique | list
+                      }}
+                    sequence:
+                      - alias: Update notification to notify devices
+                        action: "{{ repeat.item }}"
+                        data:
+                          title: "{{ title }}"
+                          message: "{{ response.data }}"
+                          data:
+                            image: /api/camera_proxy/camera.voordeur_vloeiend
+                            clickAction: /lovelace/camera
+                            tag: "{{ tag }}"
+                            group: "{{ group }}"
+                            notification_icon: mdi:doorbell-video
+                            priority: high
+                            timeout: 60
+                            ttl: 0
+                            visibility: public
 
     - id: "deurbel_stream_to_kiosk"
       alias: Stream de deurbel naar de kiosks
