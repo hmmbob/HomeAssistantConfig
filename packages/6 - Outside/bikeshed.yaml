@@ -49,7 +49,7 @@ bikeshed_package:
             - "idle"
             - "off"
       action:
-        - service: notify.mobile_devices_adults
+        - service: notify.mobile_app_sm_a556b
           data:
             message: clear_notification
             data:

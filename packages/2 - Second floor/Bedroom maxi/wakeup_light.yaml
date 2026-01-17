@@ -2,7 +2,7 @@ wakeup_light_maxi_package:
   automation:
     - id: wakeup_light_maxi
       alias: "Wakeup light maxi"
-      mode: single
+      mode: restart
       triggers:
         - trigger: time
           at: sensor.zolder_alarms

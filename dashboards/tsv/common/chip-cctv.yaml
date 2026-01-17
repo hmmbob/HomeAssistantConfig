@@ -21,4 +21,4 @@ tap_action:
               hide_pan_tilt: true
           display:
             mode: grid
-          transition_effect: non
+          transition_effect: none
