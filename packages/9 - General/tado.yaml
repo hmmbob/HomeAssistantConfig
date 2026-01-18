@@ -1,16 +1,41 @@
 tado_package:
-  automations:
+  automation:
     ##########################
-    ## Update Tado sensors
+    ## Update Tado sensors - Day (7 min intervals)
     ##########################
-    - id: tado_update_sensors
-      alias: "Tado: update sensors"
+    - id: tado_update_sensors_day
+      alias: "Tado: update sensors (day)"
       mode: single
       max_exceeded: silent
-      description: Update Tado sensors
+      description: Update Tado sensors every 7 minutes during day (06:30-22:00)
       triggers:
         - trigger: time_pattern
-          minutes: "10"
+          minutes: "/7"
+      conditions:
+        - condition: time
+          after: "06:30:00"
+          before: "22:00:00"
+      actions:
+        - action: homeassistant.update_entity
+          data:
+            entity_id:
+              - climate.woonkamer
+
+    ##########################
+    ## Update Tado sensors - Night (30 min intervals)
+    ##########################
+    - id: tado_update_sensors_night
+      alias: "Tado: update sensors (night)"
+      mode: single
+      max_exceeded: silent
+      description: Update Tado sensors every 30 minutes during night (22:00-06:30)
+      triggers:
+        - trigger: time_pattern
+          minutes: "/30"
+      conditions:
+        - condition: time
+          after: "22:00:00"
+          before: "06:30:00"
       actions:
         - action: homeassistant.update_entity
           data:
