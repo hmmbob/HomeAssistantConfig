@@ -83,7 +83,7 @@ cards:
                 icon: mdi:sofa-outline
                 icon_color: green
                 primary: Woonkamer
-                secondary: "{{ states('sensor.woonkamer_temperature') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_1_temperature') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate
@@ -196,7 +196,7 @@ cards:
                 icon: mdi:silverware-variant
                 icon_color: yellow
                 primary: Eetkamer
-                secondary: "{{ states('sensor.woonkamer_temperature') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_1_temperature') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate

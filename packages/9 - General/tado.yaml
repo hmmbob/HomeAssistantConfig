@@ -1,16 +1,16 @@
 tado_package:
   automation:
     ##########################
-    ## Update Tado sensors - Day (7 min intervals)
+    ## Update Tado sensors - Day (8 min intervals)
     ##########################
     - id: tado_update_sensors_day
       alias: "Tado: update sensors (day)"
       mode: single
       max_exceeded: silent
-      description: Update Tado sensors every 7 minutes during day (06:30-22:00)
+      description: Update Tado sensors every 8 minutes during day (06:30-22:00)
       triggers:
         - trigger: time_pattern
-          minutes: "/7"
+          minutes: "/8"
       conditions:
         - condition: time
           after: "06:30:00"
