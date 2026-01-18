@@ -52,6 +52,13 @@ bedroom_minicave_package:
       type: time
       start: "{{ now().replace(hour=0, minute=0, second=0) }}"
       end: "{{ now() }}"
+    - platform: history_stats
+      name: Schoollaptop mini aan
+      entity_id: binary_sensor.schoollaptop_t
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      end: "{{ now() }}"
 
   automation:
     ## Warnings on power usage on kid's bedroom
@@ -68,6 +75,12 @@ bedroom_minicave_package:
           entity_id: binary_sensor.minicave_tv
           to: "on"
           id: TV
+        - trigger: state
+          entity_id: binary_sensor.schoollaptop_t
+          to: "on"
+          for:
+            minutes: 2
+          id: Schoollaptop
       conditions:
         - condition: state
           entity_id: input_boolean.notify_power_use_minicave
@@ -81,6 +94,8 @@ bedroom_minicave_package:
             message: >-
               {% if trigger.id == "PC" %}
                 De computer van de mini staat nog aan... ({{ now().strftime('%H:%M') }}).
+              {% elif trigger.id == "Schoollaptop" %}
+                De schoollaptop van de mini staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% else %}
                 De TV van de mini staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% endif %}

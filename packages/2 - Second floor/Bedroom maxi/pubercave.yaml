@@ -48,13 +48,6 @@ attic_pubercave_package:
       type: time
       start: "{{ now().replace(hour=0, minute=0, second=0) }}"
       end: "{{ now() }}"
-    - platform: history_stats
-      name: Schoollaptop puber aan
-      entity_id: binary_sensor.schoollaptop_m
-      state: "on"
-      type: time
-      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
-      end: "{{ now() }}"
 
   template:
     - binary_sensor:
@@ -181,12 +174,6 @@ attic_pubercave_package:
           entity_id: sensor.pubercave_tv_power
           above: 25
           id: TV
-        - trigger: state
-          entity_id: binary_sensor.schoollaptop_m
-          to: "on"
-          for:
-            minutes: 2
-          id: Schoollaptop
       conditions:
         - condition: state
           entity_id: input_boolean.notify_power_use_attic
@@ -200,8 +187,6 @@ attic_pubercave_package:
             message: >-
               {% if trigger.id == "Leeslampje" %}
                 Het lampje op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
-              {% elif trigger.id == "Schoollaptop" %}
-                De schoollaptop op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% else %}
                 De TV op zolder staat nog aan... ({{ now().strftime('%H:%M') }}).
               {% endif %}
