@@ -18,6 +18,8 @@
   type: module
 - url: /hacsfiles/custom-brand-icons/custom-brand-icons.js
   type: module
+- url: /hacsfiles/scheduler-card/scheduler-card.js
+  type: module
 
 ### Admin dashboard only
 - url: /hacsfiles/lovelace-auto-entities/auto-entities.js

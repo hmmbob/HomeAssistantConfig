@@ -1,16 +1,24 @@
 pool_package:
+  timer:
+    pool_runtime:
+      name: "Zwembad looptijd"
+      restore: true
+
   automation:
-    - id: zwembad_apparatuur_aan
-      alias: "Zet zwembad apparatuur aan of uit"
-      mode: single
+    - id: zwembadpomp_aan_op_timer
+      alias: "Zwembadpomp aan als de timer start"
       triggers:
-        - trigger: state
-          entity_id: schedule.zwembad
-      conditions:
-        - alias: "Do we have a valid state?"
-          condition: template
-          value_template: "{{ states('schedule.zwembad') in ['on','off'] }}"
+        - trigger: event
+          event_type: timer.started
+          event_data:
+            entity_id: timer.pool_runtime
+          id: turn_on
+        - trigger: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.pool_runtime
+          id: turn_off
       actions:
-        - action: switch.turn_{{ states('schedule.zwembad') }}
+        - action: switch.{{ trigger.id}}
           target:
             entity_id: switch.zwembad_apparatuur
