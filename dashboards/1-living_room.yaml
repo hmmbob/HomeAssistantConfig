@@ -99,7 +99,7 @@ cards:
                               data:
                                 command: app_segment_clean
                                 params:
-                                  - segments: [18, 17, 16]
+                                  - segments: [18, 17, 20]
                               target:
                                 entity_id: vacuum.rocky
                           - type: entity
@@ -155,7 +155,7 @@ cards:
                               data:
                                 command: app_segment_clean
                                 params:
-                                  - segments: [16]
+                                  - segments: [20]
                               target:
                                 entity_id: vacuum.rocky
                           - type: entity
@@ -183,7 +183,7 @@ cards:
                               data:
                                 command: app_segment_clean
                                 params:
-                                  - segments: [20]
+                                  - segments: [16]
                               target:
                                 entity_id: vacuum.rocky
                       - type: custom:mushroom-chips-card
