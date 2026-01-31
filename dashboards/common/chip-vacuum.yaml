@@ -1,0 +1,142 @@
+type: template
+entity: vacuum.rocky
+icon: mdi:robot-vacuum
+icon_color: >-
+  {{ "grey" if is_state('vacuum.rocky', 'docked') else "green" }}
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    service: browser_mod.popup
+    data:
+      title: Stofzuigen
+      content:
+        type: vertical-stack
+        cards:
+          - type: custom:mushroom-vacuum-card
+            entity: vacuum.rocky
+            icon_animation: true
+            commands:
+              - on_off
+              - start_pause
+              - stop
+              - locate
+              - return_home
+          - type: custom:mushroom-chips-card
+            alignment: left
+            chips:
+              - type: entity
+                entity: vacuum.rocky
+                name: Woonkamer, eetkamer, keuken & gang
+                content_info: name
+                icon: mdi:vacuum
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [18, 17, 20]
+                  target:
+                    entity_id: vacuum.rocky
+              - type: entity
+                entity: vacuum.rocky
+                name: Woonkamer, eetkamer & keuken
+                content_info: name
+                icon: mdi:vacuum
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [18, 17]
+                  target:
+                    entity_id: vacuum.rocky
+              - type: entity
+                entity: vacuum.rocky
+                name: Woonkamer
+                content_info: name
+                icon: mdi:sofa
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [17]
+                  target:
+                    entity_id: vacuum.rocky
+              - type: entity
+                entity: vacuum.rocky
+                name: Eetkamer & keuken
+                content_info: name
+                icon: mdi:pot-steam
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [18]
+                  target:
+                    entity_id: vacuum.rocky
+              - type: entity
+                entity: vacuum.rocky
+                name: Gang
+                content_info: name
+                icon: mdi:stairs
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [20]
+                  target:
+                    entity_id: vacuum.rocky
+              - type: entity
+                entity: vacuum.rocky
+                name: Bijkeuken
+                content_info: name
+                icon: mdi:washing-machine
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [19]
+                  target:
+                    entity_id: vacuum.rocky
+              - type: entity
+                entity: vacuum.rocky
+                name: Salon
+                content_info: name
+                icon: mdi:television
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_segment_clean
+                    params:
+                      - segments: [16]
+                  target:
+                    entity_id: vacuum.rocky
+          - type: custom:mushroom-chips-card
+            alignment: left
+            chips:
+              - type: entity
+                entity: vacuum.rocky
+                name: Rocky legen
+                content_info: name
+                icon: mdi:delete-empty
+                tap_action:
+                  action: perform-action
+                  perform_action: vacuum.send_command
+                  data:
+                    command: app_goto_target
+                    params:
+                      - 30301
+                      - 29421
+                  target:
+                    entity_id: vacuum.rocky
