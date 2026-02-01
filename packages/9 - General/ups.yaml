@@ -82,9 +82,9 @@ ups_package:
       triggers:
         - trigger: state
           entity_id:
-            - binary_sensor.slimmelezer_power_failure_l1
-            - binary_sensor.slimmelezer_power_failure_l2
-            - binary_sensor.slimmelezer_power_failure_l3
+            - binary_sensor.slimmelezer_power_failure_phase_1
+            - binary_sensor.slimmelezer_power_failure_phase_2
+            - binary_sensor.slimmelezer_power_failure_phase_3
           to: "on"
           from: "off"
       conditions: []

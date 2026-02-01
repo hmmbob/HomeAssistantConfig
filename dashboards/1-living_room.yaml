@@ -162,14 +162,14 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: media_player.tv_woonkamer
+          - entity: media_player.tv_in_woonkamer
             state_not:
               - "off"
               - "unavailable"
               - "idle"
         card:
           type: custom:mini-media-player
-          entity: media_player.tv_woonkamer
+          entity: media_player.tv_in_woonkamer
           icon: mdi:cast
           artwork: cover
           artwork_border: true
