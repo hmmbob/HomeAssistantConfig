@@ -46,33 +46,25 @@ logger:
   logs:
     homeassistant.components.analytics: info # I'd like to see what is sent
   filters:
-    custom_components.xiaomi_miot.fan:
-      - "Unable to discover the device"
     homeassistant.components.goodwe.coordinator:
       - "No valid response received even after 10 retries"
     homeassistant.components.automation.weerhuisje_update_air_quality_sensors:
       - "Timeout"
       - "timeout"
-    homeassistant.helpers.entity:
-      - "Update of fan.zhimi_cpa4_3bce_air_purifier is taking over 10 seconds"
     pychromecast.socket_client:
       # Mute cast reconnection warnings/errors
       - "Error communicating with socket, resetting connection"
       - "Error reading from socket"
       - "Failed to connect to service"
       - "Heartbeat timeout, resetting connection"
-    py.warnings:
-      - "functools.partial"
 
 lovelace:
-  resource_mode: yaml
-  resources: !include dashboards/resources.yaml
   dashboards:
     lovelace:
       mode: yaml
       filename: dashboards/ui-lovelace.yaml
       title: Home
-      icon: mdi:view-dashboard
+      icon: mdi:home-assistant
       show_in_sidebar: true
     lovelace-admin:
       mode: yaml
