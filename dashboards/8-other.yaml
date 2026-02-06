@@ -420,6 +420,13 @@ cards:
                             action: toggle
                           hold_action:
                             action: more-info
+          - type: template
+            icon: mdi:refresh-circle
+            icon_color: grey
+            tap_action:
+              action: fire-dom-event
+              card_mod:
+                action: clear_cache
 
       - type: grid
         columns: 2
