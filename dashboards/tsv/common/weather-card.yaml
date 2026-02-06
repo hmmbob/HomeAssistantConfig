@@ -24,13 +24,26 @@ tap_action:
     data:
       timeout: 20000
       content:
-        type: weather-forecast
-        entity: weather.knmi_home
-        forecast_type: daily
-        name: " "
-        secondary_info_attribute: humidity
-        show_current: true
-        show_forecast: true
+        type: vertical-stack
+        cards:
+          - type: weather-forecast
+            entity: weather.knmi_home
+            forecast_type: daily
+            name: " "
+            secondary_info_attribute: humidity
+            show_current: true
+            show_forecast: true
+          - type: picture-entity
+            entity: camera.nl_weather_01kgq7vzzm9j45mmswpa58r2km_precipitation_radar
+            show_state: false
+            show_name: false
+            camera_view: auto
+            fit_mode: contain
+            card_mod:
+              style: |
+                ha-card {
+                  height: 260px !important;  /* Ensure the height is set */
+                }
 card_mod:
   style: |
     ha-card {
