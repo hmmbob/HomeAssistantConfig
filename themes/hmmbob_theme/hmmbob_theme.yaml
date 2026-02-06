@@ -4,18 +4,6 @@ Hmmbob light theme:
   header-height: 48px
   card-mod-root-yaml: |
     .: |
-      ha-tabs {
-        height: var(--header-height);
-        --paper-tabs-selection-bar-color: var(--primary-color) !important;
-        color: var(--app-header-text-color) !important;
-      }
-      paper-tab[aria-selected=true] > ha-icon, paper-tab[aria-selected=true] {
-        color: var(--primary-color) !important;
-      }
-      /* This hides the help button, menu button and title */
-      .action-items {
-        display: none !important;
-      }
       .header {
         top: calc(100vh - 48px) !important;
         bottom: 0 !important;
@@ -96,18 +84,6 @@ Hmmbob dark theme:
   header-height: 48px
   card-mod-root-yaml: |
     .: |
-      ha-tabs {
-        height: var(--header-height);
-        --paper-tabs-selection-bar-color: var(--primary-color) !important;
-        color: var(--app-header-text-color) !important;
-      }
-      paper-tab[aria-selected=true] > ha-icon, paper-tab[aria-selected=true] {
-        color: var(--primary-color) !important;
-      }
-      /* This hides the help button, menu button and title */
-      .action-items {
-        display: none !important;
-      }
       .header {
         top: calc(100vh - 48px) !important;
         bottom: 0 !important;

@@ -1,5 +1,13 @@
 swipe_nav:
   animate: swipe
+  enable_mouse_swipe: true
+
+kiosk_mode:
+  non_admin_settings:
+    hide_add_to_home_assistant: true
+    hide_search: true
+    hide_assistant: true
+    hide_overflow: true
 
 title: Home sweet home
 views:
