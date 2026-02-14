@@ -2,6 +2,7 @@ create_calendar_events:
   automation:
     - id: gym_calendar_hmmbob
       alias: "Maak een afspraak in de agenda voor sporten"
+      mode: single
       variables:
         # round current time to nearest 15 minutes
         rounded_timestamp: >
@@ -23,7 +24,7 @@ create_calendar_events:
           data:
             entity_id:
               - calendar.bl
-        - delay: "00:00:15"
+        - delay: "00:01:00"
         - alias: "Geen dubbele afspraken"
           condition: template
           value_template: >
@@ -37,6 +38,7 @@ create_calendar_events:
             end_date_time: "{{ end_time }}"
           target:
             entity_id: calendar.bl
+        - delay: "00:15:00"
 
     - id: gym_open_app_hmmbob
       alias: "Open de Technogym app"
