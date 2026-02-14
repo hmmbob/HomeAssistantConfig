@@ -48,8 +48,8 @@ cards:
         icon: mdi:web-refresh
         entity: script.kiosk_restart_browser
         tap_action:
-          action: call-service
-          service: script.kiosk_restart_browser
+          action: perform-action
+          perform_action: script.kiosk_restart_browser
 
   - type: custom:auto-entities
     card:

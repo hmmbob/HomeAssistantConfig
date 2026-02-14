@@ -231,8 +231,8 @@ cards:
             name: Witte verlichting
             icon: phu:double-spot
             tap_action:
-              action: call-service
-              service: scene.turn_on
+              action: perform-action
+              perform_action: scene.turn_on
               service_data: {}
               target:
                 entity_id: scene.plafondlamp_t_wit
@@ -242,8 +242,8 @@ cards:
             name: Kleurige verlichting
             icon: phu:double-spot
             tap_action:
-              action: call-service
-              service: scene.turn_on
+              action: perform-action
+              perform_action: scene.turn_on
               service_data: {}
               target:
                 entity_id: scene.plafondlamp_t_kleurige_verlichting

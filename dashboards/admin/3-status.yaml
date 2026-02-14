@@ -39,8 +39,8 @@ cards:
               {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
             fill_container: false
             tap_action:
-              action: call-service
-              service: script.high_accuracy_mode
+              action: perform-action
+              perform_action: script.high_accuracy_mode
               data:
                 target: notify.mobile_app_schaduwspeler
 
@@ -52,8 +52,8 @@ cards:
             icon_color: >-
               {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
             tap_action:
-              action: call-service
-              service: script.high_accuracy_mode
+              action: perform-action
+              perform_action: script.high_accuracy_mode
               data:
                 target: notify.mobile_app_sm_a566b_t
 
