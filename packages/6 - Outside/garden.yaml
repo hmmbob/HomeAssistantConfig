@@ -44,8 +44,14 @@ lights_garden_package:
           entity_id: sensor.garden_lights_schedule
       conditions:
         - alias: "Do we have a valid state"
-          condition: template
-          value_template: "{{ states('sensor.garden_lights_schedule') in ['on','off'] }}"
+          condition: or
+          conditions:
+            - condition: state
+              entity_id: sensor.garden_lights_schedule
+              state: "on"
+            - condition: state
+              entity_id: sensor.garden_lights_schedule
+              state: "off"
       actions:
         - action: homeassistant.turn_{{ states('sensor.garden_lights_schedule') }}
           target:
@@ -61,8 +67,14 @@ lights_garden_package:
           entity_id: sensor.tree_lights_schedule
       conditions:
         - alias: "Do we have a valid state"
-          condition: template
-          value_template: "{{ states('sensor.tree_lights_schedule') in ['on','off'] }}"
+          condition: or
+          conditions:
+            - condition: state
+              entity_id: sensor.tree_lights_schedule
+              state: "on"
+            - condition: state
+              entity_id: sensor.tree_lights_schedule
+              state: "off"
       actions:
         - action: homeassistant.turn_{{ states('sensor.tree_lights_schedule') }}
           target:

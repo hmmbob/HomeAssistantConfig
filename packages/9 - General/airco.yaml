@@ -76,7 +76,7 @@ airco_package:
           variables:
             target: airco_children
         - trigger: time
-          at: input_datetime.time_turn_off_airco
+          at: input_datetime.time_turn_off_airco_livingroom
           variables:
             target: climate.airco_woonkamer
         - alias: "Schakel uit als we de lampen uitzetten"

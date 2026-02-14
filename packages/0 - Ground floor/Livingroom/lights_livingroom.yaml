@@ -19,9 +19,9 @@ lights_livingroom_package:
     - id: set_lights_before_sunset
       alias: "Zet de verlichting aan bij zonsondergang"
       triggers:
-        trigger: sun
-        event: sunset
-        offset: "-00:45:00"
+        - trigger: sun
+          event: sunset
+          offset: "-00:45:00"
       conditions:
         and:
           - condition: state
