@@ -309,11 +309,6 @@ cards:
               action: more-info
             hold_action:
               action: toggle
-          - type: custom:mushroom-light-card
-            entity: switch.sfeerverlichting_voorzijde
-            icon: mdi:string-lights
-            tap_action:
-              action: toggle
 
       - type: heading
         heading: Zwembad
