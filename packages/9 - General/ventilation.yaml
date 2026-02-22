@@ -41,6 +41,30 @@ ventilation_package:
           data:
             percentage: 80
 
+    - id: ventilation_wc
+      alias: "Ventilatie aan als iemand lang op de WC zit"
+      triggers:
+        - trigger: state
+          entity_id: switch.wc_beneden
+          to: "on"
+          for: "00:03:00"
+        - trigger: state
+          entity_id: light.wc_boven
+          to: "on"
+          for: "00:03:00"
+      conditions:
+        - alias: "Als de ventilatie timer nog niet loopt"
+          condition: state
+          entity_id: timer.fan_runtime
+          state: "idle"
+      actions:
+        - alias: "Afzuiging aanzetten"
+          action: timer.start
+          target:
+            entity_id: timer.fan_runtime
+          data:
+            duration: "00:10:00"
+
     - id: ventilation_set_speed
       alias: "Stel de ventilatiesnelheid in"
       mode: queued

@@ -50,23 +50,3 @@ wc_boven_package:
                   action: light.turn_off
                   target:
                     entity_id: light.wc_boven
-
-    - id: ventilation_wc_boven
-      alias: "Ventilatie aan als iemand lang op de WC zit"
-      triggers:
-        - trigger: state
-          entity_id: light.wc_boven
-          to: "on"
-          for: "00:03:00"
-      conditions:
-        - alias: "Als de ventilatie timer nog niet loopt"
-          condition: state
-          entity_id: timer.fan_runtime
-          state: "idle"
-      actions:
-        - alias: "Afzuiging aanzetten"
-          action: timer.start
-          target:
-            entity_id: timer.fan_runtime
-          data:
-            duration: "00:10:00"
