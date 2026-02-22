@@ -23,13 +23,13 @@ attic_pubercave_package:
     maxi_pc_time_weekday:
       name: PC tijd maxi weekdag
       min: 0
-      max: 12
+      max: 18
       step: 0.5
       icon: mdi:desktop-classic
     maxi_pc_time_weekend:
       name: PC tijd maxi weekend
       min: 0
-      max: 12
+      max: 18
       step: 0.5
       icon: mdi:desktop-classic
 
