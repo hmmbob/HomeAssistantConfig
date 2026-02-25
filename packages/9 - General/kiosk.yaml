@@ -58,7 +58,7 @@ kiosk_package:
           data:
             hvac_mode: >-
               {% if is_state('climate.airco_woonkamer', 'off') %}
-                {{ 'heat' if (states('sensor.xiaomi_temperature_humidity_sensor_1_temperature') | float(0)) < 22 else 'cool' }}
+                {{ 'heat' if (states('sensor.temp_sensor_7_woonkamer_temperatuur') | float(0)) < 22 else 'cool' }}
               {% else %}
                 off
               {% endif %}

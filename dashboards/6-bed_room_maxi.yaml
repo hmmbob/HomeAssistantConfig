@@ -19,10 +19,10 @@ cards:
               navigation_path: /lovelace/start
             icon: mdi:arrow-left
           - type: entity
-            entity: sensor.xiaomi_temperature_humidity_sensor_4_temperature
+            entity: sensor.temp_sensor_8_slaapkamer_m_temperatuur
             icon_color: orange
           - type: entity
-            entity: sensor.xiaomi_temperature_humidity_sensor_4_humidity
+            entity: sensor.temp_sensor_8_slaapkamer_m_luchtvochtigheid
             icon_color: indigo
           - type: template
             entity: light.verlichting_pubercave

@@ -17,7 +17,7 @@ cards:
           - !include common/chip-knmi_temp.yaml
 
           - type: entity
-            entity: sensor.xiaomi_temperature_humidity_sensor_2_temperature
+            entity: sensor.temp_sensor_6_kantoor_temperatuur
             icon: mdi:home-thermometer
             tap_action:
               action: none

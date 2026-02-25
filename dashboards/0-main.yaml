@@ -83,7 +83,7 @@ cards:
                 icon: mdi:sofa-outline
                 icon_color: green
                 primary: Woonkamer
-                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_1_temperature') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.temp_sensor_7_woonkamer_temperatuur') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate
@@ -196,7 +196,7 @@ cards:
                 icon: mdi:silverware-variant
                 icon_color: yellow
                 primary: Eetkamer
-                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_1_temperature') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.temp_sensor_7_woonkamer_temperatuur') | round(1, default=0) }} °C"
                 layout: horizontal
                 tap_action:
                   action: navigate
@@ -448,7 +448,7 @@ cards:
             cards:
               - type: custom:mushroom-legacy-template-card
                 primary: Slaapkamer M
-                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_4_temperature') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.temp_sensor_8_slaapkamer_m_temperatuur') | round(1, default=0) }} °C"
                 icon: mdi:bed-queen
                 icon_color: dark-green
                 layout: horizontal
@@ -730,7 +730,7 @@ cards:
             cards:
               - type: custom:mushroom-legacy-template-card
                 primary: Kantoor
-                secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_2_temperature') | round(1, default=0) }} °C"
+                secondary: "{{ states('sensor.temp_sensor_6_kantoor_temperatuur') | round(1, default=0) }} °C"
                 icon: mdi:desk
                 icon_color: blue
                 layout: horizontal

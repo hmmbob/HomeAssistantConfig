@@ -33,7 +33,7 @@ airco_package:
             entity_id: timer.airco_puber_sleeptimer
           variables:
             airco: climate.airco_slaapkamer_m
-            temp_sensor: sensor.xiaomi_temperature_humidity_sensor_4_temperature
+            temp_sensor: sensor.temp_sensor_8_slaapkamer_m_temperatuur
       actions:
         - action: climate.set_hvac_mode
           target:
