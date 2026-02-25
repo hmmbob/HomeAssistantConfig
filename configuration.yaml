@@ -19,8 +19,6 @@ frontend:
     - /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524421
     - /hacsfiles/kiosk-mode/kiosk-mode.js?v9.0.2
 
-history:
-
 http:
   ip_ban_enabled: true
   login_attempts_threshold: 2
@@ -141,6 +139,7 @@ dhcp:
 diagnostics:
 energy:
 go2rtc:
+history:
 homeassistant_alerts:
 media_source:
 mobile_app:

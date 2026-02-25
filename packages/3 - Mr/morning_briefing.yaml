@@ -26,7 +26,7 @@ morning_briefing_package:
             entity_id: ai_task.google_ai_task_gemini_3_flash_preview
             task_name: Ochtendbriefing
             instructions: |
-              Write a concise and friendly morning briefing in Dutch that includes:
+              Write a concise and friendly morning briefing in Dutch (plain text only, no markdown, no bold, no headers) that includes:
               - The time the sun rises today: {{ states('sensor.sun_next_rising')}}
               - The maximum temperature expected today: {{ states('sensor.knmi_max_temperatuur_vandaag', with_unit=True)}}
               - The current outdoor temperature and weather description: {{ states('sensor.knmi_temperatuur', with_unit=True) }} and {{ states('sensor.knmi_omschrijving') | lower}}
