@@ -5,24 +5,6 @@ travel_time_notifications_package:
 
   automation:
     ##########################
-    ## Update Waze sensors
-    ##########################
-    # I have disabled the polling of this integration to reduce the
-    # amount of requests that are sent to the Waze server. This 1st
-    # automation below takes care of updating the sensor, and is
-    # turned on/off by automations below - normally it's off.
-    - id: update_waze_to_home
-      alias: "Werk Waze reistijd bij"
-      description: "Update: Waze travel time to home"
-      triggers:
-        - trigger: time_pattern
-          minutes: "/5"
-          seconds: 00
-      actions:
-        - action: homeassistant.update_entity
-          entity_id: sensor.reistijd_bob_naar_huis
-
-    ##########################
     ## Coming home notifications
     ##########################
     # I always connect my phone to my car through Android Auto,

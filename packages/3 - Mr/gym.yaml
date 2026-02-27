@@ -39,19 +39,3 @@ create_calendar_events:
           target:
             entity_id: calendar.bl
         - delay: "00:15:00"
-
-    - id: gym_open_app_hmmbob
-      alias: "Open de Technogym app"
-      trigger:
-        - trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: enter
-          zone: zone.sportschool
-      action:
-        - action: notify.mobile_app_sm_a556b
-          data:
-            message: "command_launch_app"
-            data:
-              package_name: "com.technogym.tgapp"
-              ttl: 0
-              priority: high
