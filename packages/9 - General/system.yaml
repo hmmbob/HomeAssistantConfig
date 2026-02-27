@@ -8,8 +8,14 @@ system_package:
       triggers:
         - trigger: homeassistant
           event: start
-        - trigger: state
+        - trigger: numeric_state
           entity_id: sun.sun
+          attribute: elevation
+          above: 0
+        - trigger: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 0
       actions:
         - if: "{{ is_state('sun.sun', 'above_horizon')}}"
           then:

@@ -27,7 +27,7 @@ morning_briefing_package:
             task_name: Ochtendbriefing
             instructions: |
               Write a concise and friendly morning briefing in Dutch (plain text only, no markdown, no bold, no headers) that includes:
-              - The time the sun rises today: {{ states('sensor.sun_next_rising')}}
+              - The time the sun rises today: {{ states('sensor.sun_next_rising') | as_datetime | as_timestamp | timestamp_custom('%H:%M', True) }}
               - The maximum temperature expected today: {{ states('sensor.knmi_max_temperatuur_vandaag', with_unit=True)}}
               - The current outdoor temperature and weather description: {{ states('sensor.knmi_temperatuur', with_unit=True) }} and {{ states('sensor.knmi_omschrijving') | lower}}
               - A brief weather forecast for today: {{ states('sensor.knmi_weersverwachting') }}

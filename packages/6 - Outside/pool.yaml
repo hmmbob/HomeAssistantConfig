@@ -6,7 +6,7 @@ pool_package:
 
   automation:
     - id: zwembadpomp_aan_op_timer
-      alias: "Zwembadpomp aan als de timer start"
+      alias: "Zwembad: Pomp aan als de timer start"
       triggers:
         - trigger: event
           event_type: timer.started
