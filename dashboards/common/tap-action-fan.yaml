@@ -12,6 +12,49 @@ browser_mod:
           icon_animation: true
           show_percentage_control: true
           layout: horizontal
+        - type: custom:mushroom-template-card
+          entity: input_select.ventilation_mode
+          primary: >-
+            {%- set mode_names = {
+              'auto': 'Automatisch',
+              'manual_boost': 'Handmatige boost',
+              'humidity_boost': 'Vochtigheidsboost',
+              'wc_boost': 'WC-boost'
+            } -%}
+            {{ mode_names.get(states('input_select.ventilation_mode'), states('input_select.ventilation_mode')) }}
+          secondary: >-
+            {%- if states('input_select.ventilation_mode') != 'auto' -%}
+              tot {{ (states('input_datetime.ventilation_boost_until') | as_datetime).strftime('%H:%M') }}
+            {%- else -%}
+              Automatische schema
+            {%- endif -%}
+          icon: >-
+            {% set mode = states('input_select.ventilation_mode') %}
+            {% if mode == 'manual_boost' %}
+              mdi:fan-plus
+            {% elif mode == 'humidity_boost' %}
+              mdi:water-percent
+            {% elif mode == 'wc_boost' %}
+              mdi:toilet
+            {% else %}
+              mdi:fan
+            {% endif %}
+          icon_color: |-
+            {% set mode = states('input_select.ventilation_mode') %}
+            {% if mode == 'manual_boost' %}
+              orange
+            {% elif mode == 'humidity_boost' %}
+              blue
+            {% elif mode == 'wc_boost' %}
+              purple
+            {% else %}
+              grey
+            {% endif %}
+          multiline_secondary: true
+          tap_action:
+            action: none
+          hold_action:
+            action: none
         - type: custom:mushroom-chips-card
           chips:
             - type: template
@@ -20,47 +63,43 @@ browser_mod:
               icon: mdi:fast-forward-15
               tap_action:
                 action: perform-action
-                perform_action: timer.start
-                target:
-                  entity_id: timer.fan_runtime
+                perform_action: script.ventilation_manual_boost
                 data:
-                  duration: "00:15:00"
+                  duration: 15
             - type: action
               icon: mdi:fast-forward-30
               tap_action:
                 action: perform-action
-                perform_action: timer.start
-                target:
-                  entity_id: timer.fan_runtime
+                perform_action: script.ventilation_manual_boost
                 data:
-                  duration: "00:30:00"
+                  duration: 30
             - type: action
               icon: mdi:fast-forward-60
               tap_action:
                 action: perform-action
-                perform_action: timer.start
-                target:
-                  entity_id: timer.fan_runtime
+                perform_action: script.ventilation_manual_boost
                 data:
-                  duration: "00:60:00"
+                  duration: 60
             - type: action
               icon: mdi:timer-off-outline
               tap_action:
                 action: perform-action
-                perform_action: timer.finish
+                perform_action: input_select.select_option
                 target:
-                  entity_id: timer.fan_runtime
+                  entity_id: input_select.ventilation_mode
+                data:
+                  option: auto
             - type: conditional
               conditions:
-                - entity: timer.fan_runtime
-                  state: active
+                - entity: input_select.ventilation_mode
+                  state_not: auto
               chip:
                 type: template
-                entity: timer.fan_runtime
-                icon: mdi:timer-sand-empty
+                entity: input_datetime.ventilation_boost_until
+                icon: mdi:timer-sand
                 content: >-
                   {% from 'relative_time_plus.jinja' import relative_time_plus %}
-                  {{ relative_time_plus(state_attr('timer.fan_runtime','finishes_at'),
+                  {{ relative_time_plus(states('input_datetime.ventilation_boost_until'),
                       parts=2, time=true, abbr=true, language='nl') }}
                 tap_action:
                   action: none
