@@ -21,14 +21,14 @@ ventilation_control:
       name: "Badkamer vochtigheidsverandering per minuut"
       unique_id: badkamer_humidity_derivative
       source: sensor.temp_sensor_2_badkamer_humidity
-      round: 2
+      round: 1
       time_window: "00:05:00"
       unit_time: min
     - platform: derivative
       name: "Badkamer zolder vochtigheidsverandering per minuut"
       unique_id: badkamer_zolder_humidity_derivative
       source: sensor.temp_sensor_4_badkamer_zolder_humidity
-      round: 2
+      round: 1
       time_window: "00:05:00"
       unit_time: min
     - platform: derivative

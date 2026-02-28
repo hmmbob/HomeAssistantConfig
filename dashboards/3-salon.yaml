@@ -83,21 +83,21 @@ cards:
             show_brightness_control: false
             collapsible_controls: true
 
-      - type: custom:mushroom-template-card
-        primary: Kacheltje
-        secondary: >-
-          {{ state_translated('climate.kacheltje') }} - 
-          Ingesteld op {{ state_attr('climate.kacheltje','heater.target_temperature') }} °C, 
-          momenteel {{ states('sensor.kacheltje_temperature') }} °C
-        icon: mdi:thermostat
-        icon_color: |-
-          {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
-        entity: climate.kacheltje
-        visibility:
-          - condition: user
-            users:
-              - 40059eb4e4d142688185485ed2e1ebbb
-              - 510b1afef60640d7a220711c50b2192a
+      #- type: custom:mushroom-template-card
+      #  primary: Kacheltje
+      #  secondary: >-
+      #    {{ state_translated('climate.kacheltje') }} -
+      #    Ingesteld op {{ state_attr('climate.kacheltje','heater.target_temperature') }} °C,
+      #    momenteel {{ states('sensor.kacheltje_temperature') }} °C
+      #  icon: mdi:thermostat
+      #  icon_color: |-
+      #    {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
+      #  entity: climate.kacheltje
+      #  visibility:
+      #    - condition: user
+      #      users:
+      #        - 40059eb4e4d142688185485ed2e1ebbb
+      #        - 510b1afef60640d7a220711c50b2192a
 
       - type: custom:mushroom-template-card
         primary: Verwarming salon
