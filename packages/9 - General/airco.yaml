@@ -14,11 +14,11 @@ airco_package:
 
   automation:
     ###########################################
-    ## Sleeptimer for kids aircos             #
+    ## Sleeptimer voor airco's van kinderen   #
     ###########################################
     - id: airco_kinderen_start_on_timer_start
       alias: "Start de airco van de kinderen als de timer start"
-      description: "Turn on the AC when the timer starts"
+      description: "Zet de airco aan als de timer start"
       triggers:
         - trigger: event
           event_type: timer.started
@@ -42,8 +42,8 @@ airco_package:
             hvac_mode: "{{ 'heat' if (states(temp_sensor) | float(0)) < 21 else 'cool' }}"
 
     - id: airco_sleeptimer_kinderen
-      alias: "Sleeptimer voor de aircos van de kinderen"
-      description: "Turn off AC at the end of the timer"
+      alias: "Sleeptimer voor de airco's van de kinderen"
+      description: "Zet de airco uit aan het einde van de timer"
       triggers:
         - trigger: event
           event_type: timer.finished
@@ -65,11 +65,11 @@ airco_package:
             hvac_mode: "off"
 
     ###########################################
-    ## Automatic shut down of aircos          #
+    ## Automatisch uitschakelen van airco's   #
     ###########################################
     - id: airco_automatisch_uit
       alias: "Zet airco automatisch uit einde avond"
-      description: "Turn off ACs automatically so we won't forget"
+      description: "Schakel airco's automatisch uit zodat we het niet vergeten"
       triggers:
         - trigger: time
           at: "23:00:00"
@@ -114,8 +114,6 @@ airco_package:
                         - condition: time
                           after: "21:00:00"
                   then:
-                    - stop: "Stopping sequence because it is before 21:00"
-                  else:
                     - action: climate.set_hvac_mode
                       target:
                         entity_id: "{{target}}"
@@ -124,7 +122,7 @@ airco_package:
 
     - id: turn_off_when_away
       alias: "Zet de airco en verwarming uit als we weg zijn"
-      description: "Climate: Turn off heating when away"
+      description: "Klimaat: Schakel verwarming uit als we weg zijn"
       triggers:
         - trigger: state
           entity_id: zone.home
@@ -132,13 +130,13 @@ airco_package:
           for:
             minutes: 30
       actions:
-        - alias: "Turn off Tado devices that are on (and leave others in current state)"
+        - alias: "Schakel Tado-apparaten uit die aan staan (laat anderen in huidige staat)"
           action: climate.set_hvac_mode
           data:
             hvac_mode: auto
           target:
             entity_id: "{{ integration_entities('tado') | select('is_state', 'heat') | list }}"
-        - alias: "Turn off A/Cs"
+        - alias: "Schakel airco's uit"
           action: climate.set_hvac_mode
           data:
             hvac_mode: "off"
@@ -150,11 +148,11 @@ airco_package:
               - climate.airco_woonkamer
 
     ###########################################
-    ## Limit setpoint of kids aircos     #
+    ## Limiteer setpoint van airco's kinderen #
     ###########################################
     - id: airco_kinderen_limit_setpoint
       alias: "Zet airco kinderen automatisch op een normale temperatuur"
-      description: "Set the kid's AC automatically to a more normal temperature (to prevent user error and save energy)"
+      description: "Stel de airco van de kinderen automatisch in op een normale temperatuur (ter voorkoming van gebruikersfouten en energiebesparing)"
       triggers:
         - trigger: state
           entity_id:
@@ -164,7 +162,6 @@ airco_package:
       variables:
         current_mode: "{{ states(trigger.entity_id) }}"
         set_temp: "{{ state_attr(trigger.entity_id, 'temperature') | float(0) }}"
-      condition: []
       actions:
         - choose:
             - conditions: "{{ current_mode in ['cool', 'dry'] and set_temp < 20 }}"

@@ -6,15 +6,15 @@ vacation_mode_package:
 
   input_datetime:
     time_vacation_lights_start:
-      name: Vacation lights start
+      name: Vakantie verlichting start
       has_time: true
     time_vacation_lights_end:
-      name: Vacation lights end
+      name: Vakantie verlichting einde
       has_time: true
 
   automation:
     #############################
-    ## Vacation lights          #
+    ## Vakantie verlichting     #
     #############################
     - id: vacation_turn_on_time
       alias: "Zet de verlichting aan tijdens vakantie"
@@ -28,20 +28,20 @@ vacation_mode_package:
           state: "on"
       actions:
         - delay: "{{ range(30*60) | random }}"
-          alias: "Random delay between now and 30mins"
+          alias: "Willekeurige vertraging tussen nu en 30 minuten"
         - action: homeassistant.turn_on
           entity_id:
             - light.spots_woonkamer
             - light.spots_eetkamer
         - action: logbook.log
           data:
-            name: Vacation
-            message: Lights turned on at {{ now().strftime('%H:%M') }}.
+            name: Vakantie
+            message: Verlichting aan gezet om {{ now().strftime('%H:%M') }}.
             domain: light
         - action: notify.mobile_app_sm_a556b
           data:
-            message: I turned your vacation lights on at {{ now().strftime('%H:%M') }}.
-            title: Vacation lights
+            message: Ik heb je vakantie verlichting aan gezet om {{ now().strftime('%H:%M') }}.
+            title: Vakantie verlichting
             data:
               ttl: 0
               priority: high
@@ -57,26 +57,26 @@ vacation_mode_package:
           state: "on"
       actions:
         - delay: "{{ range(15*60) | random }}"
-          alias: "Random delay between now and 30mins"
+          alias: "Willekeurige vertraging tussen nu en 15 minuten"
         - action: homeassistant.turn_off
           entity_id:
             - light.spots_woonkamer
             - light.spots_eetkamer
         - action: logbook.log
           data:
-            name: Vacation
-            message: Lights turned off at {{ now().strftime('%H:%M') }}.
+            name: Vakantie
+            message: Verlichting uit gezet om {{ now().strftime('%H:%M') }}.
             domain: light
         - action: notify.mobile_app_sm_a556b
           data:
-            message: I turned your lights off at {{ now().strftime('%H:%M') }}.
-            title: Vacation lights
+            message: Ik heb je verlichting uit gezet om {{ now().strftime('%H:%M') }}.
+            title: Vakantie verlichting
             data:
               ttl: 0
               priority: high
 
     #############################
-    ## Vacation alarm           #
+    ## Vakantie alarm           #
     #############################
     - id: vacation_movement_inside
       alias: "Beweging gedetecteerd tijdens vakantie"
@@ -96,17 +96,17 @@ vacation_mode_package:
           entity_id: input_boolean.vacation_mode_away
           state: "on"
       action:
-        - service: notify.mobile_app_sm_a556b
+        - action: notify.mobile_app_sm_a556b
           data:
-            message: >-
+            message: >
               Er is beweging gedetecteerd door {{ trigger.from_state.attributes.friendly_name }} ({{ now().strftime('%H:%M') }})
-            title: Movement in the house
+            title: Beweging in huis
             data:
               ttl: 0
               priority: high
               notification_icon: "mdi:shield-home"
-        - service: logbook.log
+        - action: logbook.log
           data:
-            name: Vacation
+            name: Vakantie
             message: Er is beweging gedetecteerd door {{ trigger.from_state.attributes.friendly_name }}.
             domain: binary_sensor

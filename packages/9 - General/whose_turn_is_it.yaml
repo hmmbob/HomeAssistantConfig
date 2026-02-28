@@ -26,7 +26,7 @@ whose_turn_is_it_package:
       description: "Wie moet er tafeldekken?"
       mode: restart
       sequence:
-        - alias: "Play TTS"
+        - alias: "Speel TTS af"
           action: tts.microsoft_say
           entity_id: media_player.kiosk1_fkb
           data:

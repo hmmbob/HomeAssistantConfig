@@ -20,7 +20,7 @@ ups_package:
           condition: template
           value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
       actions:
-        - alias: "Choose our status"
+        - alias: "Kies onze status"
           choose:
             - conditions:
                 - alias: "If we are On Battery DISCHaRGing"
@@ -78,6 +78,7 @@ ups_package:
 
     - id: warn_for_power_fail
       alias: "Stuur notificatie als een van de fases wegvalt"
+      description: "Waarschuw als een van de elektriciteitsfasen uitvalt"
       mode: parallel
       triggers:
         - trigger: state
@@ -89,10 +90,10 @@ ups_package:
           from: "off"
       conditions: []
       actions:
-        - alias: "Power failure"
+        - alias: "Stroomuitval"
           action: notify.mobile_app_sm_a556b
           data:
-            title: Power failure
+            title: Stroomuitval
             message: >
               {{ state_attr(trigger.entity_id, 'friendly_name') }}
             data:

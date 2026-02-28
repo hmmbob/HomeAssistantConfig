@@ -22,7 +22,7 @@ postcodeloterij_package:
         - condition: template
           value_template: "{{ trigger.id == 'manual' or now().day in [1,2,3] }}"
       actions:
-        - alias: Create variables for the month to use in the rest commands and messages
+        - alias: Maak variabelen aan voor de maand voor REST-commando's en berichten
           variables:
             month: >
               {{
@@ -38,14 +38,14 @@ postcodeloterij_package:
             month_formatted: >
               {% set months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'october', 'november', 'december'] %}
               {{ months[month % 100 -1] ~ ' ' ~ month // 100 }}
-        - alias: Issue rest command for the monthly draws
+        - alias: Voer REST-commando uit voor maandelijkse trekkingen
           action: rest_command.postcodeloterij
           data:
             month: "{{ month }}"
           response_variable: prizes
         - if: "{{ extra }}"
           then:
-            - alias: Issue rest command for the extra draws in June and December
+            - alias: Voer REST-commando uit voor extra trekkingen in juni en december
               action: rest_command.postcodeloterij
               data:
                 extra: true
@@ -55,7 +55,7 @@ postcodeloterij_package:
                   {% set mapping = {6: 13, 12: 14} %}
                   {{ y * 100 +  mapping[m] | default(m) }}
               response_variable: prizes_extra
-        - alias: Create variables for the results of the rest commands
+        - alias: Maak variabelen aan voor de resultaten van de REST-commando's
           variables:
             # normal monthly draw
             prizecount: "{{ prizes.content.prizeCount }}"
@@ -89,14 +89,14 @@ postcodeloterij_package:
               We hebben {{ [prize_text, prize_text_extra] | select() | join(' en ') }}
           # a notification will be sent out if something is won, and it's the first time the sensor was updated this month
           # notification parameters are optimized for the Android companion app
-        - alias: Send out notification to phone in case there are one of more pizes
+        - alias: Stuur melding naar telefoon als er één of meer prijzen zijn
           if: >
             {{
               prizecount_total | default(0) > 0
               and month_formatted != state_attr('sensor.postcodeloterij', 'month')
             }}
           then:
-            - alias: "Send notification"
+            - alias: "Stuur melding"
               action: notify.mobile_devices_adults
               data:
                 title: "🎁 Winnen doe je bij..."

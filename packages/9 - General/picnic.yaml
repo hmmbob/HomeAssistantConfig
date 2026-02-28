@@ -29,10 +29,10 @@ picnic_package:
 
   automation:
     - id: picnic_order_window_closing
-      alias: "Picnic: Order window closing"
+      alias: "Picnic: Bestelvenster sluit binnenkort"
       mode: single
       max_exceeded: silent
-      description: Send a notification when there are 2 hours left to submit the current order
+      description: Stuur een melding wanneer er nog 2 uur resteren om de huidige bestelling in te dienen
       trigger:
         - platform: template
           value_template: >-
@@ -91,10 +91,10 @@ picnic_package:
             duration: "00:30:00"
 
     - id: picnic_delivery_known
-      alias: "Picnic: Delivery soon"
+      alias: "Picnic: Bezorging binnenkort"
       mode: single
       max_exceeded: silent
-      description: Send a notification when the short window of the picnic delivery is near
+      description: Stuur een melding wanneer het korte venster van de Picnic bezorging dichtbij is
       trigger:
         - platform: template # Trigger 15 minutes before eta start time.
           value_template: >-
@@ -103,7 +103,7 @@ picnic_package:
             {% endif %}
       action:
         - if:
-            - alias: "Check if push message should be sent"
+            - alias: "Controleer of pushbericht verzonden moet worden"
               condition: state
               entity_id: input_boolean.notify_picnic_push
               state: "on"
@@ -161,7 +161,7 @@ picnic_package:
             duration: "00:30:00"
 
     - id: picnic_delivery_complete
-      alias: "Picnic: Delivery completed"
+      alias: "Picnic: Bezorging voltooid"
       triggers:
         - trigger: state
           entity_id: sensor.picnic_status_van_de_laatste_bestelling
@@ -173,7 +173,7 @@ picnic_package:
             entity_id: timer.picnic
 
     - id: picnic_reset_view
-      alias: "Kiosk: terug vanaf Picnic naar startscherm"
+      alias: "Kiosk: Terug van Picnic naar startscherm"
       mode: queued
       triggers:
         - trigger: event
@@ -207,10 +207,10 @@ picnic_package:
     ## Update Picnic ETA sensors
     ##########################
     - id: picnic_update_eta
-      alias: "Picnic: update ETA"
+      alias: "Picnic: Update bezorgtijd"
       mode: single
       max_exceeded: silent
-      description: Update Picnic sensors more frequently if delivery is near
+      description: Werk Picnic sensoren vaker bij als bezorging dichtbij is
       trigger:
         - platform: time_pattern
           minutes: "/2"

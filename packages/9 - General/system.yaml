@@ -29,17 +29,17 @@ system_package:
                 name: "Hmmbob dark theme"
                 mode: dark
 
-    # Automation to set the date of the "end field" in the UI to the same value as the "start"
+    # Automation om de datum van het "eindveld" in de UI op dezelfde waarde in te stellen als de "startdatum"
     - id: ui_set_end_date
       alias: "Stel de datum van het eindveld op dezelfde dag in als de begindatum"
-      description: "System: Fix the UI - set date of end field to date of start field"
+      description: "Systeem: Repareer de UI - stel datum van eindveld in op datum van begindatum"
       triggers:
         - trigger: state
           entity_id: input_datetime.solar_pv_off_start
           variables:
             end_entity_id: input_datetime.solar_pv_off_end
       actions:
-        - alias: Set date of desired end field
+        - alias: Stel datum van gewenst eindveld in
           action: input_datetime.set_datetime
           target:
             entity_id: "{{ end_entity_id }}"
@@ -51,7 +51,7 @@ system_package:
     ##########################
     - alias: "Stuur een melding dat er een nieuwe Home Assistant versie is"
       id: system_update_available_notification
-      description: Send notification on Home Assistant update available
+      description: Stuur melding als Home Assistant update beschikbaar is
       triggers:
         - trigger: state
           entity_id: sensor.latest_version
@@ -66,15 +66,15 @@ system_package:
       actions:
         - action: notify.mobile_app_sm_a556b
           data:
-            title: Upgrade time!
+            title: Moment om op te graden!
             message: >
-              There is an upgrade for Home Assistant container pending!
-              Version {{ states('sensor.latest_version') }} just got released!
+              Er is een upgrade voor de Home Assistant container in behandeling!
+              Versie {{ states('sensor.latest_version') }} is zojuist uitgebracht!
             data:
               tag: System
               channel: System
               notification_icon: mdi:cellphone-arrow-down
               actions:
                 - action: "URI"
-                  title: "Open Changelog"
+                  title: "Wijzigingslogboek openen"
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"

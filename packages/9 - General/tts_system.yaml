@@ -1,6 +1,6 @@
 tts_system_package:
   ##########################
-  ## Send a TTS message on selected speakers
+  ## Stuur een TTS-bericht op geselecteerde luidsprekers
   ##########################
   input_text:
     tts_message:
@@ -10,7 +10,7 @@ tts_system_package:
 
   input_select:
     tts_target:
-      name: TTS Target
+      name: TTS-doel
       options:
         - Woonkamer
         - Hele huis
@@ -22,20 +22,20 @@ tts_system_package:
 
   script:
     play_tts_message:
-      alias: Play TTS message
-      description: "Play a TTS message set in the frontend"
+      alias: Speel TTS-bericht af
+      description: "Speel een TTS-bericht af ingesteld in de frontend"
       icon: mdi:account-voice
       mode: single
       max_exceeded: silent
       variables:
-        target: >
-          {% if is_state("input_select.tts_target", "Woonkamer") %} media_player.nest_hub_woonkamer
-          {% elif is_state("input_select.tts_target", "Hele huis") %} media_player.hele_huis
-          {% elif is_state("input_select.tts_target", "Bovenverdieping") %} media_player.boven
-          {% elif is_state("input_select.tts_target", "Slaapkamer T") %} media_player.slaapkamer_t
-          {% elif is_state("input_select.tts_target", "Zolder") %} media_player.zolder
-          {% elif is_state("input_select.tts_target", "Kantoor") %} media_player.kantoor
-          {% endif %}
+        target_map:
+          Woonkamer: media_player.nest_hub_woonkamer
+          Hele huis: media_player.hele_huis
+          Bovenverdieping: media_player.boven
+          Slaapkamer T: media_player.slaapkamer_t
+          Zolder: media_player.zolder
+          Kantoor: media_player.kantoor
+        target: "{{ target_map[states('input_select.tts_target')] }}"
       sequence:
         - action: tts.microsoft_say
           data:

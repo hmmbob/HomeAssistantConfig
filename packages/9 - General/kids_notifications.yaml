@@ -53,53 +53,46 @@ kids_notifications_package:
           variables:
             name: "{{states('input_text.naam_puber')}}"
             location: scouting
-      actions:
-        - choose:
-            # Stop school notifications if not in afternoons on schooldays as they are likely false positives
-            # because physical education lessons are offsite and in mornings.
-            # Scouting notifications only valid on mondays or saturdays.
-            - conditions:
+      conditions:
+        # Only notify on valid times for each location
+        # School: afternoons on weekdays (PE lessons in mornings are offsite)
+        # Scouting: Saturdays 12-14 or Mondays 21-22
+        - or:
+            - and:
+                - '{{ location == "school" }}'
+                - condition: time
+                  after: "12:00:00"
+                  before: "17:30:00"
+                  weekday:
+                    - mon
+                    - tue
+                    - wed
+                    - thu
+                    - fri
+            - and:
+                - '{{ location == "scouting" }}'
                 - or:
-                    - and:
-                        - '{{ location == "school" }}'
-                        - not:
-                            - condition: time
-                              after: "12:00:00"
-                              before: "17:30:00"
-                              weekday:
-                                - mon
-                                - tue
-                                - wed
-                                - thu
-                                - fri
-                    - and:
-                        - '{{ location == "scouting" }}'
-                        - not:
-                            - or:
-                                - condition: time
-                                  after: "12:00:00"
-                                  before: "14:00:00"
-                                  weekday:
-                                    - sat
-                                - condition: time
-                                  after: "21:00:00"
-                                  before: "22:00:00"
-                                  weekday:
-                                    - mon
-              sequence:
-                - stop: "Likely false positive, stopping sequence"
-          # In all other situations, just continue
-          default:
-            - action: notify.mobile_devices_adults
-              data:
-                title: ♥ {{ name }} is op weg naar huis!
-                message: >
-                  {{ name }} is rond {{now().strftime("%H:%M")}} van {{ location }} vertrokken.
-                data:
-                  clickAction: "/lovelace-map/map"
-                  ttl: 0
-                  priority: high
-                  notification_icon: mdi:map-marker-radius
+                    - condition: time
+                      after: "12:00:00"
+                      before: "14:00:00"
+                      weekday:
+                        - sat
+                    - condition: time
+                      after: "21:00:00"
+                      before: "22:00:00"
+                      weekday:
+                        - mon
+      actions:
+        - action: notify.mobile_devices_adults
+          data:
+            title: ♥ {{ name }} is op weg naar huis!
+            message: >
+              {{ name }} is rond {{now().strftime("%H:%M")}} van {{ location }} vertrokken.
+            data:
+              clickAction: "/lovelace-map/map"
+              ttl: 0
+              priority: high
+              notification_icon: mdi:map-marker-radius
 
     ##########################
     ## Battery level notifications
