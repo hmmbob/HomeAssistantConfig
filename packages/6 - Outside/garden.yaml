@@ -9,7 +9,7 @@ lights_garden_package:
 
   sensor:
     - platform: schedule_state
-      name: Garden lights schedule
+      name: Schema tuinverlichting
       default_state: "off"
       events:
         - start: "6:30"
@@ -21,7 +21,7 @@ lights_garden_package:
           end: "23:30"
           state: "on"
     - platform: schedule_state
-      name: Tree lights schedule
+      name: Schema boomverlichting
       default_state: "off"
       events:
         - start: "6:30"
@@ -40,20 +40,24 @@ lights_garden_package:
       mode: single
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Tuinverlichting schema is gewijzigd
+          trigger: state
           entity_id: sensor.garden_lights_schedule
       conditions:
-        - alias: "Do we have a valid state"
+        - alias: "Is de tuinverlichting aan of uit?"
           condition: or
           conditions:
-            - condition: state
+            - alias: Schema tuinverlichting is aan
+              condition: state
               entity_id: sensor.garden_lights_schedule
               state: "on"
-            - condition: state
+            - alias: Schema tuinverlichting is uit
+              condition: state
               entity_id: sensor.garden_lights_schedule
               state: "off"
       actions:
-        - action: homeassistant.turn_{{ states('sensor.garden_lights_schedule') }}
+        - alias: Bedien tuinverlichting volgens schema
+          action: homeassistant.turn_{{ states('sensor.garden_lights_schedule') }}
           target:
             entity_id:
               - light.verlichting_tuin
@@ -63,20 +67,24 @@ lights_garden_package:
       mode: single
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Boomverlichting schema is gewijzigd
+          trigger: state
           entity_id: sensor.tree_lights_schedule
       conditions:
-        - alias: "Do we have a valid state"
+        - alias: "Is de boomverlichting aan of uit?"
           condition: or
           conditions:
-            - condition: state
+            - alias: Schema boomverlichting is aan
+              condition: state
               entity_id: sensor.tree_lights_schedule
               state: "on"
-            - condition: state
+            - alias: Schema boomverlichting is uit
+              condition: state
               entity_id: sensor.tree_lights_schedule
               state: "off"
       actions:
-        - action: homeassistant.turn_{{ states('sensor.tree_lights_schedule') }}
+        - alias: Bedien boomverlichting volgens schema
+          action: homeassistant.turn_{{ states('sensor.tree_lights_schedule') }}
           target:
             entity_id:
               - light.tuin_spot_boom
@@ -86,21 +94,23 @@ lights_garden_package:
       mode: single
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Poort is geopend
+          trigger: state
           entity_id: binary_sensor.poort_contact
           from: "off"
           to: "on"
       conditions:
-        - alias: "Are the lights off?"
+        - alias: "Zijn de lampen uit?"
           condition: state
           entity_id: light.verlichting_tuin
           state: "off"
-        - alias: "Is the sun down?"
+        - alias: Zon staat onder de horizon
           condition: state
           entity_id: sun.sun
           state: "below_horizon"
       actions:
-        - action: schedule_state.set_override
+        - alias: Zet schema-override tuinverlichting op 3 uur aan
+          action: schedule_state.set_override
           target:
             entity_id: sensor.garden_lights_schedule
           data:
@@ -109,26 +119,27 @@ lights_garden_package:
 
     - id: backgate_alert
       alias: "Waarschuw als iemand door de poort komt of het fietsenhok opent"
-      description: "Alert when someone enters the backgate of our garden or opens the bike shed"
+      description: "Stuur waarschuwing wanneer iemand de achterdeur van de tuin binnenkomt of het fietsenhok opent"
       mode: single
       max_exceeded: silent
       trace:
         stored_traces: 20
       triggers:
-        - trigger: state
+        - alias: Poort of fietsenhok is geopend
+          trigger: state
           entity_id:
             - binary_sensor.poort_contact
             - binary_sensor.fietsenhok_contact
           from: "off"
           to: "on"
       actions:
-        - alias: "Turn on speaker"
+        - alias: "Schakel speaker in"
           action: switch.turn_on
           target:
             entity_id: switch.alarmspeaker_alarm
         # Sometimes the trigger fires multiple times in short period. The next step
         # prevents multiple alerts in combination with 'mode: single' & 'max_exceeded: silent'
-        - alias: "Do nothing for 1 minute to prevent bouncing triggers"
+        - alias: "1 minuut niets doen om stuiterende triggers te voorkomen"
           delay: "00:01:00"
 
     - id: "achtertuin_stream_to_kiosk"
@@ -136,12 +147,14 @@ lights_garden_package:
       mode: single
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Persoon gedetecteerd in achtertuin
+          trigger: state
           entity_id: binary_sensor.achtertuin_persoon
           from: "off"
           to: "on"
       actions:
-        - action: browser_mod.popup
+        - alias: Toon achtertuincamera in kiosk-popup
+          action: browser_mod.popup
           data:
             dismissable: true
             autoclose: true
@@ -154,12 +167,13 @@ lights_garden_package:
               type: custom:advanced-camera-card
               cameras:
                 - camera_entity: camera.achtertuin_vloeiend
-        - action: number.set_value
+        - alias: Stel kiosk-schermhelderheid in op 255
+          action: number.set_value
           data:
             value: "255"
           target:
             entity_id:
               - number.kiosk1_schermhelderheid
               - number.kiosk2_schermhelderheid
-        - alias: "Do nothing for 92 seconds to prevent bouncing triggers"
+        - alias: "92 seconden niets doen om stuiterende triggers te voorkomen"
           delay: "00:01:32"

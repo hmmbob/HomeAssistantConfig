@@ -10,19 +10,21 @@ whose_turn_is_it_package:
     - id: rotate_turns
       alias: "Wissel de beurt voor het tafeldekken"
       triggers:
-        - trigger: time
+        - alias: Elke maandag om 00:01
+          trigger: time
           at:
             - "00:01:00"
           weekday:
             - "mon"
       actions:
-        - action: input_select.select_next
+        - alias: Schakel naar volgende persoon voor tafeldekken
+          action: input_select.select_next
           target:
             entity_id: input_select.tafeldekken_beurt
 
   script:
     whose_turn_is_it:
-      alias: Tafeldekken
+      alias: Kondig tafeldekbeurt via TTS aan
       description: "Wie moet er tafeldekken?"
       mode: restart
       sequence:

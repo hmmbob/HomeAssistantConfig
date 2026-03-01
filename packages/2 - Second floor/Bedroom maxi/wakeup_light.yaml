@@ -1,20 +1,24 @@
 wakeup_light_maxi_package:
   automation:
     - id: wakeup_light_maxi
-      alias: "Wakeup light maxi"
+      alias: "Weklicht maxi"
       mode: restart
       triggers:
-        - trigger: time
+        - alias: Alarmtijd bereikt
+          trigger: time
           at: sensor.zolder_alarms
       conditions: []
       actions:
-        - action: light.turn_on
+        - alias: Zet weklicht aan op warm wit
+          action: light.turn_on
           data:
             brightness_pct: 100
             color_temp_kelvin: 3500
           target:
             entity_id: light.sonoff_l1
-        - delay: 00:05:00
-        - service: light.turn_off
-          entity_id:
-            - light.sonoff_l1
+        - alias: Wacht 5 minuten
+          delay: 00:05:00
+        - alias: Zet weklicht uit
+          action: light.turn_off
+          target:
+            entity_id: light.sonoff_l1

@@ -4,35 +4,46 @@ wakeup_light_mini_package:
       alias: "Wakeup light mini"
       mode: single
       triggers:
-        - trigger: time
+        - alias: Alarmtijd bereikt volgens apparaat
+          trigger: time
           at: sensor.home_mini_slaapkamer_t_alarms
       conditions: []
       actions:
-        - delay: 00:00:01
-        - action: light.turn_on
+        - alias: Wacht tot systeem stabiel is
+          delay: 00:00:01
+        - alias: Start met licht op minimale helderheid
+          action: light.turn_on
           data:
             brightness_pct: 5
           target:
             entity_id:
               - light.ledstrip_bed_mini
-        - delay: 00:00:02
-        - repeat:
+        - alias: Wacht kort
+          delay: 00:00:02
+        - alias: Verhoog helderheid stap voor stap totdat max
+          repeat:
             sequence:
-              - service: light.turn_on
+              - alias: Verhoog helderheid van ledstrip
+                service: light.turn_on
                 data:
                   entity_id: light.ledstrip_bed_mini
                   brightness: "{{ state_attr('light.ledstrip_bed_mini', 'brightness') | int + 15 }}"
-              - delay: 2
+              - alias: Wacht kort tussen stappen
+                delay: 2
             until:
               condition: or
               conditions:
-                - condition: template
+                - alias: Helderheid bereikt maximum
+                  condition: template
                   value_template: "{{ state_attr('light.ledstrip_bed_mini', 'brightness') | int >= 191 }}"
-                - condition: state
+                - alias: Licht is uitgeschakeld
+                  condition: state
                   entity_id: light.ledstrip_bed_mini
                   state: "off"
-        - delay: 00:10:00
-        - action: light.turn_off
+        - alias: Wacht 10 minuten voordat licht automatisch uitgaat
+          delay: 00:10:00
+        - alias: Zet licht uit
+          action: light.turn_off
           target:
             entity_id: light.ledstrip_bed_mini
 
@@ -40,37 +51,46 @@ wakeup_light_mini_package:
       alias: "Lampen slaapkamer T uit als 'zomerse nachtgeluiden' beginnen"
       mode: queued
       triggers:
-        - trigger: state
+        - alias: Slaapgeluiden starten op speaker
+          trigger: state
           entity_id: media_player.slaapkamer_t
           attribute: app_id
           to: "9731D581"
           for: "00:00:02"
       conditions:
       actions:
-        - action: media_player.volume_set
+        - alias: Zet speaker volume op gemiddeld
+          action: media_player.volume_set
           data:
             entity_id: media_player.slaapkamer_t
             volume_level: 0.4
-        - if:
+        - alias: Zet licht uit als deze aan is
+          if:
             - condition: state
               entity_id: light.ledstrip_bed_mini
               state: "on"
           then:
-            - action: light.turn_off
+            - alias: Dim ledstrip uit
+              action: light.turn_off
               target:
                 entity_id: light.ledstrip_bed_mini
               data:
                 transition: 5
-        - delay: 00:40:00
-        - action: media_player.volume_set
+        - alias: Wacht lang voordat volume wordt verlaagd
+          delay: 00:40:00
+        - alias: Verlaag speaker volume
+          action: media_player.volume_set
           data:
             entity_id: media_player.slaapkamer_t
             volume_level: 0.3
-        - delay: 00:05:00
-        - action: media_player.volume_set
+        - alias: Wacht voor verdere verlaging
+          delay: 00:05:00
+        - alias: Verlaag speaker volume nog verder
+          action: media_player.volume_set
           data:
             entity_id: media_player.slaapkamer_t
             volume_level: 0.1
-        - action: media_player.turn_off
+        - alias: Zet speaker uit
+          action: media_player.turn_off
           data:
             entity_id: media_player.slaapkamer_t

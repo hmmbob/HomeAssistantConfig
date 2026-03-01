@@ -10,23 +10,23 @@ solar_package:
   input_boolean:
     # Do I want the PV to turn off automatically?
     solar_pv_off_automatic:
-      name: "Solar: Turn PV off automatically"
+      name: "Zonnepanelen: Automatisch uitschakelen"
       icon: mdi:refresh-auto
     # Do I want the PV to turn off by schedule?
     solar_pv_off_schedule:
-      name: "Solar: Turn PV off on schedule"
+      name: "Zonnepanelen: Uitschakelen op schema"
       icon: mdi:calendar-start
 
   input_datetime:
     # When should PV off period stop (and turn on PV)
     solar_pv_off_end:
-      name: "Solar PV off time end"
+      name: "Zonnepanelen eindtijd uitschakeling"
       has_time: true
       has_date: true
       icon: mdi:clock-end
     # When should PV off period start (and turn off PV)
     solar_pv_off_start:
-      name: "Solar PV off time start"
+      name: "Zonnepanelen starttijd uitschakeling"
       has_time: true
       has_date: true
       icon: mdi:clock-start
@@ -35,7 +35,7 @@ solar_package:
     - sensor:
         - unit_of_measurement: kWh
           default_entity_id: sensor.todays_total_production_preserved
-          name: Todays total production preserved
+          name: Totale productie van vandaag behouden
           state: >-
             {% if states('sensor.today_s_pv_generation') not in ['unknown', 'unavailable'] %}
               {{ states('sensor.today_s_pv_generation') | float(0)  }}
@@ -64,7 +64,7 @@ solar_package:
     # Automation to trigger the upload to PVOutput, using the rest_command defined above
     - id: solar_upload_to_pvoutput
       alias: "Stuur solar informatie naar PVOutput"
-      description: Upload values to PVOutput
+      description: Stuur waarden naar PVOutput
       triggers:
         - trigger: time_pattern
           minutes: /5
@@ -79,13 +79,13 @@ solar_package:
       mode: single
 
     - id: solar_handle_pv_off
-      alias: "Zet de zonnepanelen uit"
+      alias: "Beheer automatische PV-schakeling"
       description: >-
-        Automation to automatically turn off my solar system when electricity prices are below 0.
-        This can be done automatically or by time schedule based on input_datetime.
-        It works by setting the "grid_export_limit" in the GoodWe integration to 0%, effectively
-        instructing the inverter that it isn't allowed to export (produce) any power. Setting
-        it back to 100% restarts the production again to the maximum capacity of the inverter.
+        Automatisering om mijn zonnesysteem automatisch uit te schakelen wanneer de elektriciteitsprijzen 
+        onder nul liggen. Dit kan automatisch of op basis van een tijdschema via input_datetime plaatsvinden.
+        Het werkt door de "grid_export_limit" in de GoodWe-integratie op 0% in te stellen, waardoor
+        de omvormer geen vermogen mag produceren. Door dit op 100% in te stellen, wordt de productie
+        weer herstart tot de maximale capaciteit van de omvormer.
       triggers:
         # Triggers for automatic switching
         - trigger: state
@@ -118,90 +118,90 @@ solar_package:
           variables:
             message: "Je zonnepanelen zijn weer ingeschakeld op basis van je schedule."
       conditions:
-        - alias: "Check if inverter is actually working"
+        - alias: Controleer of omvormer operationeel is
           condition: state
           entity_id: sensor.work_mode
           state: "Normal"
       actions:
-        - alias: "Choose what to execute"
+        - alias: Kies actie op basis van triggertype
           choose:
             - conditions:
                 - condition: trigger
                   id: automatic_start
               sequence:
                 - if:
-                    - alias: "Check if we enabled automatic turning on/off"
+                    - alias: Controleer of automatisch uitschakelen is toegestaan
                       condition: state
                       entity_id: input_boolean.solar_pv_off_automatic
                       state: "on"
                   then:
-                    - alias: "Set grid export limit to 0% to turn off PV production"
+                    - alias: Stel terugleverlimiet in op 0 procent
                       action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
                         value: "0"
                   else:
-                    - stop: "Stopping because automatic turning on/off is not enabled"
+                    - stop: "Gestopt omdat automatisch aan/uit schakelen niet is ingeschakeld"
             - conditions:
                 - condition: trigger
                   id: automatic_stop
               sequence:
                 - if:
-                    - alias: "Check if we enabled automatic turning on/off"
+                    - alias: Controleer of automatisch inschakelen is toegestaan
                       condition: state
                       entity_id: input_boolean.solar_pv_off_automatic
                       state: "on"
                   then:
-                    - alias: "Set grid export limit to 100% to turn on PV production"
+                    - alias: Stel terugleverlimiet in op 100 procent
                       action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
                         value: "100"
                   else:
-                    - stop: "Stopping because automatic turning on/off is not enabled"
+                    - stop: "Gestopt omdat automatisch aan/uit schakelen niet is ingeschakeld"
             - conditions:
                 - condition: trigger
                   id: scheduled_start
               sequence:
                 - if:
-                    - alias: "Check if we enabled scheduled turning on/off"
+                    - alias: Controleer of gepland uitschakelen is toegestaan
                       condition: state
                       entity_id: input_boolean.solar_pv_off_schedule
                       state: "on"
                   then:
-                    - alias: "Set grid export limit to 0% to turn off PV production"
+                    - alias: Stel terugleverlimiet in op 0 procent
                       action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
                         value: "0"
                   else:
-                    - stop: "Stopping because scheduled turning on/off is not enabled"
+                    - stop: "Gestopt omdat gepland aan/uit schakelen niet is ingeschakeld"
             - conditions:
                 - condition: trigger
                   id: scheduled_stop
               sequence:
                 - if:
-                    - alias: "Check if we enabled scheduled turning on/off"
+                    - alias: Controleer of gepland inschakelen is toegestaan
                       condition: state
                       entity_id: input_boolean.solar_pv_off_schedule
                       state: "on"
                   then:
-                    - alias: "Set grid export limit to 100% to turn on PV production"
+                    - alias: Stel terugleverlimiet in op 100 procent
                       action: number.set_value
                       target:
                         entity_id: number.grid_export_limit
                       data:
                         value: "100"
-                    - alias: "Disable PV off schedule"
+                    - alias: Schakel gepland PV-uit schema uit
                       action: input_boolean.turn_off
                       target:
                         entity_id: input_boolean.solar_pv_off_schedule
                   else:
-                    - stop: "Stopping because scheduled turning on/off is not enabled"
-        - alias: "Sending push notification"
+                    - stop: "Gestopt omdat gepland aan/uit schakelen niet is ingeschakeld"
+        - alias: Stuur pushmelding over PV-status
           action: notify.mobile_app_sm_a556b
           data:
             title: "Zonnepanelen update"

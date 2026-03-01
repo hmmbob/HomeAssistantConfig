@@ -3,16 +3,19 @@ light_frontdoor_package:
     - id: lights_frontdoor
       alias: "Zet de voordeurlamp aan of uit"
       triggers:
-        - trigger: sun
+        - alias: Zon gaat onder
+          trigger: sun
           event: sunset
           offset: "-00:10:00"
           variables:
             action: turn_on
-        - trigger: sun
+        - alias: Zon gaat op
+          trigger: sun
           event: sunrise
           variables:
             action: turn_off
       actions:
-        - action: switch.{{ action }}
+        - alias: Schakel voordeurlamp aan of uit
+          action: switch.{{ action }}
           target:
             entity_id: switch.voordeur

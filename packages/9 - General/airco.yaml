@@ -20,14 +20,16 @@ airco_package:
       alias: "Start de airco van de kinderen als de timer start"
       description: "Zet de airco aan als de timer start"
       triggers:
-        - trigger: event
+        - alias: Airco mini sleeptimer is gestart
+          trigger: event
           event_type: timer.started
           event_data:
             entity_id: timer.airco_mini_sleeptimer
           variables:
             airco: climate.airco_slaapkamer_t
             temp_sensor: sensor.xiaomi_temperature_humidity_sensor_3_temperature
-        - trigger: event
+        - alias: Airco puber sleeptimer is gestart
+          trigger: event
           event_type: timer.started
           event_data:
             entity_id: timer.airco_puber_sleeptimer
@@ -35,7 +37,8 @@ airco_package:
             airco: climate.airco_slaapkamer_m
             temp_sensor: sensor.temp_sensor_8_slaapkamer_m_temperatuur
       actions:
-        - action: climate.set_hvac_mode
+        - alias: Stel modus in voor kinderairco op basis van kamertemperatuur
+          action: climate.set_hvac_mode
           target:
             entity_id: "{{airco}}"
           data:
@@ -45,20 +48,23 @@ airco_package:
       alias: "Sleeptimer voor de airco's van de kinderen"
       description: "Zet de airco uit aan het einde van de timer"
       triggers:
-        - trigger: event
+        - alias: Airco mini sleeptimer is afgelopen
+          trigger: event
           event_type: timer.finished
           event_data:
             entity_id: timer.airco_mini_sleeptimer
           variables:
             entity: climate.airco_slaapkamer_t
-        - trigger: event
+        - alias: Airco puber sleeptimer is afgelopen
+          trigger: event
           event_type: timer.finished
           event_data:
             entity_id: timer.airco_puber_sleeptimer
           variables:
             entity: climate.airco_slaapkamer_m
       actions:
-        - action: climate.set_hvac_mode
+        - alias: Zet geselecteerde kinderairco uit na afloop sleeptimer
+          action: climate.set_hvac_mode
           target:
             entity_id: "{{entity}}"
           data:
@@ -71,15 +77,17 @@ airco_package:
       alias: "Zet airco automatisch uit einde avond"
       description: "Schakel airco's automatisch uit zodat we het niet vergeten"
       triggers:
-        - trigger: time
+        - alias: Dagelijks om 23:00 voor uitschakelen kinderairco's
+          trigger: time
           at: "23:00:00"
           variables:
             target: airco_children
-        - trigger: time
+        - alias: Ingestelde uitschakeltijd woonkamerairco bereikt
+          trigger: time
           at: input_datetime.time_turn_off_airco_livingroom
           variables:
             target: climate.airco_woonkamer
-        - alias: "Schakel uit als we de lampen uitzetten"
+        - alias: "Lampen in woonkamer zijn uit"
           trigger: state
           entity_id: light.verlichting_woonkamer
           to: "off"
@@ -87,34 +95,42 @@ airco_package:
           variables:
             target: climate.airco_woonkamer
       actions:
-        - choose:
+        - alias: Kies uitschakelactie op basis van doelairco
+          choose:
             - conditions: "{{ target == 'airco_children' }}"
               sequence:
-                - if:
+                - alias: Controleer of mini-sleeptimer niet actief is
+                  if:
                     - "{{ states('timer.airco_mini_sleeptimer') != 'active' }}"
                   then:
-                    - action: climate.set_hvac_mode
+                    - alias: Zet airco op slaapkamer T uit
+                      action: climate.set_hvac_mode
                       target:
                         entity_id: climate.airco_slaapkamer_t
                       data:
                         hvac_mode: "off"
-                - if:
+                - alias: Controleer of puber-sleeptimer niet actief is
+                  if:
                     - "{{ states('timer.airco_puber_sleeptimer') != 'active' }}"
                   then:
-                    - action: climate.set_hvac_mode
+                    - alias: Zet airco op slaapkamer M uit
+                      action: climate.set_hvac_mode
                       target:
                         entity_id: climate.airco_slaapkamer_m
                       data:
                         hvac_mode: "off"
             - conditions: "{{ target == 'climate.airco_woonkamer' }}"
               sequence:
-                - if:
+                - alias: Controleer of woonkamerairco uit mag bij lampen uit
+                  if:
                     - "{{ trigger.id == 'lights_turned_off' }}"
                     - not:
-                        - condition: time
+                        - alias: Controleer dat het na 21:00 is
+                          condition: time
                           after: "21:00:00"
                   then:
-                    - action: climate.set_hvac_mode
+                    - alias: Zet woonkamerairco uit
+                      action: climate.set_hvac_mode
                       target:
                         entity_id: "{{target}}"
                       data:
@@ -124,7 +140,8 @@ airco_package:
       alias: "Zet de airco en verwarming uit als we weg zijn"
       description: "Klimaat: Schakel verwarming uit als we weg zijn"
       triggers:
-        - trigger: state
+        - alias: Niet thuis gedurende 30 minuten
+          trigger: state
           entity_id: zone.home
           to: "0"
           for:
@@ -154,7 +171,8 @@ airco_package:
       alias: "Zet airco kinderen automatisch op een normale temperatuur"
       description: "Stel de airco van de kinderen automatisch in op een normale temperatuur (ter voorkoming van gebruikersfouten en energiebesparing)"
       triggers:
-        - trigger: state
+        - alias: Setpoint van kinderairco gewijzigd
+          trigger: state
           entity_id:
             - climate.airco_slaapkamer_m
             - climate.airco_slaapkamer_t
@@ -163,17 +181,20 @@ airco_package:
         current_mode: "{{ states(trigger.entity_id) }}"
         set_temp: "{{ state_attr(trigger.entity_id, 'temperature') | float(0) }}"
       actions:
-        - choose:
+        - alias: Corrigeer setpoint buiten toegestane bandbreedte
+          choose:
             - conditions: "{{ current_mode in ['cool', 'dry'] and set_temp < 20 }}"
               sequence:
-                - action: climate.set_temperature
+                - alias: Verhoog koel-/droogsetpoint naar 22 graden
+                  action: climate.set_temperature
                   target:
                     entity_id: "{{ trigger.entity_id }}"
                   data:
                     temperature: 22
             - conditions: "{{ current_mode == 'heat' and set_temp > 22 }}"
               sequence:
-                - action: climate.set_temperature
+                - alias: Verlaag verwarmingssetpoint naar 22 graden
+                  action: climate.set_temperature
                   target:
                     entity_id: "{{ trigger.entity_id }}"
                   data:

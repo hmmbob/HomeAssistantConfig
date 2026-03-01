@@ -19,7 +19,8 @@ lights_livingroom_package:
     - id: set_lights_before_sunset
       alias: "Zet de verlichting aan bij zonsondergang"
       triggers:
-        - trigger: sun
+        - alias: Zonsondergang nadert
+          trigger: sun
           event: sunset
           offset: "-00:45:00"
       conditions:
@@ -31,7 +32,8 @@ lights_livingroom_package:
             entity_id: group.all_adults
             state: home
       actions:
-        - action: light.turn_on
+        - alias: Zet vaaslamp aan op lage helderheid
+          action: light.turn_on
           data:
             brightness_pct: 20
           target:

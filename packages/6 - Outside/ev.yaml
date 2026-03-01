@@ -1,7 +1,7 @@
 ev_package:
   input_number:
     ev_target_soc:
-      name: EV Target SOC
+      name: Streeflaadniveau auto
       min: 0
       max: 100
       step: 5
@@ -17,13 +17,15 @@ ev_package:
   template:
     - trigger:
         # This generates triggers for all changes in the entity, both in its state and its attributes.
-        - trigger: state
+        - alias: Trigger bij wijziging stroomtariefsensor Zonneplan
+          trigger: state
           entity_id: sensor.zonneplan_current_electricity_tariff
         # This ensures the first data is filled.
-        - trigger: event
+        - alias: Trigger bij herladen templates voor initialisatie
+          trigger: event
           event_type: event_template_reloaded
       sensor:
-        - name: "Zonneplan template price sensor"
+        - name: "Zonneplan template prijssensor"
           unique_id: zonneplan_template_price_sensor
           unit_of_measurement: "€/kWh"
           state: "{{ states('sensor.zonneplan_current_electricity_tariff') }}"
@@ -51,38 +53,43 @@ ev_package:
   automation:
     - id: ev_handle_automatic_cheapest_charge
       alias: "Laad de auto tijdens de goedkoopste uren"
-      description: "Automatically charge my car in the cheapest hours"
+      description: "Laad mijn auto automatisch op in de goedkoopste uren"
       mode: single
       triggers:
-        - trigger: state
+        - alias: Trigger wanneer goedkoop laden start
+          trigger: state
           entity_id: sensor.ev_smart_charging_charging
           to: "on"
           id: ev_cheapest_charge_start
-        - trigger: state
+        - alias: Trigger wanneer goedkoop laden stopt
+          trigger: state
           entity_id: sensor.ev_smart_charging_charging
           to: "off"
           id: ev_cheapest_charge_stop
       actions:
-        - alias: "Choose to start or stop charging"
+        - alias: "Bepaal actie voor starten of stoppen goedkoop laden"
           choose:
             - conditions:
-                - condition: trigger
+                - alias: Controleer of goedkoop laden is gestart
+                  condition: trigger
                   id: ev_cheapest_charge_start
-                - not:
-                    - condition: state
+                - alias: Controleer of laadmodus naar Smart moet worden gewisseld
+                  not:
+                    - alias: Laadmodus is niet Smart
+                      condition: state
                       entity_id: select.smartevse_6360_mode
                       state: "Smart"
               sequence:
-                - alias: "Select SMART charging option"
+                - alias: Selecteer slimme laadmodus
                   action: select.select_option
                   target:
                     entity_id: select.smartevse_6360_mode
                   data:
                     option: Smart
-                - alias: "Sending push notification"
+                - alias: "Stuur melding dat goedkoop laden is gestart"
                   action: notify.mobile_app_sm_a556b
                   data:
-                    title: "Automatic cheapest EV charging started"
+                    title: "Automatisch goedkoop laden gestart"
                     message: "Automatisch laden van de auto is gestart. ({{ now().strftime('%H:%M') }})."
                     data:
                       notification_icon: mdi:ev-station
@@ -90,25 +97,28 @@ ev_package:
                       priority: high
                       clickAction: "/lovelace/car"
             - conditions:
-                - condition: trigger
+                - alias: Controleer of goedkoop laden is gestopt
+                  condition: trigger
                   id: ev_cheapest_charge_stop
-                - not:
-                    - condition: state
+                - alias: Controleer of laadmodus naar Uit moet worden gewisseld
+                  not:
+                    - alias: Laadmodus is niet Uit
+                      condition: state
                       entity_id: select.smartevse_6360_mode
                       state:
                         - "Off"
                         - "unavailable"
               sequence:
-                - alias: "Select charging option OFF"
+                - alias: "Kies laadoptie uit"
                   action: select.select_option
                   target:
                     entity_id: select.smartevse_6360_mode
                   data:
                     option: "Off"
-                - alias: "Sending push notification"
+                - alias: "Stuur melding dat goedkoop laden is gestopt"
                   action: notify.mobile_app_sm_a556b
                   data:
-                    title: "Automatic cheapest EV charging stopped"
+                    title: "Automatisch goedkoop laden gestopt"
                     message: "Automatisch laden van de auto is gestopt ({{ now().strftime('%H:%M') }})"
                     data:
                       notification_icon: mdi:ev-station
@@ -116,56 +126,64 @@ ev_package:
                       priority: high
                       clickAction: "/lovelace/car"
 
-    - alias: "Stel in of de auto verbonden is"
+    - alias: "Werk EV-verbonden helper bij op basis van stekkerstatus"
       id: "ev_set_smart_charging_connected_sensor"
-      description: "Set Smart Charging EV connected sensor"
+      description: "Stel Smart Charging EV verbonden sensor in"
       mode: single
       triggers:
-        - trigger: state
+        - alias: Trigger bij wijziging EV-plugstatus
+          trigger: state
           entity_id: sensor.smartevse_6360_evplugstate
       actions:
-        - if:
-            - condition: state
+        - alias: Controleer of stekker verbonden is
+          if:
+            - alias: Controleer of stekker is verbonden
+              condition: state
               entity_id: sensor.smartevse_6360_evplugstate
               state: "Connected"
           then:
-            - action: switch.turn_on
+            - alias: Zet helper EV verbonden aan
+              action: switch.turn_on
               target:
                 entity_id: switch.ev_smart_charging_ev_connected
           else:
-            - if:
-                - condition: state
+            - alias: Controleer of stekker losgekoppeld is
+              if:
+                - alias: Controleer of stekker is losgekoppeld
+                  condition: state
                   entity_id: sensor.smartevse_6360_evplugstate
                   state: "Disconnected"
               then:
-                - action: switch.turn_off
+                - alias: Zet helper EV verbonden uit
+                  action: switch.turn_off
                   target:
                     entity_id: switch.ev_smart_charging_ev_connected
 
     - id: ev_create_monthly_total_notification
       alias: "Stuur een maandelijks overzicht van de laadkosten van de auto"
-      description: "Create a monthly overview of the amount of energy charged for billing purposes"
+      description: "Maak een maandelijks overzicht van de hoeveelheid opgeladen energie voor factureringsdoeleinden"
       mode: single
       variables:
-        title: EV charging monthly total
+        title: Maandelijks totaal auto laden
         message: >
           This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') | round(1, default=0) }} kWh. 
           The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') | round(1, default=0) }} kWh.
       triggers:
-        - trigger: time
+        - alias: Trigger aan einde van de dag om maandtotaal te verwerken
+          trigger: time
           at: "23:59:45"
       conditions:
-        - alias: "Only on last day of the month"
+        - alias: "Alleen op de laatste dag van de maand"
           condition: template
           value_template: "{{ (now() + timedelta(days=1)).strftime('%-d') == '1' }}"
       actions:
-        - alias: "Create a persistant notification with the monthly charged totals"
+        - alias: Maak permanente melding met EV maandtotaal
           action: persistent_notification.create
           data:
             notification_id: ev_monthly_total
             title: "{{ title }}"
             message: "{{ message }}"
-        - alias: "Send an email with the monthly charged totals"
+        - alias: Verstuur e-mail met EV maandtotaal
           action: notify.email
           data:
             title: "{{ title }}"
@@ -173,17 +191,19 @@ ev_package:
 
     - id: ev_force_update_while_charging
       alias: "Forceer nieuwe Hyundai informatie tijdens het laden"
-      description: "Force update the values of the Hyundai component while charging"
+      description: "Forceer bijwerking van de Hyundai-gegevens tijdens het laden"
       mode: single
       triggers:
-        - trigger: time_pattern
+        - alias: Trigger elke 15 minuten tijdens laden
+          trigger: time_pattern
           minutes: "/15"
       conditions:
-        - alias: "Only when we are actually charging"
+        - alias: "Alleen wanneer we echt aan het laden zijn"
           condition: state
           entity_id: sensor.smartevse_6360_state
           state: "Charging"
       actions:
-        - action: kia_uvo.force_update
+        - alias: Werk Kia UVO-gegevens geforceerd bij
+          action: kia_uvo.force_update
           data:
             device_id: 5a94e1b7fbce614053e4f5b8dfd6209b

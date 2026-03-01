@@ -2,76 +2,92 @@ google_home_volume_package:
   automation:
     - id: set_google_home_volume
       alias: "Stel de Google Home volumes in"
-      description: "Volume: Set Google Home Volume"
+      description: "Stel Google Home volumes automatisch in op vaste momenten"
       triggers:
-        - trigger: time
+        - alias: Volume wordt ingesteld op vaste momenten
+          trigger: time
           at:
             - "07:00:00"
             - "09:00:00"
             - "19:30:00"
             - "20:30:00"
       actions:
-        - if:
-            - condition: time
+        - alias: Pas ochtendvolume toe in woonkamer
+          if:
+            - alias: Tijdvenster ochtend 07:00-09:00
+              condition: time
               after: "07:00:00"
               before: "09:00:00"
           then:
-            - action: media_player.volume_set
+            - alias: Zet volume op 70% voor kiosk en Nest Hub woonkamer
+              action: media_player.volume_set
               target:
                 entity_id:
                   - media_player.kiosk1_fkb
                   - media_player.nest_hub_woonkamer
               data:
                 volume_level: 0.7
-        - if:
-            - condition: time
+        - alias: Pas dagvolume toe voor slaapkamers en kantoor
+          if:
+            - alias: Tijdvenster dag 09:00-19:30
+              condition: time
               after: "09:00:00"
               before: "19:30:00"
           then:
-            - action: media_player.volume_set
+            - alias: Zet volume op 60% voor slaapkamer T en zolder
+              action: media_player.volume_set
               target:
                 entity_id:
                   - media_player.slaapkamer_t
                   - media_player.zolder
               data:
                 volume_level: 0.6
-            - action: media_player.volume_set
+            - alias: Zet volume op 20% voor kantoor
+              action: media_player.volume_set
               target:
                 entity_id: media_player.kantoor
               data:
                 volume_level: 0.2
-        - if:
-            - condition: time
+        - alias: Pas avondvolume toe rond etenstijd
+          if:
+            - alias: Tijdvenster avond 19:30-20:30
+              condition: time
               after: "19:30:00"
               before: "20:30:00"
           then:
-            - action: media_player.volume_set
+            - alias: Zet woonkamerapparaten op 60% volume
+              action: media_player.volume_set
               target:
                 entity_id:
                   - media_player.kiosk1_fkb
                   - media_player.nest_hub_woonkamer
               data:
                 volume_level: 0.6
-            - action: media_player.volume_set
+            - alias: Zet slaapkamer T en zolder op 20% volume
+              action: media_player.volume_set
               target:
                 entity_id:
                   - media_player.slaapkamer_t
                   - media_player.zolder
               data:
                 volume_level: 0.2
-        - if:
-            - condition: time
+        - alias: Pas nachtvolume toe
+          if:
+            - alias: Tijdvenster nacht 20:30-07:00
+              condition: time
               after: "20:30:00"
               before: "07:00:00"
           then:
-            - action: media_player.volume_set
+            - alias: Zet woonkamerapparaten op 40% volume
+              action: media_player.volume_set
               target:
                 entity_id:
                   - media_player.kiosk1_fkb
                   - media_player.nest_hub_woonkamer
               data:
                 volume_level: 0.4
-            - action: media_player.volume_set
+            - alias: Zet kantoor op 10% volume
+              action: media_player.volume_set
               target:
                 entity_id: media_player.kantoor
               data:

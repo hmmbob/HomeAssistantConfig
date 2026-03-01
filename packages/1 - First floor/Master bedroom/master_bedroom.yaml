@@ -10,20 +10,23 @@ master_bedroom_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Beweging gedetecteerd in inloopkast
+          trigger: state
           entity_id: binary_sensor.pir_inloopkast_occupancy
           to: "on"
           from: "off"
           variables:
             action: turn_on
-        - trigger: state
+        - alias: Geen beweging meer in inloopkast
+          trigger: state
           entity_id: binary_sensor.pir_inloopkast_occupancy
           to: "off"
           from: "on"
           variables:
             action: turn_off
       conditions:
-        - condition: state
+        - alias: Automatische inloopkastverlichting is ingeschakeld
+          condition: state
           entity_id: input_boolean.enable_pir_inloopkast_automations
           state: "on"
       actions:

@@ -67,28 +67,34 @@ bedroom_minicave_package:
       alias: "Waarschuwing dat de minicave nog stroom verbruikt"
       mode: queued
       triggers:
-        - trigger: numeric_state
+        - alias: PC verbruikt stroom
+          trigger: numeric_state
           entity_id: sensor.mini_cave_power
           above: 80
           id: PC
-        - trigger: state
+        - alias: TV is ingeschakeld
+          trigger: state
           entity_id: binary_sensor.minicave_tv
           to: "on"
           id: TV
-        - trigger: state
+        - alias: Schoollaptop is ingeschakeld
+          trigger: state
           entity_id: binary_sensor.schoollaptop_t
           to: "on"
           for:
             minutes: 2
           id: Schoollaptop
       conditions:
-        - condition: state
+        - alias: Stroomgebruik meldingen zijn ingeschakeld
+          condition: state
           entity_id: input_boolean.notify_power_use_minicave
           state: "on"
-        - condition: time
+        - alias: Na ingestelde waarschuwingstijd
+          condition: time
           after: input_datetime.time_poweruse_minicave
       actions:
-        - action: notify.mobile_devices_adults
+        - alias: Stuur notificatie naar ouders over stroomverbruik in de minicave
+          action: notify.mobile_devices_adults
           data:
             title: "Minicave {{ trigger.id }}"
             message: >-
@@ -109,19 +115,23 @@ bedroom_minicave_package:
       alias: "Waarschuwing dat de mini te lang op de PC zit"
       mode: queued
       triggers:
-        - trigger: numeric_state
+        - alias: PC-tijd overschreden op doordeweekse dag
+          trigger: numeric_state
           entity_id: sensor.minicave_pc_on_today
           above: input_number.mini_pc_time_weekday
           id: weekday
-        - trigger: numeric_state
+        - alias: PC-tijd overschreden in weekend
+          trigger: numeric_state
           entity_id: sensor.minicave_pc_on_today
           above: input_number.mini_pc_time_weekend
           id: weekend
-        - trigger: time
+        - alias: Vastgestelde gametijd voorbij
+          trigger: time
           at: input_datetime.time_mini_gametime_over
           id: all_days
       conditions:
-        - or:
+        - alias: Controle op juiste moment voor trigger
+          or:
             - and:
                 - '{{ trigger.id == "weekday" }}'
                 - condition: time
@@ -143,34 +153,43 @@ bedroom_minicave_package:
                   entity_id: binary_sensor.minicave_pc
                   state: "on"
       actions:
-        - parallel:
-            - sequence:
-                - action: light.turn_on
+        - alias: Knipper lampen en geef audio waarschuwing
+          parallel:
+            - alias: Knipper lampen rood
+              sequence:
+                - alias: Zet lampen rood aan
+                  action: light.turn_on
                   target:
                     entity_id:
                       - light.ledstrip_bureau_mini
                       - light.plafondlamp_t
                   data:
                     color_name: red
-                - delay:
+                - alias: Wacht even
+                  delay:
                     seconds: 2
-                - repeat:
+                - alias: Knipper 10 keer
+                  repeat:
                     count: 10
                     sequence:
-                      - action: light.toggle
+                      - alias: Toggle lampen aan/uit
+                        action: light.toggle
                         data: {}
                         target:
                           entity_id:
                             - light.ledstrip_bureau_mini
                             - light.plafondlamp_t
-                      - delay:
+                      - alias: Wacht tussen knipperingen
+                        delay:
                           seconds: 1
                           milliseconds: 500
-            - action: tts.microsoft_say
+            - alias: Speel audio waarschuwing af
+              action: tts.microsoft_say
               data:
                 entity_id: media_player.slaapkamer_t
                 message: "Je tijd is op. Sluit je af?"
-        - action: notify.mobile_app_sm_a566b_t
+        - alias: Stuur notificatie naar mini
+          action: notify.mobile_app_sm_a566b_t
           data:
             title: Tijd is om
             message: Je tijd is op. Sluit je af?
@@ -179,9 +198,10 @@ bedroom_minicave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - action: notify.mobile_devices_adults
+        - alias: Stuur notificatie naar ouders
+          action: notify.mobile_devices_adults
           data:
-            title: Mini's gametijd
+            title: Mini's gametijd voorbij
             message: >-
               De Mini heeft nu lang genoeg achter de PC gezeten ({{ now().strftime('%H:%M') }}).
             data:

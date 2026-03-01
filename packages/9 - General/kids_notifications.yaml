@@ -1,11 +1,11 @@
 kids_notifications_package:
   template:
     - sensor:
-        - name: "Puber speed"
+        - name: "Snelheid Puber"
           unique_id: maxi_speed
           unit_of_measurement: "km/h"
           state: "{{ (state_attr('device_tracker.schaduwspeler', 'speed') | float(0)) * 3.6 }}"
-        - name: "Mini speed"
+        - name: "Snelheid Mini"
           unique_id: mini_speed
           unit_of_measurement: "km/h"
           state: "{{ (state_attr('device_tracker.sm_a566b_t', 'speed') | float(0)) * 3.6 }}"
@@ -18,35 +18,40 @@ kids_notifications_package:
       alias: "Verstuur een melding dat een kind van een locatie vertrekt"
       mode: parallel
       triggers:
-        - trigger: zone
+        - alias: Mini verlaat school
+          trigger: zone
           entity_id: device_tracker.sm_a566b_t
           event: leave
           zone: zone.school
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: school
-        - trigger: zone
+        - alias: Mini verlaat MC
+          trigger: zone
           entity_id: device_tracker.sm_a566b_t
           event: leave
           zone: zone.mc
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: MC
-        - trigger: zone
+        - alias: Mini verlaat scouting
+          trigger: zone
           entity_id: device_tracker.sm_a566b_t
           event: leave
           zone: zone.scouting
           variables:
             name: "{{states('input_text.naam_mini')}}"
             location: scouting
-        - trigger: zone
+        - alias: Puber verlaat school
+          trigger: zone
           entity_id: device_tracker.schaduwspeler
           event: leave
           zone: zone.school
           variables:
             name: "{{states('input_text.naam_puber')}}"
             location: school
-        - trigger: zone
+        - alias: Puber verlaat scouting
+          trigger: zone
           entity_id: device_tracker.schaduwspeler
           event: leave
           zone: zone.scouting
@@ -57,10 +62,12 @@ kids_notifications_package:
         # Only notify on valid times for each location
         # School: afternoons on weekdays (PE lessons in mornings are offsite)
         # Scouting: Saturdays 12-14 or Mondays 21-22
-        - or:
+        - alias: Controleer of vertrektijd binnen meldvenster valt
+          or:
             - and:
                 - '{{ location == "school" }}'
-                - condition: time
+                - alias: Tijdvenster school op werkdagen 12:00-17:30
+                  condition: time
                   after: "12:00:00"
                   before: "17:30:00"
                   weekday:
@@ -72,18 +79,21 @@ kids_notifications_package:
             - and:
                 - '{{ location == "scouting" }}'
                 - or:
-                    - condition: time
+                    - alias: Tijdvenster scouting op zaterdag 12:00-14:00
+                      condition: time
                       after: "12:00:00"
                       before: "14:00:00"
                       weekday:
                         - sat
-                    - condition: time
+                    - alias: Tijdvenster scouting op maandag 21:00-22:00
+                      condition: time
                       after: "21:00:00"
                       before: "22:00:00"
                       weekday:
                         - mon
       actions:
-        - action: notify.mobile_devices_adults
+        - alias: Stuur melding naar volwassenen dat kind onderweg is
+          action: notify.mobile_devices_adults
           data:
             title: ♥ {{ name }} is op weg naar huis!
             message: >
@@ -101,12 +111,14 @@ kids_notifications_package:
       alias: "Verstuur een melding dat batterij van kind bijna leeg is"
       mode: parallel
       triggers:
-        - trigger: numeric_state
+        - alias: Mini batterij daalt onder 15 procent
+          trigger: numeric_state
           entity_id: sensor.sm_a566b_t_battery_level
           below: 15
           variables:
             name: "{{states('input_text.naam_mini')}}"
-        - trigger: numeric_state
+        - alias: Puber batterij daalt onder 15 procent
+          trigger: numeric_state
           entity_id: sensor.schaduwspeler_battery_level
           below: 15
           variables:
@@ -127,7 +139,8 @@ kids_notifications_package:
               - "{{ trigger.entity_id == 'sensor.sm_a566b_t_battery_level' }}"
               - "{{ not is_state('device_tracker.sm_a566b_t', 'home') }}"
       actions:
-        - action: notify.mobile_devices_adults
+        - alias: Stuur batterijwaarschuwing naar volwassenen
+          action: notify.mobile_devices_adults
           data:
             title: 🔋 Batterijwaarschuwing
             message: >
@@ -136,14 +149,16 @@ kids_notifications_package:
               ttl: 0
               priority: high
               notification_icon: mdi:battery-alert-variant
-        - action: "{{ target }}"
+        - alias: Schakel hoge-nauwkeurigheidsmodus uit op doeltelefoon
+          action: "{{ target }}"
           data:
             message: "command_high_accuracy_mode"
             data:
               command: "turn_off"
               priority: high
               ttl: 0
-        - action: "{{ target }}"
+        - alias: Stuur batterijwaarschuwing naar telefoon van kind
+          action: "{{ target }}"
           data:
             title: 🔋 Batterijwaarschuwing
             message: >
@@ -161,14 +176,16 @@ kids_notifications_package:
       id: kids_turn_gps_on_or_off
       mode: queued
       triggers:
-        - trigger: state
+        - alias: Kind tracker gaat naar niet thuis
+          trigger: state
           entity_id:
             - device_tracker.schaduwspeler
             - device_tracker.sm_a566b_t
           to:
             - not_home
           id: leave
-        - trigger: state
+        - alias: Kind tracker is weer thuis of beschikbaar
+          trigger: state
           entity_id:
             - device_tracker.schaduwspeler
             - device_tracker.sm_a566b_t
@@ -183,7 +200,8 @@ kids_notifications_package:
           {% else %}notify.bogus
           {% endif %}
       actions:
-        - action: "{{ target }}"
+        - alias: Zet hoge-nauwkeurigheidsmodus aan of uit op doeltelefoon
+          action: "{{ target }}"
           data:
             message: "command_high_accuracy_mode"
             data:
@@ -198,7 +216,7 @@ kids_notifications_package:
       fields:
         target:
           name: "Doel"
-          description: "Welk device"
+          description: "Welk apparaat"
           required: true
           selector:
             select:
@@ -215,6 +233,7 @@ kids_notifications_package:
             {{ 'turn_off' if is_state('binary_sensor.sm_a566b_t_high_accuracy_mode', 'on') else 'turn_on' }}
           {% endif %}
       sequence:
+        alias: Verstuur high-accuracy-commando naar geselecteerde telefoon
         action: "{{ target }}"
         data:
           message: "command_high_accuracy_mode"

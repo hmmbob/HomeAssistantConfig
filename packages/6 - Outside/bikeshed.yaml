@@ -42,14 +42,16 @@ bikeshed_package:
     - alias: "Verwijder fietsenhok alert"
       id: clear_bikeshed_door_alert
       trigger:
-        - platform: state
+        - alias: Trigger fietsenhokalert gaat van aan naar uit
+          platform: state
           entity_id: alert.bikeshed_door
           from: "on"
           to:
             - "idle"
             - "off"
       action:
-        - service: notify.mobile_app_sm_a556b
+        - alias: Verwijder fietsenhok-alarmmelding op telefoon
+          service: notify.mobile_app_sm_a556b
           data:
             message: clear_notification
             data:
@@ -58,12 +60,14 @@ bikeshed_package:
     - alias: "Verwerk actie om alert uit te zetten"
       id: mute_door_alerts
       trigger:
-        - platform: event
+        - alias: Trigger bij meldingsactie alert dempen
+          platform: event
           event_type: mobile_app_notification_action
           event_data:
             action: "mute_alert_bikeshed"
       action:
-        - service: alert.turn_off
+        - alias: Schakel fietsenhok-alert uit
+          service: alert.turn_off
           target:
             entity_id: alert.bikeshed_door
 
@@ -72,14 +76,16 @@ bikeshed_package:
       description: Fietsaccu lader in de schuur uitschakelen na laden
       mode: single
       triggers:
-        - trigger: numeric_state
+        - alias: Trigger links laderverbruik onder 5 watt
+          trigger: numeric_state
           entity_id: sensor.fietslader_links_power
           for:
             minutes: 5
           below: 5
           variables:
             switch: switch.fietslader_links
-        - trigger: numeric_state
+        - alias: Trigger rechts laderverbruik onder 5 watt
+          trigger: numeric_state
           entity_id: sensor.fietslader_rechts_power
           for:
             minutes: 5
@@ -87,10 +93,10 @@ bikeshed_package:
           variables:
             switch: switch.fietslader_rechts
       conditions:
-        - alias: "Please, not on restarts"
+        - alias: "Niet uitvoeren bij herstart"
           condition: template
           value_template: "{{ trigger.from_state.state | is_number }}"
-        - alias: "Only if the switch is still on"
+        - alias: "Alleen als de schakelaar nog aan staat"
           condition: template
           value_template: "{{ is_state(switch, 'on') }}"
       actions:
@@ -98,7 +104,7 @@ bikeshed_package:
           action: switch.turn_off
           target:
             entity_id: "{{ switch }}"
-        - alias: "Sending push notification"
+        - alias: "Stuur melding dat fietslader is uitgeschakeld"
           action: notify.mobile_app_sm_a556b
           data:
             title: "Fietslader uitgeschakeld"
@@ -114,23 +120,26 @@ bikeshed_package:
       mode: parallel
       max: 2
       trigger:
-        - platform: state
+        - alias: Trigger fietslader links van uit naar aan
+          platform: state
           entity_id: switch.fietslader_links
           to: "on"
           from: "off"
           id: links
-        - platform: state
+        - alias: Trigger fietslader rechts van uit naar aan
+          platform: state
           entity_id: switch.fietslader_rechts
           to: "on"
           from: "off"
           id: rechts
       action:
-        - alias: "Checking what sensor to use"
+        - alias: "Bepaal vermogenssensor op basis van geactiveerde lader"
           choose:
             - conditions:
                 - "{{ trigger.id == 'links' }}"
               sequence:
-                - wait_for_trigger:
+                - alias: Wacht op verbruik boven 5 watt links
+                  wait_for_trigger:
                     - platform: numeric_state
                       entity_id: sensor.fietslader_links_power
                       above: 5
@@ -139,21 +148,25 @@ bikeshed_package:
             - conditions:
                 - "{{ trigger.id == 'rechts' }}"
               sequence:
-                - wait_for_trigger:
+                - alias: Wacht op verbruik boven 5 watt rechts
+                  wait_for_trigger:
                     - platform: numeric_state
                       entity_id: sensor.fietslader_rechts_power
                       above: 5
                   timeout: "00:05:00"
                   continue_on_timeout: true
           default:
-            - stop: "Cannot determine power sensor to use - trigger.id did not match"
-        - choose:
+            - alias: Stop als trigger-id geen bekende lader is
+              stop: "Cannot determine power sensor to use - trigger.id did not match"
+        - alias: Kies vervolgactie op basis van gedetecteerd verbruik
+          choose:
             - conditions: "{{ wait.trigger is none }}"
               sequence:
-                - alias: "Only if the switch is still on"
+                - alias: "Alleen als de schakelaar nog aan staat"
                   condition: template
                   value_template: "{{ is_state(trigger.entity_id, 'on') }}"
-                - service: notify.mobile_app_sm_a556b
+                - alias: Stuur waarschuwing lader zonder verbruik
+                  service: notify.mobile_app_sm_a556b
                   data:
                     title: "Let op: Fietslader {{trigger.id}}"
                     message: "De fietslader {{trigger.id}} is aangezet, maar er is na 5 minuten nog geen stroomverbruik gedetecteerd."

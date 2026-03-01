@@ -11,7 +11,8 @@ symfonisk_package:
         steps: 20 # 25 is Sonos default
         stepsize: "{{ 1.0 / steps }}"
       triggers:
-        - trigger: state
+        - alias: Afstandsbediening knop ingedrukt
+          trigger: state
           entity_id: event.afstandsbediening_sonos_action
           not_from:
             - unavailable
@@ -19,34 +20,39 @@ symfonisk_package:
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:
-        - choose:
+        - alias: Voer actie uit op basis van knop
+          choose:
             - conditions: "{{ event == 'toggle' }}"
               sequence:
-                - action: media_player.media_play_pause
+                - alias: Schakel afspelen/pauzeren om
+                  action: media_player.media_play_pause
                   target:
                     entity_id: "{{ player }}"
             - conditions: "{{ event == 'track_next' }}"
               sequence:
-                - action: media_player.media_next_track
+                - alias: Spring naar volgend nummer
+                  action: media_player.media_next_track
                   target:
                     entity_id: "{{ player }}"
             - conditions: "{{ event == 'track_previous' }}"
               sequence:
-                - action: media_player.media_previous_track
+                - alias: Spring naar vorig nummer
+                  action: media_player.media_previous_track
                   target:
                     entity_id: "{{ player }}"
             - conditions: "{{ event == 'volume_up' }}"
               sequence:
-                - action: media_player.volume_set
+                - alias: Verhoog volume
+                  action: media_player.volume_set
                   target:
                     entity_id: "{{ player }}"
                   data:
                     volume_level: >-
-                      {% set volume = state_attr(player, "volume_level") + stepsize %} 
-                      {{ 1.0 if volume > 1.0 else volume }}
+                      {% set volume = state_attr(player, "volume_level") + stepsize %}  {{ 1.0 if volume > 1.0 else volume }}
             - conditions: "{{ event == 'volume_down' }}"
               sequence:
-                - action: media_player.volume_set
+                - alias: Verlaag volume
+                  action: media_player.volume_set
                   target:
                     entity_id: "{{ player }}"
                   data:
@@ -55,7 +61,8 @@ symfonisk_package:
                       {{ 0.0 if volume < 0.0 else volume }}
             - conditions: "{{ event == 'volume_up_hold' }}"
               sequence:
-                - action: media_player.volume_set
+                - alias: Verhoog volume snel
+                  action: media_player.volume_set
                   target:
                     entity_id: "{{ player }}"
                   data:
@@ -64,7 +71,8 @@ symfonisk_package:
                       {{ 1.0 if volume > 1.0 else volume }}
             - conditions: "{{ event == 'volume_down_hold' }}"
               sequence:
-                - action: media_player.volume_set
+                - alias: Verlaag volume snel
+                  action: media_player.volume_set
                   target:
                     entity_id: "{{ player }}"
                   data:
@@ -73,10 +81,12 @@ symfonisk_package:
                       {{ 0.0 if volume < 0.0 else volume }}
             - conditions: "{{ event == 'dots_1_short_release' }}"
               sequence:
-                - action: script.radio_538
+                - alias: Start Radio 538
+                  action: script.radio_538
             - conditions: "{{ event == 'dots_1_double_press' }}"
               sequence:
-                - action: media_player.play_media
+                - alias: Start favoriete zender 1
+                  action: media_player.play_media
                   target:
                     entity_id: "{{ player }}"
                   data:
@@ -86,10 +96,12 @@ symfonisk_package:
               sequence: []
             - conditions: "{{ event == 'dots_2_short_release' }}"
               sequence:
-                - action: script.qmusic
+                - alias: Start Q Music
+                  action: script.qmusic
             - conditions: "{{ event == 'dots_2_double_press' }}"
               sequence:
-                - action: media_player.play_media
+                - alias: Start favoriete zender 2
+                  action: media_player.play_media
                   target:
                     entity_id: "{{ player }}"
                   data:
@@ -97,7 +109,8 @@ symfonisk_package:
                     media_content_type: favorite_item_id
             - conditions: "{{ event == 'dots_2_long_press' }}"
               sequence:
-                - action: script.nashville
+                - alias: Start Nashville FM
+                  action: script.nashville
 
   script:
     radio_538:
@@ -107,7 +120,8 @@ symfonisk_package:
       mode: single
       max_exceeded: silent
       sequence:
-        - action: media_player.play_media
+        - alias: Speel Radio 538 af
+          action: media_player.play_media
           target:
             entity_id: media_player.sonos_woonkamer
           data:
@@ -121,7 +135,8 @@ symfonisk_package:
       mode: single
       max_exceeded: silent
       sequence:
-        - action: media_player.play_media
+        - alias: Speel Q Music af
+          action: media_player.play_media
           target:
             entity_id: media_player.sonos_woonkamer
           data:
@@ -135,7 +150,8 @@ symfonisk_package:
       mode: single
       max_exceeded: silent
       sequence:
-        - action: media_player.play_media
+        - alias: Speel Nashville FM af
+          action: media_player.play_media
           target:
             entity_id: media_player.sonos_woonkamer
           data:

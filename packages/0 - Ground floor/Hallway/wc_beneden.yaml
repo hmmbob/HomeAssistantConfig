@@ -5,13 +5,15 @@ wc_beneden_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Beweging gedetecteerd in toilet
+          trigger: state
           entity_id: binary_sensor.pir_wc_beneden_occupancy
           to: "on"
           from: "off"
           variables:
             action: turn_on
-        - trigger: state
+        - alias: Geen beweging meer in toilet
+          trigger: state
           entity_id: binary_sensor.pir_wc_beneden_occupancy
           to: "off"
           from: "on"

@@ -23,7 +23,8 @@ lights_salon_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Schakelaar salon knop ingedrukt
+          trigger: state
           entity_id: event.schakelaar_salon_action
           not_from:
             - unavailable
@@ -31,15 +32,18 @@ lights_salon_package:
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:
-        - choose:
+        - alias: Voer actie uit op basis van knop
+          choose:
             - conditions: "{{ event == 'single_left' }}"
               sequence:
-                - action: light.toggle
+                - alias: Schakel sfeerverlichting om
+                  action: light.toggle
                   target:
                     entity_id: light.sfeerverlichting_salon
             - conditions: "{{ event == 'single_right' }}"
               sequence:
-                - action: light.toggle
+                - alias: Schakel tv-kastje om
+                  action: light.toggle
                   target:
                     entity_id:
                       - light.tv_kastje
@@ -47,14 +51,16 @@ lights_salon_package:
               sequence: []
             - conditions: "{{ event == 'double_left' }}"
               sequence:
-                - action: light.turn_on
+                - alias: Zet plafondlamp aan op volle helderheid
+                  action: light.turn_on
                   target:
                     entity_id: light.salon
                   data:
                     brightness_pct: 100
             - conditions: "{{ event == 'double_right' }}"
               sequence:
-                - action: light.turn_on
+                - alias: Zet plafondlamp aan op lage helderheid
+                  action: light.turn_on
                   target:
                     entity_id: light.salon
                   data:

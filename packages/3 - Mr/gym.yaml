@@ -14,7 +14,8 @@ create_calendar_events:
         end_time: >
           {{ (rounded_timestamp | int + 3600) | timestamp_custom("%Y-%m-%d %H:%M:%S", true) }}
       trigger:
-        - trigger: zone
+        - alias: Trigger bij binnenkomst sportschool
+          trigger: zone
           entity_id: device_tracker.sm_a556b
           event: enter
           zone: zone.sportschool
@@ -24,7 +25,8 @@ create_calendar_events:
           data:
             entity_id:
               - calendar.bl
-        - delay: "00:01:00"
+        - alias: Wacht 1 minuut voor agenda verversen
+          delay: "00:01:00"
         - alias: "Geen dubbele afspraken"
           condition: template
           value_template: >
@@ -38,4 +40,5 @@ create_calendar_events:
             end_date_time: "{{ end_time }}"
           target:
             entity_id: calendar.bl
-        - delay: "00:15:00"
+        - alias: Wacht 15 minuten voor volgende controle
+          delay: "00:15:00"

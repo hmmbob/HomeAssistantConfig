@@ -48,12 +48,14 @@ ventilation_control:
           description: "Boost duration in minutes"
           example: 30
       sequence:
-        - action: input_datetime.set_datetime
+        - alias: Zet einde handmatige boost op huidige tijd plus duur
+          action: input_datetime.set_datetime
           target:
             entity_id: input_datetime.ventilation_boost_until
           data:
             datetime: "{{ now() + timedelta(minutes=duration|int) }}"
-        - action: input_select.select_option
+        - alias: Zet ventilatiemodus op manual_boost
+          action: input_select.select_option
           target:
             entity_id: input_select.ventilation_mode
           data:
@@ -66,7 +68,8 @@ ventilation_control:
       mode: queued
       triggers:
         # Manual button triggers
-        - trigger: state
+        - alias: Knopactie gedetecteerd in badkamer, zolderbadkamer of bijkeuken
+          trigger: state
           id: manual
           entity_id:
             - event.drukknop_badkamer_action
@@ -77,7 +80,8 @@ ventilation_control:
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
         # Humidity spike triggers
-        - trigger: numeric_state
+        - alias: Snelle stijging van luchtvochtigheid
+          trigger: numeric_state
           id: humidity
           entity_id:
             - sensor.badkamer_vochtigheidsverandering_per_minuut
@@ -85,7 +89,8 @@ ventilation_control:
             - sensor.bijkeuken_vochtigheidsverandering_per_minuut
           above: 0.5
         # WC usage triggers
-        - trigger: state
+        - alias: WC-verlichting of schakelaar 3 minuten aan
+          trigger: state
           id: wc
           entity_id:
             - switch.wc_beneden
@@ -93,31 +98,37 @@ ventilation_control:
           to: "on"
           for: "00:03:00"
         # Time-based return to auto
-        - trigger: time
+        - alias: Geplande momenten bereikt
+          trigger: time
           id: schedule
           at:
             - "07:00:00"
             - "09:00:00"
             - "21:30:00"
         # Boost expiry check
-        - trigger: template
+        - alias: Boost-eindtijd bereikt
+          trigger: template
           id: boost_expired
           value_template: >
             {{ now().timestamp() >= state_attr('input_datetime.ventilation_boost_until', 'timestamp') | float(0) }}
       actions:
-        - choose:
+        - alias: Bepaal ventilatiemodus op basis van triggerprioriteit
+          choose:
             # Manual boost (highest priority)
             - conditions:
-                - condition: trigger
+                - alias: Alleen uitvoeren bij handmatige trigger
+                  condition: trigger
                   id: manual
                 - "{{ event not in ['unknown','unavailable'] }}"
               sequence:
-                - action: input_datetime.set_datetime
+                - alias: Zet boost-eindtijd op 30 of 60 minuten vanaf nu
+                  action: input_datetime.set_datetime
                   target:
                     entity_id: input_datetime.ventilation_boost_until
                   data:
                     datetime: "{{ now() + timedelta(minutes=60 if event in ['brightness_move_up','1_long_press'] else 30) }}"
-                - action: input_select.select_option
+                - alias: Zet ventilatiemodus op manual_boost
+                  action: input_select.select_option
                   target:
                     entity_id: input_select.ventilation_mode
                   data:
@@ -125,20 +136,25 @@ ventilation_control:
 
             # Humidity boost (high priority, but not if manual is active)
             - conditions:
-                - condition: trigger
+                - alias: Alleen uitvoeren bij luchtvochtigheidstrigger
+                  condition: trigger
                   id: humidity
-                - condition: not
+                - alias: Ga door als ventilatie niet in manual_boost staat
+                  condition: not
                   conditions:
-                    - condition: state
+                    - alias: Controleer of ventilatiemodus manual_boost is
+                      condition: state
                       entity_id: input_select.ventilation_mode
                       state: manual_boost
               sequence:
-                - action: input_datetime.set_datetime
+                - alias: Zet boost-eindtijd 2 uur vooruit
+                  action: input_datetime.set_datetime
                   target:
                     entity_id: input_datetime.ventilation_boost_until
                   data:
                     datetime: "{{ now() + timedelta(hours=2) }}"
-                - action: input_select.select_option
+                - alias: Zet ventilatiemodus op humidity_boost
+                  action: input_select.select_option
                   target:
                     entity_id: input_select.ventilation_mode
                   data:
@@ -146,22 +162,27 @@ ventilation_control:
 
             # WC boost (medium priority, unless manual or humidity active)
             - conditions:
-                - condition: trigger
+                - alias: Alleen uitvoeren bij wc-trigger
+                  condition: trigger
                   id: wc
-                - condition: not
+                - alias: Ga door als ventilatie niet in manual_boost of humidity_boost staat
+                  condition: not
                   conditions:
-                    - condition: state
+                    - alias: Controleer huidige ventilatiemodus
+                      condition: state
                       entity_id: input_select.ventilation_mode
                       state:
                         - manual_boost
                         - humidity_boost
               sequence:
-                - action: input_datetime.set_datetime
+                - alias: Zet boost-eindtijd 10 minuten vooruit
+                  action: input_datetime.set_datetime
                   target:
                     entity_id: input_datetime.ventilation_boost_until
                   data:
                     datetime: "{{ now() + timedelta(minutes=10) }}"
-                - action: input_select.select_option
+                - alias: Zet ventilatiemodus op wc_boost
+                  action: input_select.select_option
                   target:
                     entity_id: input_select.ventilation_mode
                   data:
@@ -169,10 +190,12 @@ ventilation_control:
 
             # Return to auto on boost expiry
             - conditions:
-                - condition: trigger
+                - alias: Alleen uitvoeren bij boost_expired-trigger
+                  condition: trigger
                   id: boost_expired
               sequence:
-                - action: input_select.select_option
+                - alias: Zet ventilatiemodus terug op auto na verlopen boost
+                  action: input_select.select_option
                   target:
                     entity_id: input_select.ventilation_mode
                   data:
@@ -180,15 +203,19 @@ ventilation_control:
 
             # Return to auto on schedule (unless humidity boost is active)
             - conditions:
-                - condition: trigger
+                - alias: Alleen uitvoeren bij geplande trigger
+                  condition: trigger
                   id: schedule
-                - condition: not
+                - alias: Ga door als ventilatiemodus niet humidity_boost is
+                  condition: not
                   conditions:
-                    - condition: state
+                    - alias: Controleer of ventilatiemodus humidity_boost is
+                      condition: state
                       entity_id: input_select.ventilation_mode
                       state: humidity_boost
               sequence:
-                - action: input_select.select_option
+                - alias: Zet ventilatiemodus terug op auto volgens schema
+                  action: input_select.select_option
                   target:
                     entity_id: input_select.ventilation_mode
                   data:
@@ -199,21 +226,25 @@ ventilation_control:
       description: "Stelt de ventilatiesnelheid in op basis van de actieve modus"
       mode: restart
       triggers:
-        - trigger: state
+        - alias: Ventilatiemodus wordt gewijzigd
+          trigger: state
           entity_id: input_select.ventilation_mode
       actions:
         # Set fan speed based on mode
-        - choose:
+        - alias: Stel ventilatorsnelheid in op basis van modus
+          choose:
             # Any boost mode
             - conditions:
-                - condition: state
+                - alias: Controleer of een boostmodus actief is
+                  condition: state
                   entity_id: input_select.ventilation_mode
                   state:
                     - manual_boost
                     - humidity_boost
                     - wc_boost
               sequence:
-                - action: fan.set_percentage
+                - alias: Zet ventilator op 80 procent bij boostmodus
+                  action: fan.set_percentage
                   target:
                     entity_id: fan.open_air_mini
                   data:
@@ -221,21 +252,26 @@ ventilation_control:
 
             # Auto mode - follow schedule
             - conditions:
-                - condition: state
+                - alias: Controleer of ventilatiemodus auto is
+                  condition: state
                   entity_id: input_select.ventilation_mode
                   state: auto
               sequence:
-                - choose:
+                - alias: Kies dag-, nacht- of standaardventilatiesnelheid
+                  choose:
                     # Morning boost (7-9am on workdays)
                     - conditions:
-                        - condition: time
+                        - alias: Controleer tijdvenster ochtend 07:00-09:00
+                          condition: time
                           after: "06:59:59"
                           before: "09:00:00"
-                        - condition: state
+                        - alias: Controleer of het een werkdag is
+                          condition: state
                           entity_id: binary_sensor.werkdag
                           state: "on"
                       sequence:
-                        - action: fan.set_percentage
+                        - alias: Zet ventilator op 70 procent in ochtendvenster
+                          action: fan.set_percentage
                           target:
                             entity_id: fan.open_air_mini
                           data:
@@ -243,11 +279,13 @@ ventilation_control:
 
                     # Night mode (9pm-7am)
                     - conditions:
-                        - condition: time
+                        - alias: Controleer tijdvenster nacht 21:00-07:00
+                          condition: time
                           after: "20:59:59"
                           before: "07:00:00"
                       sequence:
-                        - action: fan.set_percentage
+                        - alias: Zet ventilator op 20 procent in nachtvenster
+                          action: fan.set_percentage
                           target:
                             entity_id: fan.open_air_mini
                           data:
@@ -255,7 +293,8 @@ ventilation_control:
 
                   # Default to day speed if no condition matches
                   default:
-                    - action: fan.set_percentage
+                    - alias: Zet ventilator op standaardsnelheid 50 procent
+                      action: fan.set_percentage
                       target:
                         entity_id: fan.open_air_mini
                       data:
@@ -265,7 +304,8 @@ ventilation_control:
       alias: "Ventilatie - Vochtigheid genormaliseerd"
       description: "Beëindigt humidity_boost wanneer vochtigheid is genormaliseerd"
       triggers:
-        - trigger: numeric_state
+        - alias: Vochtigheidsverandering 5 minuten stabiel
+          trigger: numeric_state
           entity_id:
             - sensor.badkamer_vochtigheidsverandering_per_minuut
             - sensor.badkamer_zolder_vochtigheidsverandering_per_minuut
@@ -274,10 +314,12 @@ ventilation_control:
           below: 0.5
           for: "00:05:00"
       conditions:
-        - condition: state
+        - alias: Controleer of ventilatiemodus humidity_boost is
+          condition: state
           entity_id: input_select.ventilation_mode
           state: humidity_boost
-        - condition: template
+        - alias: Controleer of actuele luchtvochtigheid onder 65 procent is
+          condition: template
           value_template: |
             {%- set sensor_map = {
               'sensor.badkamer_vochtigheidsverandering_per_minuut': 'sensor.temp_sensor_2_badkamer_humidity',
@@ -287,7 +329,8 @@ ventilation_control:
             {%- set humidity_sensor = sensor_map.get(trigger.entity_id) %}
             {{ states(humidity_sensor) | float(100) < 65 }}
       actions:
-        - action: input_select.select_option
+        - alias: Zet ventilatiemodus terug op auto na normalisatie
+          action: input_select.select_option
           target:
             entity_id: input_select.ventilation_mode
           data:

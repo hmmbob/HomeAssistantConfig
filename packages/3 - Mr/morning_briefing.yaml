@@ -12,10 +12,12 @@ morning_briefing_package:
       alias: "Verstuur ochtendbriefing"
       description: "Notifications: Morning briefing"
       triggers:
+        alias: Trigger op de ingestelde tijd
         trigger: time
         at: input_datetime.time_morning_briefing
       conditions:
-        - condition: state
+        - alias: Voorwaarde vakantiemodus afwezig is uit
+          condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "off"
       actions:
@@ -31,7 +33,8 @@ morning_briefing_package:
               - The maximum temperature expected today: {{ states('sensor.knmi_max_temperatuur_vandaag', with_unit=True)}}
               - The current outdoor temperature and weather description: {{ states('sensor.knmi_temperatuur', with_unit=True) }} and {{ states('sensor.knmi_omschrijving') | lower}}
               - A brief weather forecast for today: {{ states('sensor.knmi_weersverwachting') }}
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur ochtendmelding
+          action: notify.mobile_app_sm_a556b
           data:
             title: Good morning sunshine!
             message: "{{ response.data }}"

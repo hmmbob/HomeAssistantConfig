@@ -73,19 +73,23 @@ attic_pubercave_package:
       alias: "Waarschuwing dat de puber te lang op de PC zit"
       mode: queued
       triggers:
-        - trigger: numeric_state
+        - alias: PC-tijd limiet bereikt op weekdag
+          trigger: numeric_state
           entity_id: sensor.pubercave_pc_on_today
           above: input_number.maxi_pc_time_weekday
           id: weekday
-        - trigger: numeric_state
+        - alias: PC-tijd limiet bereikt op weekend
+          trigger: numeric_state
           entity_id: sensor.pubercave_pc_on_today
           above: input_number.maxi_pc_time_weekend
           id: weekend
       conditions:
-        - or:
+        - alias: Juiste dag voor PC-tijdslimiet
+          or:
             - and:
                 - '{{ trigger.id == "weekday" }}'
-                - condition: time
+                - alias: Controleer weekdag
+                  condition: time
                   weekday:
                     - mon
                     - tue
@@ -94,16 +98,19 @@ attic_pubercave_package:
                     - fri
             - and:
                 - '{{ trigger.id == "weekend" }}'
-                - condition: time
+                - alias: Controleer weekenddag
+                  condition: time
                   weekday:
                     - sat
                     - sun
       actions:
-        - action: tts.microsoft_say
+        - alias: Waarschuw puber via spraak
+          action: tts.microsoft_say
           data:
             entity_id: media_player.zolder
             message: "Je tijd is op. Sluit je af?"
-        - action: notify.mobile_devices_adults
+        - alias: Meld aan ouders dat PC-tijd voorbij is
+          action: notify.mobile_devices_adults
           data:
             title: Puber PC
             message: >-
@@ -113,7 +120,8 @@ attic_pubercave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - action: notify.mobile_app_schaduwspeler
+        - alias: Meld aan puber dat PC-tijd voorbij is
+          action: notify.mobile_app_schaduwspeler
           data:
             title: Gametijd
             message: Je zit vandaag al lang genoeg achter de PC ({{ now().strftime('%H:%M') }}).
@@ -122,7 +130,8 @@ attic_pubercave_package:
               notification_icon: mdi:desktop-classic
               priority: high
               ttl: 0
-        - action: automation.trigger
+        - alias: Activeer lampenflitsing voor PC-tijd
+          action: automation.trigger
           target:
             entity_id: automation.knipper_de_lampen_als_de_puber_pc_tijd_over_is
 
@@ -130,22 +139,26 @@ attic_pubercave_package:
       alias: "Knipper de lampen als de puber PC tijd over is"
       mode: queued
       triggers:
-        - trigger: time
+        - alias: Ingestelde PC-uitschakeltijd bereikt
+          trigger: time
           at: input_datetime.time_maxi_gametime_over
       conditions:
-        - condition: state
-          alias: "Check if PC is on"
+        - alias: Controleer of PC aan staat
+          condition: state
           entity_id: binary_sensor.pubercave_pc
           state: "on"
       actions:
-        - action: scene.create
+        - alias: Sla huidige lichtstatus op
+          action: scene.create
           data:
             scene_id: snapshot_pubercave
             snapshot_entities:
               - light.sonoff_l1
-        - delay:
+        - alias: Wacht 5 seconden
+          delay:
             seconds: 5
-        - action: light.turn_on
+        - alias: Zet licht rood met pulse effect
+          action: light.turn_on
           target:
             entity_id:
               - light.sonoff_l1
@@ -153,9 +166,11 @@ attic_pubercave_package:
             color_name: red
             effect: DIY Pulse
             brightness_pct: 100
-        - delay:
+        - alias: Wacht 15 seconden
+          delay:
             seconds: 15
-        - action: scene.turn_on
+        - alias: Herstel vorige lichtstatus
+          action: scene.turn_on
           data:
             entity_id: scene.snapshot_pubercave
 
@@ -171,30 +186,36 @@ attic_pubercave_package:
         shouldn't be on after bedtime... So let's trigger a notification if it is :)
       mode: queued
       triggers:
-        - trigger: numeric_state
+        - alias: Leeslampje verbruikt stroom
+          trigger: numeric_state
           entity_id: sensor.leeslampje_zolder_power
           above: 3
           for:
             minutes: 2
           id: Leeslampje
-        - trigger: numeric_state
+        - alias: TV in pubercave verbruikt stroom
+          trigger: numeric_state
           entity_id: sensor.pubercave_tv_power
           above: 25
           id: TV
-        - trigger: state
+        - alias: Laptop in pubercave wordt ingeschakeld
+          trigger: state
           entity_id: binary_sensor.laptop_m
           to: "on"
           for:
             minutes: 2
           id: Laptop
       conditions:
-        - condition: state
+        - alias: Meldingen voor stroomverbruik zijn ingeschakeld
+          condition: state
           entity_id: input_boolean.notify_power_use_attic
           state: "on"
-        - condition: time
+        - alias: Tijd is na ingestelde meldingstijd
+          condition: time
           after: input_datetime.time_leeslampje_attic
       actions:
-        - action: notify.mobile_devices_adults
+        - alias: Stuur meldingsgebeuren voor stroomverbruik
+          action: notify.mobile_devices_adults
           data:
             title: "Pubercave {{ trigger.id }}"
             message: >-
@@ -220,29 +241,35 @@ attic_pubercave_package:
         the controllers and thus consumes a bit of power.
       mode: queued
       triggers:
-        - trigger: numeric_state
+        - alias: TV op zolder staat aan
+          trigger: numeric_state
           entity_id: sensor.pubercave_tv_power
           above: 25
           id: pubercave
-        - trigger: numeric_state
+        - alias: TV op zolder staat uit
+          trigger: numeric_state
           entity_id: sensor.pubercave_tv_power
           below: 25
           id: pubercave
-        - trigger: numeric_state
+        - alias: Leeslampje staat aan
+          trigger: numeric_state
           entity_id: sensor.leeslampje_zolder_power
           above: 3
           id: leeslampje
-        - trigger: numeric_state
+        - alias: Leeslampje staat uit
+          trigger: numeric_state
           entity_id: sensor.leeslampje_zolder_power
           below: 3
           id: leeslampje
       actions:
-        - choose:
+        - alias: Log stroomverbruik naar logboek
+          choose:
             - conditions:
                 condition: trigger
                 id: pubercave
               sequence:
-                - action: logbook.log
+                - alias: Log TV stroomverbruik
+                  action: logbook.log
                   data:
                     name: Pubercave zolder
                     entity_id: sensor.pubercave_tv_power
@@ -252,7 +279,8 @@ attic_pubercave_package:
                 condition: trigger
                 id: leeslampje
               sequence:
-                - action: logbook.log
+                - alias: Log leeslampje stroomverbruik
+                  action: logbook.log
                   data:
                     name: Leeslampje zolder
                     entity_id: sensor.leeslampje_zolder_power

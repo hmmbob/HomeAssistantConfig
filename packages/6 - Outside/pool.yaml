@@ -8,18 +8,21 @@ pool_package:
     - id: zwembadpomp_aan_op_timer
       alias: "Zwembad: Pomp aan als de timer start"
       triggers:
-        - trigger: event
+        - alias: Zwembad timer is gestart
+          trigger: event
           event_type: timer.started
           event_data:
             entity_id: timer.pool_runtime
           id: turn_on
-        - trigger: event
+        - alias: Zwembad timer is afgelopen
+          trigger: event
           event_type: timer.finished
           event_data:
             entity_id: timer.pool_runtime
           id: turn_off
       actions:
-        - action: switch.{{ trigger.id}}
+        - alias: Schakel zwembadapparatuur volgens timerstatus
+          action: switch.{{ trigger.id}}
           target:
             entity_id: switch.zwembad_apparatuur
 
@@ -27,32 +30,41 @@ pool_package:
       alias: "Zwembad: Vorstbescherming controleren"
       mode: single
       triggers:
-        - trigger: time
+        - alias: Avondcontrole vorstrisico om 19:00
+          trigger: time
           at: "19:00:00"
           id: evening
-        - trigger: time
+        - alias: Ochtendcontrole vorstrisico om 08:00
+          trigger: time
           at: "08:00:00"
           id: morning
       conditions:
-        - condition: template
+        - alias: Huidige maand is wintermaand
+          condition: template
           value_template: "{{ now().month in [11, 12, 1, 2, 3] }}"
       actions:
-        - action: weather.get_forecasts
+        - alias: Haal weersverwachting op
+          action: weather.get_forecasts
           data:
             type: daily
             entity_id: weather.knmi_home
           response_variable: forecast_data
-        - choose:
+        - alias: Kies melding op basis van trigger en temperatuur
+          choose:
             - conditions:
-                - condition: trigger
+                - alias: Controleer of het avondcheck is
+                  condition: trigger
                   id: evening
-                - condition: state
+                - alias: Controleer of vorstschema uit staat
+                  condition: state
                   entity_id: switch.schedule_953401
                   state: "off"
-                - condition: template
+                - alias: Controleer of minimumtemperatuur onder nul is
+                  condition: template
                   value_template: "{{ (forecast_data['weather.knmi_home'].forecast[0].templow | float) < 0 }}"
               sequence:
-                - action: notify.mobile_app_sm_a556b
+                - alias: Stuur melding vorstalarm zwembad
+                  action: notify.mobile_app_sm_a556b
                   data:
                     title: "⚠️ Zwembad Vorstalarming"
                     message: "Temperatuur vanavond onder 0°C. Pompschema inschakelen om bevriezen te voorkomen?"
@@ -67,15 +79,19 @@ pool_package:
                         - action: POOL_DISMISS
                           title: "Sluiten"
             - conditions:
-                - condition: trigger
+                - alias: Controleer of het ochtendcheck is
+                  condition: trigger
                   id: morning
-                - condition: state
+                - alias: Controleer of vorstschema aan staat
+                  condition: state
                   entity_id: switch.schedule_953401
                   state: "on"
-                - condition: template
+                - alias: Controleer of minimumtemperatuur nul of hoger is
+                  condition: template
                   value_template: "{{ (forecast_data['weather.knmi_home'].forecast[0].templow | float) >= 0 }}"
               sequence:
-                - action: notify.mobile_app_sm_a556b
+                - alias: Stuur melding dat vorstrisico voorbij is
+                  action: notify.mobile_app_sm_a556b
                   data:
                     title: "☀️ Zwembad vorstrisico voorbij"
                     message: "Vorstrisico voorbij. Pompschema uitschakelen?"
@@ -94,21 +110,25 @@ pool_package:
       alias: "Zwembad: Vorstbeschermingsschema actie verwerken"
       mode: single
       triggers:
-        - trigger: event
+        - alias: Notificatieactie voor schemaactivering ontvangen
+          trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: POOL_ENABLE_SCHEDULE
           id: enable
-        - trigger: event
+        - alias: Notificatieactie voor schemadeactivering ontvangen
+          trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: POOL_DISABLE_SCHEDULE
           id: disable
       actions:
-        - action: "switch.{{ 'turn_on' if trigger.id == 'enable' else 'turn_off' }}"
+        - alias: Schakel vorstschema aan of uit op basis van melding
+          action: "switch.{{ 'turn_on' if trigger.id == 'enable' else 'turn_off' }}"
           target:
             entity_id: switch.schedule_953401
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur bevestiging schemawijziging zwembad
+          action: notify.mobile_app_sm_a556b
           data:
             title: "✅ Zwembadschema {{ 'Ingeschakeld' if trigger.id == 'enable' else 'Uitgeschakeld' }}"
             message: "{{ 'Ingeschakeld voor vorstbescherming' if trigger.id == 'enable' else 'Uitgeschakeld - vorstrisico voorbij' }}"

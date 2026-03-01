@@ -15,28 +15,33 @@ travel_time_notifications_package:
     - id: location_ask_to_send_notification_hmmbob_left
       alias: "Vraag of we een melding moeten versturen dat Bob vertrekt"
       triggers:
-        - trigger: state
+        - alias: Trigger Android Auto gaat aan
+          trigger: state
           entity_id: binary_sensor.sm_a556b_android_auto
           from: "off"
           to: "on"
       conditions:
-        - not:
+        - alias: Voorwaarde omgekeerde controle
+          not:
             - or:
-                - condition: zone
+                - alias: Controleer zone thuis
+                  condition: zone
                   entity_id: device_tracker.sm_a556b
                   zone: zone.home
-                - condition: zone
+                - alias: Controleer zone ADR
+                  condition: zone
                   entity_id: device_tracker.sm_a556b
                   zone: zone.adr
-                - condition: zone
+                - alias: Controleer zone AMC
+                  condition: zone
                   entity_id: device_tracker.sm_a556b
                   zone: zone.amc
-        - alias: "Don't run if we already sent a message"
+        - alias: "Niet uitvoeren als er al een bericht is verstuurd"
           condition: state
           entity_id: input_boolean.location_bob_travelling_home
           state: "on"
       actions:
-        - alias: "Sending push notification"
+        - alias: "Pushmelding versturen"
           action: notify.mobile_app_sm_a556b
           data:
             title: "Reistijd"
@@ -51,26 +56,30 @@ travel_time_notifications_package:
               ttl: 0
               priority: high
 
-    # Either when I leave some pre-defined zones, or when I click
-    # the actionable notification that was sent to my HA app, HA will
-    # send a "coming home" persistent notification to my wife.
+      # Either when I leave some pre-defined zones, or when I click
+      # the actionable notification that was sent to my HA app, HA will
+      # send a "coming home" persistent notification to my wife.
     - id: location_notification_hmmbob_left_work
       alias: "Verstuur melding dat Bob van het werk vertrekt"
       triggers:
-        - trigger: event
+        - alias: Trigger bij notificatie-actie send_traveltime
+          trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: "send_traveltime"
-        - trigger: zone
+        - alias: Trigger vertrek uit zone ADR
+          trigger: zone
           entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.adr
-        - trigger: zone
+        - alias: Trigger vertrek uit zone AMC
+          trigger: zone
           entity_id: device_tracker.sm_a556b
           event: leave
           zone: zone.amc
       conditions:
-        - condition: time
+        - alias: Voorwaarde tijdvenster
+          condition: time
           after: "14:00:00"
           before: "19:00:00"
           weekday:
@@ -80,17 +89,17 @@ travel_time_notifications_package:
             - thu
             - fri
       actions:
-        - alias: "Register that Bob is travelling home"
+        - alias: Registreer dat Bob onderweg naar huis is
           action: input_boolean.turn_on
           target:
             entity_id: input_boolean.location_bob_travelling_home
-        - alias: "Update Waze sensor (it doesn't update automatically)"
+        - alias: "Waze-sensor bijwerken (werkt niet automatisch bij)"
           action: homeassistant.update_entity
           entity_id: sensor.reistijd_bob_naar_huis
-        - alias: "Wait for the update to finish"
+        - alias: "Wachten tot bijwerken klaar is"
           delay:
             seconds: 10
-        - alias: "Ok, let's tell the people!"
+        - alias: Stuur reistijdmelding naar volwassenen
           action: notify.mobile_devices_adults
           data:
             title: ♥ Bob is op weg naar huis!
@@ -106,7 +115,8 @@ travel_time_notifications_package:
               sticky: false
               tag: "waze"
               ttl: 0
-        - action: notify.mobile_app_sm_a556b
+        - alias: Verwijder notificaties
+          action: notify.mobile_app_sm_a556b
           data:
             message: "clear_notification"
             data:
@@ -117,20 +127,23 @@ travel_time_notifications_package:
     - id: location_clear_traveltime_notification
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
       triggers:
-        - trigger: zone
+        - alias: Trigger aankomst in zone thuis
+          trigger: zone
           entity_id: device_tracker.sm_a556b
           event: enter
           zone: zone.home
       conditions:
-        - alias: "Check if we still think he's travelling home"
+        - alias: "Controleer of hij nog onderweg naar huis is"
           condition: state
           entity_id: input_boolean.location_bob_travelling_home
           state: "on"
       actions:
-        - action: input_boolean.turn_off
+        - alias: Zet status onderweg naar huis uit
+          action: input_boolean.turn_off
           target:
             entity_id: input_boolean.location_bob_travelling_home
-        - action: notify.mobile_devices_adults
+        - alias: Verwijder notificaties
+          action: notify.mobile_devices_adults
           data:
             message: "clear_notification"
             data:

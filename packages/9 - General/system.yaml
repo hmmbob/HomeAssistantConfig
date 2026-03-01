@@ -6,25 +6,31 @@ system_package:
     - id: set_theme
       alias: "Stel thema in"
       triggers:
-        - trigger: homeassistant
+        - alias: Home Assistant start op
+          trigger: homeassistant
           event: start
-        - trigger: numeric_state
+        - alias: Zonhoogte stijgt boven 0 (zonsopkomst)
+          trigger: numeric_state
           entity_id: sun.sun
           attribute: elevation
           above: 0
-        - trigger: numeric_state
+        - alias: Zonhoogte daalt onder 0 (zonsondergang)
+          trigger: numeric_state
           entity_id: sun.sun
           attribute: elevation
           below: 0
       actions:
-        - if: "{{ is_state('sun.sun', 'above_horizon')}}"
+        - alias: Kies licht of donker thema op basis van zonnestand
+          if: "{{ is_state('sun.sun', 'above_horizon')}}"
           then:
-            - action: frontend.set_theme
+            - alias: Zet thema naar Hmmbob light theme
+              action: frontend.set_theme
               data:
                 name: "Hmmbob light theme"
                 mode: dark
           else:
-            - action: frontend.set_theme
+            - alias: Zet thema naar Hmmbob dark theme
+              action: frontend.set_theme
               data:
                 name: "Hmmbob dark theme"
                 mode: dark
@@ -34,7 +40,8 @@ system_package:
       alias: "Stel de datum van het eindveld op dezelfde dag in als de begindatum"
       description: "Systeem: Repareer de UI - stel datum van eindveld in op datum van begindatum"
       triggers:
-        - trigger: state
+        - alias: Solar PV off start-tijd wordt gewijzigd
+          trigger: state
           entity_id: input_datetime.solar_pv_off_start
           variables:
             end_entity_id: input_datetime.solar_pv_off_end
@@ -53,18 +60,21 @@ system_package:
       id: system_update_available_notification
       description: Stuur melding als Home Assistant update beschikbaar is
       triggers:
-        - trigger: state
+        - alias: Beschikbare Home Assistant versie wordt gewijzigd
+          trigger: state
           entity_id: sensor.latest_version
           not_to:
             - "unknown"
             - "unavailable"
             - "none"
       conditions:
-        - condition: template
+        - alias: Controleer of latest_version afwijkt van current_version
+          condition: template
           value_template: >
             {{ states('sensor.latest_version') != states('sensor.current_version') }}
       actions:
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur update-notificatie
+          action: notify.mobile_app_sm_a556b
           data:
             title: Moment om op te graden!
             message: >

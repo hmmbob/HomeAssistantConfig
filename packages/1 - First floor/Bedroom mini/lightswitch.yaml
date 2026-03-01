@@ -5,7 +5,8 @@ lightswitch_t_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Drukknop ingedrukt
+          trigger: state
           entity_id: event.drukknop_t_action
           not_from:
             - unavailable
@@ -13,10 +14,12 @@ lightswitch_t_package:
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:
-        - choose:
+        - alias: Voer actie uit op basis van knop
+          choose:
             - conditions: "{{ event == 'on' }}"
               sequence:
-                - action: light.turn_on
+                - alias: Zet bureauledstrip aan met groen
+                  action: light.turn_on
                   target:
                     entity_id: light.ledstrip_bureau_mini
                   data:
@@ -24,20 +27,26 @@ lightswitch_t_package:
                       - 89
                       - 255
                       - 0
-                - choose:
+                - alias: Controleer of schakelaar uit staat
+                  choose:
                     - conditions: "{{ is_state('switch.lichtschakelaar_t_right', 'off') }}"
                       sequence:
-                        - action: switch.turn_on
+                        - alias: Zet lichtschakelaar aan
+                          action: switch.turn_on
                           target:
                             entity_id: switch.lichtschakelaar_t_right
-                - delay:
+                - alias: Wacht even
+                  delay:
                     seconds: 1
-                - action: scene.turn_on
+                - alias: Activeer kleurige plafondverlichting scene
+                  action: scene.turn_on
                   target:
                     entity_id: scene.plafondlamp_t_kleurige_verlichting
-                - delay:
+                - alias: Wacht kort
+                  delay:
                     seconds: 2
-                - action: light.turn_on
+                - alias: Zet plafondlampen aan met colorloop effect
+                  action: light.turn_on
                   target:
                     entity_id:
                       - light.plafondlamp_t_1
@@ -47,7 +56,8 @@ lightswitch_t_package:
                     effect: colorloop
             - conditions: "{{ event == 'off' }}"
               sequence:
-                - action: homeassistant.turn_off
+                - alias: Zet alle verlichting uit
+                  action: homeassistant.turn_off
                   target:
                     entity_id:
                       - light.ledstrip_bureau_mini
@@ -58,7 +68,8 @@ lightswitch_t_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Lichtschakelaar ingedrukt
+          trigger: state
           entity_id: event.lichtschakelaar_t_action
           not_from:
             - unavailable
@@ -66,18 +77,22 @@ lightswitch_t_package:
           variables:
             event: "{{ trigger.to_state.attributes.event_type | default('unknown', true) }}"
       actions:
-        - choose:
+        - alias: Voer actie uit op basis van knop
+          choose:
             - conditions: "{{ event == 'single_left' }}"
               sequence:
-                - choose:
+                - alias: Toggle bedledstrip aan/uit
+                  choose:
                     - conditions: "{{ is_state('light.ledstrip_bed_mini', 'on') }}"
                       sequence:
-                        - action: light.turn_off
+                        - alias: Zet bedledstrip uit
+                          action: light.turn_off
                           target:
                             entity_id: light.ledstrip_bed_mini
                     - conditions: "{{ is_state('light.ledstrip_bed_mini', 'off') }}"
                       sequence:
-                        - action: light.turn_on
+                        - alias: Zet bedledstrip aan met warm wit
+                          action: light.turn_on
                           data:
                             color_temp_kelvin: 2500
                           target:
@@ -86,7 +101,8 @@ lightswitch_t_package:
               sequence: []
             - conditions: "{{ event == 'double_left' }}"
               sequence:
-                - action: light.turn_on
+                - alias: Zet bedledstrip aan met groen
+                  action: light.turn_on
                   data:
                     rgb_color:
                       - 0
@@ -97,12 +113,15 @@ lightswitch_t_package:
                     entity_id: light.ledstrip_bed_mini
             - conditions: "{{ event == 'double_right' }}"
               sequence:
-                - action: scene.turn_on
+                - alias: Activeer kleurige plafondverlichting scene
+                  action: scene.turn_on
                   target:
                     entity_id: scene.plafondlamp_t_kleurige_verlichting
-                - delay:
+                - alias: Wacht kort
+                  delay:
                     seconds: 2
-                - action: light.turn_on
+                - alias: Zet plafondlampen aan met colorloop effect
+                  action: light.turn_on
                   target:
                     entity_id:
                       - light.plafondlamp_t_1

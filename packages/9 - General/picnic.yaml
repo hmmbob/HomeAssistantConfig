@@ -6,17 +6,17 @@ picnic_package:
 
   template:
     - sensor:
-        - name: "Picnic next delivery ETA start time"
+        - name: "Picnic verwachte bezorging starttijd"
           unique_id: picnic_next_delivery_eta_start_time
-          state: >-
+          state: >
             {{ iif(is_state("sensor.picnic_verwacht_begin_van_de_volgende_bestelling", "unknown"), "unknown", 
                     as_timestamp(states("sensor.picnic_verwacht_begin_van_de_volgende_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-        - name: "Picnic next delivery ETA end time"
+        - name: "Picnic verwachte bezorging eindtijd"
           unique_id: picnic_next_delivery_eta_end_time
-          state: >-
+          state: >
             {{ iif(is_state("sensor.picnic_verwacht_einde_van_de_volgende_bestelling", "unknown"), "unknown", 
                     as_timestamp(states("sensor.picnic_verwacht_einde_van_de_volgende_bestelling"), 0) | timestamp_custom("%H:%M", "00:00")) }}
-        - name: "Picnic last order max order time only"
+        - name: "Picnic maximale besteltijd laatste bestelling"
           unique_id: picnic_last_order_max_order_time_only
           state: >-
             {{ iif(is_state("sensor.picnic_max_order_time_of_last_order", "unknown"), "unknown", 
@@ -34,7 +34,8 @@ picnic_package:
       max_exceeded: silent
       description: Stuur een melding wanneer er nog 2 uur resteren om de huidige bestelling in te dienen
       trigger:
-        - platform: template
+        - alias: 2 uur voor maximale besteltijd van huidig slot
+          platform: template
           value_template: >-
             {% if states('sensor.picnic_maximale_besteltijd_voor_het_geselecteerde_tijdslot') not in ['unknown','unavailable','none'] %}
               {{ 14400 > (as_timestamp(states('sensor.picnic_maximale_besteltijd_voor_het_geselecteerde_tijdslot')) - as_timestamp(now(), 0)) > 0}}
@@ -43,7 +44,8 @@ picnic_package:
             message: >-
               De Picnic bestelling is nog niet verzonden! Na 
               {{ as_timestamp(states("sensor.picnic_maximale_besteltijd_voor_het_geselecteerde_tijdslot")) | timestamp_custom("%H:%M") }} kan het niet meer.
-        - platform: template
+        - alias: 2 uur voor besteldeadline van laatste bestelling
+          platform: template
           value_template: >-
             {% if states('sensor.picnic_max_order_time_of_last_order') not in ['unknown','unavailable','none'] %}
               {{ 14400 > (as_timestamp(states('sensor.picnic_max_order_time_of_last_order')) - as_timestamp(now(), 0)) > 0}}
@@ -84,7 +86,8 @@ picnic_package:
             browser_id:
               - kiosk1
               - kiosk2
-        - action: timer.start
+        - alias: Start Picnic-kiosktimer van 30 minuten
+          action: timer.start
           target:
             entity_id: timer.picnic
           data:
@@ -96,19 +99,22 @@ picnic_package:
       max_exceeded: silent
       description: Stuur een melding wanneer het korte venster van de Picnic bezorging dichtbij is
       trigger:
-        - platform: template # Trigger 15 minutes before eta start time.
+        - alias: 14-15 minuten voor verwachte bezorgstart
+          platform: template
           value_template: >-
             {% if states('sensor.picnic_verwacht_begin_van_de_volgende_bestelling') not in ['unknown','unavailable','none'] %}
               {{ 901 > (as_timestamp(states('sensor.picnic_verwacht_begin_van_de_volgende_bestelling'), 0) - as_timestamp(now(), 0)) > 840}}
             {% endif %}
       action:
-        - if:
+        - alias: Stuur pushmelding alleen als Picnic-pushmeldingen aan staan
+          if:
             - alias: "Controleer of pushbericht verzonden moet worden"
               condition: state
               entity_id: input_boolean.notify_picnic_push
               state: "on"
           then:
-            - service: notify.mobile_devices_adults
+            - alias: Stuur Picnic-bezorgmelding naar volwassenen
+              service: notify.mobile_devices_adults
               data:
                 title: Picnic komt eraan!
                 message: >
@@ -154,7 +160,8 @@ picnic_package:
             browser_id:
               - kiosk1
               - kiosk2
-        - action: timer.start
+        - alias: Start Picnic-kiosktimer van 30 minuten
+          action: timer.start
           target:
             entity_id: timer.picnic
           data:
@@ -163,12 +170,14 @@ picnic_package:
     - id: picnic_delivery_complete
       alias: "Picnic: Bezorging voltooid"
       triggers:
-        - trigger: state
+        - alias: Status gaat van CURRENT naar COMPLETED
+          trigger: state
           entity_id: sensor.picnic_status_van_de_laatste_bestelling
           to: "COMPLETED"
           from: "CURRENT"
       actions:
-        - action: timer.finish
+        - alias: Rond Picnic-kiosktimer direct af
+          action: timer.finish
           target:
             entity_id: timer.picnic
 
@@ -176,7 +185,8 @@ picnic_package:
       alias: "Kiosk: Terug van Picnic naar startscherm"
       mode: queued
       triggers:
-        - trigger: event
+        - alias: Picnic timer is afgelopen
+          trigger: event
           event_type: timer.finished
           event_data:
             entity_id: timer.picnic
@@ -212,12 +222,14 @@ picnic_package:
       max_exceeded: silent
       description: Werk Picnic sensoren vaker bij als bezorging dichtbij is
       trigger:
-        - platform: time_pattern
+        - alias: Elke 2 minuten voor ETA-verversing
+          platform: time_pattern
           minutes: "/2"
       condition:
         - "{{ 2100 > (as_timestamp(states('sensor.picnic_verwacht_einde_van_de_volgende_bestelling'), 0) - as_timestamp(now(), 0)) > 0}}"
       action:
-        - service: homeassistant.update_entity
+        - alias: Ververs Picnic ETA- en statussensoren
+          service: homeassistant.update_entity
           entity_id:
             - sensor.picnic_verwacht_begin_van_de_volgende_bestelling
             - sensor.picnic_status_van_de_laatste_bestelling

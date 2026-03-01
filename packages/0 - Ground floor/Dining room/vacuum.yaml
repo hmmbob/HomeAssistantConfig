@@ -24,14 +24,19 @@ vacuum_package:
           {% else %}notify.bogus
           {% endif %}
       triggers:
-        - trigger: time
+        - alias: Ingestelde herinneringstijd is bereikt
+          trigger: time
           at: input_datetime.vacuum_ask_for_cleaning_time
       conditions:
-        - condition: state
+        - alias: Stofzuiger herinnering is ingeschakeld
+          condition: state
           entity_id: input_boolean.vacuum_enable_ask_for_cleaning
           state: "on"
-        - "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86100 }}" # 23h55
-        - condition: state
+        - alias: Laatste schoonmaakbeurt is langer dan 24 uur geleden
+          condition: template
+          value_template: "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86100 }}" # 23h55
+        - alias: Vakantiemodus is uitgeschakeld
+          condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "off"
       actions:
@@ -67,16 +72,18 @@ vacuum_package:
       id: vacuum_drive_to_trash
       initial_state: "on"
       triggers:
-        - trigger: state
+        - alias: Stofzuiger is klaar met reinigen en keert terug
+          trigger: state
           entity_id: vacuum.rocky
           from: "cleaning"
           to: "returning"
       actions:
-        - alias: "Stop Rocky before sending goto command"
+        - alias: Stop stofzuiger voordat commando verzonden wordt
           action: vacuum.stop
           entity_id: vacuum.rocky
-        - delay: "00:00:02"
-        - alias: "Send Rocky to the trash can"
+        - alias: Wacht kort voordat commando verzonden wordt
+          delay: "00:00:02"
+        - alias: Stuur stofzuiger naar de prullenbak
           action: vacuum.send_command
           data:
             command: app_goto_target
@@ -85,14 +92,15 @@ vacuum_package:
               - 29421
           target:
             entity_id: vacuum.rocky
-        - alias: "Wait for Rocky to arrive at trash can"
+        - alias: "Wacht tot Rocky bij de prullenbak is"
           wait_for_trigger:
             - trigger: state
               entity_id: vacuum.rocky
               to: "idle"
           timeout: "00:05:00"
           continue_on_timeout: false
-        - action: notify.mobile_devices_adults
+        - alias: Stuur notificatie dat stofzuiger geleegd moet worden
+          action: notify.mobile_devices_adults
           data:
             message: "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het legen op mijn 🏠 toets en ik ga terug naar mijn dock."
             title: "Rocky"
@@ -109,29 +117,32 @@ vacuum_package:
       id: vacuum_return_to_dock
       initial_state: "on"
       triggers:
-        - trigger: event
+        - alias: Terugkeer naar dock actie ontvangen via notificatie
+          trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: "vacuum_return_to_dock"
       actions:
         - action: vacuum.return_to_base
-          alias: "Returning to dock"
+          alias: Keer terug naar het dock
           target:
             entity_id: vacuum.rocky
 
-    ##########################
-    ## Vacuum notifications
-    ##########################
+      ##########################
+      ## Vacuum notifications
+      ##########################
     - alias: "Melding dat Rocky aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
       initial_state: "on"
       triggers:
-        - trigger: state
+        - alias: Stofzuiger start met reinigen vanuit het dock
+          trigger: state
           entity_id: vacuum.rocky
           from: "docked"
           to: "cleaning"
       actions:
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur notificatie dat stofzuiger bezig is
+          action: notify.mobile_app_sm_a556b
           data:
             title: "Rocky"
             message: "Rocky doet zijn rondje! 🧹🧹"
@@ -143,15 +154,18 @@ vacuum_package:
       id: vacuum_clear_messages
       initial_state: "on"
       triggers:
-        - trigger: state
+        - alias: Foutmelding is opgelost
+          trigger: state
           entity_id: sensor.rocky_vacuum_error
           to: "none"
-        - trigger: state
+        - alias: Stofzuiger is teruggekeerd naar het dock
+          trigger: state
           entity_id: vacuum.rocky
           from: "returning"
           to: "docked"
       actions:
-        - action: notify.mobile_devices_adults
+        - alias: Verwijder notificaties
+          action: notify.mobile_devices_adults
           data:
             message: clear_notification
             data:
@@ -159,9 +173,9 @@ vacuum_package:
               ttl: 0
               priority: high
 
-    ##########################
-    ## Capture errors
-    ##########################
+      ##########################
+      ## Capture errors
+      ##########################
     - alias: "Melding dat Rocky in foutmodus staat"
       id: vacuum_notification_error
       initial_state: "on"
@@ -173,19 +187,24 @@ vacuum_package:
           {% else %}notify.bogus
           {% endif %}
       triggers:
-        - trigger: state
+        - alias: Foutmelding status is gewijzigd
+          trigger: state
           entity_id: sensor.rocky_vacuum_error
       conditions:
-        - condition: not
+        - alias: Er is een actieve foutmelding
+          condition: not
           conditions:
-            - condition: state
+            - alias: Foutmelding is niet opgelost
+              condition: state
               entity_id: sensor.rocky_vacuum_error
               state: "none"
-            - condition: state
+            - alias: Foutmelding is niet onbeschikbaar
+              condition: state
               entity_id: sensor.rocky_vacuum_error
               state: "unavailable"
       actions:
-        - action: "{{ notification_service }}"
+        - alias: Stuur foutmelding naar beschikbare apparaten
+          action: "{{ notification_service }}"
           data:
             title: "Rocky heeft een probleem"
             message: "Foutmelding: {{state_translated('sensor.rocky_vacuum_error')}}"
@@ -214,7 +233,8 @@ vacuum_package:
             button: button.rocky_reset_side_brush_consumable
             name: "zijborstel"
       trigger:
-        - platform: numeric_state
+        - alias: Resterende levensduur onderdeel is onder nul
+          platform: numeric_state
           entity_id:
             - sensor.rocky_filter_time_left
             - sensor.rocky_main_brush_time_left
@@ -222,11 +242,13 @@ vacuum_package:
             - sensor.rocky_side_brush_time_left
           below: 0
       action:
-        - variables:
+        - alias: Bepaal welk onderdeel onderhoud nodig heeft
+          variables:
             triggered_sensor: "{{ trigger.entity_id }}"
             consumable: >-
               {{ consumables | selectattr('sensor', 'eq', triggered_sensor) | list | first }}
-        - service: notify.mobile_app_sm_a556b
+        - alias: "Stuur notificatie: Rocky onderhoud nodig"
+          service: notify.mobile_app_sm_a556b
           data:
             title: "Rocky onderhoud nodig"
             message: "De {{ consumable.name }} van Rocky moet worden vervangen of schoongemaakt. Wil je de teller resetten?"
@@ -240,22 +262,26 @@ vacuum_package:
                   title: "Later"
               ttl: 0
               priority: high
-        - wait_for_trigger:
+        - alias: Wacht op antwoord via notificatie
+          wait_for_trigger:
             - platform: event
               event_type: mobile_app_notification_action
               event_data:
                 action: "reset_consumable"
           timeout: "01:00:00"
           continue_on_timeout: false
-        - choose:
+        - alias: Voer actie uit op basis van gebruikersantwoord
+          choose:
             - conditions: "{{ wait.trigger is not none }}"
               sequence:
-                - service: button.press
+                - alias: Reset onderhoudsteller van onderdeel
+                  service: button.press
                   target:
                     entity_id: "{{ consumable.button }}"
             - conditions: "{{ wait.trigger is none }}"
               sequence:
-                - service: persistent_notification.create
+                - alias: Maak blijvende notificatie voor niet-gereset onderdeel
+                  service: persistent_notification.create
                   data:
                     title: "Rocky onderhoud niet gereset"
                     message: "De {{ consumable.name }} teller is niet gereset. Vergeet het niet als je onderhoud hebt gedaan!"

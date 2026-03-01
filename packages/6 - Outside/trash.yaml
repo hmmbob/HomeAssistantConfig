@@ -19,26 +19,26 @@ trash_package:
 
   input_text:
     trash_url_gft:
-      name: Trash URL GFT
+      name: Afvalafbeelding GFT
       initial: !secret image_url_gft
 
     trash_url_papier:
-      name: Trash URL papier
+      name: Afvalafbeelding papier
       initial: !secret image_url_oudpapier
 
     trash_url_pbd:
-      name: Trash URL plastic
+      name: Afvalafbeelding plastic
       initial: !secret image_url_plastic
 
     trash_url_pbdpapier:
-      name: Trash URL plastic en papier
+      name: Afvalafbeelding plastic en papier
       initial: !secret image_url_plasticpapier
     trash_url_papierpbd:
-      name: Trash URL papier en plastic
+      name: Afvalafbeelding papier en plastic
       initial: !secret image_url_plasticpapier
 
     trash_url_restafval:
-      name: Trash URL restafval
+      name: Afvalafbeelding restafval
       initial: !secret image_url_restafval
 
   template:
@@ -69,10 +69,12 @@ trash_package:
     - alias: "Verstuur melding welk afval opgehaald wordt"
       id: afval_meldingen
       triggers:
-        - trigger: time
+        - alias: Melding op ingestelde tijd voor vandaag
+          trigger: time
           at: input_datetime.time_trash_warning_today
           id: vandaag
-        - trigger: time
+        - alias: Melding op ingestelde tijd voor morgen
+          trigger: time
           at: input_datetime.time_trash_warning_tomorrow
           id: morgen
       variables:
@@ -87,34 +89,38 @@ trash_package:
         afval: >
           {{ trash_descr.get(states(sensor), "onbekend") }}
       conditions:
-        - alias: "Do we want notifications?"
+        - alias: Controleer of pushmeldingen voor afval ingeschakeld zijn
           condition: state
           entity_id: input_boolean.notify_trash
           state: "on"
-        - alias: "Do we have a valid state"
+        - alias: Controleer of afvalstatussensor geldige waarde heeft
           condition: template
           value_template: "{{ states(sensor) not in ['unknown','unavailable','none','geen'] }}"
-        - condition: state
+        - alias: Controleer of vakantiemodus afwezig uit staat
+          condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "off"
       actions:
-        - if:
+        - alias: Reset helper wanneer melding voor morgen wordt verstuurd
+          if:
             - '{{trigger.id == "morgen" }}'
           then:
-            - alias: "New round of notifications, so resetting helper for next round"
+            - alias: Nieuwe meldingsronde reset afvalstatus
               action: input_boolean.turn_off
               target:
                 entity_id: input_boolean.trash_outside
-        - if:
+        - alias: Verwerk melding voor vandaag als afval nog niet buiten staat
+          if:
             - '{{trigger.id == "vandaag" }}'
-            - alias: "Check if trash is outside already"
+            - alias: "Controleer of het afval al buiten staat"
               condition: state
               entity_id: input_boolean.trash_outside
               state: "on"
           then:
-            - stop: "Stopping notification sequence as trash is already outside"
+            - alias: Stop melding als afval al buiten staat
+              stop: "Melding gestopt omdat afval al buiten staat"
           else:
-            - alias: "Sending push notification"
+            - alias: Stuur pushmelding over afvalinzameling
               action: notify.mobile_app_sm_a556b
               data:
                 title: "Afvalinzameling"
@@ -127,20 +133,22 @@ trash_package:
                       title: "Jep, staat buiten!"
                   ttl: 0
                   priority: high
-            - alias: "Check if TTS should be played"
+            - alias: "Controleer of TTS moet worden afgespeeld"
               condition: state
               entity_id: input_boolean.notify_trash_voice
               state: "on"
-            - action: media_player.volume_set
+            - alias: Zet kioskvolume voor spraakmelding op 90 procent
+              action: media_player.volume_set
               data:
                 entity_id: media_player.kiosk1_fkb
                 volume_level: 0.9
-            - alias: "Play TTS"
+            - alias: Speel spraakmelding af
               action: tts.microsoft_say
               entity_id: media_player.kiosk1_fkb
               data:
                 message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
-            - action: browser_mod.popup
+            - alias: Toon afvalafbeelding in kiosk-popup
+              action: browser_mod.popup
               data:
                 dismissable: true
                 autoclose: false
@@ -165,11 +173,13 @@ trash_package:
     - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status
       triggers:
-        - trigger: event
+        - alias: Notificatieactie afval staat buiten ontvangen
+          trigger: event
           event_type: mobile_app_notification_action
           event_data:
             action: "trash_outside"
       actions:
-        - action: input_boolean.turn_on
+        - alias: Zet helper afval buiten op aan
+          action: input_boolean.turn_on
           target:
             entity_id: input_boolean.trash_outside

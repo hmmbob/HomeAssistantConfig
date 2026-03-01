@@ -12,14 +12,17 @@ postcodeloterij_package:
   template:
     - trigger:
         # the sensor will be automatically updated on the first 3 days of the month, after 18:00
-        - trigger: time
+        - alias: Dagelijks om 18:00 voor automatische controle
+          trigger: time
           at: "18:00"
           # you can use the event below in developer tools > events to manually update the sensor
-        - trigger: event
+        - alias: Handmatig event voor postcodeloterij update
+          trigger: event
           event_type: update_postcodeloterij_prizes
           id: manual
       condition:
-        - condition: template
+        - alias: Handmatig trigger of dag 1-3 van de maand?
+          condition: template
           value_template: "{{ trigger.id == 'manual' or now().day in [1,2,3] }}"
       actions:
         - alias: Maak variabelen aan voor de maand voor REST-commando's en berichten
@@ -36,14 +39,15 @@ postcodeloterij_package:
               }}
             extra: "{{ month % 100 in [6, 12] }}"
             month_formatted: >
-              {% set months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'october', 'november', 'december'] %}
+              {% set months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'] %}
               {{ months[month % 100 -1] ~ ' ' ~ month // 100 }}
         - alias: Voer REST-commando uit voor maandelijkse trekkingen
           action: rest_command.postcodeloterij
           data:
             month: "{{ month }}"
           response_variable: prizes
-        - if: "{{ extra }}"
+        - alias: Controleer of extra trekking nodig is (juni/december)
+          if: "{{ extra }}"
           then:
             - alias: Voer REST-commando uit voor extra trekkingen in juni en december
               action: rest_command.postcodeloterij

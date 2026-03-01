@@ -21,20 +21,21 @@ awtrix_package:
     ## System functions
     ##########################
     - id: awtrix_turn_on_or_off
-      alias: "Zet Awtrix aan of uit  🌛"
+      alias: "Zet Awtrix aan of uit 🌛"
       description: "Turn off the Awtrix screen at 20:30 and turn it back on at 08:00"
       triggers:
-        - alias: "Ga sowieso uit om 20u30"
+        - alias: "Vastgestelde uitschakeltijd"
           trigger: time
           at: "20:30:00"
           id: "turn_off"
-        - alias: "Ga weer aan om 8u"
+        - alias: "Vastgestelde inschakeltijd"
           trigger: time
           at: "08:00:00"
           id: "turn_on"
       condition: []
       actions:
-        - action: homeassistant.{{trigger.id}}
+        - alias: Voer commando uit naar Awtrix
+          action: homeassistant.{{trigger.id}}
           data:
             entity_id:
               - light.awtrix_6caff8_matrix
@@ -44,51 +45,62 @@ awtrix_package:
       description: "Set Awtrix to clock only by pressing the middle button or when I turn off my monitor"
       mode: queued
       triggers:
-        - trigger: state
+        - alias: Middelste knop ingedrukt
+          trigger: state
           entity_id: binary_sensor.awtrix_6caff8_button_select
           to: "on"
           id: "toggle"
-        - trigger: numeric_state
+        - alias: Bureau monitor is ingeschakeld
+          trigger: numeric_state
           entity_id: sensor.bureau_kantoor_power
           above: 25
           id: "turn_on"
-        - trigger: numeric_state
+        - alias: Bureau monitor is uitgeschakeld
+          trigger: numeric_state
           entity_id: sensor.bureau_kantoor_power
           below: 25
           for: "00:05:00"
           id: "turn_off"
       condition: []
       actions:
+        alias: Voer actie uit op basis van trigger
         choose:
-          - alias: "Do we need to turn on Awtrix?"
+          - alias: "Monitor ingeschakeld: Awtrix activeren"
             conditions:
-              - "{{ trigger.id == 'turn_on' }}"
+              - alias: Monitor is ingeschakeld
+                condition: template
+                value_template: "{{ trigger.id == 'turn_on' }}"
             sequence:
               - alias: "Start transition and set time color to white again"
                 action: mqtt.publish
                 data:
                   topic: awtrix_6caff8/settings
                   payload: '{ "WD": true, "TMODE":"1", "TIME_COL": [255,255,255], "ABRI": true, "ATRANS": true }'
-          - alias: "Do we need to turn off Awtrix?"
+          - alias: "Monitor uitgeschakeld: Awtrix uitschakelen"
             conditions:
-              - "{{ trigger.id == 'turn_off' }}"
+              - alias: Monitor is uitgeschakeld
+                condition: template
+                value_template: "{{ trigger.id == 'turn_off' }}"
             sequence:
               - alias: "Swith to time"
                 action: mqtt.publish
                 data:
                   topic: awtrix_6caff8/switch
                   payload: '{"name":"Time"}'
-              - alias: "Set low brightness and red color and fix to time app"
+              - alias: "Lage helderheid en rode kleur instellen en vastzetten op tijd-app"
                 action: mqtt.publish
                 data:
                   topic: awtrix_6caff8/settings
                   payload: '{ "WD": false, "TMODE":"0", "TIME_COL": [255,0,0], "BRI": 1, "ABRI": false, "ATRANS": false }'
-          - alias: "Do we need to toggle Awtrix?"
+          - alias: "Knop ingedrukt: Dagmodus/nachtmodus wisselen"
             conditions:
-              - "{{ trigger.id == 'toggle' }}"
+              - alias: Knop is ingedrukt
+                condition: template
+                value_template: "{{ trigger.id == 'toggle' }}"
             sequence:
-              - if:
-                  - alias: "Transition is on, so we are in day mode: toggle to night mode"
+              - alias: Bepaal huidige modus en wissel if-then-else
+                if:
+                  - alias: "Transitie is aan, dus we zijn in dagmodus: schakel naar nachtmodus"
                     condition: state
                     entity_id: switch.awtrix_6caff8_transition
                     state: "on"
@@ -98,7 +110,7 @@ awtrix_package:
                     data:
                       topic: awtrix_6caff8/switch
                       payload: '{"name":"Time"}'
-                  - alias: "Set low brightness and red color and fix to time app"
+                  - alias: "Lage helderheid en rode kleur instellen en vastzetten op tijd-app"
                     action: mqtt.publish
                     data:
                       topic: awtrix_6caff8/settings
@@ -115,45 +127,55 @@ awtrix_package:
       description: "Start custom apps on Awtrix reboot"
       mode: single
       triggers:
-        - trigger: state
+        - alias: Awtrix is na reboot geactiveerd
+          trigger: state
           entity_id: switch.awtrix_6caff8_transition
           from: "off"
           to: "on"
       condition: []
       actions:
-        - action: automation.trigger
+        - alias: Start buitentemperatuur app
+          action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_send_outside_temperature_to_awtrix
-        - delay: 5
-        - action: automation.trigger
+        - alias: Wacht kort
+          delay: 5
+        - alias: Start zonne-energie app
+          action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_solar_energy_monitor
-        - delay: 5
-        - action: automation.trigger
+        - alias: Wacht kort
+          delay: 5
+        - alias: Start energieproductie app
+          action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_send_today_s_energy_production_to_awtrix
-        - delay: 5
-        - action: automation.trigger
+        - alias: Wacht kort
+          delay: 5
+        - alias: Start EV batterijniveau app
+          action: automation.trigger
           target:
             entity_id:
               - automation.awtrix_send_ev_battery_level
 
-    ##########################
-    ## Custom apps
-    ##########################
+      ##########################
+      ## Custom apps
+      ##########################
     - id: awtrix_temperature
       alias: "Stuur de buitentemperatuur naar Awtrix"
       description: "Send outside temperature to Awtrix"
       mode: queued
       triggers:
-        - trigger: state
+        - alias: Buitentemperatuur is gewijzigd
+          trigger: state
           entity_id: sensor.knmi_temperatuur
       condition: []
       actions:
-        - action: mqtt.publish
+        - alias: Publiceer temperatuur naar Awtrix
+          action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/outside_temp
             payload: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
@@ -163,11 +185,13 @@ awtrix_package:
       description: "Awtrix: Send today's energy production to Awtrix"
       mode: queued
       triggers:
-        - trigger: state
+        - alias: Zonneopbrengst van vandaag is gewijzigd
+          trigger: state
           entity_id: sensor.today_s_pv_generation
       condition: []
       actions:
-        - action: mqtt.publish
+        - alias: Publiceer productie naar Awtrix
+          action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/production_today
             payload: ' { "text": "{{ states(''sensor.todays_total_production_preserved'') }} kWh", "icon": "52456", "color": "#7bf21f", "duration": 7} '
@@ -201,34 +225,40 @@ awtrix_package:
         night_end: >-
           {{ as_timestamp(state_attr('sun.sun','next_rising'))| timestamp_custom("%H:%M:%S")}}
       triggers:
-        - trigger: time_pattern
+        - alias: Controleer huidige zonneopbrengst elke 5 minuten
+          trigger: time_pattern
           minutes: "/5"
       condition: []
       actions:
-        - choose:
-            - alias: "Skipping if it is night time"
+        - alias: Voer actie uit op basis van tijd en vermogen
+          choose:
+            - alias: "Nachtmodus: schakel Awtrix uit"
               conditions:
-                - condition: template
+                - alias: Nacht of geen vermogen
+                  condition: template
                   value_template: >
                     {% set now_time = now().strftime("%H:%M") %}
                     {% set night_start = night_start %}
                     {% set night_end = night_end %}
                     {{ (skip_during_night_hours and ((now_time < night_end) or (now_time > night_start))) or (skip_if_zero_watts and (power_level == 0)) }}
               sequence:
-                - action: mqtt.publish
+                - alias: Annuleer Awtrix weergave (nachtmodus)
+                  action: mqtt.publish
                   data:
                     topic: "{{ device_topic }}"
                     payload: "{}"
-            - alias: "Not skipping when it is day time"
+            - alias: "Dagmodus: toon huiden vermogen"
               conditions:
-                - condition: template
+                - alias: Dag en vermogen aanwezig
+                  condition: template
                   value_template: >
                     {% set now_time = now().strftime("%H:%M") %}
                     {% set night_start = night_start %}
                     {% set night_end = night_end %}
                     {{ not((skip_during_night_hours and ((now_time < night_end) or (now_time > night_start))) or (skip_if_zero_watts and (power_level == 0))) }}
               sequence:
-                - action: mqtt.publish
+                - alias: Publiceer vermogen naar Awtrix
+                  action: mqtt.publish
                   data:
                     topic: "{{ device_topic }}"
                     payload: >
@@ -247,11 +277,13 @@ awtrix_package:
           {%- if (power_level <= threshold_high) and (power_level > threshold_low) %}{{"#FCFEFC"}}{%- endif %}
           {%- if power_level <= threshold_low %}{{"#FF4E1A"}}{%- endif %}
       triggers:
-        - trigger: state
+        - alias: Batterijpercentage van auto is gewijzigd
+          trigger: state
           entity_id: sensor.tucson_ev_battery_level
       condition: []
       actions:
-        - action: mqtt.publish
+        - alias: Publiceer batterijniveau naar Awtrix
+          action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/ev_battery
             payload: ' { "text": "{{ states(''sensor.tucson_ev_battery_level'') }} %", "icon": "2817", "color": "{{ power_level_color }}", "duration": 7} '

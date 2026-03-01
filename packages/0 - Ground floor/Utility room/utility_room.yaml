@@ -10,20 +10,23 @@ utility_room_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Beweging gedetecteerd in bijkeuken
+          trigger: state
           entity_id: binary_sensor.pir_bijkeuken_occupancy
           to: "on"
           from: "off"
           variables:
             action: turn_on
-        - trigger: state
+        - alias: Geen beweging meer in bijkeuken
+          trigger: state
           entity_id: binary_sensor.pir_bijkeuken_occupancy
           to: "off"
           from: "on"
           variables:
             action: turn_off
       conditions:
-        - condition: state
+        - alias: Automatische bijkeukenverlichting is ingeschakeld
+          condition: state
           entity_id: input_boolean.enable_pir_bijkeuken_automations
           state: "on"
       actions:

@@ -5,12 +5,14 @@ batteries_package:
       description: Controleer of een batterij leeg is
       mode: single
       triggers:
-        - trigger: time
+        - alias: Elke zaterdag om 12:00 voor batterijcontrole
+          trigger: time
           at: "12:00:00"
           weekday:
             - "sat"
       action:
-        - service: battery_notes.check_battery_low
+        - alias: Start controle op lage batterijen via Battery Notes
+          service: battery_notes.check_battery_low
 
     - id: battery_low_notification
       alias: Bericht over lage batterijen
@@ -43,12 +45,15 @@ batteries_package:
           id: high
           alias: Batterij is opgeladen
       actions:
-        - choose:
+        - alias: Kies melding op basis van batterijstatusevent
+          choose:
             - conditions:
-                - condition: trigger
+                - alias: Controleer of batterij laag is
+                  condition: trigger
                   id: low
               sequence:
-                - action: notify.mobile_app_sm_a556b
+                - alias: Stuur mobiele melding voor lege batterij
+                  action: notify.mobile_app_sm_a556b
                   data:
                     title: "{{title}}"
                     message: "{{message}}"
@@ -56,21 +61,25 @@ batteries_package:
                       notification_icon: mdi:battery-alert-variant
                       clickAction: "{{navigate}}"
                       tag: "{{id}}"
-                - action: persistent_notification.create
+                - alias: Maak persistente melding voor lege batterij
+                  action: persistent_notification.create
                   data:
                     title: "{{title}}"
                     notification_id: "{{id}}"
                     message: "{{message}} {{ '\n\n' -}} [Link naar apparaat pagina]({{navigate}})"
             - conditions:
-                - condition: trigger
+                - alias: Controleer of batterij weer volledig is
+                  condition: trigger
                   id: high
               sequence:
-                - action: notify.mobile_app_sm_a556b
+                - alias: Verwijder mobiele melding voor deze batterij
+                  action: notify.mobile_app_sm_a556b
                   data:
                     message: "clear_notification"
                     data:
                       tag: "{{id}}"
-                - action: persistent_notification.dismiss
+                - alias: Sluit persistente batterijmelding
+                  action: persistent_notification.dismiss
                   data:
                     notification_id: "{{id}}"
 
@@ -79,14 +88,17 @@ batteries_package:
       description: Markeer de batterij als vervangen
       mode: queued
       triggers:
-        - trigger: event
+        - alias: Batterijniveau is gestegen na vervanging
+          trigger: event
           event_type: battery_notes_battery_increased
       actions:
-        - action: battery_notes.set_battery_replaced
+        - alias: Markeer batterij als vervangen in Battery Notes
+          action: battery_notes.set_battery_replaced
           data:
             device_id: "{{ trigger.event.data.device_id }}"
             source_entity_id: "{{ trigger.event.data.source_entity_id }}"
-        - action: persistent_notification.create
+        - alias: Maak bevestiging van batterijvervanging
+          action: persistent_notification.create
           data:
             title: |
               {{ trigger.event.data.device_name }} Batterij verhoogd

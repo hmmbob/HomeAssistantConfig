@@ -5,7 +5,8 @@ ups_package:
       mode: single
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: UPS-status of laadniveau wordt gewijzigd
+          trigger: state
           entity_id:
             - sensor.ups_battery_charge
             - sensor.ups_status_data
@@ -16,19 +17,19 @@ ups_package:
           {% set minutes = (runtime % 3600) // 60 %}
           {{ '%du' % hours if hours else '' }}{{ '%dm' % minutes if minutes else '' }}
       conditions:
-        - alias: "Previous state of triggers is not unavailable or unkown"
+        - alias: Controleer dat vorige status niet unknown of unavailable was
           condition: template
           value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
       actions:
-        - alias: "Kies onze status"
+        - alias: Kies melding op basis van actuele UPS-status
           choose:
             - conditions:
-                - alias: "If we are On Battery DISCHaRGing"
+                - alias: Als we op accu draaien (ontladen)
                   condition: state
                   entity_id: sensor.ups_status_data
                   state: "OB DISCHRG"
               sequence:
-                - alias: "We're running on battery!"
+                - alias: Stuur melding dat UPS op accu draait
                   action: notify.mobile_app_sm_a556b
                   data:
                     title: 🪫 UPS ingeschakeld!
@@ -44,12 +45,12 @@ ups_package:
                       notification_icon: mdi:home-battery-outline
                       car_ui: true
             - conditions:
-                - alias: "If we are On Line CHaRGing"
+                - alias: Als netspanning terug is (laden)
                   condition: state
                   entity_id: sensor.ups_status_data
                   state: "OL CHRG"
               sequence:
-                - alias: "We're back online, charging the UPS battery!"
+                - alias: Stuur melding dat UPS weer laadt
                   action: notify.mobile_app_sm_a556b
                   data:
                     title: 🔋 UPS weer online & aan het opladen!
@@ -65,12 +66,13 @@ ups_package:
                       notification_icon: mdi:power-plug-battery-outline
                       car_ui: true
             - conditions:
-                - alias: "If we are back OnLine"
+                - alias: Als we weer op netspanning zijn
                   condition: state
                   entity_id: sensor.ups_status_data
                   state: "OL"
               sequence:
-                - action: notify.mobile_app_sm_a556b
+                - alias: Verwijder actieve UPS-meldingen
+                  action: notify.mobile_app_sm_a556b
                   data:
                     message: "clear_notification"
                     data:
@@ -81,7 +83,8 @@ ups_package:
       description: "Waarschuw als een van de elektriciteitsfasen uitvalt"
       mode: parallel
       triggers:
-        - trigger: state
+        - alias: Een van de fases schakelt in op stroomuitval
+          trigger: state
           entity_id:
             - binary_sensor.slimmelezer_power_failure_phase_1
             - binary_sensor.slimmelezer_power_failure_phase_2

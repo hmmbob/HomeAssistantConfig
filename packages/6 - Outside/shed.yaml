@@ -5,13 +5,15 @@ shed_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Beweging gedetecteerd in schuur
+          trigger: state
           entity_id: binary_sensor.pir_schuur_occupancy
           to: "on"
           from: "off"
           variables:
             action: turn_on
-        - trigger: state
+        - alias: Geen beweging meer in schuur
+          trigger: state
           entity_id: binary_sensor.pir_schuur_occupancy
           to: "off"
           from: "on"
@@ -19,7 +21,7 @@ shed_package:
             action: turn_off
       conditions: []
       actions:
-        - alias: "Lamp schuur bedienen..."
+        - alias: Schakel schuurverlichting aan of uit
           action: switch.{{ action }}
           target:
             entity_id: switch.schuur

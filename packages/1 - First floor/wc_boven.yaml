@@ -5,25 +5,30 @@ wc_boven_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Beweging gedetecteerd in toilet
+          trigger: state
           entity_id: binary_sensor.pir_wc_boven_occupancy
           to: "on"
           from: "off"
           id: turn_on
-        - trigger: state
+        - alias: Geen beweging meer in toilet
+          trigger: state
           entity_id: binary_sensor.pir_wc_boven_occupancy
           to: "off"
           from: "on"
           id: turn_off
       conditions: []
       actions:
-        - alias: "Checking what to do"
+        - alias: "Bepalen wat er moet gebeuren"
           choose:
-            - alias: "Do we need to turn on the lights?"
+            - alias: "Moeten we de verlichting inschakelen?"
               conditions:
-                - "{{ trigger.id == 'turn_on' }}"
+                - alias: Verlichting moet worden ingeschakeld
+                  condition: template
+                  value_template: "{{ trigger.id == 'turn_on' }}"
               sequence:
-                - if:
+                - alias: Schakel verlichting in op basis van tijd
+                  if:
                     - alias: "Is het tijdens de donkere uren?"
                       condition: time
                       after: "22:30:00"
@@ -42,9 +47,11 @@ wc_boven_package:
                         entity_id: light.wc_boven
                       data:
                         brightness: 255
-            - alias: "Do we need to turn off the lights?"
+            - alias: "Moeten we de verlichting uitschakelen?"
               conditions:
-                - "{{ trigger.id == 'turn_off' }}"
+                - alias: Verlichting moet worden uitgeschakeld
+                  condition: template
+                  value_template: "{{ trigger.id == 'turn_off' }}"
               sequence:
                 - alias: "Lamp WC boven uitzetten..."
                   action: light.turn_off

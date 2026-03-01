@@ -17,18 +17,21 @@ lights_hallway_package:
       mode: restart
       max_exceeded: silent
       triggers:
-        - trigger: state
+        - alias: Beweging gedetecteerd in gang
+          trigger: state
           entity_id: binary_sensor.pir_gang
           from: "off"
           to: "on"
           id: turn_on
-        - trigger: state
+        - alias: Geen beweging meer in gang
+          trigger: state
           entity_id: binary_sensor.pir_gang
           from: "on"
           to: "off"
           id: turn_off
       conditions:
-        - condition: state
+        - alias: Automatische gangverlichting is ingeschakeld
+          condition: state
           entity_id: input_boolean.enable_pir_gang_automations
           state: "on"
       actions:
@@ -36,9 +39,12 @@ lights_hallway_package:
           choose:
             - alias: "Moeten we de verlichting inschakelen?"
               conditions:
-                - "{{ trigger.id == 'turn_on' }}"
+                - alias: Verlichting moet worden ingeschakeld
+                  condition: template
+                  value_template: "{{ trigger.id == 'turn_on' }}"
               sequence:
-                - if:
+                - alias: Schakel verlichting in als het donker is
+                  if:
                     - alias: "Is het donker genoeg buiten?"
                       condition: numeric_state
                       entity_id: sun.sun
@@ -51,7 +57,9 @@ lights_hallway_package:
                         entity_id: switch.gang
             - alias: "Moeten we de verlichting uitschakelen?"
               conditions:
-                - "{{ trigger.id == 'turn_off' }}"
+                - alias: Verlichting moet worden uitgeschakeld
+                  condition: template
+                  value_template: "{{ trigger.id == 'turn_off' }}"
               sequence:
                 - alias: "Gang lamp uit.."
                   action: switch.turn_off

@@ -20,25 +20,30 @@ vacation_mode_package:
       alias: "Zet de verlichting aan tijdens vakantie"
       initial_state: on
       triggers:
-        trigger: time
-        at: input_datetime.time_vacation_lights_start
+        - alias: Vakantie verlichting starttijd bereikt
+          trigger: time
+          at: input_datetime.time_vacation_lights_start
       conditions:
-        - condition: state
+        - alias: Vakantie modus is ingeschakeld
+          condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "on"
       actions:
         - delay: "{{ range(30*60) | random }}"
           alias: "Willekeurige vertraging tussen nu en 30 minuten"
-        - action: homeassistant.turn_on
+        - alias: Zet woonkamer- en eetkamerverlichting aan
+          action: homeassistant.turn_on
           entity_id:
             - light.spots_woonkamer
             - light.spots_eetkamer
-        - action: logbook.log
+        - alias: Log inschakelmoment van vakantieverlichting
+          action: logbook.log
           data:
             name: Vakantie
             message: Verlichting aan gezet om {{ now().strftime('%H:%M') }}.
             domain: light
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur melding dat vakantieverlichting is ingeschakeld
+          action: notify.mobile_app_sm_a556b
           data:
             message: Ik heb je vakantie verlichting aan gezet om {{ now().strftime('%H:%M') }}.
             title: Vakantie verlichting
@@ -49,25 +54,30 @@ vacation_mode_package:
     - id: vacation_turn_off_time
       alias: "Zet de verlichting uit tijdens vakantie"
       triggers:
-        trigger: time
-        at: input_datetime.time_vacation_lights_end
+        - alias: Vakantie verlichting eindtijd bereikt
+          trigger: time
+          at: input_datetime.time_vacation_lights_end
       conditions:
-        - condition: state
+        - alias: Vakantie modus is ingeschakeld
+          condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "on"
       actions:
         - delay: "{{ range(15*60) | random }}"
           alias: "Willekeurige vertraging tussen nu en 15 minuten"
-        - action: homeassistant.turn_off
+        - alias: Zet woonkamer- en eetkamerverlichting uit
+          action: homeassistant.turn_off
           entity_id:
             - light.spots_woonkamer
             - light.spots_eetkamer
-        - action: logbook.log
+        - alias: Log uitschakelmoment van vakantieverlichting
+          action: logbook.log
           data:
             name: Vakantie
             message: Verlichting uit gezet om {{ now().strftime('%H:%M') }}.
             domain: light
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur melding dat vakantieverlichting is uitgeschakeld
+          action: notify.mobile_app_sm_a556b
           data:
             message: Ik heb je verlichting uit gezet om {{ now().strftime('%H:%M') }}.
             title: Vakantie verlichting
@@ -81,7 +91,8 @@ vacation_mode_package:
     - id: vacation_movement_inside
       alias: "Beweging gedetecteerd tijdens vakantie"
       trigger:
-        - platform: state
+        - alias: Beweging of contact gedetecteerd in huis
+          platform: state
           entity_id:
             - binary_sensor.fietsenhok_contact
             - binary_sensor.pir_bijkeuken_occupancy
@@ -92,11 +103,13 @@ vacation_mode_package:
           from: "off"
           to: "on"
       condition:
-        - condition: state
+        - alias: Vakantie modus is ingeschakeld
+          condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "on"
       action:
-        - action: notify.mobile_app_sm_a556b
+        - alias: Stuur melding bij beweging tijdens vakantie
+          action: notify.mobile_app_sm_a556b
           data:
             message: >
               Er is beweging gedetecteerd door {{ trigger.from_state.attributes.friendly_name }} ({{ now().strftime('%H:%M') }})
@@ -105,7 +118,8 @@ vacation_mode_package:
               ttl: 0
               priority: high
               notification_icon: "mdi:shield-home"
-        - action: logbook.log
+        - alias: Log gedetecteerde beweging tijdens vakantie
+          action: logbook.log
           data:
             name: Vakantie
             message: Er is beweging gedetecteerd door {{ trigger.from_state.attributes.friendly_name }}.

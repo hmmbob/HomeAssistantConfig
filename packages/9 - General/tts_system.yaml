@@ -37,12 +37,15 @@ tts_system_package:
           Kantoor: media_player.kantoor
         target: "{{ target_map[states('input_select.tts_target')] }}"
       sequence:
-        - action: tts.microsoft_say
+        - alias: Speel TTS-bericht af op gekozen doelspeler
+          action: tts.microsoft_say
           data:
             entity_id: "{{ target }}"
             message: "{{ states('input_text.tts_message') }}"
             cache: false
-        - delay: 00:00:30
-        - action: media_player.turn_off
+        - alias: Wacht 30 seconden voordat speler wordt uitgezet
+          delay: 00:00:30
+        - alias: Zet doelspeler uit na TTS-bericht
+          action: media_player.turn_off
           data:
             entity_id: "{{ target }}"
