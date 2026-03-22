@@ -124,10 +124,9 @@ airco_package:
                 - alias: Controleer of woonkamerairco uit mag bij lampen uit
                   if:
                     - "{{ trigger.id == 'lights_turned_off' }}"
-                    - not:
-                        - alias: Controleer dat het na 21:00 is
-                          condition: time
-                          after: "21:00:00"
+                    - alias: Controleer dat het na 21:00 is
+                      condition: time
+                      after: "21:00:00"
                   then:
                     - alias: Zet woonkamerairco uit
                       action: climate.set_hvac_mode

@@ -21,7 +21,11 @@ system_package:
           below: 0
       actions:
         - alias: Kies licht of donker thema op basis van zonnestand
-          if: "{{ is_state('sun.sun', 'above_horizon')}}"
+          if:
+            - condition: numeric_state
+              entity_id: sun.sun
+              attribute: elevation
+              above: 0
           then:
             - alias: Zet thema naar Hmmbob light theme
               action: frontend.set_theme
