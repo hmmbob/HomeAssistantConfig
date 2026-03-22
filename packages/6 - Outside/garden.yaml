@@ -42,22 +42,22 @@ lights_garden_package:
       triggers:
         - alias: Tuinverlichting schema is gewijzigd
           trigger: state
-          entity_id: sensor.garden_lights_schedule
+          entity_id: sensor.schema_tuinverlichting
       conditions:
         - alias: "Is de tuinverlichting aan of uit?"
           condition: or
           conditions:
             - alias: Schema tuinverlichting is aan
               condition: state
-              entity_id: sensor.garden_lights_schedule
+              entity_id: sensor.schema_tuinverlichting
               state: "on"
             - alias: Schema tuinverlichting is uit
               condition: state
-              entity_id: sensor.garden_lights_schedule
+              entity_id: sensor.schema_tuinverlichting
               state: "off"
       actions:
         - alias: Bedien tuinverlichting volgens schema
-          action: homeassistant.turn_{{ states('sensor.garden_lights_schedule') }}
+          action: homeassistant.turn_{{ states('sensor.schema_tuinverlichting') }}
           target:
             entity_id:
               - light.verlichting_tuin
@@ -69,22 +69,22 @@ lights_garden_package:
       triggers:
         - alias: Boomverlichting schema is gewijzigd
           trigger: state
-          entity_id: sensor.tree_lights_schedule
+          entity_id: sensor.schema_boomverlichting
       conditions:
         - alias: "Is de boomverlichting aan of uit?"
           condition: or
           conditions:
             - alias: Schema boomverlichting is aan
               condition: state
-              entity_id: sensor.tree_lights_schedule
+              entity_id: sensor.schema_boomverlichting
               state: "on"
             - alias: Schema boomverlichting is uit
               condition: state
-              entity_id: sensor.tree_lights_schedule
+              entity_id: sensor.schema_boomverlichting
               state: "off"
       actions:
         - alias: Bedien boomverlichting volgens schema
-          action: homeassistant.turn_{{ states('sensor.tree_lights_schedule') }}
+          action: homeassistant.turn_{{ states('sensor.schema_boomverlichting') }}
           target:
             entity_id:
               - light.tuin_spot_boom
@@ -112,7 +112,7 @@ lights_garden_package:
         - alias: Zet schema-override tuinverlichting op 3 uur aan
           action: schedule_state.set_override
           target:
-            entity_id: sensor.garden_lights_schedule
+            entity_id: sensor.schema_tuinverlichting
           data:
             state: "on"
             duration: 3
