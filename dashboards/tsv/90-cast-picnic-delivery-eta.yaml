@@ -44,8 +44,11 @@ cards:
       - type: icon
         icon: mdi:close-circle
         tap_action:
-          action: navigate
-          navigation_path: "/tsv-dashboards/tsv1"
+          action: fire-dom-event
+          browser_mod:
+            service: script.picnic_close_dashboard
+            data:
+              browser_id: THIS
         style:
           top: 10%
           left: 90%

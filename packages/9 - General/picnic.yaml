@@ -27,6 +27,35 @@ picnic_package:
       name: "Timer Picnic kiosk"
       restore: true
 
+  script:
+    picnic_close_dashboard:
+      alias: "Picnic: Sluit kioskscherm"
+      description: Ga terug naar het kiosk-specifieke startscherm op basis van de browser die de actie startte.
+      fields:
+        browser_id:
+          name: Browser ID
+          description: Browser Mod browser_id van het scherm dat de actie start.
+          required: true
+          selector:
+            text:
+      sequence:
+        - alias: Kies kiosk-specifiek startscherm
+          if: "{{ browser_id == 'kiosk2' }}"
+          then:
+            - alias: Ga terug naar TSV2
+              action: browser_mod.navigate
+              data:
+                path: "/tsv-dashboards/tsv2"
+                browser_id:
+                  - "{{ browser_id }}"
+          else:
+            - alias: Ga terug naar TSV1
+              action: browser_mod.navigate
+              data:
+                path: "/tsv-dashboards/tsv1"
+                browser_id:
+                  - "{{ browser_id }}"
+
   automation:
     - id: picnic_order_window_closing
       alias: "Picnic: Bestelvenster sluit binnenkort"
@@ -192,12 +221,13 @@ picnic_package:
             entity_id: timer.picnic
       actions:
         - alias: "Ga weer terug naar startscherm"
-          action: browser_mod.navigate
+          action: script.picnic_close_dashboard
           data:
-            path: "/tsv-dashboards/tsv1"
-            browser_id:
-              - kiosk1
-              - kiosk2
+            browser_id: kiosk1
+        - alias: "Ga ook op kiosk 2 terug naar startscherm"
+          action: script.picnic_close_dashboard
+          data:
+            browser_id: kiosk2
         - alias: "Schakel bewegingsdetectie in"
           action: homeassistant.turn_on
           data:
