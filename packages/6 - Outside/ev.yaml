@@ -9,8 +9,9 @@ ev_package:
 
   utility_meter:
     ev_charged_energy:
+      unique_id: smartevse_monthly_total
       cycle: monthly
-      name: SmartEVSE Monthly total
+      name: SmartEVSE Maandelijks totaal
       source: sensor.smartevse_6360_evtotalenergycharged
       always_available: true
 
