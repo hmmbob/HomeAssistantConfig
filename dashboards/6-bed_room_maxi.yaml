@@ -58,7 +58,7 @@ cards:
                     scroll_info: true
                     show_source: true
           - type: template
-            entity: sensor.badkamer_zolder_luchtvochtigheid
+            entity: sensor.temp_sensor_4_badkamer_zolder_humidity
             icon: mdi:shower-head
             icon_color: blue
             content: >-
@@ -123,7 +123,6 @@ cards:
                                     - type: custom:mushroom-entity-card
                                       entity: binary_sensor.laptop_m
                                       name: Laptop aan of uit?
-
 
       - type: horizontal-stack
         cards:
@@ -292,7 +291,7 @@ cards:
           {{ state_translated('climate.badkamer_zolder') }} - 
           Ingesteld op {{ state_attr('climate.badkamer_zolder','temperature') }} °C, 
           momenteel {{ state_attr('climate.badkamer_zolder','current_temperature') }} °C 
-          en {{ states('sensor.badkamer_zolder_luchtvochtigheid') }}%.
+          en {{ states('sensor.temp_sensor_4_badkamer_zolder_humidity') }}%.
         icon: mdi:thermostat
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}

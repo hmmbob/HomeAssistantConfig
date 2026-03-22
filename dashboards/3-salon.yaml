@@ -22,7 +22,7 @@ cards:
             entity: sensor.salon_temperatuur
             icon_color: orange
           - type: entity
-            entity: sensor.salon_luchtvochtigheid
+            entity: sensor.tado_smart_thermostat_su1864388608_current_humidity
             icon_color: indigo
           - type: template
             entity: light.alle_lampen_salon
