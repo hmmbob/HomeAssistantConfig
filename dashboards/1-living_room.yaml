@@ -16,7 +16,7 @@ cards:
           - type: template
             tap_action:
               action: navigate
-              navigation_path: /lovelace-rooms/start
+              navigation_path: /lovelace/start
             icon: mdi:arrow-left
           - type: entity
             entity: sensor.temp_sensor_7_woonkamer_temperatuur
@@ -137,7 +137,7 @@ cards:
           - type: template
             content: "Remix Party"
             icon: phu:spotify
-            icon:color: blue
+            icon_color: green
             tap_action:
               action: perform-action
               perform_action: media_player.select_source
