@@ -212,3 +212,16 @@ solar_package:
               ttl: 0
               priority: high
               clickAction: "/lovelace-admin/solar"
+
+    - id: goodwe_inverter_data_polling
+      alias: "GoodWe omvormer data opvragen"
+      description: "Werkt de GoodWe-omvormergegevens elke 30 seconden bij door sensor.pv_power te verversen."
+      triggers:
+        - trigger: time_pattern
+          alias: "Elke 30 seconden"
+          seconds: "/30"
+      actions:
+        - alias: "Ververs sensor PV-vermogen"
+          action: homeassistant.update_entity
+          target:
+            entity_id: sensor.pv_power
