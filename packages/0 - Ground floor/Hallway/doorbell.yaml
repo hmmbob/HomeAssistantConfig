@@ -58,7 +58,7 @@ doorbell_package:
                   action: ai_task.generate_data
                   response_variable: response
                   data:
-                    entity_id: ai_task.google_ai_task_gemini_3_flash_preview
+                    entity_id: ai_task.google_ai_task
                     task_name: Voordeur AI analyse
                     instructions: |-
                       Beoordeel de bijgevoegde deurbelfoto. Is het een bezorger (heeft de persoon een pakket/doos vast?) of een bezoeker?

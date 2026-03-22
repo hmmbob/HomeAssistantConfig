@@ -25,7 +25,7 @@ morning_briefing_package:
           action: ai_task.generate_data
           response_variable: response
           data:
-            entity_id: ai_task.google_ai_task_gemini_3_flash_preview
+            entity_id: ai_task.google_ai_task
             task_name: Ochtendbriefing
             instructions: |
               Write a concise and friendly morning briefing in Dutch (plain text only, no markdown, no bold, no headers) that includes:
