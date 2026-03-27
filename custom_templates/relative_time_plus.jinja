@@ -1,0 +1,594 @@
+{#
+  set phrases to be used in the relative_time_period macro
+  one list item per language, each time fraction contains a list with the short and several long forms of time units
+  combine contains the text to combine the last time fraction, and error the text to display on wrong date input
+  Plural forms for languages: https://www.gnu.org/software/gettext/manual/gettext.html#Plural-forms
+  asian: ja, vi, ko
+  english: en, de, nl, sv, da, no, nb, nn, fo, es, pt, it, bg, el, fi, et, he, eo, hu, tr, ca
+  french: pt_BR, fr
+  latvian: lv
+  irish: ga
+  romanian: ro
+  lithuanian: lv
+  russian: ru, uk, be, sr, hr
+  slovak: cs, sk
+  polish: pl
+  slovenian: sl
+  arabic: ar
+#}
+{%- set _time_period_phrases = [
+  {
+    'language': 'en',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['yr', 'year', 'years'],
+      'month': ['mth', 'month', 'months'],
+      'week': ['wk', 'week', 'weeks'],
+      'day': ['day', 'day', 'days'],
+      'hour': ['hr', 'hour', 'hours'],
+      'minute': ['min', 'minute', 'minutes'],
+      'second': ['sec', 'second', 'seconds'],
+      'millisecond': ['ms', 'millisecond', 'milliseconds'],
+      'combine': 'and',
+      'error': 'Invalid date',
+    }
+  },
+  {
+    'language': 'pl',
+    'plural_form': 'polish',
+    'phrases': {
+      'year': ['r', 'rok', 'lata', 'lat'],
+      'month': ['msc', 'miesiąc', 'miesiące', 'miesięcy'],
+      'week': ['tyg', 'tydzień', 'tygodnie', 'tygodni'],
+      'day': ['dzień', 'dzień', 'dni', 'dni'],
+      'hour': ['godz', 'godzina', 'godziny', 'godzin'],
+      'minute': ['min', 'minuta', 'minuty', 'minut'],
+      'second': ['sek', 'sekunda', 'sekundy', 'sekund'],
+      'millisecond': ['ms', 'milisekunda', 'milisekundy', 'milisekund'],
+      'combine': 'i',
+      'error': 'Niepoprawna data',
+    }
+  },
+  {
+    'language': 'fr',
+    'plural_form': 'french',
+    'phrases': {
+      'year': ['an', 'année', 'années'],
+      'month': ['mois', 'mois', 'mois'],
+      'week': ['sem', 'semaine', 'semaines'],
+      'day': ['j', 'jour', 'jours'],
+      'hour': ['h', 'heure', 'heures'],
+      'minute': ['min', 'minute', 'minutes'],
+      'second': ['sec', 'seconde', 'secondes'],
+      'millisecond': ['ms', 'milliseconde', 'millisecondes'],
+      'combine': 'et',
+      'error': 'Date non valide',
+    }
+  },
+  {
+    'language': 'it',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['aa', 'anno', 'anni'],
+      'month': ['mm', 'mese', 'mesi'],
+      'week': ['set', 'settimana', 'settimane'],
+      'day': ['gg', 'giorno', 'giorni'],
+      'hour': ['h', 'ora', 'ore'],
+      'minute': ['min', 'minuto', 'minuti'],
+      'second': ['sec', 'secondo', 'secondi'],
+      'millisecond': ['ms', 'millisecondo', 'millisecondi'],
+      'combine': 'e',
+      'error': 'Data non valida',
+    }
+  },
+  {
+    'language': 'nb',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['år', 'år', 'år'],
+      'month': ['mnd', 'måned', 'måneder'],
+      'week': ['u', 'uke', 'uker'],
+      'day': ['d', 'dag', 'dager'],
+      'hour': ['t', 'time', 'timer'],
+      'minute': ['min', 'minutt', 'minutter'],
+      'second': ['sek', 'sekund', 'sekunder'],
+      'millisecond': ['ms', 'millisekund', 'millisekunder'],
+      'combine': 'og',
+      'error': 'Ugyldig dato',
+    }
+  },
+  {
+    'language': 'nl',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['jr', 'jaar', 'jaar'],
+      'month': ['mnd', 'maand', 'maanden'],
+      'week': ['wk', 'week', 'weken'],
+      'day': ['dg', 'dag', 'dagen'],
+      'hour': ['u', 'uur', 'uur'],
+      'minute': ['min', 'minuut', 'minuten'],
+      'second': ['sec', 'seconde', 'seconden'],
+      'millisecond': ['ms', 'milliseconde', 'milliseconden'],
+      'combine': 'en',
+      'error': 'Ongeldige datum',
+    }
+  },
+  {
+    'language': 'nn',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['år', 'år', 'år'],
+      'month': ['mnd', 'månad', 'månader'],
+      'week': ['v', 'veke', 'veker'],
+      'day': ['d', 'dag', 'dagar'],
+      'hour': ['t', 'time', 'timar'],
+      'minute': ['min', 'minutt', 'minutt'],
+      'second': ['sek', 'sekund', 'sekund'],
+      'millisecond': ['ms', 'millisekund', 'millisekund'],
+      'combine': 'og',
+      'error': 'Ugyldig dato',
+    }
+  },
+  {
+    'language': 'de',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['J.', 'Jahr', 'Jahre'],
+      'month': ['M.', 'Monat', 'Monate'],
+      'week': ['Wo.', 'Woche', 'Wochen'],
+      'day': ['Tg.', 'Tag', 'Tage'],
+      'hour': ['Std.', 'Stunde', 'Stunden'],
+      'minute': ['Min.', 'Minute', 'Minuten'],
+      'second': ['Sek.', 'Sekunde', 'Sekunden'],
+      'millisecond': ['ms', 'Millisekunde', 'Millisekunden'],
+      'combine': 'und',
+      'error': 'Falsches Datum',
+    }
+  },
+  {
+    'language': 'pt',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['aa', 'ano', 'anos'],
+      'month': ['mm', 'mês', 'meses'],
+      'week': ['sem', 'semana', 'semanas'],
+      'day': ['d', 'dia', 'dias'],
+      'hour': ['h', 'hora', 'horas'],
+      'minute': ['min', 'minuto', 'minutos'],
+      'second': ['seg', 'segundo', 'segundos'],
+      'millisecond': ['ms', 'millissegundo', 'millissegundos'],
+      'combine': 'e',
+      'error': 'Data Inválida',
+    }
+  },
+  {
+    'language': 'dk',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['år', 'år', 'år'],
+      'month': ['mnd', 'måned', 'måneder'],
+      'week': ['uge', 'uge', 'uger'],
+      'day': ['dag', 'dag', 'dage'],
+      'hour': ['t.', 'time', 'timer'],
+      'minute': ['min.', 'minut', 'minuter'],
+      'second': ['sek.', 'sekund', 'sekunder'],
+      'millisecond': ['ms.', 'millisekund', 'millisekunder'],
+      'combine': 'og',
+      'error': 'Ugyldig dato',
+    }
+  },
+  {
+    'language': 'sv',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['år', 'år', 'år'],
+      'month': ['mån', 'månad', 'månader'],
+      'week': ['v', 'vecka', 'veckor'],
+      'day': ['dag', 'dag', 'dagar'],
+      'hour': ['tim', 'timme', 'timmar'],
+      'minute': ['min', 'minut', 'minuter'],
+      'second': ['sek', 'sekund', 'sekunder'],
+      'millisecond': ['ms', 'millisekund', 'millisekunder'],
+      'combine': 'och',
+      'error': 'Ogiltigt datum',
+    }
+  },
+  {
+    'language': 'cs',
+    'plural_form': 'slovak',
+    'phrases': {
+      'year': ['rok', 'rok', 'roky', 'let'],
+      'month': ['měs', 'měsíc', 'měsíce', 'měsíců'],
+      'week': ['týd', 'týden', 'týdny', 'týdnů'],
+      'day': ['d', 'den', 'dny', 'dní'],
+      'hour': ['hod', 'hodina', 'hodiny', 'hodin'],
+      'minute': ['min', 'minuta', 'minuty', 'minut'],
+      'second': ['sek', 'sekunda', 'sekundy', 'sekund'],
+      'millisecond': ['ms', 'millisekunda', 'millisekundy', 'millisekund'],
+      'combine': 'a',
+      'error': 'špatné datum'
+    }
+  },
+  {
+    'language': 'fi',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['v', 'vuosi', 'vuotta'],
+      'month': ['kk', 'kuukausi', 'kuukautta'],
+      'week': ['vk', 'viikko', 'viikkoa'],
+      'day': ['pv', 'päivä', 'päivää'],
+      'hour': ['t', 'tunti', 'tuntia'],
+      'minute': ['min', 'minuutti', 'minuuttia'],
+      'second': ['s', 'sekunti', 'sekuntia'],
+      'millisecond': ['ms', 'millisekunti', 'millisekuntia'],
+      'combine': 'ja',
+      'error': 'Väärä päivämäärä',
+    }
+  },
+  {
+    'language': 'ru',
+    'plural_form': 'russian',
+    'phrases': {
+      'year': ['г', 'год', 'года', 'лет'],
+      'month': ['м', 'месяц', 'месяца', 'месяцев'],
+      'week': ['н', 'неделя', 'недели', 'недель'],
+      'day': ['д', 'день', 'дня', 'дней'],
+      'hour': ['ч', 'час', 'часа', 'часов'],
+      'minute': ['м', 'минута', 'минуты', 'минут'],
+      'second': ['с', 'секунда', 'секунды', 'секунд'],
+      'millisecond': ['мс', 'милисекунда', 'милисекунды', 'милисекунд'],
+      'combine': 'и',
+      'error': 'Неверная дата',
+    }
+  },
+  {
+    'language': 'uk',
+    'plural_form': 'russian',
+    'phrases': {
+      'year': ['р', 'рік', 'роки', 'років'],
+      'month': ['м', 'місяць', 'місяці', 'місяців'],
+      'week': ['тижд', 'тиждень', 'тижні', 'тижнів'],
+      'day': ['дн', 'день', 'дні', 'днів'],
+      'hour': ['год', 'година', 'години', 'годин'],
+      'minute': ['хв', 'хвилина', 'хвилини', 'хвилин'],
+      'second': ['сек', 'секунда', 'секунди', 'секунд'],
+      'millisecond': ['мсек', 'мілісекунда', 'мілісекунди', 'мілісекунд'],
+      'combine': 'та',
+      'error': 'Недійсна дата',
+    }
+  },
+  {
+    'language': 'bg',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['г', 'година', 'години'],
+      'month': ['м', 'месец', 'месеца'],
+      'week': ['седм', 'седмица', 'седмици'],
+      'day': ['д', 'ден', 'дни'],
+      'hour': ['ч', 'час', 'часа'],
+      'minute': ['м', 'минута', 'минути'],
+      'second': ['с', 'секунда', 'секунди'],
+      'millisecond': ['мс', 'милисекунда', 'милисекунди'],
+      'combine': 'и',
+      'error': 'Невалидна дата',
+    }
+  },
+  {
+    'language': 'vi',
+    'plural_form': 'asian',
+    'phrases': {
+      'year': ['y', 'năm'],
+      'month': ['m', 'tháng'],
+      'week': ['w', 'tuần'],
+      'day': ['d', 'ngày'],
+      'hour': ['h', 'giờ'],
+      'minute': ['m', 'phút', 'phút'],
+      'second': ['s', 'giây'],
+      'millisecond': ['ms', 'mili giây'],
+      'combine': 'và',
+      'error': 'Ngày không hợp lệ',
+    }
+  },
+  {
+    'language': 'es',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['a', 'año', 'años'],
+      'month': ['m', 'mes', 'meses'],
+      'week': ['sem', 'semana', 'semanas'],
+      'day': ['d', 'día', 'días'],
+      'hour': ['h', 'hora', 'horas'],
+      'minute': ['min', 'minuto', 'minutos'],
+      'second': ['s', 'segundo', 'segundos'],
+      'millisecond': ['ms', 'milisegundo', 'milisegundos'],
+      'combine': 'y',
+      'error': 'Fecha inválida',
+    }
+  },
+  {
+    'language': 'he',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['שנה', 'שנה', 'שנים'],
+      'month': ['חודש', 'חודש', 'חודשים'],
+      'week': ['שבוע', 'שבוע', 'שבועות'],
+      'day': ['יום', 'יום', 'ימים'],
+      'hour': ['שעה', 'שעה', 'שעות'],
+      'minute': ['דקה', 'דקה', 'דקות'],
+      'second': ['שניה', 'שניה', 'שניות'],
+      'millisecond': ['מילי', 'מילישניה', 'מילישניות'],
+      'combine': 'ו',
+      'error': 'תאריך לא חוקי',
+    }
+  },
+  {
+    'language': 'hu',
+    'plural_form': 'english',
+    'phrases': {
+      'year': ['é', 'év', 'év'],
+      'month': ['hó', 'hónap', 'hónap'],
+      'week': ['hét', 'hét', 'hét'],
+      'day': ['n', 'nap', 'nap'],
+      'hour': ['ó', 'óra', 'óra'],
+      'minute': ['p', 'perc', 'perc'],
+      'second': ['mp', 'másodperc', 'másodperc'],
+      'millisecond': ['ms', 'ezredmásodperc', 'ezredmásodperc'],
+      'combine': 'és',
+      'error': 'Érvénytelen dátum',
+    }
+  },
+] -%}
+
+{# macro to convert the abbreviated input for the not_use and always_show lists to the full time part names #}
+{%- macro _abbr_to_full(input) -%}
+    {# determine not_use list #}
+      {%- set abbr_to_full = dict(yr='year', mth='month', wk='week', day='day', hr='hour', min='minute', sec='second', ms='millisecond') -%}
+      {%- set list = input if input is list else (input | replace(' ', '')).split(',') -%}
+      {%- if list | select('in', abbr_to_full) | list | count > 0 -%}
+        {%- set ns = namespace(output=[]) -%}
+        {%- for i in list -%}
+          {%- set ns.output = ns.output + [abbr_to_full[i] | default(i)] -%}
+        {%- endfor -%}
+        {%- set list = ns.output -%}
+      {%- endif -%}
+      {{- list | select('in', abbr_to_full.values()) | list | to_json -}}
+{%- endmacro -%}
+
+{#
+  macro to split a timedelta in years, months, weeks, days, hours, minutes, seconds and milliseconds
+  used by the relative time plus macro, set up as a seperate macro so it can be reused
+#}
+{%- macro time_split(date, parts=8, compare_date=now(), not_use=[], always_show=['all'], time=true, round_mode='floor', duration=false, duration_unit='s') -%}
+  {#- set defaults for input if not entered #}
+    {%- if date in states | map(attribute='entity_id') -%}
+      {%- if date | has_value and is_state_attr(date, 'device_class', 'duration') -%}
+        {%- set duration = true -%}
+        {%- set duration_unit = state_attr(date, 'unit_of_measurement') -%}
+        {%- set date = states(date) -%}
+      {%- elif date is match('input_datetime') and not state_attr(date, 'has_date') -%}
+        {%- set date = today_at(states(date)) -%}
+      {%- else -%}
+        {%- set date = states(date) -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if duration and date | is_number -%}
+      {%- set conversion_mapper =
+        {
+          'd': 3600 * 24,
+          'h': 3600,
+          'min': 60,
+          's': 1,
+          'ms': 1/1000,
+          'μs': 1/1000000
+        }
+      -%}
+      {%- set sec = date | float * conversion_mapper[duration_unit] | default(1) -%}
+      {%- set date = now() + timedelta(seconds=sec) -%}
+    {%- endif -%}
+    {%- set date = date if date is datetime else date | as_datetime('invalid') -%}
+    {%- set compare_date = compare_date if compare_date is datetime else compare_date | as_datetime('invalid') -%}
+    {%- set time = time | bool(true) -%}
+    {%- set parts = [parts | int(1), always_show | count] | max -%} 
+  {# create namespace to store debug data #}
+    {%- set debug = namespace(debug="") -%}
+  {# 1: check if date input is correct #}
+    {%- if date is datetime and compare_date is datetime -%}
+    {# convert date input to local or date only #}
+      {%- set date = date | as_local if time else (date | as_local).date() -%}
+      {%- set compare_date = compare_date | as_local if time else (compare_date | as_local).date() -%} 
+    {# determine highest and lowest date #}
+      {%- set date_max = [compare_date, date] | max -%}
+      {%- set date_min = [compare_date, date] | min -%}
+    {#- set time periods in seconds #}
+      {%- set days_year = 365 + (1 if (compare_date.replace(month=3, day=1) - timedelta(days=1)).day == 29 else 0) -%}
+      {%- set days_month = ((compare_date.replace(day=20) + timedelta(days=20)).replace(day=1) - timedelta(days=1)).day -%}
+      {%- set dur = dict(
+                           year=days_year * 86400000,
+                           month=days_month * 86400000,
+                           week=604800000,
+                           day=86400000,
+                           hour=3600000,
+                           minute=60000,
+                           second=1000,
+                           millisecond=1,
+                          )
+      -%}
+    {# make sure input for not_use and always_show is correct #}
+      {%- if not not_use in [['millisecond'], []] -%}
+        {%- set not_use = _abbr_to_full(not_use) | from_json -%}
+      {%- endif -%}
+      {%- set not_use = not_use + ['hour', 'minute', 'second', 'millisecond' ] if not time else not_use -%} 
+      {%- if always_show in [['all'], 'all'] -%}
+        {%- set always_show = dur.keys() | list -%}
+      {%- elif always_show != [] -%}
+        {%- set always_show = _abbr_to_full(always_show) | from_json | reject('in' , not_use) | list -%}
+      {%- endif -%}
+      {%- set always_show = always_show | reject('in', not_use) | list -%}
+      {%- set do_use = dur.keys() | reject('in', not_use) | list -%}
+    {# determine number of milliseconds #}
+      {%- set ms = ((date_max - date_min).total_seconds() * 1000) | round(0, 'ceil')-%}
+    {# 2: Check if the number of milliseconds is more then the duration of the last time part to output #}
+      {%- if do_use and ms < dur[do_use|last] -%}
+        {{- {do_use | last: (ms / dur[do_use|last]) | round(0, round_mode)} | to_json -}}
+      {%- else -%}
+    {# check if it is needed to determine years #}
+      {%- if ms >= dur.day * 365 -%}
+        {#- set numer of years, and set highest date using this number of years #}
+          {%- set yrs = date_max.year - date_min.year - (1 if date_max.replace(year=date_min.year) < date_min else 0) -%}
+          {%- set date_max = date_max.replace(year=date_max.year - yrs) -%}
+          {%- set ms = (date_max - date_min).total_seconds() * 1000 -%}
+          {%- set ms_yrs = ms -%}
+      {%- endif -%}
+      {%- set yrs = yrs | default(0) -%}
+      {# check if it is needed to determine months #}
+        {%- set check_mth =
+          ms >= dur.day * 28
+          and 'month' in do_use
+        -%}
+        {%- if check_mth -%}
+        {#- set numer of months, and set highest date using this number of months #}
+          {%- set ns = namespace(dm=date_max, mth=0) -%}
+          {%- set dmd = ns.dm.day -%}
+          {%- for m in range(1, 12) -%}
+              {%- set dmm, dmy = ns.dm.month, ns.dm.year -%}
+              {%- set day_max = (ns.dm.replace(day=1) - timedelta(days=1)).day -%}
+              {%- set dm = ns.dm.replace(
+                      month=12 if dmm == 1 else dmm - 1,
+                      year=dmy - 1 if dmm == 1 else dmy,
+                      day= [dmd, day_max] | min
+                      )
+              -%}
+              {%- if dm < date_min -%}
+                  {%- break -%}
+              {%- else -%}
+                  {%- set ns.mth = ns.mth + 1 -%}
+                  {%- set ns.dm = dm -%}
+              {%- endif -%}
+          {%- endfor -%}
+          {%- set date_max, mth = ns.dm, ns.mth -%}
+          {%- set mth = mth + yrs * 12 if 'year' in not_use else mth -%}
+          {%- set ms = (date_max - date_min).total_seconds() * 1000 -%}
+        {%- endif -%}
+        {%- set mth = mth | default(0) -%}
+        {# prepare for other time parts #}
+          {%- set date_max = date_max.replace(year=date_max.year + yrs) if 'year' in not_use and 'month' in not_use else date_max -%}
+        {#- set other time period variables #}
+          {%- set ms = ((date_max - date_min).total_seconds() * 1000 + extra_days | default(0) * dur.day) | round(0) -%}
+          {%- set wks = (ms // dur.week) | int -%}
+          {%- set days = ((ms % dur.week // dur.day) + (wks * dur.week / dur.day if 'week' in not_use else 0)) | int -%}
+          {%- set hrs = ((ms % dur.day // dur.hour) + (days * dur.day / dur.hour if 'day' in not_use else 0)) | int -%}
+          {%- set min = ((ms % dur.hour // dur.minute) + (hrs * dur.hour / dur.minute if 'hour' in not_use else 0)) | int -%}
+          {%- set sec = ((ms % dur.minute // dur.second) + (min * dur.minute / dur.second if 'minute' in not_use else 0)) | int -%}
+          {%- set mis = ((ms % dur.second) | round + (sec * dur.second if 'second' in not_use else 0)) | int -%}
+        {# prepare dict with ouput #}
+          {%- set output = dict(year=yrs, month=mth | default(0), week=wks, day=days, hour=hrs, minute=min, second=sec, millisecond=mis) -%}
+          {%- set output = dict(output.items() | selectattr('0', 'in', do_use)) -%}
+          {%- set keys = output.keys() | list -%}
+          {%- set with_value = output.items() | rejectattr('1', 'eq', 0) | map(attribute='0') | list -%}
+          {%- set first = with_value | first | default('millisecond') -%}
+          {%- set first = keys | select('in', always_show | default([], true) + [first]) | first -%}
+          {%- set to_use = keys[keys.index(first):] -%}
+          {%- set to_output = to_use[:parts] -%}
+          {%- set last = dur.items() | selectattr('0', 'in', to_output) | map(attribute='0') | list | last | default('millisecond') -%}
+        {# 3: check if there is anything left to use #}
+          {%- if to_use -%}
+            {%- set to_output = to_use[:parts] -%}
+            {%- set always_return = to_output | last -%}
+          {# check if all values for always_show are included #}
+            {%- set as_check = always_show | reject('in', to_output) | list | count -%}
+            {%- if always_show and as_check > 0 -%}
+              {%- set to_reject = to_use | reject('in', to_output) | reject('in', always_show) | list -%}
+              {%- set not_use = not_use + to_output[as_check*-1:] + to_reject -%}
+              {%- set to_output = to_output | reject('in', not_use) | list  + always_show -%}
+              {%- set to_output = keys | select('in', to_output) | list + ['extra']-%}
+              {%- set output = time_split(date, parts, compare_date, not_use, always_show, time, round_mode) | from_json -%}
+            {%- endif -%}
+
+          {# apply round if needed #}
+            {%- if round_mode in ['common', 'ceil'] and last != 'millisecond' -%}
+              {# determine first and last item with data #}
+                {%- set ms = ms_yrs if last == 'year' else ms -%}
+                {%- set remain = ms % dur[last] -%}
+                {%- set remain_part = remain / dur[last] -%}
+                {%- set to_round = 1 if remain_part >= 0.5 and round_mode == 'common' else remain_part | round(0, round_mode) -%}
+                {%- set sec_to_add = ((dur[last] + (dur.day if last in  ['year', 'month'] else 1) - remain) | round(0, 'ceil') * to_round) / 1000 -%}
+                {%- set date_max = [compare_date, date] | max + timedelta(seconds=sec_to_add) -%}
+                {%- set date_min = [compare_date, date] | min -%}
+                {%- set output = time_split(date_max, parts, date_min, not_use, always_show, time, 'floor') | from_json -%}
+                {%- set output = dict(output.items() | selectattr('0', 'in', do_use)) -%}
+                {%- set keys = output.keys() | list -%}
+                {%- set with_value = output.items() | rejectattr('1', 'eq', 0) | map(attribute='0') | list -%}
+                {%- set first = with_value | first | default('millisecond') -%}
+                {%- set first = keys | select('in', always_show | default([], true) + [first]) | first -%}
+                {%- set to_use = keys[keys.index(first):] -%}
+                {%- set to_output = to_use[:parts] -%}
+            {%- endif -%}
+          {# output result #}
+            {%- set zero_values = output.items() | selectattr('1', 'eq', 0) | map(attribute='0') | list -%}
+            {%- set reject_list = zero_values | reject('in', always_show) | list -%}
+            {{- dict(output.items() | selectattr('0', 'in', to_output) | rejectattr('0', 'in', reject_list), **dict(debug=debug.debug) if debug.debug else dict()) | default({always_return: 0}, true) | to_json-}}
+          {%- else -%} {{- dict(error='No time parts left to output') -}}
+          {%- endif -%} {# 3 #}
+      {%- endif -%} {# 2 #} 
+    {%- else -%} {{- dict(error='Invalid date input') -}}
+    {%- endif -%} {# 1 #}
+{%- endmacro -%}
+
+{# macro for determining the time unit variant depending on the language #}
+{%- macro plural(number=0, rule='english') -%}
+  {%- set mod100 = number % 100 -%}
+  {%- set mod10 = number % 10 -%}
+  {%- set form = 1 -%}
+  {%- if rule == 'english' -%}
+    {%- set form = 1 if number == 1 else 2 -%}
+  {%- elif rule == 'french' -%}
+    {%- set form = 1 if number <= 1 else 2 -%}
+  {%- elif rule == 'latvian' -%}
+    {%- set form = 1 if (mod10 == 1 and mod100 != 11) else 2 if number != 0 else 3 -%}
+  {%- elif rule == 'irish' -%}
+    {%- set form = 1 if number == 1 else 2 if number == 2 else 3 -%}
+  {%- elif rule == 'romanian' -%}
+    {%- set form = 1 if number == 1 else 2 if (number == 0 or (mod100 > 0 and mod100 < 20 )) else 3 -%}
+  {%- elif rule == 'lithuanian' -%}
+    {%- set form = 1 if (mod10 == 1 and mod100 != 11) else 2 if (mod10 >= 2 and (mod100 < 10 or mod100 >= 20)) else 3 -%}
+  {%- elif rule == 'russian' -%}
+    {%- set form = 1 if (mod10 == 1 and mod100 != 11) else 2 if (mod10 >= 2 and mod10 <= 4 and (mod100 < 10 or mod100 >= 20)) else 3 -%}
+  {%- elif rule == 'slovak' -%}
+    {%- set form = 1 if number == 1 else 2 if (number >= 2 and number <= 4) else 3 -%}
+  {%- elif rule == 'polish' -%}
+    {%- set form = 1 if number == 1 else 2 if (mod10 >= 2 and mod10 <= 4 and (mod100 < 10 or mod100 >= 20)) else 3 -%}
+  {%- elif rule == 'slovenian' -%}
+    {%- set form = 1 if mod100 == 1 else 2 if mod100 == 2 else 3 if (mod100 == 3 or mod100 == 4) else 4 -%}
+  {%- elif rule == 'arabic' -%}
+    {%- set form = 1 if number == 0 else 2 if number == 1 else 3 if number == 2 else 4 if (mod100 >= 3 and mod100 <= 10) else 5 if mod100 >= 11 else 6 -%}
+  {%- endif -%}
+  {{- form -}}
+{%- endmacro -%}
+
+{# macro to output a timedelta in a readable format #}
+{%- macro relative_time_plus(date, parts=1, abbr=false, language='en', compare_date=now(), not_use=['millisecond'], always_show=[], time=true, round_mode='floor', duration=false, duration_unit='s') -%}
+  {#- select correct phrases bases on language input #}
+    {%- set phrases = _time_period_phrases -%}
+    {%- set languages = phrases | map(attribute='language') | list -%}
+    {%- set language = iif(language in languages, language, 'en') -%}
+    {%- set phr = phrases | selectattr('language', 'eq', language) | map(attribute='phrases') | list | first -%}
+    {%- set plural_form = phrases | selectattr('language', 'eq', language) | map(attribute='plural_form') | list | first -%}
+    {%- set abbr = abbr | bool(false) -%}
+  {# split timedelta #}
+    {%- set time_parts = time_split(date, parts, compare_date, not_use, always_show, time, round_mode, duration, duration_unit) | from_json -%}
+  {# check for error #}
+    {%- if 'error' in time_parts -%}
+      {{- time_parts['error'] -}}
+    {%- else -%}
+    {# convert to phrases #}
+      {%- set ns = namespace(phrases=[]) -%}
+      {%- for i in time_parts.keys()  -%}
+        {%- set plural_variant = plural(time_parts[i], plural_form) | int -%}
+        {%- set phr_form = phr[i][0] if abbr else phr[i][plural_variant] -%}
+        {%- set phrase = '{} {}'.format(time_parts[i], phr_form) -%}
+        {%- set ns.phrases = ns.phrases + [phrase] -%}
+      {%- endfor -%}
+    {#- join phrases in a string, using phr.combine for the last item #}
+      {{- '{} {} {}'.format(ns.phrases[:-1] | join(', '), phr.combine, ns.phrases[-1]) if ns.phrases | count > 1 else ns.phrases | first -}}
+    {%- endif -%}
+{%- endmacro -%}

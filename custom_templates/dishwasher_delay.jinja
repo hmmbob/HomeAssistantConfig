@@ -1,0 +1,29 @@
+{%- from "relative_time_plus.jinja" import relative_time_plus -%}
+
+{%- macro dishwasher_delay_info(best_time_entity='sensor.vaatwasser_goedkoopste_tijd', language='nl', parts=2, abbr=true) -%}
+  {%- set best_time = states(best_time_entity) -%}
+  {%- if best_time in ['unknown', 'unavailable', 'none', ''] -%}
+    {{- dict(known=false) | to_json -}}
+  {%- else -%}
+    {%- set target = today_at(best_time) -%}
+    {%- set target = target if target > now() else target + timedelta(days=1) -%}
+    {%- set raw_minutes = ((as_timestamp(target) - as_timestamp(now())) / 60) | float(0) -%}
+    {%- set step = 30 if raw_minutes <= 600 else 60 -%}
+    {%- set delay_minutes = ((raw_minutes + (step / 2)) // step * step) | int -%}
+    {%- set advised_start = now() + timedelta(minutes=delay_minutes) -%}
+    {%- set delay_text =
+      'start nu'
+      if delay_minutes <= 0
+      else '{} uitstel'.format(
+        relative_time_plus(
+          advised_start,
+          parts=parts,
+          language=language,
+          abbr=abbr,
+          not_use=['second', 'millisecond']
+        )
+      )
+    -%}
+    {{- dict(known=true, best_time=best_time, delay_minutes=delay_minutes, delay_text=delay_text) | to_json -}}
+  {%- endif -%}
+{%- endmacro -%}

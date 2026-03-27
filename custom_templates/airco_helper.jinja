@@ -1,0 +1,58 @@
+{%- macro airco_icon(entity, output) -%}
+    {%- set output = output if output in ['icon','color'] else 'icon' -%}
+    {%- if (states(entity) != 'unknown' and
+            entity.startswith('climate.airco')) -%}
+        {%- set value = states(entity) -%}
+        {%- set mapping = 
+        [
+            {
+            'state': 'heat',
+            'icon': 'mdi:fire',
+            'color': 'orange'
+            },
+            {
+            'state': 'cool',
+            'icon': 'mdi:snowflake',
+            'color': 'blue'
+            },
+            {
+            'state': 'dry',
+            'icon': 'mdi:water-percent',
+            'color': 'orange'
+            },
+            {
+            'state': 'fan_only',
+            'icon': 'mdi:fan',
+            'color': 'green'
+            },
+            {
+            'state': 'heat_cool',
+            'icon': 'mdi:sun-snowflake-variant',
+            'color': 'green'
+            },
+            {
+            'state': 'off',
+            'icon': 'mdi:snowflake-off',
+            'color': 'grey'
+            }
+        ]
+        %}
+        {%- if output == 'icon' -%}
+            {{ mapping
+                | selectattr('state', '==', value)
+                | map(attribute='icon')
+                | first
+                | default(none)
+            }}
+        {%- elif output == 'color' -%}
+            {{ mapping
+                | selectattr('state', '==', value)
+                | map(attribute='color')
+                | first
+                | default(none)
+            }}
+        {% endif %}
+    {%- else -%}
+        {{- 'Ongeldige airco entity' -}}
+    {%- endif -%}
+{%- endmacro -%}
