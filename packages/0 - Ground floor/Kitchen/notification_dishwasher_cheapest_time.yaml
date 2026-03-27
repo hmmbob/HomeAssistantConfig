@@ -54,7 +54,14 @@ dishwasher_cheapest_time_package:
           action: notify.mobile_app_sm_a556b
           data:
             title: "Vaatwasser"
-            message: "Het beste start je de vaatwasser om {{states('sensor.vaatwasser_goedkoopste_tijd')}}"
+            message: >-
+              {%- from "dishwasher_delay.jinja" import dishwasher_delay_info -%}
+              {%- set dw = dishwasher_delay_info() | from_json -%}
+              {%- if dw.known -%}
+                Het beste start je de vaatwasser om {{ dw.best_time }} ({{ dw.delay_text }})
+              {%- else -%}
+                Het beste startmoment voor de vaatwasser is nu onbekend
+              {%- endif -%}
             data:
               channel: "notification-dishwasher"
               tag: "notification-dishwasher"

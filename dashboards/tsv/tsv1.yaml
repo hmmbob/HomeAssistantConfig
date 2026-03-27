@@ -57,7 +57,14 @@ cards:
                 card:
                   type: custom:mushroom-template-card
                   primary: Vaatwasser
-                  secondary: "Het beste start je de vaatwasser om {{states('sensor.vaatwasser_goedkoopste_tijd')}}"
+                  secondary: >-
+                    {%- from "dishwasher_delay.jinja" import dishwasher_delay_info -%}
+                    {%- set dw = dishwasher_delay_info() | from_json -%}
+                    {%- if dw.known -%}
+                      Beste tijd: {{ dw.best_time }} ({{ dw.delay_text }})
+                    {%- else -%}
+                      Beste tijd onbekend
+                    {%- endif -%}
                   icon: mdi:dishwasher
                   icon_color: green
               - type: conditional
