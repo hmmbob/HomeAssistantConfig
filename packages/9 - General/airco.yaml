@@ -151,7 +151,7 @@ airco_package:
           data:
             hvac_mode: auto
           target:
-            entity_id: "{{ integration_entities('tado') | select('is_state', 'heat') | list }}"
+            entity_id: "{{ integration_entities('homekit_controller') | select('is_state', 'heat') | list }}"
         - alias: "Schakel airco's uit"
           action: climate.set_hvac_mode
           data:
