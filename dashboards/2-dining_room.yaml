@@ -86,9 +86,10 @@ cards:
             show_brightness_control: true
             collapsible_controls: true
           - type: custom:mushroom-light-card
-            entity: light.spots_vaas
-            icon: mdi:lightbulb-spot
-            show_brightness_control: true
+            entity: light.kast
+            icon: mdi:cupboard
+            fill_container: false
+            show_brightness_control: false
             collapsible_controls: true
 
       - type: thermostat

@@ -8,3 +8,40 @@ lights_dining_room_package:
         - light.kast
         - light.spots_eetkamer
         - light.spots_keuken
+
+  automation:
+    - id: laat_kast_vaas_volgen
+      alias: "Laat kastlamp de vaaslamp volgen"
+      mode: single
+      triggers:
+        - alias: Vaaslamp gaat aan
+          trigger: state
+          entity_id: light.spots_vaas
+          to: "on"
+          id: vaas_aan
+        - alias: Vaaslamp gaat uit
+          trigger: state
+          entity_id: light.spots_vaas
+          to: "off"
+          id: vaas_uit
+      actions:
+        - alias: Bepaal welke actie voor de kastlamp nodig is
+          choose:
+            - alias: Kastlamp inschakelen
+              conditions:
+                - condition: trigger
+                  id: vaas_aan
+              sequence:
+                - alias: Zet kastlamp aan
+                  action: light.turn_on
+                  target:
+                    entity_id: light.kast
+            - alias: Kastlamp uitschakelen
+              conditions:
+                - condition: trigger
+                  id: vaas_uit
+              sequence:
+                - alias: Zet kastlamp uit
+                  action: light.turn_off
+                  target:
+                    entity_id: light.kast
