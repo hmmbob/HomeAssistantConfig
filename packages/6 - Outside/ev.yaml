@@ -7,14 +7,6 @@ ev_package:
       step: 5
       unit_of_measurement: "%"
 
-  utility_meter:
-    ev_charged_energy:
-      unique_id: smartevse_monthly_total
-      cycle: monthly
-      name: SmartEVSE Maandelijks totaal
-      source: sensor.smartevse_6360_evtotalenergycharged
-      always_available: true
-
   template:
     - trigger:
         # This generates triggers for all changes in the entity, both in its state and its attributes.
@@ -167,8 +159,7 @@ ev_package:
       variables:
         title: Maandelijks totaal auto laden
         message: >
-          This month you have charged your EV with a total of {{ states('sensor.smartevse_monthly_total') | round(1, default=0) }} kWh. 
-          The total meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') | round(1, default=0) }} kWh.
+          The total EV meter reading at {{now().strftime("%d-%m-%Y %H:%M")}} was {{ states('sensor.smartevse_6360_evtotalenergycharged') | round(1, default=0) }} kWh.
       triggers:
         - alias: Trigger aan einde van de dag om maandtotaal te verwerken
           trigger: time
