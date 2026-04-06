@@ -220,8 +220,42 @@ solar_package:
         - trigger: time_pattern
           alias: "Elke 30 seconden"
           seconds: "/30"
+      conditions:
+        - alias: "Controleer of sensor.pv_power beschikbaar is"
+          condition: template
+          value_template: "{{ states('sensor.pv_power') not in ['unknown', 'unavailable'] }}"
       actions:
         - alias: "Ververs sensor PV-vermogen"
           action: homeassistant.update_entity
           target:
             entity_id: sensor.pv_power
+
+    - id: goodwe_inverter_polling_sun_control
+      alias: "GoodWe polling in-/uitschakelen op basis van zon"
+      description: "Schakelt de GoodWe data polling uit 30 minuten na zonsondergang en in 30 minuten voor zonsopgang."
+      mode: single
+      triggers:
+        - trigger: sun
+          event: sunset
+          offset: "00:30:00"
+          id: disable
+        - trigger: sun
+          event: sunrise
+          offset: "-00:30:00"
+          id: enable
+      actions:
+        - choose:
+            - conditions:
+                - condition: trigger
+                  id: disable
+              sequence:
+                - action: automation.turn_off
+                  target:
+                    entity_id: automation.goodwe_omvormer_data_opvragen
+            - conditions:
+                - condition: trigger
+                  id: enable
+              sequence:
+                - action: automation.turn_on
+                  target:
+                    entity_id: automation.goodwe_omvormer_data_opvragen
