@@ -2,7 +2,7 @@ Hmmbob light theme:
   # Card mod stuff
   uix-theme: Hmmbob light theme
   header-height: 48px
-  card-mod-root-yaml: |
+  uix-root-yaml: |
     .: |
       .header {
         top: calc(100vh - 48px) !important;
@@ -13,7 +13,14 @@ Hmmbob light theme:
         padding-top: 0px !important;
         padding-bottom: 48px !important;
       }
-  card-mod-card: |
+  uix-view-yaml: |
+    hui-sections-view:
+      $: |
+        hui-view-footer {
+          --row-gap: 36px;
+        }
+
+  uix-card: |
     @keyframes boing {
       0% { transform: scale3d(1, 1, 1); }
       7% { transform: scale3d(1.25, 0.75, 1); }
@@ -30,7 +37,7 @@ Hmmbob light theme:
     }
 
   # Remove outline in popup content on mobile
-  card-mod-more-info-yaml: |
+  uix-more-info-yaml: |
     .: |
       .container, .content {
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -82,7 +89,7 @@ Hmmbob dark theme:
   # Card mod stuff
   uix-theme: Hmmbob dark theme
   header-height: 48px
-  card-mod-root-yaml: |
+  uix-root-yaml: |
     .: |
       .header {
         top: calc(100vh - 48px) !important;
@@ -93,7 +100,14 @@ Hmmbob dark theme:
         padding-top: 0px !important;
         padding-bottom: 48px !important;
       }
-  card-mod-card: |
+  uix-view-yaml: |
+    hui-sections-view:
+      $: |
+        hui-view-footer {
+          --row-gap: 36px;
+        }
+
+  uix-card: |
     @keyframes boing {
       0% { transform: scale3d(1, 1, 1); }
       7% { transform: scale3d(1.25, 0.75, 1); }
@@ -110,7 +124,7 @@ Hmmbob dark theme:
     }
 
   # Remove outline in popup content on mobile
-  card-mod-more-info-yaml: |
+  uix-more-info-yaml: |
     .: |
       .container, .content {
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
