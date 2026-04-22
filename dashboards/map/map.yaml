@@ -14,6 +14,7 @@ views:
           - entity: zone.aldi
           - entity: zone.amc
           - entity: zone.cz
+          - entity: zone.hema
           - entity: zone.home
           - entity: zone.mc
           - entity: zone.school
