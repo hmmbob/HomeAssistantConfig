@@ -10,7 +10,7 @@ cards:
       - type: markdown ## High accuracy header
         content: |
           # Locatienauwkeurigheid
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {
@@ -60,7 +60,7 @@ cards:
       - type: markdown ## Statussen header
         content: |
           # Statussen
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {

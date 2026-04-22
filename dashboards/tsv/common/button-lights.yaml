@@ -1,5 +1,5 @@
 type: "custom:vertical-stack-in-card"
-card_mod:
+uix:
   style: |
     ha-card { height: 55px !important; }
 cards:
@@ -12,7 +12,7 @@ cards:
       {{ "mdi:lightbulb-on" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "mdi:lightbulb-off" }}
     icon_color: |-
       {{ "orange" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') else "grey" }}
-    card_mod:
+    uix:
       style: |
         ha-state-icon {
           {{ "animation: illumination 3s infinite;" if is_state('light.verlichting_voor_gebruik_op_kiosk', 'on') }}
@@ -77,7 +77,7 @@ cards:
 
   - type: custom:mushroom-template-card
     icon: mdi:chevron-right
-    card_mod:
+    uix:
       style:
         .: |
           ha-card {

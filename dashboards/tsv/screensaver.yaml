@@ -19,7 +19,7 @@ cards:
       textOffsetVertical: "-0.05em"
       frontFlapColor: rgb(40, 40, 40)
       rearFlapColor: rgb(40, 40, 40)
-    card_mod:
+    uix:
       style: |
         ha-card {
           background-color: transparent;

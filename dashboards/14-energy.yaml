@@ -10,7 +10,7 @@ cards:
       - type: markdown ## Energieverbruik header
         content: |
           # Energie
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {

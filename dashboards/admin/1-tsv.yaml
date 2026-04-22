@@ -9,7 +9,7 @@ cards:
   - type: markdown ## Kiosk panel maintenance header
     content: |
       # Kiosk panel maintenance
-    card_mod:
+    uix:
       style:
         .: |
           ha-card {

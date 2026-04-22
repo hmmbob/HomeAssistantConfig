@@ -1,7 +1,7 @@
 type: horizontal-stack
 cards:
   - type: "custom:vertical-stack-in-card"
-    card_mod:
+    uix:
       style: |
         ha-card { height: 55px !important; }
     cards:
@@ -16,7 +16,7 @@ cards:
           {{ "green" if is_state('binary_sensor.is_pubercave_pc_on','on') else "disabled" }}
         tap_action:
           action: none
-        card_mod:
+        uix:
           style:
             ha-tile-info$: |
               .primary {
@@ -41,7 +41,7 @@ cards:
           {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
         tap_action:
           action: none
-        card_mod:
+        uix:
           style: |
             ha-card {
               background: none;
@@ -57,7 +57,7 @@ cards:
             }
 
   - type: "custom:vertical-stack-in-card"
-    card_mod:
+    uix:
       style: |
         ha-card { height: 55px !important; }
     cards:
@@ -72,7 +72,7 @@ cards:
           {{ "green" if is_state('binary_sensor.minicave_pc','on') else "disabled" }}
         tap_action:
           action: none
-        card_mod:
+        uix:
           style:
             ha-tile-info$: |
               .primary {
@@ -97,7 +97,7 @@ cards:
           {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
         tap_action:
           action: none
-        card_mod:
+        uix:
           style: |
             ha-card {
               background: none;

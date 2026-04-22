@@ -1,6 +1,6 @@
 Hmmbob light theme:
   # Card mod stuff
-  card-mod-theme: Hmmbob light theme
+  uix-theme: Hmmbob light theme
   header-height: 48px
   card-mod-root-yaml: |
     .: |
@@ -80,7 +80,7 @@ Hmmbob light theme:
 
 Hmmbob dark theme:
   # Card mod stuff
-  card-mod-theme: Hmmbob dark theme
+  uix-theme: Hmmbob dark theme
   header-height: 48px
   card-mod-root-yaml: |
     .: |

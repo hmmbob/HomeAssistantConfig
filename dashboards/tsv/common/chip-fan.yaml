@@ -19,7 +19,7 @@ tap_action:
             icon_animation: true
             show_percentage_control: true
             layout: horizontal
-            card_mod:
+            uix:
               style: |
                 ha-card {
                   background-color: transparent;
@@ -30,7 +30,7 @@ tap_action:
             chips:
               - type: template
                 content: "Boost:"
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       --chip-background: transparent;
@@ -85,7 +85,7 @@ tap_action:
                         parts=2, time=true, abbr=true, language='nl') }}
                   tap_action:
                     action: none
-card_mod:
+uix:
   style: |
     .content {
     {% if is_state(config.entity, 'on')%}

@@ -21,7 +21,7 @@ cards:
             icon: mdi:home-thermometer
             tap_action:
               action: none
-            card_mod:
+            uix:
               style: |
                 ha-card {
                   --chip-background: transparent;
@@ -142,7 +142,7 @@ cards:
                     action: none
 
           - type: "custom:vertical-stack-in-card"
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 55px !important; }
             cards:
@@ -169,7 +169,7 @@ cards:
                   {% else %}
                     'red'
                   {% endif %}
-                card_mod:
+                uix:
                   style:
                     .: |
                       ha-card {
@@ -337,7 +337,7 @@ cards:
         today_indicator: glow
         today_indicator_position: "7px 27px"
         vertical_line_width: 5px
-        card_mod: # Show time inline
+        uix: # Show time inline
           style: |
             div.event-content {
               display: grid;

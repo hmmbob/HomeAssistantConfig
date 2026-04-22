@@ -21,7 +21,7 @@ cards:
             icon: mdi:home-thermometer
             tap_action:
               action: none
-            card_mod:
+            uix:
               style: |
                 ha-card {
                   --chip-background: transparent;
@@ -45,7 +45,7 @@ cards:
           - type: vertical-stack
             cards:
               - type: "custom:vertical-stack-in-card"
-                card_mod:
+                uix:
                   style: |
                     ha-card { height: 55px !important; }
                 cards:
@@ -82,7 +82,7 @@ cards:
                       - condition: state
                         entity: media_player.kantoor
                         state: "off"
-                    card_mod:
+                    uix:
                       style:
                         .: |
                           ha-card {
@@ -93,7 +93,7 @@ cards:
                       type: custom:mushroom-template-card
                       icon_color: deep-purple
                       icon: phu:radio-538
-                      card_mod:
+                      uix:
                         style:
                           .: |
                             ha-card {
@@ -156,7 +156,7 @@ cards:
         today_indicator: glow
         today_indicator_position: "7px 27px"
         vertical_line_width: 5px
-        card_mod: # Show time inline
+        uix: # Show time inline
           style: |
             div.event-content {
               display: grid;

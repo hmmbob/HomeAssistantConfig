@@ -8,7 +8,7 @@ cards:
   - type: markdown ## Updates header
     content: |
       # Camera live video
-    card_mod:
+    uix:
       style:
         .: |
           ha-card {

@@ -10,7 +10,7 @@ cards:
       - type: markdown ## Plants header
         content: |
           # Planten
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {
@@ -26,7 +26,7 @@ cards:
                 }
       - type: custom:mushroom-chips-card
         alignment: end
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {

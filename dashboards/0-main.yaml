@@ -8,7 +8,7 @@ cards:
   - type: vertical-stack
     cards:
       - type: horizontal-stack
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {
@@ -16,7 +16,7 @@ cards:
               }
         cards:
           - type: markdown
-            card_mod:
+            uix:
               style:
                 .: |
                   ha-card {
@@ -40,7 +40,7 @@ cards:
               # Fijne avond, {{user}}!
               {% endif %}
           - type: custom:mushroom-chips-card
-            card_mod:
+            uix:
               style: |
                 ha-card {
                   margin: 9px 0px 0px 0px;
@@ -75,7 +75,7 @@ cards:
         cards:
           ### Room card woonkamer ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -88,7 +88,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/living-room
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -124,7 +124,7 @@ cards:
                 icon: mdi:lightbulb-group
                 icon_color: |-
                   {{ "orange" if is_state('light.verlichting_woonkamer', 'on') else "grey" }}
-                card_mod: &1st_button_style
+                uix: &1st_button_style
                   style:
                     .: |
                       ha-card {
@@ -142,7 +142,7 @@ cards:
                 icon_color: "{{state_attr('sensor.template_airco_woonkamer_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod: &2nd_button_style
+                uix: &2nd_button_style
                   style: |
                     ha-card {
                       width: 66px;
@@ -158,7 +158,7 @@ cards:
                 icon: phu:rituals
                 icon_color: |-
                   {{ "green" if is_state('switch.genie', 'on') else "grey" }}
-                card_mod: &3rd_button_style
+                uix: &3rd_button_style
                   style: |
                     ha-card {
                       width: 66px;
@@ -175,7 +175,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/woonkamer
-                card_mod: &4th_button_style
+                uix: &4th_button_style
                   style: |
                     ha-card {
                       width: 66px;
@@ -188,7 +188,7 @@ cards:
                       }
           ### Room card eetkamer ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -201,7 +201,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/dining-room
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -237,28 +237,28 @@ cards:
                 icon: mdi:lightbulb-group
                 icon_color: |-
                   {{ "orange" if is_state('light.verlichting_eetkamer', 'on') else "grey" }}
-                card_mod: *1st_button_style
+                uix: *1st_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_woonkamer
                 icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_woonkamer_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/dining-room
-                card_mod: *3rd_button_style
+                uix: *3rd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/dining-room
-                card_mod: *4th_button_style
+                uix: *4th_button_style
 
       ###########################
       # 2nd row of room cards   #
@@ -267,7 +267,7 @@ cards:
         cards:
           ### Room card salon ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -280,7 +280,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/salon
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -316,7 +316,7 @@ cards:
                 icon: mdi:lightbulb-group
                 icon_color: |-
                   {{ "orange" if is_state('light.alle_lampen_salon', 'on') else "grey" }}
-                card_mod: *1st_button_style
+                uix: *1st_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: climate.salon
                 icon: mdi:radiator
@@ -324,7 +324,7 @@ cards:
                   {{ "orange" if is_state(entity, 'heat') else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: climate.kacheltje
                 icon: mdi:heat-wave
@@ -332,17 +332,17 @@ cards:
                   {{ "orange" if states('climate.kacheltje') in ['heat','auto'] else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod: *3rd_button_style
+                uix: *3rd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/salon
-                card_mod: *4th_button_style
+                uix: *4th_button_style
           ### Room card MBR ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -355,7 +355,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/mbr
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -398,7 +398,7 @@ cards:
                   data: {}
                   target:
                     entity_id: switch.inloopkast
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       width: 66px;
@@ -419,21 +419,21 @@ cards:
                 icon_color: "{{state_attr('sensor.template_airco_mbr_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/mbr
-                card_mod: *3rd_button_style
+                uix: *3rd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/mbr
-                card_mod: *4th_button_style
+                uix: *4th_button_style
 
       ###########################
       # 3rd row of room cards   #
@@ -442,7 +442,7 @@ cards:
         cards:
           ### Room card Slaapkamer M ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -455,7 +455,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/bed-room-maxi
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -492,14 +492,14 @@ cards:
                   {{ "mdi:led-strip-variant" if is_state('light.verlichting_pubercave','on') else "mdi:led-strip-variant-off" }}
                 icon_color: |-
                   {{ "orange" if is_state('light.verlichting_pubercave', 'on') else "grey" }}
-                card_mod: *1st_button_style
+                uix: *1st_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: climate.airco_slaapkamer_m
                 icon: "{{states('sensor.template_airco_slaapkamer_m_icon')}}"
                 icon_color: "{{state_attr('sensor.template_airco_slaapkamer_m_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: binary_sensor.is_pubercave_pc_on
                 icon: mdi:desktop-classic
@@ -507,7 +507,7 @@ cards:
                   {{ "green" if is_state('binary_sensor.is_pubercave_pc_on', 'on') else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       width: 66px;
@@ -557,7 +557,7 @@ cards:
                             show_source: true
                 hold_action:
                   action: more-info
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       width: 66px;
@@ -577,7 +577,7 @@ cards:
 
           ### Room card mini ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -590,7 +590,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/bed-room-mini
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -626,7 +626,7 @@ cards:
                 icon: >-
                   {{ "mdi:led-strip-variant" if is_state('light.ledstrip_bureau_mini','on') else "mdi:led-strip-variant-off" }}
                 icon_color: grey
-                card_mod:
+                uix:
                   style:
                     mushroom-shape-icon$: |
                       .shape {
@@ -652,7 +652,7 @@ cards:
                 icon_color: "{{state_attr('sensor.template_airco_slaapkamer_t_icon', 'color')}}"
                 tap_action:
                   action: more-info
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: binary_sensor.minicave_pc
                 icon: mdi:desktop-classic
@@ -660,7 +660,7 @@ cards:
                   {{ "green" if is_state('binary_sensor.minicave_pc', 'on') else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       width: 66px;
@@ -699,7 +699,7 @@ cards:
                         show_source: true
                 hold_action:
                   action: more-info
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       width: 66px;
@@ -724,7 +724,7 @@ cards:
         cards:
           ### Room card kantoor ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -737,7 +737,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -774,7 +774,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod: *1st_button_style
+                uix: *1st_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: climate.kantoor
                 icon: mdi:radiator
@@ -782,24 +782,24 @@ cards:
                   {{ "orange" if is_state(entity, 'heat') else "grey" }}
                 tap_action:
                   action: more-info
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod: *3rd_button_style
+                uix: *3rd_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: none
                 icon_color: none
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/office
-                card_mod: *4th_button_style
+                uix: *4th_button_style
           ### Room card other ###
           - type: custom:vertical-stack-in-card
-            card_mod:
+            uix:
               style: |
                 ha-card { height: 225px !important; }
             cards:
@@ -812,7 +812,7 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/other
-                card_mod:
+                uix:
                   style:
                     mushroom-state-info$: |
                       .primary {
@@ -854,19 +854,19 @@ cards:
                   data: {}
                   target:
                     entity_id: light.badkamer
-                card_mod: *1st_button_style
+                uix: *1st_button_style
               - type: custom:mushroom-legacy-template-card
                 icon: mdi:account-voice
                 icon_color: grey
                 tap_action: !include common/tap-action-tts-announcement.yaml
-                card_mod: *2nd_button_style
+                uix: *2nd_button_style
               - type: custom:mushroom-legacy-template-card
                 entity: fan.open_air_mini
                 icon: mdi:fan
                 icon_color: |-
                   {{ "green" if is_state('fan.open_air_mini', 'on') else "grey" }}
                 tap_action: !include common/tap-action-fan.yaml
-                card_mod:
+                uix:
                   style: |
                     ha-card {
                       width: 66px;
@@ -892,4 +892,4 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: /lovelace/other
-                card_mod: *4th_button_style
+                uix: *4th_button_style

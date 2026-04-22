@@ -39,12 +39,12 @@ tap_action:
             show_name: false
             camera_view: auto
             fit_mode: contain
-            card_mod:
+            uix:
               style: |
                 ha-card {
                   height: 260px !important;  /* Ensure the height is set */
                 }
-card_mod:
+uix:
   style: |
     ha-card {
       background-color: transparent;

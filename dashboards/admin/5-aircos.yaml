@@ -8,7 +8,7 @@ cards:
   - type: markdown ## Airco's  header
     content: |
       # Airco's
-    card_mod:
+    uix:
       style:
         .: |
           ha-card {

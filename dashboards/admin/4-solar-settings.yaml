@@ -9,7 +9,7 @@ cards:
   - type: markdown ## Header
     content: |
       # Solar settings
-    card_mod:
+    uix:
       style:
         .: |
           ha-card {

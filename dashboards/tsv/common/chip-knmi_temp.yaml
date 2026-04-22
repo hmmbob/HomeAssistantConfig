@@ -3,7 +3,7 @@ entity: sensor.knmi_temperatuur
 icon: mdi:thermometer
 tap_action:
   action: none
-card_mod:
+uix:
   style: |
     ha-card {
       --chip-background: transparent;

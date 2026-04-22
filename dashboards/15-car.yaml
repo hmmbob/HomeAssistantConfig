@@ -15,7 +15,7 @@ cards:
           - type: markdown ## Auto header
             content: |
               # Auto
-            card_mod:
+            uix:
               style:
                 .: |
                   ha-card {
@@ -31,7 +31,7 @@ cards:
                     }
           - type: custom:mushroom-chips-card
             alignment: end
-            card_mod:
+            uix:
               style:
                 .: |
                   ha-card {

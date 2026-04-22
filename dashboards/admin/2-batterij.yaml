@@ -10,7 +10,7 @@ cards:
       - type: markdown ## Batterij niveaus header
         content: |
           # Batterij niveaus
-        card_mod:
+        uix:
           style:
             .: |
               ha-card {
@@ -67,7 +67,7 @@ cards:
       {% for bt in ns_batteries.batteries | dictsort(False, 'value') | reverse -%}
         | {{ bt[0] }} | {{ [bt][0][1] }} |
       {% endfor %}
-    card_mod:
+    uix:
       style:
         ha-markdown$: >
           table { width: 100%; border-collapse: separate; border-spacing: 0px; }

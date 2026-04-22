@@ -12,7 +12,7 @@ cards:
         title: Overige instellingen
         alignment: justify
       - type: custom:mushroom-chips-card
-        card_mod:
+        uix:
           style:
             mushroom-template-chip:nth-child(3)$: |
               ha-state-icon {
@@ -259,7 +259,7 @@ cards:
             icon_color: grey
             tap_action:
               action: fire-dom-event
-              card_mod:
+              uix:
                 action: clear_cache
 
       - type: grid

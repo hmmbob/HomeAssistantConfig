@@ -160,7 +160,7 @@ trash_package:
                 content:
                   type: picture
                   image: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
-                card_mod:
+                uix:
                   style:
                     ha-dialog$: |
                       div.mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
