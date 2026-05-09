@@ -1,0 +1,74 @@
+####################
+# Alarm              #
+####################
+path: alarm
+title: Alarm
+icon: mdi:shield-lock
+visible:
+  - user: 510b1afef60640d7a220711c50b2192a # BL
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        content: |
+          # Alarm
+        uix:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: custom:alarmo-card
+        entity: alarm_control_panel.alarmo
+        name: "Alarmo"
+        keep_keypad_visible: false
+        button_scale_actions: 1
+        button_scale_keypad: 1
+        states:
+          armed_night:
+            hide: always
+        show_messages: true
+        show_ready_indicator: true
+        show_bypassed_sensors: true
+        use_code_dialog: false
+        hide_keypad: false
+
+      - type: markdown ## Statussen header
+        content: |
+          # Alarm status
+        uix:
+          style:
+            .: |
+              ha-card {
+              margin: 12px 14px -5px 14px;
+              box-shadow: none;
+              --ha-card-background: rgba(0, 0, 0, 0.0)
+              }
+            ha-markdown$: |
+              h1 { 
+                font-size: 18px !important;
+                font-weight: 400 !important;
+                padding-left: 10px !important;
+                border-left: 3px solid rgba(81, 134, 236);
+                }
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          state_color: true
+        filter:
+          include:
+            - entity_id: "binary_sensor.hornet_nest_alarm_panel_zone_*"
+        sort:
+          method: name

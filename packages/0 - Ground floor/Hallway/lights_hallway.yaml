@@ -2,8 +2,9 @@ lights_hallway_package:
   binary_sensor:
     - platform: group
       name: "PIR Gang"
+      unique_id: pir_gang_group
       entities:
-        - binary_sensor.pir_gang_kapstok_motion_detection
+        - binary_sensor.hornet_nest_alarm_panel_zone_02
         - binary_sensor.pir_gang_meterkast_motion_detection
 
   input_boolean:
@@ -19,13 +20,13 @@ lights_hallway_package:
       triggers:
         - alias: Beweging gedetecteerd in gang
           trigger: state
-          entity_id: binary_sensor.pir_gang
+          entity_id: binary_sensor.pir_gang_group
           from: "off"
           to: "on"
           id: turn_on
         - alias: Geen beweging meer in gang
           trigger: state
-          entity_id: binary_sensor.pir_gang
+          entity_id: binary_sensor.pir_gang_group
           from: "on"
           to: "off"
           id: turn_off

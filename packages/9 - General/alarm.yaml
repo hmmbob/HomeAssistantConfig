@@ -1,0 +1,38 @@
+alarm_package:
+  automation:
+    - id: alarm_arm_disarm_based_on_presence
+      alias: "Alarm automatisch armeren/uitzetten op aanwezigheid"
+      description: "Armt Alarmo automatisch wanneer niemand thuis is en disarmt
+        wanneer iemand terugkomt."
+      initial_state: on
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id: group.all_persons
+      action:
+        - choose:
+            - conditions:
+                - condition: state
+                  entity_id: group.all_persons
+                  state: "not_home"
+                - condition: state
+                  entity_id: alarm_control_panel.alarmo
+                  state: "disarmed"
+              sequence:
+                - service: alarm_control_panel.alarm_arm_away
+                  target:
+                    entity_id: alarm_control_panel.alarmo
+            - conditions:
+                - condition: state
+                  entity_id: group.all_persons
+                  state: "home"
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: alarm_control_panel.alarmo
+                      state: "disarmed"
+              sequence:
+                - service: alarm_control_panel.alarm_disarm
+                  target:
+                    entity_id: alarm_control_panel.alarmo
+          default: []

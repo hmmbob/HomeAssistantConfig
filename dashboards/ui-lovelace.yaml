@@ -24,3 +24,4 @@ views:
   - !include 14-energy.yaml
   - !include 15-car.yaml
   - !include 16-plants.yaml
+  - !include 17-alarm.yaml

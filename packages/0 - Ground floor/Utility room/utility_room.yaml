@@ -1,4 +1,12 @@
 utility_room_package:
+  binary_sensor:
+    - platform: group
+      name: "PIR Bijkeuken"
+      unique_id: pir_bijkeuken_group
+      entities:
+        - binary_sensor.hornet_nest_alarm_panel_zone_05
+        - binary_sensor.pir_bijkeuken_occupancy
+
   input_boolean:
     enable_pir_bijkeuken_automations:
       name: "Verlichting bijkeuken aan op beweging"
@@ -12,14 +20,14 @@ utility_room_package:
       triggers:
         - alias: Beweging gedetecteerd in bijkeuken
           trigger: state
-          entity_id: binary_sensor.pir_bijkeuken_occupancy
+          entity_id: binary_sensor.pir_bijkeuken_group
           to: "on"
           from: "off"
           variables:
             action: turn_on
         - alias: Geen beweging meer in bijkeuken
           trigger: state
-          entity_id: binary_sensor.pir_bijkeuken_occupancy
+          entity_id: binary_sensor.pir_bijkeuken_group
           to: "off"
           from: "on"
           variables:
