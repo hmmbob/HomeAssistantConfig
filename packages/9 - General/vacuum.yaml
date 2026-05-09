@@ -18,11 +18,14 @@ vacuum_package:
       id: vacuum_ask_to_run
       variables:
         notification_service: >
-          {% if is_state("device_tracker.sm_a566b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
-          {% elif is_state("device_tracker.sm_a566b", "home") %}notify.mobile_app_sm_a566b
-          {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
-          {% else %}notify.bogus
-          {% endif %}
+          {% if is_state("device_tracker.sm_a566b", "home") and
+            is_state("device_tracker.sm_a556b", "home") %}
+              notify.mobile_devices_adults 
+          {% elif is_state("device_tracker.sm_a566b", "home") %}
+            notify.mobile_app_sm_a566b 
+          {% elif is_state("device_tracker.sm_a556b", "home") %}
+            notify.mobile_app_sm_a556b 
+          {% else %}notify.bogus {% endif %}
       triggers:
         - alias: Ingestelde herinneringstijd is bereikt
           trigger: time
@@ -34,7 +37,8 @@ vacuum_package:
           state: "on"
         - alias: Laatste schoonmaakbeurt is langer dan 24 uur geleden
           condition: template
-          value_template: "{{ as_timestamp(now()) - as_timestamp(states('sensor.rocky_last_clean_start')) > 86100 }}" # 23h55
+          value_template: "{{ as_timestamp(now()) -
+            as_timestamp(states('sensor.rocky_last_clean_start')) > 86100 }}" # 23h55
         - alias: Vakantiemodus is uitgeschakeld
           condition: state
           entity_id: input_boolean.vacation_mode_away
@@ -78,21 +82,41 @@ vacuum_package:
           from: "cleaning"
           to: "returning"
       actions:
+        - variables:
+            message: "Rocky is klaar."
         - alias: Stop stofzuiger voordat commando verzonden wordt
           action: vacuum.stop
           entity_id: vacuum.rocky
         - alias: Wacht kort voordat commando verzonden wordt
           delay: "00:00:02"
-        - alias: Stuur stofzuiger naar de prullenbak
-          action: vacuum.send_command
-          data:
-            command: app_goto_target
-            params:
-              - 30301
-              - 29421
-          target:
-            entity_id: vacuum.rocky
-        - alias: "Wacht tot Rocky bij de prullenbak is"
+        - choose:
+            - conditions: "{{ is_state('select.rocky_selected_map', 'Benedenverdieping') }}"
+              sequence:
+                - alias: Stuur stofzuiger naar de prullenbak
+                  action: roborock.set_vacuum_goto_position
+                  target:
+                    entity_id: vacuum.rocky
+                  data:
+                    "x": "30301"
+                    "y": "29421"
+                - variables:
+                    message:
+                      "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het
+                      legen op mijn 🏠 toets en ik ga terug naar mijn dock."
+            - conditions: "{{ is_state('select.rocky_selected_map', '1e verdieping') }}"
+              sequence:
+                - alias: Stuur stofzuiger naar de overloop
+                  action: roborock.set_vacuum_goto_position
+                  target:
+                    entity_id: vacuum.rocky
+                  data:
+                    "x": "25625"
+                    "y": "24922"
+                - variables:
+                    message:
+                      "🧹 Hi! Ik ben klaar op de bovenverdieping en sta klaar op de
+                      overloop."
+        - alias: "Wacht tot Rocky bij bestemming is"
           wait_for_trigger:
             - trigger: state
               entity_id: vacuum.rocky
@@ -102,35 +126,30 @@ vacuum_package:
         - alias: Stuur notificatie dat stofzuiger geleegd moet worden
           action: notify.mobile_devices_adults
           data:
-            message: "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het legen op mijn 🏠 toets en ik ga terug naar mijn dock."
+            message: "{{ message }}"
             title: "Rocky"
             data:
               tag: vacuum
-              actions:
-                - action: "vacuum_return_to_dock"
-                  title: "Keer terug naar je dock"
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
 
-    - alias: "Stuur Rocky terug naar het dock"
-      id: vacuum_return_to_dock
-      initial_state: "on"
-      triggers:
-        - alias: Terugkeer naar dock actie ontvangen via notificatie
-          trigger: event
-          event_type: mobile_app_notification_action
-          event_data:
-            action: "vacuum_return_to_dock"
-      actions:
-        - action: vacuum.return_to_base
-          alias: Keer terug naar het dock
+    - alias: "Stel Rocky kaart in bij docken"
+      id: vacuum_set_map_when_docked
+      trigger:
+        - platform: state
+          entity_id: vacuum.rocky
+          to: "docked"
+      action:
+        - service: select.select_option
           target:
-            entity_id: vacuum.rocky
+            entity_id: select.rocky_selected_map
+          data:
+            option: "Benedenverdieping"
 
-      ##########################
-      ## Vacuum notifications
-      ##########################
+    ##########################
+    ## Vacuum notifications
+    ##########################
     - alias: "Melding dat Rocky aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
       initial_state: "on"
@@ -181,11 +200,14 @@ vacuum_package:
       initial_state: "on"
       variables:
         notification_service: >
-          {% if is_state("device_tracker.sm_a566b", "home") and is_state("device_tracker.sm_a556b", "home") %}notify.mobile_devices_adults
-          {% elif is_state("device_tracker.sm_a566b", "home") %}notify.mobile_app_sm_a566b
-          {% elif is_state("device_tracker.sm_a556b", "home") %}notify.mobile_app_sm_a556b
-          {% else %}notify.bogus
-          {% endif %}
+          {% if is_state("device_tracker.sm_a566b", "home") and
+            is_state("device_tracker.sm_a556b", "home") %}
+              notify.mobile_devices_adults 
+          {% elif is_state("device_tracker.sm_a566b", "home") %}
+            notify.mobile_app_sm_a566b 
+          {% elif is_state("device_tracker.sm_a556b", "home") %}
+            notify.mobile_app_sm_a556b 
+          {% else %}notify.bogus {% endif %}
       triggers:
         - alias: Foutmelding status is gewijzigd
           trigger: state
@@ -246,12 +268,15 @@ vacuum_package:
           variables:
             triggered_sensor: "{{ trigger.entity_id }}"
             consumable: >-
-              {{ consumables | selectattr('sensor', 'eq', triggered_sensor) | list | first }}
+              {{ consumables | selectattr('sensor', 'eq', triggered_sensor) |
+              list | first }}
         - alias: "Stuur notificatie: Rocky onderhoud nodig"
           service: notify.mobile_app_sm_a556b
           data:
             title: "Rocky onderhoud nodig"
-            message: "De {{ consumable.name }} van Rocky moet worden vervangen of schoongemaakt. Wil je de teller resetten?"
+            message:
+              "De {{ consumable.name }} van Rocky moet worden vervangen of
+              schoongemaakt. Wil je de teller resetten?"
             data:
               tag: rocky_maintenance
               notification_icon: mdi:robot-vacuum
@@ -284,5 +309,7 @@ vacuum_package:
                   service: persistent_notification.create
                   data:
                     title: "Rocky onderhoud niet gereset"
-                    message: "De {{ consumable.name }} teller is niet gereset. Vergeet het niet als je onderhoud hebt gedaan!"
+                    message:
+                      "De {{ consumable.name }} teller is niet gereset. Vergeet het niet als
+                      je onderhoud hebt gedaan!"
                     notification_id: "rocky_maintenance_{{ consumable.name }}"
