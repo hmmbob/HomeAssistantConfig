@@ -232,9 +232,17 @@ kiosk_package:
           below: 25
           for: "00:05:00"
           id: "turn_off"
+        - alias: "Dagelijks scherm uit om 22:00"
+          trigger: time
+          at: "22:00:00"
+          id: "turn_off"
       actions:
         - alias: Schakel kiosk 2 scherm uit of in op basis van trigger
-          if: "{{ trigger.id == 'turn_on' }}"
+          if:
+            - "{{ trigger.id == 'turn_on' }}"
+            - condition: time
+              after: "07:30:00"
+              before: "22:00:00"
           then:
             - alias: "Scherm inschakelen"
               action: homeassistant.turn_on
@@ -248,12 +256,12 @@ kiosk_package:
               data:
                 entity_id:
                   - switch.kiosk2_bewegingsdetectie
-                  - switch.kiosk2_scherm
+            - delay: "00:00:02"
             - alias: Zet kiosk 2 screensaver uit na schermwijziging
               action: homeassistant.turn_off
               data:
                 entity_id:
-                  - switch.kiosk2_screensaver
+                  - switch.kiosk2_scherm
 
     - id: kiosk_restart_browser
       alias: Kiosk herstart browser om 08:45 of bij HA herstart
