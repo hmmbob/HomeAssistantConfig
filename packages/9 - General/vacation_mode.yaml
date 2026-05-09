@@ -45,7 +45,8 @@ vacation_mode_package:
         - alias: Stuur melding dat vakantieverlichting is ingeschakeld
           action: notify.mobile_app_sm_a556b
           data:
-            message: Ik heb je vakantie verlichting aan gezet om {{ now().strftime('%H:%M') }}.
+            message: >-
+              Ik heb je vakantie verlichting aan gezet om {{ now().strftime('%H:%M') }}.
             title: Vakantie verlichting
             data:
               ttl: 0
@@ -79,48 +80,9 @@ vacation_mode_package:
         - alias: Stuur melding dat vakantieverlichting is uitgeschakeld
           action: notify.mobile_app_sm_a556b
           data:
-            message: Ik heb je verlichting uit gezet om {{ now().strftime('%H:%M') }}.
+            message: >-
+              Ik heb je verlichting uit gezet om {{ now().strftime('%H:%M') }}.
             title: Vakantie verlichting
             data:
               ttl: 0
               priority: high
-
-    #############################
-    ## Vakantie alarm           #
-    #############################
-    - id: vacation_movement_inside
-      alias: "Beweging gedetecteerd tijdens vakantie"
-      trigger:
-        - alias: Beweging of contact gedetecteerd in huis
-          platform: state
-          entity_id:
-            - binary_sensor.fietsenhok_contact
-            - binary_sensor.pir_bijkeuken_occupancy
-            - binary_sensor.pir_gang_kapstok_motion_detection
-            - binary_sensor.pir_gang_meterkast_motion_detection
-            - binary_sensor.pir_inloopkast_occupancy
-            - binary_sensor.poort_contact
-          from: "off"
-          to: "on"
-      condition:
-        - alias: Vakantie modus is ingeschakeld
-          condition: state
-          entity_id: input_boolean.vacation_mode_away
-          state: "on"
-      action:
-        - alias: Stuur melding bij beweging tijdens vakantie
-          action: notify.mobile_app_sm_a556b
-          data:
-            message: >
-              Er is beweging gedetecteerd door {{ trigger.from_state.attributes.friendly_name }} ({{ now().strftime('%H:%M') }})
-            title: Beweging in huis
-            data:
-              ttl: 0
-              priority: high
-              notification_icon: "mdi:shield-home"
-        - alias: Log gedetecteerde beweging tijdens vakantie
-          action: logbook.log
-          data:
-            name: Vakantie
-            message: Er is beweging gedetecteerd door {{ trigger.from_state.attributes.friendly_name }}.
-            domain: binary_sensor
