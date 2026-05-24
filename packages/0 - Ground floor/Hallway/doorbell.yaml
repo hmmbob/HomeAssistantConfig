@@ -67,11 +67,11 @@ doorbell_package:
                       indien nodig. Beschrijf de scene niet
                     attachments:
                       media_content_id: media-source://camera/camera.voordeur_vloeiend
-                      media_content_type: application/vnd.apple.mpegurl
+                      media_content_type: image/jpeg
                       metadata:
                         title: Voordeur Vloeiend
                         thumbnail: /api/camera_proxy/camera.voordeur_vloeiend
-                        media_class: video
+                        media_class: image
                         children_media_class: null
                         navigateIds:
                           - media_content_type: app
