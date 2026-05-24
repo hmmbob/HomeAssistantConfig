@@ -251,11 +251,37 @@ solar_package:
               sequence:
                 - action: automation.turn_off
                   target:
-                    entity_id: automation.goodwe_omvormer_data_opvragen
+                    entity_id:
+                      - automation.goodwe_omvormer_data_opvragen
+                      - automation.goodwe_integratie_proberen_te_herstellen
             - conditions:
                 - condition: trigger
                   id: enable
               sequence:
                 - action: automation.turn_on
                   target:
-                    entity_id: automation.goodwe_omvormer_data_opvragen
+                    entity_id:
+                      - automation.goodwe_omvormer_data_opvragen
+                      - automation.goodwe_integratie_proberen_te_herstellen
+
+    - id: goodwe_config_entry_check
+      alias: "GoodWe integratie proberen te herstellen"
+      description: "Herlaad de GoodWe-configuratie wanneer de PV-vermogen sensor niet beschikbaar is, wat kan duiden op een probleem met de integratie."
+      triggers:
+        - trigger: time_pattern
+          alias: "Elke 15 minuten"
+          minutes: "/15"
+      conditions:
+        - condition: sun
+          after: sunrise
+          after_offset: "-00:30:00"
+          before: sunset
+          before_offset: "00:30:00"
+        - alias: "Controleer of sensor.pv_power beschikbaar is"
+          condition: template
+          value_template: "{{ states('sensor.pv_power') in ['unknown', 'unavailable'] }}"
+      actions:
+        - alias: "Herlaad GoodWe-configuratie"
+          action: homeassistant.reload_config_entry
+          data:
+            entry_id: 01KPNADWPAX2PZX3JXY7VBA5HA
