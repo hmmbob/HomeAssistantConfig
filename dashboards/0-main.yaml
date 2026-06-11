@@ -566,7 +566,7 @@ cards:
                             tap_action:
                               action: more-info
                           - type: custom:mini-media-player
-                            entity: media_player.tv_zolder
+                            entity: media_player.slaapkamer_m_tv
                             icon: mdi:cast
                             artwork: cover
                             artwork_border: true
