@@ -1,0 +1,88 @@
+type: grid
+columns: 2
+square: false
+cards:
+  - type: custom:mushroom-template-card
+    entity: input_boolean.pakketbrievenbus_bevat_pakket
+    primary: Pakketbrievenbus
+    secondary: >-
+      {% set count = states('counter.pakketbrievenbus_pakketten_aanwezig') | int(0) %}
+      {% if count == 0 %}
+        Leeg
+      {% elif count == 1 %}
+        1 pakketje aanwezig
+      {% else %}
+        {{ count }} pakketjes aanwezig
+      {% endif %}
+    icon: >-
+      {{ "mdi:package-variant-closed" if is_state(entity, "on") else "mdi:mailbox-outline" }}
+    icon_color: >-
+      {{ "green" if is_state(entity, "on") else "grey" }}
+    tap_action:
+      action: more-info
+
+  - type: custom:mushroom-template-card
+    entity: counter.pakketbrievenbus_bezorgingen
+    primary: Bezorgingen
+    secondary: >-
+      {{ states('counter.pakketbrievenbus_pakketten_aanwezig') }} aanwezig · {{ states(entity) }} totaal
+    icon: mdi:counter
+    icon_color: >-
+      {{ "blue" if is_state('input_boolean.pakketbrievenbus_bevat_pakket', 'on') else "grey" }}
+    tap_action:
+      action: more-info
+
+  - type: custom:mushroom-template-card
+    entity: binary_sensor.pakketbrievenbus_klep
+    primary: Klep
+    secondary: >-
+      {{ "Open" if is_state(entity, "on") else "Gesloten" }}
+    icon: >-
+      {{ "mdi:mailbox-open-up" if is_state(entity, "on") else "mdi:mailbox-up-outline" }}
+    icon_color: >-
+      {{ "orange" if is_state(entity, "on") else "grey" }}
+    tap_action:
+      action: more-info
+
+  - type: custom:mushroom-template-card
+    entity: binary_sensor.pakketbrievenbus_deur
+    primary: Deur
+    secondary: >-
+      {{ "Open" if is_state(entity, "on") else "Gesloten" }}
+    icon: >-
+      {{ "mdi:mailbox-open" if is_state(entity, "on") else "mdi:mailbox-outline" }}
+    icon_color: >-
+      {{ "orange" if is_state(entity, "on") else "grey" }}
+    tap_action:
+      action: more-info
+
+  - type: custom:mushroom-template-card
+    entity: input_datetime.pakketbrievenbus_laatste_bezorging
+    primary: Laatste bezorging
+    secondary: >-
+      {% set value = states(entity) %}
+      {% if value in ["unknown", "unavailable", "none"] %}
+        Nog niet bekend
+      {% else %}
+        {{ as_timestamp(value) | timestamp_custom('%d-%m-%Y %H:%M') }}
+      {% endif %}
+    icon: mdi:calendar-clock
+    icon_color: >-
+      {{ "green" if is_state('input_boolean.pakketbrievenbus_bevat_pakket', 'on') else "grey" }}
+    tap_action:
+      action: more-info
+
+  - type: custom:mushroom-template-card
+    entity: input_datetime.pakketbrievenbus_laatst_geleegd
+    primary: Laatst geleegd
+    secondary: >-
+      {% set value = states(entity) %}
+      {% if value in ["unknown", "unavailable", "none"] %}
+        Nog niet bekend
+      {% else %}
+        {{ as_timestamp(value) | timestamp_custom('%d-%m-%Y %H:%M') }}
+      {% endif %}
+    icon: mdi:calendar-check
+    icon_color: grey
+    tap_action:
+      action: more-info

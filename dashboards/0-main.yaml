@@ -47,6 +47,24 @@ cards:
                 }
             alignment: end
             chips:
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.pakketbrievenbus_bevat_pakket
+                    state: "on"
+                chip:
+                  type: template
+                  entity: counter.pakketbrievenbus_pakketten_aanwezig
+                  icon: mdi:package-variant-closed
+                  icon_color: green
+                  content: >-
+                    {{ states(entity) }}
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.popup
+                      data:
+                        title: Pakketbrievenbus
+                        content: !include common/pakketbrievenbus-card.yaml
               - type: weather
                 entity: weather.knmi_home
                 show_conditions: true

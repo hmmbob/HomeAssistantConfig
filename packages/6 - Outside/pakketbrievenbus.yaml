@@ -1,0 +1,285 @@
+pakketbrievenbus_package:
+  input_boolean:
+    pakketbrievenbus_bevat_pakket:
+      name: Pakketbrievenbus bevat pakket
+      icon: mdi:package-variant-closed
+
+  input_datetime:
+    pakketbrievenbus_laatste_bezorging:
+      name: Pakketbrievenbus laatste bezorging
+      has_date: true
+      has_time: true
+
+    pakketbrievenbus_laatst_geleegd:
+      name: Pakketbrievenbus laatst geleegd
+      has_date: true
+      has_time: true
+
+  counter:
+    pakketbrievenbus_bezorgingen:
+      name: Pakketbrievenbus bezorgingen
+      icon: mdi:counter
+      initial: 0
+      step: 1
+      minimum: 0
+      restore: true
+
+    pakketbrievenbus_pakketten_aanwezig:
+      name: Pakketbrievenbus pakketjes aanwezig
+      icon: mdi:package-variant
+      initial: 0
+      step: 1
+      minimum: 0
+      restore: true
+
+  alert:
+    pakketbrievenbus_klep_open:
+      name: Pakketbrievenbus klep open
+      title: "Pakketbrievenbus"
+      message: "De klep van de pakketbrievenbus staat nog open."
+      entity_id: binary_sensor.pakketbrievenbus_klep
+      state: "on"
+      repeat: 10
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - mobile_app_sm_a556b
+      data:
+        tag: pakketbrievenbus_klep_open
+        notification_icon: mdi:mailbox-open-up
+        ttl: 0
+        priority: high
+        channel: alerts
+        actions:
+          - action: "mute_alert_pakketbrievenbus_klep"
+            title: "Alert dempen"
+
+    pakketbrievenbus_deur_open:
+      name: Pakketbrievenbus deur open
+      title: "Pakketbrievenbus"
+      message: "De deur van de pakketbrievenbus staat nog open."
+      entity_id: binary_sensor.pakketbrievenbus_deur
+      state: "on"
+      repeat: 10
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - mobile_app_sm_a556b
+      data:
+        tag: pakketbrievenbus_deur_open
+        notification_icon: mdi:mailbox-open
+        ttl: 0
+        priority: high
+        channel: alerts
+        actions:
+          - action: "mute_alert_pakketbrievenbus_deur"
+            title: "Alert dempen"
+
+  automation:
+    - id: pakketbrievenbus_alert_melding_verwijderen
+      alias: "Pakketbrievenbus - Alert melding verwijderen"
+      description: "Verwijdert pakketbrievenbus-alertmeldingen zodra de alert uit of stil is."
+      mode: parallel
+      max: 4
+      triggers:
+        - alias: Trigger wanneer klep-alert niet meer actief is
+          trigger: state
+          entity_id: alert.pakketbrievenbus_klep_open
+          from: "on"
+          to:
+            - "idle"
+            - "off"
+          variables:
+            notification_tag: pakketbrievenbus_klep_open
+        - alias: Trigger wanneer deur-alert niet meer actief is
+          trigger: state
+          entity_id: alert.pakketbrievenbus_deur_open
+          from: "on"
+          to:
+            - "idle"
+            - "off"
+          variables:
+            notification_tag: pakketbrievenbus_deur_open
+      actions:
+        - alias: Verwijder pakketbrievenbus-alertmelding op telefoon
+          action: notify.mobile_app_sm_a556b
+          data:
+            message: clear_notification
+            data:
+              tag: "{{ notification_tag }}"
+
+    - id: pakketbrievenbus_alert_dempen
+      alias: "Pakketbrievenbus - Alert dempen"
+      description: "Dempt pakketbrievenbus-alerts via een mobiele notificatieactie."
+      mode: single
+      triggers:
+        - alias: Trigger bij meldingsactie klep-alert dempen
+          trigger: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "mute_alert_pakketbrievenbus_klep"
+          variables:
+            alert_entity: alert.pakketbrievenbus_klep_open
+        - alias: Trigger bij meldingsactie deur-alert dempen
+          trigger: event
+          event_type: mobile_app_notification_action
+          event_data:
+            action: "mute_alert_pakketbrievenbus_deur"
+          variables:
+            alert_entity: alert.pakketbrievenbus_deur_open
+      actions:
+        - alias: Schakel de gekozen pakketbrievenbus-alert uit
+          action: alert.turn_off
+          target:
+            entity_id: "{{ alert_entity }}"
+
+    - id: pakketbrievenbus_bezorging_gedetecteerd
+      alias: "Pakketbrievenbus - Bezorging gedetecteerd"
+      description: "Zet de pakketstatus aan wanneer de bovenklep opent."
+      mode: queued
+      max: 5
+      triggers:
+        - alias: Trigger wanneer de bovenklep opent
+          trigger: state
+          entity_id: binary_sensor.pakketbrievenbus_klep
+          to: "on"
+          for:
+            seconds: 1
+      conditions:
+        - alias: Alleen als de uitname-deur dicht is
+          condition: state
+          entity_id: binary_sensor.pakketbrievenbus_deur
+          state: "off"
+      actions:
+        - alias: Wacht kort tot de klep weer sluit, maar blokkeer niet eindeloos
+          wait_for_trigger:
+            - trigger: state
+              entity_id: binary_sensor.pakketbrievenbus_klep
+              to: "off"
+          timeout:
+            seconds: 45
+          continue_on_timeout: true
+        - alias: Markeer dat er iets in de pakketbrievenbus ligt
+          action: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.pakketbrievenbus_bevat_pakket
+        - alias: Tel de bezorging
+          action: counter.increment
+          target:
+            entity_id: counter.pakketbrievenbus_bezorgingen
+        - alias: Tel het aantal aanwezige pakketjes
+          action: counter.increment
+          target:
+            entity_id: counter.pakketbrievenbus_pakketten_aanwezig
+        - alias: Bewaar het bezorgmoment
+          action: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.pakketbrievenbus_laatste_bezorging
+          data:
+            datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+        - alias: Stuur melding naar volwassen telefoons
+          action: notify.mobile_devices_adults
+          data:
+            title: "Pakketbrievenbus"
+            message: >-
+              {% set count = states('counter.pakketbrievenbus_pakketten_aanwezig') | int(1) %}
+              {% if count > 1 %}
+                Er liggen nu {{ count }} pakketjes in de pakketbrievenbus.
+              {% else %}
+                Er is iets in de pakketbrievenbus bezorgd.
+              {% endif %}
+            data:
+              tag: pakketbrievenbus_bezorging
+              notification_icon: mdi:package-variant-closed
+              ttl: 0
+              priority: high
+              channel: alerts
+              clickAction: "/lovelace/other"
+        - alias: Maak ook een melding in Home Assistant
+          action: persistent_notification.create
+          data:
+            title: "Pakketbrievenbus"
+            message: >-
+              {% set count = states('counter.pakketbrievenbus_pakketten_aanwezig') | int(1) %}
+              {% if count > 1 %}
+                Er liggen nu {{ count }} pakketjes in de pakketbrievenbus.
+              {% else %}
+                Er is iets in de pakketbrievenbus bezorgd.
+              {% endif %}
+            notification_id: pakketbrievenbus_bezorging
+
+    - id: pakketbrievenbus_geleegd
+      alias: "Pakketbrievenbus - Geleegd"
+      description: "Reset de pakketstatus wanneer de uitname-deur opent."
+      mode: single
+      triggers:
+        - alias: Trigger wanneer de uitname-deur opent
+          trigger: state
+          entity_id: binary_sensor.pakketbrievenbus_deur
+          to: "on"
+      actions:
+        - alias: Markeer de pakketbrievenbus als leeg
+          action: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.pakketbrievenbus_bevat_pakket
+        - alias: Reset het aantal aanwezige pakketjes
+          action: counter.reset
+          target:
+            entity_id: counter.pakketbrievenbus_pakketten_aanwezig
+        - alias: Bewaar het leegmoment
+          action: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.pakketbrievenbus_laatst_geleegd
+          data:
+            datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+        - alias: Verwijder de Home Assistant melding
+          action: persistent_notification.dismiss
+          data:
+            notification_id: pakketbrievenbus_bezorging
+        - alias: Verwijder de telefoonmelding
+          action: notify.mobile_devices_adults
+          data:
+            message: clear_notification
+            data:
+              tag: pakketbrievenbus_bezorging
+
+    - id: pakketbrievenbus_sensor_niet_beschikbaar
+      alias: "Pakketbrievenbus - Sensor niet beschikbaar"
+      description: "Waarschuwt wanneer een contactsensor offline lijkt."
+      mode: parallel
+      max: 4
+      triggers:
+        - alias: Trigger wanneer een sensor unavailable is
+          trigger: state
+          entity_id:
+            - binary_sensor.pakketbrievenbus_klep
+            - binary_sensor.pakketbrievenbus_deur
+          to: "unavailable"
+          for:
+            minutes: 15
+        - alias: Trigger wanneer een sensor unknown is
+          trigger: state
+          entity_id:
+            - binary_sensor.pakketbrievenbus_klep
+            - binary_sensor.pakketbrievenbus_deur
+          to: "unknown"
+          for:
+            minutes: 15
+      actions:
+        - alias: Stuur sensorwaarschuwing
+          action: notify.mobile_app_sm_a556b
+          data:
+            title: "Pakketbrievenbus sensor"
+            message: "{{ trigger.to_state.name }} is al 15 minuten niet beschikbaar."
+            data:
+              tag: "pakketbrievenbus_{{ trigger.entity_id | replace('.', '_') }}"
+              notification_icon: mdi:zigbee
+              ttl: 0
+              priority: high
+              channel: alerts
+        - alias: Maak ook een melding in Home Assistant
+          action: persistent_notification.create
+          data:
+            title: "Pakketbrievenbus sensor"
+            message: "{{ trigger.to_state.name }} is al 15 minuten niet beschikbaar."
+            notification_id: "pakketbrievenbus_{{ trigger.entity_id | replace('.', '_') }}"

@@ -324,3 +324,8 @@ cards:
         multiline_secondary: true
         tap_action:
           action: more-info
+
+      - type: heading
+        heading: Pakketbrievenbus
+        icon: mdi:package-check
+      - !include common/pakketbrievenbus-card.yaml
