@@ -183,3 +183,9 @@ trash_package:
           action: input_boolean.turn_on
           target:
             entity_id: input_boolean.trash_outside
+        - alias: Verwijder afvalmelding van telefoon
+          action: notify.mobile_app_sm_a556b
+          data:
+            message: clear_notification
+            data:
+              tag: notification-trash
