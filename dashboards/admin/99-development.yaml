@@ -65,7 +65,3 @@ cards:
             - entity_id: input_number.*
         sort:
           method: name
-
-  - type: custom:scheduler-card
-    domains:
-      - switch
