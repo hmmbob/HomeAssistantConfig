@@ -24,15 +24,16 @@
 .vscode
 
 # Ensure these files are ignored, otherwise your secret data/credentials will leak.
-ip_bans.yaml
-secrets.yaml
-known_devices.yaml
-googleassistant_serviceaccount.json
-includes/googleassistant_serviceaccount.json.backup
-includes/googleassistant_serviceaccount.json
 .google.token
-.spotify-token-cache
 .sonoff.json
+.spotify-token-cache
+AGENTS.md
+googleassistant_serviceaccount.json
+includes/googleassistant_serviceaccount.json
+includes/googleassistant_serviceaccount.json.backup
+ip_bans.yaml
+known_devices.yaml
+secrets.yaml
 
 # Ignore Python cache files 
 __pycache__/
