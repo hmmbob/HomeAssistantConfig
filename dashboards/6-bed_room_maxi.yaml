@@ -225,8 +225,8 @@ cards:
             tap_action:
               action: perform-action
               perform_action: timer.start
-              target:
-                entity_id: timer.airco_puber_sleeptimer
+              target: &airco_puber_sleeptimer_target
+                entity_id: &airco_puber_sleeptimer timer.airco_puber_sleeptimer
               data:
                 duration: "00:15:00"
           - type: action
@@ -234,8 +234,7 @@ cards:
             tap_action:
               action: perform-action
               perform_action: timer.start
-              target:
-                entity_id: timer.airco_puber_sleeptimer
+              target: *airco_puber_sleeptimer_target
               data:
                 duration: "00:30:00"
           - type: action
@@ -243,8 +242,7 @@ cards:
             tap_action:
               action: perform-action
               perform_action: timer.start
-              target:
-                entity_id: timer.airco_puber_sleeptimer
+              target: *airco_puber_sleeptimer_target
               data:
                 duration: "00:60:00"
           - type: action
@@ -252,15 +250,14 @@ cards:
             tap_action:
               action: perform-action
               perform_action: timer.finish
-              target:
-                entity_id: timer.airco_puber_sleeptimer
+              target: *airco_puber_sleeptimer_target
           - type: conditional
             conditions:
-              - entity: timer.airco_puber_sleeptimer
+              - entity: *airco_puber_sleeptimer
                 state: active
             chip:
               type: template
-              entity: timer.airco_puber_sleeptimer
+              entity: *airco_puber_sleeptimer
               icon: mdi:timer-sand-empty
               content: >-
                 {% from 'relative_time_plus.jinja' import relative_time_plus %}

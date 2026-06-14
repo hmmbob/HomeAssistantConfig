@@ -42,8 +42,8 @@ tap_action:
                 tap_action:
                   action: perform-action
                   perform_action: timer.start
-                  target:
-                    entity_id: timer.fan_runtime
+                  target: &fan_runtime_timer_target
+                    entity_id: &fan_runtime_timer timer.fan_runtime
                   data:
                     duration: "00:15:00"
               - type: action
@@ -51,8 +51,7 @@ tap_action:
                 tap_action:
                   action: perform-action
                   perform_action: timer.start
-                  target:
-                    entity_id: timer.fan_runtime
+                  target: *fan_runtime_timer_target
                   data:
                     duration: "00:30:00"
               - type: action
@@ -60,8 +59,7 @@ tap_action:
                 tap_action:
                   action: perform-action
                   perform_action: timer.start
-                  target:
-                    entity_id: timer.fan_runtime
+                  target: *fan_runtime_timer_target
                   data:
                     duration: "00:60:00"
               - type: action
@@ -69,15 +67,14 @@ tap_action:
                 tap_action:
                   action: perform-action
                   perform_action: timer.finish
-                  target:
-                    entity_id: timer.fan_runtime
+                  target: *fan_runtime_timer_target
               - type: conditional
                 conditions:
-                  - entity: timer.fan_runtime
+                  - entity: *fan_runtime_timer
                     state: active
                 chip:
                   type: template
-                  entity: timer.fan_runtime
+                  entity: *fan_runtime_timer
                   icon: mdi:timer-sand-empty
                   content: >-
                     {% from 'relative_time_plus.jinja' import relative_time_plus %}
