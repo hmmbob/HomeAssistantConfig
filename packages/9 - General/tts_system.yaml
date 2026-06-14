@@ -21,6 +21,35 @@ tts_system_package:
       icon: mdi:cast-audio
 
   script:
+    tts_announce:
+      alias: Spreek TTS-bericht uit
+      description: "Centrale TTS-wrapper voor omroepberichten"
+      icon: mdi:account-voice
+      mode: queued
+      max: 10
+      fields:
+        media_player_entity_id:
+          description: "Media player waarop het bericht wordt afgespeeld"
+          example: media_player.zolder
+        message:
+          description: "Bericht dat uitgesproken moet worden"
+          example: "Het eten is klaar."
+        cache:
+          description: "Gebruik TTS-cache voor vaste berichten"
+          example: true
+      sequence:
+        - alias: Spreek bericht uit met centrale TTS-instellingen
+          action: tts.speak
+          target:
+            entity_id: tts.google_ai_tts
+          data:
+            media_player_entity_id: "{{ media_player_entity_id }}"
+            message: "{{ message }}"
+            language: nl-NL
+            cache: "{{ cache | default(true) | bool }}"
+            options:
+              voice: Erinome
+
     play_tts_message:
       alias: Speel TTS-bericht af
       description: "Speel een TTS-bericht af ingesteld in de frontend"
@@ -38,9 +67,9 @@ tts_system_package:
         target: "{{ target_map[states('input_select.tts_target')] }}"
       sequence:
         - alias: Speel TTS-bericht af op gekozen doelspeler
-          action: tts.microsoft_say
+          action: script.tts_announce
           data:
-            entity_id: "{{ target }}"
+            media_player_entity_id: "{{ target }}"
             message: "{{ states('input_text.tts_message') }}"
             cache: false
         - alias: Wacht 30 seconden voordat speler wordt uitgezet

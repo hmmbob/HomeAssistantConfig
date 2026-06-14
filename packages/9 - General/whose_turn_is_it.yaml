@@ -21,15 +21,3 @@ whose_turn_is_it_package:
           action: input_select.select_next
           target:
             entity_id: input_select.tafeldekken_beurt
-
-  script:
-    whose_turn_is_it:
-      alias: Kondig tafeldekbeurt via TTS aan
-      description: "Wie moet er tafeldekken?"
-      mode: restart
-      sequence:
-        - alias: "Speel TTS af"
-          action: tts.microsoft_say
-          entity_id: media_player.kiosk1_fkb
-          data:
-            message: "Vandaag moet {{ states('input_select.tafeldekken_beurt') }} tafel dekken."

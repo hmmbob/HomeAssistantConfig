@@ -105,9 +105,9 @@ attic_pubercave_package:
                     - sun
       actions:
         - alias: Waarschuw puber via spraak
-          action: tts.microsoft_say
+          action: script.tts_announce
           data:
-            entity_id: media_player.zolder
+            media_player_entity_id: media_player.zolder
             message: "Je tijd is op. Sluit je af?"
         - alias: Meld aan ouders dat PC-tijd voorbij is
           action: notify.mobile_devices_adults

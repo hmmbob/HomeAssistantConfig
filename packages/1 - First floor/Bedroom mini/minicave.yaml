@@ -184,9 +184,9 @@ bedroom_minicave_package:
                           seconds: 1
                           milliseconds: 500
             - alias: Speel audio waarschuwing af
-              action: tts.microsoft_say
+              action: script.tts_announce
               data:
-                entity_id: media_player.slaapkamer_t
+                media_player_entity_id: media_player.slaapkamer_t
                 message: "Je tijd is op. Sluit je af?"
         - alias: Stuur notificatie naar mini
           action: notify.mobile_app_sm_a566b_t

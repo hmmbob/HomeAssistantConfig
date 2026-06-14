@@ -106,9 +106,9 @@ kiosk_package:
           data:
             option: "{{ announcement }}"
         - alias: "Speel TTS af"
-          action: tts.microsoft_say
+          action: script.tts_announce
           data:
-            entity_id: "{{ player }}"
+            media_player_entity_id: "{{ player }}"
             message: "{{ message }}"
         - alias: Wacht 5 seconden tot TTS is gestart
           delay:

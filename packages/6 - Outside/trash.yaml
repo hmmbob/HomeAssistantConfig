@@ -143,9 +143,9 @@ trash_package:
                 entity_id: media_player.kiosk1_fkb
                 volume_level: 0.9
             - alias: Speel spraakmelding af
-              action: tts.microsoft_say
-              entity_id: media_player.kiosk1_fkb
+              action: script.tts_announce
               data:
+                media_player_entity_id: media_player.kiosk1_fkb
                 message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
             - alias: Toon afvalafbeelding in kiosk-popup
               action: browser_mod.popup

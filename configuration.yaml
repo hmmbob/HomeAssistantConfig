@@ -175,10 +175,3 @@ notify:
     server: !secret smtp_server
     port: !secret smtp_server_port
     encryption: tls
-
-tts:
-  - platform: microsoft
-    api_key: !secret tts_azure_api_key
-    region: westeurope
-    language: nl-nl
-    type: FennaNeural
