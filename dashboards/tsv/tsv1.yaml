@@ -14,6 +14,7 @@ cards:
       - type: custom:mushroom-chips-card
         alignment: end
         chips:
+          - !include common/chip-pakketbrievenbus.yaml
           - !include common/chip-knmi_temp.yaml
 
           - type: entity

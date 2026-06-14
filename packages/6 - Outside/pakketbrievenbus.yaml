@@ -195,18 +195,6 @@ pakketbrievenbus_package:
               priority: high
               channel: alerts
               clickAction: "/lovelace/other"
-        - alias: Maak ook een melding in Home Assistant
-          action: persistent_notification.create
-          data:
-            title: "Pakketbrievenbus"
-            message: >-
-              {% set count = states('counter.pakketbrievenbus_pakketten_aanwezig') | int(1) %}
-              {% if count > 1 %}
-                Er liggen nu {{ count }} pakketjes in de pakketbrievenbus.
-              {% else %}
-                Er is iets in de pakketbrievenbus bezorgd.
-              {% endif %}
-            notification_id: pakketbrievenbus_bezorging
 
     - id: pakketbrievenbus_geleegd
       alias: "Pakketbrievenbus - Geleegd"
@@ -232,10 +220,6 @@ pakketbrievenbus_package:
             entity_id: input_datetime.pakketbrievenbus_laatst_geleegd
           data:
             datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
-        - alias: Verwijder de Home Assistant melding
-          action: persistent_notification.dismiss
-          data:
-            notification_id: pakketbrievenbus_bezorging
         - alias: Verwijder de telefoonmelding
           action: notify.mobile_devices_adults
           data:
@@ -277,9 +261,3 @@ pakketbrievenbus_package:
               ttl: 0
               priority: high
               channel: alerts
-        - alias: Maak ook een melding in Home Assistant
-          action: persistent_notification.create
-          data:
-            title: "Pakketbrievenbus sensor"
-            message: "{{ trigger.to_state.name }} is al 15 minuten niet beschikbaar."
-            notification_id: "pakketbrievenbus_{{ trigger.entity_id | replace('.', '_') }}"

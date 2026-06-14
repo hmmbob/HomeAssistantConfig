@@ -1,0 +1,28 @@
+type: conditional
+conditions:
+  - entity: input_boolean.pakketbrievenbus_bevat_pakket
+    state: "on"
+chip:
+  type: template
+  entity: counter.pakketbrievenbus_pakketten_aanwezig
+  icon: mdi:package-variant-closed
+  icon_color: green
+  content: >-
+    {{ states(entity) }}
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.popup
+      data:
+        title: Pakketbrievenbus
+        timeout: 15000
+        right_button: Sluiten
+        right_button_action: browser_mod.close_popup
+        content: !include ../../common/pakketbrievenbus-card.yaml
+  uix:
+    style: |
+      ha-card {
+        --chip-background: transparent;
+        --chip-border-color: transparent;
+        --chip-box-shadow: none;
+      }
