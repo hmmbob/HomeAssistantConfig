@@ -171,14 +171,14 @@ awtrix_package:
       triggers:
         - alias: Buitentemperatuur is gewijzigd
           trigger: state
-          entity_id: sensor.knmi_temperatuur
+          entity_id: sensor.weer_thuis_temperatuur
       condition: []
       actions:
         - alias: Publiceer temperatuur naar Awtrix
           action: mqtt.publish
           data:
             topic: awtrix_6caff8/custom/outside_temp
-            payload: ' { "text": "{{ states(''sensor.knmi_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
+            payload: ' { "text": "{{ states(''sensor.weer_thuis_temperatuur'') }}°C", "icon": "56840", "color": "#f21f1f", "duration": 7 } '
 
     - id: awtrix_production
       alias: "Stuur vandaags productie van de zonnepanelen naar Awtrix"

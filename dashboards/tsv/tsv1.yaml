@@ -15,7 +15,7 @@ cards:
         alignment: end
         chips:
           - !include common/chip-pakketbrievenbus.yaml
-          - !include common/chip-knmi_temp.yaml
+          - !include common/chip-temp.yaml
 
           - type: entity
             entity: sensor.temp_sensor_7_woonkamer_temperatuur

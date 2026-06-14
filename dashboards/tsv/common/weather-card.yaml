@@ -1,7 +1,7 @@
 type: custom:clock-weather-card
-entity: weather.knmi_home
+entity: weather.verwachtingen
 sun_entity: sun.sun
-temperature_sensor: sensor.knmi_temperatuur
+temperature_sensor: sensor.weer_thuis_temperatuur
 animated_icon: true
 date_pattern: cccc dd LLLL yyyy
 hide_clock: false
@@ -27,7 +27,7 @@ tap_action:
         type: vertical-stack
         cards:
           - type: weather-forecast
-            entity: weather.knmi_home
+            entity: weather.verwachtingen
             forecast_type: daily
             name: " "
             secondary_info_attribute: humidity
