@@ -36,14 +36,15 @@ ups_package:
                     message: >
                       De servers draaien op UPS. Er is nog  {{ runtime_left }} runtime over.
                     data:
-                      tag: "UPS"
-                      alert_once: true
-                      sticky: true
-                      persistent: true
-                      ttl: 0
-                      priority: high
+                      <<: &ups_status_notification_base
+                        tag: "UPS"
+                        alert_once: true
+                        sticky: true
+                        persistent: true
+                        ttl: 0
+                        priority: high
+                        car_ui: true
                       notification_icon: mdi:home-battery-outline
-                      car_ui: true
             - conditions:
                 - alias: Als netspanning terug is (laden)
                   condition: state
@@ -57,14 +58,8 @@ ups_package:
                     message: >
                       Er is weer stroom. De UPS laadt weer op en is {{ states("sensor.ups_battery_charge") }}% vol.
                     data:
-                      tag: "UPS"
-                      alert_once: true
-                      sticky: true
-                      persistent: true
-                      ttl: 0
-                      priority: high
+                      <<: *ups_status_notification_base
                       notification_icon: mdi:power-plug-battery-outline
-                      car_ui: true
             - conditions:
                 - alias: Als we weer op netspanning zijn
                   condition: state

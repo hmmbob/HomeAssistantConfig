@@ -115,7 +115,7 @@ attic_pubercave_package:
             title: Puber PC
             message: >-
               De puber heeft vandaag lang genoeg achter de PC gezeten ({{ now().strftime('%H:%M') }}).
-            data:
+            data: &puber_pc_notification_data
               tag: puber_pc
               notification_icon: mdi:desktop-classic
               priority: high
@@ -125,11 +125,7 @@ attic_pubercave_package:
           data:
             title: Gametijd
             message: Je zit vandaag al lang genoeg achter de PC ({{ now().strftime('%H:%M') }}).
-            data:
-              tag: puber_pc
-              notification_icon: mdi:desktop-classic
-              priority: high
-              ttl: 0
+            data: *puber_pc_notification_data
         - alias: Activeer lampenflitsing voor PC-tijd
           action: automation.trigger
           target:

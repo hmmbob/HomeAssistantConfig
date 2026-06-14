@@ -193,7 +193,7 @@ bedroom_minicave_package:
           data:
             title: Tijd is om
             message: Je tijd is op. Sluit je af?
-            data:
+            data: &mini_pc_notification_data
               tag: mini_pc
               notification_icon: mdi:desktop-classic
               priority: high
@@ -204,8 +204,4 @@ bedroom_minicave_package:
             title: Mini's gametijd voorbij
             message: >-
               De Mini heeft nu lang genoeg achter de PC gezeten ({{ now().strftime('%H:%M') }}).
-            data:
-              tag: mini_pc
-              notification_icon: mdi:desktop-classic
-              priority: high
-              ttl: 0
+            data: *mini_pc_notification_data

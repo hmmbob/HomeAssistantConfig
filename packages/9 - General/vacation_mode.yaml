@@ -48,7 +48,7 @@ vacation_mode_package:
             message: >-
               Ik heb je vakantie verlichting aan gezet om {{ now().strftime('%H:%M') }}.
             title: Vakantie verlichting
-            data:
+            data: &vacation_lighting_notification_data
               ttl: 0
               priority: high
               notification_icon: mdi:palm-tree
@@ -84,7 +84,4 @@ vacation_mode_package:
             message: >-
               Ik heb je verlichting uit gezet om {{ now().strftime('%H:%M') }}.
             title: Vakantie verlichting
-            data:
-              ttl: 0
-              priority: high
-              notification_icon: mdi:palm-tree
+            data: *vacation_lighting_notification_data

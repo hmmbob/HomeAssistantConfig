@@ -111,9 +111,10 @@ bikeshed_package:
             title: "Fietslader uitgeschakeld"
             message: "De {{ state_attr(switch, 'friendly_name') }} is automatisch uitgeschakeld ({{ now().strftime('%H:%M') }})"
             data:
-              notification_icon: mdi:bicycle-electric
-              ttl: 0
-              priority: high
+              <<: &bicycle_charger_notification_base
+                notification_icon: mdi:bicycle-electric
+                ttl: 0
+                priority: high
               clickAction: "/lovelace/other"
 
     - alias: "Fietslader aan, maar geen stroomverbruik"
@@ -172,6 +173,4 @@ bikeshed_package:
                     title: "Let op: Fietslader {{trigger.id}}"
                     message: "De fietslader {{trigger.id}} is aangezet, maar er is na 5 minuten nog geen stroomverbruik gedetecteerd."
                     data:
-                      notification_icon: mdi:bicycle-electric
-                      ttl: 0
-                      priority: high
+                      <<: *bicycle_charger_notification_base

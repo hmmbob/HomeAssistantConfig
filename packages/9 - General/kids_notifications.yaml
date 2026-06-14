@@ -145,7 +145,7 @@ kids_notifications_package:
             title: 🔋 Batterijwaarschuwing
             message: >
               De telefoon van {{ name }} is bijna leeg. Updates van zijn locatie zullen snel stoppen.
-            data:
+            data: &kids_battery_warning_notification_data
               ttl: 0
               priority: high
               notification_icon: mdi:battery-alert-variant
@@ -163,10 +163,7 @@ kids_notifications_package:
             title: 🔋 Batterijwaarschuwing
             message: >
               Je moet je telefoon even opladen....
-            data:
-              ttl: 0
-              priority: high
-              notification_icon: mdi:battery-alert-variant
+            data: *kids_battery_warning_notification_data
 
     ##########################
     ## Turn on high accuracy mode for the kids,

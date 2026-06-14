@@ -86,7 +86,7 @@ ev_package:
                   data:
                     title: "Automatisch goedkoop laden gestart"
                     message: "Automatisch laden van de auto is gestart. ({{ now().strftime('%H:%M') }})."
-                    data:
+                    data: &ev_charging_notification_data
                       notification_icon: mdi:ev-station
                       ttl: 0
                       priority: high
@@ -115,11 +115,7 @@ ev_package:
                   data:
                     title: "Automatisch goedkoop laden gestopt"
                     message: "Automatisch laden van de auto is gestopt ({{ now().strftime('%H:%M') }})"
-                    data:
-                      notification_icon: mdi:ev-station
-                      ttl: 0
-                      priority: high
-                      clickAction: "/lovelace/car"
+                    data: *ev_charging_notification_data
 
     - alias: "Werk EV-verbonden helper bij op basis van stekkerstatus"
       id: "ev_set_smart_charging_connected_sensor"
