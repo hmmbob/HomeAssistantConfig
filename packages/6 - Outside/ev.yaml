@@ -2,17 +2,19 @@ ev_package:
   input_number:
     ev_target_soc:
       name: Streeflaadniveau auto
-      min: 0
+      min: 10
       max: 100
-      step: 5
+      step: 10
       unit_of_measurement: "%"
 
   template:
     - trigger:
         # This generates triggers for all changes in the entity, both in its state and its attributes.
         - alias: Trigger bij wijziging stroomtariefsensor Zonneplan
-          trigger: state
-          entity_id: sensor.zonneplan_current_electricity_tariff
+          trigger: event
+          event_type: state_changed
+          event_data:
+            entity_id: sensor.zonneplan_current_electricity_tariff
         # This ensures the first data is filled.
         - alias: Trigger bij herladen templates voor initialisatie
           trigger: event
