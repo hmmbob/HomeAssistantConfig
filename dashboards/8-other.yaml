@@ -62,198 +62,150 @@ cards:
                       cards:
                         - type: custom:mushroom-template-card
                           entity: input_boolean.enable_deurbel
-                          primary: |-
+                          primary: &settings_toggle_primary |-
                             {{ state_attr(entity, 'friendly_name') }}
                           secondary: "Zet deurbel aan/uit"
-                          multiline_secondary: true
+                          multiline_secondary: &settings_toggle_multiline_secondary true
                           icon: |-
                             {{ "mdi:bell-ring-outline" if is_state(entity, 'on') else "mdi:bell-off-outline" }}
-                          icon_color: |-
+                          icon_color: &settings_toggle_icon_color |-
                             {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
+                          layout: &settings_toggle_layout vertical
+                          tap_action: &settings_toggle_tap_action
                             action: toggle
-                          hold_action:
+                          hold_action: &settings_toggle_hold_action
                             action: more-info
                         - type: custom:mushroom-template-card
                           entity: input_boolean.vacuum_enable_ask_for_cleaning
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Dagelijkse herinnering voor Rocky"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:robot-vacuum" if is_state(entity, 'on') else "mdi:robot-vacuum-off" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.notify_power_use_attic
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Stroomverbruik op zolder"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:message-alert-outline" if is_state(entity, 'on') else "mdi:message-off-outline" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.notify_power_use_minicave
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Stroomverbruik bij de mini"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:message-alert-outline" if is_state(entity, 'on') else "mdi:message-off-outline" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.notify_trash
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Welke container moet er naar buiten?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:delete" if is_state(entity, 'on') else "mdi:delete-empty" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.notify_trash_voice
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Welke container moet er naar buiten?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:account-voice" if is_state(entity, 'on') else "mdi:account-voice-off" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.notify_dishwasher
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Wanneer kan de vaatwasser aan?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:dishwasher" if is_state(entity, 'on') else "mdi:dishwasher-off" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.enable_pir_gang_automations
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Lamp gang automatisch aan?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:motion-sensor" if is_state(entity, 'on') else "mdi:motion-sensor-off" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.enable_pir_inloopkast_automations
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Lamp inloopkast automatisch aan?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:motion-sensor" if is_state(entity, 'on') else "mdi:motion-sensor-off" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.enable_pir_bijkeuken_automations
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Lamp bijkeuken automatisch aan?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:motion-sensor" if is_state(entity, 'on') else "mdi:motion-sensor-off" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.enable_woonkamer_sunset_automations
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Lamp vaas aan bij sunset?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:weather-sunset-down" if is_state(entity, 'on') else "mdi:weather-sunset" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: input_boolean.vacation_mode_away
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Vakantieverlichting"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: mdi:island
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
                         - type: custom:mushroom-template-card
                           entity: automation.garden_backgate_alert
-                          primary: |-
-                            {{ state_attr(entity, 'friendly_name') }}
+                          primary: *settings_toggle_primary
                           secondary: "Poort alarm?"
-                          multiline_secondary: true
+                          multiline_secondary: *settings_toggle_multiline_secondary
                           icon: |-
                             {{ "mdi:bell-outline" if is_state(entity, 'on') else "mdi:bell-off-outline" }}
-                          icon_color: |-
-                            {{ "yellow" if is_state(entity, 'on') else "grey" }}
-                          layout: vertical
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
+                          icon_color: *settings_toggle_icon_color
+                          layout: *settings_toggle_layout
+                          tap_action: *settings_toggle_tap_action
+                          hold_action: *settings_toggle_hold_action
           - type: template
             icon: mdi:refresh-circle
             icon_color: grey
