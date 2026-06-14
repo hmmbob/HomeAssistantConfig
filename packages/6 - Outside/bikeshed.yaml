@@ -19,6 +19,7 @@ bikeshed_package:
         ttl: 0
         channel: alerts # For devices on Android 8.0+ only
         priority: high
+        notification_icon: mdi:lock-alert-outline
         ledColor: "red" # Set the LED to red
         actions:
           - action: "mute_alert_bikeshed"

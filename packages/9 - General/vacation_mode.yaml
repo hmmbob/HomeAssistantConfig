@@ -51,6 +51,7 @@ vacation_mode_package:
             data:
               ttl: 0
               priority: high
+              notification_icon: mdi:palm-tree
 
     - id: vacation_turn_off_time
       alias: "Zet de verlichting uit tijdens vakantie"
@@ -86,3 +87,4 @@ vacation_mode_package:
             data:
               ttl: 0
               priority: high
+              notification_icon: mdi:palm-tree
