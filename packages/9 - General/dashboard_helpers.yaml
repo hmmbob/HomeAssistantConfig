@@ -1,6 +1,13 @@
 dashboard_helpers_package:
   template:
-    - sensor:
+    - triggers:
+        - trigger: state
+          entity_id:
+            - climate.airco_woonkamer
+            - climate.airco_master_bedroom
+            - climate.airco_slaapkamer_m
+            - climate.airco_slaapkamer_t
+      sensor:
         - unique_id: airco_woonkamer_icon
           state: >-
             {% from 'airco_helper.jinja' import airco_icon %}
@@ -8,7 +15,7 @@ dashboard_helpers_package:
           attributes:
             color: >-
               {% from 'airco_helper.jinja' import airco_icon %}
-              {{ airco_icon("climate.airco_woonkamer","color") }}
+              {{ airco_icon("climate.airco_woonkamer", "color") }}
         - unique_id: airco_mbr_icon
           state: >-
             {% from 'airco_helper.jinja' import airco_icon %}
@@ -16,7 +23,7 @@ dashboard_helpers_package:
           attributes:
             color: >-
               {% from 'airco_helper.jinja' import airco_icon %}
-              {{ airco_icon("climate.airco_master_bedroom","color") }}
+              {{ airco_icon("climate.airco_master_bedroom", "color") }}
         - unique_id: airco_slaapkamer_m_icon
           state: >-
             {% from 'airco_helper.jinja' import airco_icon %}
@@ -24,7 +31,7 @@ dashboard_helpers_package:
           attributes:
             color: >-
               {% from 'airco_helper.jinja' import airco_icon %}
-              {{ airco_icon("climate.airco_slaapkamer_m","color") }}
+              {{ airco_icon("climate.airco_slaapkamer_m", "color") }}
         - unique_id: airco_slaapkamer_t_icon
           state: >-
             {% from 'airco_helper.jinja' import airco_icon %}
@@ -32,4 +39,4 @@ dashboard_helpers_package:
           attributes:
             color: >-
               {% from 'airco_helper.jinja' import airco_icon %}
-              {{ airco_icon("climate.airco_slaapkamer_t","color") }}
+              {{ airco_icon("climate.airco_slaapkamer_t", "color") }}
