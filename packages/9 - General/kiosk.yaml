@@ -224,12 +224,12 @@ kiosk_package:
         - alias: Kantoor bureaumonitor is ingeschakeld
           trigger: numeric_state
           entity_id: sensor.bureau_kantoor_power
-          above: 25
+          above: 50
           id: "turn_on"
         - alias: Kantoor bureaumonitor is uitgeschakeld
           trigger: numeric_state
           entity_id: sensor.bureau_kantoor_power
-          below: 25
+          below: 50
           for: "00:05:00"
           id: "turn_off"
         - alias: "Dagelijks scherm uit om 22:00"
