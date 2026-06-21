@@ -252,8 +252,9 @@ solar_package:
                 - action: automation.turn_off
                   target:
                     entity_id:
-                      - automation.goodwe_omvormer_data_opvragen
                       - automation.goodwe_integratie_proberen_te_herstellen
+                      - automation.goodwe_omvormer_data_opvragen
+                      - automation.power_pvoutput_uploader
             - conditions:
                 - condition: trigger
                   id: enable
@@ -261,8 +262,9 @@ solar_package:
                 - action: automation.turn_on
                   target:
                     entity_id:
-                      - automation.goodwe_omvormer_data_opvragen
                       - automation.goodwe_integratie_proberen_te_herstellen
+                      - automation.goodwe_omvormer_data_opvragen
+                      - automation.power_pvoutput_uploader
 
     - id: goodwe_config_entry_check
       alias: "GoodWe integratie proberen te herstellen"
