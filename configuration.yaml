@@ -129,26 +129,7 @@ script: !include scripts.yaml
 #################################################################
 ## default_config items not included elsewhere
 #################################################################
-#default_config:
-application_credentials:
-backup:
-bluetooth:
-cloud:
-dhcp:
-diagnostics:
-energy:
-go2rtc:
-history:
-homeassistant_alerts:
-media_source:
-mobile_app:
-my:
-ssdp:
-stream:
-  ll_hls: true
-sun:
-webhook:
-zeroconf:
+default_config:
 
 #################################################################
 ## Components not using includes
