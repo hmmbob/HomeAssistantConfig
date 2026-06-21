@@ -143,8 +143,6 @@ pakketbrievenbus_package:
           trigger: state
           entity_id: binary_sensor.pakketbrievenbus_klep
           to: "on"
-          for:
-            seconds: 1
       conditions:
         - alias: Alleen als de uitname-deur dicht is
           condition: state
