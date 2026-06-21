@@ -263,6 +263,11 @@ cards:
               action: toggle
 
       - type: heading
+        heading: Pakketbrievenbus
+        icon: mdi:package-check
+      - !include common/pakketbrievenbus-card.yaml
+
+      - type: heading
         heading: Zwembad
         icon: mdi:pool
       - type: custom:mushroom-template-card
@@ -276,8 +281,24 @@ cards:
         multiline_secondary: true
         tap_action:
           action: more-info
-
-      - type: heading
-        heading: Pakketbrievenbus
-        icon: mdi:package-check
-      - !include common/pakketbrievenbus-card.yaml
+      - title: PoolLab
+        show_date: true
+        show_target: true
+        type: custom:poollab-card
+        measurements: 3
+        entities:
+          - entity: sensor.zwembad_1_pl_ph
+          - entity: sensor.zwembad_1_pl_chlorine_free
+            min: 0.1
+            max: 0.4
+          - entity: sensor.zwembad_1_pl_chlorine_total
+            min: 0.1
+            max: 0.4
+          - entity: sensor.zwembad_1_pl_cyanuric_acid
+            max: 0
+          - entity: sensor.zwembad_1_pl_alkalinity
+            min: 100
+            max: 150
+          - entity: sensor.zwembad_1_pl_chlorine_combined
+            min: 0
+            max: 1
