@@ -88,25 +88,34 @@ cards:
         heading: 3D printer
         icon: phu:bambu-lab-alt
       - type: custom:mushroom-template-card
-        primary: >-
-          {% set task = states('sensor.p2s_22e8bj630504658_taaknaam') %}
-          {{ task if task not in ['unknown', 'unavailable', 'none', ''] else '3D printer' }}
+        primary: "3D printer stroom"
         secondary: >-
+          {{ "Aan" if is_state(entity,'on') else "Uit" }} - {{ states('sensor.3d_printer_power', with_unit=True) }}
+        entity: switch.3d_printer
+        icon: >-
+          {{ "mdi:printer-3d" if is_state(entity,'on') else "mdi:printer-3d-off" }}
+        icon_color: >-
+          {{ "green" if is_state(entity,'on') else "red" }}
+        multiline_secondary: true
+        tap_action:
+          action: toggle
+          confirmation:
+            text: Weet je zeker dat je de 3D printer aan of uit wil zetten?
+      - type: custom:mushroom-template-card
+        primary: >-
+          {{ state_translated('sensor.p2s_22e8bj630504658_printstatus') }}
+        secondary: >-
+          {% from 'relative_time_plus.jinja' import relative_time_plus %}
           {% set status = states('sensor.p2s_22e8bj630504658_printstatus') %}
           {% set active = ['running', 'prepare', 'slicing', 'pause', 'init'] %}
           {% if status in active %}
-            {{ state_translated('sensor.p2s_22e8bj630504658_printstatus') }} -
-            {{ states('sensor.p2s_22e8bj630504658_printvoortgang') }}% -
-            laag {{ states('sensor.p2s_22e8bj630504658_huidige_laag') }}/{{ states('sensor.p2s_22e8bj630504658_hoeveelheid_lagen') }} -
-            {{ states('sensor.p2s_22e8bj630504658_resterende_tijd') | float(0) | round(1) }} uur over
-          {% elif status == 'finish' %}
-            Klaar - {{ states('sensor.p2s_22e8bj630504658_nozzle_temperatuur', with_unit=True) }} nozzle / {{ states('sensor.p2s_22e8bj630504658_bedtemperatuur', with_unit=True) }} bed
-          {% elif status in ['idle'] %}
-            Beschikbaar - {{ states('sensor.p2s_22e8bj630504658_nozzle_temperatuur', with_unit=True) }} nozzle / {{ states('sensor.p2s_22e8bj630504658_bedtemperatuur', with_unit=True) }} bed
+            {{ states('sensor.p2s_22e8bj630504658_printvoortgang') | int(0) }}% | Laag {{ states('sensor.p2s_22e8bj630504658_huidige_laag') }}/{{ states('sensor.p2s_22e8bj630504658_hoeveelheid_lagen') }} | nog {{ relative_time_plus(states('sensor.p2s_22e8bj630504658_eindtijd'), parts=1, abbr=true, language='nl', round_mode='ceil') }}
+          {% elif status in ['finish', 'idle'] %}
+            Nozzle {{ states('sensor.p2s_22e8bj630504658_nozzle_temperatuur', with_unit=True) }} | Bed {{ states('sensor.p2s_22e8bj630504658_bedtemperatuur', with_unit=True) }}
           {% else %}
-            {{ state_translated('sensor.p2s_22e8bj630504658_printstatus') }} - {{ states('sensor.3d_printer_power', with_unit=True) }}
+            {{ states('sensor.3d_printer_power', with_unit=True) }}
           {% endif %}
-        entity: switch.3d_printer
+        entity: sensor.p2s_22e8bj630504658_printstatus
         icon: phu:bambu-lab-alt
         icon_color: >-
           {% set status = states('sensor.p2s_22e8bj630504658_printstatus') %}
@@ -123,7 +132,7 @@ cards:
              'orange' if is_state('binary_sensor.p2s_22e8bj630504658_enclosure_deur', 'on') else
              'grey' if is_state('binary_sensor.p2s_22e8bj630504658_online', 'off') else
              'green' }}
-        multiline_secondary: true
+        multiline_secondary: false
         tap_action:
           action: more-info
         hold_action:
