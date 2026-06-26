@@ -130,6 +130,8 @@ script: !include scripts.yaml
 ## default_config items not included elsewhere
 #################################################################
 default_config:
+stream:
+  ll_hls: false
 
 #################################################################
 ## Components not using includes
