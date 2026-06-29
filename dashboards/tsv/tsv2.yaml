@@ -11,28 +11,32 @@ cards:
     square: false
     cards:
       - !include common/weather-card.yaml
-      - type: custom:mushroom-chips-card
-        alignment: end
-        chips:
-          - !include common/chip-pakketbrievenbus.yaml
-          - !include common/chip-temp.yaml
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            alignment: end
+            chips:
+              - !include common/chip-pakketbrievenbus.yaml
+              - !include common/chip-temp.yaml
 
-          - type: entity
-            entity: sensor.temp_sensor_6_kantoor_temperatuur
-            icon: mdi:home-thermometer
-            tap_action:
-              action: none
-            uix:
-              style: |
-                ha-card {
-                  --chip-background: transparent;
-                  --chip-border-color: transparent;
-                  --chip-box-shadow: none;
-                }
+              - type: entity
+                entity: sensor.temp_sensor_6_kantoor_temperatuur
+                icon: mdi:home-thermometer
+                tap_action:
+                  action: none
+                uix:
+                  style: |
+                    ha-card {
+                      --chip-background: transparent;
+                      --chip-border-color: transparent;
+                      --chip-box-shadow: none;
+                    }
 
-          - !include common/chip-fan.yaml
-          - !include common/chip-cctv.yaml
-          - !include common/chip-omroep.yaml
+              - !include common/chip-fan.yaml
+              - !include common/chip-cctv.yaml
+              - !include common/chip-omroep.yaml
+          - !include ../common/weather-warning-card.yaml
+
 
   - type: grid
     columns: 2

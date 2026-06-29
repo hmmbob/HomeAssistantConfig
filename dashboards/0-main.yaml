@@ -69,6 +69,13 @@ cards:
                 entity: weather.verwachtingen
                 show_conditions: true
                 show_temperature: true
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      timeout: 20000
+                      content: !include common/weather-popup.yaml
 
       - type: custom:mushroom-chips-card
         alignment: justify
@@ -85,6 +92,8 @@ cards:
           - type: entity
             entity: !secret person_mini
             use_entity_picture: true
+
+      - !include common/weather-warning-card.yaml
 
       ###########################
       # First row of room cards #

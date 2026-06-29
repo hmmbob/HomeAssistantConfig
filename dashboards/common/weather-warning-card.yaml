@@ -1,0 +1,116 @@
+type: conditional
+conditions:
+  - condition: state
+    entity: binary_sensor.weer_thuis_waarschuwing_actief
+    state: 'on'
+card:
+  type: custom:mushroom-template-card
+  entity: sensor.weer_thuis_waarschuwingscode
+  primary: >-
+    {% set code = states('sensor.weer_thuis_waarschuwingscode') | lower %}
+    {% if code in ['red', 'rood'] %}
+      Code rood
+    {% elif code in ['orange', 'oranje'] %}
+      Code oranje
+    {% elif code in ['yellow', 'geel'] %}
+      Code geel
+    {% else %}
+      Weerwaarschuwing
+    {% endif %}
+  secondary: >-
+    {% set warnings = state_attr('sensor.weer_thuis_waarschuwingen', 'alerts') or state_attr('sensor.weer_thuis_waarschuwingen', 'warnings') or [] %}
+    {% set text = states('sensor.weer_thuis_waarschuwingen') | trim %}
+    {% if warnings | count > 0 %}
+      {% set first = warnings[0] %}
+      {% set detail = first.description if first is mapping and first.description is defined else first %}
+      {{ detail if detail | length <= 110 else detail[:107] ~ '...' }}
+    {% elif text not in ['', 'unknown', 'unavailable', 'none'] %}
+      {% set first = text.split('. ')[0] %}
+      {{ first if first | length <= 110 else first[:107] ~ '...' }}
+    {% else %}
+      Details laden na NL Weather herstart
+    {% endif %}
+  icon: mdi:alert-circle-outline
+  icon_color: >-
+    {% set code = states('sensor.weer_thuis_waarschuwingscode') | lower %}
+    {% if code in ['red', 'rood'] %}
+      red
+    {% elif code in ['orange', 'oranje'] %}
+      orange
+    {% elif code in ['yellow', 'geel'] %}
+      yellow
+    {% else %}
+      blue
+    {% endif %}
+  multiline_secondary: true
+  fill_container: true
+  uix:
+    style:
+      .: |
+        ha-card {
+          {% set code = states('sensor.weer_thuis_waarschuwingscode') | lower %}
+          {% if code in ['red', 'rood'] %}
+            background-color: rgba(244, 67, 54, 0.16) !important;
+            border-color: rgba(244, 67, 54, 0.75) !important;
+          {% elif code in ['orange', 'oranje'] %}
+            background-color: rgba(255, 152, 0, 0.16) !important;
+            border-color: rgba(255, 152, 0, 0.75) !important;
+          {% elif code in ['yellow', 'geel'] %}
+            background-color: rgba(255, 235, 59, 0.18) !important;
+            border-color: rgba(245, 196, 0, 0.75) !important;
+          {% else %}
+            background-color: rgba(33, 150, 243, 0.14) !important;
+            border-color: rgba(33, 150, 243, 0.65) !important;
+          {% endif %}
+        }
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.popup
+      data:
+        title: Weerwaarschuwing
+        timeout: 20000
+        content:
+          type: markdown
+          content: |
+            {% set alerts = state_attr('sensor.weer_thuis_waarschuwingen', 'alerts') or state_attr('sensor.weer_thuis_waarschuwingen', 'warnings') or [] -%}
+            {% set text = states('sensor.weer_thuis_waarschuwingen') | trim -%}
+            {% if alerts | count > 0 -%}
+            {% for alert in alerts -%}
+            {% set raw_item = alert.description if alert is mapping and alert.description is defined else alert -%}
+            {% set item = raw_item | trim -%}
+            {% if item %}
+            {% set lower = item | lower -%}
+            {% set code = alert.code | lower if alert is mapping and alert.code is defined else '' -%}
+            {% set title = 'Code rood' if code in ['red', 'rood'] or 'code rood' in lower else 'Code oranje' if code in ['orange', 'oranje'] or 'code oranje' in lower else 'Code geel' if code in ['yellow', 'geel'] or 'code geel' in lower else 'Weerwaarschuwing' -%}
+            {% set level = 'error' if title == 'Code rood' else 'warning' if title in ['Code oranje', 'Code geel'] else 'info' -%}
+            {% set prefix = title | lower ~ ' voor ' -%}
+            {% set prefix_length = prefix | length -%}
+            {% set detail = item[prefix_length:] | trim if lower.startswith(prefix) else item -%}
+            <ha-alert alert-type="{{ level }}" title="{{ title }}">
+              {{ detail[:1] | upper }}{{ detail[1:] }}{{ '.' if not detail.endswith('.') else '' }}
+            </ha-alert>
+
+            {% endif -%}
+            {% endfor -%}
+            {% elif text not in ['', 'unknown', 'unavailable', 'none'] -%}
+            {% for alert in text.split('. ') -%}
+            {% set item = alert | trim -%}
+            {% if item %}
+            {% set lower = item | lower -%}
+            {% set title = 'Code rood' if 'code rood' in lower else 'Code oranje' if 'code oranje' in lower else 'Code geel' if 'code geel' in lower else 'Weerwaarschuwing' -%}
+            {% set level = 'error' if title == 'Code rood' else 'warning' if title in ['Code oranje', 'Code geel'] else 'info' -%}
+            {% set prefix = title | lower ~ ' voor ' -%}
+            {% set prefix_length = prefix | length -%}
+            {% set detail = item[prefix_length:] | trim if lower.startswith(prefix) else item -%}
+            <ha-alert alert-type="{{ level }}" title="{{ title }}">
+              {{ detail[:1] | upper }}{{ detail[1:] }}{{ '.' if not detail.endswith('.') else '' }}
+            </ha-alert>
+
+            {% endif -%}
+            {% endfor -%}
+            {% else %}
+            <ha-alert alert-type="info" title="Weerwaarschuwing">
+              Details laden na NL Weather herstart.
+            </ha-alert>
+            {% endif %}

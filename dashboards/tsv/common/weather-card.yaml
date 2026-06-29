@@ -33,17 +33,92 @@ tap_action:
             secondary_info_attribute: humidity
             show_current: true
             show_forecast: true
-          - type: picture-entity
-            entity: camera.nl_weather_01kgq7vzzm9j45mmswpa58r2km_precipitation_radar
-            show_state: false
-            show_name: false
-            camera_view: auto
-            fit_mode: contain
-            uix:
-              style: |
-                ha-card {
-                  height: 260px !important;  /* Ensure the height is set */
-                }
+          - type: horizontal-stack
+            cards:
+              - type: picture-entity
+                entity: camera.nl_weather_01kgq7vzzm9j45mmswpa58r2km_precipitation_radar
+                show_state: false
+                show_name: false
+                camera_view: auto
+                fit_mode: contain
+                uix:
+                  style: |
+                    ha-card {
+                      height: 260px !important;  /* Ensure the height is set */
+                    }
+              - type: custom:plotly-graph
+                title: Neerslag komende uren
+                fn: |
+                  $fn ({ hass, vars }) => {
+                    const forecast = hass.states['binary_sensor.weer_thuis_neerslag_verwacht']?.attributes?.forecast || [];
+                    vars.x = [];
+                    vars.y = [];
+                    vars.hover = [];
+                    vars.ymax = 0;
+
+                    forecast.map(e => {
+                      const t = new Date(e.datetime).getTime();
+                      const p = Number(e.precipitation || 0);
+                      if (!Number.isFinite(t) || !Number.isFinite(p)) return;
+
+                      vars.x.push(t);
+                      vars.y.push(p);
+                      vars.ymax = Math.max(vars.ymax, p);
+                      vars.hover.push(
+                        new Date(t).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) +
+                        ': <b>' + p.toFixed(1) + '</b> mm/u'
+                      );
+                    });
+
+                    vars.ymax = Math.max(1, Math.ceil(vars.ymax * 2) / 2);
+                    vars.xrange = vars.x.length
+                      ? [vars.x[0], vars.x[vars.x.length - 1]]
+                      : [Date.now(), Date.now() + (4 * 3600000)];
+                  }
+                layout:
+                  height: 220
+                  margin:
+                    l: 62
+                    r: 15
+                    t: 15
+                    b: 48
+                  paper_bgcolor: rgba(0,0,0,0)
+                  plot_bgcolor: rgba(0,0,0,0)
+                  showlegend: false
+                  yaxis:
+                    fixedrange: true
+                    rangemode: tozero
+                    range: $fn ({ vars }) => [0, vars.ymax]
+                    tickformat: ".1f"
+                    title:
+                      text: mm/u
+                  xaxis:
+                    fixedrange: true
+                    range: $fn ({ vars }) => vars.xrange
+                    tickformat: "%H:%M"
+                config:
+                  displayModeBar: false
+                entities:
+                  - entity: ""
+                    name: Neerslag
+                    showlegend: false
+                    x: $ex vars.x
+                    "y": $ex vars.y
+                    customdata: $ex vars.hover
+                    hovertemplate: "%{customdata}<extra></extra>"
+                    type: scatter
+                    mode: lines
+                    line:
+                      color: "#38bdf8"
+                      width: 3
+                      shape: spline
+                    fill: tozeroy
+                    fillcolor: rgba(56,189,248,0.22)
+                uix:
+                  style: |
+                    ha-card {
+                      height: 260px !important;
+                    }
 uix:
   style: |
     ha-card {
