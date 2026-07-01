@@ -146,47 +146,35 @@ cards:
                   tap_action:
                     action: none
 
-          - type: "custom:vertical-stack-in-card"
-            uix:
-              style: |
-                ha-card { height: 55px !important; }
-            cards:
-              - type: custom:mushroom-climate-card
-                entity: climate.airco_woonkamer
-                show_temperature_control: true
-                layout: horizontal
-                hold_action:
-                  action: perform-action
-                  perform_action: script.kiosk_toggle_airco
-                tap_action:
-                  action: fire-dom-event
-                  browser_mod:
-                    service: browser_mod.more_info
-                    data:
-                      entity: climate.airco_woonkamer
-              - type: custom:mushroom-template-card
-                icon: mdi:power
-                color: >-
-                  {% if is_state('climate.airco_woonkamer', 'off') %}
-                    {{ 'orange' 
-                      if (states('sensor.temp_sensor_7_woonkamer_temperatuur') | float(0)) < 22 
-                      else 'blue' }}
-                  {% else %}
-                    'red'
-                  {% endif %}
-                uix:
-                  style:
-                    .: |
-                      ha-card {
-                        background: none;
-                        margin-left: 185px;
-                        top: -53px;
-                        width: 50px;
-                      }
-                icon_tap_action:
-                  action: perform-action
-                  perform_action: script.kiosk_toggle_airco
-
+          - type: custom:uix-forge
+            forge:
+              mold: card
+              sparks:
+                - type: button
+                  before: "mushroom-climate-card $ mushroom-climate-temperature-control"
+                  icon: mdi:power
+                  appearance: filled
+                  variant: >-
+                    {{ 'danger' if not is_state('climate.airco_woonkamer', 'off') else ('warning' if states('sensor.temp_sensor_7_woonkamer_temperatuur') | float(0) < 22 else 'brand') }}
+                  color: >-
+                    {{ 'red' if not is_state('climate.airco_woonkamer', 'off') else ('orange' if states('sensor.temp_sensor_7_woonkamer_temperatuur') | float(0) < 22 else 'blue') }}
+                  tap_action:
+                    action: perform-action
+                    perform_action: script.kiosk_toggle_airco
+            element:
+              type: custom:mushroom-climate-card
+              entity: climate.airco_woonkamer
+              show_temperature_control: true
+              layout: horizontal
+              hold_action:
+                action: perform-action
+                perform_action: script.kiosk_toggle_airco
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.more_info
+                  data:
+                    entity: climate.airco_woonkamer
           - !include common/kids-devices.yaml
 
           - type: custom:plotly-graph

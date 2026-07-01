@@ -47,77 +47,68 @@ cards:
           - !include common/button-lights.yaml
           - !include common/kids-devices.yaml
 
-          - type: vertical-stack
-            cards:
-              - type: "custom:vertical-stack-in-card"
-                uix:
-                  style: |
-                    ha-card { height: 55px !important; }
-                cards:
-                  - type: custom:mushroom-media-player-card
-                    entity: media_player.kantoor
-                    media_controls:
-                      - on_off
-                      - previous
-                      - play_pause_stop
-                      - next
-                    volume_controls:
-                      - volume_mute
-                      - volume_set
-                      - volume_buttons
-                    collapsible_controls: true
-                    layout: horizontal
-                    show_volume_level: true
-                    use_media_info: true
-                    tap_action:
-                      action: fire-dom-event
-                      browser_mod:
-                        service: browser_mod.sequence
+          - type: custom:uix-forge
+            forge:
+              mold: card
+              sparks:
+                - type: button
+                  after: "mushroom-media-player-card $ mushroom-state-info"
+                  icon: phu:radio-538
+                  color: deep-purple
+                  tap_action:
+                    action: perform-action
+                    perform_action: media_player.play_media
+                    target:
+                      entity_id: media_player.kantoor
+                    data:
+                      media_content_id: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538.mp3
+                      media_content_type: music
+            element:
+              type: custom:mushroom-media-player-card
+              entity: media_player.kantoor
+              media_controls:
+                - on_off
+                - previous
+                - play_pause_stop
+                - next
+              volume_controls:
+                - volume_mute
+                - volume_set
+                - volume_buttons
+              collapsible_controls: true
+              layout: horizontal
+              show_volume_level: true
+              use_media_info: true
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.sequence
+                  data:
+                    sequence:
+                      - service: browser_mod.more_info
                         data:
-                          sequence:
-                            - service: browser_mod.more_info
-                              data:
-                                entity: media_player.kantoor
-                            - service: browser_mod.delay
-                              data:
-                                time: 10000
-                            - service: browser_mod.more_info
-                  - type: conditional
-                    conditions:
-                      - condition: state
-                        entity: media_player.kantoor
-                        state: "off"
-                    uix:
-                      style:
-                        .: |
-                          ha-card {
-                            border: solid 0px;
-                            box-shadow: none;
-                          }
-                    card:
-                      type: custom:mushroom-template-card
-                      icon_color: deep-purple
-                      icon: phu:radio-538
-                      uix:
-                        style:
-                          .: |
-                            ha-card {
-                              background: none;
-                              margin-left: 310px;
-                              top: -54px;
-                              width: 40px;
-                              border: solid 0px;
-                              box-shadow: none;
-                            }
-                      icon_tap_action:
-                        action: perform-action
-                        perform_action: media_player.play_media
-                        target:
-                          entity_id: media_player.kantoor
+                          entity: media_player.kantoor
+                      - service: browser_mod.delay
                         data:
-                          media_content_id: https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538.mp3
-                          media_content_type: music
-
+                          time: 10000
+                      - service: browser_mod.more_info
+              uix:
+                style: |
+                  mushroom-state-item {
+                    position: relative;
+                  }
+                  ha-button.uix-forge-spark-icon-button {
+                    color: var(--deep-purple-color);
+                    position: absolute !important;
+                    right: 16px;
+                    top: 3px;
+                    {% if not is_state('media_player.kantoor', 'off') %}
+                    display: none !important;
+                    {% endif %}
+                  }
+                  ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
+                    --mdc-icon-size: 34px;
+                  }
       ### Right column
       - type: custom:calendar-card-pro
         entities:
