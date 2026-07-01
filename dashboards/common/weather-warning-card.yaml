@@ -73,41 +73,21 @@ card:
         content:
           type: markdown
           content: |
-            {% set alerts = state_attr('sensor.weer_thuis_waarschuwingen', 'alerts') or state_attr('sensor.weer_thuis_waarschuwingen', 'warnings') or [] -%}
-            {% set text = states('sensor.weer_thuis_waarschuwingen') | trim -%}
+            {% set alerts = state_attr('sensor.weer_thuis_waarschuwingen', 'alerts') or [] -%}
+            {% set titles = {'red': 'Code rood', 'orange': 'Code oranje', 'yellow': 'Code geel'} -%}
             {% if alerts | count > 0 -%}
             {% for alert in alerts -%}
-            {% set raw_item = alert.description if alert is mapping and alert.description is defined else alert -%}
-            {% set item = raw_item | trim -%}
-            {% if item %}
-            {% set lower = item | lower -%}
-            {% set code = alert.code | lower if alert is mapping and alert.code is defined else '' -%}
-            {% set title = 'Code rood' if code in ['red', 'rood'] or 'code rood' in lower else 'Code oranje' if code in ['orange', 'oranje'] or 'code oranje' in lower else 'Code geel' if code in ['yellow', 'geel'] or 'code geel' in lower else 'Weerwaarschuwing' -%}
-            {% set level = 'error' if title == 'Code rood' else 'warning' if title in ['Code oranje', 'Code geel'] else 'info' -%}
-            {% set prefix = title | lower ~ ' voor ' -%}
+            {% set code = alert.code | lower -%}
+            {% set title = titles.get(code, 'Weerwaarschuwing') -%}
+            {% set level = 'error' if code == 'red' else 'warning' if code in ['orange', 'yellow'] else 'info' -%}
+            {% set item = alert.description | trim -%}
+            {% set prefix = title | lower ~ ' voor ' %}
             {% set prefix_length = prefix | length -%}
-            {% set detail = item[prefix_length:] | trim if lower.startswith(prefix) else item -%}
+            {% set detail = item[prefix_length:] | trim if (item | lower).startswith(prefix) else item -%}
             <ha-alert alert-type="{{ level }}" title="{{ title }}">
               {{ detail[:1] | upper }}{{ detail[1:] }}{{ '.' if not detail.endswith('.') else '' }}
             </ha-alert>
 
-            {% endif -%}
-            {% endfor -%}
-            {% elif text not in ['', 'unknown', 'unavailable', 'none'] -%}
-            {% for alert in text.split('. ') -%}
-            {% set item = alert | trim -%}
-            {% if item %}
-            {% set lower = item | lower -%}
-            {% set title = 'Code rood' if 'code rood' in lower else 'Code oranje' if 'code oranje' in lower else 'Code geel' if 'code geel' in lower else 'Weerwaarschuwing' -%}
-            {% set level = 'error' if title == 'Code rood' else 'warning' if title in ['Code oranje', 'Code geel'] else 'info' -%}
-            {% set prefix = title | lower ~ ' voor ' -%}
-            {% set prefix_length = prefix | length -%}
-            {% set detail = item[prefix_length:] | trim if lower.startswith(prefix) else item -%}
-            <ha-alert alert-type="{{ level }}" title="{{ title }}">
-              {{ detail[:1] | upper }}{{ detail[1:] }}{{ '.' if not detail.endswith('.') else '' }}
-            </ha-alert>
-
-            {% endif -%}
             {% endfor -%}
             {% else %}
             <ha-alert alert-type="info" title="Weerwaarschuwing">
