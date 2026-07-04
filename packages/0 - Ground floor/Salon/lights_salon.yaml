@@ -4,16 +4,18 @@ lights_salon_package:
       name: "Alle lampen salon"
       unique_id: lampen_salon
       entities:
+        - light.grijze_lamp
+        - light.kast
         - light.salon
         - light.staande_lamp_switch
         - light.tv_kastje
-        - light.grijze_lamp
     - platform: group
       name: "Sfeerverlichting salon"
       unique_id: sfeerverlichting_salon
       entities:
-        - light.staande_lamp_switch
         - light.grijze_lamp
+        - light.kast
+        - light.staande_lamp_switch
 
   automation:
     - id: "salon_remote_control"
