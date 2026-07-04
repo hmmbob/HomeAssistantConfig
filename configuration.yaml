@@ -146,15 +146,3 @@ command_line:
 sonos:
   media_player:
     advertise_addr: !secret sonos_host
-
-notify:
-  - platform: smtp
-    name: "Email"
-    sender: !secret smtp_sender
-    sender_name: "Homeassistant"
-    username: !secret smtp_sender
-    password: !secret smtp_sender_password
-    recipient: !secret smtp_recipient
-    server: !secret smtp_server
-    port: !secret smtp_server_port
-    encryption: tls
