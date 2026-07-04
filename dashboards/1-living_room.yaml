@@ -36,7 +36,7 @@ cards:
             entity: plant.hangplant
             icon: mdi:sprout
             icon_color: |-
-              {{ "green" if (is_state('plant.hangplant', 'ok') and is_state('plant.rubberboom', 'ok')) else "red" }}
+              {{ "green" if (is_state('plant.hangplant', 'ok') and is_state('plant.palm', 'ok')) else "red" }}
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -55,8 +55,8 @@ cards:
                           - temperature
                           - illuminance
                       - type: custom:flower-card
-                        entity: plant.rubberboom
-                        battery_sensor: sensor.xiaomi_plant_sensor_6_battery
+                        entity: plant.palm
+                        battery_sensor: sensor.xiaomi_plant_sensor_7_battery
                         show_bars:
                           - moisture
                           - conductivity
