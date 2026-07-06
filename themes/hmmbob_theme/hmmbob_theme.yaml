@@ -31,6 +31,16 @@ Hmmbob light theme:
       25% { transform: scale3d(1, 1, 1); }
     }
 
+    @keyframes spark-boing-centered {
+      0% { transform: translate(-4px, -4.5px) scale3d(1, 1, 1); }
+      7% { transform: translate(-4px, -4.5px) scale3d(1.25, 0.75, 1); }
+      10% { transform: translate(-4px, -4.5px) scale3d(0.75, 1.25, 1); }
+      12% { transform: translate(-4px, -4.5px) scale3d(1.15, 0.85, 1); }
+      16% { transform: translate(-4px, -4.5px) scale3d(0.95, 1.05, 1); }
+      19% { transform: translate(-4px, -4.5px) scale3d(1.05, 0.95, 1); }
+      25%, 100% { transform: translate(-4px, -4.5px) scale3d(1, 1, 1); }
+    }
+
     @keyframes illumination {
       0%, 100% { clip-path: inset(0 0 0 0); }
       80% { clip-path: polygon(0% 99%, 20% 55%, 22% 37%, 39% 20%, 61% 21%, 77% 35%, 79% 57%, 99% 100%); }
@@ -116,6 +126,16 @@ Hmmbob dark theme:
       16% { transform: scale3d(0.95, 1.05, 1); }
       19% { transform: scale3d(1.05, 0.95, 1); }
       25% { transform: scale3d(1, 1, 1); }
+    }
+
+    @keyframes spark-boing-centered {
+      0% { transform: translate(-4px, -4.5px) scale3d(1, 1, 1); }
+      7% { transform: translate(-4px, -4.5px) scale3d(1.25, 0.75, 1); }
+      10% { transform: translate(-4px, -4.5px) scale3d(0.75, 1.25, 1); }
+      12% { transform: translate(-4px, -4.5px) scale3d(1.15, 0.85, 1); }
+      16% { transform: translate(-4px, -4.5px) scale3d(0.95, 1.05, 1); }
+      19% { transform: translate(-4px, -4.5px) scale3d(1.05, 0.95, 1); }
+      25%, 100% { transform: translate(-4px, -4.5px) scale3d(1, 1, 1); }
     }
 
     @keyframes illumination {
