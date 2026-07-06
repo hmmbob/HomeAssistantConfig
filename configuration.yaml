@@ -16,7 +16,7 @@ homeassistant:
 frontend:
   themes: !include_dir_merge_named themes/
   extra_module_url:
-    - /hacsfiles/kiosk-mode/kiosk-mode.js?v9.0.2
+    - /hacsfiles/kiosk-mode/kiosk-mode.js
 
 http:
   ip_ban_enabled: true
@@ -105,7 +105,6 @@ recorder:
       - sensor.slimmelezer*
       - sensor.smartevse_6360_esp*
       - sensor.smartevse_6360_mains*
-      - sensor.smartevse_mains_*
       - sensor.sun_*
       - sensor.zonneplan_for*
     entities:
