@@ -4,7 +4,7 @@ solar_package:
     # on == negative price, off == positive price
     - platform: threshold
       name: "Negatieve stroomprijs"
-      entity_id: sensor.zonneplan_current_electricity_tariff
+      entity_id: sensor.zonneplan_current_quarter_hourly_electricity_tariff
       lower: 0
 
   input_boolean:

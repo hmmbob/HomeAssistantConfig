@@ -14,7 +14,7 @@ ev_package:
           trigger: event
           event_type: state_changed
           event_data:
-            entity_id: sensor.zonneplan_current_electricity_tariff
+            entity_id: sensor.zonneplan_current_quarter_hourly_electricity_tariff
         # This ensures the first data is filled.
         - alias: Trigger bij herladen templates voor initialisatie
           trigger: event
@@ -23,25 +23,27 @@ ev_package:
         - name: "Zonneplan template prijssensor"
           unique_id: zonneplan_template_price_sensor
           unit_of_measurement: "€/kWh"
-          state: "{{ states('sensor.zonneplan_current_electricity_tariff') }}"
-          availability: "{{ 'sensor.zonneplan_current_electricity_tariff' | has_value }}"
+          state: "{{ states('sensor.zonneplan_current_quarter_hourly_electricity_tariff') }}"
+          availability: "{{ 'sensor.zonneplan_current_quarter_hourly_electricity_tariff' | has_value }}"
           attributes:
             prices_today: >
-              {%- set forecast = state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') %}
-              {%- set time_key = 'datetime' %}
-              {%- set price_key = 'electricity_price' %}
+              {%- set forecast = state_attr('sensor.zonneplan_current_quarter_hourly_electricity_tariff', 'forecast') %}
               {%- set ns = namespace(data=[]) %}
-              {%- for i in forecast | default([], true) if as_local(as_datetime(i[time_key])).date() == now().date() %}
-                {%- set ns.data = ns.data + [dict(time= as_local(as_datetime(i[time_key])).isoformat(), price = i[price_key] / 10000000 )] %}
+              {%- for i in forecast | default([], true) if as_local(as_datetime(i.start_date)).date() == now().date() %}
+                {%- set amount = i.get('price_tax_included', {}).get('amount') %}
+                {%- if amount is number %}
+                  {%- set ns.data = ns.data + [dict(time=as_local(as_datetime(i.start_date)).isoformat(), price=amount / 10000000)] %}
+                {%- endif %}
               {%- endfor %}
               {{ ns.data }}
             prices_tomorrow: >
-              {%- set forecast = state_attr('sensor.zonneplan_current_electricity_tariff', 'forecast') %}
-              {%- set time_key = 'datetime' %}
-              {%- set price_key = 'electricity_price' %}
+              {%- set forecast = state_attr('sensor.zonneplan_current_quarter_hourly_electricity_tariff', 'forecast') %}
               {%- set ns = namespace(data=[]) %}
-              {%- for i in forecast | default([], true) if as_local(as_datetime(i[time_key])).date() == (now()+timedelta(days=1)).date() %}
-                {%- set ns.data = ns.data + [dict(time= as_local(as_datetime(i[time_key])).isoformat(), price = i[price_key] / 10000000 )] %}
+              {%- for i in forecast | default([], true) if as_local(as_datetime(i.start_date)).date() == (now()+timedelta(days=1)).date() %}
+                {%- set amount = i.get('price_tax_included', {}).get('amount') %}
+                {%- if amount is number %}
+                  {%- set ns.data = ns.data + [dict(time=as_local(as_datetime(i.start_date)).isoformat(), price=amount / 10000000)] %}
+                {%- endif %}
               {%- endfor %}
               {{ ns.data }}
 

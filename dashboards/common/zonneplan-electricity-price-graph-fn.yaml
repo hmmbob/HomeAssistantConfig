@@ -1,0 +1,38 @@
+|
+  $fn ({ hass, vars }) => {
+    vars.x = []; vars.y = []; vars.color = []; vars.hover = [];
+    vars.min = {p: 999,t: null}; vars.max = {p:-999,t:null}
+    vars.ymin = 999; vars.ymax = -999
+    const priceEntity = hass.states['sensor.zonneplan_current_quarter_hourly_electricity_tariff']
+    const hourlyForecast =
+      hass.states['sensor.zonneplan_current_hourly_electricity_tariff']?.attributes?.forecast ?? []
+    const groupColors = {low: "#00a964", normal: "#227153", high: "#ed5e18"}
+    vars.p_now = parseFloat(priceEntity?.state ?? "NaN")
+    vars.unit_of_measurement = priceEntity?.attributes?.unit_of_measurement ?? "€/kWh"
+    const cutoff = Date.now() - 3600000;
+    priceEntity?.attributes?.forecast?.map(e => {
+      const start = new Date(e.start_date).getTime()
+      const end = new Date(e.end_date).getTime()
+      if (!Number.isFinite(start) || !Number.isFinite(end) || end < cutoff) return
+      const t = start + (end-start)/2
+      const p = e.price_tax_included?.amount/10000000
+      if (!Number.isFinite(p)) return
+      const hourlyEntry = hourlyForecast.find(h =>
+        start >= new Date(h.start_date).getTime() &&
+        start < new Date(h.end_date).getTime()
+      )
+      const c = groupColors[hourlyEntry?.tariff_group] ?? groupColors.normal
+      if (end >= Date.now()) {
+        if (p<vars.min.p) vars.min = {p,t,c}
+        if (p>vars.max.p) vars.max = {p,t,c}
+      }
+      if (p<vars.ymin) vars.ymin = p
+      if (p>vars.ymax) vars.ymax = p
+      vars.x.push(t)
+      vars.y.push(p)
+      vars.color.push(c)
+      vars.hover.push(new Date(start).toLocaleTimeString("nl-NL", {hour: "2-digit", minute: "2-digit"}) + "-" +
+        new Date(end).toLocaleTimeString("nl-NL", {hour: "2-digit", minute: "2-digit"}) + " : <b>" +
+        p.toFixed(3) + "</b> " + vars.unit_of_measurement)
+    })
+  }
