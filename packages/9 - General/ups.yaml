@@ -10,16 +10,20 @@ ups_package:
           entity_id:
             - sensor.ups_battery_charge
             - sensor.ups_status_data
+          not_from:
+            - "unknown"
+            - "unavailable"
       variables:
         runtime_left: >
-          {% set runtime = states("sensor.ups_battery_runtime") | int %}
-          {% set hours = runtime // 3600 %}
-          {% set minutes = (runtime % 3600) // 60 %}
-          {{ '%du' % hours if hours else '' }}{{ '%dm' % minutes if minutes else '' }}
-      conditions:
-        - alias: Controleer dat vorige status niet unknown of unavailable was
-          condition: template
-          value_template: "{{ trigger.from_state.state not in ['unavailable', 'unknown'] }}"
+          {% if has_value('sensor.ups_battery_runtime') %}
+            {% set runtime = states('sensor.ups_battery_runtime') | int(0) %}
+            {% set hours = runtime // 3600 %}
+            {% set minutes = (runtime % 3600) // 60 %}
+            {{ '%du' % hours if hours else '' }}{{ '%dm' % minutes }}
+          {% else %}
+            onbekend
+          {% endif %}
+      conditions: []
       actions:
         - alias: Kies melding op basis van actuele UPS-status
           choose:
