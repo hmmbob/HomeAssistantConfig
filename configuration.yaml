@@ -94,9 +94,10 @@ recorder:
     entity_globs:
       - sensor.*_geocoded_*
       - sensor.*_last_seen
+      - sensor.*_on_today
       - sensor.*_uptime
-      - sensor.*_wifi_signaal
       - sensor.*_voltage
+      - sensor.*_wifi_signaal
       - sensor.afvalinfo_*
       - sensor.dsmr_reading_phase_*
       - sensor.on_grid_*
