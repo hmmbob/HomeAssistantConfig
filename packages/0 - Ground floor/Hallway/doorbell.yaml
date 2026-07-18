@@ -57,7 +57,8 @@ doorbell_package:
                 - alias: Genereer AI beschrijving van bezoeker
                   action: ai_task.generate_data
                   response_variable: response
-                  data:
+                  continue_on_error: true
+                  data: &doorbell_ai_request
                     entity_id: ai_task.google_ai_task
                     task_name: Voordeur AI analyse
                     instructions: |-
@@ -76,6 +77,28 @@ doorbell_package:
                         navigateIds:
                           - media_content_type: app
                             media_content_id: media-source://camera
+                - alias: Probeer AI-beschrijving opnieuw na een tijdelijke fout
+                  if:
+                    - >-
+                      {% set result = response.data if response is defined and response.data is defined else '' %}
+                      {{ result | string | trim | length == 0 }}
+                  then:
+                    - alias: Wacht kort voor tweede AI-poging
+                      delay: "00:00:05"
+                    - alias: Genereer AI-beschrijving opnieuw
+                      action: ai_task.generate_data
+                      response_variable: response
+                      continue_on_error: true
+                      data: *doorbell_ai_request
+                - alias: Kies AI-resultaat of fallbacktekst
+                  variables:
+                    ai_message: >-
+                      {% set result = response.data if response is defined and response.data is defined else '' %}
+                      {% if result | string | trim | length > 0 %}
+                        {{ result }}
+                      {% else %}
+                        AI-beschrijving tijdelijk niet beschikbaar. Open de camerabeelden om te zien wie er aanbelt.
+                      {% endif %}
                 - alias: Werk notificaties bij met AI beschrijving
                   repeat:
                     for_each: >
@@ -91,7 +114,7 @@ doorbell_package:
                         action: "{{ repeat.item }}"
                         data:
                           title: "{{ title }}"
-                          message: "{{ response.data }}"
+                          message: "{{ ai_message }}"
                           data:
                             image: /api/camera_proxy/camera.voordeur_vloeiend
                             clickAction: /lovelace/camera

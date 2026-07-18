@@ -31,7 +31,8 @@ morning_briefing_package:
         - alias: Genereer ochtendbriefing
           action: ai_task.generate_data
           response_variable: response
-          data:
+          continue_on_error: true
+          data: &morning_ai_request
             entity_id: ai_task.google_ai_task
             task_name: Ochtendbriefing
             instructions: |
@@ -41,11 +42,39 @@ morning_briefing_package:
               - The maximum temperature expected today: {{ states('sensor.weer_thuis_vandaag_maximum', with_unit=True) }}
               - The current outdoor temperature and weather condition: {{ states('sensor.weer_thuis_temperatuur', with_unit=True) }} and {{ states('weather.weer_thuis_waarnemingen') }}
               - A brief weather forecast for today: {{ forecast.condition }}, high {{ forecast.temperature }} C, low {{ forecast.templow }} C, {{ forecast.precipitation_probability }}% chance of precipitation and {{ forecast.precipitation }} mm precipitation expected.
+        - alias: Probeer ochtendbriefing opnieuw na een tijdelijke AI-fout
+          if:
+            - >-
+              {% set result = response.data if response is defined and response.data is defined else '' %}
+              {{ result | string | trim | length == 0 }}
+          then:
+            - alias: Wacht kort voor tweede AI-poging
+              delay: "00:00:05"
+            - alias: Genereer ochtendbriefing opnieuw
+              action: ai_task.generate_data
+              response_variable: response
+              continue_on_error: true
+              data: *morning_ai_request
+        - alias: Kies AI-briefing of lokale weersamenvatting
+          variables:
+            briefing_message: >-
+              {% set result = response.data if response is defined and response.data is defined else '' %}
+              {% if result | string | trim | length > 0 %}
+                {{ result }}
+              {% else %}
+                {% set forecast = weather_forecast['weather.verwachtingen'].forecast[0] %}
+                Goedemorgen! De zon komt vandaag op om
+                {{ states('sensor.sun_next_rising') | as_datetime | as_timestamp | timestamp_custom('%H:%M', True) }}.
+                Buiten is het {{ states('sensor.weer_thuis_temperatuur', with_unit=True) }} en
+                {{ states('weather.weer_thuis_waarnemingen') }}. Vandaag wordt het maximaal
+                {{ states('sensor.weer_thuis_vandaag_maximum', with_unit=True) }}, met
+                {{ forecast.precipitation_probability }}% kans op neerslag.
+              {% endif %}
         - alias: Stuur ochtendmelding
           action: notify.mobile_app_sm_a556b
           data:
             title: Good morning sunshine!
-            message: "{{ response.data }}"
+            message: "{{ briefing_message }}"
             data:
               tag: "morning-brief"
               notification_icon: mdi:weather-sunset-up
