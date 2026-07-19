@@ -1,124 +1,42 @@
 postcodeloterij_package:
-  rest_command:
-    postcodeloterij:
-      url: https://www.postcodeloterij.nl/public/rest/drawresults/winnings/NPL/P_{{ 'E' if extra | default(false) | bool(false) else 'M' }}T_P{{ month | default((now().replace(day=1) - timedelta(days=1)).strftime("%Y%m")) }}/?resultSize=10
-      method: POST
-      # format for the payload is "query=1234AB" where 1234AB is the postal code
-      payload: !secret postcodeloterij_postcode
-      headers:
-        Content-Type: application/x-www-form-urlencoded
-        User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
-
-  template:
-    - trigger:
-        # the sensor will be automatically updated on the first 3 days of the month, after 18:00
-        - alias: Dagelijks om 18:00 voor automatische controle
-          trigger: time
-          at: "18:00"
-          # you can use the event below in developer tools > events to manually update the sensor
-        - alias: Handmatig event voor postcodeloterij update
-          trigger: event
-          event_type: update_postcodeloterij_prizes
-          id: manual
-      condition:
-        - alias: Handmatig trigger of dag 1-3 van de maand?
-          condition: template
-          value_template: "{{ trigger.id == 'manual' or now().day in [1,2,3] }}"
-      actions:
-        - alias: Maak variabelen aan voor de maand voor REST-commando's en berichten
-          variables:
-            month: >
-              {{
-                trigger.event.data.month | int
-                if
-                  trigger.platform == 'event'
-                  and trigger.event.data is defined
-                  and 'month' in trigger.event.data
-                else
-                  (now().replace(day=1) - timedelta(days=1)).strftime("%Y%m") | int
-              }}
-            extra: "{{ month % 100 in [6, 12] }}"
-            month_formatted: >
-              {% set months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'] %}
-              {{ months[month % 100 -1] ~ ' ' ~ month // 100 }}
-        - alias: Voer REST-commando uit voor maandelijkse trekkingen
-          action: rest_command.postcodeloterij
-          data:
-            month: "{{ month }}"
-          response_variable: prizes
-        - alias: Controleer of extra trekking nodig is (juni/december)
-          if: "{{ extra }}"
-          then:
-            - alias: Voer REST-commando uit voor extra trekkingen in juni en december
-              action: rest_command.postcodeloterij
-              data:
-                extra: true
-                month: >
-                  {% set y = month // 100 %}
-                  {% set m = month % 100 %}
-                  {% set mapping = {6: 13, 12: 14} %}
-                  {{ y * 100 +  mapping[m] | default(m) }}
-              response_variable: prizes_extra
-        - alias: Maak variabelen aan voor de resultaten van de REST-commando's
-          variables:
-            # normal monthly draw
-            prizecount: "{{ prizes.content.prizeCount }}"
-            prizes: >
-              {% set ns = namespace(prizes=[]) %}
-              {% for p in prizes.content.wonPrizes %}
-                {% set ns.prizes = ns.prizes + [p.description ~ ' (€ ' ~'{:.2f}'.format(p.prizeValue / 100) ~ ')'] %}
-              {% endfor %}
-              {{ ns.prizes }}
-            prize_text: >
-              {% if prizecount > 0 %}
-                {% set m = 'prijs' if prizecount == 1 else (prizecount ~ ' prijzen') %}
-                {{ m }} in de trekking van {{ month_formatted }}: {{ prizes | join(', ') }}
-              {% endif %}
-            # extra draw
-            prizecount_extra: "{{ prizes_extra.content.prizeCount if extra else 0 }}"
-            prizes_extra: >
-              {% set ns = namespace(prizes=[]) %}
-              {% for p in (prizes_extra.content.wonPrizes if extra else []) %}
-                {% set ns.prizes = ns.prizes + [p.description ~ ' (€ ' ~'{:.2f}'.format(p.prizeValue / 100) ~ ')'] %}
-              {% endfor %}
-              {{ ns.prizes }}
-            prize_text_extra: >
-              {% if prizecount_extra > 0 %}
-                {% set m = 'prijs' if prizecount_extra == 1 else (prizecount_extra ~ ' prijzen') %}
-                {{ m }} in de extra trekking: {{ prizes_extra | join(', ') }}
-              {% endif %}
-            # combined
-            prizecount_total: "{{ prizecount + prizecount_extra }}"
-            prize_text_full: >
-              We hebben {{ [prize_text, prize_text_extra] | select() | join(' en ') }}
-          # a notification will be sent out if something is won, and it's the first time the sensor was updated this month
-          # notification parameters are optimized for the Android companion app
-        - alias: Stuur melding naar telefoon als er één of meer prijzen zijn
-          if: >
+  automation:
+    - id: postcodeloterij_notify_when_prize_won
+      alias: "Postcodeloterij: Prijs"
+      description: >
+        Stuur een notificatie met de prijsafbeelding wanneer de
+        Postcodeloterij-sensor voor een nieuwe trekking een prijs meldt.
+      triggers:
+        - trigger: state
+          entity_id: sensor.postcodeloterij_thuis_prijzen
+      conditions:
+        - condition: numeric_state
+          entity_id: sensor.postcodeloterij_thuis_prijzen
+          above: 0
+        - condition: template
+          value_template: >
             {{
-              prizecount_total | default(0) > 0
-              and month_formatted != state_attr('sensor.postcodeloterij', 'month')
+              trigger.from_state is not none
+              and trigger.from_state.state not in ['unknown', 'unavailable']
+              and (
+                trigger.from_state.state != trigger.to_state.state
+                or trigger.from_state.attributes.get('period')
+                  != trigger.to_state.attributes.get('period')
+              )
             }}
-          then:
-            - alias: "Stuur melding"
-              action: notify.mobile_devices_adults
-              data:
-                title: "🎁 Winnen doe je bij..."
-                message: "{{ prize_text_full }}"
-                data:
-                  channel: LotteryPrize
-                  ttl: 0
-                  priority: high
-                  notification_icon: mdi:gift
-                  tag: LotteryPrize
-      sensor:
-        - name: Postcodeloterij
-          unique_id: 12f71395-3d76-434a-a3d0-9f01a03b834c
-          icon: "{{ 'mdi:gift' if prizecount > 0 else 'mdi:emoticon-cry' }}"
-          state: "{{ prizecount_total }}"
-          attributes:
-            prizes: "{{ prizes }}"
-            month: "{{ month_formatted }}"
-            extra: "{{ extra }}"
-            prizes_extra: "{{ prizes_extra }}"
-            last_updated: "{{ now().strftime('%d-%m-%Y %H:%M') }}"
+      actions:
+        - action: notify.mobile_devices_adults
+          data:
+            title: "🎁 Winnen doe je bij..."
+            message: >
+              {{ state_attr('sensor.postcodeloterij_thuis_prijzen', 'prize_description') }}
+            data:
+              clickAction: >
+                {{ state_attr('sensor.postcodeloterij_thuis_prijzen', 'prize_more_info_url') }}
+              image: >
+                {{ state_attr('sensor.postcodeloterij_thuis_prijzen', 'prize_img_url') }}
+              channel: LotteryPrize
+              ttl: 0
+              priority: high
+              notification_icon: mdi:gift
+              tag: LotteryPrize
+      mode: single
