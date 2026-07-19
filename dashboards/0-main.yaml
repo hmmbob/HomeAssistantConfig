@@ -98,1133 +98,328 @@ cards:
       ###########################
       # UIX Forge room cards    #
       ###########################
-      - type: horizontal-stack
+      - type: grid
+        columns: 2
+        square: false
         cards:
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: >-
-                    {{ "mdi:lightbulb-group" if is_state('light.verlichting_woonkamer', 'on') else "mdi:lightbulb-group-outline" }}
-                  entity: light.verlichting_woonkamer
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('light.verlichting_woonkamer', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: light.toggle
-                    data: {}
-                    target:
-                      entity_id: light.verlichting_woonkamer
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
-                  entity: climate.airco_woonkamer
-                  color: >-
-                    {% set c = state_attr('sensor.template_airco_woonkamer_icon', 'color') %}
-                    {% set colors = {'blue': 'var(--blue-color)', 'green': 'var(--green-color)', 'grey': 'var(--grey-color)', 'gray': 'var(--grey-color)', 'orange': 'var(--orange-color)', 'red': 'var(--red-color)', 'amber': 'var(--amber-color)', 'yellow': 'var(--yellow-color)'} %}
-                    {{ colors.get(c, c or 'var(--grey-color)') }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: phu:rituals
-                  entity: switch.genie
-                  color: >-
-                    {{ "var(--green-color)" if is_state('switch.genie', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: switch.toggle
-                    data: {}
-                    target:
-                      entity_id: switch.genie
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/woonkamer
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:sofa-outline
-              icon_color: green
-              primary: Woonkamer
-              secondary: "{{ states('sensor.temp_sensor_7_woonkamer_temperatuur') | round(1, default=0) }} \u00B0C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/living-room
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(128, 199, 149, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(128, 199, 149) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                      opacity: 0;
-                    }
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: >-
-                    {{ "mdi:lightbulb-group" if is_state('light.verlichting_eetkamer', 'on') else "mdi:lightbulb-group-outline" }}
-                  entity: light.verlichting_eetkamer
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('light.verlichting_eetkamer', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: light.toggle
-                    data: {}
-                    target:
-                      entity_id: light.verlichting_eetkamer
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: "{{states('sensor.template_airco_woonkamer_icon')}}"
-                  entity: climate.airco_woonkamer
-                  color: >-
-                    {% set c = state_attr('sensor.template_airco_woonkamer_icon', 'color') %}
-                    {% set colors = {'blue': 'var(--blue-color)', 'green': 'var(--green-color)', 'grey': 'var(--grey-color)', 'gray': 'var(--grey-color)', 'orange': 'var(--orange-color)', 'red': 'var(--red-color)', 'amber': 'var(--amber-color)', 'yellow': 'var(--yellow-color)'} %}
-                    {{ colors.get(c, c or 'var(--grey-color)') }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/dining-room
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/dining-room
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:silverware-variant
-              icon_color: yellow
-              primary: Eetkamer
-              secondary: "{{ states('sensor.temp_sensor_7_woonkamer_temperatuur') | round(1, default=0) }} \u00B0C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/dining-room
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(255, 167, 38, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(255, 167, 38) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                      opacity: 0;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                      opacity: 0;
-                    }
-      - type: horizontal-stack
-        cards:
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: >-
-                    {{ "mdi:lightbulb-group" if is_state('light.alle_lampen_salon', 'on') else "mdi:lightbulb-group-outline" }}
-                  entity: light.alle_lampen_salon
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('light.alle_lampen_salon', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: light.toggle
-                    data: {}
-                    target:
-                      entity_id: light.alle_lampen_salon
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: mdi:radiator
-                  entity: climate.salon
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('climate.salon', 'heat') else "var(--grey-color)" }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: mdi:heat-wave
-                  entity: climate.kacheltje
-                  color: >-
-                    {{ "var(--orange-color)" if states('climate.kacheltje') in ['heat','auto'] else "var(--grey-color)" }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/salon
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:sofa
-              icon_color: rgb(219, 148, 228)
-              primary: Salon
-              secondary: "{{ states('sensor.salon_temperatuur') | round(1, default=0) }} \u00B0C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/salon
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(219, 148, 228, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(219, 148, 228) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                      opacity: 0;
-                    }
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: >-
-                    {{ "mdi:lightbulb-on" if is_state('switch.inloopkast', 'on') else "mdi:lightbulb-outline" }}
-                  entity: switch.inloopkast
-                  color: >-
-                    {{ "var(--amber-color)" if is_state('switch.inloopkast', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: switch.toggle
-                    data: {}
-                    target:
-                      entity_id: switch.inloopkast
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: "{{states('sensor.template_airco_mbr_icon')}}"
-                  entity: climate.airco_master_bedroom
-                  color: >-
-                    {% set c = state_attr('sensor.template_airco_mbr_icon', 'color') %}
-                    {% set colors = {'blue': 'var(--blue-color)', 'green': 'var(--green-color)', 'grey': 'var(--grey-color)', 'gray': 'var(--grey-color)', 'orange': 'var(--orange-color)', 'red': 'var(--red-color)', 'amber': 'var(--amber-color)', 'yellow': 'var(--yellow-color)'} %}
-                    {{ colors.get(c, c or 'var(--grey-color)') }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/mbr
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/mbr
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:bed-king-outline
-              icon_color: red
-              primary: Master bedroom
-              secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_5_temperature') | round(1, default=0) }} \u00B0C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/mbr
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(229, 115, 115, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(229, 115, 115) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: illumination 3s infinite;" if is_state('switch.inloopkast', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                      opacity: 0;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                      opacity: 0;
-                    }
+              - type: custom:uix-forge
+                foundry: room_card_climate
+                forge:
+                  billets:
+                    room_name: Woonkamer
+                    room_icon: mdi:sofa-outline
+                    room_accent_color: "rgb(128, 199, 149)"
+                    temperature_entity: sensor.temp_sensor_7_woonkamer_temperatuur
+                    navigation_path: /lovelace/living-room
+                    climate_entity: climate.airco_woonkamer
+                    climate_icon_entity: sensor.template_airco_woonkamer_icon
+                    slot_4_hidden: true
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: >-
+                        {{ "mdi:lightbulb-group" if is_state('light.verlichting_woonkamer', 'on') else "mdi:lightbulb-group-outline" }}
+                      entity: light.verlichting_woonkamer
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('light.verlichting_woonkamer', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+                    - type: button
+                      id: slot_3
+                      icon: phu:rituals
+                      entity: switch.genie
+                      color: >-
+                        {{ "var(--green-color)" if is_state('switch.genie', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
 
-      - type: horizontal-stack
-        cards:
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: >-
-                    {{ "mdi:led-strip-variant" if is_state('light.verlichting_pubercave','on') else "mdi:led-strip-variant-off" }}
-                  entity: light.verlichting_pubercave
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('light.verlichting_pubercave', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: light.toggle
-                    data: {}
-                    target:
-                      entity_id: light.verlichting_pubercave
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: "{{states('sensor.template_airco_slaapkamer_m_icon')}}"
-                  entity: climate.airco_slaapkamer_m
-                  color: >-
-                    {% set c = state_attr('sensor.template_airco_slaapkamer_m_icon', 'color') %}
-                    {% set colors = {'blue': 'var(--blue-color)', 'green': 'var(--green-color)', 'grey': 'var(--grey-color)', 'gray': 'var(--grey-color)', 'orange': 'var(--orange-color)', 'red': 'var(--red-color)', 'amber': 'var(--amber-color)', 'yellow': 'var(--yellow-color)'} %}
-                    {{ colors.get(c, c or 'var(--grey-color)') }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: mdi:desktop-classic
-                  entity: binary_sensor.is_pubercave_pc_on
-                  color: >-
-                    {{ "var(--green-color)" if is_state('binary_sensor.is_pubercave_pc_on', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: mdi:television
-                  entity: binary_sensor.is_pubercave_tv_on
-                  color: >-
-                    {{ "var(--green-color)" if is_state('binary_sensor.is_pubercave_tv_on', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: fire-dom-event
-                    browser_mod:
-                      service: browser_mod.popup
-                      data:
-                        title: TV Puber
-                        content:
-                          type: vertical-stack
-                          cards:
-                            - type: custom:mushroom-legacy-template-card
-                              primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
-                              secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-                              entity: binary_sensor.is_pubercave_tv_on
-                              icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on','on') else 'mdi:television-off' }}"
-                              icon_color: >-
-                                {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "grey" }}
-                              tap_action:
-                                action: more-info
-                            - type: custom:mini-media-player
-                              entity: media_player.slaapkamer_m_tv
+              - type: custom:uix-forge
+                foundry: room_card_climate
+                forge:
+                  billets:
+                    room_name: Eetkamer
+                    room_icon: mdi:silverware-variant
+                    room_accent_color: "rgb(255, 167, 38)"
+                    temperature_entity: sensor.temp_sensor_7_woonkamer_temperatuur
+                    navigation_path: /lovelace/dining-room
+                    climate_entity: climate.airco_woonkamer
+                    climate_icon_entity: sensor.template_airco_woonkamer_icon
+                    slot_3_hidden: true
+                    slot_4_hidden: true
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: >-
+                        {{ "mdi:lightbulb-group" if is_state('light.verlichting_eetkamer', 'on') else "mdi:lightbulb-group-outline" }}
+                      entity: light.verlichting_eetkamer
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('light.verlichting_eetkamer', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+
+              - type: custom:uix-forge
+                foundry: room_card
+                forge:
+                  billets:
+                    room_name: Salon
+                    room_icon: mdi:sofa
+                    room_accent_color: "rgb(219, 148, 228)"
+                    temperature_entity: sensor.salon_temperatuur
+                    navigation_path: /lovelace/salon
+                    slot_4_hidden: true
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: >-
+                        {{ "mdi:lightbulb-group" if is_state('light.alle_lampen_salon', 'on') else "mdi:lightbulb-group-outline" }}
+                      entity: light.alle_lampen_salon
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('light.alle_lampen_salon', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+                    - type: button
+                      id: slot_2
+                      icon: mdi:radiator
+                      entity: climate.salon
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('climate.salon', 'heat') else "var(--grey-color)" }}
+                      tap_action:
+                        action: more-info
+                    - type: button
+                      id: slot_3
+                      icon: mdi:heat-wave
+                      entity: climate.kacheltje
+                      color: >-
+                        {{ "var(--orange-color)" if states('climate.kacheltje') in ['heat', 'auto'] else "var(--grey-color)" }}
+                      tap_action:
+                        action: more-info
+              - type: custom:uix-forge
+                foundry: room_card_climate
+                forge:
+                  billets:
+                    room_name: Master bedroom
+                    room_icon: mdi:bed-king-outline
+                    room_accent_color: "rgb(229, 115, 115)"
+                    temperature_entity: sensor.xiaomi_temperature_humidity_sensor_5_temperature
+                    navigation_path: /lovelace/mbr
+                    climate_entity: climate.airco_master_bedroom
+                    climate_icon_entity: sensor.template_airco_mbr_icon
+                    slot_1_animation: illumination
+                    slot_1_animation_entity: switch.inloopkast
+                    slot_3_hidden: true
+                    slot_4_hidden: true
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: >-
+                        {{ "mdi:lightbulb-on" if is_state('switch.inloopkast', 'on') else "mdi:lightbulb-outline" }}
+                      entity: switch.inloopkast
+                      color: >-
+                        {{ "var(--amber-color)" if is_state('switch.inloopkast', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+
+              - type: custom:uix-forge
+                foundry: room_card_climate
+                forge:
+                  billets:
+                    room_name: Slaapkamer M
+                    room_icon: mdi:bed-queen
+                    room_accent_color: "rgb(27, 94, 32)"
+                    temperature_entity: sensor.temp_sensor_8_slaapkamer_m_temperatuur
+                    navigation_path: /lovelace/bed-room-maxi
+                    climate_entity: climate.airco_slaapkamer_m
+                    climate_icon_entity: sensor.template_airco_slaapkamer_m_icon
+                    slot_1_animation: illumination
+                    slot_1_animation_entity: light.verlichting_pubercave
+                    slot_3_animation: boing
+                    slot_3_animation_entity: binary_sensor.is_pubercave_pc_on
+                    slot_4_animation: boing
+                    slot_4_animation_entity: binary_sensor.is_pubercave_tv_on
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: >-
+                        {{ "mdi:led-strip-variant" if is_state('light.verlichting_pubercave', 'on') else "mdi:led-strip-variant-off" }}
+                      entity: light.verlichting_pubercave
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('light.verlichting_pubercave', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+                    - type: button
+                      id: slot_3
+                      icon: mdi:desktop-classic
+                      entity: binary_sensor.is_pubercave_pc_on
+                      color: >-
+                        {{ "var(--green-color)" if is_state('binary_sensor.is_pubercave_pc_on', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: more-info
+                    - type: button
+                      id: slot_4
+                      icon: mdi:television
+                      entity: binary_sensor.is_pubercave_tv_on
+                      color: >-
+                        {{ "var(--green-color)" if is_state('binary_sensor.is_pubercave_tv_on', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: fire-dom-event
+                        browser_mod:
+                          service: browser_mod.popup
+                          data:
+                            title: TV Puber
+                            content:
+                              type: vertical-stack
+                              cards:
+                                - type: custom:mushroom-legacy-template-card
+                                  primary: "TV staat {{ state_translated('binary_sensor.is_pubercave_tv_on') | lower }}"
+                                  secondary: "Vandaag: {{ ((states('sensor.pubercave_tv_on_today') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                                  entity: binary_sensor.is_pubercave_tv_on
+                                  icon: "{{ 'mdi:television' if is_state('binary_sensor.is_pubercave_tv_on', 'on') else 'mdi:television-off' }}"
+                                  icon_color: >-
+                                    {{ "green" if is_state('binary_sensor.is_pubercave_tv_on', 'on') else "grey" }}
+                                  tap_action:
+                                    action: more-info
+                                - type: custom:mini-media-player
+                                  entity: media_player.slaapkamer_m_tv
+                                  icon: mdi:cast
+                                  artwork: cover
+                                  artwork_border: true
+                                  power_color: true
+                                  scroll_info: true
+                                  show_source: true
+                      hold_action:
+                        action: more-info
+
+              - type: custom:uix-forge
+                foundry: room_card_climate
+                forge:
+                  billets:
+                    room_name: Slaapkamer T
+                    room_icon: mdi:bed
+                    room_accent_color: "rgb(33, 150, 243)"
+                    temperature_entity: sensor.xiaomi_temperature_humidity_sensor_3_temperature
+                    navigation_path: /lovelace/bed-room-mini
+                    climate_entity: climate.airco_slaapkamer_t
+                    climate_icon_entity: sensor.template_airco_slaapkamer_t_icon
+                    slot_1_animation: illumination
+                    slot_1_animation_entity: light.ledstrip_bureau_mini
+                    slot_3_animation: boing
+                    slot_3_animation_entity: binary_sensor.minicave_pc
+                    slot_4_animation: boing
+                    slot_4_animation_entity: binary_sensor.minicave_tv
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: >-
+                        {{ "mdi:led-strip-variant" if is_state('light.ledstrip_bureau_mini', 'on') else "mdi:led-strip-variant-off" }}
+                      entity: light.verlichting_minicave
+                      color: >-
+                        {% set rgb = state_attr('light.ledstrip_bureau_mini', 'rgb_color') or [128, 128, 128] %}
+                        {{ "rgb(" ~ rgb[0] ~ ", " ~ rgb[1] ~ ", " ~ rgb[2] ~ ")" if is_state('light.ledstrip_bureau_mini', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+                    - type: button
+                      id: slot_3
+                      icon: mdi:desktop-classic
+                      entity: binary_sensor.minicave_pc
+                      color: >-
+                        {{ "var(--green-color)" if is_state('binary_sensor.minicave_pc', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: more-info
+                    - type: button
+                      id: slot_4
+                      icon: mdi:television
+                      entity: binary_sensor.minicave_tv
+                      color: >-
+                        {{ "var(--green-color)" if is_state('binary_sensor.minicave_tv', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: fire-dom-event
+                        browser_mod:
+                          service: browser_mod.popup
+                          data:
+                            title: TV Mini
+                            content:
+                              type: custom:mini-media-player
+                              entity: media_player.tv_t
                               icon: mdi:cast
                               artwork: cover
                               artwork_border: true
                               power_color: true
                               scroll_info: true
                               show_source: true
-                  hold_action:
-                    action: more-info
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:bed-queen
-              icon_color: dark-green
-              primary: Slaapkamer M
-              secondary: "{{ states('sensor.temp_sensor_8_slaapkamer_m_temperatuur') | round(1, default=0) }} \u00B0C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/bed-room-maxi
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(27, 94, 32, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(27, 94, 32) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: illumination 3s infinite;" if is_state('light.verlichting_pubercave', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: spark-boing-centered 3s ease infinite; transform-origin: 50% 90%;" if is_state('binary_sensor.is_pubercave_pc_on', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: spark-boing-centered 3s ease infinite; transform-origin: 50% 90%;" if is_state('binary_sensor.is_pubercave_tv_on', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                    }
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: >-
-                    {{ "mdi:led-strip-variant" if is_state('light.ledstrip_bureau_mini','on') else "mdi:led-strip-variant-off" }}
-                  entity: light.verlichting_minicave
-                  color: >-
-                    {% set rgb = state_attr('light.ledstrip_bureau_mini', 'rgb_color') or [128, 128, 128] %}
-                    {{ "rgb(" ~ rgb[0] ~ ", " ~ rgb[1] ~ ", " ~ rgb[2] ~ ")" if is_state('light.ledstrip_bureau_mini', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: light.toggle
-                    data: {}
-                    target:
-                      entity_id: light.verlichting_minicave
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: "{{states('sensor.template_airco_slaapkamer_t_icon')}}"
-                  entity: climate.airco_slaapkamer_t
-                  color: >-
-                    {% set c = state_attr('sensor.template_airco_slaapkamer_t_icon', 'color') %}
-                    {% set colors = {'blue': 'var(--blue-color)', 'green': 'var(--green-color)', 'grey': 'var(--grey-color)', 'gray': 'var(--grey-color)', 'orange': 'var(--orange-color)', 'red': 'var(--red-color)', 'amber': 'var(--amber-color)', 'yellow': 'var(--yellow-color)'} %}
-                    {{ colors.get(c, c or 'var(--grey-color)') }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: mdi:desktop-classic
-                  entity: binary_sensor.minicave_pc
-                  color: >-
-                    {{ "var(--green-color)" if is_state('binary_sensor.minicave_pc', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: mdi:television
-                  entity: binary_sensor.minicave_tv
-                  color: >-
-                    {{ "var(--green-color)" if is_state('binary_sensor.minicave_tv', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: fire-dom-event
-                    browser_mod:
-                      service: browser_mod.popup
-                      data:
-                        title: TV Mini
-                        content:
-                          type: custom:mini-media-player
-                          entity: media_player.tv_t
-                          icon: mdi:cast
-                          artwork: cover
-                          artwork_border: true
-                          power_color: true
-                          scroll_info: true
-                          show_source: true
-                  hold_action:
-                    action: more-info
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:bed
-              icon_color: blue
-              primary: Slaapkamer T
-              secondary: "{{ states('sensor.xiaomi_temperature_humidity_sensor_3_temperature') | round(1, default=0) }} °C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/bed-room-mini
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(33, 150, 243, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(33, 150, 243) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: illumination 3s infinite;" if is_state('light.ledstrip_bureau_mini', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: spark-boing-centered 3s ease infinite; transform-origin: 50% 90%;" if is_state('binary_sensor.minicave_pc', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {{ "animation: spark-boing-centered 3s ease infinite; transform-origin: 50% 90%;" if is_state('binary_sensor.minicave_tv', 'on') }}
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                    }
+                      hold_action:
+                        action: more-info
 
-      - type: horizontal-stack
-        cards:
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
+              - type: custom:uix-forge
+                foundry: room_card
+                forge:
+                  billets:
+                    room_name: Kantoor
+                    room_icon: mdi:desk
+                    room_accent_color: "rgb(63, 81, 181)"
+                    temperature_entity: sensor.temp_sensor_6_kantoor_temperatuur
                     navigation_path: /lovelace/office
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: mdi:radiator
-                  entity: climate.kantoor
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('climate.kantoor', 'heat') else "var(--grey-color)" }}
-                  tap_action:
-                    action: more-info
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: >-
-                    {{ "mdi:printer-3d" if is_state('switch.3d_printer','on') else "mdi:printer-3d-off" }}
-                  entity: switch.3d_printer
-                  color: >-
-                    {{ "var(--green-color)" if is_state('switch.3d_printer','on') else "var(--red-color)" }}
-                  multiline_secondary: true
-                  tap_action:
-                    action: perform-action
-                    perform_action: switch.toggle
-                    confirmation:
-                      text: Weet je zeker dat je de 3D printer aan of uit wil zetten?
-                    target:
-                      entity_id: switch.3d_printer
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: phu:bambu-lab-alt
-                  color: >-
-                    {% set status = states('sensor.p2s_22e8bj630504658_printstatus') %}
-                    {{ 'var(--green-color)' if status in ['finish', 'idle'] else
-                        'var(--red-color)' if status in ['running', 'prepare', 'slicing', 'pause', 'init', 'failed'] else
-                        'var(--grey-color)' }}
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace/office
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:desk
-              icon_color: blue
-              primary: Kantoor
-              secondary: "{{ states('sensor.temp_sensor_6_kantoor_temperatuur') | round(1, default=0) }} °C"
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/office
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(63, 81, 181, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(63, 81, 181) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                      opacity: 0;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                    }
-          - type: custom:uix-forge
-            forge:
-              mold: card
-              grid_options:
-                rows: auto
-              sparks:
-                - type: button
-                  after: "mushroom-template-card $ ha-tile-info"
-                  icon: mdi:shower
-                  entity: light.badkamer
-                  color: >-
-                    {{ "var(--orange-color)" if is_state('light.badkamer', 'on') else "var(--grey-color)" }}
-                  tap_action:
-                    action: perform-action
-                    perform_action: light.toggle
-                    data: {}
-                    target:
-                      entity_id: light.badkamer
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]
-                  icon: mdi:account-voice
-                  color: var(--grey-color)
-                  tap_action: !include common/tap-action-tts-announcement.yaml
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(2)
-                  icon: mdi:fan
-                  entity: fan.open_air_mini
-                  color: >-
-                    {{ "var(--green-color)" if is_state('fan.open_air_mini', 'on') else "var(--grey-color)" }}
-                  tap_action: !include common/tap-action-fan.yaml
-                - type: button
-                  after: >-
-                    mushroom-template-card $
-                    div[data-uix-forge-button-id]:nth-of-type(3)
-                  icon: none
-                  color: transparent
-                  tap_action:
-                    action: navigate
+                    slot_1_hidden: true
+                  sparks:
+                    - type: button
+                      id: slot_2
+                      icon: mdi:radiator
+                      entity: climate.kantoor
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('climate.kantoor', 'heat') else "var(--grey-color)" }}
+                      tap_action:
+                        action: more-info
+                    - type: button
+                      id: slot_3
+                      icon: >-
+                        {{ "mdi:printer-3d" if is_state('switch.3d_printer', 'on') else "mdi:printer-3d-off" }}
+                      entity: switch.3d_printer
+                      color: >-
+                        {{ "var(--green-color)" if is_state('switch.3d_printer', 'on') else "var(--red-color)" }}
+                      tap_action:
+                        action: toggle
+                        confirmation:
+                          text: Weet je zeker dat je de 3D printer aan of uit wil zetten?
+                    - type: button
+                      id: slot_4
+                      icon: phu:bambu-lab-alt
+                      color: >-
+                        {% set status = states('sensor.p2s_22e8bj630504658_printstatus') %}
+                        {{ 'var(--green-color)' if status in ['finish', 'idle'] else
+                            'var(--red-color)' if status in ['running', 'prepare', 'slicing', 'pause', 'init', 'failed'] else
+                            'var(--grey-color)' }}
+                      tap_action:
+                        action: navigate
+                        navigation_path: /lovelace/office
+
+              - type: custom:uix-forge
+                foundry: room_card
+                forge:
+                  billets:
+                    room_name: Overig
+                    room_icon: mdi:cog
+                    room_accent_color: "rgb(255, 238, 88)"
                     navigation_path: /lovelace/other
-            element:
-              type: custom:mushroom-template-card
-              icon: mdi:cog
-              icon_color: yellow
-              primary: Overig
-              secondary: "."
-              layout: horizontal
-              tap_action:
-                action: navigate
-                navigation_path: /lovelace/other
-              uix:
-                style:
-                  ha-tile-icon$: |
-                    .container {
-                      width: 140px !important;
-                      height: 140px !important;
-                      background: rgba(255, 238, 88, 0.2) !important;
-                    }
-                  .: |
-                    ha-card {
-                      height: 225px !important;
-                      overflow: hidden;
-                      background: var(--ha-card-background, var(--card-background-color, #202124));
-                      position: relative;
-                    }
-                    :host {
-                      --mush-icon-size: 140px;
-                    }
-                    ha-tile-info {
-                      position: absolute !important;
-                      top: 16px;
-                      left: 10px;
-                      width: calc(100% - 88px);
-                      z-index: 2;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
-                      position: absolute !important;
-                      left: -16px;
-                      top: 112px;
-                      width: 140px !important;
-                      height: 140px !important;
-                    }
-                    ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
-                      width: 92px !important;
-                      height: 92px !important;
-                      --mdc-icon-size: 92px;
-                      color: rgb(255, 238, 88) !important;
-                      position: relative;
-                      z-index: 1;
-                    }
-                    div[data-uix-forge-button-id] {
-                      pointer-events: auto;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
-                      position: absolute !important;
-                      right: 22px;
-                      z-index: 3;
-                      width: 40px;
-                      height: 40px;
-                      min-width: 40px;
-                      margin: 0 !important;
-                      border-radius: 50%;
-                      background: color-mix(in srgb, currentColor 20%, transparent);
-                      --mdc-icon-size: 27px;
-                    }
-                    div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      transform: translate(-4px, -4.5px);
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
-                      {% if is_state('fan.open_air_mini', 'on') %}
-                        {% set pct = state_attr('fan.open_air_mini', 'percentage') | float(100) %}
-                        {% set speed = 0.5 / (((pct if pct > 0 else 100) / 100)) %}
-                        animation: spark-rotate-centered {{ speed | round(1) }}s infinite linear;
-                      {% endif %}
-                    }
-                    @keyframes spark-rotate-centered {
-                      0% { transform: translate(-4px, -4.5px) rotate(0deg); }
-                      100% { transform: translate(-4px, -4.5px) rotate(359deg); }
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
-                      top: 14px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
-                      top: 68px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
-                      top: 122px;
-                    }
-                    div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
-                      top: 176px;
-                      opacity: 0;
-                    }
+                    slot_3_animation: fan
+                    slot_3_animation_entity: fan.open_air_mini
+                    slot_4_hidden: true
+                  sparks:
+                    - type: button
+                      id: slot_1
+                      icon: mdi:shower
+                      entity: light.badkamer
+                      color: >-
+                        {{ "var(--orange-color)" if is_state('light.badkamer', 'on') else "var(--grey-color)" }}
+                      tap_action:
+                        action: toggle
+                    - type: button
+                      id: slot_2
+                      icon: mdi:account-voice
+                      color: var(--grey-color)
+                      tap_action: !include common/tap-action-tts-announcement.yaml
+                    - type: button
+                      id: slot_3
+                      icon: mdi:fan
+                      entity: fan.open_air_mini
+                      color: >-
+                        {{ "var(--green-color)" if is_state('fan.open_air_mini', 'on') else "var(--grey-color)" }}
+                      tap_action: !include common/tap-action-fan.yaml

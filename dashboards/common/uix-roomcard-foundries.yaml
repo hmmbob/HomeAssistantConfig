@@ -1,0 +1,235 @@
+uix_foundries:
+  room_card:
+    forge:
+      mold: card
+      show_error: true
+      macros:
+        css_color:
+          params:
+            - color_name
+          template: >-
+            {%- set colors = {'blue': 'var(--blue-color)', 'green': 'var(--green-color)', 'grey': 'var(--grey-color)', 'gray': 'var(--grey-color)', 'orange': 'var(--orange-color)', 'red': 'var(--red-color)', 'amber': 'var(--amber-color)', 'yellow': 'var(--yellow-color)'} -%}
+            {{- colors.get(color_name, color_name or 'var(--grey-color)') -}}
+      billets:
+        room_name: Kamer
+        room_icon: mdi:home-outline
+        room_accent_color: "rgb(128, 128, 128)"
+        temperature_entity: ~
+        secondary_text: "\u00a0"
+        navigation_path: /lovelace/start
+        slot_1_hidden: false
+        slot_2_hidden: false
+        slot_3_hidden: false
+        slot_4_hidden: false
+        slot_1_animation: ~
+        slot_1_animation_entity: ~
+        slot_2_animation: ~
+        slot_2_animation_entity: ~
+        slot_3_animation: ~
+        slot_3_animation_entity: ~
+        slot_4_animation: ~
+        slot_4_animation_entity: ~
+      sparks:
+        - type: button
+          id: slot_1
+          after: "mushroom-template-card $ ha-tile-info"
+          icon: none
+          color: transparent
+          tap_action:
+            action: none
+        - type: button
+          id: slot_2
+          after: >-
+            mushroom-template-card $
+            div[data-uix-forge-button-id]
+          icon: none
+          color: transparent
+          tap_action:
+            action: none
+        - type: button
+          id: slot_3
+          after: >-
+            mushroom-template-card $
+            div[data-uix-forge-button-id]:nth-of-type(2)
+          icon: none
+          color: transparent
+          tap_action:
+            action: none
+        - type: button
+          id: slot_4
+          after: >-
+            mushroom-template-card $
+            div[data-uix-forge-button-id]:nth-of-type(3)
+          icon: none
+          color: transparent
+          tap_action:
+            action: none
+    element:
+      type: custom:mushroom-template-card
+      icon: "{{ room_icon }}"
+      icon_color: "{{ room_accent_color }}"
+      primary: "{{ room_name }}"
+      secondary: >-
+        {%- if temperature_entity and has_value(temperature_entity) -%}
+          {{ states(temperature_entity) | float | round(1) }} °C
+        {%- elif temperature_entity -%}
+          — °C
+        {%- else -%}
+          {{ secondary_text or '' }}
+        {%- endif -%}
+      layout: horizontal
+      tap_action:
+        action: navigate
+        navigation_path: "{{ navigation_path }}"
+      uix:
+        style:
+          ha-tile-icon$: |
+            .container {
+              width: 140px !important;
+              height: 140px !important;
+              background: color-mix(in srgb, {{ room_accent_color }} 20%, transparent) !important;
+            }
+          .: |
+            ha-card {
+              height: 225px !important;
+              overflow: hidden;
+              background: var(--ha-card-background, var(--card-background-color, #202124));
+              position: relative;
+            }
+            :host {
+              --mush-icon-size: 140px;
+            }
+            ha-tile-info {
+              position: absolute !important;
+              top: 16px;
+              left: 10px;
+              width: calc(100% - 88px);
+              z-index: 2;
+            }
+            ha-tile-icon:not([data-uix-forge-tile-icon-id]) {
+              position: absolute !important;
+              left: -16px;
+              top: 112px;
+              width: 140px !important;
+              height: 140px !important;
+            }
+            ha-tile-icon:not([data-uix-forge-tile-icon-id]) > ha-state-icon {
+              width: 92px !important;
+              height: 92px !important;
+              --mdc-icon-size: 92px;
+              color: {{ room_accent_color }} !important;
+              position: relative;
+              z-index: 1;
+            }
+            div[data-uix-forge-button-id] {
+              pointer-events: auto;
+            }
+            div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button {
+              position: absolute !important;
+              right: 22px;
+              z-index: 3;
+              width: 40px;
+              height: 40px;
+              min-width: 40px;
+              margin: 0 !important;
+              border-radius: 50%;
+              background: color-mix(in srgb, currentColor 20%, transparent);
+              --mdc-icon-size: 27px;
+            }
+            div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
+              transform: translate(-4px, -4.5px);
+            }
+            div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
+              {% if slot_1_animation == 'illumination' and slot_1_animation_entity and is_state(slot_1_animation_entity, 'on') %}
+                animation: illumination 3s infinite;
+              {% elif slot_1_animation == 'boing' and slot_1_animation_entity and is_state(slot_1_animation_entity, 'on') %}
+                animation: spark-boing-centered 3s ease infinite;
+                transform-origin: 50% 90%;
+              {% endif %}
+            }
+            div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
+              {% if slot_2_animation == 'illumination' and slot_2_animation_entity and is_state(slot_2_animation_entity, 'on') %}
+                animation: illumination 3s infinite;
+              {% elif slot_2_animation == 'boing' and slot_2_animation_entity and is_state(slot_2_animation_entity, 'on') %}
+                animation: spark-boing-centered 3s ease infinite;
+                transform-origin: 50% 90%;
+              {% endif %}
+            }
+            div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
+              {% if slot_3_animation == 'illumination' and slot_3_animation_entity and is_state(slot_3_animation_entity, 'on') %}
+                animation: illumination 3s infinite;
+              {% elif slot_3_animation == 'boing' and slot_3_animation_entity and is_state(slot_3_animation_entity, 'on') %}
+                animation: spark-boing-centered 3s ease infinite;
+                transform-origin: 50% 90%;
+              {% elif slot_3_animation == 'fan' and slot_3_animation_entity and is_state(slot_3_animation_entity, 'on') %}
+                {% set pct = state_attr(slot_3_animation_entity, 'percentage') | float(100) %}
+                {% set speed = 0.5 / (((pct if pct > 0 else 100) / 100)) %}
+                animation: spark-rotate-centered {{ speed | round(1) }}s infinite linear;
+              {% endif %}
+            }
+            div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
+              {% if slot_4_animation == 'illumination' and slot_4_animation_entity and is_state(slot_4_animation_entity, 'on') %}
+                animation: illumination 3s infinite;
+              {% elif slot_4_animation == 'boing' and slot_4_animation_entity and is_state(slot_4_animation_entity, 'on') %}
+                animation: spark-boing-centered 3s ease infinite;
+                transform-origin: 50% 90%;
+              {% endif %}
+            }
+            @keyframes spark-rotate-centered {
+              0% { transform: translate(-4px, -4.5px) rotate(0deg); }
+              100% { transform: translate(-4px, -4.5px) rotate(359deg); }
+            }
+            @keyframes spark-boing-centered {
+              0% { transform: translate(-4px, -4.5px) scale3d(1, 1, 1); }
+              7% { transform: translate(-4px, -4.5px) scale3d(1.25, 0.75, 1); }
+              10% { transform: translate(-4px, -4.5px) scale3d(0.75, 1.25, 1); }
+              12% { transform: translate(-4px, -4.5px) scale3d(1.15, 0.85, 1); }
+              16% { transform: translate(-4px, -4.5px) scale3d(0.95, 1.05, 1); }
+              19% { transform: translate(-4px, -4.5px) scale3d(1.05, 0.95, 1); }
+              25%, 100% { transform: translate(-4px, -4.5px) scale3d(1, 1, 1); }
+            }
+            @keyframes illumination {
+              0%, 100% { clip-path: inset(0 0 0 0); }
+              80% { clip-path: polygon(0% 99%, 20% 55%, 22% 37%, 39% 20%, 61% 21%, 77% 35%, 79% 57%, 99% 100%); }
+            }
+            div[data-uix-forge-button-id]:nth-of-type(1) > ha-button.uix-forge-spark-icon-button {
+              top: 14px;
+            }
+            div[data-uix-forge-button-id]:nth-of-type(2) > ha-button.uix-forge-spark-icon-button {
+              top: 68px;
+            }
+            div[data-uix-forge-button-id]:nth-of-type(3) > ha-button.uix-forge-spark-icon-button {
+              top: 122px;
+            }
+            div[data-uix-forge-button-id]:nth-of-type(4) > ha-button.uix-forge-spark-icon-button {
+              top: 176px;
+            }
+            {% if slot_1_hidden %}
+            div[data-uix-forge-button-id]:nth-of-type(1) { display: none !important; }
+            {% endif %}
+            {% if slot_2_hidden %}
+            div[data-uix-forge-button-id]:nth-of-type(2) { display: none !important; }
+            {% endif %}
+            {% if slot_3_hidden %}
+            div[data-uix-forge-button-id]:nth-of-type(3) { display: none !important; }
+            {% endif %}
+            {% if slot_4_hidden %}
+            div[data-uix-forge-button-id]:nth-of-type(4) { display: none !important; }
+            {% endif %}
+
+  room_card_climate:
+    foundry: room_card
+    forge:
+      billets:
+        climate_entity: ~
+        climate_icon_entity: ~
+      sparks:
+        - type: button
+          id: slot_2
+          icon: >-
+            {{ states(climate_icon_entity) if climate_icon_entity and has_value(climate_icon_entity) else 'mdi:air-conditioner' }}
+          entity: "{{ climate_entity }}"
+          color: >-
+            {{ css_color(state_attr(climate_icon_entity, 'color')) if climate_icon_entity else 'var(--grey-color)' }}
+          tap_action:
+            action: more-info

@@ -212,7 +212,7 @@ cards:
             tap_action:
               action: fire-dom-event
               uix:
-                action: clear_cache
+                action: clear-cache
 
       - type: grid
         columns: 2
