@@ -70,5 +70,7 @@ cards:
         filter:
           include:
             - entity_id: "binary_sensor.hornet_nest_alarm_panel_zone_*"
+            - entity_id: binary_sensor.fietsenhok_contact
+            - entity_id: binary_sensor.poort_contact
         sort:
           method: name
