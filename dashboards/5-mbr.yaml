@@ -31,6 +31,7 @@ cards:
               {{ "orange" if is_state('switch.inloopkast', 'on') else "grey" }}
             content: |-
               {{ "1" if is_state('switch.inloopkast', 'on') else "0" }}
+          - !include common/chip-vacuum.yaml
 
       - type: thermostat
         entity: climate.airco_master_bedroom

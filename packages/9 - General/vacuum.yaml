@@ -14,7 +14,7 @@ vacuum_package:
     ##########################
     ## Schedule
     ##########################
-    - alias: "Vraag of Rocky moet stofzuigen"
+    - alias: "Vraag welke stofzuiger moet stofzuigen"
       id: vacuum_ask_to_run
       variables:
         notification_service: >
@@ -35,27 +35,29 @@ vacuum_package:
           condition: state
           entity_id: input_boolean.vacuum_enable_ask_for_cleaning
           state: "on"
-        - alias: Laatste schoonmaakbeurt is langer dan 24 uur geleden
-          condition: template
-          value_template: "{{ as_timestamp(now()) -
-            as_timestamp(states('sensor.rocky_last_clean_start')) > 86100 }}" # 23h55
+        - alias: Er is minimaal één volwassene thuis
+          condition: state
+          entity_id: group.all_adults
+          state: "home"
         - alias: Vakantiemodus is uitgeschakeld
           condition: state
           entity_id: input_boolean.vacation_mode_away
           state: "off"
       actions:
-        - alias: "Vraag of Rocky een rondje moet doen"
+        - alias: "Vraag welke stofzuiger een rondje moet doen"
           action: "{{ notification_service }}"
           data:
-            message: "Zal ik gaan stofzuigen? 🧹🧹"
-            title: "Rocky"
+            message: "Wie zal er gaan stofzuigen? 🧹🧹"
+            title: "Stofzuigers"
             data:
-              tag: vacuum
+              tag: vacuum_reminder
               actions:
-                - action: "vacuum_start_yes"
-                  title: "🧹 Ja, graag!"
-                - action: "vacuum_start_no"
-                  title: "Nee, dank je."
+                - action: "vacuum_start_rocky"
+                  title: "Rocky"
+                - action: "vacuum_start_balboa"
+                  title: "Balboa"
+                - action: "vacuum_start_both"
+                  title: "Beiden"
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
@@ -64,15 +66,43 @@ vacuum_package:
             - trigger: event
               event_type: mobile_app_notification_action
               event_data:
-                action: "vacuum_start_yes"
+                action: "vacuum_start_rocky"
+              id: rocky
+            - trigger: event
+              event_type: mobile_app_notification_action
+              event_data:
+                action: "vacuum_start_balboa"
+              id: balboa
+            - trigger: event
+              event_type: mobile_app_notification_action
+              event_data:
+                action: "vacuum_start_both"
+              id: both
           timeout: "01:00:00"
           continue_on_timeout: false
-        - alias: "Start Rocky na bevestiging"
-          action: vacuum.start
-          target:
-            entity_id: vacuum.rocky
+        - alias: Start gekozen stofzuiger(s)
+          choose:
+            - conditions: "{{ wait.trigger.id == 'rocky' }}"
+              sequence:
+                - action: vacuum.start
+                  target:
+                    entity_id: vacuum.rocky
+            - conditions: "{{ wait.trigger.id == 'balboa' }}"
+              sequence:
+                - action: vacuum.start
+                  target:
+                    entity_id: vacuum.balboa
+            - conditions: "{{ wait.trigger.id == 'both' }}"
+              sequence:
+                - action: vacuum.start
+                  target:
+                    entity_id:
+                      - vacuum.rocky
+                      - vacuum.balboa
 
-    - alias: "Stuur Rocky naar de vuilnisbak"
+    # TODO: Voeg Balboa toe zodra de eerste kaart klaar is. Laat Balboa na het
+    # reinigen naar de keuken rijden met de coördinaten van de benedenverdieping.
+    - alias: "Stuur Rocky naar de overloop"
       id: vacuum_drive_to_trash
       initial_state: "on"
       triggers:
@@ -89,33 +119,17 @@ vacuum_package:
           entity_id: vacuum.rocky
         - alias: Wacht kort voordat commando verzonden wordt
           delay: "00:00:02"
-        - choose:
-            - conditions: "{{ is_state('select.rocky_selected_map', 'Benedenverdieping') }}"
-              sequence:
-                - alias: Stuur stofzuiger naar de prullenbak
-                  action: roborock.set_vacuum_goto_position
-                  target:
-                    entity_id: vacuum.rocky
-                  data:
-                    "x": "30301"
-                    "y": "29421"
-                - variables:
-                    message:
-                      "🧹 Hi! Ik moet geleegd worden en sta al bij de prullenbak. Druk na het
-                      legen op mijn 🏠 toets en ik ga terug naar mijn dock."
-            - conditions: "{{ is_state('select.rocky_selected_map', '1e verdieping') }}"
-              sequence:
-                - alias: Stuur stofzuiger naar de overloop
-                  action: roborock.set_vacuum_goto_position
-                  target:
-                    entity_id: vacuum.rocky
-                  data:
-                    "x": "25625"
-                    "y": "24922"
-                - variables:
-                    message:
-                      "🧹 Hi! Ik ben klaar op de bovenverdieping en sta klaar op de
-                      overloop."
+        - alias: Stuur stofzuiger naar de overloop
+          action: roborock.set_vacuum_goto_position
+          target:
+            entity_id: vacuum.rocky
+          data:
+            "x": "25625"
+            "y": "24922"
+        - variables:
+            message:
+              "🧹 Hi! Ik ben klaar op de bovenverdieping en sta klaar op de
+              overloop."
         - alias: "Wacht tot Rocky bij bestemming is"
           wait_for_trigger:
             - trigger: state
@@ -129,76 +143,97 @@ vacuum_package:
             message: "{{ message }}"
             title: "Rocky"
             data:
-              tag: vacuum
+              tag: vacuum_rocky
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
 
-    - alias: "Stel Rocky kaart in bij docken"
-      id: vacuum_set_map_when_docked
-      trigger:
-        - platform: state
-          entity_id: vacuum.rocky
-          to: "docked"
-      action:
-        - service: select.select_option
-          target:
-            entity_id: select.rocky_selected_map
-          data:
-            option: "Benedenverdieping"
-
     ##########################
     ## Vacuum notifications
     ##########################
-    - alias: "Melding dat Rocky aan het stofzuigen is"
+    - alias: "Melding dat een stofzuiger aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
+      mode: parallel
+      max: 2
       initial_state: "on"
+      variables:
+        vacuum_name: "{{ 'Rocky' if trigger.id == 'rocky' else 'Balboa' }}"
+        notification_tag: "{{ 'vacuum_rocky' if trigger.id == 'rocky' else 'vacuum_balboa' }}"
       triggers:
-        - alias: Stofzuiger start met reinigen vanuit het dock
+        - alias: Rocky start met reinigen
           trigger: state
           entity_id: vacuum.rocky
-          from: "docked"
           to: "cleaning"
+          id: rocky
+        - alias: Balboa start met reinigen
+          trigger: state
+          entity_id: vacuum.balboa
+          to: "cleaning"
+          id: balboa
       actions:
         - alias: Stuur notificatie dat stofzuiger bezig is
           action: notify.mobile_app_sm_a556b
           data:
-            title: "Rocky"
-            message: "Rocky doet zijn rondje! 🧹🧹"
+            title: "{{ vacuum_name }}"
+            message: "{{ vacuum_name }} doet zijn rondje! 🧹🧹"
             data:
-              tag: vacuum
+              tag: "{{ notification_tag }}"
               notification_icon: mdi:robot-vacuum
 
-    - alias: "Verwijder notificaties van Rocky"
+    - alias: "Verwijder notificatie als stofzuiger klaar is"
       id: vacuum_clear_messages
+      mode: parallel
+      max: 2
       initial_state: "on"
+      variables:
+        notification_tag: "{{ 'vacuum_rocky' if trigger.id == 'rocky' else 'vacuum_balboa' }}"
       triggers:
-        - alias: Foutmelding is opgelost
+        - alias: Rocky-foutmelding is opgelost
           trigger: state
           entity_id: sensor.rocky_vacuum_error
           to: "none"
-        - alias: Stofzuiger is teruggekeerd naar het dock
+          id: rocky
+        - alias: Rocky is teruggekeerd naar het dock
           trigger: state
           entity_id: vacuum.rocky
-          from: "returning"
           to: "docked"
+          id: rocky
+        - alias: Balboa is teruggekeerd naar het dock
+          trigger: state
+          entity_id: vacuum.balboa
+          to: "docked"
+          id: balboa
+        - alias: Balboa-foutmelding is opgelost
+          trigger: state
+          entity_id: sensor.balboa_status
+          from: "error"
+          id: balboa
       actions:
         - alias: Verwijder notificaties
           action: notify.mobile_devices_adults
           data:
             message: clear_notification
             data:
-              tag: "vacuum"
+              tag: "{{ notification_tag }}"
               ttl: 0
               priority: high
 
       ##########################
       ## Capture errors
       ##########################
-    - alias: "Melding dat Rocky in foutmodus staat"
+    # TODO: Controleer na Balboa's eerste kaart of er een eigen errorsensor is
+    # toegevoegd en vervang dan de algemene statusmelding voor Balboa.
+    - alias: "Melding dat een stofzuiger in foutmodus staat"
       id: vacuum_notification_error
       initial_state: "on"
       variables:
+        vacuum_name: "{{ 'Rocky' if trigger.id == 'rocky' else 'Balboa' }}"
+        error_message: >-
+          {% if trigger.id == 'rocky' %}
+            Foutmelding: {{ state_translated('sensor.rocky_vacuum_error') }}
+          {% else %}
+            Balboa meldt een algemene foutstatus. Controleer de Roborock-app voor details.
+          {% endif %}
         notification_service: >
           {% if is_state("device_tracker.sm_a566b", "home") and
             is_state("device_tracker.sm_a556b", "home") %}
@@ -207,35 +242,37 @@ vacuum_package:
             notify.mobile_app_sm_a566b 
           {% elif is_state("device_tracker.sm_a556b", "home") %}
             notify.mobile_app_sm_a556b 
-          {% else %}notify.bogus {% endif %}
+          {% else %}notify.mobile_devices_adults {% endif %}
       triggers:
-        - alias: Foutmelding status is gewijzigd
+        - alias: Rocky-foutmelding status is gewijzigd
           trigger: state
           entity_id: sensor.rocky_vacuum_error
+          id: rocky
+        - alias: Balboa meldt een foutstatus
+          trigger: state
+          entity_id: sensor.balboa_status
+          to: "error"
+          id: balboa
       conditions:
         - alias: Er is een actieve foutmelding
-          condition: not
-          conditions:
-            - alias: Foutmelding is niet opgelost
-              condition: state
-              entity_id: sensor.rocky_vacuum_error
-              state: "none"
-            - alias: Foutmelding is niet onbeschikbaar
-              condition: state
-              entity_id: sensor.rocky_vacuum_error
-              state: "unavailable"
+          condition: template
+          value_template: >-
+            {{ trigger.id == 'balboa' or
+              trigger.to_state.state not in ['none', 'unavailable', 'unknown'] }}
       actions:
         - alias: Stuur foutmelding naar beschikbare apparaten
           action: "{{ notification_service }}"
           data:
-            title: "Rocky heeft een probleem"
-            message: "Foutmelding: {{state_translated('sensor.rocky_vacuum_error')}}"
+            title: "{{ vacuum_name }} heeft een probleem"
+            message: "{{ error_message }}"
             data:
-              tag: vacuum
+              tag: "{{ 'vacuum_rocky' if trigger.id == 'rocky' else 'vacuum_balboa' }}"
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
 
+    # TODO: Breid de onderhoudslogica later uit voor Balboa zodra alle sensoren
+    # en eventuele resetknoppen beschikbaar zijn.
     - alias: "Waarschuw als Rocky onderhoud nodig heeft"
       id: vacuum_consumable_warning
       initial_state: "on"

@@ -401,7 +401,6 @@ cards:
                     navigation_path: /lovelace/other
                     slot_3_animation: fan
                     slot_3_animation_entity: fan.open_air_mini
-                    slot_4_hidden: true
                   sparks:
                     - type: button
                       id: slot_1
@@ -423,3 +422,20 @@ cards:
                       color: >-
                         {{ "var(--green-color)" if is_state('fan.open_air_mini', 'on') else "var(--grey-color)" }}
                       tap_action: !include common/tap-action-fan.yaml
+                    - type: button
+                      id: slot_4
+                      icon: mdi:robot-vacuum
+                      color: >-
+                        {% set inactive = ['docked', 'unavailable', 'unknown'] %}
+                        {% set rocky_active = states('vacuum.rocky') not in inactive %}
+                        {% set balboa_active = states('vacuum.balboa') not in inactive %}
+                        {% if is_state('vacuum.rocky', 'error') or is_state('vacuum.balboa', 'error') %}
+                          var(--red-color)
+                        {% elif rocky_active and balboa_active %}
+                          var(--orange-color)
+                        {% elif rocky_active or balboa_active %}
+                          var(--green-color)
+                        {% else %}
+                          var(--grey-color)
+                        {% endif %}
+                      tap_action: !include common/tap-action-vacuums.yaml

@@ -1,7 +1,19 @@
 type: template
-entity: vacuum.rocky
+entity_id:
+  - vacuum.rocky
+  - vacuum.balboa
 icon: mdi:robot-vacuum
 icon_color: >-
-  {{ "grey" if is_state('vacuum.rocky', 'docked') else "green" }}
-tap_action:
-  action: more-info
+  {% set inactive = ['docked', 'unavailable', 'unknown'] %}
+  {% set rocky_active = states('vacuum.rocky') not in inactive %}
+  {% set balboa_active = states('vacuum.balboa') not in inactive %}
+  {% if is_state('vacuum.rocky', 'error') or is_state('vacuum.balboa', 'error') %}
+    red
+  {% elif rocky_active and balboa_active %}
+    orange
+  {% elif rocky_active or balboa_active %}
+    green
+  {% else %}
+    grey
+  {% endif %}
+tap_action: !include tap-action-vacuums.yaml

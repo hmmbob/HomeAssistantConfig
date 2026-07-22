@@ -1,0 +1,28 @@
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: Stofzuigers
+    content:
+      type: vertical-stack
+      cards:
+        - type: heading
+          heading: Balboa · beneden
+          icon: mdi:home-floor-0
+          heading_style: subtitle
+        - type: custom:uix-forge
+          forge:
+            mold: card
+            sparks:
+              - type: more-info
+                entity: vacuum.balboa
+        - type: heading
+          heading: Rocky · boven
+          icon: mdi:home-floor-1
+          heading_style: subtitle
+        - type: custom:uix-forge
+          forge:
+            mold: card
+            sparks:
+              - type: more-info
+                entity: vacuum.rocky
