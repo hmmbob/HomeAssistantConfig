@@ -92,3 +92,97 @@ system_package:
                 - action: "URI"
                   title: "Wijzigingslogboek openen"
                   uri: "https://github.com/home-assistant/core/releases/tag/{{states('sensor.latest_version')}}"
+
+    ##########################
+    ## Update radar
+    ##########################
+    - id: "1784465206043"
+      alias: "Update Radar - Detecteer en herinner"
+      description: >
+        Inventariseert dagelijks om 19:00 dynamisch openstaande Home Assistant
+        Core- en HACS-upgrades. Alleen een daadwerkelijk nieuwere, nog niet
+        geanalyseerde versiecombinatie wordt als werk gemarkeerd en via de
+        telefoon gemeld. Een geïnstalleerde beta of prerelease die nieuwer is
+        dan het aangeboden kanaal wordt genegeerd. Deze automatisering
+        installeert of wijzigt geen updates.
+      triggers:
+        - trigger: time
+          at: "19:00:00"
+      conditions: []
+      actions:
+        - alias: Bepaal alle openstaande Core- en HACS-versies
+          variables:
+            pending_items: >-
+              {% set ns = namespace(items=[]) %}
+              {% set hacs_updates = integration_entities('hacs') | select('match', '^update\\.') | list %}
+              {% for entity_id in hacs_updates %}
+                {% set installed = state_attr(entity_id, 'installed_version') %}
+                {% set latest = state_attr(entity_id, 'latest_version') %}
+                {% if installed not in [none, ''] and latest not in [none, '']
+                      and version(installed) < version(latest) %}
+                  {% set ns.items = ns.items + [entity_id ~ ':' ~ installed ~ '>' ~ latest] %}
+                {% endif %}
+              {% endfor %}
+              {% set current = states('sensor.current_version') %}
+              {% set latest_ha = states('sensor.latest_version') %}
+              {% if current not in ['unknown', 'unavailable', ''] and latest_ha not in ['unknown', 'unavailable', '']
+                    and version(current) < version(latest_ha) %}
+                {% set ns.items = ns.items + ['home_assistant:' ~ current ~ '>' ~ latest_ha] %}
+              {% endif %}
+              {{ ns.items | sort }}
+        - alias: Maak een stabiele vingerafdruk
+          variables:
+            pending_count: "{{ pending_items | count }}"
+            pending_signature: "{{ sha256(pending_items | join('|')) if pending_items else 'none' }}"
+        - alias: Markeer nieuw analysewerk of ruim een afgehandelde melding op
+          choose:
+            - conditions:
+                - condition: template
+                  value_template: >-
+                    {{ pending_count | int > 0 and pending_signature !=
+                       states('input_text.update_radar_laatst_geanalyseerde_signatuur') }}
+              sequence:
+                - alias: Registreer alleen een werkelijk nieuwe versiecombinatie
+                  if:
+                    - condition: template
+                      value_template: >-
+                        {{ pending_signature !=
+                           states('input_text.update_radar_wachtende_signatuur') }}
+                  then:
+                    - action: input_text.set_value
+                      target:
+                        entity_id: input_text.update_radar_wachtende_signatuur
+                      data:
+                        value: "{{ pending_signature }}"
+                    - action: counter.increment
+                      target:
+                        entity_id: counter.update_radar_generatie
+                - action: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.update_radar_analyse_nodig
+                - alias: Herinner aan de handmatige Codex-controle
+                  action: notify.mobile_app_sm_a556b
+                  data:
+                    title: Update-impactanalyse nodig
+                    message: >-
+                      Er wachten {{ pending_count }} nieuwere Home Assistant/HACS-versie(s)
+                      op impactanalyse. Open Codex en typ: Voer de updatecontrole uit.
+                    data:
+                      tag: ha-update-radar
+                      notification_icon: mdi:radar
+          default:
+            - action: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.update_radar_analyse_nodig
+            - action: input_text.set_value
+              target:
+                entity_id: input_text.update_radar_wachtende_signatuur
+              data:
+                value: none
+            - alias: Verwijder een oude herinnering
+              action: notify.mobile_app_sm_a556b
+              data:
+                message: clear_notification
+                data:
+                  tag: ha-update-radar
+      mode: single
