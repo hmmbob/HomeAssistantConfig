@@ -15,7 +15,7 @@ lights_salon_package:
       entities:
         - light.grijze_lamp
         - light.kast
-        - light.staande_lamp_switch
+        - light.tv_kastje
 
   automation:
     - id: "salon_remote_control"
@@ -48,7 +48,7 @@ lights_salon_package:
                   action: light.toggle
                   target:
                     entity_id:
-                      - light.tv_kastje
+                      - light.staande_lamp_switch
             - conditions: "{{ event == 'single_both' }}"
               sequence: []
             - conditions: "{{ event == 'double_left' }}"
