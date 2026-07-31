@@ -47,7 +47,7 @@ browser_mod:
               hold_action:
                 action: more-info
             - type: custom:mushroom-legacy-template-card
-              primary: "Tafeldekken"
+              primary: "{{'Tafeldekken (beurt: ' ~ states('input_select.tafeldekken_beurt') ~ ')'}}"
               icon: mdi:silverware-variant
               icon_color: |-
                 {{ "yellow" if is_state('input_select.kiosk_announcement', 'tafeldekken')  else "var(--color)" }}
