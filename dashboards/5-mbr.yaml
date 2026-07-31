@@ -66,7 +66,7 @@ cards:
         icon: mdi:air-purifier
         badges:
           - type: entity
-            entity: sensor.zhimi_de_621920161_cpa4_filter_life_level_p_4_1
+            entity: sensor.zhimi_cpa4_3bce_filter_life_level
             name: Filter Remaining
             show_icon: false
             state_content:
@@ -76,11 +76,11 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-entity-card
-            entity: switch.zhimi_de_621920161_cpa4_on_p_2_1
+            entity: switch.zhimi_cpa4_3bce_switch_status
             name: Air purifier
             layout: horizontal
           - type: custom:mushroom-entity-card
-            entity: sensor.zhimi_de_621920161_cpa4_pm2_5_density_p_3_4
+            entity: sensor.zhimi_cpa4_3bce_pm25_density
             name: Air Quality Index
 
       - type: custom:mini-media-player
