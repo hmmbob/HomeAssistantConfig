@@ -18,12 +18,6 @@ frontend:
   extra_module_url:
     - /hacsfiles/kiosk-mode/kiosk-mode.js
 
-http:
-  ip_ban_enabled: true
-  login_attempts_threshold: 2
-  use_x_forwarded_for: true
-  trusted_proxies: !secret http_trusted_proxies
-
 logbook:
   exclude:
     entity_globs:
