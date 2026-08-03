@@ -83,16 +83,6 @@ ev_package:
                     entity_id: select.smartevse_6360_mode
                   data:
                     option: Smart
-                - alias: "Stuur melding dat goedkoop laden is gestart"
-                  action: notify.mobile_app_sm_a556b
-                  data:
-                    title: "Automatisch goedkoop laden gestart"
-                    message: "Automatisch laden van de auto is gestart. ({{ now().strftime('%H:%M') }})."
-                    data: &ev_charging_notification_data
-                      notification_icon: mdi:ev-station
-                      ttl: 0
-                      priority: high
-                      clickAction: "/lovelace/car"
             - conditions:
                 - alias: Controleer of goedkoop laden is gestopt
                   condition: trigger
@@ -112,12 +102,6 @@ ev_package:
                     entity_id: select.smartevse_6360_mode
                   data:
                     option: "Off"
-                - alias: "Stuur melding dat goedkoop laden is gestopt"
-                  action: notify.mobile_app_sm_a556b
-                  data:
-                    title: "Automatisch goedkoop laden gestopt"
-                    message: "Automatisch laden van de auto is gestopt ({{ now().strftime('%H:%M') }})"
-                    data: *ev_charging_notification_data
 
     - alias: "Werk EV-verbonden helper bij op basis van stekkerstatus"
       id: "ev_set_smart_charging_connected_sensor"
@@ -201,3 +185,99 @@ ev_package:
           action: kia_uvo.force_update
           data:
             device_id: 5a94e1b7fbce614053e4f5b8dfd6209b
+
+    - id: ev_live_update_while_charging
+      alias: "Toon Live Update tijdens het laden van de auto"
+      description: "Toon de laadvoortgang van de TUCSON als Live Update."
+      mode: parallel
+      max: 3
+      variables:
+        battery_level: "{{ states('sensor.tucson_ev_battery_level') | int(0) }}"
+        remaining_minutes: "{{ states('sensor.tucson_estimated_charge_duration') | int(0) }}"
+        remaining_text: >-
+          {% if remaining_minutes > 0 %}
+            {% set hours = remaining_minutes // 60 %}
+            {% set minutes = remaining_minutes % 60 %}
+            nog {% if hours > 0 %}{{ hours }} u {% endif %}{{ minutes }} min
+          {% else %}
+            resterende tijd onbekend
+          {% endif %}
+      triggers:
+        - alias: Trigger wanneer het laden start
+          trigger: state
+          entity_id: sensor.smartevse_6360_state
+          to: "Charging"
+          id: charging_started
+        - alias: Trigger wanneer het laden stopt of pauzeert
+          trigger: state
+          entity_id: sensor.smartevse_6360_state
+          from: "Charging"
+          id: charging_stopped
+        - alias: Trigger wanneer het accupercentage wordt vernieuwd
+          trigger: state
+          entity_id: sensor.tucson_ev_battery_level
+          id: charging_progress
+      actions:
+        - alias: Verwerk start, voortgang of einde van de laadsessie
+          choose:
+            - conditions:
+                - alias: Laden is gestart of de voortgang is vernieuwd
+                  condition: trigger
+                  id:
+                    - charging_started
+                    - charging_progress
+                - alias: De laadpaal is daadwerkelijk aan het laden
+                  condition: state
+                  entity_id: sensor.smartevse_6360_state
+                  state: "Charging"
+              sequence:
+                - alias: Werk de Live Update bij
+                  action: notify.mobile_app_sm_a556b
+                  data:
+                    title: "TUCSON laden"
+                    message: "Laden · {{ battery_level }}% · {{ remaining_text }}"
+                    data:
+                      tag: tucson_ev_charging
+                      live_update: true
+                      critical_text: "{{ battery_level }}%"
+                      progress: "{{ battery_level }}"
+                      progress_max: 100
+                      chronometer: true
+                      when: "{{ remaining_minutes * 60 }}"
+                      when_relative: true
+                      notification_icon: mdi:ev-station
+                      notification_icon_color: "#4CAF50"
+                      progress_bar_color: "#4CAF50"
+                      color: "#4CAF50"
+                      alert_once: true
+                      sticky: true
+                      url: /lovelace/car
+            - conditions:
+                - alias: Laden is gestopt of gepauzeerd
+                  condition: trigger
+                  id: charging_stopped
+              sequence:
+                - alias: Wacht kort om tijdelijke laadpauzes op te vangen
+                  wait_for_trigger:
+                    - trigger: state
+                      entity_id: sensor.smartevse_6360_state
+                      to: "Charging"
+                  timeout: "00:05:00"
+                  continue_on_timeout: true
+                - alias: Wis de Live Update wanneer het laden niet is hervat
+                  if:
+                    - alias: Laden is binnen vijf minuten niet hervat
+                      condition: template
+                      value_template: "{{ not wait.completed }}"
+                    - alias: De laadpaal is nog steeds niet aan het laden
+                      not:
+                        - condition: state
+                          entity_id: sensor.smartevse_6360_state
+                          state: "Charging"
+                  then:
+                    - alias: Wis de Live Update
+                      action: notify.mobile_app_sm_a556b
+                      data:
+                        message: clear_notification
+                        data:
+                          tag: tucson_ev_charging

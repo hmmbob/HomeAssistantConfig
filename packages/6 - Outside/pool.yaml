@@ -1,0 +1,119 @@
+pool_package:
+  automation:
+    - id: pool_live_update_while_filling
+      alias: "Toon Live Update tijdens het vullen van het zwembad"
+      description: "Toon de voortgang van de watervulling als Live Update."
+      mode: parallel
+      max: 3
+      variables:
+        total_minutes: "{{ states('number.schuur_pool_controller_watervulling_duur') | int(0) }}"
+        remaining_minutes: >-
+          {% set reported = states('sensor.pool_controller_watervulling_resterende_tijd') | int(0) %}
+          {{ reported if reported > 0 else total_minutes }}
+        elapsed_minutes: "{{ [total_minutes - remaining_minutes, 0] | max }}"
+      triggers:
+        - alias: Trigger wanneer de watervulling start
+          trigger: state
+          entity_id: switch.pool_controller_watervulling
+          to: "on"
+          id: filling_started
+        - alias: Trigger wanneer de watervulling stopt
+          trigger: state
+          entity_id: switch.pool_controller_watervulling
+          from: "on"
+          to: "off"
+          id: filling_stopped
+        - alias: Trigger wanneer de zwembadcontroller tijdens het vullen wegvalt
+          trigger: state
+          entity_id: switch.pool_controller_watervulling
+          from: "on"
+          to: "unavailable"
+          id: controller_unavailable
+        - alias: Trigger wanneer de resterende vultijd wordt vernieuwd
+          trigger: state
+          entity_id: sensor.pool_controller_watervulling_resterende_tijd
+          id: filling_progress
+      actions:
+        - alias: Verwerk start, voortgang of einde van de watervulling
+          choose:
+            - conditions:
+                - alias: Watervulling is gestart of heeft een voortgangsmijlpaal bereikt
+                  condition: or
+                  conditions:
+                    - condition: trigger
+                      id: filling_started
+                    - condition: and
+                      conditions:
+                        - condition: trigger
+                          id: filling_progress
+                        - alias: Stuur hoogstens bij iedere vijf resterende minuten een update
+                          condition: template
+                          value_template: >-
+                            {% set remaining = states('sensor.pool_controller_watervulling_resterende_tijd') | int(-1) %}
+                            {{ remaining > 0 and remaining % 5 == 0 }}
+                - alias: De watervulling is daadwerkelijk actief
+                  condition: state
+                  entity_id: switch.pool_controller_watervulling
+                  state: "on"
+              sequence:
+                - alias: Werk de Live Update bij
+                  action: notify.mobile_app_sm_a556b
+                  data:
+                    title: "Zwembad vullen"
+                    message: "Vullen · nog {{ remaining_minutes }} min"
+                    data:
+                      tag: pool_filling
+                      live_update: true
+                      critical_text: "{{ remaining_minutes }} min"
+                      progress: "{{ elapsed_minutes }}"
+                      progress_max: "{{ total_minutes }}"
+                      chronometer: true
+                      when: "{{ remaining_minutes * 60 }}"
+                      when_relative: true
+                      notification_icon: mdi:water-plus
+                      notification_icon_color: "#2196F3"
+                      progress_bar_color: "#2196F3"
+                      color: "#2196F3"
+                      alert_once: true
+                      sticky: true
+                      url: /lovelace/other
+            - conditions:
+                - alias: Watervulling is gestopt
+                  condition: trigger
+                  id: filling_stopped
+              sequence:
+                - alias: Wis de Live Update
+                  action: notify.mobile_app_sm_a556b
+                  data:
+                    message: clear_notification
+                    data:
+                      tag: pool_filling
+            - conditions:
+                - alias: De zwembadcontroller is tijdens het vullen onbereikbaar geworden
+                  condition: trigger
+                  id: controller_unavailable
+              sequence:
+                - alias: Wacht kort of de watervulling wordt hervat
+                  wait_for_trigger:
+                    - trigger: state
+                      entity_id: switch.pool_controller_watervulling
+                      to: "on"
+                  timeout: "00:01:00"
+                  continue_on_timeout: true
+                - alias: Wis de Live Update wanneer de watervulling niet is hervat
+                  if:
+                    - alias: Watervulling is binnen een minuut niet hervat
+                      condition: template
+                      value_template: "{{ not wait.completed }}"
+                    - alias: Watervulling is nog steeds niet actief
+                      not:
+                        - condition: state
+                          entity_id: switch.pool_controller_watervulling
+                          state: "on"
+                  then:
+                    - alias: Wis de Live Update
+                      action: notify.mobile_app_sm_a556b
+                      data:
+                        message: clear_notification
+                        data:
+                          tag: pool_filling
