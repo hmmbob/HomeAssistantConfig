@@ -32,7 +32,26 @@ cards:
           - type: template
             icon: mdi:account-voice
             icon_color: "grey"
-            tap_action: !include common/tap-action-tts-announcement.yaml
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: Speel een bericht af
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: entities
+                        state_color: true
+                        entities:
+                          - input_select.tts_target
+                          - input_text.tts_message
+                          - entity: script.play_tts_message
+                            icon: mdi:account-voice
+                            name: "Speel bericht af"
+                      - type: heading
+                        heading: Standaard meldingen
+                      - !include common/omroep-meldingen-grid.yaml
 
           - type: template
             icon: mdi:fan

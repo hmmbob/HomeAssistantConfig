@@ -34,7 +34,16 @@ cards:
 
               - !include common/chip-fan.yaml
               - !include common/chip-cctv.yaml
-              - !include common/chip-omroep.yaml
+              - type: action
+                icon: mdi:bullhorn
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      timeout: 20000
+                      title: Omroepbericht
+                      content: !include ../common/omroep-meldingen-grid.yaml
           - !include ../common/weather-warning-card.yaml
 
 
