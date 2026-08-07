@@ -10,7 +10,7 @@ cards:
     image: local/icons/picnic_background2.png
     elements:
       - type: custom:text-element
-        text: "bezorgt tussen"
+        text: "bezorgt rond"
         style:
           top: 67%
           left: 50%
@@ -18,26 +18,10 @@ cards:
           font-size: 400%
           font-weight: bold
       - type: state-label
-        entity: sensor.picnic_next_delivery_eta_start_time
-        style:
-          top: 85%
-          left: 30%
-          color: white
-          font-size: 500%
-          font-weight: bold
-      - type: custom:text-element
-        text: "en"
+        entity: sensor.picnic_verwachte_bezorgtijd
         style:
           top: 85%
           left: 50%
-          color: white
-          font-size: 300%
-          font-weight: bold
-      - type: state-label
-        entity: sensor.picnic_next_delivery_eta_end_time
-        style:
-          top: 85%
-          left: 70%
           color: white
           font-size: 500%
           font-weight: bold
