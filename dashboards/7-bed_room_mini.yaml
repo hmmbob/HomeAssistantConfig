@@ -94,11 +94,11 @@ cards:
                           name: Eindtijd gamen mini
                         - type: custom:mushroom-entity-card
                           entity: input_datetime.time_poweruse_minicave
-                          name: Waarschuwing na tijdstip                        
+                          name: Waarschuwing na tijdstip
                         - type: custom:mushroom-template-card
                           primary: "Schoollaptop staat {{ 'aan' if is_state('binary_sensor.schoollaptop_t','on') else 'uit' }}"
-                          secondary: "{{ ((states('sensor.schoollaptop_puber_aan') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
-                          entity: sensor.schoollaptop_puber_aan
+                          secondary: "{{ ((states('sensor.schoollaptop_mini_aan') | float(0)) * 3600) | timestamp_custom('%-Hu%M', false) }}"
+                          entity: sensor.schoollaptop_mini_aan
                           icon: >-
                             {{ "mdi:laptop" if is_state('binary_sensor.schoollaptop_t','on') else "mdi:laptop-off" }}
                           icon_color: >-
@@ -113,7 +113,7 @@ cards:
                                   type: vertical-stack
                                   cards:
                                     - type: custom:mushroom-entity-card
-                                      entity: sensor.schoollaptop_puber_aan
+                                      entity: sensor.schoollaptop_mini_aan
                                       name: Totaal vandaag
                                     - type: custom:mushroom-entity-card
                                       entity: binary_sensor.schoollaptop_t
