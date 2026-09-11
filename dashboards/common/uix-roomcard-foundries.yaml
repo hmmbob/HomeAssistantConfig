@@ -133,7 +133,10 @@ uix_foundries:
               min-width: 40px;
               margin: 0 !important;
               border-radius: 50%;
-              background: color-mix(in srgb, currentColor 20%, transparent);
+              --uix-icon-button-background-color: currentColor;
+              --uix-icon-button-background-opacity: 0.2;
+              --uix-icon-button-background-color-hover: currentColor;
+              --uix-icon-button-background-opacity-hover: 0.3;
               --mdc-icon-size: 27px;
             }
             div[data-uix-forge-button-id] > ha-button.uix-forge-spark-icon-button ha-icon.uix-button-icon {
