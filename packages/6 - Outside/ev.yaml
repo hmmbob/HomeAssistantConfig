@@ -48,6 +48,76 @@ ev_package:
               {{ ns.data }}
 
   automation:
+
+    - id: ev_sync_keep_charger_on_with_target_soc
+      alias: "Houd EV-oplader aan bij streeflaadniveau 100 procent"
+      description: >-
+        Zet oplader ingeschakeld houden aan bij 100% en uit onder 100%.
+        Negeer onbekende of onbeschikbare toestanden en synchroniseer opnieuw
+        bij herstel van de helper of schakelaar en na het starten van Home Assistant.
+      mode: restart
+      triggers:
+        - alias: Streeflaadniveau is gewijzigd of weer beschikbaar
+          trigger: state
+          entity_id: input_number.ev_target_soc
+          not_to:
+            - "unknown"
+            - "unavailable"
+        - alias: Opladerschakelaar is weer beschikbaar
+          trigger: state
+          entity_id: switch.ev_smart_charging_keep_charger_on
+          from:
+            - "unknown"
+            - "unavailable"
+          to:
+            - "on"
+            - "off"
+        - alias: Home Assistant is gestart
+          trigger: homeassistant
+          event: start
+      conditions:
+        - alias: Streeflaadniveau is bekend
+          condition: not
+          conditions:
+            - condition: state
+              entity_id: input_number.ev_target_soc
+              state:
+                - "unknown"
+                - "unavailable"
+        - alias: Opladerschakelaar is beschikbaar
+          condition: state
+          entity_id: switch.ev_smart_charging_keep_charger_on
+          state:
+            - "on"
+            - "off"
+      actions:
+        - alias: Stel oplader ingeschakeld houden in op basis van streeflaadniveau
+          choose:
+            - conditions:
+                - condition: state
+                  entity_id: input_number.ev_target_soc
+                  state:
+                    - "100"
+                    - "100.0"
+                - condition: state
+                  entity_id: switch.ev_smart_charging_keep_charger_on
+                  state: "off"
+              sequence:
+                - action: switch.turn_on
+                  target:
+                    entity_id: switch.ev_smart_charging_keep_charger_on
+            - conditions:
+                - condition: numeric_state
+                  entity_id: input_number.ev_target_soc
+                  below: 100
+                - condition: state
+                  entity_id: switch.ev_smart_charging_keep_charger_on
+                  state: "on"
+              sequence:
+                - action: switch.turn_off
+                  target:
+                    entity_id: switch.ev_smart_charging_keep_charger_on
+
     - id: ev_handle_automatic_cheapest_charge
       alias: "Laad de auto tijdens de goedkoopste uren"
       description: "Laad mijn auto automatisch op in de goedkoopste uren"
