@@ -12,26 +12,15 @@ attic_pubercave_package:
       icon: mdi:lightbulb-on-outline
 
   input_datetime:
-    time_leeslampje_attic:
-      name: Leeslampje zolder
+    time_poweruse_pubercave:
+      name: Tijd poweruse pubercave
       has_time: true
     time_maxi_gametime_over:
-      name: Maxi gametijd over
+      name: Maxi gametijd over zo-do
       has_time: true
-
-  input_number:
-    maxi_pc_time_weekday:
-      name: PC tijd maxi weekdag
-      min: 0
-      max: 18
-      step: 0.5
-      icon: mdi:desktop-classic
-    maxi_pc_time_weekend:
-      name: PC tijd maxi weekend
-      min: 0
-      max: 18
-      step: 0.5
-      icon: mdi:desktop-classic
+    time_maxi_gametime_over_weekend:
+      name: Maxi gametijd over vr-za
+      has_time: true
 
   sensor:
     - platform: history_stats
@@ -70,39 +59,44 @@ attic_pubercave_package:
 
   automation:
     - id: warn_pc_time_duration_pubercave
-      alias: "Waarschuwing dat de puber te lang op de PC zit"
+      alias: "Waarschuwing dat de gametijd van de puber voorbij is"
       mode: queued
       triggers:
-        - alias: PC-tijd limiet bereikt op weekdag
-          trigger: numeric_state
-          entity_id: sensor.pubercave_pc_on_today
-          above: input_number.maxi_pc_time_weekday
+        - alias: Eindtijd gamen op zondag tot en met donderdag
+          trigger: time
+          at: input_datetime.time_maxi_gametime_over
           id: weekday
-        - alias: PC-tijd limiet bereikt op weekend
-          trigger: numeric_state
-          entity_id: sensor.pubercave_pc_on_today
-          above: input_number.maxi_pc_time_weekend
+        - alias: Eindtijd gamen op vrijdag en zaterdag
+          trigger: time
+          at: input_datetime.time_maxi_gametime_over_weekend
           id: weekend
       conditions:
-        - alias: Juiste dag voor PC-tijdslimiet
-          or:
-            - and:
-                - '{{ trigger.id == "weekday" }}'
-                - alias: Controleer weekdag
-                  condition: time
+        - alias: Controleer of de PC aanstaat
+          condition: state
+          entity_id: binary_sensor.pubercave_pc
+          state: "on"
+        - alias: Controleer of de juiste eindtijd is bereikt
+          condition: or
+          conditions:
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: weekday
+                - condition: time
                   weekday:
+                    - sun
                     - mon
                     - tue
                     - wed
                     - thu
-                    - fri
-            - and:
-                - '{{ trigger.id == "weekend" }}'
-                - alias: Controleer weekenddag
-                  condition: time
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: weekend
+                - condition: time
                   weekday:
+                    - fri
                     - sat
-                    - sun
       actions:
         - alias: Waarschuw puber via spraak
           action: script.tts_announce
@@ -126,24 +120,6 @@ attic_pubercave_package:
             title: Gametijd
             message: Je zit vandaag al lang genoeg achter de PC ({{ now().strftime('%H:%M') }}).
             data: *puber_pc_notification_data
-        - alias: Activeer lampenflitsing voor PC-tijd
-          action: automation.trigger
-          target:
-            entity_id: automation.knipper_de_lampen_als_de_puber_pc_tijd_over_is
-
-    - id: flash_lights_pc_time_over_pubercave
-      alias: "Knipper de lampen als de puber PC tijd over is"
-      mode: queued
-      triggers:
-        - alias: Ingestelde PC-uitschakeltijd bereikt
-          trigger: time
-          at: input_datetime.time_maxi_gametime_over
-      conditions:
-        - alias: Controleer of PC aan staat
-          condition: state
-          entity_id: binary_sensor.pubercave_pc
-          state: "on"
-      actions:
         - alias: Sla huidige lichtstatus op
           action: scene.create
           data:
@@ -208,7 +184,7 @@ attic_pubercave_package:
           state: "on"
         - alias: Tijd is na ingestelde meldingstijd
           condition: time
-          after: input_datetime.time_leeslampje_attic
+          after: input_datetime.time_poweruse_pubercave
       actions:
         - alias: Stuur meldingsgebeuren voor stroomverbruik
           action: notify.mobile_devices_adults

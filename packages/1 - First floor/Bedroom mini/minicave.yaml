@@ -18,22 +18,11 @@ bedroom_minicave_package:
       name: Tijd poweruse minicave
       has_time: true
     time_mini_gametime_over:
-      name: Mini gametijd over
+      name: Mini gametijd over zo-do
       has_time: true
-
-  input_number:
-    mini_pc_time_weekday:
-      name: PC tijd mini weekdag
-      min: 0
-      max: 18
-      step: 0.5
-      icon: mdi:desktop-classic
-    mini_pc_time_weekend:
-      name: PC tijd mini weekend
-      min: 0
-      max: 18
-      step: 0.5
-      icon: mdi:desktop-classic
+    time_mini_gametime_over_weekend:
+      name: Mini gametijd over vr-za
+      has_time: true
 
   sensor:
     - platform: history_stats
@@ -112,46 +101,44 @@ bedroom_minicave_package:
               priority: high
 
     - id: warn_pc_time_over_minicave
-      alias: "Waarschuwing dat de mini te lang op de PC zit"
+      alias: "Waarschuwing dat de gametijd van de mini voorbij is"
       mode: queued
       triggers:
-        - alias: PC-tijd overschreden op doordeweekse dag
-          trigger: numeric_state
-          entity_id: sensor.minicave_pc_on_today
-          above: input_number.mini_pc_time_weekday
-          id: weekday
-        - alias: PC-tijd overschreden in weekend
-          trigger: numeric_state
-          entity_id: sensor.minicave_pc_on_today
-          above: input_number.mini_pc_time_weekend
-          id: weekend
-        - alias: Vastgestelde gametijd voorbij
+        - alias: Eindtijd gamen op zondag tot en met donderdag
           trigger: time
           at: input_datetime.time_mini_gametime_over
-          id: all_days
+          id: weekday
+        - alias: Eindtijd gamen op vrijdag en zaterdag
+          trigger: time
+          at: input_datetime.time_mini_gametime_over_weekend
+          id: weekend
       conditions:
-        - alias: Controle op juiste moment voor trigger
-          or:
-            - and:
-                - '{{ trigger.id == "weekday" }}'
+        - alias: Controleer of de PC aanstaat
+          condition: state
+          entity_id: binary_sensor.minicave_pc
+          state: "on"
+        - alias: Controleer of de juiste eindtijd is bereikt
+          condition: or
+          conditions:
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: weekday
                 - condition: time
                   weekday:
+                    - sun
                     - mon
                     - tue
                     - wed
                     - thu
-                    - fri
-            - and:
-                - '{{ trigger.id == "weekend" }}'
+            - condition: and
+              conditions:
+                - condition: trigger
+                  id: weekend
                 - condition: time
                   weekday:
+                    - fri
                     - sat
-                    - sun
-            - and:
-                - '{{ trigger.id == "all_days" }}'
-                - condition: state
-                  entity_id: binary_sensor.minicave_pc
-                  state: "on"
       actions:
         - alias: Knipper lampen en geef audio waarschuwing
           parallel:
