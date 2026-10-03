@@ -11,6 +11,27 @@ lights_livingroom_package:
     enable_woonkamer_sunset_automations:
       name: "Vaas aan bij sunset"
       icon: mdi:motion-sensor
+    pause_livingroom_auto_on:
+      name: "Automatisch inschakelen leefruimte gepauzeerd"
+      icon: mdi:lightbulb-group-off
+    ground_floor_auto_off_in_progress:
+      name: "Automatisch uitschakelen beneden bezig"
+      icon: mdi:lightbulb-group-off
+      initial: false
+
+  binary_sensor:
+    - platform: group
+      name: "PIR beneden"
+      unique_id: pir_beneden_group
+      entities:
+        - binary_sensor.hornet_nest_alarm_panel_zone_02
+        - binary_sensor.pir_gang_meterkast_motion_detection
+        - binary_sensor.hornet_nest_alarm_panel_zone_03
+        - binary_sensor.hornet_nest_alarm_panel_zone_04
+        - binary_sensor.hornet_nest_alarm_panel_zone_05
+        - binary_sensor.pir_bijkeuken_occupancy
+        - binary_sensor.pir_wc_beneden_occupancy
+        - binary_sensor.hornet_nest_alarm_panel_zone_07
 
   automation:
     ##########################
@@ -38,3 +59,165 @@ lights_livingroom_package:
             brightness_pct: 20
           target:
             entity_id: light.spots_vaas
+
+    ########################################
+    ## Limited lighting on motion
+    ## Morning: kitchen/table; afternoon/evening: vase
+    ########################################
+    - id: turn_on_livingroom_lights_on_motion_when_dark
+      alias: "Zet de verlichting aan bij beweging als het donker is"
+      description: >-
+        Zet bij beweging en weinig daglicht tussen 06:00 en 12:00 alleen de
+        keukenspots en eettafellamp aan. Vanaf 12:00 tot middernacht gaan alleen
+        de vaasspots aan. Woonkamer- en eetkamerspots blijven buiten deze
+        automatisering.
+      triggers:
+        - trigger: motion.detected
+          target:
+            area_id: woonkamer
+          options:
+            behavior: each
+          note: Beide PIR-zones in de woonkamer activeren deze automatisering.
+      conditions:
+        - condition: state
+          entity_id: input_boolean.pause_livingroom_auto_on
+          state: "off"
+        - condition: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 7
+          note: Sluit ongeveer aan op de bestaande vaasverlichting, 45 minuten voor zonsondergang.
+      actions:
+        - choose:
+            - alias: Ochtendverlichting
+              conditions:
+                - condition: time
+                  after: "06:00:00"
+                  before: "12:00:00"
+                - condition: or
+                  conditions:
+                    - condition: state
+                      entity_id: light.spots_keuken
+                      state: "off"
+                    - condition: state
+                      entity_id: light.eetkamer_tafel
+                      state: "off"
+              sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id:
+                      - light.spots_keuken
+                      - light.eetkamer_tafel
+                  note: Behoud de laatst gebruikte helderheid van beide lampen.
+            - alias: Middag- en avondverlichting
+              conditions:
+                - condition: time
+                  after: "12:00:00"
+                - condition: state
+                  entity_id: light.spots_vaas
+                  state: "off"
+              sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: light.spots_vaas
+                  note: >-
+                    Vangt ook thuiskomst op nadat de vaste zonsondergangtrigger
+                    al is geweest en behoudt de laatst gebruikte helderheid.
+      mode: single
+
+    ########################################
+    ## Turn off all ground-floor lighting
+    ########################################
+    - id: turn_off_ground_floor_lights_when_away_or_clear
+      alias: "Schakel benedenverlichting uit bij vertrek of rust"
+      description: >-
+        Schakelt alle binnenverlichting beneden uit wanneer iedereen weg is,
+        of wanneer alle PIR- en bezettingsmelders beneden 60 minuten vrij zijn.
+      mode: single
+      triggers:
+        - alias: Iedereen is weg
+          trigger: state
+          entity_id: group.all_persons
+          to: "not_home"
+          id: away
+        - alias: Alle benedenmelders zijn 60 minuten vrij
+          trigger: state
+          entity_id: binary_sensor.pir_beneden
+          from: "on"
+          to: "off"
+          for: "01:00:00"
+          id: no_motion
+      actions:
+        - action: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.ground_floor_auto_off_in_progress
+        - alias: Schakel alle lampen en lichtschakelaars beneden uit
+          action: light.turn_off
+          target:
+            entity_id:
+              - light.verlichting_woonkamer
+              - light.verlichting_eetkamer
+              - light.alle_lampen_salon
+              - light.gang
+        - action: switch.turn_off
+          target:
+            entity_id:
+              - switch.bijkeuken
+              - switch.wc_beneden
+        - delay: "00:00:02"
+        - action: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.ground_floor_auto_off_in_progress
+
+    ########################################
+    ## Manual override for motion lighting
+    ########################################
+    - id: pause_livingroom_auto_on_after_manual_off
+      alias: "Pauzeer automatisch inschakelen na lampen uit"
+      description: >-
+        Pauzeert automatische inschakeling als een automatisch aangestuurde
+        lamp wordt uitgezet en hervat die nadat beide woonkamer-PIRs een minuut
+        vrij zijn.
+      triggers:
+        - alias: Een automatisch aangestuurde spotgroep is uitgezet
+          trigger: state
+          entity_id:
+            - light.spots_vaas
+            - light.spots_keuken
+            - light.eetkamer_tafel
+          from: "on"
+          to: "off"
+          id: manual_off
+        - alias: Beide woonkamer-PIRs zijn een minuut vrij
+          trigger: motion.cleared
+          target:
+            area_id: woonkamer
+          options:
+            behavior: all
+            for: "00:01:00"
+          id: room_clear
+      actions:
+        - choose:
+            - alias: Pauzeer na handmatig uitzetten
+              conditions:
+                - condition: trigger
+                  id: manual_off
+                - condition: state
+                  entity_id: input_boolean.ground_floor_auto_off_in_progress
+                  state: "off"
+              sequence:
+                - action: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.pause_livingroom_auto_on
+            - alias: Hervat als de leefruimte leeg is
+              conditions:
+                - condition: trigger
+                  id: room_clear
+                - condition: state
+                  entity_id: input_boolean.pause_livingroom_auto_on
+                  state: "on"
+              sequence:
+                - action: input_boolean.turn_off
+                  target:
+                    entity_id: input_boolean.pause_livingroom_auto_on
+      mode: single
