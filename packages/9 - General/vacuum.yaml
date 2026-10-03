@@ -31,6 +31,12 @@ vacuum_package:
           trigger: time
           at: input_datetime.vacuum_ask_for_cleaning_time
       conditions:
+        - alias: Herinnering wordt op maandag, woensdag of vrijdag verstuurd
+          condition: time
+          weekday:
+            - mon
+            - wed
+            - fri
         - alias: Stofzuiger herinnering is ingeschakeld
           condition: state
           entity_id: input_boolean.vacuum_enable_ask_for_cleaning
