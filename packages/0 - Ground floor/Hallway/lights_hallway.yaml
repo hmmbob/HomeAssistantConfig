@@ -35,6 +35,7 @@ lights_hallway_package:
           entity_id: binary_sensor.pir_gang_group
           from: "on"
           to: "off"
+          for: "00:01:00"
           id: turn_off
       conditions:
         - alias: Automatische gangverlichting is ingeschakeld
@@ -56,7 +57,7 @@ lights_hallway_package:
                       condition: numeric_state
                       entity_id: sun.sun
                       attribute: elevation
-                      below: 5
+                      below: 7
                   then:
                     - alias: "Gang lamp aan..."
                       action: switch.turn_on

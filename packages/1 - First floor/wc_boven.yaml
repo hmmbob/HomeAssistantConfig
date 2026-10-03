@@ -8,14 +8,15 @@ wc_boven_package:
         - alias: Beweging gedetecteerd in toilet
           trigger: state
           entity_id: binary_sensor.pir_wc_boven_occupancy
-          to: "on"
           from: "off"
+          to: "on"
           id: turn_on
         - alias: Geen beweging meer in toilet
           trigger: state
           entity_id: binary_sensor.pir_wc_boven_occupancy
-          to: "off"
           from: "on"
+          to: "off"
+          for: "00:01:00"
           id: turn_off
       conditions: []
       actions:
