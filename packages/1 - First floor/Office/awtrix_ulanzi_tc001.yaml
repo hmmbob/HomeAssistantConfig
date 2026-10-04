@@ -51,16 +51,28 @@ awtrix_package:
           to: "on"
           id: "toggle"
         - alias: Bureau monitor is ingeschakeld
-          trigger: numeric_state
-          entity_id: sensor.bureau_kantoor_power
-          above: 25
-          id: "turn_on"
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.bureau_kantoor_power
+          id: turn_on
+          options:
+            threshold:
+              type: above
+              value:
+                number: 25
+                unit_of_measurement: W
         - alias: Bureau monitor is uitgeschakeld
-          trigger: numeric_state
-          entity_id: sensor.bureau_kantoor_power
-          below: 25
-          for: "00:05:00"
-          id: "turn_off"
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.bureau_kantoor_power
+          id: turn_off
+          options:
+            threshold:
+              type: below
+              value:
+                number: 25
+                unit_of_measurement: W
+            for: 00:05:00
       condition: []
       actions:
         alias: Voer actie uit op basis van trigger

@@ -159,17 +159,29 @@ attic_pubercave_package:
       mode: queued
       triggers:
         - alias: Leeslampje verbruikt stroom
-          trigger: numeric_state
-          entity_id: sensor.leeslampje_zolder_power
-          above: 3
-          for:
-            minutes: 2
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.leeslampje_zolder_power
           id: Leeslampje
+          options:
+            threshold:
+              type: above
+              value:
+                number: 3
+                unit_of_measurement: W
+            for:
+              minutes: 2
         - alias: TV in pubercave verbruikt stroom
-          trigger: numeric_state
-          entity_id: sensor.pubercave_tv_power
-          above: 25
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.pubercave_tv_power
           id: TV
+          options:
+            threshold:
+              type: above
+              value:
+                number: 25
+                unit_of_measurement: W
         - alias: Laptop in pubercave wordt ingeschakeld
           trigger: state
           entity_id: binary_sensor.laptop_m
@@ -214,25 +226,49 @@ attic_pubercave_package:
       mode: queued
       triggers:
         - alias: TV op zolder staat aan
-          trigger: numeric_state
-          entity_id: sensor.pubercave_tv_power
-          above: 25
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.pubercave_tv_power
           id: pubercave
+          options:
+            threshold:
+              type: above
+              value:
+                number: 25
+                unit_of_measurement: W
         - alias: TV op zolder staat uit
-          trigger: numeric_state
-          entity_id: sensor.pubercave_tv_power
-          below: 25
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.pubercave_tv_power
           id: pubercave
+          options:
+            threshold:
+              type: below
+              value:
+                number: 25
+                unit_of_measurement: W
         - alias: Leeslampje staat aan
-          trigger: numeric_state
-          entity_id: sensor.leeslampje_zolder_power
-          above: 3
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.leeslampje_zolder_power
           id: leeslampje
+          options:
+            threshold:
+              type: above
+              value:
+                number: 3
+                unit_of_measurement: W
         - alias: Leeslampje staat uit
-          trigger: numeric_state
-          entity_id: sensor.leeslampje_zolder_power
-          below: 3
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.leeslampje_zolder_power
           id: leeslampje
+          options:
+            threshold:
+              type: below
+              value:
+                number: 3
+                unit_of_measurement: W
       actions:
         - alias: Log stroomverbruik naar logboek
           choose:

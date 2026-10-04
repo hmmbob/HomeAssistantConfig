@@ -57,10 +57,16 @@ bedroom_minicave_package:
       mode: queued
       triggers:
         - alias: PC verbruikt stroom
-          trigger: numeric_state
-          entity_id: sensor.mini_cave_power
-          above: 80
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.mini_cave_power
           id: PC
+          options:
+            threshold:
+              type: above
+              value:
+                number: 80
+                unit_of_measurement: W
         - alias: TV is ingeschakeld
           trigger: state
           entity_id: binary_sensor.minicave_tv

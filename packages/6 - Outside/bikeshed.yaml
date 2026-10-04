@@ -78,21 +78,33 @@ bikeshed_package:
       mode: single
       triggers:
         - alias: Trigger links laderverbruik onder 5 watt
-          trigger: numeric_state
-          entity_id: sensor.fietslader_links_power
-          for:
-            minutes: 5
-          below: 5
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.fietslader_links_power
           variables:
             switch: switch.fietslader_links
+          options:
+            threshold:
+              type: below
+              value:
+                number: 5
+                unit_of_measurement: W
+            for:
+              minutes: 5
         - alias: Trigger rechts laderverbruik onder 5 watt
-          trigger: numeric_state
-          entity_id: sensor.fietslader_rechts_power
-          for:
-            minutes: 5
-          below: 5
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.fietslader_rechts_power
           variables:
             switch: switch.fietslader_rechts
+          options:
+            threshold:
+              type: below
+              value:
+                number: 5
+                unit_of_measurement: W
+            for:
+              minutes: 5
       conditions:
         - alias: "Niet uitvoeren bij herstart"
           condition: template
@@ -142,9 +154,15 @@ bikeshed_package:
               sequence:
                 - alias: Wacht op verbruik boven 5 watt links
                   wait_for_trigger:
-                    - platform: numeric_state
-                      entity_id: sensor.fietslader_links_power
-                      above: 5
+                    - trigger: power.crossed_threshold
+                      target:
+                        entity_id: sensor.fietslader_links_power
+                      options:
+                        threshold:
+                          type: above
+                          value:
+                            number: 5
+                            unit_of_measurement: W
                   timeout: "00:05:00"
                   continue_on_timeout: true
             - conditions:
@@ -152,9 +170,15 @@ bikeshed_package:
               sequence:
                 - alias: Wacht op verbruik boven 5 watt rechts
                   wait_for_trigger:
-                    - platform: numeric_state
-                      entity_id: sensor.fietslader_rechts_power
-                      above: 5
+                    - trigger: power.crossed_threshold
+                      target:
+                        entity_id: sensor.fietslader_rechts_power
+                      options:
+                        threshold:
+                          type: above
+                          value:
+                            number: 5
+                            unit_of_measurement: W
                   timeout: "00:05:00"
                   continue_on_timeout: true
           default:

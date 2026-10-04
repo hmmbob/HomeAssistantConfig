@@ -154,16 +154,28 @@ kiosk_package:
       mode: restart
       triggers:
         - alias: Kantoor bureaumonitor is ingeschakeld
-          trigger: numeric_state
-          entity_id: sensor.bureau_kantoor_power
-          above: 50
-          id: "turn_on"
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.bureau_kantoor_power
+          id: turn_on
+          options:
+            threshold:
+              type: above
+              value:
+                number: 50
+                unit_of_measurement: W
         - alias: Kantoor bureaumonitor is uitgeschakeld
-          trigger: numeric_state
-          entity_id: sensor.bureau_kantoor_power
-          below: 50
-          for: "00:05:00"
-          id: "turn_off"
+          trigger: power.crossed_threshold
+          target:
+            entity_id: sensor.bureau_kantoor_power
+          id: turn_off
+          options:
+            threshold:
+              type: below
+              value:
+                number: 50
+                unit_of_measurement: W
+            for: 00:05:00
         - alias: "Dagelijks scherm uit om 22:00"
           trigger: time
           at: "22:00:00"
