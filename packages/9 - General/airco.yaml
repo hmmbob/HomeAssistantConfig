@@ -169,11 +169,14 @@ airco_package:
       description: "Stel de airco van de kinderen automatisch in op een normale temperatuur (ter voorkoming van gebruikersfouten en energiebesparing)"
       triggers:
         - alias: Setpoint van kinderairco gewijzigd
-          trigger: state
-          entity_id:
+          trigger: climate.target_temperature_changed
+          target:
+            entity_id:
             - climate.airco_slaapkamer_m
             - climate.airco_slaapkamer_t
-          attribute: temperature
+          options:
+            threshold:
+              type: any
       variables:
         current_mode: "{{ states(trigger.entity_id) }}"
         set_temp: "{{ state_attr(trigger.entity_id, 'temperature') | float(0) }}"
