@@ -68,15 +68,17 @@ travel_time_notifications_package:
           event_data:
             action: "send_traveltime"
         - alias: Trigger vertrek uit zone ADR
-          trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: leave
-          zone: zone.adr
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.sm_a556b
+          options:
+            zone: zone.adr
         - alias: Trigger vertrek uit zone AMC
-          trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: leave
-          zone: zone.amc
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.sm_a556b
+          options:
+            zone: zone.amc
       conditions:
         - alias: Voorwaarde tijdvenster
           condition: time

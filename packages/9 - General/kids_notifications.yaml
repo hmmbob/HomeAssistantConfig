@@ -19,45 +19,50 @@ kids_notifications_package:
       mode: parallel
       triggers:
         - alias: Mini verlaat school
-          trigger: zone
-          entity_id: device_tracker.sm_a566b_t
-          event: leave
-          zone: zone.school
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.sm_a566b_t
           variables:
-            name: "{{states('input_text.naam_mini')}}"
+            name: '{{states(''input_text.naam_mini'')}}'
             location: school
+          options:
+            zone: zone.school
         - alias: Mini verlaat MC
-          trigger: zone
-          entity_id: device_tracker.sm_a566b_t
-          event: leave
-          zone: zone.mc
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.sm_a566b_t
           variables:
-            name: "{{states('input_text.naam_mini')}}"
+            name: '{{states(''input_text.naam_mini'')}}'
             location: MC
+          options:
+            zone: zone.mc
         - alias: Mini verlaat scouting
-          trigger: zone
-          entity_id: device_tracker.sm_a566b_t
-          event: leave
-          zone: zone.scouting
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.sm_a566b_t
           variables:
-            name: "{{states('input_text.naam_mini')}}"
+            name: '{{states(''input_text.naam_mini'')}}'
             location: scouting
+          options:
+            zone: zone.scouting
         - alias: Puber verlaat school
-          trigger: zone
-          entity_id: device_tracker.schaduwspeler
-          event: leave
-          zone: zone.school
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.schaduwspeler
           variables:
-            name: "{{states('input_text.naam_puber')}}"
+            name: '{{states(''input_text.naam_puber'')}}'
             location: school
+          options:
+            zone: zone.school
         - alias: Puber verlaat scouting
-          trigger: zone
-          entity_id: device_tracker.schaduwspeler
-          event: leave
-          zone: zone.scouting
+          trigger: zone.left
+          target:
+            entity_id: device_tracker.schaduwspeler
           variables:
-            name: "{{states('input_text.naam_puber')}}"
+            name: '{{states(''input_text.naam_puber'')}}'
             location: scouting
+          options:
+            zone: zone.scouting
       conditions:
         # Only notify on valid times for each location
         # School: afternoons on weekdays (PE lessons in mornings are offsite)
