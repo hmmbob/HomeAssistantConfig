@@ -240,9 +240,10 @@ solar_package:
             offset: 00:30:00
             offset_type: after
           id: disable
-        - trigger: sun
-          event: sunrise
-          offset: "-00:30:00"
+        - trigger: sun.sunrise
+          options:
+            offset: 00:30:00
+            offset_type: before
           id: enable
       actions:
         - choose:

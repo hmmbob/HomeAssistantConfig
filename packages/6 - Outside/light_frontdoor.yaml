@@ -11,8 +11,7 @@ light_frontdoor_package:
           variables:
             action: turn_on
         - alias: Zon gaat op
-          trigger: sun
-          event: sunrise
+          trigger: sun.sunrise
           variables:
             action: turn_off
       actions:
