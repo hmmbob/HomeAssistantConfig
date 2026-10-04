@@ -6,17 +6,15 @@ shed_package:
       max_exceeded: silent
       triggers:
         - alias: Beweging gedetecteerd in schuur
-          trigger: state
-          entity_id: binary_sensor.pir_schuur_occupancy
-          to: "on"
-          from: "off"
+          trigger: occupancy.detected
+          target:
+            entity_id: binary_sensor.pir_schuur_occupancy
           variables:
             action: turn_on
         - alias: Geen beweging meer in schuur
-          trigger: state
-          entity_id: binary_sensor.pir_schuur_occupancy
-          to: "off"
-          from: "on"
+          trigger: occupancy.cleared
+          target:
+            entity_id: binary_sensor.pir_schuur_occupancy
           variables:
             action: turn_off
       conditions: []

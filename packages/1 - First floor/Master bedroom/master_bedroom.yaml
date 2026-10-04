@@ -11,17 +11,15 @@ master_bedroom_package:
       max_exceeded: silent
       triggers:
         - alias: Beweging gedetecteerd in inloopkast
-          trigger: state
-          entity_id: binary_sensor.pir_inloopkast_occupancy
-          to: "on"
-          from: "off"
+          trigger: occupancy.detected
+          target:
+            entity_id: binary_sensor.pir_inloopkast_occupancy
           variables:
             action: turn_on
         - alias: Geen beweging meer in inloopkast
-          trigger: state
-          entity_id: binary_sensor.pir_inloopkast_occupancy
-          to: "off"
-          from: "on"
+          trigger: occupancy.cleared
+          target:
+            entity_id: binary_sensor.pir_inloopkast_occupancy
           variables:
             action: turn_off
       conditions:

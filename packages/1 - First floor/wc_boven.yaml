@@ -6,18 +6,17 @@ wc_boven_package:
       max_exceeded: silent
       triggers:
         - alias: Beweging gedetecteerd in toilet
-          trigger: state
-          entity_id: binary_sensor.pir_wc_boven_occupancy
-          from: "off"
-          to: "on"
+          trigger: occupancy.detected
+          target:
+            entity_id: binary_sensor.pir_wc_boven_occupancy
           id: turn_on
         - alias: Geen beweging meer in toilet
-          trigger: state
-          entity_id: binary_sensor.pir_wc_boven_occupancy
-          from: "on"
-          to: "off"
-          for: "00:01:00"
+          trigger: occupancy.cleared
+          target:
+            entity_id: binary_sensor.pir_wc_boven_occupancy
           id: turn_off
+          options:
+            for: 00:01:00
       conditions: []
       actions:
         - alias: "Bepalen wat er moet gebeuren"

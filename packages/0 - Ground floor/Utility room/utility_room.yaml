@@ -3,6 +3,7 @@ utility_room_package:
     - platform: group
       name: "PIR Bijkeuken"
       unique_id: pir_bijkeuken_group
+      device_class: occupancy
       entities:
         - binary_sensor.hornet_nest_alarm_panel_zone_05
         - binary_sensor.pir_bijkeuken_occupancy
@@ -19,17 +20,15 @@ utility_room_package:
       max_exceeded: silent
       triggers:
         - alias: Beweging gedetecteerd in bijkeuken
-          trigger: state
-          entity_id: binary_sensor.pir_bijkeuken_group
-          to: "on"
-          from: "off"
+          trigger: occupancy.detected
+          target:
+            entity_id: binary_sensor.pir_bijkeuken_group
           variables:
             action: turn_on
         - alias: Geen beweging meer in bijkeuken
-          trigger: state
-          entity_id: binary_sensor.pir_bijkeuken_group
-          to: "off"
-          from: "on"
+          trigger: occupancy.cleared
+          target:
+            entity_id: binary_sensor.pir_bijkeuken_group
           variables:
             action: turn_off
       conditions:

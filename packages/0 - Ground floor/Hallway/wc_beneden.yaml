@@ -6,20 +6,19 @@ wc_beneden_package:
       max_exceeded: silent
       triggers:
         - alias: Beweging gedetecteerd in toilet
-          trigger: state
-          entity_id: binary_sensor.pir_wc_beneden_occupancy
-          to: "on"
-          from: "off"
+          trigger: occupancy.detected
+          target:
+            entity_id: binary_sensor.pir_wc_beneden_occupancy
           variables:
             action: turn_on
         - alias: Geen beweging meer in toilet
-          trigger: state
-          entity_id: binary_sensor.pir_wc_beneden_occupancy
-          to: "off"
-          from: "on"
-          for: "00:01:00"
+          trigger: occupancy.cleared
+          target:
+            entity_id: binary_sensor.pir_wc_beneden_occupancy
           variables:
             action: turn_off
+          options:
+            for: 00:01:00
       conditions: []
       actions:
         - alias: "Lamp WC beneden bedienen..."

@@ -23,6 +23,7 @@ lights_livingroom_package:
     - platform: group
       name: "PIR beneden"
       unique_id: pir_beneden_group
+      device_class: occupancy
       entities:
         - binary_sensor.hornet_nest_alarm_panel_zone_02
         - binary_sensor.pir_gang_meterkast_motion_detection
@@ -141,12 +142,12 @@ lights_livingroom_package:
           to: "not_home"
           id: away
         - alias: Alle benedenmelders zijn 60 minuten vrij
-          trigger: state
-          entity_id: binary_sensor.pir_beneden
-          from: "on"
-          to: "off"
-          for: "01:00:00"
+          trigger: occupancy.cleared
+          target:
+            entity_id: binary_sensor.pir_beneden
           id: no_motion
+          options:
+            for: 01:00:00
       actions:
         - action: input_boolean.turn_on
           target:
