@@ -235,8 +235,9 @@ ventilation_control:
       mode: restart
       triggers:
         - alias: Ventilatiemodus wordt gewijzigd
-          trigger: state
-          entity_id: input_select.ventilation_mode
+          trigger: select.selection_changed
+          target:
+            entity_id: input_select.ventilation_mode
       actions:
         # Set fan speed based on mode
         - alias: Stel ventilatorsnelheid in op basis van modus
