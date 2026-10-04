@@ -148,10 +148,9 @@ lights_garden_package:
       max_exceeded: silent
       triggers:
         - alias: Persoon gedetecteerd in achtertuin
-          trigger: state
-          entity_id: binary_sensor.achtertuin_persoon
-          from: "off"
-          to: "on"
+          trigger: motion.detected
+          target:
+            entity_id: binary_sensor.achtertuin_persoon
       actions:
         - alias: Toon de poort op beide kiosks
           action: button.press

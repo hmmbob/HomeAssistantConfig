@@ -3,6 +3,7 @@ lights_hallway_package:
     - platform: group
       name: "PIR Gang"
       unique_id: pir_gang_group
+      device_class: motion
       entities:
         - binary_sensor.hornet_nest_alarm_panel_zone_02
         - binary_sensor.pir_gang_meterkast_motion_detection
@@ -19,10 +20,9 @@ lights_hallway_package:
       max_exceeded: silent
       triggers:
         - alias: Beweging gedetecteerd in gang
-          trigger: state
-          entity_id: binary_sensor.pir_gang_group
-          from: "off"
-          to: "on"
+          trigger: motion.detected
+          target:
+            entity_id: binary_sensor.pir_gang_group
           id: turn_on
         - alias: Voordeur geopend
           trigger: state
@@ -31,12 +31,12 @@ lights_hallway_package:
           to: "on"
           id: turn_on
         - alias: Geen beweging meer in gang
-          trigger: state
-          entity_id: binary_sensor.pir_gang_group
-          from: "on"
-          to: "off"
-          for: "00:01:00"
+          trigger: motion.cleared
+          target:
+            entity_id: binary_sensor.pir_gang_group
           id: turn_off
+          options:
+            for: 00:01:00
       conditions:
         - alias: Automatische gangverlichting is ingeschakeld
           condition: state
