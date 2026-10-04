@@ -95,10 +95,9 @@ lights_garden_package:
       max_exceeded: silent
       triggers:
         - alias: Poort is geopend
-          trigger: state
-          entity_id: binary_sensor.poort_contact
-          from: "off"
-          to: "on"
+          trigger: door.opened
+          target:
+            entity_id: binary_sensor.poort_contact
       conditions:
         - alias: "Zijn de lampen uit?"
           condition: state
@@ -126,12 +125,11 @@ lights_garden_package:
         stored_traces: 20
       triggers:
         - alias: Poort of fietsenhok is geopend
-          trigger: state
-          entity_id:
-            - binary_sensor.poort_contact
-            - binary_sensor.fietsenhok_contact
-          from: "off"
-          to: "on"
+          trigger: door.opened
+          target:
+            entity_id:
+              - binary_sensor.poort_contact
+              - binary_sensor.fietsenhok_contact
       actions:
         - alias: "Schakel speaker in"
           action: switch.turn_on

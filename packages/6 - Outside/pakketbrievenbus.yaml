@@ -140,9 +140,9 @@ pakketbrievenbus_package:
       max: 5
       triggers:
         - alias: Trigger wanneer de bovenklep opent
-          trigger: state
-          entity_id: binary_sensor.pakketbrievenbus_klep
-          to: "on"
+          trigger: door.opened
+          target:
+            entity_id: binary_sensor.pakketbrievenbus_klep
       conditions:
         - alias: Alleen als de uitname-deur dicht is
           condition: state
@@ -151,9 +151,9 @@ pakketbrievenbus_package:
       actions:
         - alias: Wacht kort tot de klep weer sluit, maar blokkeer niet eindeloos
           wait_for_trigger:
-            - trigger: state
-              entity_id: binary_sensor.pakketbrievenbus_klep
-              to: "off"
+            - trigger: door.closed
+              target:
+                entity_id: binary_sensor.pakketbrievenbus_klep
           timeout:
             seconds: 45
           continue_on_timeout: true
@@ -200,9 +200,9 @@ pakketbrievenbus_package:
       mode: single
       triggers:
         - alias: Trigger wanneer de uitname-deur opent
-          trigger: state
-          entity_id: binary_sensor.pakketbrievenbus_deur
-          to: "on"
+          trigger: door.opened
+          target:
+            entity_id: binary_sensor.pakketbrievenbus_deur
       actions:
         - alias: Markeer de pakketbrievenbus als leeg
           action: input_boolean.turn_off

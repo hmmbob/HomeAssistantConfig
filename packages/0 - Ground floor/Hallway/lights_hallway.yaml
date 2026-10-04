@@ -25,10 +25,9 @@ lights_hallway_package:
             entity_id: binary_sensor.pir_gang_group
           id: turn_on
         - alias: Voordeur geopend
-          trigger: state
-          entity_id: binary_sensor.hornet_nest_alarm_panel_zone_01
-          from: "off"
-          to: "on"
+          trigger: door.opened
+          target:
+            entity_id: binary_sensor.hornet_nest_alarm_panel_zone_01
           id: turn_on
         - alias: Geen beweging meer in gang
           trigger: motion.cleared
