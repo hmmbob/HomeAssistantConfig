@@ -167,14 +167,14 @@ vacuum_package:
         notification_tag: "{{ 'vacuum_rocky' if trigger.id == 'rocky' else 'vacuum_balboa' }}"
       triggers:
         - alias: Rocky start met reinigen
-          trigger: state
-          entity_id: vacuum.rocky
-          to: "cleaning"
+          trigger: vacuum.started_cleaning
+          target:
+            entity_id: vacuum.rocky
           id: rocky
         - alias: Balboa start met reinigen
-          trigger: state
-          entity_id: vacuum.balboa
-          to: "cleaning"
+          trigger: vacuum.started_cleaning
+          target:
+            entity_id: vacuum.balboa
           id: balboa
       actions:
         - alias: Stuur notificatie dat stofzuiger bezig is
