@@ -200,14 +200,14 @@ vacuum_package:
           to: "none"
           id: rocky
         - alias: Rocky is teruggekeerd naar het dock
-          trigger: state
-          entity_id: vacuum.rocky
-          to: "docked"
+          trigger: vacuum.returned_to_dock
+          target:
+            entity_id: vacuum.rocky
           id: rocky
         - alias: Balboa is teruggekeerd naar het dock
-          trigger: state
-          entity_id: vacuum.balboa
-          to: "docked"
+          trigger: vacuum.returned_to_dock
+          target:
+            entity_id: vacuum.balboa
           id: balboa
         - alias: Balboa-foutmelding is opgelost
           trigger: state
