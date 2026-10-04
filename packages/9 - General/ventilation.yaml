@@ -93,10 +93,16 @@ ventilation_control:
           trigger: state
           id: wc
           entity_id:
-            - switch.wc_beneden
-            - light.wc_boven
-          to: "on"
-          for: "00:03:00"
+          - light.wc_boven
+          to: 'on'
+          for: 00:03:00
+        - alias: WC-verlichting of schakelaar 3 minuten aan
+          trigger: state
+          id: wc
+          entity_id:
+          - switch.wc_beneden
+          to: 'on'
+          for: 00:03:00
         # Time-based return to auto
         - alias: Geplande momenten bereikt
           trigger: time
