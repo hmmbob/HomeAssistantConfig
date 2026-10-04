@@ -90,12 +90,13 @@ ventilation_control:
           above: 0.5
         # WC usage triggers
         - alias: WC-verlichting of schakelaar 3 minuten aan
-          trigger: state
+          trigger: light.turned_on
           id: wc
-          entity_id:
-          - light.wc_boven
-          to: 'on'
-          for: 00:03:00
+          target:
+            entity_id:
+            - light.wc_boven
+          options:
+            for: 00:03:00
         - alias: WC-verlichting of schakelaar 3 minuten aan
           trigger: state
           id: wc
