@@ -290,8 +290,12 @@ awtrix_package:
           {%- if power_level <= threshold_low %}{{"#FF4E1A"}}{%- endif %}
       triggers:
         - alias: Batterijpercentage van auto is gewijzigd
-          trigger: state
-          entity_id: sensor.tucson_ev_battery_level
+          trigger: battery.level_changed
+          target:
+            entity_id: sensor.tucson_ev_battery_level
+          options:
+            threshold:
+              type: any
       condition: []
       actions:
         - alias: Publiceer batterijniveau naar Awtrix

@@ -214,9 +214,13 @@ ev_package:
           from: "Charging"
           id: charging_stopped
         - alias: Trigger wanneer het accupercentage wordt vernieuwd
-          trigger: state
-          entity_id: sensor.tucson_ev_battery_level
+          trigger: battery.level_changed
+          target:
+            entity_id: sensor.tucson_ev_battery_level
           id: charging_progress
+          options:
+            threshold:
+              type: any
       actions:
         - alias: Verwerk start, voortgang of einde van de laadsessie
           choose:

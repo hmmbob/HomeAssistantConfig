@@ -6,13 +6,22 @@ ups_package:
       max_exceeded: silent
       triggers:
         - alias: UPS-status of laadniveau wordt gewijzigd
+          trigger: battery.level_changed
+          target:
+            entity_id:
+            - sensor.ups_battery_charge
+          options:
+            threshold:
+              type: any
+          id: '0'
+        - alias: UPS-status of laadniveau wordt gewijzigd
           trigger: state
           entity_id:
-            - sensor.ups_battery_charge
-            - sensor.ups_status_data
+          - sensor.ups_status_data
           not_from:
-            - "unknown"
-            - "unavailable"
+          - unknown
+          - unavailable
+          id: '0'
       variables:
         runtime_left: >
           {% if has_value('sensor.ups_battery_runtime') %}
