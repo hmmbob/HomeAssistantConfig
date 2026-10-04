@@ -10,15 +10,19 @@ system_package:
           trigger: homeassistant
           event: start
         - alias: Zonhoogte stijgt boven 0 (zonsopkomst)
-          trigger: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          above: 0
+          trigger: sun.elevation_crossed_threshold
+          options:
+            threshold:
+              type: above
+              value:
+                number: 0
         - alias: Zonhoogte daalt onder 0 (zonsondergang)
-          trigger: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 0
+          trigger: sun.elevation_crossed_threshold
+          options:
+            threshold:
+              type: below
+              value:
+                number: 0
       actions:
         - alias: Kies licht of donker thema op basis van zonnestand
           if:
