@@ -140,10 +140,9 @@ awtrix_package:
       mode: single
       triggers:
         - alias: Awtrix is na reboot geactiveerd
-          trigger: state
-          entity_id: switch.awtrix_6caff8_transition
-          from: "off"
-          to: "on"
+          trigger: switch.turned_on
+          target:
+            entity_id: switch.awtrix_6caff8_transition
       condition: []
       actions:
         - alias: Start buitentemperatuur app
