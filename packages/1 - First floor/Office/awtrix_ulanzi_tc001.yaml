@@ -182,8 +182,12 @@ awtrix_package:
       mode: queued
       triggers:
         - alias: Buitentemperatuur is gewijzigd
-          trigger: state
-          entity_id: sensor.weer_thuis_temperatuur
+          trigger: temperature.changed
+          target:
+            entity_id: sensor.weer_thuis_temperatuur
+          options:
+            threshold:
+              type: any
       condition: []
       actions:
         - alias: Publiceer temperatuur naar Awtrix
