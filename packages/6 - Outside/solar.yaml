@@ -235,9 +235,10 @@ solar_package:
       description: "Schakelt de GoodWe data polling uit 30 minuten na zonsondergang en in 30 minuten voor zonsopgang."
       mode: single
       triggers:
-        - trigger: sun
-          event: sunset
-          offset: "00:30:00"
+        - trigger: sun.sunset
+          options:
+            offset: 00:30:00
+            offset_type: after
           id: disable
         - trigger: sun
           event: sunrise

@@ -4,9 +4,10 @@ light_frontdoor_package:
       alias: "Zet de voordeurlamp aan of uit"
       triggers:
         - alias: Zon gaat onder
-          trigger: sun
-          event: sunset
-          offset: "-00:10:00"
+          trigger: sun.sunset
+          options:
+            offset: 00:10:00
+            offset_type: before
           variables:
             action: turn_on
         - alias: Zon gaat op

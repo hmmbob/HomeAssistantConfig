@@ -42,9 +42,10 @@ lights_livingroom_package:
       alias: "Zet de verlichting aan bij zonsondergang"
       triggers:
         - alias: Zonsondergang nadert
-          trigger: sun
-          event: sunset
-          offset: "-00:45:00"
+          trigger: sun.sunset
+          options:
+            offset: 00:45:00
+            offset_type: before
       conditions:
         and:
           - condition: state
