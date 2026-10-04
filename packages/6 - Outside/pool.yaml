@@ -18,10 +18,9 @@ pool_package:
             entity_id: switch.pool_controller_watervulling
           id: filling_started
         - alias: Trigger wanneer de watervulling stopt
-          trigger: state
-          entity_id: switch.pool_controller_watervulling
-          from: "on"
-          to: "off"
+          trigger: switch.turned_off
+          target:
+            entity_id: switch.pool_controller_watervulling
           id: filling_stopped
         - alias: Trigger wanneer de zwembadcontroller tijdens het vullen wegvalt
           trigger: state
