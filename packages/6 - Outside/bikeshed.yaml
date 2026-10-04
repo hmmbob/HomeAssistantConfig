@@ -135,16 +135,14 @@ bikeshed_package:
       max: 2
       trigger:
         - alias: Trigger fietslader links van uit naar aan
-          platform: state
-          entity_id: switch.fietslader_links
-          to: "on"
-          from: "off"
+          trigger: switch.turned_on
+          target:
+            entity_id: switch.fietslader_links
           id: links
         - alias: Trigger fietslader rechts van uit naar aan
-          platform: state
-          entity_id: switch.fietslader_rechts
-          to: "on"
-          from: "off"
+          trigger: switch.turned_on
+          target:
+            entity_id: switch.fietslader_rechts
           id: rechts
       action:
         - alias: "Bepaal vermogenssensor op basis van geactiveerde lader"

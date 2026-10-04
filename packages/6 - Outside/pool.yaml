@@ -13,9 +13,9 @@ pool_package:
         elapsed_minutes: "{{ [total_minutes - remaining_minutes, 0] | max }}"
       triggers:
         - alias: Trigger wanneer de watervulling start
-          trigger: state
-          entity_id: switch.pool_controller_watervulling
-          to: "on"
+          trigger: switch.turned_on
+          target:
+            entity_id: switch.pool_controller_watervulling
           id: filling_started
         - alias: Trigger wanneer de watervulling stopt
           trigger: state
