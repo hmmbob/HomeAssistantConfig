@@ -128,10 +128,11 @@ travel_time_notifications_package:
       alias: "Verwijder reistijd notificatie als ik weer thuis ben"
       triggers:
         - alias: Trigger aankomst in zone thuis
-          trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: enter
-          zone: zone.home
+          trigger: zone.entered
+          target:
+            entity_id: device_tracker.sm_a556b
+          options:
+            zone: zone.home
       conditions:
         - alias: "Controleer of hij nog onderweg naar huis is"
           condition: state

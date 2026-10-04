@@ -15,10 +15,11 @@ create_calendar_events:
           {{ (rounded_timestamp | int + 3600) | timestamp_custom("%Y-%m-%d %H:%M:%S", true) }}
       trigger:
         - alias: Trigger bij binnenkomst sportschool
-          trigger: zone
-          entity_id: device_tracker.sm_a556b
-          event: enter
-          zone: zone.sportschool
+          trigger: zone.entered
+          target:
+            entity_id: device_tracker.sm_a556b
+          options:
+            zone: zone.sportschool
       action:
         - alias: "Ververs de agenda om dubbele afspraken te voorkomen"
           action: homeassistant.update_entity
