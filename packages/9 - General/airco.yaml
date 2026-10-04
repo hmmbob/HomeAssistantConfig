@@ -81,11 +81,11 @@ airco_package:
           trigger: time
           at: input_datetime.time_turn_off_airco_livingroom
           id: livingroom_schedule
-        - alias: "Lampen in woonkamer zijn uit"
-          trigger: state
-          entity_id: light.verlichting_woonkamer
-          to: "off"
-          id: "lights_turned_off"
+        - alias: Lampen in woonkamer zijn uit
+          trigger: light.turned_off
+          target:
+            entity_id: light.verlichting_woonkamer
+          id: lights_turned_off
       actions:
         - alias: Kies uitschakelactie op basis van doelairco
           choose:

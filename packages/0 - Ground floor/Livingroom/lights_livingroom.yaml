@@ -181,13 +181,12 @@ lights_livingroom_package:
         vrij zijn.
       triggers:
         - alias: Een automatisch aangestuurde spotgroep is uitgezet
-          trigger: state
-          entity_id:
+          trigger: light.turned_off
+          target:
+            entity_id:
             - light.spots_vaas
             - light.spots_keuken
             - light.eetkamer_tafel
-          from: "on"
-          to: "off"
           id: manual_off
         - alias: Beide woonkamer-PIRs zijn een minuut vrij
           trigger: motion.cleared

@@ -107,11 +107,11 @@ kiosk_package:
       alias: "Schakel het scherm van kiosk 1 in of uit"
       mode: restart
       triggers:
-        - alias: "Lampen in woonkamer zijn uit"
-          trigger: state
-          entity_id: light.verlichting_woonkamer
-          to: "off"
-          id: "turn_off"
+        - alias: Lampen in woonkamer zijn uit
+          trigger: light.turned_off
+          target:
+            entity_id: light.verlichting_woonkamer
+          id: turn_off
         - alias: "Dagelijks scherm uit om 23:00"
           trigger: time
           at: "23:00:00"
