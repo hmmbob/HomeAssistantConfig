@@ -112,17 +112,27 @@ kids_notifications_package:
       mode: parallel
       triggers:
         - alias: Mini batterij daalt onder 15 procent
-          trigger: numeric_state
-          entity_id: sensor.sm_a566b_t_battery_level
-          below: 15
+          trigger: battery.level_crossed_threshold
+          target:
+            entity_id: sensor.sm_a566b_t_battery_level
           variables:
-            name: "{{states('input_text.naam_mini')}}"
+            name: '{{states(''input_text.naam_mini'')}}'
+          options:
+            threshold:
+              type: below
+              value:
+                number: 15
         - alias: Puber batterij daalt onder 15 procent
-          trigger: numeric_state
-          entity_id: sensor.schaduwspeler_battery_level
-          below: 15
+          trigger: battery.level_crossed_threshold
+          target:
+            entity_id: sensor.schaduwspeler_battery_level
           variables:
-            name: "{{states('input_text.naam_puber')}}"
+            name: '{{states(''input_text.naam_puber'')}}'
+          options:
+            threshold:
+              type: below
+              value:
+                number: 15
       variables:
         target: >
           {% if trigger.entity_id == "sensor.schaduwspeler_battery_level" %}notify.mobile_app_schaduwspeler
