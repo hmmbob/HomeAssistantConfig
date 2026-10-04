@@ -37,11 +37,13 @@ picnic_package:
       action:
         - alias: Toon Picnic op kiosk 1 met hold mode
           action: esphome.ks_kiosk_1_keuken_open_url
+          continue_on_error: true
           data:
             url: !secret picnic_order_closing_url
             hold_mode: true
         - alias: Toon Picnic op kiosk 2 met hold mode
           action: esphome.ks_kiosk_2_kantoor_open_url
+          continue_on_error: true
           data:
             url: !secret picnic_order_closing_url
             hold_mode: true
@@ -66,11 +68,13 @@ picnic_package:
       action:
         - alias: Toon Picnic op kiosk 1 met hold mode
           action: esphome.ks_kiosk_1_keuken_open_url
+          continue_on_error: true
           data:
             url: !secret picnic_delivery_eta_url
             hold_mode: true
         - alias: Toon Picnic op kiosk 2 met hold mode
           action: esphome.ks_kiosk_2_kantoor_open_url
+          continue_on_error: true
           data:
             url: !secret picnic_delivery_eta_url
             hold_mode: true
@@ -107,5 +111,7 @@ picnic_package:
       actions:
         - alias: Sluit Picnic-overlay op kiosk 1
           action: esphome.ks_kiosk_1_keuken_close_url
+          continue_on_error: true
         - alias: Sluit Picnic-overlay op kiosk 2
           action: esphome.ks_kiosk_2_kantoor_close_url
+          continue_on_error: true
