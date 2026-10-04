@@ -33,7 +33,11 @@ cards:
                     }
 
               - !include common/chip-fan.yaml
-              - !include common/chip-cctv.yaml
+              - type: action
+                icon: mdi:cctv
+                tap_action:
+                  action: url
+                  url_path: ks://camera/default
               - type: action
                 icon: mdi:bullhorn
                 tap_action:
@@ -179,11 +183,7 @@ cards:
                 action: perform-action
                 perform_action: script.kiosk_toggle_airco
               tap_action:
-                action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.more_info
-                  data:
-                    entity: climate.airco_woonkamer
+                action: more-info
           - !include common/kids-devices.yaml
 
           - type: custom:plotly-graph

@@ -19,14 +19,19 @@ google_home_volume_package:
               after: "07:00:00"
               before: "09:00:00"
           then:
-            - alias: Zet volume op 70% voor kiosk en Nest Hub woonkamer
+            - alias: Zet volume op 70% voor Nest Hub woonkamer
               action: media_player.volume_set
               target:
                 entity_id:
-                  - media_player.kiosk1_fkb
                   - media_player.nest_hub_woonkamer
               data:
                 volume_level: 0.7
+            - alias: Zet kiosk 1 op 70 procent volume
+              action: number.set_value
+              target:
+                entity_id: number.kiosk_1_keuken_volume
+              data:
+                value: 70
         - alias: Pas dagvolume toe voor slaapkamers en kantoor
           if:
             - alias: Tijdvenster dag 09:00-19:30
@@ -59,10 +64,15 @@ google_home_volume_package:
               action: media_player.volume_set
               target:
                 entity_id:
-                  - media_player.kiosk1_fkb
                   - media_player.nest_hub_woonkamer
               data:
                 volume_level: 0.6
+            - alias: Zet kiosk 1 op 60 procent volume
+              action: number.set_value
+              target:
+                entity_id: number.kiosk_1_keuken_volume
+              data:
+                value: 60
             - alias: Zet slaapkamer T en zolder op 20% volume
               action: media_player.volume_set
               target:
@@ -82,10 +92,15 @@ google_home_volume_package:
               action: media_player.volume_set
               target:
                 entity_id:
-                  - media_player.kiosk1_fkb
                   - media_player.nest_hub_woonkamer
               data:
                 volume_level: 0.4
+            - alias: Zet kiosk 1 op 40 procent volume
+              action: number.set_value
+              target:
+                entity_id: number.kiosk_1_keuken_volume
+              data:
+                value: 40
             - alias: Zet kantoor op 10% volume
               action: media_player.volume_set
               target:

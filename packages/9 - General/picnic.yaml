@@ -17,35 +17,6 @@ picnic_package:
       name: "Timer Picnic kiosk"
       restore: true
 
-  script:
-    picnic_close_dashboard:
-      alias: "Picnic: Sluit kioskscherm"
-      description: Ga terug naar het kiosk-specifieke startscherm op basis van de browser die de actie startte.
-      fields:
-        browser_id:
-          name: Browser ID
-          description: Browser Mod browser_id van het scherm dat de actie start.
-          required: true
-          selector:
-            text:
-      sequence:
-        - alias: Kies kiosk-specifiek startscherm
-          if: "{{ browser_id == 'kiosk2' }}"
-          then:
-            - alias: Ga terug naar TSV2
-              action: browser_mod.navigate
-              data:
-                path: "/tsv-dashboards/tsv2"
-                browser_id:
-                  - "{{ browser_id }}"
-          else:
-            - alias: Ga terug naar TSV1
-              action: browser_mod.navigate
-              data:
-                path: "/tsv-dashboards/tsv1"
-                browser_id:
-                  - "{{ browser_id }}"
-
   automation:
     - id: picnic_order_window_closing
       alias: "Picnic: Bestelvenster sluit binnenkort"
@@ -64,37 +35,16 @@ picnic_package:
             entity_id: sensor.picnic_max_order_time_of_last_order
             offset: "-04:00:00"
       action:
-        - alias: "Schakel bewegingsdetectie & eventuele screensaver uit"
-          action: homeassistant.turn_off
+        - alias: Toon Picnic op kiosk 1 met hold mode
+          action: esphome.ks_kiosk_1_keuken_open_url
           data:
-            entity_id:
-              - switch.kiosk1_bewegingsdetectie
-              - switch.kiosk2_bewegingsdetectie
-              - switch.kiosk1_screensaver
-              - switch.kiosk2_screensaver
-        - alias: "Schakel screensaver timeout uit"
-          action: number.set_value
+            url: !secret picnic_order_closing_url
+            hold_mode: true
+        - alias: Toon Picnic op kiosk 2 met hold mode
+          action: esphome.ks_kiosk_2_kantoor_open_url
           data:
-            value: 0
-          target:
-            entity_id:
-              - number.kiosk1_screensaver_timer
-              - number.kiosk2_screensaver_timer
-        - alias: "Zet schermhelderheid op goed leesbaar niveau"
-          action: number.set_value
-          data:
-            value: "{{255 if is_state('sun.sun', 'above_horizon') else 125}}"
-          target:
-            entity_id:
-              - number.kiosk1_schermhelderheid
-              - number.kiosk2_schermhelderheid
-        - alias: "Laat dashboard zien op kiosk"
-          action: browser_mod.navigate
-          data:
-            path: "/tsv-dashboards/picnic-order-closing"
-            browser_id:
-              - kiosk1
-              - kiosk2
+            url: !secret picnic_order_closing_url
+            hold_mode: true
         - alias: Start Picnic-kiosktimer van 30 minuten
           action: timer.start
           target:
@@ -114,37 +64,16 @@ picnic_package:
             entity_id: sensor.picnic_estimated_arrival_of_next_delivery
             offset: "-00:15:00"
       action:
-        - alias: "Schakel bewegingsdetectie uit"
-          action: homeassistant.turn_off
+        - alias: Toon Picnic op kiosk 1 met hold mode
+          action: esphome.ks_kiosk_1_keuken_open_url
           data:
-            entity_id:
-              - switch.kiosk1_bewegingsdetectie
-              - switch.kiosk2_bewegingsdetectie
-              - switch.kiosk1_screensaver
-              - switch.kiosk2_screensaver
-        - alias: "Schakel screensaver timeout uit"
-          action: number.set_value
+            url: !secret picnic_delivery_eta_url
+            hold_mode: true
+        - alias: Toon Picnic op kiosk 2 met hold mode
+          action: esphome.ks_kiosk_2_kantoor_open_url
           data:
-            value: 0
-          target:
-            entity_id:
-              - number.kiosk1_screensaver_timer
-              - number.kiosk2_screensaver_timer
-        - alias: "Zet schermhelderheid op goed leesbaar niveau"
-          action: number.set_value
-          data:
-            value: "{{255 if is_state('sun.sun', 'above_horizon') else 125}}"
-          target:
-            entity_id:
-              - number.kiosk1_schermhelderheid
-              - number.kiosk2_schermhelderheid
-        - alias: "Laat dashboard zien op kiosk"
-          action: browser_mod.navigate
-          data:
-            path: "/tsv-dashboards/picnic-eta"
-            browser_id:
-              - kiosk1
-              - kiosk2
+            url: !secret picnic_delivery_eta_url
+            hold_mode: true
         - alias: Start Picnic-kiosktimer van 30 minuten
           action: timer.start
           target:
@@ -176,25 +105,7 @@ picnic_package:
           event_data:
             entity_id: timer.picnic
       actions:
-        - alias: "Ga weer terug naar startscherm"
-          action: script.picnic_close_dashboard
-          data:
-            browser_id: kiosk1
-        - alias: "Ga ook op kiosk 2 terug naar startscherm"
-          action: script.picnic_close_dashboard
-          data:
-            browser_id: kiosk2
-        - alias: "Schakel bewegingsdetectie in"
-          action: homeassistant.turn_on
-          data:
-            entity_id:
-              - switch.kiosk1_bewegingsdetectie
-              - switch.kiosk2_bewegingsdetectie
-        - alias: "Schakel screensaver timeout in"
-          action: number.set_value
-          data:
-            value: 120
-          target:
-            entity_id:
-              - number.kiosk1_screensaver_timer
-              - number.kiosk2_screensaver_timer
+        - alias: Sluit Picnic-overlay op kiosk 1
+          action: esphome.ks_kiosk_1_keuken_close_url
+        - alias: Sluit Picnic-overlay op kiosk 2
+          action: esphome.ks_kiosk_2_kantoor_close_url

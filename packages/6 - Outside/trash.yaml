@@ -17,30 +17,6 @@ trash_package:
       name: Melding afval morgen
       has_time: true
 
-  input_text:
-    trash_url_gft:
-      name: Afvalafbeelding GFT
-      initial: !secret image_url_gft
-
-    trash_url_papier:
-      name: Afvalafbeelding papier
-      initial: !secret image_url_oudpapier
-
-    trash_url_pbd:
-      name: Afvalafbeelding plastic
-      initial: !secret image_url_plastic
-
-    trash_url_pbdpapier:
-      name: Afvalafbeelding plastic en papier
-      initial: !secret image_url_plasticpapier
-    trash_url_papierpbd:
-      name: Afvalafbeelding papier en plastic
-      initial: !secret image_url_plasticpapier
-
-    trash_url_restafval:
-      name: Afvalafbeelding restafval
-      initial: !secret image_url_restafval
-
   template:
     sensor:
       - name: Afvalinfo volgende inzameling en datum
@@ -138,37 +114,25 @@ trash_package:
               entity_id: input_boolean.notify_trash_voice
               state: "on"
             - alias: Zet kioskvolume voor spraakmelding op 90 procent
-              action: media_player.volume_set
+              action: number.set_value
+              target:
+                entity_id: number.kiosk_1_keuken_volume
               data:
-                entity_id: media_player.kiosk1_fkb
-                volume_level: 0.9
-            - alias: Speel spraakmelding af
-              action: script.tts_announce
+                value: 90
+            - alias: Speel spraakmelding af op kiosk 1
+              action: esphome.ks_kiosk_1_keuken_announce
               data:
-                media_player_entity_id: media_player.kiosk1_fkb
                 message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
-            - alias: Toon afvalafbeelding in kiosk-popup
-              action: browser_mod.popup
-              data:
-                dismissable: true
-                autoclose: false
-                browser_id:
-                  - kiosk1
-                  - kiosk2
-                timeout: 60000
-                size: fullscreen
-                content:
-                  type: picture
-                  image: "{{ states('input_text.trash_url_' ~ states(sensor).replace(' ', '')) }}"
-                uix:
-                  style:
-                    ha-dialog$: |
-                      div.mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                        background: black !important;
-                        border: none !important;
-                        border-style: solid !important;
-                        border-color: black !important;
-                      }
+                url: ""
+                volume: 1
+                repeat: 0
+                repeat_pause: 0
+                chime: false
+                chime_file: ""
+                tts_engine: tts.google_ai_tts
+                tts_language: nl-NL
+                tts_voice: Erinome
+                audio_only: true
 
     - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status

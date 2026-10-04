@@ -140,28 +140,12 @@ doorbell_package:
           entity_id: input_boolean.enable_deurbel
           state: "on"
       actions:
-        - alias: Toon camera op kiosk tablets
-          action: browser_mod.popup
-          data:
-            dismissable: true
-            autoclose: false
-            browser_id:
-              - kiosk1
-              - kiosk2
-            timeout: 60000
-            size: fullscreen
-            content:
-              type: custom:advanced-camera-card
-              cameras:
-                - camera_entity: camera.voordeur_vloeiend
-        - alias: Verhoog helderheid van kiosk tablets
-          action: number.set_value
-          data:
-            value: "255"
+        - alias: Toon de voordeur op beide kiosks
+          action: button.press
           target:
             entity_id:
-              - number.kiosk1_schermhelderheid
-              - number.kiosk2_schermhelderheid
+              - button.kiosk_1_keuken_show_voordeur
+              - button.kantoor_kiosk_2_kantoor_show_voordeur
 
     - id: deurbel_turn_off_chime
       alias: Zet de deurbel boven uit na bepaalde tijd

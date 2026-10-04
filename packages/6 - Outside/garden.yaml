@@ -153,27 +153,11 @@ lights_garden_package:
           from: "off"
           to: "on"
       actions:
-        - alias: Toon achtertuincamera in kiosk-popup
-          action: browser_mod.popup
-          data:
-            dismissable: true
-            autoclose: true
-            browser_id:
-              - kiosk1
-              - kiosk2
-            timeout: 90000
-            size: fullscreen
-            content:
-              type: custom:advanced-camera-card
-              cameras:
-                - camera_entity: camera.achtertuin_vloeiend
-        - alias: Stel kiosk-schermhelderheid in op 255
-          action: number.set_value
-          data:
-            value: "255"
+        - alias: Toon de poort op beide kiosks
+          action: button.press
           target:
             entity_id:
-              - number.kiosk1_schermhelderheid
-              - number.kiosk2_schermhelderheid
+              - button.kiosk_1_keuken_show_poort
+              - button.kantoor_kiosk_2_kantoor_show_poort
         - alias: "92 seconden niets doen om stuiterende triggers te voorkomen"
           delay: "00:01:32"

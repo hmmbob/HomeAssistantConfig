@@ -1,16 +1,7 @@
-kiosk_mode:
-  user_settings:
-    - users:
-        - Bob
-      ignore_entity_settings: true
-  hide_sidebar: '[[[ is_state("input_boolean.kiosk_hide_header_and_sidebar", "on") ]]]'
-  hide_header: '[[[ is_state("input_boolean.kiosk_hide_header_and_sidebar", "on") ]]]'
-
 title: TSV
 views:
   - !include tsv1.yaml
   - !include tsv2.yaml
   - !include calendar.yaml
-  - !include screensaver.yaml
   - !include 90-cast-picnic-delivery-eta.yaml
   - !include 91-cast-picnic-order-closing.yaml

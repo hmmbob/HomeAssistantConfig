@@ -6,10 +6,6 @@ kiosk_package:
       before: "22:00"
       unique_id: vaatwasser_periode
 
-  input_boolean:
-    kiosk_hide_header_and_sidebar:
-      name: "Kioskmod: verberg header en zijbalk"
-
   input_select:
     kiosk_announcement:
       name: "Kioskmelding aan het afspelen"
@@ -34,20 +30,6 @@ kiosk_package:
         - light.spots_woonkamer
 
   script:
-    kiosk_restart_browser:
-      alias: Herstart alle kioskbrowsers
-      description: "Herstart alle kioskbrowsers"
-      icon: mdi:web-refresh
-      mode: single
-      max_exceeded: silent
-      sequence:
-        - alias: Druk op herstartknop van beide kiosks
-          action: button.press
-          target:
-            entity_id:
-              - button.kiosk1_herstart_browser
-              - button.kiosk2_herstart_browser
-
     kiosk_toggle_airco:
       alias: Toggle airco vanaf kiosk
       description: "Schakel de airco om vanaf de kiosk"
@@ -121,57 +103,10 @@ kiosk_package:
             option: "geen"
 
   automation:
-    - id: kiosk_screensaver
-      alias: "Schakel de screensaver van de kiosks in of uit"
-      mode: parallel
-      triggers:
-        - alias: Kiosk1 screensaver is ingeschakeld of uitgeschakeld
-          trigger: state
-          entity_id: switch.kiosk1_screensaver
-          variables:
-            device: kiosk1
-            brightness: number.kiosk1_schermhelderheid
-            path: "/tsv-dashboards/tsv1"
-        - alias: Kiosk2 screensaver is ingeschakeld of uitgeschakeld
-          trigger: state
-          entity_id: switch.kiosk2_screensaver
-          variables:
-            device: kiosk2
-            brightness: number.kiosk2_schermhelderheid
-            path: "/tsv-dashboards/tsv2"
-      actions:
-        - alias: Kies schermgedrag op basis van screensaverstatus
-          if: "{{ trigger.to_state.state == 'on' }}"
-          then:
-            - alias: "Schakel de screensaver in"
-              action: browser_mod.navigate
-              data:
-                path: "/tsv-dashboards/screensaver"
-                browser_id:
-                  - "{{ device }}"
-            - alias: Verlaag schermhelderheid naar 10 bij screensaver
-              action: number.set_value
-              data:
-                value: 10
-              target:
-                entity_id: "{{ brightness }}"
-          else:
-            - alias: "Schakel de screensaver uit"
-              action: browser_mod.navigate
-              data:
-                path: "{{ path }}"
-                browser_id:
-                  - "{{ device }}"
-            - alias: Herstel schermhelderheid op basis van dag of nacht
-              action: number.set_value
-              data:
-                value: "{{255 if is_state('sun.sun', 'above_horizon') else 125}}"
-              target:
-                entity_id: "{{ brightness }}"
-
     - id: kiosk1_screen
       alias: "Schakel het scherm van kiosk 1 in of uit"
-      trigger:
+      mode: restart
+      triggers:
         - alias: "Lampen in woonkamer zijn uit"
           trigger: state
           entity_id: light.verlichting_woonkamer
@@ -187,40 +122,37 @@ kiosk_package:
           id: "turn_on"
       actions:
         - alias: Schakel kiosk 1 scherm uit of in op basis van trigger
-          if:
-            - and:
-                - "{{ trigger.id == 'turn_off' }}"
+          choose:
+            - conditions:
+                - condition: trigger
+                  id: "turn_off"
                 - alias: Controleer dat het na 21:00 is
                   condition: time
                   after: "21:00:00"
-          then:
-            - alias: "Scherm uitschakelen voor de nacht"
-              delay: "00:00:10" # Give time for last actions on screen when turning off lights
-            - alias: Schakel kiosk 1 scherm en bewegingsdetectie uit
-              action: homeassistant.turn_off
-              data:
-                entity_id:
-                  - switch.kiosk1_bewegingsdetectie
-                  - switch.kiosk1_scherm
-          else:
-            - alias: Controleer of trigger scherm inschakelen is
-              if: "{{ trigger.id == 'turn_on' }}"
-              then:
-                - alias: "Scherm inschakelen"
-                  action: homeassistant.turn_on
-                  data:
-                    entity_id:
-                      - switch.kiosk1_bewegingsdetectie
-                      - switch.kiosk1_scherm
-                - alias: Zet kiosk 1 screensaver uit na inschakelen scherm
-                  action: homeassistant.turn_off
-                  data:
-                    entity_id:
-                      - switch.kiosk1_screensaver
+              sequence:
+                - alias: Geef tijd voor de laatste handelingen op het scherm
+                  delay: "00:00:10"
+                - alias: Schakel kiosk 1 scherm uit voor de nacht
+                  action: light.turn_off
+                  target:
+                    entity_id: light.kiosk_1_keuken_screen
+            - conditions:
+                - condition: trigger
+                  id: "turn_on"
+              sequence:
+                - alias: Schakel kiosk 1 scherm in
+                  action: light.turn_on
+                  target:
+                    entity_id: light.kiosk_1_keuken_screen
+                - alias: Toon het dashboard in plaats van de lokale screensaver
+                  action: switch.turn_off
+                  target:
+                    entity_id: switch.kiosk_1_keuken_screensaver_active
 
     - id: kiosk2_screen
       alias: "Schakel het scherm van kiosk 2 in of uit"
-      trigger:
+      mode: restart
+      triggers:
         - alias: Kantoor bureaumonitor is ingeschakeld
           trigger: numeric_state
           entity_id: sensor.bureau_kantoor_power
@@ -239,41 +171,18 @@ kiosk_package:
       actions:
         - alias: Schakel kiosk 2 scherm uit of in op basis van trigger
           if:
-            - "{{ trigger.id == 'turn_on' }}"
+            - condition: trigger
+              id: "turn_on"
             - condition: time
               after: "07:30:00"
               before: "22:00:00"
           then:
-            - alias: "Scherm inschakelen"
-              action: homeassistant.turn_on
-              data:
-                entity_id:
-                  - switch.kiosk2_bewegingsdetectie
-                  - switch.kiosk2_scherm
+            - alias: Schakel kiosk 2 scherm in
+              action: light.turn_on
+              target:
+                entity_id: light.kiosk_2_kantoor_screen
           else:
-            - alias: "Scherm uitschakelen"
-              action: homeassistant.turn_off
-              data:
-                entity_id:
-                  - switch.kiosk2_bewegingsdetectie
-            - delay: "00:00:02"
-            - alias: Zet kiosk 2 screensaver uit na schermwijziging
-              action: homeassistant.turn_off
-              data:
-                entity_id:
-                  - switch.kiosk2_scherm
-
-    - id: kiosk_restart_browser
-      alias: Kiosk herstart browser om 08:45 of bij HA herstart
-      triggers:
-        - alias: Dagelijks om 08:44:30 voor kioskherstart
-          trigger: time
-          at: "08:44:30"
-        - alias: Home Assistant start op
-          trigger: homeassistant
-          event: start
-      actions:
-        - alias: Wacht 30 seconden na trigger voor browserherstart
-          delay: "00:00:30" # Prevent race with HA startup & screen on automation
-        - alias: Start script voor kioskbrowser-herstart
-          action: script.kiosk_restart_browser
+            - alias: Schakel kiosk 2 scherm uit
+              action: light.turn_off
+              target:
+                entity_id: light.kiosk_2_kantoor_screen

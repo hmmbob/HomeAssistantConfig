@@ -25,16 +25,3 @@ cards:
           color: white
           font-size: 500%
           font-weight: bold
-      - type: icon
-        icon: mdi:close-circle
-        tap_action:
-          action: fire-dom-event
-          browser_mod:
-            service: script.picnic_close_dashboard
-            data:
-              browser_id: THIS
-        style:
-          top: 10%
-          left: 90%
-          color: white
-          transform: scale(3,3)

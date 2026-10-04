@@ -33,7 +33,11 @@ cards:
                     }
 
               - !include common/chip-fan.yaml
-              - !include common/chip-cctv.yaml
+              - type: action
+                icon: mdi:cctv
+                tap_action:
+                  action: url
+                  url_path: ks://camera/default
               - type: action
                 icon: mdi:bullhorn
                 tap_action:
@@ -88,18 +92,7 @@ cards:
               show_volume_level: true
               use_media_info: true
               tap_action:
-                action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.sequence
-                  data:
-                    sequence:
-                      - service: browser_mod.more_info
-                        data:
-                          entity: media_player.kantoor
-                      - service: browser_mod.delay
-                        data:
-                          time: 10000
-                      - service: browser_mod.more_info
+                action: more-info
               uix:
                 style: |
                   mushroom-state-item {
