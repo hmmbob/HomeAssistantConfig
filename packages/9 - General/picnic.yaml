@@ -104,9 +104,8 @@ picnic_package:
       mode: queued
       triggers:
         - alias: Picnic timer is afgelopen
-          trigger: event
-          event_type: timer.finished
-          event_data:
+          trigger: timer.finished
+          target:
             entity_id: timer.picnic
       actions:
         - alias: Sluit Picnic-overlay op kiosk 1

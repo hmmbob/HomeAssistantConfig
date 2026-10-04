@@ -21,21 +21,19 @@ airco_package:
       description: "Zet de airco aan als de timer start"
       triggers:
         - alias: Airco mini sleeptimer is gestart
-          trigger: event
-          event_type: timer.started
-          event_data:
-            entity_id: timer.airco_mini_sleeptimer
+          trigger: timer.started
           variables:
             airco: climate.airco_slaapkamer_t
             temp_sensor: sensor.xiaomi_temperature_humidity_sensor_3_temperature
+          target:
+            entity_id: timer.airco_mini_sleeptimer
         - alias: Airco puber sleeptimer is gestart
-          trigger: event
-          event_type: timer.started
-          event_data:
-            entity_id: timer.airco_puber_sleeptimer
+          trigger: timer.started
           variables:
             airco: climate.airco_slaapkamer_m
             temp_sensor: sensor.temp_sensor_8_slaapkamer_m_temperatuur
+          target:
+            entity_id: timer.airco_puber_sleeptimer
       actions:
         - alias: Stel modus in voor kinderairco op basis van kamertemperatuur
           action: climate.set_hvac_mode
@@ -49,19 +47,17 @@ airco_package:
       description: "Zet de airco uit aan het einde van de timer"
       triggers:
         - alias: Airco mini sleeptimer is afgelopen
-          trigger: event
-          event_type: timer.finished
-          event_data:
-            entity_id: timer.airco_mini_sleeptimer
+          trigger: timer.finished
           variables:
             entity: climate.airco_slaapkamer_t
+          target:
+            entity_id: timer.airco_mini_sleeptimer
         - alias: Airco puber sleeptimer is afgelopen
-          trigger: event
-          event_type: timer.finished
-          event_data:
-            entity_id: timer.airco_puber_sleeptimer
+          trigger: timer.finished
           variables:
             entity: climate.airco_slaapkamer_m
+          target:
+            entity_id: timer.airco_puber_sleeptimer
       actions:
         - alias: Zet geselecteerde kinderairco uit na afloop sleeptimer
           action: climate.set_hvac_mode
