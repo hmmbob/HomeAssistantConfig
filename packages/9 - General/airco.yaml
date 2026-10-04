@@ -138,11 +138,11 @@ airco_package:
       description: "Klimaat: Schakel verwarming uit als we weg zijn"
       triggers:
         - alias: Niet thuis gedurende 30 minuten
-          trigger: state
-          entity_id: zone.home
-          to: "0"
-          for:
-            minutes: 30
+          trigger: zone.occupancy_cleared
+          options:
+            zone: zone.home
+            for:
+              minutes: 30
       actions:
         - alias: "Schakel Tado-apparaten uit die aan staan (laat anderen in huidige staat)"
           action: climate.set_hvac_mode
