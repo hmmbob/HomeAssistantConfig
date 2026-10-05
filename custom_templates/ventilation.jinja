@@ -1,0 +1,55 @@
+{# Shared ventilation thresholds. Wet rooms never form part of the house reference.
+   RH reference is a practical baseline, not an absolute-moisture comparison.
+   Start: 70..75 % RH, reference +10. Stop: 65..70 % RH, reference +5.
+   A rise above 0.5 percentage points/minute starts a boost independently.
+   Normalisation requires EVERY room below the stop limit and rising <0.2 pp/min.
+#}
+{% macro humidity_status(returns) -%}
+  {%- set reference_entities = [
+    'sensor.xiaomi_temperature_humidity_sensor_3_humidity',
+    'sensor.xiaomi_temperature_humidity_sensor_5_humidity',
+    'sensor.temp_sensor_6_kantoor_luchtvochtigheid',
+    'sensor.temp_sensor_7_woonkamer_luchtvochtigheid',
+    'sensor.temp_sensor_8_slaapkamer_m_luchtvochtigheid'
+  ] -%}
+  {%- set available = namespace(count=0) -%}
+  {%- for entity in reference_entities -%}
+    {%- set value = states(entity) | float(none) -%}
+    {%- if value is not none and 0 <= value <= 100 -%}
+      {%- set available.count = available.count + 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- set reference = states('sensor.ventilatie_referentie_luchtvochtigheid') | float(none) -%}
+  {%- set reference_valid = available.count >= 2 and reference is not none and 0 <= reference <= 100 -%}
+  {%- set baseline = reference if reference_valid else 55 -%}
+  {%- set start_limit = [75, [70, baseline + 10] | max] | min -%}
+  {%- set stop_limit = [70, [65, baseline + 5] | max] | min -%}
+  {%- set rooms = [
+    ['sensor.temp_sensor_2_badkamer_humidity', 'sensor.badkamer_vochtigheidsverandering_per_minuut'],
+    ['sensor.temp_sensor_4_badkamer_zolder_humidity', 'sensor.badkamer_zolder_vochtigheidsverandering_per_minuut'],
+    ['sensor.temp_sensor_1_bijkeuken_humidity', 'sensor.bijkeuken_vochtigheidsverandering_per_minuut']
+  ] -%}
+  {%- set result = namespace(requested=false, normalised=true, any_valid=false, all_valid=true) -%}
+  {%- for humidity_entity, rate_entity in rooms -%}
+    {%- set humidity = states(humidity_entity) | float(none) -%}
+    {%- set rate_raw = states(rate_entity) -%}
+    {%- set rate = rate_raw | float if is_number(rate_raw) else none -%}
+    {%- set humidity_valid = humidity is not none and 0 <= humidity <= 100 -%}
+    {%- set result.any_valid = result.any_valid or humidity_valid -%}
+    {%- if humidity_valid and (humidity >= start_limit or (rate is not none and rate > 0.5)) -%}
+      {%- set result.requested = true -%}
+    {%- endif -%}
+    {%- if not humidity_valid or rate is none -%}
+      {%- set result.all_valid = false -%}
+      {%- set result.normalised = false -%}
+    {%- elif humidity >= stop_limit or rate >= 0.2 -%}
+      {%- set result.normalised = false -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- do returns({
+    'requested': result.requested, 'normalised': result.normalised,
+    'any_valid': result.any_valid, 'all_valid': result.all_valid,
+    'reference_valid': reference_valid,
+    'start_limit': start_limit, 'stop_limit': stop_limit
+  }) -%}
+{%- endmacro %}
