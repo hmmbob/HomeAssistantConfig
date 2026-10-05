@@ -21,6 +21,10 @@ morning_briefing_package:
           entity_id: input_boolean.vacation_mode_away
           state: "off"
       actions:
+        - alias: Begin zonder weer- of AI-antwoord
+          variables:
+            weather_forecast: {}
+            response: {}
         - alias: Haal NL Weather dagverwachting op
           action: weather.get_forecasts
           target:
@@ -28,6 +32,66 @@ morning_briefing_package:
           data:
             type: daily
           response_variable: weather_forecast
+          continue_on_error: true
+        - alias: Kies alleen de dagverwachting voor vandaag
+          variables:
+            forecast_today: >-
+              {% set weather = weather_forecast.get('weather.verwachtingen', {}) if weather_forecast is mapping else {} %}
+              {% set forecasts = weather.get('forecast', []) if weather is mapping else [] %}
+              {% set forecasts = forecasts if forecasts is sequence and forecasts is not string and forecasts is not mapping else [] %}
+              {% set ns = namespace(today={}) %}
+              {% for forecast in forecasts if forecast is mapping %}
+                {% set date = as_datetime(forecast.get('datetime'), none) %}
+                {% if date is not none and as_local(date).date() == now().date() %}
+                  {% set ns.today = forecast %}
+                {% endif %}
+              {% endfor %}
+              {{ ns.today }}
+        - alias: Maak een lokale weersamenvatting van beschikbare gegevens
+          variables:
+            weather_summary: >-
+              {% set conditions = {'sunny': 'zonnig', 'partlycloudy': 'half bewolkt', 'cloudy': 'bewolkt',
+                'rainy': 'regenachtig', 'pouring': 'hevige regen', 'snowy': 'sneeuw',
+                'snowy-rainy': 'natte sneeuw', 'lightning': 'onweer', 'lightning-rainy': 'onweer met regen',
+                'clear-night': 'helder', 'fog': 'mistig', 'windy': 'winderig', 'windy-variant': 'bewolkt en winderig',
+                'exceptional': 'uitzonderlijk weer'} %}
+              {% set rising = as_datetime(states('sensor.sun_next_rising'), none) %}
+              {% set condition = states('weather.weer_thuis_waarnemingen') %}
+              {% set summary %}
+                {% if rising is not none and as_local(rising).date() == now().date() %}
+                  De zon komt vandaag op om {{ as_local(rising).strftime('%H:%M') }}.
+                {% endif %}
+                {% if is_number(states('sensor.weer_thuis_temperatuur')) %}
+                  Buiten is het {{ states('sensor.weer_thuis_temperatuur', with_unit=True) }}.
+                {% else %}
+                  De buitentemperatuur is momenteel niet beschikbaar.
+                {% endif %}
+                {% if condition in conditions %}
+                  Het is {{ conditions[condition] }}.
+                {% endif %}
+                {% if is_number(forecast_today.get('temperature')) %}
+                  Vandaag wordt het maximaal {{ forecast_today.temperature }} °C.
+                {% elif is_number(states('sensor.weer_thuis_vandaag_maximum')) %}
+                  Vandaag wordt het maximaal {{ states('sensor.weer_thuis_vandaag_maximum', with_unit=True) }}.
+                {% endif %}
+                {% if forecast_today %}
+                  {% if forecast_today.get('condition') in conditions %}
+                    De verwachting voor vandaag is {{ conditions[forecast_today.condition] }}.
+                  {% endif %}
+                  {% if is_number(forecast_today.get('templow')) %}
+                    De minimumtemperatuur is {{ forecast_today.templow }} °C.
+                  {% endif %}
+                  {% if is_number(forecast_today.get('precipitation_probability')) %}
+                    Er is {{ forecast_today.precipitation_probability }}% kans op neerslag.
+                  {% endif %}
+                  {% if is_number(forecast_today.get('precipitation')) %}
+                    Er wordt {{ forecast_today.precipitation }} mm neerslag verwacht.
+                  {% endif %}
+                {% else %}
+                  De dagverwachting is momenteel niet beschikbaar.
+                {% endif %}
+              {% endset %}
+              {{ summary.split() | join(' ') }}
         - alias: Genereer ochtendbriefing
           action: ai_task.generate_data
           response_variable: response
@@ -36,17 +100,15 @@ morning_briefing_package:
             entity_id: ai_task.google_ai_task
             task_name: Ochtendbriefing
             instructions: |
-              {% set forecast = weather_forecast['weather.verwachtingen'].forecast[0] %}
-              Write a concise and friendly morning briefing in Dutch (plain text only, no markdown, no bold, no headers) that includes:
-              - The time the sun rises today: {{ states('sensor.sun_next_rising') | as_datetime | as_timestamp | timestamp_custom('%H:%M', True) }}
-              - The maximum temperature expected today: {{ states('sensor.weer_thuis_vandaag_maximum', with_unit=True) }}
-              - The current outdoor temperature and weather condition: {{ states('sensor.weer_thuis_temperatuur', with_unit=True) }} and {{ states('weather.weer_thuis_waarnemingen') }}
-              - A brief weather forecast for today: {{ forecast.condition }}, high {{ forecast.temperature }} C, low {{ forecast.templow }} C, {{ forecast.precipitation_probability }}% chance of precipitation and {{ forecast.precipitation }} mm precipitation expected.
+              Schrijf een korte, vriendelijke ochtendbriefing in het Nederlands.
+              Gebruik alleen gewone tekst, zonder markdown, vetgedrukte tekst of kopjes.
+              Baseer je uitsluitend op onderstaande gegevens; verzin geen ontbrekende waarden of zonopkomsttijd.
+              {{ weather_summary }}
         - alias: Probeer ochtendbriefing opnieuw na een tijdelijke AI-fout
           if:
             - >-
-              {% set result = response.data if response is defined and response.data is defined else '' %}
-              {{ result | string | trim | length == 0 }}
+              {% set result = response.get('data', '') if response is mapping else '' %}
+              {{ result is not string or result | trim | length == 0 }}
           then:
             - alias: Wacht kort voor tweede AI-poging
               delay: "00:00:05"
@@ -58,17 +120,11 @@ morning_briefing_package:
         - alias: Kies AI-briefing of lokale weersamenvatting
           variables:
             briefing_message: >-
-              {% set result = response.data if response is defined and response.data is defined else '' %}
-              {% if result | string | trim | length > 0 %}
-                {{ result }}
+              {% set result = response.get('data', '') if response is mapping else '' %}
+              {% if result is string and result | trim | length > 0 %}
+                {{ result | trim }}
               {% else %}
-                {% set forecast = weather_forecast['weather.verwachtingen'].forecast[0] %}
-                Goedemorgen! De zon komt vandaag op om
-                {{ states('sensor.sun_next_rising') | as_datetime | as_timestamp | timestamp_custom('%H:%M', True) }}.
-                Buiten is het {{ states('sensor.weer_thuis_temperatuur', with_unit=True) }} en
-                {{ states('weather.weer_thuis_waarnemingen') }}. Vandaag wordt het maximaal
-                {{ states('sensor.weer_thuis_vandaag_maximum', with_unit=True) }}, met
-                {{ forecast.precipitation_probability }}% kans op neerslag.
+                Goedemorgen! {{ weather_summary }}
               {% endif %}
         - alias: Stuur ochtendmelding
           action: notify.mobile_app_sm_a556b
