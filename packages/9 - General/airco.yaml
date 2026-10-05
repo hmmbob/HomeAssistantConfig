@@ -34,14 +34,24 @@ airco_package:
             temp_sensor: sensor.temp_sensor_8_slaapkamer_m_temperatuur
           target:
             entity_id: timer.airco_puber_sleeptimer
+      mode: parallel
+      max: 2
       actions:
-        - alias: Stel modus in voor kinderairco op basis van kamertemperatuur
-          action: climate.set_hvac_mode
-          target:
-            entity_id: "{{airco}}"
-          data:
-            hvac_mode: "{{ 'heat' if (states(temp_sensor) | float(0)) < 21 else 'cool' }}"
-
+        - variables:
+            room_temperature: "{{ states(temp_sensor) }}"
+        - alias: Start alleen met een beschikbare airco en geldige temperatuur
+          if:
+            - "{{ has_value(airco) and is_number(room_temperature) }}"
+          then:
+            - action: climate.set_hvac_mode
+              target:
+                entity_id: "{{ airco }}"
+              data:
+                hvac_mode: "{{ 'heat' if (room_temperature | float) < 21 else 'cool' }}"
+          else:
+            - action: timer.cancel
+              target:
+                entity_id: "{{ trigger.entity_id }}"
     - id: airco_sleeptimer_kinderen
       alias: "Sleeptimer voor de airco's van de kinderen"
       description: "Zet de airco uit aan het einde van de timer"

@@ -37,12 +37,27 @@ kiosk_package:
       mode: single
       max_exceeded: silent
       sequence:
+        - variables:
+            room_temperature: "{{ states('sensor.temp_sensor_7_woonkamer_temperatuur') }}"
+        - alias: Controleer bereikbaarheid voordat de airco wordt bediend
+          if:
+            - "{{ not has_value('climate.airco_woonkamer') }}"
+          then:
+            - stop: "Woonkamerairco niet beschikbaar"
+        - alias: Een ontbrekende meting mag inschakelen blokkeren, uitschakelen blijft mogelijk
+          if:
+            - condition: state
+              entity_id: climate.airco_woonkamer
+              state: "off"
+            - "{{ not is_number(room_temperature) }}"
+          then:
+            - stop: "Geen geldige kamertemperatuur"
         - alias: Zet woonkamerairco aan of uit vanaf kiosk
           action: climate.set_hvac_mode
           data:
             hvac_mode: >-
               {% if is_state('climate.airco_woonkamer', 'off') %}
-                {{ 'heat' if (states('sensor.temp_sensor_7_woonkamer_temperatuur') | float(0)) < 22 else 'cool' }}
+                {{ 'heat' if (room_temperature | float) < 22 else 'cool' }}
               {% else %}
                 off
               {% endif %}
