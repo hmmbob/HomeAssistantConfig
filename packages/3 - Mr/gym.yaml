@@ -10,9 +10,9 @@ create_calendar_events:
           {% set step = 15 * 60 %}
           {{ ((now_ts + (step/2)) // step) * step }}
         start_time: >
-          {{ (rounded_timestamp | int) | timestamp_custom("%Y-%m-%d %H:%M:%S", true) }}
+          {{ (rounded_timestamp | int) | timestamp_local }}
         end_time: >
-          {{ (rounded_timestamp | int + 3600) | timestamp_custom("%Y-%m-%d %H:%M:%S", true) }}
+          {{ (rounded_timestamp | int + 3600) | timestamp_local }}
       trigger:
         - alias: Trigger bij binnenkomst sportschool
           trigger: zone.entered
@@ -21,18 +21,38 @@ create_calendar_events:
           options:
             zone: zone.sportschool
       action:
-        - alias: "Ververs de agenda om dubbele afspraken te voorkomen"
-          action: homeassistant.update_entity
+        # A failed calendar lookup stops the run; never assume an empty calendar.
+        - alias: Haal alle afspraken in het sporttijdvak op
+          action: calendar.get_events
+          target:
+            entity_id: calendar.bl
           data:
-            entity_id:
-              - calendar.bl
-        - alias: Wacht 1 minuut voor agenda verversen
-          delay: "00:01:00"
-        - alias: "Geen dubbele afspraken"
+            start_date_time: "{{ start_time }}"
+            end_date_time: "{{ end_time }}"
+          response_variable: calendar_events
+        - alias: Alleen doorgaan met een geldig agenda-antwoord
           condition: template
-          value_template: >
-            {% set msg = (state_attr('calendar.bl','message') or '') | lower %}
-            {{ msg not in ['sport', 'sporten', 'sportschool'] }}
+          value_template: >-
+            {{ calendar_events is mapping
+              and calendar_events.get('calendar.bl') is mapping
+              and calendar_events['calendar.bl'].get('events') is sequence
+              and calendar_events['calendar.bl'].get('events') is not string
+              and calendar_events['calendar.bl'].get('events') is not mapping }}
+        - alias: Geen overlappende sportafspraak
+          condition: template
+          value_template: >-
+            {% set ns = namespace(duplicate=false) %}
+            {% for event in calendar_events['calendar.bl']['events'] %}
+              {% if event is mapping and (event.get('summary') or '') | lower | trim in ['sport', 'sporten', 'sportschool'] %}
+                {% set event_start = as_timestamp(event.get('start'), none) %}
+                {% set event_end = as_timestamp(event.get('end'), none) %}
+                {% if event_start is none or event_end is none
+                  or (event_start < as_timestamp(end_time) and event_end > as_timestamp(start_time)) %}
+                  {% set ns.duplicate = true %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {{ not ns.duplicate }}
         - alias: "Maak een afspraak in de agenda voor sporten"
           action: google.create_event
           data:
