@@ -282,7 +282,8 @@ vacuum_package:
     - alias: "Waarschuw als Rocky onderhoud nodig heeft"
       id: vacuum_consumable_warning
       initial_state: "on"
-      mode: queued
+      mode: parallel
+      max: 4
       variables:
         consumables:
           - sensor: sensor.rocky_filter_time_left
@@ -290,7 +291,7 @@ vacuum_package:
             name: "filter"
           - sensor: sensor.rocky_main_brush_time_left
             button: button.rocky_reset_main_brush_consumable
-            name: "hoofd borstel"
+            name: "hoofdborstel"
           - sensor: sensor.rocky_sensor_time_left
             button: button.rocky_reset_sensor_consumable
             name: "sensor"
@@ -306,53 +307,67 @@ vacuum_package:
             - sensor.rocky_sensor_time_left
             - sensor.rocky_side_brush_time_left
           below: 0
-      action:
-        - alias: Bepaal welk onderdeel onderhoud nodig heeft
+      actions:
+        - alias: Bepaal onderdeel en unieke antwoorden voor deze melding
           variables:
             triggered_sensor: "{{ trigger.entity_id }}"
             consumable: >-
-              {{ consumables | selectattr('sensor', 'eq', triggered_sensor) |
-              list | first }}
-        - alias: "Stuur notificatie: Rocky onderhoud nodig"
-          service: notify.mobile_app_sm_a556b
+              {{ consumables | selectattr('sensor', 'eq', triggered_sensor) | list | first }}
+            notification_tag: "{{ 'rocky_maintenance_' ~ triggered_sensor.split('.')[1] }}"
+            reset_action: "{{ 'ROCKY_RESET_' ~ context.id }}"
+            later_action: "{{ 'ROCKY_LATER_' ~ context.id }}"
+        - alias: Stuur een afzonderlijke onderhoudsmelding per onderdeel
+          action: notify.mobile_app_sm_a556b
           data:
             title: "Rocky onderhoud nodig"
-            message:
-              "De {{ consumable.name }} van Rocky moet worden vervangen of
-              schoongemaakt. Wil je de teller resetten?"
+            message: >-
+              De {{ consumable.name }} van Rocky moet worden vervangen of schoongemaakt.
+              Reset de teller pas nadat je het onderhoud hebt gedaan.
             data:
-              tag: rocky_maintenance
+              tag: "{{ notification_tag }}"
               notification_icon: mdi:robot-vacuum
               actions:
-                - action: "reset_consumable"
+                - action: "{{ reset_action }}"
                   title: "Reset teller"
-                - action: "ignore"
+                - action: "{{ later_action }}"
                   title: "Later"
               ttl: 0
               priority: high
-        - alias: Wacht op antwoord via notificatie
+        - alias: Wacht op Reset teller of Later voor uitsluitend deze melding
           wait_for_trigger:
-            - platform: event
+            - trigger: event
               event_type: mobile_app_notification_action
               event_data:
-                action: "reset_consumable"
+                action: "{{ reset_action }}"
+              id: reset
+            - trigger: event
+              event_type: mobile_app_notification_action
+              event_data:
+                action: "{{ later_action }}"
+              id: later
           timeout: "01:00:00"
-          continue_on_timeout: false
-        - alias: Voer actie uit op basis van gebruikersantwoord
+          continue_on_timeout: true
+        - alias: Reset alleen na een expliciet antwoord; bewaar anders een herinnering
           choose:
-            - conditions: "{{ wait.trigger is not none }}"
+            - conditions: "{{ wait.completed and wait.trigger.id == 'reset' }}"
               sequence:
-                - alias: Reset onderhoudsteller van onderdeel
-                  service: button.press
+                - action: button.press
                   target:
                     entity_id: "{{ consumable.button }}"
-            - conditions: "{{ wait.trigger is none }}"
-              sequence:
-                - alias: Maak blijvende notificatie voor niet-gereset onderdeel
-                  service: persistent_notification.create
+                - action: persistent_notification.dismiss
                   data:
-                    title: "Rocky onderhoud niet gereset"
-                    message:
-                      "De {{ consumable.name }} teller is niet gereset. Vergeet het niet als
-                      je onderhoud hebt gedaan!"
-                    notification_id: "rocky_maintenance_{{ consumable.name }}"
+                    notification_id: "{{ notification_tag }}"
+          default:
+            - action: persistent_notification.create
+              data:
+                title: "Rocky onderhoud niet gereset"
+                message: >-
+                  De {{ consumable.name }} van Rocky heeft nog onderhoud nodig.
+                  De teller is niet gereset. Reset hem na het onderhoud.
+                notification_id: "{{ notification_tag }}"
+        - alias: Verwijder de afgehandelde telefoonmelding
+          action: notify.mobile_app_sm_a556b
+          data:
+            message: clear_notification
+            data:
+              tag: "{{ notification_tag }}"
