@@ -86,126 +86,140 @@ solar_package:
         Het werkt door de "grid_export_limit" in de GoodWe-integratie op 0% in te stellen, waardoor
         de omvormer geen vermogen mag produceren. Door dit op 100% in te stellen, wordt de productie
         weer herstart tot de maximale capaciteit van de omvormer.
+      mode: queued
       triggers:
-        # Triggers for automatic switching
-        - trigger: state
+        - alias: Stroomprijsstatus verandert of herstelt
+          trigger: state
+          entity_id: binary_sensor.negatieve_stroomprijs
+          to: null
+          id: price_changed
+        - alias: Automatische of geplande regeling wordt ingeschakeld
+          trigger: state
           entity_id:
-            - binary_sensor.negatieve_stroomprijs
-          attribute: position
-          to: below
-          from: above
-          id: automatic_start
-          variables:
-            message: "Je zonnepanelen zijn automatisch uitgeschakeld omdat de stroomprijs negatief is."
-        - trigger: state
+            - input_boolean.solar_pv_off_automatic
+            - input_boolean.solar_pv_off_schedule
+          to: "on"
+          id: controls_on
+        - alias: Automatische of geplande regeling wordt uitgeschakeld
+          trigger: state
           entity_id:
-            - binary_sensor.negatieve_stroomprijs
-          attribute: position
-          to: above
-          from: below
-          id: automatic_stop
+            - input_boolean.solar_pv_off_automatic
+            - input_boolean.solar_pv_off_schedule
+          from: "on"
+          to: "off"
+          id: controls_off
+        - alias: Geplande periode wordt gewijzigd
+          trigger: state
+          entity_id:
+            - input_datetime.solar_pv_off_start
+            - input_datetime.solar_pv_off_end
+          to: null
+          id: schedule_changed
+        - alias: Begin of einde van de geplande periode
+          trigger: time
+          at:
+            - input_datetime.solar_pv_off_start
+            - input_datetime.solar_pv_off_end
+          id: scheduled_boundary
+        - alias: Home Assistant start op
+          trigger: homeassistant
+          event: start
+          id: resync
+        - alias: Automatiseringen worden herladen
+          trigger: event
+          event_type: automation_reloaded
+          id: resync
+        - alias: Omvormer wordt operationeel
+          trigger: state
+          entity_id: sensor.work_mode
+          to: "Normal"
+          id: resync
+        - alias: Instelling wordt beschikbaar
+          trigger: state
+          entity_id: number.grid_export_limit
+          to: null
+          id: target_changed
+      actions:
+        - alias: Reageer bij de instelling alleen op beschikbaarheidsherstel
+          condition: or
+          conditions:
+            - condition: not
+              conditions:
+                - condition: trigger
+                  id: target_changed
+            - condition: template
+              value_template: >-
+                {{ trigger.from_state is none or trigger.from_state.state in ['unknown', 'unavailable'] }}
+        - alias: Bepaal alle actieve redenen op basis van de huidige toestand
           variables:
-            message: "Je zonnepanelen zijn weer ingeschakeld omdat de stroomprijs positief is."
-        # Triggers for scheduled switching
-        - trigger: time
-          at: input_datetime.solar_pv_off_start
-          id: scheduled_start
-          variables:
-            message: "Je zonnepanelen zijn uitgeschakeld op basis van je schedule."
-        - trigger: time
-          at: input_datetime.solar_pv_off_end
-          id: scheduled_stop
-          variables:
-            message: "Je zonnepanelen zijn weer ingeschakeld op basis van je schedule."
-      conditions:
+            automatic_enabled: "{{ is_state('input_boolean.solar_pv_off_automatic', 'on') }}"
+            schedule_enabled: "{{ is_state('input_boolean.solar_pv_off_schedule', 'on') }}"
+            schedule_start: "{{ state_attr('input_datetime.solar_pv_off_start', 'timestamp') }}"
+            schedule_end: "{{ state_attr('input_datetime.solar_pv_off_end', 'timestamp') }}"
+            now_ts: "{{ as_timestamp(now()) }}"
+            schedule_valid: >-
+              {{ has_value('input_datetime.solar_pv_off_start') and has_value('input_datetime.solar_pv_off_end')
+                and is_number(schedule_start) and is_number(schedule_end) and schedule_end > schedule_start }}
+            schedule_active: "{{ schedule_enabled and schedule_valid and schedule_start <= now_ts < schedule_end }}"
+            schedule_expired: "{{ schedule_enabled and schedule_valid and now_ts >= schedule_end }}"
+            automatic_active: "{{ automatic_enabled and is_state('binary_sensor.negatieve_stroomprijs', 'on') }}"
+            desired_limit: "{{ 0 if automatic_active or schedule_active else 100 }}"
+        - alias: Sluit ook een tijdens uitval afgelopen eenmalig schema af
+          if:
+            - "{{ schedule_expired }}"
+          then:
+            - action: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.solar_pv_off_schedule
+        - alias: Regel alleen als een regeling aan staat of bewust is uitgezet
+          condition: or
+          conditions:
+            - "{{ automatic_enabled or schedule_enabled }}"
+            - condition: trigger
+              id: controls_off
+        - alias: Beide schakelaars moeten een geldige toestand hebben
+          condition: state
+          entity_id:
+            - input_boolean.solar_pv_off_automatic
+            - input_boolean.solar_pv_off_schedule
+          state:
+            - "on"
+            - "off"
+        - alias: Geef niet vrij zolang een ingeschakelde reden onbekend is
+          condition: template
+          value_template: >-
+            {{ desired_limit == 0 or
+              ((not automatic_enabled or states('binary_sensor.negatieve_stroomprijs') in ['on', 'off'])
+                and (not schedule_enabled or schedule_valid)) }}
         - alias: Controleer of omvormer operationeel is
           condition: state
           entity_id: sensor.work_mode
           state: "Normal"
-      actions:
-        - alias: Kies actie op basis van triggertype
-          choose:
-            - conditions:
-                - condition: trigger
-                  id: automatic_start
-              sequence:
-                - if:
-                    - alias: Controleer of automatisch uitschakelen is toegestaan
-                      condition: state
-                      entity_id: input_boolean.solar_pv_off_automatic
-                      state: "on"
-                  then:
-                    - alias: Stel terugleverlimiet in op 0 procent
-                      action: number.set_value
-                      target:
-                        entity_id: number.grid_export_limit
-                      data:
-                        value: "0"
-                  else:
-                    - stop: "Gestopt omdat automatisch aan/uit schakelen niet is ingeschakeld"
-            - conditions:
-                - condition: trigger
-                  id: automatic_stop
-              sequence:
-                - if:
-                    - alias: Controleer of automatisch inschakelen is toegestaan
-                      condition: state
-                      entity_id: input_boolean.solar_pv_off_automatic
-                      state: "on"
-                  then:
-                    - alias: Stel terugleverlimiet in op 100 procent
-                      action: number.set_value
-                      target:
-                        entity_id: number.grid_export_limit
-                      data:
-                        value: "100"
-                  else:
-                    - stop: "Gestopt omdat automatisch aan/uit schakelen niet is ingeschakeld"
-            - conditions:
-                - condition: trigger
-                  id: scheduled_start
-              sequence:
-                - if:
-                    - alias: Controleer of gepland uitschakelen is toegestaan
-                      condition: state
-                      entity_id: input_boolean.solar_pv_off_schedule
-                      state: "on"
-                  then:
-                    - alias: Stel terugleverlimiet in op 0 procent
-                      action: number.set_value
-                      target:
-                        entity_id: number.grid_export_limit
-                      data:
-                        value: "0"
-                  else:
-                    - stop: "Gestopt omdat gepland aan/uit schakelen niet is ingeschakeld"
-            - conditions:
-                - condition: trigger
-                  id: scheduled_stop
-              sequence:
-                - if:
-                    - alias: Controleer of gepland inschakelen is toegestaan
-                      condition: state
-                      entity_id: input_boolean.solar_pv_off_schedule
-                      state: "on"
-                  then:
-                    - alias: Stel terugleverlimiet in op 100 procent
-                      action: number.set_value
-                      target:
-                        entity_id: number.grid_export_limit
-                      data:
-                        value: "100"
-                    - alias: Schakel gepland PV-uit schema uit
-                      action: input_boolean.turn_off
-                      target:
-                        entity_id: input_boolean.solar_pv_off_schedule
-                  else:
-                    - stop: "Gestopt omdat gepland aan/uit schakelen niet is ingeschakeld"
+        - alias: Controleer of de instelling beschikbaar is en moet veranderen
+          condition: template
+          value_template: >-
+            {{ is_number(states('number.grid_export_limit'))
+              and states('number.grid_export_limit') | float != desired_limit }}
+        - alias: Pas de gezamenlijke beslissing toe
+          action: number.set_value
+          target:
+            entity_id: number.grid_export_limit
+          data:
+            value: "{{ desired_limit }}"
         - alias: Stuur pushmelding over PV-status
           action: notify.mobile_app_sm_a556b
           data:
             title: "Zonnepanelen update"
-            message: "{{ message }}"
+            message: >-
+              {% if automatic_active and schedule_active %}
+                Je zonnepanelen zijn uitgeschakeld op basis van je schedule en omdat de stroomprijs negatief is.
+              {% elif automatic_active %}
+                Je zonnepanelen zijn automatisch uitgeschakeld omdat de stroomprijs negatief is.
+              {% elif schedule_active %}
+                Je zonnepanelen zijn uitgeschakeld op basis van je schedule.
+              {% else %}
+                Je zonnepanelen zijn weer ingeschakeld omdat er geen actieve uitschakelreden meer is.
+              {% endif %}
             data:
               tag: "notification-solar"
               notification_icon: mdi:solar-power-variant
