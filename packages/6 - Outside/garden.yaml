@@ -149,6 +149,10 @@ lights_garden_package:
           trigger: motion.detected
           target:
             entity_id: binary_sensor.achtertuin_persoon
+        - alias: Poort is geopend
+          trigger: door.opened
+          target:
+            entity_id: binary_sensor.poort_contact
       actions:
         - alias: Toon de poort op beide kiosks
           action: button.press
