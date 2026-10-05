@@ -33,8 +33,12 @@ dishwasher_cheapest_time_package:
               attr_today=attr_today, attr_tomorrow=attr_tomorrow,
               time_key=time_key, value_key=value_key, time_format="time24",
               no_weight_points=12,
-              weight=[1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4,
-                1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1],
+              weight=[
+                1, 1, 8, 19, 18, 2,
+                19, 19, 19, 8, 1, 1,
+                1, 1, 0, 7, 19, 19,
+                10, 0, 0, 0, 0, 0
+              ],
               include_tomorrow=true, start=start, end="06:30") %}
             {{ best_time }}
           availability: "{{ 'sensor.zonneplan_template_price_sensor' | has_value }}"
