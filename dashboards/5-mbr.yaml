@@ -48,9 +48,12 @@ cards:
       - type: custom:mushroom-template-card
         primary: Verwarming MBR
         secondary: >-
-          {{ state_translated('climate.master_bedroom') }} - 
-          Ingesteld op {{ state_attr('climate.master_bedroom','temperature') }} °C, 
-          momenteel {{ states('sensor.master_bedroom_temperatuur') |round(1, default=0) }} °C
+          {% set target = state_attr('climate.master_bedroom', 'temperature') %}
+          {% set current = states('sensor.xiaomi_temperature_humidity_sensor_5_temperature') %}
+          {{ state_translated('climate.master_bedroom') }} -
+          {% if is_number(target) %}Ingesteld op {{ target | float | round(1) }} °C,{% endif %}
+          {% if is_number(current) %}momenteel {{ current | float | round(1) }} °C
+          {% else %}temperatuur niet beschikbaar{% endif %}
         icon: mdi:thermostat
         icon_color: |-
           {{ "green" if is_state(entity, 'auto') else "orange" if is_state(entity, 'heat') else "grey" }}
