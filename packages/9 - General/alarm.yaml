@@ -2,13 +2,19 @@ alarm_package:
   automation:
     - id: alarm_arm_disarm_based_on_presence
       alias: "Alarm automatisch armeren/uitzetten op aanwezigheid"
-      description: "Armt Alarmo automatisch wanneer niemand thuis is en disarmt
-        wanneer iemand terugkomt."
+      description: "Armt Alarmo automatisch wanneer 30 seconden niemand thuis is en disarmt
+        onmiddellijk wanneer iemand terugkomt, ook vanuit triggered."
       initial_state: on
       mode: restart
       trigger:
         - platform: state
           entity_id: group.all_persons
+          to: "not_home"
+          for:
+            seconds: 30
+        - platform: state
+          entity_id: group.all_persons
+          to: "home"
       action:
         - choose:
             - conditions:
