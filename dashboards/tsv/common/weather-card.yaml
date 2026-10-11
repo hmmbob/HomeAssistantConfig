@@ -57,15 +57,15 @@ tap_action:
                     vars.ymax = 0;
 
                     forecast.map(e => {
-                      const t = new Date(e.datetime).getTime();
+                      const t = new Date(e.datetime);
                       const p = Number(e.precipitation || 0);
-                      if (!Number.isFinite(t) || !Number.isFinite(p)) return;
+                      if (!Number.isFinite(t.getTime()) || !Number.isFinite(p)) return;
 
                       vars.x.push(t);
                       vars.y.push(p);
                       vars.ymax = Math.max(vars.ymax, p);
                       vars.hover.push(
-                        new Date(t).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) +
+                        t.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) +
                         ': <b>' + p.toFixed(1) + '</b> mm/u'
                       );
                     });
@@ -73,7 +73,7 @@ tap_action:
                     vars.ymax = Math.max(1, Math.ceil(vars.ymax * 2) / 2);
                     vars.xrange = vars.x.length
                       ? [vars.x[0], vars.x[vars.x.length - 1]]
-                      : [Date.now(), Date.now() + (4 * 3600000)];
+                      : [new Date(), new Date(Date.now() + (4 * 3600000))];
                   }
                 layout:
                   height: 220

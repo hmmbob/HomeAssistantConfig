@@ -253,7 +253,7 @@ cards:
                   width: 2
                   dash: dot
                   color: deepskyblue
-                x: $ex [Date.now(), Date.now()]
+                x: $ex [new Date(), new Date()]
                 "y":
                   - 0
                   - 1
@@ -267,7 +267,7 @@ cards:
                 marker:
                   symbol: diamond
                   color: deepskyblue
-                x: $ex [Date.now(), Date.now()]
+                x: $ex [new Date(), new Date()]
                 "y":
                   - $ex vars.p_now
 

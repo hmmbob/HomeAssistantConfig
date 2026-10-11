@@ -113,7 +113,7 @@ cards:
               width: 2
               dash: dot
               color: deepskyblue
-            x: $ex [Date.now(), Date.now()]
+            x: $ex [new Date(), new Date()]
             "y":
               - 0
               - 1
@@ -127,7 +127,7 @@ cards:
             marker:
               symbol: diamond
               color: deepskyblue
-            x: $ex [Date.now(), Date.now()]
+            x: $ex [new Date(), new Date()]
             "y":
               - $ex vars.p_now
           - entity: sensor.ev_smart_charging_charging # Charging schedule
@@ -144,7 +144,7 @@ cards:
                   ({xs, ys, meta, states, statistics, hass, vars}) => {
                     const forecasts = hass.states['sensor.ev_smart_charging_charging'].attributes.charging_schedule;
                     res = {
-                      xs: forecasts.map(fc => fc["start"]),
+                      xs: forecasts.map(fc => new Date(fc["start"])),
                       ys: forecasts.map(fc => fc["value"]),
                       meta: meta
                     };

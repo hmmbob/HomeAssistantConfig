@@ -14,7 +14,7 @@
       const start = new Date(e.start_date).getTime()
       const end = new Date(e.end_date).getTime()
       if (!Number.isFinite(start) || !Number.isFinite(end) || end < cutoff) return
-      const t = start + (end-start)/2
+      const t = new Date(start + (end-start)/2)
       const p = e.price_tax_included?.amount/10000000
       if (!Number.isFinite(p)) return
       const hourlyEntry = hourlyForecast.find(h =>
