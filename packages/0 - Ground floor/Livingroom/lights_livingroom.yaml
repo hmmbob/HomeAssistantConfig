@@ -179,7 +179,8 @@ lights_livingroom_package:
       description: >-
         Pauzeert automatische inschakeling als een automatisch aangestuurde
         lamp wordt uitgezet en hervat die nadat beide woonkamer-PIRs een minuut
-        vrij zijn.
+        vrij zijn. Als de leefruimte bij het uitzetten al een minuut leeg is,
+        blijft automatische inschakeling beschikbaar.
       triggers:
         - alias: Een automatisch aangestuurde spotgroep is uitgezet
           trigger: light.turned_off
@@ -207,9 +208,25 @@ lights_livingroom_package:
                   entity_id: input_boolean.ground_floor_auto_off_in_progress
                   state: "off"
               sequence:
-                - action: input_boolean.turn_on
-                  target:
-                    entity_id: input_boolean.pause_livingroom_auto_on
+                - alias: Controleer of de leefruimte al een minuut leeg is
+                  if:
+                    - condition: motion.is_not_detected
+                      target:
+                        area_id: woonkamer
+                      options:
+                        behavior: all
+                        for: "00:01:00"
+                  then:
+                    - action: input_boolean.turn_off
+                      target:
+                        entity_id: input_boolean.pause_livingroom_auto_on
+                  else:
+                    - action: input_boolean.turn_on
+                      target:
+                        entity_id: input_boolean.pause_livingroom_auto_on
+                  note: >-
+                    Als de PIRs al vrij zijn, volgt er geen nieuwe vrijmelding.
+                    Voorkom daarom dat de pauze tot de volgende beweging blijft staan.
             - alias: Hervat als de leefruimte leeg is
               conditions:
                 - condition: trigger
