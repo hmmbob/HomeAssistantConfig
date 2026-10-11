@@ -187,6 +187,7 @@ cards:
           - !include common/kids-devices.yaml
 
           - type: custom:plotly-graph
+            extended_touch_support: false
             # title: Electriciteitsprijs
             hours_to_show: 18
             time_offset: 17h

@@ -21,6 +21,7 @@ cards:
         }
 
   - type: custom:plotly-graph
+    extended_touch_support: false
     title: Neerslag komende uren
     fn: |
       $fn ({ hass, vars }) => {
