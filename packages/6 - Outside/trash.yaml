@@ -119,20 +119,12 @@ trash_package:
                 entity_id: number.kiosk_1_keuken_volume
               data:
                 value: 90
-            - alias: Speel spraakmelding af op kiosk 1
-              action: esphome.ks_kiosk_1_keuken_announce
+            - alias: Speel spraakmelding af op kiosk 1 via de mediaspeler
+              action: script.tts_announce
               data:
+                media_player_entity_id: media_player.kiosk_1_keuken
                 message: "{{ trigger.id }} wordt het {{ afval }} opgehaald."
-                url: ""
-                volume: 1
-                repeat: 0
-                repeat_pause: 0
-                chime: false
-                chime_file: ""
-                tts_engine: tts.google_ai_tts
-                tts_language: nl-NL
-                tts_voice: Erinome
-                audio_only: true
+                cache: true
 
     - alias: "Verwerk dat het afval buitengezet is"
       id: afval_process_reminder_status
