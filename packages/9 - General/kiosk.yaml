@@ -213,3 +213,100 @@ kiosk_package:
               action: light.turn_off
               target:
                 entity_id: light.kiosk_2_kantoor_screen
+
+    - id: kiosk_automatic_updates
+      alias: 'Kiosken: automatische updates om 19:00'
+      description: Controleert dagelijks om 19:00 op Kiosk Satellite-updates voor Keuken en Kantoor. Start
+        eerst via ADB de optionele update-helper en installeert alleen nadat deze bevestigt klaar te zijn.
+        ADB via netwerk moet beschikbaar blijven, ook na een herstart. Google-accounts blijven behouden.
+      triggers:
+        - trigger: time
+          at: '19:00:00'
+          alias: Dagelijks kioskonderhoud om 19:00
+      conditions: []
+      actions:
+        - parallel:
+            - sequence:
+                - action: androidtv.adb_command
+                  target:
+                    entity_id: media_player.android_tv_192_168_88_124
+                  data:
+                    command: content read --uri content://me.jxl.kiosk_satellite.update-helper/start | sh
+                  alias: Start of controleer de update-helper
+                - action: homeassistant.update_entity
+                  target:
+                    entity_id: update.kiosk_1_keuken_update
+                  alias: Controleer op een nieuwe Kiosk Satellite-versie
+                - if:
+                    - condition: state
+                      entity_id: update.kiosk_1_keuken_update
+                      state: 'on'
+                      alias: Er is een update beschikbaar
+                    - condition: state
+                      entity_id: update.kiosk_1_keuken_update
+                      attribute: in_progress
+                      state: false
+                      alias: Er loopt nog geen installatie
+                  then:
+                    - if:
+                        - condition: state
+                          entity_id: media_player.android_tv_192_168_88_124
+                          attribute: adb_response
+                          state:
+                            - |-
+                              ready
+                              Kiosk Satellite update helper started. Run this command again after a reboot.
+                            - |-
+                              ready
+                              Kiosk Satellite update helper is already running.
+                      then:
+                        - action: update.install
+                          target:
+                            entity_id: update.kiosk_1_keuken_update
+                          alias: Installeer de beschikbare update zonder schermbevestiging
+                      alias: Controleer dat de update-helper klaar is
+                  alias: Installeer alleen een beschikbare update die nog niet loopt
+              alias: Kiosk 1 - Keuken
+            - sequence:
+                - action: androidtv.adb_command
+                  target:
+                    entity_id: media_player.android_tv_192_168_88_125
+                  data:
+                    command: content read --uri content://me.jxl.kiosk_satellite.update-helper/start | sh
+                  alias: Start of controleer de update-helper
+                - action: homeassistant.update_entity
+                  target:
+                    entity_id: update.kiosk_2_kantoor_update
+                  alias: Controleer op een nieuwe Kiosk Satellite-versie
+                - if:
+                    - condition: state
+                      entity_id: update.kiosk_2_kantoor_update
+                      state: 'on'
+                      alias: Er is een update beschikbaar
+                    - condition: state
+                      entity_id: update.kiosk_2_kantoor_update
+                      attribute: in_progress
+                      state: false
+                      alias: Er loopt nog geen installatie
+                  then:
+                    - if:
+                        - condition: state
+                          entity_id: media_player.android_tv_192_168_88_125
+                          attribute: adb_response
+                          state:
+                            - |-
+                              ready
+                              Kiosk Satellite update helper started. Run this command again after a reboot.
+                            - |-
+                              ready
+                              Kiosk Satellite update helper is already running.
+                      then:
+                        - action: update.install
+                          target:
+                            entity_id: update.kiosk_2_kantoor_update
+                          alias: Installeer de beschikbare update zonder schermbevestiging
+                      alias: Controleer dat de update-helper klaar is
+                  alias: Installeer alleen een beschikbare update die nog niet loopt
+              alias: Kiosk 2 - Kantoor
+          alias: Werk beide kiosken onafhankelijk bij
+      mode: single
