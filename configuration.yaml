@@ -102,6 +102,23 @@ recorder:
       - sensor.smartevse_6360_mains*
       - sensor.sun_*
       - sensor.zonneplan_for*
+      # Kiosk diagnostics: keep live values, omit history and statistics.
+      - sensor.kiosk_*_ambient_light
+      - sensor.kiosk_*_panel_brightness
+      - sensor.kiosk_*_next_screensaver
+      - sensor.kiosk_*_bluetooth_*
+      - sensor.kiosk_*_internal_storage_*
+      - sensor.kiosk_*_ram_total
+      - sensor.kiosk_*_ipv4_*
+      - sensor.kiosk_*_ipv6_*
+      - sensor.kiosk_*_device
+      - sensor.kiosk_*_android_*
+      - sensor.kiosk_*_app_version
+      - sensor.kiosk_*_remote_admin
+      - sensor.kiosk_*_last_screenshot
+      - sensor.kiosk_*_last_camera_snapshot
+      - sensor.kiosk_*_last_interaction
+      - sensor.kantoor_kiosk_*_bluetooth_*
     entities:
       - sensor.awtrix_6caff8_current_app
       - sensor.awtrix_6caff8_free_ram
