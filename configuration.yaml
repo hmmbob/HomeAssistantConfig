@@ -48,6 +48,8 @@ logger:
       - "Error reading from socket"
       - "Failed to connect to service"
       - "Heartbeat timeout, resetting connection"
+    custom_components.omada_open_api.api:
+      - "HTTP Status 400 – Bad Request"
 
 lovelace:
   dashboards:
