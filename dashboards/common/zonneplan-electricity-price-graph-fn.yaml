@@ -1,5 +1,5 @@
 |
-  $fn ({ hass, vars }) => {
+  $fn ({ hass, vars, getFromConfig }) => {
     vars.x = []; vars.y = []; vars.color = []; vars.hover = [];
     vars.min = {p: 999,t: null}; vars.max = {p:-999,t:null}
     vars.ymin = 999; vars.ymax = -999
@@ -9,11 +9,18 @@
     const groupColors = {low: "#00a964", normal: "#227153", high: "#ed5e18"}
     vars.p_now = parseFloat(priceEntity?.state ?? "NaN")
     vars.unit_of_measurement = priceEntity?.attributes?.unit_of_measurement ?? "€/kWh"
-    const cutoff = Date.now() - 3600000;
+    const now = Date.now()
+    const cutoff = now - 3600000
+    const dayStart = new Date(now).setHours(0, 0, 0, 0)
+    // Keep today's prices available for panning, plus the initial past hour around midnight.
+    const dataStart = Math.min(dayStart, cutoff)
+    // Preserve the initial price scale; include earlier prices when panning back.
+    const visibleStart = new Date(getFromConfig("visible_range")?.[0] ?? cutoff).getTime()
+    const scaleStart = Number.isFinite(visibleStart) ? Math.min(cutoff, visibleStart) : cutoff
     priceEntity?.attributes?.forecast?.map(e => {
       const start = new Date(e.start_date).getTime()
       const end = new Date(e.end_date).getTime()
-      if (!Number.isFinite(start) || !Number.isFinite(end) || end < cutoff) return
+      if (!Number.isFinite(start) || !Number.isFinite(end) || end < dataStart) return
       const t = new Date(start + (end-start)/2)
       const p = e.price_tax_included?.amount/10000000
       if (!Number.isFinite(p)) return
@@ -22,12 +29,14 @@
         start < new Date(h.end_date).getTime()
       )
       const c = groupColors[hourlyEntry?.tariff_group] ?? groupColors.normal
-      if (end >= Date.now()) {
+      if (end >= now) {
         if (p<vars.min.p) vars.min = {p,t,c}
         if (p>vars.max.p) vars.max = {p,t,c}
       }
-      if (p<vars.ymin) vars.ymin = p
-      if (p>vars.ymax) vars.ymax = p
+      if (end >= scaleStart) {
+        if (p<vars.ymin) vars.ymin = p
+        if (p>vars.ymax) vars.ymax = p
+      }
       vars.x.push(t)
       vars.y.push(p)
       vars.color.push(c)
