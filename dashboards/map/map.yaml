@@ -23,3 +23,4 @@ views:
           - entity: zone.work_ms
         default_zoom: 17
         hours_to_show: 3
+        show_zone_radius: true
