@@ -1,45 +1,63 @@
-####################
-# Solar settings   #
-####################
 path: solar
-title: Solar overview
+title: Solar
 icon: mdi:solar-power
-
+type: masonry
 cards:
-  - type: markdown ## Header
-    content: |
-      # Solar settings
-    uix:
-      style:
-        .: |
-          ha-card {
-          margin: 12px 14px -5px 14px;
-          box-shadow: none;
-          --ha-card-background: rgba(0, 0, 0, 0.0)
-          }
-        ha-markdown$: |
-          h1 { 
-            font-size: 18px !important;
-            font-weight: 400 !important;
-            padding-left: 10px !important;
-            border-left: 3px solid rgba(81, 134, 236);
-            }
   - type: vertical-stack
     cards:
-      - type: entities
+      - type: custom:mushroom-title-card
+        title: Solar
+        alignment: justify
+      - type: glance
+        columns: 3
         state_color: true
+        show_name: true
+        show_state: true
+        entities:
+          - entity: sensor.pv_power
+            name: PV-vermogen
+          - entity: number.grid_export_limit
+            name: Terugleverlimiet
+            tap_action:
+              action: more-info
+          - entity: binary_sensor.negatieve_stroomprijs
+            name: Negatieve prijs
+      - type: heading
+        heading: Automatisch regelen
+        heading_style: title
+        icon: mdi:refresh-auto
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: input_boolean.solar_pv_off_automatic
+            name: Negatieve prijs
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+          - type: tile
+            entity: input_boolean.solar_pv_off_schedule
+            name: Eenmalig tijdschema
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+      - type: heading
+        heading: Uitschakelperiode
+        heading_style: title
+        icon: mdi:calendar-clock
+      - type: entities
         show_header_toggle: false
         entities:
-          - entity: binary_sensor.negatieve_stroomprijs
-          - entity: number.grid_export_limit
-          - entity: sensor.pv_power
-          - type: divider
-          - entity: input_boolean.solar_pv_off_automatic
-            name: "Turn off PV automatically when negative prices"
-          - type: divider
-          - entity: input_boolean.solar_pv_off_schedule
-            name: "Enable scheduled turning on/off of solar"
           - entity: input_datetime.solar_pv_off_start
-            name: Start PV off time
+            name: Begin
           - entity: input_datetime.solar_pv_off_end
-            name: End PV off time
+            name: Einde
+      - type: shortcut
+        label: Regeling & laatste uitvoering
+        icon: mdi:robot
+        tap_action:
+          action: more-info
+          entity: automation.solar_handle_pf_off_time

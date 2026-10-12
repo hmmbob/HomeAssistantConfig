@@ -1,94 +1,136 @@
-####################
-# Status           #
-####################
 path: status
-title: Status
-icon: mdi:check-network-outline
+title: Diagnose
+icon: mdi:stethoscope
+type: masonry
 cards:
   - type: vertical-stack
     cards:
-      - type: markdown ## High accuracy header
+      - type: custom:mushroom-title-card
+        title: Diagnose
+        alignment: justify
+      - type: heading
+        heading: Beschikbaarheid
+        heading_style: title
+        icon: mdi:lan-disconnect
+      - type: markdown
         content: |
-          # Locatienauwkeurigheid
-        uix:
-          style:
-            .: |
-              ha-card {
-              margin: 12px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 { 
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-
-      - square: false
-        type: grid
-        columns: 2
-        cards:
-          - type: custom:mushroom-template-card
-            primary: High accuracy maxi
-            secondary: "{{states('input_text.naam_puber')}}"
-            entity: binary_sensor.schaduwspeler_high_accuracy_mode
-            icon: mdi:crosshairs-gps
-            icon_color: >-
-              {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
-            fill_container: false
-            tap_action:
-              action: perform-action
-              perform_action: script.high_accuracy_mode
-              data:
-                target: notify.mobile_app_schaduwspeler
-
-          - type: custom:mushroom-template-card
-            primary: High accuracy mini
-            secondary: "{{states('input_text.naam_mini')}}"
-            entity: binary_sensor.sm_a566b_t_high_accuracy_mode
-            icon: mdi:crosshairs-gps
-            icon_color: >-
-              {{ 'light-green' if states(entity) == 'on' else 'dark-grey' }}
-            tap_action:
-              action: perform-action
-              perform_action: script.high_accuracy_mode
-              data:
-                target: notify.mobile_app_sm_a566b_t
-
-      - type: markdown ## Statussen header
-        content: |
-          # Statussen
-        uix:
-          style:
-            .: |
-              ha-card {
-              margin: 12px 14px -5px 14px;
-              box-shadow: none;
-              --ha-card-background: rgba(0, 0, 0, 0.0)
-              }
-            ha-markdown$: |
-              h1 { 
-                font-size: 18px !important;
-                font-weight: 400 !important;
-                padding-left: 10px !important;
-                border-left: 3px solid rgba(81, 134, 236);
-                }
-
-      - type: custom:auto-entities
-        card:
-          type: entities
-          show_header_toggle: false
-          state_color: true
-        filter:
-          include:
-            - attributes:
-                device_class: connectivity
-              options:
-                tap_action:
-                  action: more-info
-          exclude:
-            - entity_id: "*rocky*attached*"
-        sort:
-          method: name
+          Een niet beschikbare entiteit is niet altijd een storing: uitgeschakelde apparaten kunnen hier ook staan. De startpagina bundelt verbindingsmeldingen per apparaat; hieronder staat de volledige lijst.
+      - type: entities
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Niet beschikbare entiteiten
+              open: false
+            filter:
+              include:
+                - state: unavailable
+              exclude:
+                - domain: button
+                - domain: scene
+                - domain: event
+                - domain: conversation
+                - hidden_by: user
+                - hidden_by: integration
+            sort:
+              method: name
+            unique: true
+      - type: entities
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Onbekende sensorwaarden
+              open: false
+            filter:
+              include:
+                - domain: sensor
+                  state: unknown
+                - domain: binary_sensor
+                  state: unknown
+              exclude:
+                - domain: button
+                - domain: conversation
+                - domain: group
+                - domain: scene
+                - entity_id: '*picnic*'
+                - entity_id: '*smarttag*'
+                - entity_id: '*_action'
+                - entity_id: '*kiosk*next_alarm'
+                - entity_id: '*kiosk*alarm_snoozed_until'
+                - entity_id: '*kiosk*next_screensaver'
+                - entity_id: '*kiosk*ambient_noise'
+                - entity_id: '*kiosk*last_screenshot'
+                - entity_id: '*kiosk*active_camera_view'
+            sort:
+              method: name
+      - type: heading
+        heading: Verbindingen
+        heading_style: title
+        icon: mdi:check-network-outline
+      - type: entities
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Alle verbindingssensoren
+              open: false
+            filter:
+              include:
+                - attributes:
+                    device_class: connectivity
+                  options:
+                    tap_action:
+                      action: more-info
+              exclude:
+                - entity_id: '*rocky*attached*'
+            sort:
+              method: name
+      - type: heading
+        heading: Helpers
+        heading_style: title
+        icon: mdi:form-select
+      - type: entities
+        title: Helpers en invoervelden
+        entities:
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Schakelaars
+            filter:
+              include:
+                - entity_id: input_boolean.*
+            sort:
+              method: name
+          - type: custom:auto-entities
+            card:
+              type: custom:fold-entity-row
+              head:
+                type: section
+                label: Datums en tijden
+            filter:
+              include:
+                - entity_id: input_datetime.*
+            sort:
+              method: name
+        show_header_toggle: false
+      - type: shortcut
+        label: Helpers beheren
+        icon: mdi:cog
+        tap_action:
+          action: navigate
+          navigation_path: /config/helpers

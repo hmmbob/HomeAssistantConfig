@@ -1,0 +1,20 @@
+type: markdown
+content: |
+  {% set ns = namespace(rows=[]) %}
+  {% for s in states.sensor if s.entity_id.endswith('_battery_plus') and is_number(s.state) %}
+    {% if s.state | float(100) <= 20 %}
+      {% set ns.rows = ns.rows + [{'name': s.name | replace('Batterij+', '') | trim, 'level': s.state | float(100), 'type': s.attributes.get('battery_type_and_quantity') or 'Type onbekend'}] %}
+    {% endif %}
+  {% endfor %}
+  {% if ns.rows %}
+  | Apparaat | Niveau | Benodigd |
+  | :-- | --: | :-- |
+  {% for row in ns.rows | sort(attribute='level') -%}
+  | {{ row.name }} | {{ row.level | round(0) | int }}% | {{ row.type }} |
+  {% endfor %}
+  {% else %}
+  Geen batterijen van Battery Notes op of onder **20%**.
+  {% endif %}
+grid_options:
+  columns: full
+  rows: auto

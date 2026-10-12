@@ -1,0 +1,41 @@
+square: false
+type: grid
+columns: 2
+cards:
+  - type: custom:mushroom-template-card
+    primary: Maxi
+    secondary: '{{ states(''input_text.naam_puber'') }} - {{ ''aan'' if is_state(entity, ''on'') else (''uit'' if
+      is_state(entity, ''off'') else ''onbekend'') }}'
+    entity: binary_sensor.schaduwspeler_high_accuracy_mode
+    icon: mdi:crosshairs-gps
+    tap_action:
+      action: perform-action
+      perform_action: script.high_accuracy_mode
+      data:
+        target: notify.mobile_app_schaduwspeler
+    color: '{{ ''green'' if is_state(entity, ''on'') else ''disabled'' }}'
+    icon_tap_action:
+      action: perform-action
+      perform_action: script.high_accuracy_mode
+      data:
+        target: notify.mobile_app_schaduwspeler
+  - type: custom:mushroom-template-card
+    primary: Mini
+    secondary: '{{ states(''input_text.naam_mini'') }} - {{ ''aan'' if is_state(entity, ''on'') else (''uit'' if
+      is_state(entity, ''off'') else ''onbekend'') }}'
+    entity: binary_sensor.sm_a566b_t_high_accuracy_mode
+    icon: mdi:crosshairs-gps
+    tap_action:
+      action: perform-action
+      perform_action: script.high_accuracy_mode
+      data:
+        target: notify.mobile_app_sm_a566b_t
+    color: '{{ ''green'' if is_state(entity, ''on'') else ''disabled'' }}'
+    icon_tap_action:
+      action: perform-action
+      perform_action: script.high_accuracy_mode
+      data:
+        target: notify.mobile_app_sm_a566b_t
+grid_options:
+  columns: full
+  rows: auto

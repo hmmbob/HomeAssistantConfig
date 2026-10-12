@@ -1,0 +1,41 @@
+type: markdown
+content: |
+  {% set ns = namespace(devices=[], lines=[]) %}
+  {% for s in states.binary_sensor if s.attributes.get('device_class') == 'connectivity' and s.entity_id is search('(_status|_connectivity|_connectiviteit|_connection|_connected|_bridge_connection_state)$') and s.state in ['off', 'unavailable', 'unknown'] %}
+    {% if not (s.entity_id is search('rocky.*attached|p2s_')) %}
+      {% set did = device_id(s.entity_id) %}
+      {% set key = did or s.entity_id %}
+      {% if key not in ns.devices %}
+        {% set ns.devices = ns.devices + [key] %}
+        {% set label = device_attr(did, 'name_by_user') or device_attr(did, 'name') or s.name %}
+        {% set link = '/config/devices/device/' ~ did if did else '/lovelace-admin/status' %}
+        {% set ns.lines = ns.lines + ['- [' ~ label ~ '](' ~ link ~ ')'] %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% if ns.lines %}
+  **{{ ns.lines | count }} verbindingsproblemen**
+  {{ ns.lines[:6] | join('
+  ') }}
+  {% if ns.lines | count > 6 %}[Meer bekijken in Diagnose](/lovelace-admin/status){% endif %}
+  {% else %}
+  Geen problemen in de bewaakte verbindingen.
+  {% endif %}
+
+  {% set checks = [('automation.schakel_het_scherm_van_kiosk_1_in_of_uit', 'Schermbediening keuken'), ('automation.schakel_het_scherm_van_kiosk_2_in_of_uit', 'Schermbediening kantoor'), ('automation.kiosken_automatische_nachtelijke_updates', 'Automatische kioskupdates'), ('automation.solar_handle_pf_off_time', 'Automatische PV-regeling')] %}
+  {% set flags = namespace(lines=[]) %}
+  {% for eid, label in checks %}
+    {% if not is_state(eid, 'on') %}
+      {% set flags.lines = flags.lines + ['- ' ~ label ~ ': **' ~ ('uitgeschakeld' if is_state(eid, 'off') else 'niet beschikbaar') ~ '**'] %}
+    {% endif %}
+  {% endfor %}
+  {% if flags.lines %}
+  **Controleer deze regelingen**
+  {{ flags.lines | join('
+  ') }}
+  {% endif %}
+
+  [Alle diagnosegegevens](/lovelace-admin/status)
+grid_options:
+  columns: full
+  rows: auto

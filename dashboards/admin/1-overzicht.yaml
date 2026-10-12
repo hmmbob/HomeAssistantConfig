@@ -1,0 +1,151 @@
+path: overzicht
+title: Overzicht
+icon: mdi:view-dashboard
+type: masonry
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Overzicht
+        alignment: justify
+      - type: heading
+        heading: Locatienauwkeurigheid
+        heading_style: title
+        icon: mdi:crosshairs-gps
+      - !include 'common/location-accuracy.yaml'
+      - type: heading
+        heading: Kiosken
+        heading_style: title
+        icon: mdi:tablet-dashboard
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace-admin/kiosken
+      - type: heading
+        heading: Keuken
+        heading_style: subtitle
+        icon: mdi:tablet
+        tap_action:
+          action: navigate
+          navigation_path: /config/devices/device/f5b3999231b5c15d6821aa629e641e1c
+        badges:
+          - type: button
+            icon: mdi:home
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_1_keuken_go_to_dashboard
+          - type: button
+            icon: mdi:reload
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_1_keuken_reload_page
+          - type: entity
+            entity: binary_sensor.kiosk_1_keuken_connectivity
+            show_state: false
+            show_icon: true
+            color: state
+      - type: tile
+        entity: light.kiosk_1_keuken_screen
+        name: Scherm
+        state_content: state
+        tap_action:
+          action: more-info
+        icon_tap_action:
+          action: more-info
+        features_position: inline
+        features:
+          - type: toggle
+      - type: heading
+        heading: Kantoor
+        heading_style: subtitle
+        icon: mdi:tablet
+        tap_action:
+          action: navigate
+          navigation_path: /config/devices/device/d6667f359e8eaca9c639a990b9956b29
+        badges:
+          - type: button
+            icon: mdi:home
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_2_kantoor_go_to_dashboard
+          - type: button
+            icon: mdi:reload
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_2_kantoor_reload_page
+          - type: entity
+            entity: binary_sensor.kiosk_2_kantoor_connectivity
+            show_state: false
+            show_icon: true
+            color: state
+      - type: tile
+        entity: light.kiosk_2_kantoor_screen
+        name: Scherm
+        state_content: state
+        tap_action:
+          action: more-info
+        icon_tap_action:
+          action: more-info
+        features_position: inline
+        features:
+          - type: toggle
+      - type: heading
+        heading: Aandachtspunten
+        heading_style: title
+        icon: mdi:clipboard-check-outline
+      - !include 'common/attention.yaml'
+      - type: heading
+        heading: Back-ups
+        heading_style: title
+        icon: mdi:backup-restore
+      - !include 'common/backup-status.yaml'
+      - type: heading
+        heading: Batterijen vervangen
+        heading_style: title
+        icon: mdi:battery-alert-variant-outline
+      - !include 'common/battery-replacements.yaml'
+      - type: heading
+        heading: Snel beheer
+        heading_style: title
+        icon: mdi:tools
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: shortcut
+            label: Apparaten
+            icon: mdi:devices
+            tap_action:
+              action: navigate
+              navigation_path: /config/devices/dashboard
+          - type: shortcut
+            label: Integraties
+            icon: mdi:puzzle
+            tap_action:
+              action: navigate
+              navigation_path: /config/integrations/dashboard
+          - type: shortcut
+            label: Automatisering
+            icon: mdi:robot
+            tap_action:
+              action: navigate
+              navigation_path: /config/automation/dashboard
+          - type: shortcut
+            label: Helpers
+            icon: mdi:form-select
+            tap_action:
+              action: navigate
+              navigation_path: /config/helpers
+          - type: shortcut
+            label: Diagnose
+            icon: mdi:stethoscope
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace-admin/status

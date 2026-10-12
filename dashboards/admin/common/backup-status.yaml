@@ -1,0 +1,26 @@
+type: markdown
+content: |
+  {% set last = as_timestamp(states('sensor.backup_last_successful_automatic_backup'), none) %}
+  {% set manager = states('sensor.backup_backup_manager_state') %}
+  {% if manager in ['error', 'failed', 'blocked'] %}
+  **Back-up vraagt aandacht:** {{ manager }}.
+  {% elif manager in ['unknown', 'unavailable'] %}
+  **Back-upstatus niet beschikbaar.**
+  {% elif last is none %}
+  **Geen geslaagde automatische back-up bekend.**
+  {% elif as_timestamp(now()) - last > 36 * 3600 %}
+  **Laatste geslaagde back-up is ouder dan 36 uur.**
+  {% else %}
+  **Back-up op orde**
+  {% endif %}
+  {% if last is not none %}
+  Laatste geslaagd: **{{ last | timestamp_custom('%d-%m %H:%M', true) }}**.
+  {% endif %}
+  {% set next = as_timestamp(states('sensor.backup_next_scheduled_automatic_backup'), none) %}
+  {% if next is not none %}
+  Volgende: {{ next | timestamp_custom('%d-%m %H:%M', true) }}.
+  {% endif %}
+  [Back-ups beheren](/config/backup)
+grid_options:
+  columns: full
+  rows: auto

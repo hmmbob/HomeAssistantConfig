@@ -1,0 +1,257 @@
+path: kiosken
+title: Kioskonderhoud
+icon: mdi:tablet-dashboard
+type: masonry
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: Kioskonderhoud
+        alignment: justify
+      - type: heading
+        heading: Keuken
+        heading_style: title
+        icon: mdi:tablet-dashboard
+        tap_action:
+          action: navigate
+          navigation_path: /config/devices/device/f5b3999231b5c15d6821aa629e641e1c
+        badges:
+          - type: button
+            icon: mdi:home
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_1_keuken_go_to_dashboard
+          - type: button
+            icon: mdi:reload
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_1_keuken_reload_page
+          - type: button
+            icon: mdi:open-in-new
+            text: Beheer
+            tap_action:
+              action: url
+              url_path: http://192.168.88.124:2324
+          - type: entity
+            entity: binary_sensor.kiosk_1_keuken_connectivity
+            show_state: false
+            show_icon: true
+            color: state
+            tap_action:
+              action: more-info
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: light.kiosk_1_keuken_screen
+            name: Scherm
+            state_content: state
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+          - type: tile
+            entity: automation.schakel_het_scherm_van_kiosk_1_in_of_uit
+            name: Automatisch
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: shortcut
+            label: App herstarten
+            icon: mdi:restart
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_1_keuken_restart_app
+              confirmation:
+                text: Kiosk-app in Keuken herstarten? Het scherm is kort onderbroken.
+          - type: shortcut
+            label: Cache wissen
+            icon: mdi:cached
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_1_keuken_clear_cache
+              confirmation:
+                text: Browsercache van kiosk Keuken wissen?
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - type: custom:fold-entity-row
+            head:
+              type: section
+              label: Instellingen
+            open: false
+            entities:
+              - entity: switch.kiosk_1_keuken_screensaver_active
+                name: Screensaver
+              - entity: switch.kiosk_1_keuken_hold_mode
+                name: Hold mode
+              - entity: number.kiosk_1_keuken_volume
+                name: Volume
+              - entity: select.kiosk_1_keuken_default_dashboard
+                name: Standaarddashboard
+              - entity: select.kiosk_1_keuken_dashboard_view
+                name: Dashboardpagina
+          - type: custom:fold-entity-row
+            head:
+              type: section
+              label: Diagnose
+            open: false
+            entities:
+              - entity: sensor.kiosk_1_keuken_last_seen
+                name: Laatst gezien
+              - entity: sensor.kiosk_1_keuken_app_uptime
+                name: App gestart
+              - entity: sensor.kiosk_1_keuken_internal_storage_free
+                name: Vrije opslag
+              - entity: sensor.kiosk_1_keuken_battery
+                name: Accu
+      - type: heading
+        heading: Kantoor
+        heading_style: title
+        icon: mdi:tablet-dashboard
+        tap_action:
+          action: navigate
+          navigation_path: /config/devices/device/d6667f359e8eaca9c639a990b9956b29
+        badges:
+          - type: button
+            icon: mdi:home
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_2_kantoor_go_to_dashboard
+          - type: button
+            icon: mdi:reload
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_2_kantoor_reload_page
+          - type: button
+            icon: mdi:open-in-new
+            text: Beheer
+            tap_action:
+              action: url
+              url_path: http://192.168.88.125:2324
+          - type: entity
+            entity: binary_sensor.kiosk_2_kantoor_connectivity
+            show_state: false
+            show_icon: true
+            color: state
+            tap_action:
+              action: more-info
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: light.kiosk_2_kantoor_screen
+            name: Scherm
+            state_content: state
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+          - type: tile
+            entity: automation.schakel_het_scherm_van_kiosk_2_in_of_uit
+            name: Automatisch
+            tap_action:
+              action: toggle
+            icon_tap_action:
+              action: toggle
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: shortcut
+            label: App herstarten
+            icon: mdi:restart
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_2_kantoor_restart_app
+              confirmation:
+                text: Kiosk-app in Kantoor herstarten? Het scherm is kort onderbroken.
+          - type: shortcut
+            label: Cache wissen
+            icon: mdi:cached
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.kiosk_2_kantoor_clear_cache
+              confirmation:
+                text: Browsercache van kiosk Kantoor wissen?
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - type: custom:fold-entity-row
+            head:
+              type: section
+              label: Instellingen
+            open: false
+            entities:
+              - entity: switch.kiosk_2_kantoor_screensaver_active
+                name: Screensaver
+              - entity: switch.kiosk_2_kantoor_hold_mode
+                name: Hold mode
+              - entity: number.kiosk_2_kantoor_volume
+                name: Volume
+              - entity: select.kiosk_2_kantoor_default_dashboard
+                name: Standaarddashboard
+              - entity: select.kiosk_2_kantoor_dashboard_view
+                name: Dashboardpagina
+          - type: custom:fold-entity-row
+            head:
+              type: section
+              label: Diagnose
+            open: false
+            entities:
+              - entity: sensor.kiosk_2_kantoor_last_seen
+                name: Laatst gezien
+              - entity: sensor.kiosk_2_kantoor_app_uptime
+                name: App gestart
+              - entity: sensor.kiosk_2_kantoor_internal_storage_free
+                name: Vrije opslag
+              - entity: sensor.kiosk_2_kantoor_battery
+                name: Accu
+      - type: heading
+        heading: Updates
+        heading_style: title
+        icon: mdi:update
+        badges:
+          - type: entity
+            entity: automation.kiosken_automatische_nachtelijke_updates
+            name: Nachtelijk
+            show_state: true
+            state_content:
+              - name
+              - state
+            color: state
+            tap_action:
+              action: toggle
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: update.kiosk_1_keuken_update
+            name: Keuken
+          - type: tile
+            entity: update.kiosk_2_kantoor_update
+            name: Kantoor
