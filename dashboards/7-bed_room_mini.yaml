@@ -303,9 +303,12 @@ cards:
               entity: *airco_mini_sleeptimer
               icon: mdi:timer-sand-empty
               content: >-
-                {% from 'relative_time_plus.jinja' import relative_time_plus %}
-                {{ relative_time_plus(state_attr('timer.airco_mini_sleeptimer','finishes_at'),
-                    parts=2, time=true, abbr=true, language='nl') }}
+                {% set finishes_at = as_datetime(state_attr('timer.airco_mini_sleeptimer', 'finishes_at'), none) %}
+                {% if is_state('timer.airco_mini_sleeptimer', 'active') and finishes_at is not none %}
+                  {% from 'relative_time_plus.jinja' import relative_time_plus %}
+                  {{ relative_time_plus(finishes_at,
+                      parts=2, time=true, abbr=true, language='nl') }}
+                {% endif %}
               tap_action:
                 action: none
 
