@@ -12,6 +12,21 @@ doorbell_package:
         group: "deurbel_camera"
         tag: "{{ group + int(as_timestamp(now()))|string }}"
         title: "De deurbel gaat"
+        # Presence sources can switch between GPS and Wi-Fi; notification actions cannot be inferred from them.
+        notification_devices:
+          - person: person.bob
+            service: notify.mobile_app_sm_a556b
+          - person: !secret person_mw
+            service: notify.mobile_app_sm_a566b
+          - person: !secret person_puber
+            service: notify.mobile_app_schaduwspeler
+          - person: !secret person_mini
+            service: notify.mobile_app_sm_a566b_t
+        notification_recipients: >-
+          {% set persons_home = (state_attr('zone.home', 'persons') or []) + ['person.bob'] %}
+          {{ notification_devices
+             | selectattr('person', 'in', persons_home)
+             | map(attribute='service') | unique | list }}
       triggers:
         - alias: Er wordt aangebeld
           trigger: state
@@ -28,17 +43,11 @@ doorbell_package:
           parallel:
             - alias: Verstuur initiële notificaties naar alle apparaten
               repeat:
-                for_each: >
-                  {{
-                    (expand(state_attr('zone.home', 'persons'))
-                    | map(attribute='attributes.source')
-                    | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                    | list + ['notify.mobile_app_sm_a556b'])
-                    | unique | list
-                  }}
+                for_each: "{{ notification_recipients }}"
                 sequence:
                   - alias: Stuur notificatie met camera-beeld
                     action: "{{ repeat.item }}"
+                    continue_on_error: true
                     data:
                       title: "{{ title }}"
                       message: "AI text wordt geladen..."
@@ -101,17 +110,11 @@ doorbell_package:
                       {% endif %}
                 - alias: Werk notificaties bij met AI beschrijving
                   repeat:
-                    for_each: >
-                      {{
-                        (expand(state_attr('zone.home', 'persons'))
-                        | map(attribute='attributes.source')
-                        | map('replace', 'device_tracker.', 'notify.mobile_app_')
-                        | list + ['notify.mobile_app_sm_a556b'])
-                        | unique | list
-                      }}
+                    for_each: "{{ notification_recipients }}"
                     sequence:
                       - alias: Melding bijwerken op apparaten
                         action: "{{ repeat.item }}"
+                        continue_on_error: true
                         data:
                           title: "{{ title }}"
                           message: "{{ ai_message }}"
