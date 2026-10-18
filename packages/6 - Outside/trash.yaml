@@ -103,6 +103,7 @@ trash_package:
                 message: "{{ trigger.id | capitalize }} wordt het {{ afval }} opgehaald."
                 data:
                   tag: "notification-trash"
+                  group: "afval"
                   notification_icon: mdi:delete
                   actions:
                     - action: "trash_outside"
