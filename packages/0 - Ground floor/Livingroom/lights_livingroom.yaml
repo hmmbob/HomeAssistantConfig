@@ -63,16 +63,15 @@ lights_livingroom_package:
             entity_id: light.spots_vaas
 
     ########################################
-    ## Limited lighting on motion
-    ## Morning: kitchen/table; afternoon/evening: vase
+    ## Morning lighting: at most once per day
     ########################################
     - id: turn_on_livingroom_lights_on_motion_when_dark
       alias: "Zet de verlichting aan bij beweging als het donker is"
       description: >-
-        Zet bij beweging en weinig daglicht tussen 06:00 en 12:00 alleen de
-        keukenspots en eettafellamp aan. Vanaf 12:00 tot middernacht gaan alleen
-        de vaasspots aan. Woonkamer- en eetkamerspots blijven buiten deze
-        automatisering.
+        Zet bij de eerste geschikte beweging tussen 06:00 en 12:00 en weinig
+        daglicht alleen de keukenspots en eettafellamp aan, maximaal eenmaal
+        per kalenderdag. Na uitschakelen gaan ze die dag niet opnieuw door
+        beweging aan. De vaasspots volgen alleen de zonsondergangregeling.
       triggers:
         - trigger: motion.detected
           target:
@@ -81,6 +80,15 @@ lights_livingroom_package:
             behavior: each
           note: Beide PIR-zones in de woonkamer activeren deze automatisering.
       conditions:
+        - condition: time
+          after: "06:00:00"
+          before: "12:00:00"
+        - alias: Vandaag nog niet automatisch ingeschakeld
+          condition: template
+          value_template: >-
+            {% set last = this.attributes.last_triggered | default(none) %}
+            {{ last is none or as_local(as_datetime(last)).date() < now().date() }}
+          note: De laatste uitvoering blijft bewaard bij herladen en herstarten.
         - condition: state
           entity_id: input_boolean.pause_livingroom_auto_on
           state: "off"
@@ -88,43 +96,22 @@ lights_livingroom_package:
           entity_id: sun.sun
           attribute: elevation
           below: 7
-          note: Sluit ongeveer aan op de bestaande vaasverlichting, 45 minuten voor zonsondergang.
+          note: Behoud de bestaande donkertevoorwaarde.
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: light.spots_keuken
+              state: "off"
+            - condition: state
+              entity_id: light.eetkamer_tafel
+              state: "off"
       actions:
-        - choose:
-            - alias: Ochtendverlichting
-              conditions:
-                - condition: time
-                  after: "06:00:00"
-                  before: "12:00:00"
-                - condition: or
-                  conditions:
-                    - condition: state
-                      entity_id: light.spots_keuken
-                      state: "off"
-                    - condition: state
-                      entity_id: light.eetkamer_tafel
-                      state: "off"
-              sequence:
-                - action: light.turn_on
-                  target:
-                    entity_id:
-                      - light.spots_keuken
-                      - light.eetkamer_tafel
-                  note: Behoud de laatst gebruikte helderheid van beide lampen.
-            - alias: Middag- en avondverlichting
-              conditions:
-                - condition: time
-                  after: "12:00:00"
-                - condition: state
-                  entity_id: light.spots_vaas
-                  state: "off"
-              sequence:
-                - action: light.turn_on
-                  target:
-                    entity_id: light.spots_vaas
-                  note: >-
-                    Vangt ook thuiskomst op nadat de vaste zonsondergangtrigger
-                    al is geweest en behoudt de laatst gebruikte helderheid.
+        - action: light.turn_on
+          target:
+            entity_id:
+              - light.spots_keuken
+              - light.eetkamer_tafel
+          note: Behoud de laatst gebruikte helderheid van beide lampen.
       mode: single
 
     ########################################
