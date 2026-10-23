@@ -32,6 +32,14 @@ cards:
                       --chip-box-shadow: none;
                     }
 
+              - type: action
+                icon: mdi:barcode-scan
+                tap_action:
+                  action: perform-action
+                  perform_action: button.press
+                  target:
+                    entity_id: button.kantoor_kiosk_2_kantoor_barcode_scanner_scan_barcode
+
               - !include common/chip-fan.yaml
               - type: action
                 icon: mdi:cctv

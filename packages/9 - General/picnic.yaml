@@ -114,3 +114,181 @@ picnic_package:
         - alias: Sluit Picnic-overlay op kiosk 2
           action: esphome.ks_kiosk_2_kantoor_close_url
           continue_on_error: true
+
+    - id: picnic_kiosk_barcode_scans
+      alias: 'Picnic: Barcode vanaf kiosken toevoegen'
+      mode: queued
+      max: 25
+      description: Voeg per nieuwe Scan count één product toe via GTIN. Onderdruk dezelfde barcode binnen 3 seconden
+        per kiosk; andere codes blijven direct mogelijk. Negeer tellerherstel en resets. Toon fouten op de scannende
+        kiosk.
+      trace:
+        stored_traces: 20
+      variables:
+        kiosks:
+          sensor.keuken_kiosk_1_keuken_barcode_scanner_scan_count:
+            code: sensor.keuken_kiosk_1_keuken_barcode_scanner_last_code
+            notification: esphome.ks_kiosk_1_keuken_notification
+          sensor.kantoor_kiosk_2_kantoor_barcode_scanner_scan_count:
+            code: sensor.kantoor_kiosk_2_kantoor_barcode_scanner_last_code
+            notification: esphome.ks_kiosk_2_kantoor_notification
+        kiosk: '{{ kiosks.get(trigger.entity_id, {}) if trigger is defined and trigger.entity_id is defined else {}
+          }}'
+        scan: '{{ dict(code=states(kiosk.code), code_changed=as_timestamp(states[kiosk.code].last_changed, 0)) if kiosk
+          else dict(code='''', code_changed=0) }}'
+        gtin_valid: '{% set code = scan.code %}{% set ns = namespace(checksum=0) %}{% if code | regex_match(''^(?:[0-9]{8}|[0-9]{12}|[0-9]{13}|[0-9]{14})$'')
+          %}{% for digit in code | reverse %}{% set ns.checksum = ns.checksum + (digit | int) * (1 if loop.index0 %
+          2 == 0 else 3) %}{% endfor %}{{ ns.checksum % 10 == 0 }}{% else %}{{ false }}{% endif %}'
+      triggers:
+      - trigger: state
+        entity_id:
+        - sensor.keuken_kiosk_1_keuken_barcode_scanner_scan_count
+        - sensor.kantoor_kiosk_2_kantoor_barcode_scanner_scan_count
+        to: null
+        alias: Nieuwe scantellerstand op keuken- of kantoorkiosk
+      conditions:
+      - alias: Alleen echte tellerverhogingen, geen opstart, herverbinding of reset
+        condition: template
+        value_template: '{{ trigger is defined and trigger.platform == ''state'' and trigger.from_state is not none
+          and trigger.to_state is not none and is_number(trigger.from_state.state) and is_number(trigger.to_state.state)
+          and trigger.to_state.state | float > trigger.from_state.state | float }}'
+      - alias: Zelfde barcode pas na 3 seconden rust opnieuw; nieuwe barcode direct
+        condition: template
+        value_template: '{{ trigger.from_state.state | float == 0 or (trigger.to_state.last_changed - trigger.from_state.last_changed).total_seconds()
+          >= 3 or scan.code_changed > as_timestamp(trigger.from_state.last_changed) }}'
+      actions:
+      - alias: Geen scancontext betekent niets toevoegen
+        condition: template
+        value_template: '{{ kiosk | count > 0 }}'
+      - variables:
+          picnic_added: false
+      - if:
+        - condition: template
+          value_template: '{{ gtin_valid }}'
+        then:
+        - alias: Voeg eenmaal toe en onthoud alleen een geslaagde actie
+          continue_on_error: true
+          sequence:
+          - action: picnic.add_product
+            data: '{{ dict(config_entry_id=''01JN3EK0HMJYCJ4E7FBYPTT354'', gtin=scan.code, amount=1) }}'
+            alias: Behoud GTIN als tekst inclusief voorloopnullen
+          - variables:
+              picnic_added: true
+      - if:
+        - condition: template
+          value_template: '{{ not picnic_added }}'
+        then:
+        - variables:
+            notification_data:
+              title: 'Picnic: niet toegevoegd'
+              message: '{% if not gtin_valid %}Deze scan is geen geldige productbarcode (GTIN): {{ scan.code }}.{% else
+                %}Picnic kon barcode {{ scan.code }} niet toevoegen. Mogelijk is de barcode onbekend of is er een verbindingsprobleem.{%
+                endif %}'
+              duration: 15
+              type: warning
+              chime: true
+              scale: 1
+              icon: mdi:barcode-off
+              chime_file: ''
+              volume: 0
+              image: ''
+        - choose:
+          - conditions:
+            - condition: template
+              value_template: '{{ kiosk.code == ''sensor.keuken_kiosk_1_keuken_barcode_scanner_last_code'' }}'
+            sequence:
+            - action: esphome.ks_kiosk_1_keuken_notification
+              data: '{{ notification_data }}'
+          default:
+          - action: esphome.ks_kiosk_2_kantoor_notification
+            data: '{{ notification_data }}'
+          alias: Toon de fout op uitsluitend de kiosk waar gescand is
+
+    - id: kiosk_1_keuken_barcode_scan_light
+      alias: 'Kiosk 1: Extra licht tijdens barcode scannen'
+      mode: single
+      max_exceeded: silent
+      description: Zet adaptive brightness tijdelijk uit na de HA-scanknop. Herstel de oorspronkelijke stand na een scanresultaat
+        of maximaal 35 seconden; bij annuleren geldt de tijdslimiet.
+      variables:
+        scan_count_before: '{{ states(''sensor.keuken_kiosk_1_keuken_barcode_scanner_scan_count'') | float(-1) }}'
+      triggers:
+        - alias: Barcode scannen gestart op kiosk 1
+          trigger: button.pressed
+          target:
+            entity_id: button.keuken_kiosk_1_keuken_barcode_scanner_scan_barcode
+      conditions:
+        - alias: Alleen tijdelijk uitschakelen als adaptive brightness aan staat
+          condition: state
+          entity_id: switch.kiosk_1_keuken_adaptive_brightness
+          state: 'on'
+        - alias: Controleer of de scanteller beschikbaar is
+          condition: template
+          value_template: '{{ is_number(states(''sensor.keuken_kiosk_1_keuken_barcode_scanner_scan_count'')) }}'
+      actions:
+        - alias: Bewaar de oorspronkelijke adaptive-instelling
+          action: scene.create
+          data:
+            scene_id: kiosk_1_keuken_barcode_adaptive_before
+            snapshot_entities:
+              - switch.kiosk_1_keuken_adaptive_brightness
+        - alias: Verlicht de scan tijdelijk; voer herstel ook na een fout uit
+          continue_on_error: true
+          sequence:
+            - alias: Hef de automatische dimming tijdelijk op
+              action: switch.turn_off
+              target:
+                entity_id: switch.kiosk_1_keuken_adaptive_brightness
+            - alias: Wacht op een resultaat, ook als het al tijdens het omschakelen binnenkwam
+              wait_template: '{{ is_number(states(''sensor.keuken_kiosk_1_keuken_barcode_scanner_scan_count'')) and states(''sensor.keuken_kiosk_1_keuken_barcode_scanner_scan_count'')
+                | float > scan_count_before }}'
+              timeout: 00:00:35
+              continue_on_timeout: true
+        - alias: Herstel de oorspronkelijke adaptive-instelling
+          action: scene.turn_on
+          target:
+            entity_id: scene.kiosk_1_keuken_barcode_adaptive_before
+    - id: kiosk_2_kantoor_barcode_scan_light
+      alias: 'Kiosk 2: Extra licht tijdens barcode scannen'
+      mode: single
+      max_exceeded: silent
+      description: Zet adaptive brightness tijdelijk uit na de HA-scanknop. Herstel de oorspronkelijke stand na een scanresultaat
+        of maximaal 35 seconden; bij annuleren geldt de tijdslimiet.
+      variables:
+        scan_count_before: '{{ states(''sensor.kantoor_kiosk_2_kantoor_barcode_scanner_scan_count'') | float(-1) }}'
+      triggers:
+        - alias: Barcode scannen gestart op kiosk 2
+          trigger: button.pressed
+          target:
+            entity_id: button.kantoor_kiosk_2_kantoor_barcode_scanner_scan_barcode
+      conditions:
+        - alias: Alleen tijdelijk uitschakelen als adaptive brightness aan staat
+          condition: state
+          entity_id: switch.kiosk_2_kantoor_adaptive_brightness
+          state: 'on'
+        - alias: Controleer of de scanteller beschikbaar is
+          condition: template
+          value_template: '{{ is_number(states(''sensor.kantoor_kiosk_2_kantoor_barcode_scanner_scan_count'')) }}'
+      actions:
+        - alias: Bewaar de oorspronkelijke adaptive-instelling
+          action: scene.create
+          data:
+            scene_id: kiosk_2_kantoor_barcode_adaptive_before
+            snapshot_entities:
+              - switch.kiosk_2_kantoor_adaptive_brightness
+        - alias: Verlicht de scan tijdelijk; voer herstel ook na een fout uit
+          continue_on_error: true
+          sequence:
+            - alias: Hef de automatische dimming tijdelijk op
+              action: switch.turn_off
+              target:
+                entity_id: switch.kiosk_2_kantoor_adaptive_brightness
+            - alias: Wacht op een resultaat, ook als het al tijdens het omschakelen binnenkwam
+              wait_template: '{{ is_number(states(''sensor.kantoor_kiosk_2_kantoor_barcode_scanner_scan_count'')) and states(''sensor.kantoor_kiosk_2_kantoor_barcode_scanner_scan_count'')
+                | float > scan_count_before }}'
+              timeout: 00:00:35
+              continue_on_timeout: true
+        - alias: Herstel de oorspronkelijke adaptive-instelling
+          action: scene.turn_on
+          target:
+            entity_id: scene.kiosk_2_kantoor_barcode_adaptive_before
