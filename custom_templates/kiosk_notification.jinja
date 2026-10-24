@@ -1,0 +1,32 @@
+{# Priority for the screensaver corner widget. Time windows are native tod helpers. #}
+{%- macro macro_kiosk_notification(returns, data=none) -%}
+  {%- if data is none -%}
+    {%- set data = dict(
+      warning_active=is_state('binary_sensor.weer_thuis_waarschuwing_actief', 'on'),
+      warning_code=states('sensor.weer_thuis_waarschuwingscode'),
+      parcel_present=is_state('input_boolean.pakketbrievenbus_bevat_pakket', 'on'),
+      waste_today=states('sensor.afvalinfo_home_vandaag'),
+      waste_tomorrow=states('sensor.afvalinfo_home_morgen'),
+      morning=is_state('binary_sensor.kiosk_afvalmelding_ochtend', 'on'),
+      evening=is_state('binary_sensor.kiosk_afvalmelding_avond', 'on')
+    ) -%}
+  {%- endif -%}
+  {%- set code = data.get('warning_code', '') | string | lower | trim -%}
+  {%- set today = data.get('waste_today', '') | string | trim -%}
+  {%- set tomorrow = data.get('waste_tomorrow', '') | string | trim -%}
+  {%- set empty = ['', 'geen', 'unknown', 'unavailable', 'none', 'onbekend'] -%}
+  {%- if data.get('warning_active', false) -%}
+    {%- set codes = dict(yellow='geel', geel='geel', orange='oranje', oranje='oranje', red='rood', rood='rood') -%}
+    {%- set text = 'Code ' ~ codes[code] if code in codes else 'Weerwaarschuwing' -%}
+    {%- set result = dict(text=text, icon='mdi:weather-cloudy-alert', kind='weer') -%}
+  {%- elif data.get('parcel_present', false) -%}
+    {%- set result = dict(text='Pakket aanwezig', icon='mdi:package-variant-closed', kind='pakket') -%}
+  {%- elif data.get('morning', false) and today | lower not in empty -%}
+    {%- set result = dict(text='Vandaag ' ~ today, icon='mdi:trash-can', kind='afval') -%}
+  {%- elif data.get('evening', false) and tomorrow | lower not in empty -%}
+    {%- set result = dict(text='Morgen ' ~ tomorrow, icon='mdi:trash-can', kind='afval') -%}
+  {%- else -%}
+    {%- set result = dict(text='', icon='mdi:message-outline', kind='geen') -%}
+  {%- endif -%}
+  {%- do returns(result) -%}
+{%- endmacro -%}

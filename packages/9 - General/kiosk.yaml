@@ -6,6 +6,25 @@ kiosk_package:
       before: "22:00"
       unique_id: vaatwasser_periode
 
+  # The icon and diagnostic attribute need YAML; message priority is shared in one macro.
+  template:
+    - sensor:
+        - name: Kiosk melding
+          unique_id: kiosk_melding
+          state: >-
+            {% from "kiosk_notification.jinja" import macro_kiosk_notification %}
+            {% set notification = macro_kiosk_notification | as_function %}
+            {{ notification().text }}
+          icon: >-
+            {% from "kiosk_notification.jinja" import macro_kiosk_notification %}
+            {% set notification = macro_kiosk_notification | as_function %}
+            {{ notification().icon }}
+          attributes:
+            soort: >-
+              {% from "kiosk_notification.jinja" import macro_kiosk_notification %}
+              {% set notification = macro_kiosk_notification | as_function %}
+              {{ notification().kind }}
+
   input_select:
     kiosk_announcement:
       name: "Kioskmelding aan het afspelen"
