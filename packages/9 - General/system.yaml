@@ -104,7 +104,7 @@ system_package:
       alias: "Update Radar - Detecteer en herinner"
       description: >
         Inventariseert dagelijks om 19:00 dynamisch openstaande Home Assistant
-        Core- en HACS-upgrades. Alleen een daadwerkelijk nieuwere, nog niet
+        Core- en Marketplace-upgrades. Alleen een daadwerkelijk nieuwere, nog niet
         geanalyseerde versiecombinatie wordt als werk gemarkeerd en via de
         telefoon gemeld. Een geïnstalleerde beta of prerelease die nieuwer is
         dan het aangeboden kanaal wordt genegeerd. Deze automatisering
@@ -114,12 +114,12 @@ system_package:
           at: "19:00:00"
       conditions: []
       actions:
-        - alias: Bepaal alle openstaande Core- en HACS-versies
+        - alias: Bepaal alle openstaande Core- en Marketplace-versies
           variables:
             pending_items: >-
               {% set ns = namespace(items=[]) %}
-              {% set hacs_updates = integration_entities('hacs') | select('match', '^update\\.') | list %}
-              {% for entity_id in hacs_updates %}
+              {% set marketplace_updates = integration_entities('marketplace') | select('match', '^update\\.') | list %}
+              {% for entity_id in marketplace_updates %}
                 {% set installed = state_attr(entity_id, 'installed_version') %}
                 {% set latest = state_attr(entity_id, 'latest_version') %}
                 {% if installed not in [none, ''] and latest not in [none, '']
@@ -169,7 +169,7 @@ system_package:
                   data:
                     title: Update-impactanalyse nodig
                     message: >-
-                      Er wachten {{ pending_count }} nieuwere Home Assistant/HACS-versie(s)
+                      Er wachten {{ pending_count }} nieuwere Home Assistant/Marketplace-versie(s)
                       op impactanalyse. Open Codex en typ: Voer de updatecontrole uit.
                     data:
                       tag: ha-update-radar
