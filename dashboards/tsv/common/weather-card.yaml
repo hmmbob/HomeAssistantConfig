@@ -1,6 +1,7 @@
 type: custom:clock-weather-card
 entity: weather.verwachtingen
 sun_entity: sun.sun
+# Tijdelijke v2-compatibiliteit totdat Clock Weather Card v3 is geïnstalleerd.
 temperature_sensor: sensor.weer_thuis_temperatuur
 animated_icon: true
 date_pattern: cccc dd LLLL yyyy
@@ -17,6 +18,27 @@ time_pattern: HH:mm
 time_zone: null
 use_browser_time: false
 weather_icon_type: fill
+# Clock Weather Card v3-configuratie.
+additional_sensors:
+  temperature: sensor.weer_thuis_temperatuur
+sections:
+  header:
+    animated_icons: true
+    weather_icon_size: 88px
+    rows:
+      - font_size: 3.5rem
+        alignment: center
+        segments:
+          - type: time
+            time_pattern: HH:mm
+      - alignment: center
+        segments:
+          - type: date
+            date_pattern: cccc dd LLLL yyyy
+  forecast_strip:
+    hide: true
+  forecast_list:
+    hide: true
 tap_action:
   action: fire-dom-event
   browser_mod:
@@ -133,6 +155,7 @@ uix:
     .card-content {
       height: 100%;  /* Ensure content fills the card height */
     }
+    /* Alleen van toepassing op v2; v3 negeert deze oude interne selector. */
     clock-weather-card-today-right-wrap-top {
       display: none;
       visibility: hidden;
