@@ -512,6 +512,14 @@ cards:
           - type: custom:mushroom-light-card
             entity: switch.schuur
             icon: mdi:greenhouse
+          - type: custom:mushroom-entity-card
+            entity: switch.sfeerverlichting_tuin
+            name: Sfeerverlichting voorzijde
+            icon: mdi:string-lights
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
 
       - type: heading
         heading: Pakketbrievenbus

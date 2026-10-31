@@ -1,0 +1,63 @@
+lights_festive_season_package:
+  # Restored from .archive/packages/lights_festive_season.yaml.
+  # Native time/sun triggers replace the old schedule sensor and single-member group.
+  automation:
+    - id: festive_lights_turn_on_or_off
+      alias: "Zet de winterversiering aan of uit"
+      description: >-
+        Sfeerverlichting voorzijde aan van 06:30 tot 30 minuten na zonsopkomst,
+        en van 1 uur voor zonsondergang tot 23:00. Herstel het schema na een
+        HA-start of wanneer de schakelaar weer beschikbaar is. Handmatig
+        schakelen blijft mogelijk tot het volgende schakelmoment.
+      mode: restart
+      triggers:
+        - alias: Start van de ochtend of einde van de avond
+          trigger: time
+          at:
+            - "06:30:00"
+            - "23:00:00"
+        - alias: Een halfuur na zonsopkomst
+          trigger: sun.sunrise
+          options:
+            offset: "00:30:00"
+            offset_type: after
+        - alias: Een uur voor zonsondergang
+          trigger: sun.sunset
+          options:
+            offset: "01:00:00"
+            offset_type: before
+        - alias: Home Assistant is gestart
+          trigger: homeassistant
+          event: start
+        - alias: Schakelaar is weer beschikbaar
+          trigger: state
+          entity_id: switch.sfeerverlichting_tuin
+          from:
+            - "unavailable"
+            - "unknown"
+          to:
+            - "on"
+            - "off"
+      actions:
+        - alias: Schakel volgens het ochtend- en avondschema
+          if:
+            - condition: time
+              after: "06:30:00"
+              before: "23:00:00"
+            # Exact sunrise/sunset offsets need the generic native sun condition.
+            - condition: or
+              conditions:
+                - condition: sun
+                  before: sunrise
+                  before_offset: "00:30:00"
+                - condition: sun
+                  after: sunset
+                  after_offset: "-01:00:00"
+          then:
+            - action: switch.turn_on
+              target:
+                entity_id: switch.sfeerverlichting_tuin
+          else:
+            - action: switch.turn_off
+              target:
+                entity_id: switch.sfeerverlichting_tuin
