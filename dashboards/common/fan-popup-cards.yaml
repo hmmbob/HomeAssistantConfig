@@ -16,10 +16,18 @@
     } -%}
     {{ mode_names.get(states('input_select.ventilation_mode'), states('input_select.ventilation_mode')) }}
   secondary: >-
-    {%- if states('input_select.ventilation_mode') != 'auto' -%}
-      tot {{ (states('input_datetime.ventilation_boost_until') | as_datetime).strftime('%H:%M') }}
+    {%- set mode = states('input_select.ventilation_mode') -%}
+    {%- if mode == 'auto' -%}
+      Automatisch schema
+    {%- elif mode in ['manual_boost', 'humidity_boost', 'wc_boost'] -%}
+      {%- set boost_until = states('input_datetime.ventilation_boost_until') | as_datetime(none) -%}
+      {%- if boost_until is not none -%}
+        tot {{ boost_until.strftime('%H:%M') }}
+      {%- else -%}
+        Eindtijd niet beschikbaar
+      {%- endif -%}
     {%- else -%}
-      Automatische schema
+      Ventilatiestand niet beschikbaar
     {%- endif -%}
   icon: >-
     {% set mode = states('input_select.ventilation_mode') %}
