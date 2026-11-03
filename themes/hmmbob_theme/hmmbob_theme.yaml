@@ -4,14 +4,16 @@ Hmmbob light theme:
   header-height: 48px
   uix-root-yaml: |
     .: |
-      .header {
-        top: calc(100vh - 48px) !important;
+      div:not(.edit-mode) > .header {
+        top: auto !important;
         bottom: 0 !important;
+        padding-top: 0;
+        padding-bottom: var(--safe-area-inset-bottom, 0px);
         transform: unset !important;
       }
-      #view {
-        padding-top: 0px !important;
-        padding-bottom: 48px !important;
+      #view:not(.has-tab-bar) {
+        padding-top: var(--safe-area-inset-top, 0px) !important;
+        --view-container-padding-bottom: var(--header-height);
       }
   uix-view-yaml: |
     hui-sections-view:
@@ -101,14 +103,16 @@ Hmmbob dark theme:
   header-height: 48px
   uix-root-yaml: |
     .: |
-      .header {
-        top: calc(100vh - 48px) !important;
+      div:not(.edit-mode) > .header {
+        top: auto !important;
         bottom: 0 !important;
+        padding-top: 0;
+        padding-bottom: var(--safe-area-inset-bottom, 0px);
         transform: unset !important;
       }
-      #view {
-        padding-top: 0px !important;
-        padding-bottom: 48px !important;
+      #view:not(.has-tab-bar) {
+        padding-top: var(--safe-area-inset-top, 0px) !important;
+        --view-container-padding-bottom: var(--header-height);
       }
   uix-view-yaml: |
     hui-sections-view:
