@@ -73,29 +73,20 @@ Hmmbob light theme:
   sidebar-icon-color: rgb(95, 99, 104)
   sidebar-text-color: var(--sidebar-icon-color)
   sidebar-background-color: rgb(255, 255, 255)
-  sidebar-selected-background-color: var(--primary-background-color)
   sidebar-selected-icon-color: rgb(26, 115, 232)
-  sidebar-selected-text-color: var(--sidebar-selected-icon-color)
 
   # Cards
   card-background-color: rgb(255, 255, 255)
   ha-card-border-radius: "10px"
   ha-card-box-shadow: 1px 1px 5px 0px rgb(230, 230, 230)
-  paper-dialog-background-color: var(--card-background-color)
-  paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
 
   # Buttons
   state-icon-color: rgb(95, 99, 104)
   paper-item-icon-active-color: rgb(26, 115, 232) # Removed in HA 2025.5
 
-  # Checkboxes
-  mdc-select-fill-color: rgb(255, 255, 255)
-  mdc-select-ink-color: var(--primary-text-color)
+  # Select labels
   mdc-select-label-ink-color: var(--secondary-text-color)
-  mdc-select-idle-line-color: var(--primary-text-color)
-  mdc-select-dropdown-icon-color: var(--secondary-text-color)
-  mdc-select-hover-line-color: var(--accent-color)
 
 Hmmbob dark theme:
   # Card mod stuff
@@ -174,26 +165,17 @@ Hmmbob dark theme:
       sidebar-icon-color: rgb(169, 177, 188)
       sidebar-text-color: rgb(198, 203, 210)
       sidebar-background-color: rgb(32, 33, 36)
-      sidebar-selected-background-color: var(--primary-background-color)
       sidebar-selected-icon-color: rgb(138, 180, 248)
-      sidebar-selected-text-color: var(--sidebar-selected-icon-color)
 
       # Cards
       card-background-color: rgb(32, 33, 36)
       ha-card-border-radius: "10px"
       ha-card-box-shadow: 1px 1px 5px 0px rgb(12, 12, 14)
-      paper-dialog-background-color: var(--card-background-color)
-      paper-listbox-background-color: var(--card-background-color)
       paper-card-background-color: var(--card-background-color)
 
       # Buttons
       state-icon-color: rgb(169, 177, 188)
       paper-item-icon-active-color: rgb(138, 180, 248) # Removed in HA 2025.5
 
-      # Checkboxes
-      mdc-select-fill-color: rgb(32, 33, 36)
-      mdc-select-ink-color: var(--primary-text-color)
+      # Select labels
       mdc-select-label-ink-color: var(--secondary-text-color)
-      mdc-select-idle-line-color: var(--primary-text-color)
-      mdc-select-dropdown-icon-color: var(--secondary-text-color)
-      mdc-select-hover-line-color: var(--accent-color)
