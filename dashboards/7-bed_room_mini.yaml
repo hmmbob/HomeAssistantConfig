@@ -44,11 +44,14 @@ cards:
               {{ "grey" if is_state('media_player.slaapkamer_t', ['off','unavailable'])  else "green" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Google Home mini slaapkamer T
-                  content:
+                  card:
                     type: custom:mini-media-player
                     entity: media_player.slaapkamer_t
                     icon: mdi:cast
@@ -70,11 +73,14 @@ cards:
               icon_color: grey
               tap_action:
                 action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
+                uix:
+                  action: popover
                   data:
+                    width: large
+                    style: !include common/uix-popup-size.yaml
+                    target: none
                     title: Instellingen
-                    content:
+                    card:
                       type: grid
                       columns: 2
                       square: false
@@ -98,11 +104,14 @@ cards:
                             {{ "green" if is_state('binary_sensor.schoollaptop_t','on') else "disabled" }}
                           tap_action:
                             action: fire-dom-event
-                            browser_mod:
-                              service: browser_mod.popup
+                            uix:
+                              action: popover
                               data:
+                                width: large
+                                style: !include common/uix-popup-size.yaml
+                                target: none
                                 title: Schoollaptop mini
-                                content:
+                                card:
                                   type: vertical-stack
                                   cards:
                                     - type: custom:mushroom-entity-card
@@ -124,11 +133,14 @@ cards:
               {{ "green" if is_state('binary_sensor.minicave_pc','on') else "disabled" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: PC Mini
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: custom:mushroom-entity-card
@@ -147,11 +159,14 @@ cards:
               {{ "green" if is_state('binary_sensor.minicave_tv','on') else "disabled" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: TV Mini
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: custom:mushroom-template-card
@@ -211,11 +226,14 @@ cards:
               action: toggle
             hold_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Inloopkast T
-                  content:
+                  card:
                     type: custom:mushroom-entity-card
                     entity: binary_sensor.deursensor_inloopkast_t_contact
                     name: Inloopkast T

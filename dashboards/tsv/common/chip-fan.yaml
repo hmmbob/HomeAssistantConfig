@@ -5,12 +5,15 @@ icon_color: |-
   {{ "green" if is_state('fan.open_air_mini', 'on') else "grey" }}
 tap_action:
   action: fire-dom-event
-  browser_mod:
-    service: browser_mod.popup
+  uix:
+    action: popover
     data:
+      width: full
+      uix: !include uix-popup-fullscreen.yaml
+      target: none
       title: Mechanische afzuiging
       timeout: 10000
-      content:
+      card:
         type: vertical-stack
         cards: !include ../../common/fan-popup-cards.yaml
 uix:

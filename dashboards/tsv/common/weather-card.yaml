@@ -41,11 +41,15 @@ sections:
     hide: true
 tap_action:
   action: fire-dom-event
-  browser_mod:
-    service: browser_mod.popup
+  uix:
+    action: popover
     data:
+      width: full
+      uix: !include uix-popup-fullscreen.yaml
+      target: none
+      title: Weer
       timeout: 20000
-      content:
+      card:
         type: vertical-stack
         cards:
           - type: weather-forecast

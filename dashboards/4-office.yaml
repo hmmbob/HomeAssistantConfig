@@ -31,11 +31,14 @@ cards:
               {{ "green" if is_state('plant.dracaena', 'ok') else "red" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Dracaena
-                  content:
+                  card:
                     type: custom:flower-card
                     entity: plant.dracaena
                     battery_sensor: sensor.xiaomi_plant_sensor_1_battery

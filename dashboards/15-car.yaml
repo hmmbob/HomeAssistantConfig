@@ -42,11 +42,14 @@ cards:
                 icon: mdi:cog
                 tap_action:
                   action: fire-dom-event
-                  browser_mod:
-                    service: browser_mod.popup
+                  uix:
+                    action: popover
                     data:
+                      target: none
                       title: Instellingen
-                      content:
+                      width: large
+                      style: !include common/uix-popup-size.yaml
+                      card:
                         type: grid
                         columns: 1
                         square: false
@@ -67,8 +70,13 @@ cards:
                             name: Huidige laadmodus
                             secondary_info: none
                             icon: mdi:ev-plug-type2
-                            layout: horizontal
+                            layout: vertical
                           - type: horizontal-stack
+                            uix:
+                              style: |
+                                @media (max-width: 480px) {
+                                  #root { flex-direction: column; }
+                                }
                             cards:
                               - type: custom:mushroom-entity-card
                                 entity: button.ev_smart_charging_manually_start_charging
@@ -94,6 +102,11 @@ cards:
                             tap_action:
                               action: toggle
                           - type: horizontal-stack
+                            uix:
+                              style: |
+                                @media (max-width: 480px) {
+                                  #root { flex-direction: column; }
+                                }
                             cards:
                               - type: custom:mushroom-number-card
                                 entity: input_number.ev_target_soc

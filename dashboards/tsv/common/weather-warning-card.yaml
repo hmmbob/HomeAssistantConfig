@@ -1,0 +1,16 @@
+type: conditional
+conditions:
+  - condition: state
+    entity: binary_sensor.weer_thuis_waarschuwing_actief
+    state: 'on'
+card:
+  type: custom:uix-forge
+  forge:
+    mold: card
+  element_base: !include ../../common/weather-warning-template-card.yaml
+  element:
+    tap_action:
+      uix:
+        data:
+          width: full
+          uix: !include uix-popup-fullscreen.yaml

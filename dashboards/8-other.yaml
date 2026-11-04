@@ -34,11 +34,14 @@ cards:
             icon_color: "grey"
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Speel een bericht af
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: entities
@@ -70,11 +73,14 @@ cards:
               icon_color: grey
               tap_action:
                 action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
+                uix:
+                  action: popover
                   data:
+                    width: large
+                    style: !include common/uix-popup-size.yaml
+                    target: none
                     title: Instellingen
-                    content:
+                    card:
                       type: grid
                       columns: 2
                       square: false
@@ -264,11 +270,14 @@ cards:
             color: purple
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: PoolLab
-                  content:
+                  card:
                     title: PoolLab
                     show_date: true
                     show_target: true
@@ -295,11 +304,14 @@ cards:
             color: grey
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Poolcontroller instellingen
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: heading

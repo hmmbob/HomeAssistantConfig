@@ -1,0 +1,4 @@
+# Browser Mod's normal popup proportions, using UIX's responsive dialog.
+--ha-dialog-width-lg: 580px
+--ha-bottom-sheet-max-width: 600px
+--dialog-content-padding: 8px

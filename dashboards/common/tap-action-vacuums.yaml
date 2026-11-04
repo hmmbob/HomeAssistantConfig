@@ -1,9 +1,12 @@
 action: fire-dom-event
-browser_mod:
-  service: browser_mod.popup
+uix:
+  action: popover
   data:
+    width: large
+    style: !include uix-popup-size.yaml
+    target: none
     title: Stofzuigers
-    content:
+    card:
       type: vertical-stack
       cards:
         - type: heading

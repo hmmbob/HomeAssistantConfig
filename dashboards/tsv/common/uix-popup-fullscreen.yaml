@@ -1,0 +1,23 @@
+style:
+  .: |
+    :host {
+      --ha-dialog-width-full: 100vw;
+      --ha-dialog-max-width: 100vw;
+      --ha-dialog-min-height: 100dvh;
+      --ha-dialog-max-height: 100dvh;
+      --ha-dialog-border-radius: 0px;
+      --dialog-surface-margin-top: 0px;
+      --ha-bottom-sheet-height: 100dvh;
+      --dialog-content-padding: 8px;
+    }
+  # Home Assistant caps bottom sheets below the top edge by default.
+  "$ ha-bottom-sheet $": |
+    wa-drawer::part(dialog) {
+      width: 100vw;
+      max-width: 100vw !important;
+      max-height: 100dvh !important;
+    }
+    wa-drawer::part(body) {
+      border-radius: 0 !important;
+      max-width: none !important;
+    }

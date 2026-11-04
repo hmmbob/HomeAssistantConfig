@@ -60,22 +60,29 @@ cards:
                     {{ states(entity) }}
                   tap_action:
                     action: fire-dom-event
-                    browser_mod:
-                      service: browser_mod.popup
+                    uix:
+                      action: popover
                       data:
+                        width: large
+                        style: !include common/uix-popup-size.yaml
+                        target: none
                         title: Pakketbrievenbus
-                        content: !include common/pakketbrievenbus-card.yaml
+                        card: !include common/pakketbrievenbus-card.yaml
               - type: weather
                 entity: weather.verwachtingen
                 show_conditions: true
                 show_temperature: true
                 tap_action:
                   action: fire-dom-event
-                  browser_mod:
-                    service: browser_mod.popup
+                  uix:
+                    action: popover
                     data:
+                      width: large
+                      style: !include common/uix-popup-size.yaml
+                      target: none
+                      title: Weer
                       timeout: 20000
-                      content: !include common/weather-popup.yaml
+                      card: !include common/weather-popup.yaml
 
       - type: custom:mushroom-chips-card
         alignment: justify
@@ -262,11 +269,14 @@ cards:
                         {{ "var(--green-color)" if is_state('binary_sensor.is_pubercave_tv_on', 'on') else "var(--grey-color)" }}
                       tap_action:
                         action: fire-dom-event
-                        browser_mod:
-                          service: browser_mod.popup
+                        uix:
+                          action: popover
                           data:
+                            width: large
+                            style: !include common/uix-popup-size.yaml
+                            target: none
                             title: TV Puber
-                            content:
+                            card:
                               type: vertical-stack
                               cards:
                                 - type: custom:mushroom-legacy-template-card
@@ -333,11 +343,14 @@ cards:
                         {{ "var(--green-color)" if is_state('binary_sensor.minicave_tv', 'on') else "var(--grey-color)" }}
                       tap_action:
                         action: fire-dom-event
-                        browser_mod:
-                          service: browser_mod.popup
+                        uix:
+                          action: popover
                           data:
+                            width: large
+                            style: !include common/uix-popup-size.yaml
+                            target: none
                             title: TV Mini
-                            content:
+                            card:
                               type: custom:mini-media-player
                               entity: media_player.tv_t
                               icon: mdi:cast
@@ -416,11 +429,14 @@ cards:
                       color: var(--grey-color)
                       tap_action:
                         action: fire-dom-event
-                        browser_mod:
-                          service: browser_mod.popup
+                        uix:
+                          action: popover
                           data:
+                            width: large
+                            style: !include common/uix-popup-size.yaml
+                            target: none
                             title: Speel een bericht af
-                            content:
+                            card:
                               type: vertical-stack
                               cards:
                                 - type: entities

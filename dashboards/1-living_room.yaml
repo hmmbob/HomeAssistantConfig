@@ -39,11 +39,14 @@ cards:
               {{ "green" if (is_state('plant.hangplant', 'ok') and is_state('plant.palm', 'ok')) else "red" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Planten woonkamer
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: custom:flower-card

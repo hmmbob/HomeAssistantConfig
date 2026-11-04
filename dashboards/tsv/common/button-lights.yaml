@@ -7,12 +7,15 @@ forge:
       icon: mdi:chevron-right
       tap_action: &light_popup
         action: fire-dom-event
-        browser_mod:
-          service: browser_mod.popup
+        uix:
+          action: popover
           data:
+            width: full
+            uix: !include uix-popup-fullscreen.yaml
+            target: none
             title: Verlichting
             timeout: 20000
-            content:
+            card:
               type: vertical-stack
               cards:
                 - type: heading

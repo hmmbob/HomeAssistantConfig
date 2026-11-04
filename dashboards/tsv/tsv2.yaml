@@ -50,13 +50,16 @@ cards:
                 icon: mdi:bullhorn
                 tap_action:
                   action: fire-dom-event
-                  browser_mod:
-                    service: browser_mod.popup
+                  uix:
+                    action: popover
                     data:
+                      width: full
+                      uix: !include common/uix-popup-fullscreen.yaml
+                      target: none
                       timeout: 20000
                       title: Omroepbericht
-                      content: !include ../common/omroep-meldingen-grid.yaml
-          - !include ../common/weather-warning-card.yaml
+                      card: !include ../common/omroep-meldingen-grid.yaml
+          - !include common/weather-warning-card.yaml
 
   - type: grid
     columns: 2

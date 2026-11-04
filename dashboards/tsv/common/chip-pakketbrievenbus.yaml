@@ -11,14 +11,18 @@ chip:
     {{ states(entity) }}
   tap_action:
     action: fire-dom-event
-    browser_mod:
-      service: browser_mod.popup
+    uix:
+      action: popover
       data:
+        width: full
+        uix: !include uix-popup-fullscreen.yaml
+        target: none
         title: Pakketbrievenbus
         timeout: 15000
-        right_button: Sluiten
-        right_button_action: browser_mod.close_popup
-        content: !include ../../common/pakketbrievenbus-card.yaml
+        buttons:
+          primary:
+            label: Sluiten
+        card: !include ../../common/pakketbrievenbus-card.yaml
   uix:
     style: |
       ha-card {

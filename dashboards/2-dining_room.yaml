@@ -39,11 +39,14 @@ cards:
               {{ "green" if (is_state('plant.paradijsvogelplant', 'ok') and is_state('plant.aglaonema', 'ok')) else "red" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Planten eetkamer
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: custom:flower-card

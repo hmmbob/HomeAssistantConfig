@@ -44,11 +44,14 @@ cards:
               {{ "grey" if is_state('media_player.zolder', ['off','unavailable'])  else "green" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: Google Home mini zolder
-                  content:
+                  card:
                     type: custom:mini-media-player
                     entity: media_player.zolder
                     icon: mdi:cast
@@ -78,11 +81,14 @@ cards:
               icon_color: grey
               tap_action:
                 action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
+                uix:
+                  action: popover
                   data:
+                    width: large
+                    style: !include common/uix-popup-size.yaml
+                    target: none
                     title: Instellingen
-                    content:
+                    card:
                       type: grid
                       columns: 2
                       square: false
@@ -106,11 +112,14 @@ cards:
                             {{ "green" if is_state('binary_sensor.laptop_m','on') else "disabled" }}
                           tap_action:
                             action: fire-dom-event
-                            browser_mod:
-                              service: browser_mod.popup
+                            uix:
+                              action: popover
                               data:
+                                width: large
+                                style: !include common/uix-popup-size.yaml
+                                target: none
                                 title: Laptop Puber
-                                content:
+                                card:
                                   type: vertical-stack
                                   cards:
                                     - type: custom:mushroom-entity-card
@@ -132,11 +141,14 @@ cards:
               {{ "green" if is_state('binary_sensor.is_pubercave_pc_on','on') else "disabled" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: PC Puber
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: custom:mushroom-entity-card
@@ -155,11 +167,14 @@ cards:
               {{ "green" if is_state('binary_sensor.is_pubercave_tv_on','on') else "disabled" }}
             tap_action:
               action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
+              uix:
+                action: popover
                 data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
                   title: TV Puber
-                  content:
+                  card:
                     type: vertical-stack
                     cards:
                       - type: custom:mushroom-template-card
