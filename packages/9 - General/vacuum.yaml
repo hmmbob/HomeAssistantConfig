@@ -16,15 +16,19 @@ vacuum_package:
     ##########################
     - alias: "Vraag welke stofzuiger moet stofzuigen"
       id: vacuum_ask_to_run
+      description: >
+        Bied Rocky en Balboa afzonderlijk aan als ze beschikbaar zijn en niet
+        recent hebben schoongemaakt. Controleer dit opnieuw na het antwoord.
+      mode: single
       variables:
         notification_service: >
           {% if is_state("device_tracker.sm_a566b", "home") and
             is_state("device_tracker.sm_a556b", "home") %}
-              notify.mobile_devices_adults 
+              notify.mobile_devices_adults
           {% elif is_state("device_tracker.sm_a566b", "home") %}
-            notify.mobile_app_sm_a566b 
+            notify.mobile_app_sm_a566b
           {% elif is_state("device_tracker.sm_a556b", "home") %}
-            notify.mobile_app_sm_a556b 
+            notify.mobile_app_sm_a556b
           {% else %}notify.bogus {% endif %}
       triggers:
         - alias: Ingestelde herinneringstijd is bereikt
@@ -50,20 +54,66 @@ vacuum_package:
           entity_id: input_boolean.vacation_mode_away
           state: "off"
       actions:
-        - alias: "Vraag welke stofzuiger een rondje moet doen"
+        - variables:
+            rocky_due: false
+            balboa_due: false
+        - alias: Bepaal of Rocky een schoonmaakbeurt kan doen
+          if:
+            - &vacuum_rocky_can_clean
+              condition: and
+              conditions:
+                - condition: state
+                  entity_id: vacuum.rocky
+                  state:
+                    - "docked"
+                    - "idle"
+                - condition: numeric_state
+                  entity_id: sensor.rocky_einde_laatste_schoonmaak
+                  value_template: "{{ now().timestamp() - as_timestamp(state.state, now().timestamp()) }}"
+                  above: 21600
+          then:
+            - variables:
+                rocky_due: true
+        - alias: Bepaal of Balboa een schoonmaakbeurt kan doen
+          if:
+            - &vacuum_balboa_can_clean
+              condition: or
+              conditions:
+                - condition: vacuum.is_docked
+                  target:
+                    entity_id: vacuum.balboa
+                  options:
+                    for:
+                      hours: 6
+                - condition: state
+                  entity_id: vacuum.balboa
+                  state: "idle"
+                  for:
+                    hours: 6
+          then:
+            - variables:
+                balboa_due: true
+        - alias: Alleen een keuzevraag als er iets te stofzuigen is
+          condition: template
+          value_template: "{{ rocky_due or balboa_due }}"
+        - alias: Vraag alleen naar de beschikbare stofzuigers
           action: "{{ notification_service }}"
           data:
-            message: "Wie zal er gaan stofzuigen? 🧹🧹"
+            message: >-
+              {% if rocky_due and balboa_due %}
+                Wie zal er gaan stofzuigen? 🧹🧹
+              {% elif rocky_due %}
+                Zal Rocky gaan stofzuigen? 🧹
+              {% else %}
+                Zal Balboa gaan stofzuigen? 🧹
+              {% endif %}
             title: "Stofzuigers"
             data:
               tag: vacuum_reminder
-              actions:
-                - action: "vacuum_start_rocky"
-                  title: "Rocky"
-                - action: "vacuum_start_balboa"
-                  title: "Balboa"
-                - action: "vacuum_start_both"
-                  title: "Beiden"
+              actions: >-
+                {{ ([{'action': 'vacuum_start_rocky', 'title': 'Rocky'}] if rocky_due else [])
+                 + ([{'action': 'vacuum_start_balboa', 'title': 'Balboa'}] if balboa_due else [])
+                 + ([{'action': 'vacuum_start_both', 'title': 'Beiden'}] if rocky_due and balboa_due else []) }}
               ttl: 0
               priority: high
               notification_icon: mdi:robot-vacuum
@@ -85,26 +135,46 @@ vacuum_package:
                 action: "vacuum_start_both"
               id: both
           timeout: "01:00:00"
-          continue_on_timeout: false
-        - alias: Start gekozen stofzuiger(s)
+          continue_on_timeout: true
+        - alias: Verwijder de beantwoorde of verlopen keuzevraag
+          action: notify.mobile_devices_adults
+          data:
+            message: clear_notification
+            data:
+              tag: vacuum_reminder
+        - alias: Ga alleen verder als er een antwoord is
+          condition: template
+          value_template: "{{ wait.completed }}"
+        - alias: Start alleen de gekozen stofzuigers die nog een beurt kunnen doen
           choose:
-            - conditions: "{{ wait.trigger.id == 'rocky' }}"
+            - conditions:
+                - "{{ wait.trigger.id == 'rocky' and rocky_due }}"
+                - *vacuum_rocky_can_clean
               sequence:
                 - action: vacuum.start
                   target:
                     entity_id: vacuum.rocky
-            - conditions: "{{ wait.trigger.id == 'balboa' }}"
+            - conditions:
+                - "{{ wait.trigger.id == 'balboa' and balboa_due }}"
+                - *vacuum_balboa_can_clean
               sequence:
                 - action: vacuum.start
                   target:
                     entity_id: vacuum.balboa
-            - conditions: "{{ wait.trigger.id == 'both' }}"
+            - conditions: "{{ wait.trigger.id == 'both' and rocky_due and balboa_due }}"
               sequence:
-                - action: vacuum.start
-                  target:
-                    entity_id:
-                      - vacuum.rocky
-                      - vacuum.balboa
+                - if:
+                    - *vacuum_rocky_can_clean
+                  then:
+                    - action: vacuum.start
+                      target:
+                        entity_id: vacuum.rocky
+                - if:
+                    - *vacuum_balboa_can_clean
+                  then:
+                    - action: vacuum.start
+                      target:
+                        entity_id: vacuum.balboa
 
     # TODO: Voeg Balboa toe zodra de eerste kaart klaar is. Laat Balboa na het
     # reinigen naar de keuken rijden met de coördinaten van de benedenverdieping.
