@@ -34,7 +34,7 @@ cards:
                   map(attribute='entity_id') | list | count }}
 
       - type: custom:mushroom-light-card
-        entity: light.salon
+        entity: light.plafondlamp_salon
         icon: mdi:ceiling-light-multiple
         show_brightness_control: true
         collapsible_controls: true

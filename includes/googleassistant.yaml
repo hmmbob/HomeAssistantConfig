@@ -39,7 +39,7 @@ entity_config:
     name: "Grijze lamp"
     expose: true
     room: "Salon"
-  light.salon:
+  light.plafondlamp_salon:
     name: "Salon plafondlamp"
     expose: true
     room: "Salon"
