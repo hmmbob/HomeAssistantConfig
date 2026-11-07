@@ -17,6 +17,7 @@ master_bedroom_package:
           variables:
             action: turn_on
         - alias: Geen beweging meer in inloopkast
+          id: beweging_voorbij
           trigger: occupancy.cleared
           target:
             entity_id: binary_sensor.pir_inloopkast_occupancy
@@ -27,6 +28,14 @@ master_bedroom_package:
           condition: state
           entity_id: input_boolean.enable_pir_inloopkast_automations
           state: "on"
+        - alias: Uitschakelen mag ook tijdens de nacht
+          condition: or
+          conditions:
+            - condition: trigger
+              id: beweging_voorbij
+            - condition: time
+              after: "06:15:00"
+              before: "23:00:00"
       actions:
         - alias: "Inloopkast lamp bedienen..."
           action: switch.{{ action }}
