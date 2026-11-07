@@ -26,7 +26,7 @@ lights_livingroom_package:
       device_class: occupancy
       entities:
         - binary_sensor.hornet_nest_alarm_panel_zone_02
-        - binary_sensor.pir_gang_meterkast_motion_detection
+        - binary_sensor.pir_vallhorn_occupancy
         - binary_sensor.hornet_nest_alarm_panel_zone_03
         - binary_sensor.hornet_nest_alarm_panel_zone_04
         - binary_sensor.hornet_nest_alarm_panel_zone_05
