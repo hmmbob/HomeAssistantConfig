@@ -15,12 +15,27 @@ Hmmbob light theme:
         padding-top: var(--safe-area-inset-top, 0px) !important;
         --view-container-padding-bottom: var(--header-height);
       }
+    "&{.panel.url_path=energy}": |
+      #view:not(.has-tab-bar) {
+        --hmmbob-energy-footer-bottom: calc(
+          var(--view-container-padding-bottom) + var(--safe-area-inset-bottom, 0px)
+        );
+      }
   uix-view-yaml: |
     hui-sections-view:
-      $: |
-        hui-view-footer {
-          --row-gap: 36px;
-        }
+      $:
+        .: |
+          hui-view-footer {
+            --row-gap: var(--hmmbob-energy-footer-bottom, 36px);
+          }
+        "hui-view-footer $":
+          "&{.lovelace.urlPath=energy}": |
+            :host(hui-view-footer[sticky]) {
+              z-index: 3;
+            }
+            :host([sticky]) .wrapper {
+              padding-bottom: var(--ha-space-2);
+            }
 
   uix-card: |
     @keyframes boing {
@@ -105,12 +120,27 @@ Hmmbob dark theme:
         padding-top: var(--safe-area-inset-top, 0px) !important;
         --view-container-padding-bottom: var(--header-height);
       }
+    "&{.panel.url_path=energy}": |
+      #view:not(.has-tab-bar) {
+        --hmmbob-energy-footer-bottom: calc(
+          var(--view-container-padding-bottom) + var(--safe-area-inset-bottom, 0px)
+        );
+      }
   uix-view-yaml: |
     hui-sections-view:
-      $: |
-        hui-view-footer {
-          --row-gap: 36px;
-        }
+      $:
+        .: |
+          hui-view-footer {
+            --row-gap: var(--hmmbob-energy-footer-bottom, 36px);
+          }
+        "hui-view-footer $":
+          "&{.lovelace.urlPath=energy}": |
+            :host(hui-view-footer[sticky]) {
+              z-index: 3;
+            }
+            :host([sticky]) .wrapper {
+              padding-bottom: var(--ha-space-2);
+            }
 
   uix-card: |
     @keyframes boing {
