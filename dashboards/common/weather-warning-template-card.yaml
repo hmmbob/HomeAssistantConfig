@@ -16,13 +16,13 @@ secondary: >-
   {% set text = states('sensor.weer_thuis_waarschuwingen') | trim %}
   {% if warnings | count > 0 %}
     {% set first = warnings[0] %}
-    {% set detail = first.description if first is mapping and first.description is defined else first %}
-    {{ detail if detail | length <= 110 else detail[:107] ~ '...' }}
+    {% set detail = (first.description | default('', true) | trim or first.headline | default('', true) | trim) if first is mapping else first %}
+    {{ (detail if detail | length <= 110 else detail[:107] ~ '...') or 'Geen aanvullende details beschikbaar' }}
   {% elif text not in ['', 'unknown', 'unavailable', 'none'] %}
     {% set first = text.split('. ')[0] %}
     {{ first if first | length <= 110 else first[:107] ~ '...' }}
   {% else %}
-    Details laden na NL Weather herstart
+    Waarschuwingsdetails zijn tijdelijk niet beschikbaar
   {% endif %}
 icon: mdi:alert-circle-outline
 icon_color: >-
@@ -70,24 +70,35 @@ tap_action:
       card:
         type: markdown
         content: |
-          {% set alerts = state_attr('sensor.weer_thuis_waarschuwingen', 'alerts') or [] -%}
+          {% set warning_sensor = 'sensor.weer_thuis_waarschuwingen' -%}
+          {% set alerts = state_attr(warning_sensor, 'alerts') or [] -%}
           {% set titles = {'red': 'Code rood', 'orange': 'Code oranje', 'yellow': 'Code geel'} -%}
-          {% if alerts | count > 0 -%}
+          {% if has_value(warning_sensor) and alerts -%}
           {% for alert in alerts -%}
           {% set code = alert.code | lower -%}
           {% set title = titles.get(code, 'Weerwaarschuwing') -%}
           {% set level = 'error' if code == 'red' else 'warning' if code in ['orange', 'yellow'] else 'info' -%}
-          {% set item = alert.description | trim -%}
-          {% set prefix = title | lower ~ ' voor ' %}
-          {% set prefix_length = prefix | length -%}
-          {% set detail = item[prefix_length:] | trim if (item | lower).startswith(prefix) else item -%}
-          <ha-alert alert-type="{{ level }}" title="{{ title }}">
-            {{ detail[:1] | upper }}{{ detail[1:] }}{{ '.' if not detail.endswith('.') else '' }}
+          {% set headline = alert.headline | default('', true) | trim -%}
+          {% set detail = alert.description | default('', true) | trim -%}
+          {% set onset = as_datetime(alert.onset | default(none), none) -%}
+          {% set expires = as_datetime(alert.expires | default(none), none) -%}
+          {% set prefix = title | lower ~ ' voor ' -%}
+          {% if not headline and (detail | lower).startswith(prefix) -%}
+          {% set detail = detail[prefix | length:] | trim -%}
+          {% set detail = detail[:1] | upper ~ detail[1:] -%}
+          {% endif -%}
+          <ha-alert alert-type="{{ level }}" title="{{ title | e }}{% if headline %} · {{ headline | e }}{% endif %}">
+            {% if onset and expires -%}
+            <small>Van {{ as_local(onset).strftime('%d-%m %H:%M') }} tot {{ as_local(expires).strftime('%d-%m %H:%M') }}</small>
+            {% if detail %}<br>{% endif %}
+            {% endif -%}
+            {{ detail | e }}
           </ha-alert>
 
           {% endfor -%}
-          {% else %}
-          <ha-alert alert-type="info" title="Weerwaarschuwing">
-            Details laden na NL Weather herstart.
+          {% else -%}
+          {% set inactive = has_value(warning_sensor) and is_state('binary_sensor.weer_thuis_waarschuwing_actief', 'off') -%}
+          <ha-alert alert-type="{{ 'success' if inactive else 'info' }}" title="Weerwaarschuwing">
+            {{ 'Geen waarschuwingen actief.' if inactive else 'Waarschuwingsdetails zijn tijdelijk niet beschikbaar.' }}
           </ha-alert>
           {% endif %}
