@@ -25,6 +25,31 @@ cards:
             entity: sensor.temp_sensor_8_slaapkamer_m_luchtvochtigheid
             icon_color: indigo
           - type: template
+            entity: plant.plant_zolder
+            icon: mdi:sprout
+            icon_color: |-
+              {{ "green" if is_state('plant.plant_zolder', 'ok') else "red" }}
+            tap_action:
+              action: fire-dom-event
+              uix:
+                action: popover
+                data:
+                  width: large
+                  style: !include common/uix-popup-size.yaml
+                  target: none
+                  title: Plant zolder
+                  card:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:flower-card
+                        entity: plant.plant_zolder
+                        battery_sensor: sensor.plant_sensor_962b_batterij
+                        show_bars:
+                          - moisture
+                          - conductivity
+                          - temperature
+                          - illuminance
+          - type: template
             entity: light.verlichting_pubercave
             icon: mdi:led-strip-variant
             icon_color: |-

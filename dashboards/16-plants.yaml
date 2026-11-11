@@ -90,3 +90,12 @@ cards:
           - conductivity
           - temperature
           - illuminance
+
+      - type: custom:flower-card
+        entity: plant.plant_zolder
+        battery_sensor: sensor.plant_sensor_962b_batterij
+        show_bars:
+          - moisture
+          - conductivity
+          - temperature
+          - illuminance
