@@ -113,3 +113,6 @@ cards:
       - type: custom:ha-bambulab-print_status-card
         printer: da36cd08f44b12c62604ccb31eaf0a27
         style: simple
+      - type: custom:ha-bambulab-ams-graphic-card
+        ams: 9ae87505b40b8b8bdec4d3ad19a7e667
+        subtitle: AMS 2 Pro
