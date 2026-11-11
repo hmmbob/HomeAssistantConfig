@@ -4,6 +4,11 @@ master_bedroom_package:
       name: "Verlichting inloopkast aan op beweging"
       icon: mdi:motion-sensor
 
+  timer:
+    airco_mbr_sleeptimer:
+      name: "Airco sleeptimer MBR"
+      restore: true
+
   automation:
     - id: lights_mbr_inloopkast
       alias: "Zet de verlichting van de inloopkast op de MBR aan of uit"
@@ -41,3 +46,56 @@ master_bedroom_package:
           action: switch.{{ action }}
           target:
             entity_id: switch.inloopkast
+
+    - id: airco_mbr_start_on_timer_start
+      alias: "Start de airco van de MBR als de timer start"
+      description: "Verwarm onder 21 graden, koel vanaf 21 graden; annuleer bij een ongeldige temperatuur of onbeschikbare airco."
+      mode: restart
+      triggers:
+        - alias: Airco MBR sleeptimer is gestart
+          trigger: timer.started
+          target:
+            entity_id: timer.airco_mbr_sleeptimer
+      actions:
+        - alias: Start alleen met een beschikbare airco en geldige temperatuur
+          if:
+            - "{{ has_value('climate.airco_master_bedroom') and is_number(states('sensor.xiaomi_temperature_humidity_sensor_5_temperature')) }}"
+          then:
+            - alias: Kies verwarmen of koelen op basis van de kamertemperatuur
+              if:
+                - condition: numeric_state
+                  entity_id: sensor.xiaomi_temperature_humidity_sensor_5_temperature
+                  below: 21
+              then:
+                - action: climate.set_hvac_mode
+                  target:
+                    entity_id: climate.airco_master_bedroom
+                  data:
+                    hvac_mode: heat
+              else:
+                - action: climate.set_hvac_mode
+                  target:
+                    entity_id: climate.airco_master_bedroom
+                  data:
+                    hvac_mode: cool
+          else:
+            - action: timer.cancel
+              target:
+                entity_id: timer.airco_mbr_sleeptimer
+
+    - id: airco_sleeptimer_mbr
+      alias: "Sleeptimer voor de airco van de MBR"
+      description: "Zet de airco uit aan het einde van de timer of bij handmatig stoppen via de timerknop."
+      mode: restart
+      triggers:
+        - alias: Airco MBR sleeptimer is afgelopen
+          trigger: timer.finished
+          target:
+            entity_id: timer.airco_mbr_sleeptimer
+      actions:
+        - alias: Zet de airco van de MBR uit
+          action: climate.set_hvac_mode
+          target:
+            entity_id: climate.airco_master_bedroom
+          data:
+            hvac_mode: "off"
