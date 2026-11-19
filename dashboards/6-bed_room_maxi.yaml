@@ -85,15 +85,6 @@ cards:
                     power_color: true
                     scroll_info: true
                     show_source: true
-          - type: template
-            entity: sensor.temp_sensor_4_badkamer_zolder_humidity
-            icon: mdi:shower-head
-            icon_color: blue
-            content: >-
-              {{ states('sensor.badkamer_zolder_temperatuur', with_unit=True) ~ 
-                " - " ~ states(entity, with_unit=True) }}
-            tap_action:
-              action: more-info
           - type: conditional
             conditions:
               - condition: user
@@ -232,6 +223,7 @@ cards:
               {{ "yellow" if is_state('binary_sensor.is_pubercave_leeslampje_on','on') else "disabled" }}
           - type: custom:mushroom-light-card
             entity: light.sonoff_l1
+            name: "Ledstrip zolder"
             icon: mdi:led-strip-variant
             show_brightness_control: true
             collapsible_controls: true
@@ -321,6 +313,37 @@ cards:
               - 40059eb4e4d142688185485ed2e1ebbb
               - 510b1afef60640d7a220711c50b2192a
 
+      - type: conditional
+        conditions:
+          - entity: media_player.spotify_m
+            state_not: "idle"
+        card:
+          type: custom:mini-media-player
+          entity: media_player.spotify_m
+          icon: mdi:spotify
+          artwork: cover
+          artwork_border: true
+          power_color: true
+          scroll_info: true
+          show_source: true
+
+      - type: heading
+        heading: Badkamer zolder
+        icon: mdi:shower-head
+        badges:
+          - type: entity
+            entity: sensor.badkamer_zolder_temperatuur
+            icon: mdi:thermometer
+            color: orange
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.temp_sensor_4_badkamer_zolder_humidity
+            icon: mdi:water-percent
+            color: blue
+            tap_action:
+              action: more-info
+
       - type: custom:mushroom-template-card
         primary: Verwarming badkamer zolder
         secondary: >-
@@ -337,17 +360,3 @@ cards:
             users:
               - 40059eb4e4d142688185485ed2e1ebbb
               - 510b1afef60640d7a220711c50b2192a
-
-      - type: conditional
-        conditions:
-          - entity: media_player.spotify_m
-            state_not: "idle"
-        card:
-          type: custom:mini-media-player
-          entity: media_player.spotify_m
-          icon: mdi:spotify
-          artwork: cover
-          artwork_border: true
-          power_color: true
-          scroll_info: true
-          show_source: true
