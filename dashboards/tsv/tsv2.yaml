@@ -75,7 +75,7 @@ cards:
               mold: card
               sparks:
                 - type: button
-                  after: "mushroom-media-player-card $ mushroom-state-info"
+                  after: "mushroom-media-player-card $ mushroom-state-item"
                   icon: phu:radio-538
                   color: deep-purple
                   tap_action:
@@ -106,7 +106,7 @@ cards:
                 action: more-info
               uix:
                 style: |
-                  mushroom-state-item {
+                  mushroom-card {
                     position: relative;
                   }
                   ha-button.uix-forge-spark-icon-button {
