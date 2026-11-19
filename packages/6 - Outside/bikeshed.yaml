@@ -129,70 +129,69 @@ bikeshed_package:
                 priority: high
               clickAction: "/lovelace/other"
 
-    - alias: "Fietslader aan, maar geen stroomverbruik"
+    - alias: "Fietslader links aan, maar geen stroomverbruik"
       id: fietslader_links_aan_maar_geen_verbruik
-      mode: parallel
-      max: 2
-      trigger:
-        - alias: Trigger fietslader links van uit naar aan
+      description: Controleer per inschakeling of de linker fietslader binnen vijf minuten verbruik heeft.
+      mode: restart
+      triggers:
+        - alias: Linker fietslader ingeschakeld
           trigger: switch.turned_on
           target:
             entity_id: switch.fietslader_links
-          id: links
-        - alias: Trigger fietslader rechts van uit naar aan
+          id: "on"
+        - alias: Linker fietslader uitgeschakeld
+          trigger: switch.turned_off
+          target:
+            entity_id: switch.fietslader_links
+          id: "off"
+      variables:
+        charger_switch: switch.fietslader_links
+        power_sensor: sensor.fietslader_links_power
+        charger_side: links
+      actions: &bicycle_charger_no_consumption_actions
+        - alias: Stop een oude controle bij uitschakelen
+          condition: trigger
+          id: "on"
+        - alias: Controleer meteen en wacht zo nodig op geldig verbruik of uitschakelen
+          wait_template: >-
+            {{ not is_state(charger_switch, 'on')
+              or (is_number(states(power_sensor)) and states(power_sensor) | float > 5) }}
+          timeout: "00:05:00"
+          continue_on_timeout: true
+        - alias: Alleen waarschuwen na het verstrijken van de wachttijd
+          condition: template
+          value_template: "{{ not wait.completed }}"
+        - alias: Bevestig dat de lader nog aan staat en het gemeten vermogen laag is
+          condition: template
+          value_template: >-
+            {{ is_state(charger_switch, 'on')
+              and is_number(states(power_sensor))
+              and 0 <= states(power_sensor) | float <= 5 }}
+        - alias: Stuur waarschuwing lader zonder verbruik
+          action: notify.mobile_app_sm_a556b
+          data:
+            title: "Let op: Fietslader {{ charger_side }}"
+            message: "De fietslader {{ charger_side }} is aangezet, maar er is na 5 minuten nog geen stroomverbruik boven 5 watt gedetecteerd."
+            data:
+              <<: *bicycle_charger_notification_base
+
+    - alias: "Fietslader rechts aan, maar geen stroomverbruik"
+      id: fietslader_rechts_aan_maar_geen_verbruik
+      description: Controleer per inschakeling of de rechter fietslader binnen vijf minuten verbruik heeft.
+      mode: restart
+      triggers:
+        - alias: Rechter fietslader ingeschakeld
           trigger: switch.turned_on
           target:
             entity_id: switch.fietslader_rechts
-          id: rechts
-      action:
-        - alias: "Bepaal vermogenssensor op basis van geactiveerde lader"
-          choose:
-            - conditions:
-                - "{{ trigger.id == 'links' }}"
-              sequence:
-                - alias: Wacht op verbruik boven 5 watt links
-                  wait_for_trigger:
-                    - trigger: power.crossed_threshold
-                      target:
-                        entity_id: sensor.fietslader_links_power
-                      options:
-                        threshold:
-                          type: above
-                          value:
-                            number: 5
-                            unit_of_measurement: W
-                  timeout: "00:05:00"
-                  continue_on_timeout: true
-            - conditions:
-                - "{{ trigger.id == 'rechts' }}"
-              sequence:
-                - alias: Wacht op verbruik boven 5 watt rechts
-                  wait_for_trigger:
-                    - trigger: power.crossed_threshold
-                      target:
-                        entity_id: sensor.fietslader_rechts_power
-                      options:
-                        threshold:
-                          type: above
-                          value:
-                            number: 5
-                            unit_of_measurement: W
-                  timeout: "00:05:00"
-                  continue_on_timeout: true
-          default:
-            - alias: Stop als trigger-id geen bekende lader is
-              stop: "Cannot determine power sensor to use - trigger.id did not match"
-        - alias: Kies vervolgactie op basis van gedetecteerd verbruik
-          choose:
-            - conditions: "{{ wait.trigger is none }}"
-              sequence:
-                - alias: "Alleen als de schakelaar nog aan staat"
-                  condition: template
-                  value_template: "{{ is_state(trigger.entity_id, 'on') }}"
-                - alias: Stuur waarschuwing lader zonder verbruik
-                  service: notify.mobile_app_sm_a556b
-                  data:
-                    title: "Let op: Fietslader {{trigger.id}}"
-                    message: "De fietslader {{trigger.id}} is aangezet, maar er is na 5 minuten nog geen stroomverbruik gedetecteerd."
-                    data:
-                      <<: *bicycle_charger_notification_base
+          id: "on"
+        - alias: Rechter fietslader uitgeschakeld
+          trigger: switch.turned_off
+          target:
+            entity_id: switch.fietslader_rechts
+          id: "off"
+      variables:
+        charger_switch: switch.fietslader_rechts
+        power_sensor: sensor.fietslader_rechts_power
+        charger_side: rechts
+      actions: *bicycle_charger_no_consumption_actions
