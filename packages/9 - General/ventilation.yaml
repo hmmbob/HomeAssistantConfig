@@ -114,7 +114,6 @@ ventilation_control:
       alias: "Ventilatie - Bereken en pas regeling toe"
       description: "Eén centrale berekening voor aanvragen, eindtijden, opstarten, herstel en dagschema."
       mode: queued
-      max: 20
       sequence:
         - alias: Alle natte ruimtes zijn vijf minuten hersteld
           if:

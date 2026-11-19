@@ -80,7 +80,6 @@ pakketbrievenbus_package:
       alias: "Pakketbrievenbus - Alert melding verwijderen"
       description: "Verwijdert pakketbrievenbus-alertmeldingen zodra de alert uit of stil is."
       mode: parallel
-      max: 4
       triggers:
         - alias: Trigger wanneer klep-alert niet meer actief is
           trigger: state
@@ -137,7 +136,6 @@ pakketbrievenbus_package:
       alias: "Pakketbrievenbus - Bezorging gedetecteerd"
       description: "Zet de pakketstatus aan wanneer de bovenklep opent."
       mode: queued
-      max: 5
       triggers:
         - alias: Trigger wanneer de bovenklep opent
           trigger: door.opened
@@ -229,7 +227,6 @@ pakketbrievenbus_package:
       alias: "Pakketbrievenbus - Sensor niet beschikbaar"
       description: "Waarschuwt wanneer een contactsensor offline lijkt."
       mode: parallel
-      max: 4
       triggers:
         - alias: Trigger wanneer een sensor unavailable is
           trigger: state

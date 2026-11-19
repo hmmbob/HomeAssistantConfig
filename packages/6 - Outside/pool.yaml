@@ -4,7 +4,6 @@ pool_package:
       alias: "Toon Live Update tijdens het vullen van het zwembad"
       description: "Toon de voortgang van de watervulling als Live Update."
       mode: parallel
-      max: 3
       variables:
         total_minutes: "{{ states('number.schuur_pool_controller_watervulling_duur') | int(0) }}"
         remaining_minutes: >-

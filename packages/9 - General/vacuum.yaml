@@ -230,7 +230,6 @@ vacuum_package:
     - alias: "Melding dat een stofzuiger aan het stofzuigen is"
       id: vacuum_notification_cleaning_started
       mode: parallel
-      max: 2
       initial_state: "on"
       variables:
         vacuum_name: "{{ 'Rocky' if trigger.id == 'rocky' else 'Balboa' }}"
@@ -259,7 +258,6 @@ vacuum_package:
     - alias: "Verwijder notificatie als stofzuiger klaar is"
       id: vacuum_clear_messages
       mode: parallel
-      max: 2
       initial_state: "on"
       variables:
         notification_tag: "{{ 'vacuum_rocky' if trigger.id == 'rocky' else 'vacuum_balboa' }}"
@@ -353,7 +351,6 @@ vacuum_package:
       id: vacuum_consumable_warning
       initial_state: "on"
       mode: parallel
-      max: 4
       variables:
         consumables:
           - sensor: sensor.rocky_filter_time_left

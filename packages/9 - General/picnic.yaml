@@ -118,7 +118,6 @@ picnic_package:
     - id: picnic_kiosk_barcode_scans
       alias: 'Picnic: Barcode vanaf kiosken toevoegen'
       mode: queued
-      max: 25
       description: Voeg per nieuwe Scan count één product toe via GTIN. Onderdruk dezelfde barcode binnen 3 seconden
         per kiosk; andere codes blijven direct mogelijk. Negeer tellerherstel en resets. Toon fouten op de scannende
         kiosk.

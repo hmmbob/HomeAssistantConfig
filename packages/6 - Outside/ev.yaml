@@ -190,7 +190,6 @@ ev_package:
       alias: "Toon Live Update tijdens het laden van de auto"
       description: "Toon de laadvoortgang van de TUCSON als Live Update."
       mode: parallel
-      max: 3
       variables:
         battery_level: "{{ states('sensor.tucson_ev_battery_level') | int(0) }}"
         remaining_minutes: "{{ states('sensor.tucson_estimated_charge_duration') | int(0) }}"

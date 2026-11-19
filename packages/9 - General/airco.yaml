@@ -35,7 +35,6 @@ airco_package:
           target:
             entity_id: timer.airco_puber_sleeptimer
       mode: parallel
-      max: 2
       actions:
         - variables:
             room_temperature: "{{ states(temp_sensor) }}"

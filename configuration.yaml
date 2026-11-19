@@ -8,7 +8,6 @@ homeassistant:
     - type: totp
       name: Authenticator app
     - type: notify
-      message: "Access token: {}"
       include:
         - mobile_app_sm_a556b
   packages: !include_dir_merge_named packages/
